@@ -1,0 +1,80 @@
+@import "tailwindcss";
+@source "../public/js";
+@source "./";
+
+/* Self-hosted fonts (OFL). */
+@font-face { font-family: "Fraunces"; src: url("/fonts/fraunces-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Inter"; src: url("/fonts/inter-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Alfa Slab One"; src: url("/fonts/alfa-slab-one-latin-400-normal.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Bungee"; src: url("/fonts/bungee-latin-400-normal.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Lilita One"; src: url("/fonts/lilita-one-latin-400-normal.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Archivo"; src: url("/fonts/archivo-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Righteous"; src: url("/fonts/righteous-latin-400-normal.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Pacifico"; src: url("/fonts/pacifico-latin-400-normal.woff2") format("woff2"); font-display: swap; }
+
+/* Each page sets these on <body> through a theme class; utilities read them. */
+@theme inline {
+  --color-brand: var(--brand);
+  --color-brand-ink: var(--brand-ink);
+  --color-accent: var(--accent);
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-muted: var(--muted);
+  --font-display: var(--display);
+  --font-sans: var(--body);
+  --font-script: "Pacifico", cursive;
+}
+
+:root {
+  --brand: #c8232c; --brand-ink: #ffffff; --accent: #f2b33d;
+  --ink: #1b1a17; --paper: #fbf7f0; --surface: #ffffff; --muted: #5f5a52;
+  --display: "Fraunces", Georgia, serif; --body: "Inter", system-ui, sans-serif;
+  color-scheme: light;
+}
+.theme-gills {
+  --brand: #b22234; --brand-ink: #ffffff; --accent: #1e2a4a;
+  --ink: #141b30; --paper: #f6f1e7; --surface: #fffdf8; --muted: #555a66;
+  --display: "Alfa Slab One", Georgia, serif;
+}
+.theme-taco {
+  --brand: #ff2e88; --brand-ink: #ffffff; --accent: #ffe14d;
+  --ink: #160a2e; --paper: #2b1055; --surface: #ffffff; --muted: #5d5470;
+  --display: "Bungee", Impact, sans-serif;
+}
+.theme-cheese {
+  --brand: #2f6b3b; --brand-ink: #ffffff; --accent: #ffc93c;
+  --ink: #2a2118; --paper: #fff6dc; --surface: #ffffff; --muted: #6a5d4c;
+  --display: "Lilita One", Impact, sans-serif;
+}
+.theme-tasty {
+  --brand: #e60012; --brand-ink: #ffffff; --accent: #ffd200;
+  --ink: #0e0e0e; --paper: #0e0e0e; --surface: #ffffff; --muted: #5c5c5c;
+  --display: "Archivo", Impact, sans-serif;
+}
+.theme-rohdes {
+  --brand: #d7263d; --brand-ink: #ffffff; --accent: #66c9c0;
+  --ink: #1d2427; --paper: #f4fbfa; --surface: #ffffff; --muted: #55605f;
+  --display: "Righteous", Impact, sans-serif;
+}
+
+@layer base {
+  body { @apply bg-paper text-ink font-sans antialiased; }
+  .theme-tasty .font-display, .theme-tasty h1, .theme-tasty h2 { font-weight: 900; font-stretch: 112%; letter-spacing: -0.01em; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  dialog[open] { display: block; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+}
+
+@layer components {
+  .hoc-input { @apply w-full rounded-xl border-2 border-ink bg-white px-3 py-2.5 text-base font-normal text-ink; }
+  .chip { @apply inline-flex items-center gap-1 rounded-full border-2 border-ink px-4 py-2 font-semibold transition-colors; }
+  .chip[aria-pressed="true"] { @apply bg-ink text-paper; }
+  .opt { @apply cursor-pointer rounded-2xl border-2 border-ink/20 bg-white px-4 py-3 text-left font-semibold transition hover:border-ink; }
+  .opt[aria-pressed="true"], .opt:has(input:checked) { @apply border-ink bg-accent/30 shadow-[3px_3px_0_var(--ink)]; }
+  .sample { @apply ml-1 rounded bg-ink/10 px-1.5 py-0.5 align-middle text-[10px] font-bold uppercase tracking-wider text-muted; }
+  .stripes { background: repeating-linear-gradient(-45deg, #b22234 0 14px, #fff 14px 28px, #1e2a4a 28px 42px, #fff 42px 56px); }
+  .checker { background: repeating-conic-gradient(var(--ink) 0 25%, #fff 0 50%) 0 0 / 24px 24px; }
+  .halftone { background-image: radial-gradient(rgba(255, 225, 77, 0.35) 1.5px, transparent 1.6px); background-size: 14px 14px; }
+  .speedlines { background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(255,255,255,0.10) 0 4deg, transparent 4deg 12deg); }
+}

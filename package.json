@@ -1,0 +1,19 @@
+{
+  "name": "heart-of-columbus",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Heart of Columbus: a local directory and zero-commission ordering demos for independent businesses in Columbus, Indiana.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs && node scripts/serve.mjs",
+    "test": "node build.mjs && node --test tests/*.test.mjs"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "tailwindcss": "^4.3.3"
+  }
+}
