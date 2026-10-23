@@ -32,3 +32,21 @@ test('no em dashes anywhere a person reads', () => {
     assert.ok(!readFileSync(new URL(`../dist/${f}`, import.meta.url), 'utf8').includes('—'), f);
   }
 });
+
+test('landscape listings are clean, categorized and not duplicates of featured cards', async () => {
+  const { landscape, VERTICALS } = await import('../src/data/landscape.mjs');
+  const filters = Object.fromEntries(VERTICALS.map((v) => [v.id, new Set(v.filters.map((f) => f.id))]));
+  const featured = new Set(businesses.map((b) => b.name.toLowerCase()));
+  const seen = new Set();
+  const chains = /\b(mcdonald|starbucks|subway|walmart|kroger|state farm|allstate|great clips|sport clips|dollar general|re\/max|century 21)\b/i;
+  for (const l of landscape) {
+    assert.ok(l.name && l.type, 'listing needs a name and type');
+    assert.ok(filters[l.vertical]?.has(l.filter), `${l.name}: unknown ${l.vertical}/${l.filter}`);
+    if (l.phone) assert.match(l.phone, /^\(\d{3}\) \d{3}-\d{4}$/, l.name);
+    assert.ok(!chains.test(l.name), `${l.name} looks like a chain`);
+    assert.ok(!featured.has(l.name.toLowerCase()), `${l.name} duplicates a featured card`);
+    const key = l.name.toLowerCase() + '|' + l.address;
+    assert.ok(!seen.has(key), `duplicate listing ${l.name}`);
+    seen.add(key);
+  }
+});
