@@ -40,27 +40,36 @@
     return { el: el, vertical: el.dataset.vertical, filters: el.dataset.filters.split(' '), text: text, words: text.split(' ') };
   });
 
-  var state = { tab: 'eat', filter: { eat: 'all', service: 'all' }, q: '' };
+  // Long tabs show a page of cards first; "Show all" reveals the rest.
+  var PAGE = 36;
+  var state = { tab: 'eat', filter: {}, q: '', all: false };
+  var more = $('[data-more]');
+  if (more) more.addEventListener('click', function () { state.all = true; apply(); });
 
   function apply() {
     var tokens = norm(state.q).split(' ').filter(Boolean).map(function (w) { return ALIASES[w] || w; });
     var shown = 0;
     cards.forEach(function (c) {
       var ok = c.vertical === state.tab;
-      var f = state.filter[state.tab];
+      var f = state.filter[state.tab] || 'all';
       if (ok && f !== 'all') ok = c.filters.indexOf(f) !== -1;
-      // A search looks across both tabs, so "pizza" on the services tab
+      // A search looks across every tab, so "pizza" on the services tab
       // still finds pizza.
       if (tokens.length) ok = tokens.every(function (tk) { return tokenHits(tk, c.words, c.text); });
-      c.el.hidden = !ok;
       if (ok) shown++;
+      c.el.hidden = !ok || (!state.all && shown > PAGE);
     });
+    if (more) {
+      more.classList.toggle('hidden', state.all || shown <= PAGE);
+      more.textContent = 'Show all ' + shown;
+    }
     $('[data-empty]').classList.toggle('hidden', shown > 0);
     $('[data-count]').textContent = shown + (shown === 1 ? ' place' : ' places') + (state.q ? ' match “' + state.q + '”' : '');
   }
 
   function setTab(tab) {
     state.tab = tab;
+    state.all = false;
     $$('[data-tab]').forEach(function (b) { b.setAttribute('aria-selected', String(b.dataset.tab === tab)); });
     $$('[data-chips]').forEach(function (g) { g.classList.toggle('hidden', g.dataset.chips !== tab); });
     apply();
@@ -72,12 +81,13 @@
     b.addEventListener('click', function () {
       var v = b.dataset.for;
       state.filter[v] = b.dataset.filter;
+      state.all = false;
       $$('[data-for="' + v + '"]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
       apply();
     });
   });
   var input = $('[data-search]');
-  input.addEventListener('input', function () { state.q = input.value.trim(); apply(); });
+  input.addEventListener('input', function () { state.q = input.value.trim(); state.all = false; apply(); });
   apply();
 
   // ---------- Keep it in Columbus ----------
