@@ -1,5 +1,6 @@
 import { page, footer, esc, t } from '../layout.mjs';
-import { businesses, prototypes, BADGES, EAT_FILTERS, SERVICE_FILTERS } from '../data/businesses.mjs';
+import { businesses, prototypes, BADGES } from '../data/businesses.mjs';
+import { landscape, VERTICALS } from '../data/landscape.mjs';
 
 const heart = (cls = 'size-8') =>
   `<svg viewBox="0 0 32 32" class="${cls}" aria-hidden="true"><path d="M16 28S3 20.2 3 11.6A6.6 6.6 0 0 1 16 8.4a6.6 6.6 0 0 1 13 3.2C29 20.2 16 28 16 28z" fill="var(--brand)" stroke="var(--ink)" stroke-width="2"/><path d="M9 12.5h14M11 16.5h10M13 20.5h6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>`;
@@ -49,6 +50,26 @@ function card(b) {
   </article>`;
 }
 
+// A plain listing for the wider landscape: only what public listings show.
+const mapLink = (l) =>
+  'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(`${l.name}, ${l.address ? l.address + ', ' : ''}Columbus, IN`);
+const verticalLabel = Object.fromEntries(VERTICALS.map((v) => [v.id, v.label]));
+
+function listingCard(l) {
+  const search = [l.name, l.type, l.address, l.area, l.filter, verticalLabel[l.vertical]].join(' ');
+  return `
+  <article class="biz-card flex flex-col rounded-2xl border-2 border-ink bg-surface p-5 shadow-[4px_4px_0_var(--ink)]"
+    data-vertical="${l.vertical}" data-filters="${esc(l.filter)}" data-search="${esc(search)}" hidden>
+    <h3 class="font-display text-xl font-semibold leading-tight">${t(l.name)}</h3>
+    <p class="mt-2 text-[15px] leading-snug text-muted">${t(l.type)}${l.area ? ' · ' + esc(l.area) : ''}</p>
+    ${l.address ? `<p class="mt-3 text-sm font-semibold">${t(l.address)}</p>` : ''}
+    <div class="mt-auto pt-4 flex flex-wrap gap-2">
+      ${l.phone ? `<a href="${tel(l.phone)}" class="rounded-full border-2 border-ink px-4 py-1.5 text-sm font-bold">Call ${esc(l.phone)}</a>` : ''}
+      <a href="${esc(mapLink(l))}" class="rounded-full border-2 border-ink px-4 py-1.5 text-sm font-bold" target="_blank" rel="noopener">Find it</a>
+    </div>
+  </article>`;
+}
+
 const featuredStyle = {
   'gills-barber-shop': 'bg-[#1e2a4a] text-white',
   tacolumbus: 'bg-[#2b1055] text-white',
@@ -92,7 +113,7 @@ export function renderHub({ assets }) {
     <div>
       <p class="font-semibold uppercase tracking-[0.2em] text-sm text-muted">Columbus, Indiana</p>
       <h1 class="mt-3 font-display text-5xl sm:text-6xl font-bold leading-[0.95] tracking-tight">Order and book straight from the people who make Columbus.</h1>
-      <p class="mt-5 text-lg max-w-xl text-muted">Delivery and booking apps can take a big bite of every ticket. Heart of Columbus puts the town's independent diners, taquerias, delis and barbershops in one place, with direct ordering and booking that keeps the money here.</p>
+      <p class="mt-5 text-lg max-w-xl text-muted">Delivery and booking apps can take a big bite of every ticket. Heart of Columbus puts the town's independent restaurants, shops, salons and trades in one place, with direct ordering and booking that keeps the money here.</p>
       <div class="mt-7 flex flex-wrap gap-3">
         <a href="#directory" data-jump="eat" class="rounded-full bg-brand px-6 py-3 font-bold text-brand-ink border-2 border-ink shadow-[3px_3px_0_var(--ink)]">Eat Local</a>
         <a href="#directory" data-jump="service" class="rounded-full bg-surface px-6 py-3 font-bold border-2 border-ink shadow-[3px_3px_0_var(--ink)]">Book Services</a>
@@ -131,22 +152,23 @@ export function renderHub({ assets }) {
   <div class="mx-auto max-w-6xl px-4 py-14">
     <div class="flex flex-wrap items-end justify-between gap-4">
       <h2 id="dir-h" class="font-display text-4xl font-bold">The directory</h2>
-      <div role="tablist" aria-label="What are you looking for?" class="inline-flex rounded-full border-2 border-ink bg-surface p-1">
-        <button role="tab" type="button" data-tab="eat" aria-selected="true" class="rounded-full px-5 py-2 font-bold aria-selected:bg-ink aria-selected:text-paper">Eat Local</button>
-        <button role="tab" type="button" data-tab="service" aria-selected="false" class="rounded-full px-5 py-2 font-bold aria-selected:bg-ink aria-selected:text-paper">Service &amp; Grooming</button>
+      <div role="tablist" aria-label="What are you looking for?" class="flex w-full flex-wrap gap-1 rounded-3xl border-2 border-ink bg-surface p-1">
+        ${VERTICALS.map((v, i) => `<button role="tab" type="button" data-tab="${v.id}" aria-selected="${i === 0}" class="rounded-full px-4 py-2 font-bold aria-selected:bg-ink aria-selected:text-paper">${esc(v.label)}</button>`).join('')}
       </div>
+      <p class="w-full text-sm font-semibold text-muted">${businesses.length + landscape.length} independent Columbus businesses and counting. No chains.</p>
     </div>
     <label class="mt-6 block">
       <span class="sr-only">Search the directory</span>
       <input type="search" data-search placeholder="Search by name, food or street: “25th St”, “birria”, “downtown”…"
         class="w-full rounded-2xl border-2 border-ink bg-surface px-5 py-4 text-lg shadow-[3px_3px_0_var(--ink)]">
     </label>
-    <div class="mt-4 flex flex-wrap gap-2" data-chips="eat">${filterChips(EAT_FILTERS, 'eat')}</div>
-    <div class="mt-4 flex flex-wrap gap-2 hidden" data-chips="service">${filterChips(SERVICE_FILTERS, 'service')}</div>
+    ${VERTICALS.map((v, i) => `<div class="mt-4 flex flex-wrap gap-2${i ? ' hidden' : ''}" data-chips="${v.id}">${filterChips(v.filters, v.id)}</div>`).join('\n    ')}
     <p class="mt-4 text-sm text-muted" data-count aria-live="polite"></p>
     <div class="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-grid>
       ${businesses.map(card).join('')}
+      ${landscape.map(listingCard).join('')}
     </div>
+    <button type="button" data-more class="mx-auto mt-6 block hidden rounded-full border-2 border-ink bg-surface px-6 py-3 font-bold shadow-[3px_3px_0_var(--ink)]"></button>
     <p class="mt-6 hidden rounded-2xl border-2 border-dashed border-ink/30 p-6 text-center text-muted" data-empty>Nothing matches yet. Try a street name like “State St” or a food like “pizza”.</p>
   </div>
 </section>
@@ -204,7 +226,7 @@ ${footer()}`;
 
   return page({
     title: 'Heart of Columbus | Order and book local in Columbus, Indiana',
-    description: "Columbus, Indiana's independent diners, taquerias, delis and barbershops in one place, with direct ordering and booking that keeps the money local.",
+    description: "Columbus, Indiana's independent restaurants, shops, salons and trades in one place, with direct ordering and booking that keeps the money local.",
     body,
     scripts: ['hub.js'],
     assets,
