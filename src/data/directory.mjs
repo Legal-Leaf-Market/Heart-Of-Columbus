@@ -7,6 +7,8 @@
 
 import { businesses } from './businesses.mjs';
 import { landscape } from './landscape.mjs';
+import { WEB } from './web.mjs';
+import { COMMERCE } from './commerce.mjs';
 
 // Top-level categories, in display order. `subs` map to the landscape's
 // vertical/filter pairs. Emoji are the fallback icon until /art/ assets land.
@@ -179,6 +181,25 @@ for (const l of landscape) {
     address: l.address, area: AREA_BY_LABEL[l.area] || '', phone: l.phone, website: '', demo: '',
     ll: l.ll, featured: false, heritage: false,
   });
+}
+
+// Fill in website and phone from each business's own Google listing, and
+// attach what its website can do (order, book, shop) from the commerce probe.
+const fmtPhone = (p) => {
+  const d = String(p || '').replace(/\D/g, '').replace(/^1(?=\d{10}$)/, '');
+  return d.length === 10 ? `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}` : '';
+};
+for (const b of all) {
+  const w = WEB[b.slug];
+  if (w) {
+    if (!b.phone && w.phone) b.phone = fmtPhone(w.phone);
+    if (!b.website && w.website) b.website = w.website;
+  }
+  const c = COMMERCE[b.slug];
+  b.order = c ? c.order || [] : [];
+  b.book = c ? c.book || [] : [];
+  b.feed = !!(c && c.feed);
+  b.platform = c ? c.platform || '' : '';
 }
 
 export const directory = all.sort((a, b) => a.name.replace(/^the /i, '').localeCompare(b.name.replace(/^the /i, '')));
