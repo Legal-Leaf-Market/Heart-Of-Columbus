@@ -35,7 +35,7 @@
   var params = new URLSearchParams(location.search);
   var st = {
     q: params.get('q') || '', cat: params.get('cat') || '', sub: params.get('sub') || '', area: params.get('area') || '',
-    phone: params.get('phone') === '1', demo: params.get('demo') === '1', online: params.get('online') === '1', sort: params.get('sort') || 'az', view: params.get('view') || 'list',
+    phone: params.get('phone') === '1', demo: params.get('demo') === '1', online: params.get('online') === '1', open: params.get('open') === '1', sort: params.get('sort') || 'az', view: params.get('view') || 'list',
   };
   var PAGE = 48, shown = PAGE, all = [], map = null, layer = null;
 
@@ -45,6 +45,7 @@
     if (st.phone) p.set('phone', '1');
     if (st.demo) p.set('demo', '1');
     if (st.online) p.set('online', '1');
+    if (st.open) p.set('open', '1');
     history.replaceState(null, '', location.pathname + (p.toString() ? '?' + p : ''));
   }
 
@@ -52,7 +53,7 @@
     var saved = savedOnly ? window.HoCSaved() : null;
     var out = all.filter(function (b) {
       return (!saved || saved.indexOf(b.s) !== -1) && (!st.cat || b.c === st.cat) && (!st.sub || b.u === st.sub) &&
-        (!st.area || b.r === st.area) && (!st.phone || b.p) && (!st.demo || b.d) && (!st.online || b.o || b.k || b.f) && (!st.q || window.HoCMatch(b, st.q));
+        (!st.area || b.r === st.area) && (!st.phone || b.p) && (!st.demo || b.d) && (!st.online || b.o || b.k || b.f) && (!st.open || ((window.HoCOpen(b.t) || {}).open)) && (!st.q || window.HoCMatch(b, st.q));
     });
     var name = function (b) { return b.n.replace(/^the /i, ''); };
     out.sort(function (a, b) {
@@ -86,6 +87,7 @@
     counts();
     if (showMap) drawMap(list);
     if (window.HoCPaintSaved) window.HoCPaintSaved();
+    if (window.HoCPaintOpen) window.HoCPaintOpen();
     sync();
   }
 
@@ -137,6 +139,8 @@
   sort.addEventListener('change', function () { st.sort = sort.value; render(); });
   var ph = $('[data-ex-phone]'); ph.checked = st.phone;
   ph.addEventListener('change', function () { st.phone = ph.checked; shown = PAGE; render(); });
+  var op = $('[data-ex-open]'); op.checked = st.open;
+  op.addEventListener('change', function () { st.open = op.checked; shown = PAGE; render(); });
   var on = $('[data-ex-online]'); on.checked = st.online;
   on.addEventListener('change', function () { st.online = on.checked; shown = PAGE; render(); });
   var dm = $('[data-ex-demo]'); dm.checked = st.demo;

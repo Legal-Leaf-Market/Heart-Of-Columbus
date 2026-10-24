@@ -34,6 +34,71 @@
   };
   var esc = function (s) { return String(s || '').replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
 
+  // ---------- Opening hours (mirror of src/hours.mjs) ----------
+  // Rows are [day, open, close]: day 0 = Sunday, minutes after midnight.
+  var nowParts = function () {
+    var p = {};
+    new Intl.DateTimeFormat('en-US', { timeZone: 'America/Indiana/Indianapolis', weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' })
+      .formatToParts(new Date()).forEach(function (x) { p[x.type] = x.value; });
+    return { day: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(p.weekday), min: Number(p.hour) * 60 + Number(p.minute) };
+  };
+  var fmtMin = function (m) {
+    m = ((m % 1440) + 1440) % 1440;
+    var h = Math.floor(m / 60), mm = m % 60;
+    return (h % 12 || 12) + (mm ? ':' + (mm < 10 ? '0' : '') + mm : '') + (h < 12 ? ' AM' : ' PM');
+  };
+  var DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  window.HoCOpen = function (rows, at) {
+    if (!rows || !rows.length) return null;
+    var n = at || nowParts(), i, r;
+    for (i = 0; i < rows.length; i++) {
+      r = rows[i];
+      if (r[0] === n.day && n.min >= r[1] && n.min < r[2]) return { open: true, until: r[2], label: r[1] === 0 && r[2] === 1440 ? 'Open 24 hours' : 'Open until ' + fmtMin(r[2]) };
+      if (r[0] === (n.day + 6) % 7 && r[2] > 1440 && n.min < r[2] - 1440) return { open: true, until: r[2] - 1440, label: 'Open until ' + fmtMin(r[2]) };
+    }
+    for (var k = 0; k < 7; k++) {
+      var dd = (n.day + k) % 7, best = null;
+      rows.forEach(function (x) { if (x[0] === dd && (k > 0 || x[1] > n.min) && (!best || x[1] < best[1])) best = x; });
+      if (best) return { open: false, label: 'Closed · opens ' + (k === 0 ? '' : k === 1 ? 'tomorrow ' : DAYS[dd] + ' ') + fmtMin(best[1]) };
+    }
+    return { open: false, label: 'Closed' };
+  };
+  // Paint "Open now" on every card that has hours, and fill [data-open-now].
+  function paintOpen(all) {
+    var by = {};
+    all.forEach(function (b) { if (b.t) by[b.s] = b.t; });
+    $$('.bz[data-slug]').forEach(function (card) {
+      var st = window.HoCOpen(by[card.getAttribute('data-slug')]);
+      var el = $('.bz-open', card);
+      if (!st) { if (el) el.remove(); return; }
+      if (!el) { el = document.createElement('span'); el.className = 'bz-open'; var cover = $('.bz-cover', card); if (cover) cover.appendChild(el); }
+      el.className = 'bz-open ' + (st.open ? 'is-open' : 'is-closed');
+      el.textContent = st.open ? 'Open now' : 'Closed';
+      card.setAttribute('data-is-open', st.open ? '1' : '0');
+    });
+    $$('[data-open-now]').forEach(function (el) {
+      var st = window.HoCOpen(JSON.parse(el.getAttribute('data-open-now') || 'null'));
+      if (!st) return;
+      el.textContent = st.label;
+      el.className = 'open-badge ' + (st.open ? 'is-open' : 'is-closed');
+      el.hidden = false;
+    });
+    $$('[data-today]').forEach(function (tr) { if (Number(tr.getAttribute('data-today')) === nowParts().day) tr.classList.add('today'); });
+    // Rails that should only show places open right now.
+    $$('[data-open-rail]').forEach(function (sec) {
+      var cards = $$('.bz', sec);
+      cards.forEach(function (c) { if (c.getAttribute('data-is-open') !== '1') c.remove(); });
+      var left = $$('.bz', sec);
+      for (var i = left.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); left[i].parentNode.insertBefore(left[j], left[i]); }
+      sec.hidden = left.length < 3;
+    });
+  }
+  window.HoCPaintOpen = function () { window.HoCDir().then(paintOpen); };
+  if ($('.bz[data-slug]') || $('[data-open-now]')) {
+    if (window.requestIdleCallback) window.requestIdleCallback(function () { window.HoCPaintOpen(); }, { timeout: 1500 }); else setTimeout(window.HoCPaintOpen, 400);
+    setInterval(function () { if (!document.hidden) window.HoCPaintOpen(); }, 120000);
+  }
+
   // ---------- Typeahead ----------
   $$('[data-typeahead]').forEach(function (form) {
     var input = $('input', form), list = $('[data-ta-list]', form), sel = -1;
