@@ -19,6 +19,7 @@ for (const [slug, r] of Object.entries(raw).sort()) {
   if (r.p) row.phone = r.p;
   if (r.o && r.o.length) row.actions = r.o.map(([l, u]) => [l, clean(u)]).filter(([, u]) => u);
   if (r.x) row.closed = true;
+  if (r.t) row.tempClosed = true;
   if (Object.keys(row).length) out[slug] = row;
 }
 const head = `// Websites, phones and owner-set action links (order, book, menu) for each
