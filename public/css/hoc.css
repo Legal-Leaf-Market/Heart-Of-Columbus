@@ -298,7 +298,8 @@ section { scroll-margin-top: 130px; }
 /* ---------- Footer ---------- */
 .ftr { background: var(--ink); color: rgba(255,255,255,.75); padding: 48px 0 40px; font-size: 14px; }
 .ftr-grid { display: grid; gap: 28px; }
-@media (min-width: 900px) { .ftr-grid { grid-template-columns: 1.6fr 1fr 1fr 1fr; } }
+@media (min-width: 560px) and (max-width: 899px) { .ftr-grid { grid-template-columns: 1fr 1fr; } .ftr-grid > div:first-child { grid-column: 1 / -1; } }
+@media (min-width: 900px) { .ftr-grid { grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr; } }
 .ftr h3 { font-family: var(--body); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: #fff; margin-bottom: 10px; }
 .ftr-grid > div:not(:first-child) a { display: block; padding: 3px 0; }
 .ftr a:hover { color: #fff; }
@@ -531,3 +532,48 @@ section { scroll-margin-top: 130px; }
 .pk-tile b { font-family: var(--display); font-size: 30px; } .pk-tile small { color: var(--muted); }
 .pk-tile em { font-style: normal; font-weight: 800; justify-self: start; margin-top: 6px; padding: 2px 10px; border-radius: 999px; background: var(--brand); color: #fff; }
 .pk-tile.pk-ready em { background: #0f7b6c; }
+
+/* ---------- Owners ---------- */
+.ow-tiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; padding: 32px 16px 8px; }
+.ow-tier { background: var(--surface); border: 2px solid var(--ink); border-radius: var(--r-lg); box-shadow: var(--pop); padding: 20px; }
+.ow-tier h2 { font-family: var(--display); font-size: 22px; margin: 8px 0 6px; }
+.ow-tier p { margin: 0; color: var(--muted); }
+.ow-emoji { font-size: 34px; }
+.ow-how { padding: 32px 16px 8px; max-width: 760px; }
+.ow-how h2 { font-family: var(--display); font-size: clamp(26px, 4vw, 36px); }
+.ow-how ol { display: grid; gap: 10px; padding-left: 22px; font-size: 17px; }
+.ow-how a { text-decoration: underline; font-weight: 700; }
+.ow-form-sec { padding: 24px 16px 64px; max-width: 760px; }
+.ow-form { display: grid; gap: 14px; }
+.ow-form label { display: grid; gap: 4px; font-weight: 700; }
+.ow-form input:not([type=checkbox]), .ow-form textarea { font: inherit; font-weight: 400; padding: 10px 12px; border: 2px solid var(--ink); border-radius: 12px; background: #fff; width: 100%; }
+.ow-form fieldset { border: 2px solid var(--line); border-radius: 14px; padding: 12px 14px; display: grid; gap: 8px; }
+.ow-form legend { font-weight: 800; padding: 0 6px; }
+.ow-check { display: flex !important; align-items: center; gap: 8px; font-weight: 600 !important; }
+.ow-check input { width: 20px; height: 20px; accent-color: var(--brand); }
+.ow-two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 560px) { .ow-two { grid-template-columns: 1fr; } }
+.ow-pick { display: grid; gap: 4px; }
+.ow-opt { text-align: left; padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); font-weight: 700; }
+.ow-opt small { display: block; font-weight: 400; color: var(--muted); }
+.ow-chosen { display: inline-block; padding: 6px 10px; border-radius: 999px; background: #dff7e6; border: 2px solid var(--ink); font-weight: 700; }
+.ow-hp { position: absolute !important; left: -9999px; }
+.ow-err { color: #9b1c1c; font-weight: 800; margin: 0; }
+.owners-cta { display: flex; flex-wrap: wrap; gap: 12px; }
+@media (min-width: 900px) { .owners-cta { grid-column: 1 / -1; } }
+
+/* ---------- Hours ---------- */
+.bz-open { position: absolute; right: 10px; bottom: 10px; font-size: 12px; font-weight: 800; padding: 3px 9px; border-radius: 999px; border: 1.5px solid var(--ink); background: rgba(255,255,255,.92); }
+.bz-open.is-open { background: #dff7e6; color: #0b5a2c; }
+.bz-open.is-closed { color: var(--muted); }
+.open-badge { display: inline-block !important; font-weight: 800; padding: 4px 12px; border-radius: 999px; border: 2px solid var(--ink); justify-self: start; }
+.open-badge[hidden] { display: none !important; }
+.open-badge.is-open { background: #dff7e6; color: #0b5a2c; }
+.open-badge.is-closed { background: #f4f1ec; color: var(--muted); }
+.hours { width: 100%; border-collapse: collapse; font-size: 14px; }
+.hours caption { text-align: left; font-weight: 800; padding-bottom: 4px; }
+.hours th { text-align: left; font-weight: 600; padding: 3px 12px 3px 0; width: 3.5em; color: var(--muted); }
+.hours td { padding: 3px 0; }
+.hours tr.today th, .hours tr.today td { font-weight: 800; color: var(--ink); }
+.tag-warn { background: #fff4d6; border-color: #b86b00; color: #7a4600; }
+.biz-open { margin-top: 10px; }
