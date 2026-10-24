@@ -35,6 +35,16 @@ Indiana. A pitch, not a live service. See README.md.
   WooCommerce catalog through `/api/shop` and hands the cart to the shop's own
   checkout (`src/commerce-core.mjs`). Marketplaces that take a cut (DoorDash
   marketplace, Grubhub, Uber Eats) are never linked as "direct".
+- **Pickup tickets** (`/api/pickup`, `netlify/functions/pickup.mjs`, adapted
+  from Herbal Leaf Market's local-order route). A ticket is a record, never a
+  payment. Only slugs in `src/data/partners.mjs` (empty until an owner agrees)
+  get live tickets and a private board at `/pickup/board/?s=<slug>&k=<key>`
+  (keys in the `HOC_BOARD_KEYS` env var, never in git). The five storefront
+  demos make demo tickets that no business sees and that keep no phone number.
+  Storage is Netlify Blobs via `src/blobs.mjs` (no npm dependency); without it
+  the function returns 503 and the storefronts fall back to the local
+  confirmation. Commission is `COMMISSION` in partners.mjs, 0 while the site
+  says "no commission".
 - Landmark photos are Wikimedia Commons, credited on `/credits/`. They show
   Columbus, never a listed business. Art in `public/art/` is ours.
 

@@ -6,6 +6,7 @@ import { execFileSync } from 'node:child_process';
 import { renderHub } from './src/pages/hub.mjs';
 import { pages as storefronts } from './src/pages/storefronts.mjs';
 import { directoryPages } from './src/pages/directory-pages.mjs';
+import { pickupPages } from './src/pages/pickup-pages.mjs';
 import { searchIndex } from './src/site.mjs';
 
 const root = new URL('./', import.meta.url);
@@ -33,6 +34,7 @@ const pages = [
   { path: 'index.html', html: renderHub({ assets }) },
   ...storefronts.map((p) => ({ path: `${p.slug}/index.html`, html: p.render({ assets }) })),
   ...directoryPages({ assets }),
+  ...pickupPages({ assets }),
 ];
 await mkdir(new URL('data/', out), { recursive: true });
 await writeFile(new URL('data/directory.json', out), JSON.stringify(searchIndex()));
