@@ -5,6 +5,8 @@ import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { renderHub } from './src/pages/hub.mjs';
 import { pages as storefronts } from './src/pages/storefronts.mjs';
+import { directoryPages } from './src/pages/directory-pages.mjs';
+import { searchIndex } from './src/site.mjs';
 
 const root = new URL('./', import.meta.url);
 const out = new URL('dist/', root);
@@ -20,13 +22,20 @@ execFileSync(new URL('node_modules/.bin/tailwindcss', root).pathname,
   { cwd: root.pathname, stdio: ['ignore', 'ignore', 'inherit'] });
 
 const assets = { css: hash(await readFile(new URL('assets/app.css', out))) };
+for (const f of await readdir(new URL('public/css/', root))) assets[f] = hash(await readFile(new URL(`public/css/${f}`, root)));
 for (const f of await readdir(new URL('public/js/', root))) {
   const h = hash(await readFile(new URL(`public/js/${f}`, root)));
   assets[f] = h;
   if (f === 'core.js') assets.core = h;
 }
 
-const pages = [{ path: 'index.html', html: renderHub({ assets }) }, ...storefronts.map((p) => ({ path: `${p.slug}/index.html`, html: p.render({ assets }) }))];
+const pages = [
+  { path: 'index.html', html: renderHub({ assets }) },
+  ...storefronts.map((p) => ({ path: `${p.slug}/index.html`, html: p.render({ assets }) })),
+  ...directoryPages({ assets }),
+];
+await mkdir(new URL('data/', out), { recursive: true });
+await writeFile(new URL('data/directory.json', out), JSON.stringify(searchIndex()));
 for (const p of pages) {
   const file = new URL(p.path, out);
   await mkdir(new URL('./', file), { recursive: true });
@@ -35,4 +44,4 @@ for (const p of pages) {
 
 const emDash = pages.filter((p) => p.html.includes('—')).map((p) => p.path);
 if (emDash.length) { console.error('Em dash found in: ' + emDash.join(', ')); process.exit(1); }
-console.log(`Built dist/: ${pages.length} pages (${pages.map((p) => '/' + p.path.replace('index.html', '')).join(' ')})`);
+console.log(`Built dist/: ${pages.length} pages`);
