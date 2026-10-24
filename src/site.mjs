@@ -72,6 +72,7 @@ export const mapsLink = (b) =>
 export function header(active = '') {
   const nav = [
     ['explore', '/explore/', 'Explore'],
+    ['order', '/order/', 'Order & book'],
     ['map', '/explore/?view=map', 'Map'],
     ['areas', '/#neighborhoods', 'Neighborhoods'],
   ];
@@ -124,7 +125,10 @@ export function card(b, { compact = false } = {}) {
   const area = areaBySlug[b.area];
   const pat = PATTERNS[hash(b.slug) % PATTERNS.length];
   const tags = [];
-  if (b.demo) tags.push('<span class="tag tag-hot">Order direct (demo)</span>');
+  if (b.order.length) tags.push('<span class="tag tag-go">Order online</span>');
+  if (b.book.length) tags.push('<span class="tag tag-go">Book online</span>');
+  if (b.feed) tags.push('<span class="tag tag-go">Shop online</span>');
+  if (b.demo) tags.push('<span class="tag tag-hot">Storefront demo</span>');
   if (b.heritage) tags.push('<span class="tag">Columbus original</span>');
   return `
 <article class="bz${compact ? ' bz-compact' : ''}" data-slug="${b.slug}">
@@ -163,6 +167,7 @@ export const searchIndex = () =>
   directory.map((b) => ({
     s: b.slug, n: b.name, c: b.cat, u: b.sub, y: b.featured ? subBySlug[b.sub].label : b.type, a: b.address,
     r: b.area, p: b.phone, l: b.ll, d: b.demo ? 1 : 0, h: b.heritage ? 1 : 0, e: subBySlug[b.sub].emoji,
+    o: b.order.length ? 1 : 0, k: b.book.length ? 1 : 0, f: b.feed ? 1 : 0,
   }));
 
 export const breadcrumbs = (items) =>
