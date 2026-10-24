@@ -82,7 +82,7 @@ ${header()}
 </section>
 
 ${(() => {
-  const o = count((b) => b.order.length), k = count((b) => b.book.length), f = count((b) => b.feed);
+  const o = count((b) => b.order.length), k = count((b) => b.book.length), f = count((b) => b.feed || b.store);
   if (!o && !k && !f) return '';
   return `<section class="wrap go-band" aria-labelledby="go-h">
     <div class="go-box">

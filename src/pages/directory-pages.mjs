@@ -125,8 +125,9 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
         ${b.order.map((o, i) => `<a class="btn${i ? ' btn-ghost' : ''}" href="${esc(o.url)}" target="_blank" rel="noopener">${svg('store')} Order online${b.order.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
         ${b.book.map((o, i) => `<a class="btn${b.order.length || i ? ' btn-ghost' : ''}" href="${esc(o.url)}" target="_blank" rel="noopener">${svg('store')} Book online${b.book.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
         ${b.feed ? `<a class="btn${b.order.length || b.book.length ? ' btn-ghost' : ''}" href="#shop">${svg('store')} Shop online</a>` : ''}
+        ${b.store ? `<a class="btn${b.order.length || b.book.length ? ' btn-ghost' : ''}" href="${esc(b.store)}" target="_blank" rel="noopener">${svg('store')} Shop their online store</a>` : ''}
         ${b.demo ? `<a class="btn btn-ghost" href="${b.demo}">${svg('store')} ${b.cat === 'beauty' ? 'Book' : 'Order'} (demo)</a>` : ''}
-        ${b.phone ? `<a class="btn ${b.demo || b.order.length || b.book.length || b.feed ? 'btn-ghost' : ''}" href="${tel(b.phone)}">${svg('phone')} Call ${esc(b.phone)}</a>` : ''}
+        ${b.phone ? `<a class="btn ${b.demo || b.order.length || b.book.length || b.feed || b.store ? 'btn-ghost' : ''}" href="${tel(b.phone)}">${svg('phone')} Call ${esc(b.phone)}</a>` : ''}
         <a class="btn btn-ghost" href="${mapsLink(b)}" target="_blank" rel="noopener">${svg('pin')} Directions</a>
         ${b.website ? `<a class="btn btn-ghost" href="${esc(b.website)}" target="_blank" rel="noopener">${svg('globe')} Website</a>` : ''}
         <button type="button" class="btn btn-ghost" data-save="${b.slug}" aria-pressed="false">${svg('heart')} <span data-save-label>Save</span></button>
@@ -232,6 +233,7 @@ function orderPage({ assets }) {
   const order = directory.filter((b) => b.order.length);
   const book = directory.filter((b) => b.book.length);
   const shops = directory.filter((b) => b.feed);
+  const stores = directory.filter((b) => b.store);
   const body = `
 ${header('order')}
 <main id="main">
@@ -240,13 +242,14 @@ ${header('order')}
     <p class="kicker kicker-pill">Pickup, appointments and local shopping</p>
     <h1>Order straight from Columbus.<br><span class="hl">Skip the middleman.</span></h1>
     <p class="lede">These businesses already run their own online ordering, booking or store. Every button here goes to their own page, so they keep the whole ticket and the customer. No delivery-app markup, no commission to us.</p>
-    <div class="order-stats"><a href="#order"><b>${order.length}</b> order online</a><a href="#book"><b>${book.length}</b> book online</a><a href="#shop"><b>${shops.length}</b> shop online</a></div>
+    <div class="order-stats"><a href="#order"><b>${order.length}</b> order online</a><a href="#book"><b>${book.length}</b> book online</a><a href="#shop"><b>${shops.length + stores.length}</b> shop online</a></div>
   </div>
 </section>
 ${shops.length ? `<section class="wrap shop-sec" id="shop"><p class="kicker">One cart, many local shops</p><h2>Shop Columbus stores online</h2>
   <p class="sub">Live products from local shops that sell on their own websites. Fill one cart across all of them; each shop checks you out on its own site.</p>
   ${shops.map((b) => `<div class="shop-block"><div class="shop-block-h"><h3><a href="/b/${b.slug}/">${t(b.name)}</a></h3><a class="see-all" href="/b/${b.slug}/#shop">Their whole store ${svg('arrow', 'ic-sm')}</a></div><div data-shop="${b.slug}" data-name="${esc(b.name)}" data-limit="8"><p class="muted">Loading…</p></div></div>`).join('')}
 </section>` : ''}
+${stores.length ? `<section class="wrap list" id="stores"><div class="sec-head"><p class="kicker">Their own web shops</p><h2>More local stores that sell online</h2><p class="sub">These shops sell on their own websites. Tap through to buy from them directly.</p></div>${listGrid(stores)}</section>` : ''}
 <section class="wrap list" id="order"><div class="sec-head"><p class="kicker">Food and drink</p><h2>Order pickup direct</h2></div>${listGrid(order)}</section>
 <section class="wrap list" id="book"><div class="sec-head"><p class="kicker">Appointments</p><h2>Book online</h2></div>${listGrid(book)}</section>
 </main>
