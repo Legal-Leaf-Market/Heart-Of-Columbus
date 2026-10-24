@@ -422,7 +422,7 @@ section { scroll-margin-top: 130px; }
 .tag-go { background: #dff7e6; }
 .direct-note { margin-top: 14px; display: flex; gap: 8px; align-items: flex-start; font-size: 14px; color: var(--muted); background: #eef8f0; border: 1.5px solid #bfe3c8; border-radius: 14px; padding: 10px 12px; max-width: 640px; }
 .order-hero { padding: 48px 0 28px; background: radial-gradient(900px 400px at 90% 0, #dff7e6 0, transparent 60%), var(--paper); border-bottom: 2px solid var(--ink); }
-.order-hero h1 { font-size: clamp(38px, 5.6vw, 66px); font-weight: 800; letter-spacing: -0.03em; margin-top: 16px; }
+.order-hero h1 { font-size: clamp(32px, 5.6vw, 66px); font-weight: 800; letter-spacing: -0.03em; margin-top: 16px; }
 .order-stats { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
 .order-stats a { background: var(--surface); border: 2px solid var(--ink); border-radius: 16px; padding: 10px 16px; font-weight: 700; box-shadow: 3px 3px 0 var(--ink); }
 .order-stats b { font-family: var(--display); font-size: 26px; margin-right: 4px; }
