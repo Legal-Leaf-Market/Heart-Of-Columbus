@@ -34,10 +34,8 @@ ${header()}
 
 <section class="hero">
   <div class="hero-float" aria-hidden="true">
-    <img class="fl fl-1" src="/art/float-arch.png" alt="" onerror="this.remove()">
-    <img class="fl fl-2" src="/art/float-spire.png" alt="" onerror="this.remove()">
-    <img class="fl fl-3" src="/art/float-gear.png" alt="" onerror="this.remove()">
-    <span class="shape shape-ring"></span><span class="shape shape-arch"></span><span class="shape shape-dot"></span>
+    ${[['arch', 1], ['spire', 2], ['gear', 3], ['bridge', 4], ['courthouse', 5], ['firestation', 6], ['tree', 7], ['sparkle-1', 8], ['sparkle-2', 9], ['sparkle-3', 10]]
+      .map(([n, i]) => `<img class="fl fl-${i}" src="/art/float-${n}.png" alt="" onerror="this.remove()">`).join('')}
   </div>
   <div class="wrap hero-grid">
     <div class="hero-copy">
@@ -61,6 +59,7 @@ ${header()}
         .join('')}
     </div>
   </div>
+  <img class="skyline" src="/art/hero-skyline.png" alt="" aria-hidden="true" onerror="this.remove()">
   <div class="wrap stats">
     <div><b>${total}</b><span>independent businesses</span></div>
     <div><b>${CATEGORIES.length}</b><span>ways to browse</span></div>
@@ -81,6 +80,22 @@ ${header()}
     ).join('')}
   </div>
 </section>
+
+${(() => {
+  const o = count((b) => b.order.length), k = count((b) => b.book.length), f = count((b) => b.feed);
+  if (!o && !k && !f) return '';
+  return `<section class="wrap go-band" aria-labelledby="go-h">
+    <div class="go-box">
+      <div><p class="kicker">No app in the middle</p><h2 id="go-h">Order, book and shop straight from the source</h2>
+      <p>These places already run their own online ordering, booking or store. We send you to theirs, so they keep the whole ticket.</p></div>
+      <div class="go-tiles">
+        ${o ? `<a href="/order/#order"><span>🥡</span><b>${o}</b> order pickup online</a>` : ''}
+        ${k ? `<a href="/order/#book"><span>📅</span><b>${k}</b> book appointments online</a>` : ''}
+        ${f ? `<a href="/order/#shop"><span>🛍️</span><b>${f}</b> shop their store online</a>` : ''}
+      </div>
+    </div>
+  </section>`;
+})()}
 
 <section class="direct" aria-labelledby="direct-h">
   <div class="wrap">
@@ -144,6 +159,7 @@ ${rail('Good dogs welcome', '/c/pets/', pick(inSub('pets')), { kicker: 'Pets' })
       return `<a class="area-tile${i < 2 ? ' area-big' : ''}" href="/n/${a.slug}/">
         <img src="${p.src}" alt="" loading="lazy" style="object-position:${p.pos}">
         <span class="area-shade"></span>
+        <img class="area-badge" src="/art/area-${a.slug === 'business-parks' ? 'business-parks' : a.slug}.png" alt="" loading="lazy" onerror="this.remove()">
         <span class="area-txt"><strong>${esc(a.label)}</strong><span>${n} places</span></span>
       </a>`;
     }).join('')}
@@ -166,7 +182,7 @@ ${rail('Good dogs welcome', '/c/pets/', pick(inSub('pets')), { kicker: 'Pets' })
       </div>
       <button type="button" class="btn btn-big" data-spin-go>${svg('dice')} Spin</button>
     </div>
-    <div class="spin-result" data-spin-out aria-live="polite"><p class="spin-empty">Your pick lands here.</p></div>
+    <div class="spin-result" data-spin-out aria-live="polite"><img class="spin-wheel" src="/art/spin-wheel.png" alt="" data-wheel></div>
   </div>
 </section>
 
@@ -207,6 +223,7 @@ ${rail('Good dogs welcome', '/c/pets/', pick(inSub('pets')), { kicker: 'Pets' })
       <li><strong>Orders straight to you</strong> Customers order or book directly. They pay you at pickup.</li>
       <li><strong>No app in the middle</strong> No per-order commission. Keep the money, the customer and their number.</li>
     </ul>
+    <img class="owners-art" src="/art/owners-storefront.png" alt="" loading="lazy">
     <a class="btn" href="https://jills-diner.netlify.app">See Jill's Diner, the first one live ${svg('arrow', 'ic-sm')}</a>
   </div>
 </section>

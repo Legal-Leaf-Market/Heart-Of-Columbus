@@ -53,7 +53,7 @@ ${breadcrumbs([['/', 'Home'], ['/explore/', 'Explore'], ...(sub && multi ? [[`/c
 </section>
 ${refine(items, { subs: multi && !sub ? cat.subs : null })}
 <section class="wrap list">${listGrid(items)}
-  <p class="empty" data-f-empty hidden>Nothing matches. Try another neighborhood or clear the filter.</p>
+  <p class="empty" data-f-empty hidden><img src="/art/empty-search.png" alt="" width="160" height="160">Nothing matches. Try another neighborhood or clear the filter.</p>
 </section>
 <section class="wrap more-cats">
   <h2>Keep exploring</h2>
@@ -76,6 +76,7 @@ ${header('areas')}
   <span class="area-shade"></span>
   <div class="wrap area-hero-txt">
     ${breadcrumbs([['/', 'Home'], ['/#neighborhoods', 'Neighborhoods'], ['', area.label]])}
+    <img class="area-hero-badge" src="/art/area-${area.slug}.png" alt="" onerror="this.remove()">
     <p class="kicker kicker-light">Neighborhood</p>
     <h1>${esc(area.label)}</h1>
     <p>${esc(area.blurb)} ${items.length} independent places.</p>
@@ -121,13 +122,17 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
       <p class="biz-type">${t(b.type)}</p>
       <div class="bz-tags">${b.demo ? '<span class="tag tag-hot">Order direct (demo)</span>' : ''}${b.heritage ? '<span class="tag">Columbus original</span>' : ''}<span class="tag tag-plain">Independent</span></div>
       <div class="biz-actions">
-        ${b.demo ? `<a class="btn" href="${b.demo}">${svg('store')} ${b.cat === 'beauty' ? 'Book' : 'Order'} (demo)</a>` : ''}
-        ${b.phone ? `<a class="btn ${b.demo ? 'btn-ghost' : ''}" href="${tel(b.phone)}">${svg('phone')} Call ${esc(b.phone)}</a>` : ''}
+        ${b.order.map((o, i) => `<a class="btn${i ? ' btn-ghost' : ''}" href="${esc(o.url)}" target="_blank" rel="noopener">${svg('store')} Order online${b.order.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
+        ${b.book.map((o, i) => `<a class="btn${b.order.length || i ? ' btn-ghost' : ''}" href="${esc(o.url)}" target="_blank" rel="noopener">${svg('store')} Book online${b.book.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
+        ${b.feed ? `<a class="btn${b.order.length || b.book.length ? ' btn-ghost' : ''}" href="#shop">${svg('store')} Shop online</a>` : ''}
+        ${b.demo ? `<a class="btn btn-ghost" href="${b.demo}">${svg('store')} ${b.cat === 'beauty' ? 'Book' : 'Order'} (demo)</a>` : ''}
+        ${b.phone ? `<a class="btn ${b.demo || b.order.length || b.book.length || b.feed ? 'btn-ghost' : ''}" href="${tel(b.phone)}">${svg('phone')} Call ${esc(b.phone)}</a>` : ''}
         <a class="btn btn-ghost" href="${mapsLink(b)}" target="_blank" rel="noopener">${svg('pin')} Directions</a>
         ${b.website ? `<a class="btn btn-ghost" href="${esc(b.website)}" target="_blank" rel="noopener">${svg('globe')} Website</a>` : ''}
         <button type="button" class="btn btn-ghost" data-save="${b.slug}" aria-pressed="false">${svg('heart')} <span data-save-label>Save</span></button>
         <button type="button" class="btn btn-ghost" data-share="${esc(b.name)}">${svg('share')} Share</button>
       </div>
+      ${b.order.length || b.book.length ? `<p class="direct-note">${svg('store', 'ic-sm')} ${b.order.length ? 'Ordering' : 'Booking'} opens ${esc(b.name)}’s own ${esc((b.order[0] || b.book[0]).label)} page, the one they chose and pay for themselves. Heart of Columbus takes no cut.</p>` : ''}
     </div>
   </div>
   <aside class="biz-side">
@@ -146,11 +151,14 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
     <p class="fine">Details come from public listings (Chamber directory, Visit Columbus, Google Maps) and may change. Call ahead. Heart of Columbus is not affiliated with this business.</p>
   </aside>
 </section>
+${b.feed ? `<section class="wrap shop-sec" id="shop"><p class="kicker">Live from their store</p><h2>Shop ${t(b.name)} online</h2>
+  <p class="sub">Their real products and prices, read from their own online store. Add to your cart here, then check out on their site with everything already in the cart. Choose pickup there if they offer it.</p>
+  <div data-shop="${b.slug}" data-name="${esc(b.name)}"><p class="muted">Loading their store…</p></div></section>` : ''}
 ${rail(`More ${sub.label.toLowerCase()}`, `/c/${cat.slug}/${cat.subs.length > 1 ? sub.slug + '/' : ''}`, same.slice(0, 14))}
 ${rail('Close by', area ? `/n/${area.slug}/` : '', near)}
 </main>
 ${footer()}`;
-  return page({ title: `${b.name} | ${sub.label} in Columbus, Indiana`, description: `${b.name}, ${b.type}${b.address ? ', ' + b.address : ''}, Columbus, Indiana.`, body, scripts: ['site.js', 'hub.js'], styles, assets });
+  return page({ title: `${b.name} | ${sub.label} in Columbus, Indiana`, description: `${b.name}, ${b.type}${b.address ? ', ' + b.address : ''}, Columbus, Indiana.`, body, scripts: ['site.js', 'hub.js', 'cart.js'], styles, assets });
 }
 
 function explorePage({ assets }, { saved = false } = {}) {
@@ -180,7 +188,8 @@ ${header(saved ? 'saved' : 'explore')}
       <select data-ex-area aria-label="Neighborhood"><option value="">Anywhere in Columbus</option>${AREAS.map((a) => `<option value="${a.slug}">${esc(a.label)}</option>`).join('')}</select>
       <h2>Show</h2>
       <label class="check"><input type="checkbox" data-ex-phone> Has a public phone number</label>
-      <label class="check"><input type="checkbox" data-ex-demo> Order direct (demo)</label>
+      <label class="check"><input type="checkbox" data-ex-online> Order, book or shop online</label>
+      <label class="check"><input type="checkbox" data-ex-demo> Storefront demo</label>
       <h2>Sort</h2>
       <select data-ex-sort aria-label="Sort"><option value="az">A to Z</option><option value="za">Z to A</option><option value="area">By neighborhood</option></select>
     </aside>
@@ -189,7 +198,7 @@ ${header(saved ? 'saved' : 'explore')}
       <div class="ex-map" data-ex-map hidden><div id="map"></div><p class="fine">Pins for ${directory.filter((b) => b.ll).length} of ${directory.length} places; the rest had no map pin in public listings.</p></div>
       <div class="grid" data-ex-grid></div>
       <button type="button" class="btn btn-ghost more-btn" data-ex-more hidden>Show more</button>
-      <div class="empty" data-ex-empty hidden>${saved ? '<p>Nothing saved yet. Tap the heart on any place to keep it here.</p><a class="btn" href="/explore/">Start exploring</a>' : '<p>Nothing matches those filters.</p>'}</div>
+      <div class="empty" data-ex-empty hidden><img src="/art/${saved ? 'empty-saved' : 'empty-search'}.png" alt="" width="180" height="180">${saved ? '<p>Nothing saved yet. Tap the heart on any place to keep it here.</p><a class="btn" href="/explore/">Start exploring</a>' : '<p>Nothing matches those filters.</p>'}</div>
     </section>
   </div>
 </main>
@@ -219,6 +228,32 @@ ${footer()}`;
   return page({ title: 'Photo credits | Heart of Columbus', description: 'Credits for the photography on Heart of Columbus.', body, scripts: ['site.js'], styles, assets });
 }
 
+function orderPage({ assets }) {
+  const order = directory.filter((b) => b.order.length);
+  const book = directory.filter((b) => b.book.length);
+  const shops = directory.filter((b) => b.feed);
+  const body = `
+${header('order')}
+<main id="main">
+<section class="order-hero">
+  <div class="wrap">
+    <p class="kicker kicker-pill">Pickup, appointments and local shopping</p>
+    <h1>Order straight from Columbus.<br><span class="hl">Skip the middleman.</span></h1>
+    <p class="lede">These businesses already run their own online ordering, booking or store. Every button here goes to their own page, so they keep the whole ticket and the customer. No delivery-app markup, no commission to us.</p>
+    <div class="order-stats"><a href="#order"><b>${order.length}</b> order online</a><a href="#book"><b>${book.length}</b> book online</a><a href="#shop"><b>${shops.length}</b> shop online</a></div>
+  </div>
+</section>
+${shops.length ? `<section class="wrap shop-sec" id="shop"><p class="kicker">One cart, many local shops</p><h2>Shop Columbus stores online</h2>
+  <p class="sub">Live products from local shops that sell on their own websites. Fill one cart across all of them; each shop checks you out on its own site.</p>
+  ${shops.map((b) => `<div class="shop-block"><div class="shop-block-h"><h3><a href="/b/${b.slug}/">${t(b.name)}</a></h3><a class="see-all" href="/b/${b.slug}/#shop">Their whole store ${svg('arrow', 'ic-sm')}</a></div><div data-shop="${b.slug}" data-name="${esc(b.name)}" data-limit="8"><p class="muted">Loading…</p></div></div>`).join('')}
+</section>` : ''}
+<section class="wrap list" id="order"><div class="sec-head"><p class="kicker">Food and drink</p><h2>Order pickup direct</h2></div>${listGrid(order)}</section>
+<section class="wrap list" id="book"><div class="sec-head"><p class="kicker">Appointments</p><h2>Book online</h2></div>${listGrid(book)}</section>
+</main>
+${footer()}`;
+  return page({ title: 'Order, book and shop direct | Heart of Columbus', description: 'Columbus, Indiana businesses you can order from, book or shop online directly, with no app in the middle.', body, scripts: ['site.js', 'cart.js'], styles, assets });
+}
+
 export function directoryPages(ctx) {
   const out = [];
   for (const c of CATEGORIES) {
@@ -230,5 +265,6 @@ export function directoryPages(ctx) {
   out.push({ path: 'explore/index.html', html: explorePage(ctx) });
   out.push({ path: 'saved/index.html', html: explorePage(ctx, { saved: true }) });
   out.push({ path: 'credits/index.html', html: creditsPage(ctx) });
+  out.push({ path: 'order/index.html', html: orderPage(ctx) });
   return out;
 }
