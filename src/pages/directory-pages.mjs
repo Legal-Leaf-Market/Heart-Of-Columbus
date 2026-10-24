@@ -2,6 +2,16 @@
 import { page, esc, t } from '../layout.mjs';
 import { directory, CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, km } from '../data/directory.mjs';
 import { header, footer, card, rail, svg, PHOTOS, artIcon, tel, mapsLink, breadcrumbs } from '../site.mjs';
+import { fmtRange, DAY_NAMES } from '../hours.mjs';
+
+// Weekly hours table, Monday first, with today highlighted by site.js.
+const hoursTable = (rows) => {
+  const order = [1, 2, 3, 4, 5, 6, 0];
+  return `<table class="hours"><caption>Hours</caption>${order.map((d) => {
+    const r = rows.filter((x) => x[0] === d);
+    return `<tr data-today="${d}"><th scope="row">${DAY_NAMES[d].slice(0, 3)}</th><td>${r.length ? r.map((x) => fmtRange(x[1], x[2])).join(', ') : 'Closed'}</td></tr>`;
+  }).join('')}</table>`;
+};
 
 const styles = ['hoc.css'];
 const listGrid = (items) => `<div class="grid" data-grid>${items.map((b) => card(b)).join('')}</div>`;
@@ -121,6 +131,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
       <h1>${t(b.name)}</h1>
       <p class="biz-type">${t(b.type)}</p>
       <div class="bz-tags">${b.demo ? '<span class="tag tag-hot">Order direct (demo)</span>' : ''}${b.heritage ? '<span class="tag">Columbus original</span>' : ''}<span class="tag tag-plain">Independent</span></div>
+      ${b.hours ? `<p class="open-badge biz-open" data-open-now='${JSON.stringify(b.hours)}' hidden></p>` : ''}
       <div class="biz-actions">
         ${b.order.map((o, i) => `<a class="btn${i ? ' btn-ghost' : ''}" href="${esc(o.url)}" target="_blank" rel="noopener">${svg('store')} Order online${b.order.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
         ${b.book.map((o, i) => `<a class="btn${b.order.length || i ? ' btn-ghost' : ''}" href="${esc(o.url)}" target="_blank" rel="noopener">${svg('store')} Book online${b.book.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
@@ -142,12 +153,14 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
       <div class="side-body">
         ${b.address ? `<p class="side-addr">${svg('pin', 'ic-sm')} ${t(b.address)}<br><span>Columbus, Indiana</span></p>` : '<p class="side-addr">Columbus, Indiana. Address not listed publicly.</p>'}
         ${b.phone ? `<p>${svg('phone', 'ic-sm')} <a href="${tel(b.phone)}">${esc(b.phone)}</a></p>` : '<p class="muted">No public phone number in the listings we used. Try the map link for current contact details.</p>'}
+        ${b.tempClosed ? '<p class="open-badge is-closed">Temporarily closed, per their Google listing</p>' : ''}
+        ${b.hours ? `${hoursTable(b.hours)}<p class="fine">Hours from their Google listing, October 2026. Holidays can differ; call ahead.</p>` : ''}
       </div>
     </div>
     <div class="side-card claim">
       <p class="kicker">Is this your business?</p>
-      <p>Turn this listing into a storefront with direct ordering or booking and no app fees.</p>
-      <a class="btn btn-sm" href="/#owners-h">How it works ${svg('arrow', 'ic-sm')}</a>
+      <p>Fix your hours and links, point customers at your own ordering, or take pickup orders here with no app fees.</p>
+      <a class="btn btn-sm" href="/owners/?b=${b.slug}#claim">Claim this listing ${svg('arrow', 'ic-sm')}</a>
     </div>
     <p class="fine">Details come from public listings (Chamber directory, Visit Columbus, Google Maps) and may change. Call ahead. Heart of Columbus is not affiliated with this business.</p>
   </aside>
@@ -189,6 +202,7 @@ ${header(saved ? 'saved' : 'explore')}
       <select data-ex-area aria-label="Neighborhood"><option value="">Anywhere in Columbus</option>${AREAS.map((a) => `<option value="${a.slug}">${esc(a.label)}</option>`).join('')}</select>
       <h2>Show</h2>
       <label class="check"><input type="checkbox" data-ex-phone> Has a public phone number</label>
+      <label class="check"><input type="checkbox" data-ex-open> Open now</label>
       <label class="check"><input type="checkbox" data-ex-online> Order, book or shop online</label>
       <label class="check"><input type="checkbox" data-ex-demo> Storefront demo</label>
       <h2>Sort</h2>

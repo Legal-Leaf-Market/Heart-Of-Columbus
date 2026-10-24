@@ -120,6 +120,8 @@ ${(() => {
   </div>
 </section>
 
+${rail('Open right now', '/explore/?open=1', directory.filter((b) => b.hours && !b.tempClosed && ['restaurants', 'coffee-sweets', 'bars'].includes(b.cat)).slice(0, 150), { kicker: 'Hungry? These are open', openOnly: true })}
+
 <div class="rails" data-shuffle-rails>
 ${rail('The taco trail', '/c/restaurants/mexican/', pick(inSub('mexican')), { kicker: 'Restaurants' })}
 ${rail('Coffee, donuts & boba', '/c/coffee-sweets/', pick(inSub('coffee-sweets')), { kicker: 'Coffee & sweets' })}
@@ -224,7 +226,7 @@ ${rail('Good dogs welcome', '/c/pets/', pick(inSub('pets')), { kicker: 'Pets' })
       <li><strong>No app in the middle</strong> No per-order commission. Keep the money, the customer and their number.</li>
     </ul>
     <img class="owners-art" src="/art/owners-storefront.png" alt="" loading="lazy">
-    <a class="btn" href="https://jills-diner.netlify.app">See Jill's Diner, the first one live ${svg('arrow', 'ic-sm')}</a>
+    <div class="owners-cta"><a class="btn" href="/owners/">Claim your listing ${svg('arrow', 'ic-sm')}</a><a class="btn btn-ghost" href="https://jills-diner.netlify.app">See Jill's Diner, the first one live ${svg('arrow', 'ic-sm')}</a></div>
   </div>
 </section>
 
