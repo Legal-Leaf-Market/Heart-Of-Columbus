@@ -199,6 +199,7 @@ for (const b of all) {
   b.order = c ? c.order || [] : [];
   b.book = c ? c.book || [] : [];
   b.feed = !!(c && c.feed);
+  b.store = c && c.store ? c.store : '';
   b.platform = c ? c.platform || '' : '';
 }
 
