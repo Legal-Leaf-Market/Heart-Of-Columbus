@@ -38,3 +38,18 @@ test('catalog mapping keeps prices and availability honest', () => {
   assert.equal(w[0].price, 18);
   assert.equal(w[0].available, false);
 });
+
+test('findOwnPages picks same-origin order, book and shop pages only', async () => {
+  const { findOwnPages } = await import('../src/commerce-core.mjs');
+  const html = '<a href="https://doordash.com/x">Order on DoorDash</a><a href="/menu">Menu</a><a href="/order-online">Order Online</a><a href="/book-now">Book now</a><a href="/collections/all">Shop</a>';
+  const o = findOwnPages(html, 'https://cafe.example/');
+  assert.equal(o.order, 'https://cafe.example/order-online');
+  assert.equal(o.book, 'https://cafe.example/book-now');
+  assert.equal(o.shop, 'https://cafe.example/collections/all');
+});
+
+test('new providers: Square appointments on app. subdomain, Setmore', async () => {
+  const { findProviderLinks } = await import('../src/commerce-core.mjs');
+  const l = findProviderLinks('<a href="https://app.squareup.com/appointments/book/abc/start">x</a> <a href="https://joe.setmore.com/">y</a>');
+  assert.deepEqual(l.map((x) => x.id).sort(), ['setmore', 'square-book']);
+});
