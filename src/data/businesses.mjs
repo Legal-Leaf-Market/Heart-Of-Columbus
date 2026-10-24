@@ -192,6 +192,7 @@ export const businesses = [
     focus: 'Soda fountain, ice cream parlor and museum, serving Columbus since 1900.',
     address: '329 Washington Street',
     area: ['Washington St', 'Downtown'],
+    phone: '(812) 378-1900',
     website: 'https://www.zaharakos.com',
     badges: ['heritage'],
   },
