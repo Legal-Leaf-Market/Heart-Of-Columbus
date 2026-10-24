@@ -24,7 +24,11 @@ for (const slug of new Set([...Object.keys(WEB), ...Object.keys(bySlug)])) {
   const w = WEB[slug] || {};
   const order = [], book = [];
   const push = (list, label, url) => { if (url && !MARKET.test(host(url)) && !list.some((x) => x.url === url)) list.push({ label, url }); };
-  for (const l of p.links || []) push(l.kind === 'order' ? order : book, l.label, l.url);
+  for (const l of p.links || []) {
+    // Re-check stored probe links against today's provider rules.
+    const again = findProviderLinks(l.url)[0];
+    if (again) push(again.kind === 'order' ? order : book, again.label, again.url);
+  }
   if (p.own && p.own.order) push(order, p.own.order.label, p.own.order.url);
   for (const [label, url] of w.actions || []) {
     const known = findProviderLinks(url)[0];
@@ -54,7 +58,7 @@ for (const slug of new Set([...Object.keys(WEB), ...Object.keys(bySlug)])) {
   let store = squareShop;
   const shopPath = (() => { try { return new URL(p.own && p.own.shop).pathname; } catch { return '/'; } })();
   if (p.ok && !feed && STOREFRONT.has(p.platform)) {
-    if (p.platform === 'square-online' && FOOD.has(cat)) push(order, 'Square Online', p.origin);
+    if (p.platform === 'square-online' && FOOD.has(cat)) { if (!order.some((o) => o.label === 'Square Online')) push(order, 'Square Online', p.origin); }
     else if (RETAIL.has(cat) && p.own && p.own.shop && shopPath !== '/' && !/^\/products?\/[^/]+\/?$/.test(shopPath)) store = store || p.own.shop;
     else if (RETAIL.has(cat) && ['shopify', 'bigcommerce'].includes(p.platform)) store = store || p.origin;
   }
