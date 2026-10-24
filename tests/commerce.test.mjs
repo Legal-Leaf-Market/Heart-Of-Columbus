@@ -53,3 +53,12 @@ test('new providers: Square appointments on app. subdomain, Setmore', async () =
   const l = findProviderLinks('<a href="https://app.squareup.com/appointments/book/abc/start">x</a> <a href="https://joe.setmore.com/">y</a>');
   assert.deepEqual(l.map((x) => x.id).sort(), ['setmore', 'square-book']);
 });
+
+test('powered-by badges, assets and other towns are not booking links', async () => {
+  const { findProviderLinks } = await import('../src/commerce-core.mjs');
+  const html = '<a href="https://www.vagaro.com/pro/">Powered by Vagaro</a><img src="https://static.glossgenius.com/x.png">' +
+    '<a href="https://www.opentable.com/r/place-westfield?restref=1">Book</a><a href="https://order.toasttab.com/egiftcards/x">Gift</a>' +
+    '<a href="https://www.vagaro.com/realsalon">Book now</a><a href="https://order.online/business/-1?utm_source=sdk&#038;visitorId=9">Order</a>';
+  const l = findProviderLinks(html);
+  assert.deepEqual(l.map((x) => x.url).sort(), ['https://order.online/business/-1', 'https://www.vagaro.com/realsalon']);
+});
