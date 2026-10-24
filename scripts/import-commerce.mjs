@@ -1,0 +1,41 @@
+// node scripts/import-commerce.mjs <probe-results.json>
+// Combines /api/probe results with the owner-set Google action links into
+// src/data/commerce.mjs: platform, live feed, and first-party order/book links.
+import { readFileSync, writeFileSync } from 'node:fs';
+import { WEB } from '../src/data/web.mjs';
+import { PROVIDERS, findProviderLinks } from '../src/commerce-core.mjs';
+import { landscape } from '../src/data/landscape.mjs';
+
+const probes = JSON.parse(readFileSync(process.argv[2], 'utf8'));
+const bySlug = Object.fromEntries(probes.map((p) => [p.slug, p]));
+// Marketplaces take a cut, so they are not "direct" and are never linked.
+const MARKET = /(?:^|\.)(doordash\.com|grubhub\.com|ubereats\.com|postmates\.com|seamless\.com|yelp\.com|facebook\.com|instagram\.com|google\.com)$/i;
+const host = (u) => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return ''; } };
+
+const out = {};
+for (const slug of new Set([...Object.keys(WEB), ...Object.keys(bySlug)])) {
+  const p = bySlug[slug] || {};
+  const w = WEB[slug] || {};
+  const order = [], book = [];
+  const push = (list, label, url) => { if (url && !MARKET.test(host(url)) && !list.some((x) => x.url === url)) list.push({ label, url }); };
+  for (const l of p.links || []) (l.kind === 'order' ? order : book).push({ label: l.label, url: l.url });
+  for (const [label, url] of w.actions || []) {
+    const known = findProviderLinks(url)[0];
+    if (known) { push(known.kind === 'order' ? order : book, known.label, known.url); continue; }
+    const path = (() => { try { return new URL(url).pathname.toLowerCase(); } catch { return ''; } })();
+    if (/order|menu/.test(path)) push(order, host(url), url);
+    else if (/book|appoint|schedul|reserv|request/.test(path) || /book|appoint|schedul|reserv/.test(host(url))) push(book, host(url), url);
+  }
+  const feed = !!(p.ok && (p.platform === 'shopify' || p.platform === 'woocommerce') && p.products > 0);
+  if (!order.length && !book.length && !feed && !p.platform) continue;
+  out[slug] = { platform: p.platform || '', origin: p.origin || '', feed, order: order.slice(0, 2), book: book.slice(0, 2) };
+}
+const head = `// What each business's own website can do: its cart engine and the ordering
+// or booking pages it chose. Built by scripts/import-commerce.mjs from the
+// /api/probe results and owner-set Google action links. \`feed: true\` means
+// /api/shop can read its live catalog. Marketplaces that take a cut are left out.
+`;
+writeFileSync(new URL('../src/data/commerce.mjs', import.meta.url), head + 'export const COMMERCE = ' + JSON.stringify(out, null, 1) + ';\n');
+const n = (f) => Object.values(out).filter(f).length;
+console.log(Object.keys(out).length, 'entries;', n((c) => c.order.length), 'order;', n((c) => c.book.length), 'book;', n((c) => c.feed), 'feeds');
+void PROVIDERS; void landscape;
