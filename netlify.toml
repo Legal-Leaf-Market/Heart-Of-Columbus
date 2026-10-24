@@ -19,3 +19,6 @@
     X-Frame-Options = "SAMEORIGIN"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
     X-Robots-Tag = "noindex, nofollow"
+
+[functions]
+  directory = "netlify/functions"

@@ -259,17 +259,33 @@
         subtotal: c.subtotal(),
         notes: f.notes.value.trim(),
       };
-      ledger.add(opts.slug, order.subtotal);
-      c.clear();
-      dlg.innerHTML =
-        '<div class="p-6 grid gap-3">' +
-        '<p class="font-display text-3xl">Order ' + esc(order.number) + ' is in!</p>' +
-        '<p class="text-lg">Pickup ' + esc(order.whenLabel.charAt(0).toLowerCase() + order.whenLabel.slice(1)) + '. ' + esc(opts.payNote || 'Pay at the counter.') + '</p>' +
-        (opts.onConfirm ? opts.onConfirm(order) : '') +
-        '<p class="rounded-xl bg-ink/5 px-3 py-2 text-sm">This is a Heart of Columbus demo, so nothing was sent to ' + esc(opts.business) + '. The ' + money(order.subtotal) +
-        ' you just “spent” now counts toward the local-savings tracker on the hub.</p>' +
-        '<button type="button" data-close class="rounded-2xl bg-ink text-paper font-display text-xl py-3">Done</button></div>';
-      dlg.querySelector('[data-close]').addEventListener('click', function () { dlg.close(); });
+      var btn = e.target.querySelector('button');
+      if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+      // Make a pickup ticket on Heart of Columbus. For a storefront demo the
+      // ticket is a demo: the business never sees it and no phone is kept.
+      // If the ticket service is down, fall back to the local confirmation.
+      fetch('/api/pickup', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          slug: opts.slug, name: order.name, phone: order.phone, when: order.whenLabel, whenAt: order.when, notes: order.notes,
+          items: order.lines.map(function (l) { return { name: l.name, details: l.details.join(' · '), qty: l.qty, cents: l.cents }; }),
+        }),
+      }).then(function (r) { return r.json(); }).catch(function () { return {}; }).then(function (j) {
+        ledger.add(opts.slug, order.subtotal);
+        c.clear();
+        var ticket = j && j.ok ? j : null;
+        if (ticket) order.number = ticket.code;
+        dlg.innerHTML =
+          '<div class="p-6 grid gap-3">' +
+          '<p class="font-display text-3xl">Order ' + esc(order.number) + ' is in!</p>' +
+          '<p class="text-lg">Pickup ' + esc(/^(Today|Tomorrow)/.test(order.whenLabel) ? order.whenLabel.charAt(0).toLowerCase() + order.whenLabel.slice(1) : order.whenLabel) + '. ' + esc(opts.payNote || 'Pay at the counter.') + '</p>' +
+          (opts.onConfirm ? opts.onConfirm(order) : '') +
+          (ticket ? '<a href="/pickup/?t=' + esc(ticket.token) + '" class="rounded-2xl bg-brand text-brand-ink border-2 border-ink font-display text-xl py-3 text-center shadow-[3px_3px_0_var(--ink)]">See your pickup ticket</a>' : '') +
+          '<p class="rounded-xl bg-ink/5 px-3 py-2 text-sm">This is a Heart of Columbus demo, so nothing was sent to ' + esc(opts.business) + '. The ' + money(order.subtotal) +
+          ' you just “spent” now counts toward the local-savings tracker on the hub.' + (ticket ? ' Your ticket shows how a real pickup would work, and its counter view shows the shop’s side.' : '') + '</p>' +
+          '<button type="button" data-close class="rounded-2xl bg-ink text-paper font-display text-xl py-3">Done</button></div>';
+        dlg.querySelector('[data-close]').addEventListener('click', function () { dlg.close(); });
+      });
     }
 
     dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
