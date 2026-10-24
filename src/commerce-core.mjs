@@ -9,7 +9,7 @@
 // Providers we recognize in a site's HTML or links, and what they mean.
 // kind: 'order' (food pickup/delivery), 'book' (appointments), 'shop' (retail cart).
 export const PROVIDERS = [
-  { id: 'toast', label: 'Toast', kind: 'order', re: /https?:\/\/(?:www\.|order\.)?toasttab\.com\/(?!login|signup|restaurants\/?["'\s<])[^\s"'<>)]+/i },
+  { id: 'toast', label: 'Toast', kind: 'order', re: /https?:\/\/(?:www\.|order\.)?toasttab\.com\/(?!login|signup|egiftcards|restaurants\/?["'\s<])[^\s"'<>)]+/i },
   { id: 'square-order', label: 'Square Online', kind: 'order', re: /https?:\/\/[a-z0-9-]+\.square\.site[^\s"'<>)]*|https?:\/\/squareup\.com\/store\/[^\s"'<>)]+/i },
   { id: 'clover', label: 'Clover', kind: 'order', re: /https?:\/\/(?:www\.)?clover\.com\/online-ordering\/[^\s"'<>)]+/i },
   { id: 'chownow', label: 'ChowNow', kind: 'order', re: /https?:\/\/(?:direct\.|order\.|ordering\.)?chownow\.com\/order\/[^\s"'<>)]+/i },
@@ -21,7 +21,7 @@ export const PROVIDERS = [
   { id: 'owner', label: 'Owner.com', kind: 'order', re: /https?:\/\/[a-z0-9-]+\.owner\.com[^\s"'<>)]*/i },
   { id: 'gloriafood', label: 'GloriaFood', kind: 'order', re: /https?:\/\/(?:www\.)?foodbooking\.com\/ordering\/[^\s"'<>)]+/i },
   { id: 'hungerrush', label: 'HungerRush', kind: 'order', re: /https?:\/\/[a-z0-9-]+\.hungerrush\.com[^\s"'<>)]*/i },
-  { id: 'menusifu', label: 'Online ordering', kind: 'order', re: /https?:\/\/[a-z0-9-]+\.(?:menusifu|ordering\.app|orderspoon|beyondmenu)\.com[^\s"'<>)]*/i },
+  { id: 'menusifu', label: 'Online ordering', kind: 'order', re: /https?:\/\/(?!www\.|website-cdn\.)[a-z0-9-]+\.(?:menusifu|ordering\.app|orderspoon|beyondmenu)\.com[^\s"'<>)]*/i },
   { id: 'vagaro', label: 'Vagaro', kind: 'book', re: /https?:\/\/(?:www\.)?vagaro\.com\/[^\s"'<>)]+/i },
   { id: 'booksy', label: 'Booksy', kind: 'book', re: /https?:\/\/booksy\.com\/[^\s"'<>)]+/i },
   { id: 'square-book', label: 'Square Appointments', kind: 'book', re: /https?:\/\/(?:[a-z]+\.)?squareup\.com\/appointments\/[^\s"'<>)]+/i },
@@ -93,13 +93,31 @@ export function detectPlatform(html) {
   return '';
 }
 
+// HTML-escaped, tracking-tagged URL -> clean URL, or '' for images and the like.
+export function tidyUrl(raw) {
+  let u = String(raw || '').replace(/&amp;|&#0?38;/g, '&').replace(/&quot;?.*$|&#0?39;?.*$/, '').replace(/[.,;]+$/, '');
+  if (/\.(?:png|jpe?g|gif|svg|webp|css|js)(?:[?#]|$)/i.test(u)) return '';
+  try {
+    const x = new URL(u);
+    for (const k of [...x.searchParams.keys()]) if (/^(utm_|fbclid|gclid|visitorId$)/.test(k)) x.searchParams.delete(k);
+    return x.toString();
+  } catch { return ''; }
+}
+
+// Provider links that are not a booking page: "powered by" badges, static
+// assets, app downloads, directory pages, other towns' locations.
+const DENY = /static\.glossgenius|vagaro\.com\/pro\b|petdesk\.com\/download|mindbodyonline\.com\/explore|opentable\.com\/(?![^?#]*columbus)|booksy\.com\/en-us\/?$|calendly\.com\/?$/i;
+
 // Every ordering / booking link the site points at, de-duplicated by provider.
 export function findProviderLinks(html, extra = []) {
   const text = String(html || '') + ' ' + extra.join(' ');
   const out = [];
   for (const p of PROVIDERS) {
-    const m = text.match(p.re);
-    if (m) out.push({ id: p.id, label: p.label, kind: p.kind, url: m[0].replace(/&amp;/g, '&').replace(/[.,;]+$/, '') });
+    const re = new RegExp(p.re.source, 'gi');
+    for (const m of text.matchAll(re)) {
+      const url = tidyUrl(m[0]);
+      if (url && !DENY.test(url)) { out.push({ id: p.id, label: p.label, kind: p.kind, url }); break; }
+    }
   }
   return out;
 }
