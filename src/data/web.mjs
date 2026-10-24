@@ -46,6 +46,10 @@ export const WEB = {
  "aanartana-arts": {
   "phone": "+17348121046"
  },
+ "acceptance-insurance": {
+  "website": "https://locations.acceptance.com/columbus-in-47201",
+  "phone": "+18127307134"
+ },
  "accurate-home-inspections": {
   "website": "https://www.accuratein.com/",
   "phone": "+18123769246"
@@ -145,6 +149,9 @@ export const WEB = {
  "amy-kristen-photography": {
   "website": "https://www.amykristenphotography.com/"
  },
+ "amys-closet": {
+  "phone": "+18125652197"
+ },
  "analytical-engineering-inc": {
   "website": "https://www.aei-tech.com/",
   "phone": "+18123766472"
@@ -171,6 +178,10 @@ export const WEB = {
  "angottis-italian-restaurant": {
   "website": "https://www.facebook.com/profile.php?id=100057168291406",
   "phone": "+18123750686"
+ },
+ "ann-coriden-law-llc": {
+  "website": "http://www.anncoridenlaw.com/",
+  "phone": "+18123759850"
  },
  "anok-hair-braiding": {
   "website": "http://anokhairbraiding.booksy.com/",
@@ -228,6 +239,14 @@ export const WEB = {
   "website": "http://audiomagicentertainment.com/",
   "phone": "+18123432742"
  },
+ "audio-source-inc": {
+  "website": "http://www.audiosourceinc.com/",
+  "phone": "+18123728390"
+ },
+ "auto-glass-depot": {
+  "website": "http://autoglassdepotindiana.com/",
+  "phone": "+18123769000"
+ },
  "auto-mobile-diagnostics": {
   "website": "http://www.helpingpeoplewithcars.com/",
   "phone": "+18123727396",
@@ -246,6 +265,10 @@ export const WEB = {
   "website": "http://automotivecolor.us/",
   "phone": "+18123728605"
  },
+ "axsom-franke-plumbing": {
+  "website": "http://axsomfrankeplumbing.com/",
+  "phone": "+18123723797"
+ },
  "b-and-b-plumbing": {
   "website": "http://bbplumbingservice.com/",
   "phone": "+18126691018"
@@ -257,6 +280,10 @@ export const WEB = {
  "bad-boys-barbershop": {
   "website": "http://www.badboyscuts.com/",
   "phone": "+13175072637"
+ },
+ "bailey-and-wood-mortgage-lender": {
+  "website": "https://www.bawfg.com/locations/columbus-indiana",
+  "phone": "+18122260906"
  },
  "bakers-fine-gifts-and-accessories": {
   "website": "http://www.bakersfinegifts.com/",
@@ -277,6 +304,10 @@ export const WEB = {
   "website": "https://zucklaw.com/columbus-bankruptcy-attorney/",
   "phone": "+18123898532"
  },
+ "bardonner-dentistry": {
+  "website": "http://www.bardonnerdentistry.com/",
+  "phone": "+18123766714"
+ },
  "bark-avenue": {
   "website": "https://barkavenuecolumbus.com/",
   "phone": "+18125522525"
@@ -288,8 +319,20 @@ export const WEB = {
   "website": "http://www.barkesweaverglick.com/",
   "phone": "+18123722515"
  },
+ "barr-plumbing-service-inc": {
+  "website": "https://barrplumbingservice.com/",
+  "phone": "+18123769426"
+ },
  "beauty-room": {
   "phone": "+18123794266"
+ },
+ "beck-rocker-llc": {
+  "website": "http://www.beckrocker.com/",
+  "phone": "+18123728858"
+ },
+ "beckemeyer-insurance-inc": {
+  "website": "http://www.beckemeyerinsuranceagency.com/",
+  "phone": "+18123724477"
  },
  "bei-bambini": {
   "website": "http://www.beibambini.com/"
@@ -298,9 +341,26 @@ export const WEB = {
   "website": "http://www.benchmarkhomesllc.com/",
   "phone": "+18123445706"
  },
+ "bender-lumber": {
+  "phone": "+18123799566"
+ },
+ "benedetto-salon": {
+  "phone": "+18123725027"
+ },
+ "benjamin-loheide-attorney-at-law": {
+  "phone": "+18123768135"
+ },
  "bespoke-events-experiences": {
   "website": "http://experiencebespoke.co/",
   "phone": "+18124188337"
+ },
+ "best-friends-animal-healthcare": {
+  "website": "http://bfanimal.com/",
+  "phone": "+18123421233"
+ },
+ "best-in-sight-eye-care": {
+  "website": "https://bestinsighteyecare.com/",
+  "phone": "+18122005088"
  },
  "best-one-tire-and-service": {
   "website": "https://www.bestoneindy.com/",
@@ -316,9 +376,21 @@ export const WEB = {
   "website": "http://www.bethsdancenter.com/",
   "phone": "+18123723287"
  },
+ "bettner-wire-coating-dies-inc": {
+  "website": "http://www.bettner.com/",
+  "phone": "+18123722732"
+ },
  "black-jewell-popcorn": {
   "website": "http://www.blackjewell.com/",
   "phone": "+18009482302"
+ },
+ "black-line-construction-llc": {
+  "website": "https://www.facebook.com/share/1BXz5BtAVz/?mibextid=LQQJ4d",
+  "phone": "+17658238313"
+ },
+ "black-sheep-craft-pizza-and-cocktails": {
+  "website": "https://www.blksheeppizza.com/",
+  "phone": "+19302207127"
  },
  "blackerbys-hangar-5-restaurant": {
   "website": "https://www.blackerbyshangar5.com/",
@@ -338,6 +410,9 @@ export const WEB = {
   "website": "https://www.blueandco.com/",
   "phone": "+18126692800"
  },
+ "bob-condons-barber-shop": {
+  "phone": "+18123782105"
+ },
  "bored-games-llc": {
   "phone": "+18125609001"
  },
@@ -347,6 +422,9 @@ export const WEB = {
  "boudoir-by-naomi": {
   "website": "https://www.boudoirbynaomi.com/",
   "phone": "+18125054810"
+ },
+ "bougielicious": {
+  "phone": "+18123504060"
  },
  "boutique-elise": {
   "website": "http://www.boutiqueelise.com/"
@@ -359,6 +437,10 @@ export const WEB = {
   "website": "http://www.breathesaltair.com/",
   "phone": "+18127996722"
  },
+ "breeden-commercial": {
+  "website": "http://www.breedencommercial.com/",
+  "phone": "+18123769300"
+ },
  "bright-start-child-care": {
   "website": "https://m.facebook.com/pages/category/Child-Care-Service/Bright-Start-Child-Care-Ministry-104149833768226/",
   "phone": "+18127993732"
@@ -366,6 +448,10 @@ export const WEB = {
  "brittnys-bobbins": {
   "website": "https://www.britbobbins.com/",
   "phone": "+18123437566"
+ },
+ "broadwing-legal": {
+  "website": "https://www.broadwinglegal.com/",
+  "phone": "+13178543388"
  },
  "brown-hill-nursery-and-landscape-design-llc": {
   "website": "https://www.brownhillnursery.org/",
@@ -394,12 +480,19 @@ export const WEB = {
   "website": "http://bky4less.info/",
   "phone": "+18123148404"
  },
+ "bushs-market": {
+  "website": "http://bushsmarket.com/",
+  "phone": "+18123799077"
+ },
  "busy-bees-academy": {
   "website": "https://www.bcscschools.org/site/default.aspx?PageType=3&ModuleInstanceID=708&ViewID=5C8B25C6-C8F8-4BD5-923B-8A7C70A93DDA&RenderLoc=0&FlexDataID=830&PageID=474&Comments=true",
   "phone": "+18123764569"
  },
  "c-4-school-of-cosmetology": {
   "phone": "+18123764517"
+ },
+ "c-and-m-diesel-solutions": {
+  "phone": "+18123416478"
  },
  "cameo-room-salon": {
   "website": "http://cameoroomsalon.com/",
@@ -408,12 +501,20 @@ export const WEB = {
  "camila-auto-services": {
   "phone": "+18123903101"
  },
+ "camilas-mexican-restaurant": {
+  "website": "https://camilasmexrestaurant.com/",
+  "phone": "+18126573663"
+ },
  "capco-llc": {
   "website": "http://capco-llc.com/",
   "phone": "+18123751700"
  },
  "caring-heart-home-health": {
   "phone": "+18123713353"
+ },
+ "carlos-pizza": {
+  "website": "https://sancarlositalianpizza.com/",
+  "phone": "+18123799750"
  },
  "carpenter-realtors": {
   "website": "https://www.callcarpenter.com/offices/3823-columbus",
@@ -433,12 +534,27 @@ export const WEB = {
  "center-studio": {
   "phone": "+18123719747"
  },
+ "central-avenue-barber-stylist": {
+  "phone": "+18123792961"
+ },
  "chicagos-pizza": {
   "website": "https://chicagospizza.com/locations/columbus/",
   "phone": "+18126577003"
  },
+ "china-buffet": {
+  "website": "https://www.newchinabuffetcolumbusin.com/",
+  "phone": "+18123758888"
+ },
  "chumleys-doghouse": {
   "website": "https://www.chumleysdoghouse.com/"
+ },
+ "cinlee-services-llc": {
+  "website": "http://www.cinleecleaning.com/",
+  "phone": "+18123508721"
+ },
+ "circle-city-signings": {
+  "website": "https://www.circlecitysignings.com/",
+  "phone": "+18125528838"
  },
  "circle-math-club": {
   "phone": "+18125720142"
@@ -446,6 +562,12 @@ export const WEB = {
  "ciscos-barber-shop": {
   "website": "https://www.ciscos.site/",
   "phone": "+18127991858"
+ },
+ "clarke-electrical-services-llc": {
+  "website": "https://www.cespowerpros.com/"
+ },
+ "classic-auto-body": {
+  "phone": "+18123729360"
  },
  "clear-choice-chiropractic": {
   "website": "https://www.clearchoicechiroportland.com/",
@@ -461,12 +583,26 @@ export const WEB = {
   "website": "http://www.lawdogs.org/",
   "phone": "+18123728461"
  },
+ "clinic-martha-grace-family-health": {
+  "website": "https://www.marthagracehealth.com/",
+  "phone": "+18124188401"
+ },
+ "cloud-13-vape-and-smoke-shop": {
+  "phone": "+18127991792"
+ },
  "cmr-electric-inc": {
   "website": "http://www.cmrelectric.net/",
   "phone": "+18123447433"
  },
  "coachs-cutz": {
   "phone": "+18126033946"
+ },
+ "coconut-cuties-child-care-llc": {
+  "phone": "+18123742027"
+ },
+ "coers-family-eyecare": {
+  "website": "http://www.coersfamilyeyecare.com/",
+  "phone": "+18124088400"
  },
  "college-movers-and-junk-hauling": {
   "website": "https://www.collegemoversandhauling.com/columbus",
@@ -476,6 +612,13 @@ export const WEB = {
   "website": "https://www.columbusautogroup.com/body-shop/collision-center-of-columbus.htm",
   "phone": "+18128922600"
  },
+ "color-me-happy": {
+  "phone": "+18126573310"
+ },
+ "columbus-advanced-family-dentistry": {
+  "website": "http://columbusdentalgroup.com/",
+  "phone": "+18123720102"
+ },
  "columbus-animal-hospital": {
   "website": "http://columbusanimalhospital.com/",
   "phone": "+18123722555"
@@ -483,6 +626,14 @@ export const WEB = {
  "columbus-audiology-and-hearing-aid-center": {
   "website": "https://columbusaudiology.com/",
   "phone": "+18123736238"
+ },
+ "columbus-auto-salvage-llc": {
+  "website": "https://www.facebook.com/share/1EPcmXW92h/",
+  "phone": "+18123725090"
+ },
+ "columbus-bar": {
+  "website": "http://www.thecolumbusbar.com/",
+  "phone": "+18127998163"
  },
  "columbus-bowling-center": {
   "website": "http://www.columbusbowlingcenter.com/",
@@ -492,6 +643,14 @@ export const WEB = {
   "website": "http://www.columbuscarpetinc.com/",
   "phone": "+18123721915"
  },
+ "columbus-chem-dry": {
+  "website": "https://columbuschemdry.com/",
+  "phone": "+18123760671"
+ },
+ "columbus-computer": {
+  "website": "https://www.columbuscpu.com/",
+  "phone": "+18123780785"
+ },
  "columbus-counseling-partners-llc": {
   "website": "http://www.columbuscounselingpartners.com/",
   "phone": "+18123078637"
@@ -500,6 +659,14 @@ export const WEB = {
   "website": "http://www.columbus-cycling.com/",
   "phone": "+18123727486"
  },
+ "columbus-dental-group": {
+  "website": "http://columbusdentalgroup.com/",
+  "phone": "+18123760166"
+ },
+ "columbus-dental-smile": {
+  "website": "https://columbusdentalsmile.com/",
+  "phone": "+18126573007"
+ },
  "columbus-endodontics": {
   "website": "https://www.southcentralendo.com/",
   "phone": "+18123723636"
@@ -507,8 +674,24 @@ export const WEB = {
  "columbus-engines-and-transmission": {
   "phone": "+18123743991"
  },
+ "columbus-family-dental-center": {
+  "website": "http://www.columbusfamilydentalcenter.com/",
+  "phone": "+18123739912"
+ },
+ "columbus-fit": {
+  "website": "http://cbusfit.com/",
+  "phone": "+18124188738"
+ },
  "columbus-food-mart": {
   "phone": "+18123726519"
+ },
+ "columbus-gold-and-diamond": {
+  "website": "http://columbusgoldanddiamondin.com/",
+  "phone": "+18123726530"
+ },
+ "columbus-greeks-pizzeria": {
+  "website": "http://www.greekspizzeria.com/",
+  "phone": "+18126573500"
  },
  "columbus-gymnastics-center": {
   "website": "http://www.columbusparksandrec.com/",
@@ -532,6 +715,10 @@ export const WEB = {
   "website": "http://facebook.com/columbuslimousine",
   "phone": "+18123798591"
  },
+ "columbus-massage-center-and-salon": {
+  "website": "http://www.columbusmassagecenter.com/",
+  "phone": "+18123782880"
+ },
  "columbus-nails-and-pro-dip": {
   "phone": "+18124188366"
  },
@@ -541,6 +728,10 @@ export const WEB = {
  },
  "columbus-optical-service-inc": {
   "phone": "+18123724117"
+ },
+ "columbus-oral-and-maxillofacial-surgery": {
+  "website": "http://www.columbusoralindiana.com/",
+  "phone": "+18123727312"
  },
  "columbus-oriental-market": {
   "website": "http://columbus-market.edan.io/",
@@ -552,6 +743,10 @@ export const WEB = {
  },
  "columbus-pawn": {
   "phone": "+18123739111"
+ },
+ "columbus-pediatric-dentistry": {
+  "website": "http://www.columbusdentalgroup.com/",
+  "phone": "+18123760166"
  },
  "columbus-periodontics-and-implants": {
   "website": "https://www.columbusperioandimplants.com/",
@@ -565,6 +760,10 @@ export const WEB = {
  },
  "columbus-pet-salon": {
   "phone": "+18126037513"
+ },
+ "columbus-towing-and-recovery": {
+  "website": "https://towingservicecolumbusindiana.com/",
+  "phone": "+18124188058"
  },
  "columbus-uppercuts": {
   "website": "https://www.columbusuppercuts.com/",
@@ -584,6 +783,10 @@ export const WEB = {
    ]
   ]
  },
+ "columbus-warehouse-and-cartage": {
+  "website": "http://www.columbuswarehouse.com/",
+  "phone": "+18123720753"
+ },
  "columbus-wealth": {
   "website": "https://columbuswealthinc.com/",
   "phone": "+18129003229"
@@ -595,6 +798,10 @@ export const WEB = {
   "website": "https://www.facebook.com/BreedenAutomotive/",
   "phone": "+18123723826"
  },
+ "cookie-paradise-llc": {
+  "website": "https://www.cookieparadise.co/collections/all",
+  "phone": "+18125089675"
+ },
  "cooper-electric-llc": {
   "website": "https://www.cooperelectricin.com/",
   "phone": "+18124188831"
@@ -602,6 +809,10 @@ export const WEB = {
  "copper-creek-coatings-and-farm-toys": {
   "website": "https://www.coppercreekfarmtoys.com/",
   "phone": "+18125523535"
+ },
+ "cork-liquors": {
+  "website": "http://www.corkliquor.com/",
+  "phone": "+18123429237"
  },
  "country-paws-grooming": {
   "phone": "+18124472824"
@@ -620,6 +831,10 @@ export const WEB = {
   "website": "https://cozycauldronhairstudio.com/",
   "phone": "+18123743741"
  },
+ "cozy-lounge": {
+  "website": "https://m.facebook.com/Cozy-Lounge-149100758482621/",
+  "phone": "+18123723165"
+ },
  "craft-and-bounce-with-us": {
   "website": "http://www.craftandbounce.com/",
   "phone": "+18123440431"
@@ -627,6 +842,14 @@ export const WEB = {
  "cranks-dent-solutions": {
   "website": "https://www.facebook.com/crankspdr",
   "phone": "+18126033716"
+ },
+ "creative-benefits": {
+  "website": "http://www.brendakindy.com/",
+  "phone": "+18123794780"
+ },
+ "creative-concepts-planning-and-design-inc": {
+  "website": "https://creativeconcepts.houzzsite.com/",
+  "phone": "+18123428890"
  },
  "creative-eyes-eyebrow-threading": {
   "website": "https://threadedeyebrow.com/",
@@ -640,6 +863,10 @@ export const WEB = {
   "website": "http://www.creativetool.net/",
   "phone": "+18123783562"
  },
+ "creech-excavation-and-contracting": {
+  "website": "https://www.facebook.com/CreechExcavation/",
+  "phone": "+17653095130"
+ },
  "crossfit-ripcord": {
   "website": "http://www.crossfitripcord.com/",
   "phone": "+18127997525"
@@ -647,12 +874,20 @@ export const WEB = {
  "crowder-and-darnall-inc": {
   "phone": "+18123763391"
  },
+ "cunningham-pattern-and-engineering-inc": {
+  "website": "http://cunninghamprecision.com/",
+  "phone": "+18123799571"
+ },
  "d-and-j-constructions": {
   "phone": "+18123725229"
  },
  "daileys-cnc-machining-llc": {
   "website": "https://daileyscnc.com/",
   "phone": "+18126036777"
+ },
+ "dance-by-design": {
+  "website": "http://www.dance-by-design.com/",
+  "phone": "+18123417366"
  },
  "dance-street": {
   "website": "http://dancestreetcolumbus.com/",
@@ -666,6 +901,10 @@ export const WEB = {
   "website": "http://www.martinorthosmiles.com/",
   "phone": "+18123723800"
  },
+ "daniel-shanti-barber": {
+  "website": "https://shantybarber.booksy.com/",
+  "phone": "+18123418013"
+ },
  "davids-812-detailing": {
   "phone": "+18123149872"
  },
@@ -676,6 +915,10 @@ export const WEB = {
  "day-chiropractic-clinic": {
   "website": "http://www.drdarrellday.com/",
   "phone": "+18123764080"
+ },
+ "days-of-old-antique-shoppe": {
+  "website": "http://www.daysofold.store/",
+  "phone": "+18127990347"
  },
  "dcre-llc": {
   "website": "http://www.dcrellc.com/",
@@ -695,6 +938,10 @@ export const WEB = {
   "website": "http://www.deefamilydental.com/",
   "phone": "+18123799211"
  },
+ "dental-care-at-columbus-crossing": {
+  "website": "http://dentalcareatcolumbuscrossing.com/",
+  "phone": "+18124947015"
+ },
  "dental-solutions-of-columbus": {
   "website": "https://columbusdentalsolutions.com/",
   "phone": "+18126241083",
@@ -709,6 +956,14 @@ export const WEB = {
   "website": "http://detailedbydismore.com/",
   "phone": "+18123411993"
  },
+ "diamond-auto-center": {
+  "website": "https://diamond-auto-center.edan.io/",
+  "phone": "+18123759022"
+ },
+ "digitalaim-media": {
+  "website": "http://www.digitalaimmedia.com/",
+  "phone": "+18123795778"
+ },
  "dirty-dogs": {
   "website": "https://rymap.org/business/dirty-dogs-zggpyf",
   "phone": "+18125524460"
@@ -716,9 +971,21 @@ export const WEB = {
  "district-six-event-space": {
   "website": "https://www.districtsixcolumbus.com/"
  },
+ "divine-family-bbq": {
+  "website": "https://divinefamilybbq.com/",
+  "phone": "+18123908517"
+ },
+ "divine-hair-studio": {
+  "website": "http://divinehairstudio.squarespace.com/",
+  "phone": "+18123725027"
+ },
  "divine-hands": {
   "website": "https://divinehands990.booksy.com/",
   "phone": "+18123416982"
+ },
+ "dog-world-daycare-and-behavior-center": {
+  "website": "http://www.dogworlddaycare.net/",
+  "phone": "+18123752334"
  },
  "donaldson-capital-management": {
   "website": "https://dcmol.com/",
@@ -727,12 +994,34 @@ export const WEB = {
  "donos-handyman-and-home-repair-llc": {
   "phone": "+18123998265"
  },
+ "donut-central": {
+  "website": "http://donutcentralcolumbus.com/",
+  "phone": "+18126577056"
+ },
+ "donuts-n-coffee": {
+  "website": "https://donutsncoffeein.com/",
+  "phone": "+18123762796"
+ },
  "doobys-smoke-and-vape": {
   "phone": "+18123743455"
+ },
+ "dorothys-playhouse": {
+  "website": "http://www.dorothysplayhouse.com/",
+  "phone": "+18124188421"
+ },
+ "downs-automotive-work": {
+  "phone": "+18123437494"
  },
  "dr-george-collins-dentistry": {
   "website": "https://emergencydental.com/",
   "phone": "+18122712873"
+ },
+ "dr-tavel-family-eyecare": {
+  "website": "https://www.drtavel.com/",
+  "phone": "+18123728895"
+ },
+ "dragon-maiden-spa": {
+  "phone": "+13175169934"
  },
  "drain-master": {
   "website": "https://www.facebook.com/Drainmaster-Drain-Sewer-Service-24-HR-152166398194615/?fref=ts",
@@ -742,6 +1031,10 @@ export const WEB = {
   "website": "http://driftwoodbuildersinc.com/",
   "phone": "+18125262200"
  },
+ "dugan-air-heating-and-cooling": {
+  "website": "https://goduganair.com/hvac-columbus-indiana/",
+  "phone": "+18126125465"
+ },
  "dunlap-and-co-inc": {
   "website": "http://www.dunlapinc.com/",
   "phone": "+18123763021"
@@ -749,6 +1042,10 @@ export const WEB = {
  "dunn-and-associates-benefit-administrators-inc": {
   "website": "https://www.dunnbenefit.com/",
   "phone": "+18123789960"
+ },
+ "e-sushi-japanese-restaurant": {
+  "website": "https://esushicolumbustogo.com/",
+  "phone": "+18123766888"
  },
  "ejblends": {
   "phone": "+18125284879"
@@ -759,12 +1056,24 @@ export const WEB = {
  "el-mexicano": {
   "phone": "+18123739337"
  },
+ "el-nopal-mexican-cuisine": {
+  "website": "https://elnopalmex.com/",
+  "phone": "+18123148991"
+ },
  "el-popocatepetl-mexican-restaurant-and-grill": {
   "website": "https://order.online/business/el-popocatepetl-mexican-restaurant-grill-11607715",
   "phone": "+18124188981"
  },
  "elan-aveda-concept-shop": {
   "website": "https://www.aveda.com/locations"
+ },
+ "elders-journey-home-care": {
+  "website": "https://eldersjourney.org/",
+  "phone": "+18123750225"
+ },
+ "elevated-eye-care": {
+  "website": "https://myeyedoctornearme.com/",
+  "phone": "+18129007182"
  },
  "elite-wellness-and-beauty": {
   "website": "http://www.elitewellnesscolumbus.com/",
@@ -773,6 +1082,10 @@ export const WEB = {
  "empire-tea-services": {
   "website": "https://empiretea.com/",
   "phone": "+18123751937"
+ },
+ "empowering-kids-speech-therapy": {
+  "website": "http://www.empoweringkidspediatrictherapy.com/",
+  "phone": "+18122026242"
  },
  "endodontic-specialists-of-columbus": {
   "website": "https://www.columbusrootcanal.com/",
@@ -786,6 +1099,9 @@ export const WEB = {
   "website": "https://www.ewafp.com/",
   "phone": "+18127990345"
  },
+ "ernie-stone-tax-accounting": {
+  "phone": "+18123766068"
+ },
  "ers-wireless": {
   "website": "https://www.erswireless.com/",
   "phone": "+18123769652"
@@ -796,12 +1112,18 @@ export const WEB = {
  "etc-service-inc": {
   "phone": "+18123729888"
  },
+ "eurowerks-automotive-repair": {
+  "phone": "+18124188346"
+ },
  "expressions-ink-tattoo": {
   "phone": "+18123723160"
  },
  "extreme-clean-laundry": {
   "website": "http://extremecleanlaundromat.com/",
   "phone": "+15027068238"
+ },
+ "factory-12-event-loft": {
+  "phone": "+18123140910"
  },
  "faithprep-academy-of-indiana": {
   "website": "https://www.faithprep.com/",
@@ -821,6 +1143,10 @@ export const WEB = {
   "website": "https://www.familychiropracticcolumbus.com/",
   "phone": "+18123733376"
  },
+ "family-dental-care-of-indiana": {
+  "website": "https://www.dentalcareindiana.com/",
+  "phone": "+18123420766"
+ },
  "fantastic-finds-resale": {
   "website": "http://www.facebook.com/fantasticfindsonline",
   "phone": "+18123754507"
@@ -833,6 +1159,10 @@ export const WEB = {
   "website": "http://www.jwinsurance.com/",
   "phone": "+18123769945"
  },
+ "findley-law-llc": {
+  "website": "http://www.mfindleylaw.com/",
+  "phone": "+18127990336"
+ },
  "fine-line-painting-and-remodeling-inc": {
   "website": "https://finelinepainting.westlanddre.com/",
   "phone": "+18123719838"
@@ -840,6 +1170,10 @@ export const WEB = {
  "firefly-shirt-co": {
   "website": "https://fireflyshirtcompany.com/",
   "phone": "+18123454434"
+ },
+ "first-call-staffing": {
+  "website": "http://www.nowhiringcolumbus.com/",
+  "phone": "+18123758835"
  },
  "fishers-flower-basket": {
   "website": "https://www.fishersflowerbasket.com/",
@@ -852,6 +1186,10 @@ export const WEB = {
  "fix-all-automotive-services": {
   "website": "https://fix-allautomotive.com/",
   "phone": "+18124188381"
+ },
+ "flex-auto-sales": {
+  "website": "https://www.facebook.com/flexautosalescolumbus/",
+  "phone": "+18127993829"
  },
  "flora-and-fauna-flowers": {
   "website": "http://modernfloristcolumbusindiana.com/",
@@ -871,6 +1209,10 @@ export const WEB = {
    ]
   ]
  },
+ "flowers-from-the-woods": {
+  "website": "https://www.flowersfromthewoods.com/",
+  "phone": "+18123721201"
+ },
  "focal-point-coaching": {
   "website": "https://billyfischer.focalpointcoaching.com/",
   "phone": "+15022959599"
@@ -882,6 +1224,10 @@ export const WEB = {
  "for-the-love-of-brunch": {
   "website": "https://www.fortheloveofbrunch.com/",
   "phone": "+18124188106"
+ },
+ "force-construction-co-inc": {
+  "website": "http://www.forceco.com/",
+  "phone": "+18123728441"
  },
  "forman-investment-services-inc": {
   "website": "http://www.formanis.com/",
@@ -897,6 +1243,10 @@ export const WEB = {
   "website": "http://forsterelectrical.com/",
   "phone": "+18123760715"
  },
+ "four-seasons-retirement-center": {
+  "website": "https://www.fourseasonsretirement.com/",
+  "phone": "+18123728481"
+ },
  "frasier-chiropractic-and-sports": {
   "phone": "+18123739880"
  },
@@ -904,9 +1254,20 @@ export const WEB = {
   "website": "http://www.freshtakekitchen.com/",
   "phone": "+18127991097"
  },
+ "gaines-creative-expressions": {
+  "phone": "+18123723160"
+ },
  "gamso-law": {
   "website": "http://www.gamsolaw.com/",
   "phone": "+18123792331"
+ },
+ "garb2art-cosmetics": {
+  "website": "http://garb2art.com/",
+  "phone": "+18123440203"
+ },
+ "garden-city-iron-and-metal": {
+  "website": "http://www.gardencityironandmetal.com/",
+  "phone": "+18885865322"
  },
  "garland-brook-cemetery": {
   "website": "http://garlandbrookcemetery.com/",
@@ -916,6 +1277,10 @@ export const WEB = {
   "website": "http://gathercolumbus.com/",
   "phone": "+18123751234"
  },
+ "gausmann-family-dental": {
+  "website": "http://www.myindianadentist.com/",
+  "phone": "+18123727831"
+ },
  "gaylor-inc": {
   "website": "http://www.gaylor.com/",
   "phone": "+18123784145"
@@ -923,6 +1288,12 @@ export const WEB = {
  "gehring-underground-inc": {
   "website": "http://gehringunderground.com/",
   "phone": "+18123783033"
+ },
+ "genes-automotive-services": {
+  "phone": "+18123723826"
+ },
+ "genesis-salon": {
+  "phone": "+18123716966"
  },
  "gills-barber-shop": {
   "website": "https://leanu.pw/gill-s-barber-shop-3yngbg4",
@@ -936,9 +1307,17 @@ export const WEB = {
   "website": "http://girleeboutique.com/",
   "phone": "+18123747517"
  },
+ "glover-deweese-llc": {
+  "website": "https://www.gloverdeweeselaw.com/",
+  "phone": "+18125525833"
+ },
  "gmg-motors": {
   "website": "https://www.gmgmotors.com/",
   "phone": "+18125659900"
+ },
+ "good-used-furniture": {
+  "website": "https://www.facebook.com/goodusedfurniture/",
+  "phone": "+18123760733"
  },
  "goode-tree-care-llc": {
   "phone": "+18123436375"
@@ -957,6 +1336,10 @@ export const WEB = {
   "website": "http://www.graciemaeevents.com/",
   "phone": "+18126032025"
  },
+ "grammer-logistics": {
+  "website": "https://www.grammerlogistics.com/",
+  "phone": "+18125795655"
+ },
  "gramz-bakery-and-cafe": {
   "website": "http://gramz-bakery.square.site/",
   "phone": "+18123789728"
@@ -967,6 +1350,9 @@ export const WEB = {
  "great-plains-sr22-insurance": {
   "website": "http://sr22insurancecolumbus-in.us/",
   "phone": "+19302687810"
+ },
+ "great-wall-chinese-restaurant": {
+  "phone": "+18123794398"
  },
  "green-light-auto": {
   "website": "https://greenlightapproval.com/",
@@ -1032,6 +1418,10 @@ export const WEB = {
  "h-and-h-vape-and-smoke": {
   "phone": "+18127997653"
  },
+ "h-and-m-gunsmith": {
+  "website": "http://www.hmgunsmith.com/",
+  "phone": "+18127649129"
+ },
  "hair-and-nails-by-phyllis": {
   "phone": "+18129009515"
  },
@@ -1052,6 +1442,10 @@ export const WEB = {
   "website": "http://www.smallbizadvisor.com/",
   "phone": "+18123729402"
  },
+ "harrison-lake-country-club": {
+  "website": "http://www.harrisonlakeclub.com/",
+  "phone": "+18123424457"
+ },
  "hawcreek-landscaping": {
   "website": "https://hawcreeklandscaping.com/",
   "phone": "+18123435332"
@@ -1065,6 +1459,10 @@ export const WEB = {
     "https://www.helpuhear.net/appointment/columbus/"
    ]
   ]
+ },
+ "henry-chiropractic-center": {
+  "website": "https://www.henrychiropracticcenter.com/",
+  "phone": "+18123754091"
  },
  "henry-social-club": {
   "website": "http://www.henrysocialclub.com/",
@@ -1081,6 +1479,10 @@ export const WEB = {
   "website": "http://hexbeauty.glossgenius.com/",
   "phone": "+18123103952"
  },
+ "hidden-treasures-finders-keepers": {
+  "website": "https://www.hiddentreasuresfinderskeepers.com/",
+  "phone": "+18123444341"
+ },
  "high-def-appliance-llc": {
   "website": "https://highdefappliance.com/",
   "phone": "+18123509300"
@@ -1088,6 +1490,10 @@ export const WEB = {
  "hiker-trailers": {
   "website": "http://www.hikertrailers.com/",
   "phone": "+18129755300"
+ },
+ "hk-auto-repair-center-inc": {
+  "website": "https://hkautocolumbus.com/",
+  "phone": "+18123759335"
  },
  "hnf-electric": {
   "website": "http://www.hnfelectric.com/",
@@ -1110,12 +1516,20 @@ export const WEB = {
  "homeboyz-fried-chicken-and-fish": {
   "phone": "+18123996440"
  },
+ "honcura": {
+  "website": "http://www.honcura.net/",
+  "phone": "+18123509366"
+ },
  "honeymoon-hauling": {
   "website": "https://honeymoonhaulingcolumbus.com/",
   "phone": "+18123785584"
  },
  "hoosier-auto-detailing": {
   "phone": "+18123439005"
+ },
+ "hoosier-brokers-real-estate": {
+  "website": "http://www.hoosierbrokers.com/",
+  "phone": "+18123759233"
  },
  "hoosier-sporting-goods": {
   "website": "https://www.hoosiersportinggoods.com/",
@@ -1133,9 +1547,17 @@ export const WEB = {
   "website": "http://hushaestheticswellness.com/",
   "phone": "+18125461713"
  },
+ "icing-on-the-cake-by-kristina": {
+  "website": "https://www.icingonthecakebykristina.com/",
+  "phone": "+18127200928"
+ },
  "iler-and-associates": {
   "website": "http://ilerassoc.com/contact/",
   "phone": "+18123908191"
+ },
+ "imechanic": {
+  "website": "http://www.imechanic.com/",
+  "phone": "+18123750941"
  },
  "imprint-pediatric-therapy-llc": {
   "website": "https://imprintpediatrictherapy.com/",
@@ -1145,6 +1567,10 @@ export const WEB = {
   "website": "http://instylekitchenandbaths.com/",
   "phone": "+18126577280"
  },
+ "inclusive-options-llc": {
+  "website": "https://www.inclusiveoptions.com/",
+  "phone": "+18123736103"
+ },
  "indiana-conservatory-of-music": {
   "website": "http://www.indianaconservatory.com/",
   "phone": "+13172155565"
@@ -1152,6 +1578,10 @@ export const WEB = {
  "indiana-insurance-solutions-inc": {
   "website": "http://www.indianainsurancesolutions.com/",
   "phone": "+18123725646"
+ },
+ "indiana-precast": {
+  "website": "https://www.indianaprecastinc.com/",
+  "phone": "+18123727771"
  },
  "indiana-road-ready-llc": {
   "website": "https://www.indianaroadready.com/",
@@ -1167,6 +1597,14 @@ export const WEB = {
  "infinite-insurance-multiservices": {
   "website": "http://www.getinfiniteinsurance.com/",
   "phone": "+13175528838"
+ },
+ "inn-at-irwin-gardens": {
+  "website": "https://www.irwingardens.com/",
+  "phone": "+18123763663"
+ },
+ "innova-marketing-solutions-llc": {
+  "website": "https://innovacompany.co/",
+  "phone": "+13175364007"
  },
  "inspire-motives-llc": {
   "website": "https://inspiremotives.com/",
@@ -1191,8 +1629,16 @@ export const WEB = {
   "website": "http://www.jnsoutfitters.com/",
   "phone": "+18123798810"
  },
+ "j-clayton-callaway-dds": {
+  "website": "https://www.callaway-dental.com/",
+  "phone": "+18123791341"
+ },
  "jacks-place-two-inc": {
   "phone": "+18123721490"
+ },
+ "jackson-tax-service": {
+  "website": "https://jacksonfamilytaxservice.com/",
+  "phone": "+18123760491"
  },
  "jaggers": {
   "website": "https://www.eatjaggers.com/locations/columbus",
@@ -1216,9 +1662,17 @@ export const WEB = {
    ]
   ]
  },
+ "jewell-crump-angermeier-and-prall": {
+  "website": "https://www.jcaplaw.com/",
+  "phone": "+18123769752"
+ },
  "jewell-rittman-funeral-service-and-crematory": {
   "website": "http://www.jewellrittman.com/",
   "phone": "+18123729923"
+ },
+ "jill-linn-photography-llc": {
+  "website": "http://www.justjillphoto.com/",
+  "phone": "+18123501601"
  },
  "jills-diner": {
   "website": "https://m.facebook.com/pages/category/Cafe/Jills-Downtown-Diner-740877092692529/",
@@ -1233,12 +1687,19 @@ export const WEB = {
  "john-staples-custom-pipes-and-mufflers": {
   "phone": "+18123726833"
  },
+ "johnson-tire-co": {
+  "phone": "+18123725380"
+ },
  "johnson-witkemper-insurance": {
   "website": "https://www.jwinsurance.com/",
   "phone": "+18123727829"
  },
  "jokr-automotive": {
   "phone": "+18123914538"
+ },
+ "jones-and-anderson-cpa-group": {
+  "website": "https://franklinincpa.com/",
+  "phone": "+18126577741"
  },
  "jones-patterson-and-tucker-pc": {
   "website": "http://www.jpt-law.com/",
@@ -1257,12 +1718,18 @@ export const WEB = {
  "joslins-cabinet-co": {
   "phone": "+18123791392"
  },
+ "joyce-thayer-sword-law-office": {
+  "phone": "+18123729441"
+ },
  "kamp-technologies-llc": {
   "website": "https://www.kamptechnologies.com/",
   "phone": "+18123904754"
  },
  "karma-46": {
   "phone": "+18127991582"
+ },
+ "karma-records": {
+  "phone": "+18123782100"
  },
  "kat-dunn-photography": {
   "website": "https://katdunn.photos/"
@@ -1277,6 +1744,9 @@ export const WEB = {
  "kelleys-auto-interiors": {
   "phone": "+18123725871"
  },
+ "kellys-nails": {
+  "phone": "+18123759300"
+ },
  "kenny-glass-inc": {
   "website": "https://www.kennyglass.com/",
   "phone": "+18123728834"
@@ -1284,6 +1754,9 @@ export const WEB = {
  "kessler-orthodontics": {
   "website": "https://www.kesslerorthodontics.com/",
   "phone": "+18123791111"
+ },
+ "keystone-chiropractic-and-performance": {
+  "phone": "+18122006830"
  },
  "kg-precision-detail": {
   "website": "http://www.kgprecisiondetail.com/",
@@ -1300,6 +1773,10 @@ export const WEB = {
  "king-nails-and-pro-dip-llc": {
   "phone": "+18127993177"
  },
+ "kings-window-tint-and-clear-bra": {
+  "website": "https://www.kingswindowtint.com/",
+  "phone": "+18123748481"
+ },
  "kinney-paper-and-chemical-co": {
   "website": "http://www.kinneypaper.com/",
   "phone": "+18123724431"
@@ -1307,6 +1784,10 @@ export const WEB = {
  "kirr-marbach-and-company-llc": {
   "website": "https://kirrmar.com/",
   "phone": "+18123769444"
+ },
+ "klm-car-and-truck": {
+  "website": "https://www.klmcartruck.com/",
+  "phone": "+18123768898"
  },
  "kos-martial-arts-academy": {
   "website": "https://grandmasterko.com/",
@@ -1320,9 +1801,16 @@ export const WEB = {
   "website": "http://www.krystlemitchellphotography.com/",
   "phone": "+18125850377"
  },
+ "la-guanajuato-grocery-and-restaurant": {
+  "website": "https://www.facebook.com/GuanajuatoStore",
+  "phone": "+18122860171"
+ },
  "la-patrona-cantina-and-grill": {
   "website": "https://lapatronagrill.com/",
   "phone": "+18127990344"
+ },
+ "la-prima-sewing-service": {
+  "phone": "+18123448915"
  },
  "lanning-automotive-and-tire": {
   "website": "https://www.lanningauto.com/",
@@ -1337,8 +1825,19 @@ export const WEB = {
  "larrys-auto-detailing": {
   "phone": "+18123737686"
  },
+ "laurels-hair-studio": {
+  "website": "http://www.laurelshairstudio.org/",
+  "phone": "+18126573570"
+ },
  "law-office-of-gregory-e-long-llc": {
   "phone": "+18125188688"
+ },
+ "law-offices-of-steven-k-deig": {
+  "phone": "+18124775577"
+ },
+ "lead-supply-co": {
+  "website": "http://leadsupplyco.com/",
+  "phone": "+13179873576"
  },
  "lear-machining-and-waterjet-inc": {
   "website": "http://www.learmachining.com/",
@@ -1348,11 +1847,19 @@ export const WEB = {
   "website": "https://www.fumccolumbus.org/learning-tree-preschool",
   "phone": "+18123782825"
  },
+ "lees-glam-cam-360-photo-booth": {
+  "website": "http://leesglamcam.com/",
+  "phone": "+18123747517"
+ },
  "legacy-excavating-llc": {
   "phone": "+18127990112"
  },
  "lewis-concrete-contracting-llc": {
   "phone": "+18123420700"
+ },
+ "lhp-engineering-solutions": {
+  "website": "https://www.lhpes.com/",
+  "phone": "+18123730880"
  },
  "lhs-and-barbershop": {
   "website": "https://lhsbarbershop.com/",
@@ -1370,13 +1877,49 @@ export const WEB = {
   "website": "https://www.efficientsystems.net/loesch/",
   "phone": "+18123724495"
  },
+ "lohmeyer-plumbing-llc": {
+  "website": "https://www.lohmeyerplumbing.com/",
+  "phone": "+18123794876"
+ },
+ "lovin-my-health-dpc-llc": {
+  "website": "http://lovinmyhealthdpc.com/",
+  "phone": "+18129002883"
+ },
+ "lovins-select-pool-and-spa": {
+  "website": "https://lovinsselectpoolandspa.com/",
+  "phone": "+18126573215"
+ },
+ "lucabe-coffee-co-4th-street": {
+  "website": "http://www.lucabecoffeeco.com/",
+  "phone": "+18127997183"
+ },
+ "lucabe-coffee-co-eastbrook": {
+  "website": "http://lucabecoffeeco.com/",
+  "phone": "+18127990744"
+ },
  "lucas-brothers-sandwich-shop": {
   "website": "http://lucasbrothersshop.square.site/",
   "phone": "+18123767010"
  },
+ "lucianas-mexican-restaurant": {
+  "website": "https://www.lucianasmexicanrestaurant.com/",
+  "phone": "+18127997223"
+ },
+ "luminosity-studio": {
+  "website": "http://www.luminositystudiophotography.com/",
+  "phone": "+18124983788"
+ },
+ "luxe-designs-by-jess-llc": {
+  "website": "https://www.luxedesignsllc.com/",
+  "phone": "+18123500984"
+ },
  "luxury-auto-boutique": {
   "website": "https://www.luxuryautobotique.com/",
   "phone": "+18127990031"
+ },
+ "lynns-nails": {
+  "website": "https://www.facebook.com/Lynn-Nails-in-Columbus-IN-47203-105623328154528",
+  "phone": "+18123727706"
  },
  "m-and-m-residential-maintenance": {
   "phone": "+18123749737"
@@ -1390,6 +1933,14 @@ export const WEB = {
   "website": "http://www.mwtacticalsoultions.com/",
   "phone": "+13179991006"
  },
+ "m-and-y-massage-and-foot-massage": {
+  "website": "https://mymassagein.net/",
+  "phone": "+18125813810"
+ },
+ "mac-general-contractor": {
+  "website": "http://www.macpropertygroup.com/",
+  "phone": "+18123147831"
+ },
  "made-rite-fence": {
   "website": "http://www.fencemaderite.com/",
   "phone": "+18123507125"
@@ -1398,12 +1949,24 @@ export const WEB = {
   "website": "http://www.malonesolutions.com/",
   "phone": "+18126691069"
  },
+ "mancinos-pizza-and-grinders": {
+  "website": "https://www.mancinospizzagrinderscolumbus.com/",
+  "phone": "+18123751000"
+ },
  "mariah-retail-store": {
   "website": "http://peerfoods.com/",
   "phone": "+18123728712"
  },
  "maricity-by-storm": {
   "phone": "+18125528873"
+ },
+ "mark-a-barr-dds": {
+  "website": "https://www.markbarrdds.com/",
+  "phone": "+18123725101"
+ },
+ "marvin-johnson-and-associates": {
+  "website": "https://www.mjai.com/",
+  "phone": "+18123720841"
  },
  "masala-magic": {
   "website": "https://masalamagic.shop/",
@@ -1418,6 +1981,10 @@ export const WEB = {
    ]
   ]
  },
+ "massage-works-studio": {
+  "website": "https://massageworksstudio.noterro.com/",
+  "phone": "+18125811319"
+ },
  "master-power-transmission": {
   "website": "http://master-pt.com/",
   "phone": "+18886161094"
@@ -1429,9 +1996,21 @@ export const WEB = {
  "mayer-and-co-cpa": {
   "phone": "+18123723217"
  },
+ "mcbride-cosaint-solutions-llc": {
+  "website": "https://mcbridecosaintinsurance.com/",
+  "phone": "+18125153406"
+ },
+ "mccabe-orthodontics": {
+  "website": "https://drmccabeortho.com/",
+  "phone": "+18123769425"
+ },
  "meeks-and-company-professional-surveying-inc": {
   "website": "http://meekscompany.com/",
   "phone": "+18126573082"
+ },
+ "meli-market": {
+  "website": "http://www.melimarket.co/",
+  "phone": "+18123700202"
  },
  "mendoza-personal-injury-lawyers": {
   "website": "https://caraccidentlawyerscolumbus.com/",
@@ -1447,12 +2026,21 @@ export const WEB = {
   "website": "http://www.meridiantitle.com/",
   "phone": "+18123769606"
  },
+ "mi-tierra": {
+  "phone": "+18123760668"
+ },
+ "micdrop-dj": {
+  "phone": "+18336423767"
+ },
  "michael-hayes-plumbing": {
   "phone": "+18125262852"
  },
  "michaels-signature-massage-llc": {
   "website": "https://www.facebook.com/share/18FUmozmvx/",
   "phone": "+18124980223"
+ },
+ "michelles-renaissance": {
+  "phone": "+18123769088"
  },
  "midwest-computer-solutions-inc": {
   "website": "http://www.mwcomputersolutions.com/",
@@ -1465,11 +2053,22 @@ export const WEB = {
  "midwest-sports-and-spine-rehab": {
   "phone": "+18123422411"
  },
+ "mike-richardson-home-repair": {
+  "phone": "+18123445924"
+ },
+ "milestone-design-group-inc": {
+  "website": "http://milestonedesign.org/",
+  "phone": "+18123763391"
+ },
  "miller-roofing": {
   "phone": "+18123727090"
  },
  "millie-corbin-beverly": {
   "phone": "+18123751355"
+ },
+ "minash-boutique": {
+  "website": "https://www.minashboutique.com/",
+  "phone": "+18127997915"
  },
  "mine-yours-and-theirs": {
   "phone": "+18123743827"
@@ -1480,6 +2079,10 @@ export const WEB = {
  "misora": {
   "website": "http://www.eatmisora.com/",
   "phone": "+18124188528"
+ },
+ "miss-rachels-neat-treats": {
+  "website": "http://www.neat-treats.com/",
+  "phone": "+18123748494"
  },
  "mlt-technologies-inc": {
   "website": "https://www.mltinnovations.com/",
@@ -1499,6 +2102,14 @@ export const WEB = {
   "website": "https://monroestableboutique.myshopify.com/?key=9417cb0ca975a99ee8ea8092454f23b74588c91caa34a95fac89e788cccd2e6d",
   "phone": "+18123501453"
  },
+ "moores-roofing-inc": {
+  "website": "https://mooresroofing.com/",
+  "phone": "+18123768391"
+ },
+ "mother-bears-pizza": {
+  "website": "https://www.motherbearspizza.com/",
+  "phone": "+19302207028"
+ },
  "mr-auto-repair-garage-llc": {
   "phone": "+18123719888"
  },
@@ -1517,9 +2128,20 @@ export const WEB = {
   "website": "http://www.mymobilitydesign.com/",
   "phone": "+18126577240"
  },
+ "my-motorsports": {
+  "website": "http://myridercourse.com/contact-us/",
+  "phone": "+18123430939"
+ },
+ "my-whole-kitchen": {
+  "website": "https://www.mywholekitchen.com/",
+  "phone": "+16303290600"
+ },
  "nail-world-llc": {
   "website": "https://www.facebook.com/nailworldcolumbus",
   "phone": "+18124188696"
+ },
+ "nails-by-liane": {
+  "phone": "+16152031360"
  },
  "nails-station-and-spa-columbus": {
   "website": "https://nailsstationandspa.com/",
@@ -1533,6 +2155,13 @@ export const WEB = {
   "website": "https://www.nanoscardetailingandcleaning.com/",
   "phone": "+18123431008"
  },
+ "natural-choices-for-healthful-living-inc": {
+  "phone": "+18123751677"
+ },
+ "neal-paint-and-wallpaper-store": {
+  "website": "http://www.nealpaintandwallpaper.com/",
+  "phone": "+18123766654"
+ },
  "neal-tire-and-auto-service": {
   "website": "https://nealtire.com/stores/in-columbus/",
   "phone": "+18123720245"
@@ -1540,6 +2169,9 @@ export const WEB = {
  "near-north-title-group": {
   "website": "http://www.nntg.com/",
   "phone": "+18123769759"
+ },
+ "nerdsy-solutions-llc": {
+  "phone": "+18123798579"
  },
  "neuroversity": {
   "website": "https://www.imprintpediatrictherapy.com/neuroversity/",
@@ -1553,6 +2185,18 @@ export const WEB = {
   "website": "https://nwdeco.com/",
   "phone": "+18123789777"
  },
+ "next-step-massage": {
+  "website": "https://mysite.vagaro.com/nextstepmassage",
+  "phone": "+18123449081"
+ },
+ "nichols-body-company-inc": {
+  "website": "http://www.nicholsbodyandrepair.com/",
+  "phone": "+18123722557"
+ },
+ "noblitt-fabricating": {
+  "website": "https://noblittfab.com/",
+  "phone": "+18123729969"
+ },
  "nomad-barber-shop": {
   "website": "http://www.nomadbarbershop.com/",
   "phone": "+13177392158"
@@ -1565,9 +2209,20 @@ export const WEB = {
   "website": "http://northside-pediatrics.org/",
   "phone": "+18123799524"
  },
+ "nutri-bee": {
+  "website": "https://www.nutri-bee.org/"
+ },
+ "ofelias-fades": {
+  "website": "http://haircutsclauher.booksy.com/",
+  "phone": "+18127187409"
+ },
  "ogles-tool-and-party-rentals": {
   "website": "http://www.oglesrentals.com/",
   "phone": "+18123727385"
+ },
+ "olesyas-kitchen": {
+  "website": "https://olesyaskitchen.com/",
+  "phone": "+18125527173"
  },
  "olive-branch-dental": {
   "website": "https://olivebranchdentalcolumbus.com/",
@@ -1587,12 +2242,23 @@ export const WEB = {
   "website": "http://www.onobrothers.com/",
   "phone": "+18123789095"
  },
+ "optical-sports-analysis": {
+  "phone": "+18123449186"
+ },
+ "optimize-u-columbus": {
+  "website": "https://optimizeucenters.com/locations/columbus-indiana/",
+  "phone": "+18129005939"
+ },
  "options-case-management-llc": {
   "website": "http://optionscasemanagement.com/",
   "phone": "+18128032673"
  },
  "ortiz-auto-shop-inc": {
   "phone": "+18123411821"
+ },
+ "our-personal-care": {
+  "website": "https://ourhospice.org/personal-care",
+  "phone": "+18124477500"
  },
  "out-of-the-blue-finds": {
   "website": "http://outofthebluefinds.com/",
@@ -1601,6 +2267,10 @@ export const WEB = {
  "ovation-technology-group": {
   "website": "https://www.ovationtg.com/contact/",
   "phone": "+18123728646"
+ },
+ "ozols-construction-corp": {
+  "website": "http://ozolsconstruction.com/",
+  "phone": "+18123763905"
  },
  "panaderia-la-azteca": {
   "phone": "+18126573330"
@@ -1615,9 +2285,17 @@ export const WEB = {
    ]
   ]
  },
+ "papas-grill": {
+  "website": "http://papasfamily.net/",
+  "phone": "+18123429736"
+ },
  "party-on-rentals": {
   "website": "http://www.party-on-rentals.com/",
   "phone": "+18125526915"
+ },
+ "party-rental-vazquez-llc": {
+  "website": "https://partyrentalvazquez.com/",
+  "phone": "+18123448158"
  },
  "payton-place-auto": {
   "website": "https://paytonplaceauto.com/",
@@ -1627,9 +2305,20 @@ export const WEB = {
   "website": "https://paytonplacepowersports.com/",
   "phone": "+18125469100"
  },
+ "percifield-inc": {
+  "website": "http://percifieldradiator.com/",
+  "phone": "+18123722505"
+ },
  "peter-king-law": {
   "website": "https://www.peterkinglaw.com/",
   "phone": "+18123760014"
+ },
+ "petros-auto-repair": {
+  "phone": "+18127990343"
+ },
+ "phegleys-motorsports-inc": {
+  "website": "http://www.phegleysmotorsports.com/locations.html",
+  "phone": "+18123424212"
  },
  "phils-garage-inc": {
   "phone": "+18123728242"
@@ -1640,6 +2329,12 @@ export const WEB = {
  "pickers-paradise": {
   "phone": "+18126573488"
  },
+ "piepers-gourmet-catering": {
+  "phone": "+18123782140"
+ },
+ "pig-and-tasty-bbq-food-truck": {
+  "website": "https://www.facebook.com/profile.php?id=100057361813953"
+ },
  "pink-and-white-nails": {
   "website": "https://www.facebook.com/profile.php?id=61555831384990",
   "phone": "+18123729999"
@@ -1647,6 +2342,9 @@ export const WEB = {
  "pip-marketing-signs-print": {
   "website": "http://www.pip.com/columbusin434/",
   "phone": "+18123769264"
+ },
+ "play-and-learn-childcare": {
+  "phone": "+18127647711"
  },
  "plumbtech": {
   "website": "https://plumbtechindiana.com/",
@@ -1659,6 +2357,13 @@ export const WEB = {
   "website": "https://polishedbrows.com/",
   "phone": "+18124188884"
  },
+ "pollert-design-associates-inc": {
+  "website": "http://www.pollertdesign.com/",
+  "phone": "+18123764044"
+ },
+ "pomp-and-bloom": {
+  "website": "http://pompandbloom.com/"
+ },
  "posh-sloth-massage": {
   "website": "http://poshsloth.massagetherapy.com/",
   "phone": "+18123904810"
@@ -1666,6 +2371,10 @@ export const WEB = {
  "positive-performance-llc": {
   "website": "http://www.positiveperformance1.com/",
   "phone": "+18123721233"
+ },
+ "precision-contractors": {
+  "website": "http://www.precisionsweeping.us/",
+  "phone": "+18127990357"
  },
  "precision-eye-group": {
   "website": "https://www.precisioneye.com/",
@@ -1681,6 +2390,14 @@ export const WEB = {
    ]
   ]
  },
+ "prime-capital-financial-the-murphy-group": {
+  "website": "https://primefinancialindiana.com/",
+  "phone": "+18125652726"
+ },
+ "priority-risk-management": {
+  "website": "https://www.priorityrisk.com/",
+  "phone": "+18123722100"
+ },
  "pro-nails": {
   "website": "https://manage2.mangoforsalon.com/booking?id=y9cjkAkBD4eKZp%2FtuI3Jcw==",
   "phone": "+18123739995",
@@ -1691,12 +2408,22 @@ export const WEB = {
    ]
   ]
  },
+ "psi-iota-xi-sorority-thrift-shop": {
+  "website": "https://www.facebook.com/PsiIotaXiThriftShop?mibextid=LQQJ4d",
+  "phone": "+18123767136"
+ },
  "pyramid": {
   "website": "http://www.pcp-mfg.com/",
   "phone": "+18123720288"
  },
  "quick-way": {
   "phone": "+18127999319"
+ },
+ "r-p-handyman-co-llc": {
+  "phone": "+18129009531"
+ },
+ "r-steven-perry-cpa-pc": {
+  "phone": "+18123481040"
  },
  "radiance-by-rhianna-spa": {
   "website": "http://radiancebyrhianna.com/",
@@ -1717,9 +2444,21 @@ export const WEB = {
   "website": "http://www.rawlingsinsurance.com/",
   "phone": "+18123723100"
  },
+ "rays-automotive-center": {
+  "website": "http://www.raysautomotivecenter.com/",
+  "phone": "+18123721311"
+ },
+ "rbsk-partners-pc": {
+  "website": "https://www.rbsk.cpa/",
+  "phone": "+18006767567"
+ },
  "rdc-commercial-real-estate": {
   "website": "https://rdc-commercial.com/",
   "phone": "+18123781950"
+ },
+ "real-world-testing-inc": {
+  "website": "http://www.realworldtest.com/",
+  "phone": "+18123720914"
  },
  "really-the-barbers": {
   "website": "https://really-the-barber.square.site/",
@@ -1728,11 +2467,18 @@ export const WEB = {
  "reason-and-co-beauty-lounge": {
   "phone": "+18123720477"
  },
+ "red-barn-events-of-columbus": {
+  "phone": "+18125214300"
+ },
  "redefined": {
   "phone": "+18123744477"
  },
  "reeds-car-care-specialists": {
   "phone": "+18123759177"
+ },
+ "reichel-stohry-dean-llp": {
+  "website": "https://www.rsindy.com/",
+  "phone": "+13174238820"
  },
  "reliable-comfort-heating-air-conditioning-and-plumbing": {
   "website": "https://www.reliablecomfort.com/",
@@ -1744,12 +2490,22 @@ export const WEB = {
    ]
   ]
  },
+ "renaissance-dental-group-of-columbus": {
+  "website": "http://www.rdgcolumbus.com/",
+  "phone": "+18123721234"
+ },
+ "rh-and-sons-contracting-llc": {
+  "phone": "+18123417028"
+ },
  "rhino-flooring-solutions": {
   "phone": "+18123789040"
  },
  "richard-hawes-insurance": {
   "website": "https://www.hawesinsurance.com/",
   "phone": "+18123763869"
+ },
+ "richard-t-newton-ii-dds": {
+  "phone": "+18123725121"
  },
  "rick-colglazier-and-associates": {
   "phone": "+18123724400"
@@ -1758,6 +2514,14 @@ export const WEB = {
   "website": "https://www.facebook.com/profile.php?id=100090420616467&mibextid=ZbWKwL",
   "phone": "+18124188137"
  },
+ "riverside-carpet-warehouse-inc": {
+  "website": "https://www.riversidecarpetonecolumbus.com/",
+  "phone": "+18126694346"
+ },
+ "riviera-maya": {
+  "website": "https://www.rivieramayamexicanrestaurant.com/",
+  "phone": "+18123726576"
+ },
  "riviera-maya-west": {
   "website": "https://www.clover.com/online-ordering/rivera-maya-mexican-gril-columbus",
   "phone": "+18124188832"
@@ -1765,6 +2529,10 @@ export const WEB = {
  "rk-auto-electric": {
   "website": "https://www.facebook.com/RK-Auto-Electric-112779723818664/",
   "phone": "+18123726793"
+ },
+ "rlc-truck-and-auto-accessories": {
+  "website": "https://rhinolinings.com/find-applicator/in/columbus/rhino_truckbed_liners_columbus_in_47201_69452.html",
+  "phone": "+18123789040"
  },
  "rnr-tire-express": {
   "website": "http://www.rnrtires.com/",
@@ -1778,11 +2546,22 @@ export const WEB = {
   "website": "https://hendershotinsurance.com/",
   "phone": "+18124187508"
  },
+ "rodriguez-automotive": {
+  "phone": "+18126207348"
+ },
+ "rohdes-family-diner": {
+  "website": "https://www.rohdesfamilydiner.com/",
+  "phone": "+18123721890"
+ },
  "ronas-creative-cutz": {
   "phone": "+18124188001"
  },
  "room-with-a-do": {
   "phone": "+18123751879"
+ },
+ "rooted-health-and-wellness": {
+  "website": "https://www.rootedhealthandwell.com/",
+  "phone": "+18122978400"
  },
  "rs-warren-construction": {
   "website": "https://rswarrenconstruction.com/",
@@ -1802,6 +2581,13 @@ export const WEB = {
   "website": "https://rust-ungermonuments.com/",
   "phone": "+18123794151"
  },
+ "ryan-furr-creative": {
+  "website": "http://www.ryanfurr.com/",
+  "phone": "+18127274372"
+ },
+ "ryoshi-karate-columbus": {
+  "website": "http://ryoshikarate.com/"
+ },
  "sabor-de-la-vida": {
   "website": "https://www.facebook.com/sabordelavidacolumbus/",
   "phone": "+18123763668"
@@ -1809,6 +2595,10 @@ export const WEB = {
  "sak-enterprises": {
   "website": "http://sakautomotive.com/",
   "phone": "+18123728000"
+ },
+ "salon-1750": {
+  "website": "http://www.salon1750.com/",
+  "phone": "+18123729949"
  },
  "salon-aura-hair-color-studio": {
   "website": "http://salonaura812.booksy.com/",
@@ -1827,6 +2617,14 @@ export const WEB = {
   "website": "http://www.sanctuarykids.care/",
   "phone": "+18122004041"
  },
+ "sandcrest-dental-health": {
+  "website": "https://www.sandcrestdental.com/",
+  "phone": "+18123726165"
+ },
+ "saner-barbershop": {
+  "website": "https://daycutz14.booksy.com/",
+  "phone": "+18126572937"
+ },
  "sans-souci": {
   "website": "http://www.sanssouci.org/",
   "phone": "+18123723419"
@@ -1834,6 +2632,10 @@ export const WEB = {
  "sassafras-salon-and-spa": {
   "website": "https://www.sassafras-salon.com/",
   "phone": "+18127990126"
+ },
+ "savage-distilling": {
+  "website": "https://savagedistillingllc.godaddysites.com/",
+  "phone": "+18126577898"
  },
  "savings-bodega": {
   "phone": "+18123907568"
@@ -1849,6 +2651,9 @@ export const WEB = {
   "website": "http://www.stindy.com/index.php",
   "phone": "+18123798282"
  },
+ "selah-cars-llc": {
+  "phone": "+13175228349"
+ },
  "sew-crazy": {
   "website": "http://www.sewcrazycolumbus.com/",
   "phone": "+18124188200"
@@ -1856,6 +2661,10 @@ export const WEB = {
  "sew-vivid-designs": {
   "website": "http://sewvividdesigns.com/",
   "phone": "+18126697000"
+ },
+ "shabby-sheep-and-ewe": {
+  "website": "https://shabbysheepandewe.com/",
+  "phone": "+18123729276"
  },
  "shaggy-inks": {
   "website": "https://web.getporter.io/shop/shaggy-inks",
@@ -1878,6 +2687,10 @@ export const WEB = {
  "sherris-pro-clean-llc": {
   "phone": "+18127642289"
  },
+ "shieldsmith-chiropractic": {
+  "website": "http://www.shieldsmithchiropractic.com/",
+  "phone": "+18123084408"
+ },
  "shoppers-mart": {
   "phone": "+18124188151"
  },
@@ -1895,6 +2708,9 @@ export const WEB = {
   "website": "https://www.facebook.com/profile.php?id=61560605669530",
   "phone": "+18123438177"
  },
+ "signs-by-ron": {
+  "phone": "+18123720588"
+ },
  "silent3partners-llc": {
   "website": "https://silent3partners.com/",
   "phone": "+19146629553"
@@ -1902,6 +2718,10 @@ export const WEB = {
  "simmons-winery-450-north-brewery": {
   "website": "http://450northbrewing.com/",
   "phone": "+18125460091"
+ },
+ "simply-you-photo-booth-co": {
+  "website": "https://www.simplyyouphotoboothco.com/",
+  "phone": "+18124473013"
  },
  "siteco-excavation-llc": {
   "website": "https://www.facebook.com/profile.php?id=100029017224834&mibextid=kFxxJD",
@@ -1924,12 +2744,20 @@ export const WEB = {
    ]
   ]
  },
+ "skin-trendz-day-spa": {
+  "website": "https://skintrendz.skincaretherapy.net/",
+  "phone": "+18129291005"
+ },
  "sky-sport-fitness": {
   "website": "http://www.skysportfitness.com/",
   "phone": "+18122509151"
  },
  "small-engines-unlimited": {
   "phone": "+18123441968"
+ },
+ "smallz-ice-cream": {
+  "website": "https://www.facebook.com/profile.php?id=61576999862860",
+  "phone": "+18123909768"
  },
  "smoke-collection": {
   "phone": "+16616993198"
@@ -1941,6 +2769,10 @@ export const WEB = {
   "website": "http://soilsplusllc.com/",
   "phone": "+18123502421"
  },
+ "sojourn-coffee-company": {
+  "website": "https://www.sojourncoffeecompany.com/",
+  "phone": "+18127996158"
+ },
  "sonrisas-family-dental": {
   "website": "https://sonrisasfamilydental.com/",
   "phone": "+18123764054"
@@ -1948,6 +2780,10 @@ export const WEB = {
  "sonyas-dance-zone": {
   "website": "http://sonyasdancezone.com/",
   "phone": "+18123727000"
+ },
+ "sophea-asian-restaurant": {
+  "website": "http://facebook.com/sopheaasianrestaurant",
+  "phone": "+18129006888"
  },
  "sophea-nails": {
   "website": "https://sophea-nails-columbus.nailsites.com/",
@@ -1981,6 +2817,10 @@ export const WEB = {
    ]
   ]
  },
+ "southern-indiana-epoxy-flooring": {
+  "website": "https://southernindianaepoxy.com/",
+  "phone": "+18125656513"
+ },
  "southern-indiana-home-construction": {
   "website": "https://www.facebook.com/profile.php?id=100094091361357&mibextid=ZbWKwL",
   "phone": "+18126572809"
@@ -2011,6 +2851,10 @@ export const WEB = {
   "website": "https://www.stpaulcolumbus.org/preschool",
   "phone": "+18123766504"
  },
+ "star-heating-and-air": {
+  "website": "http://starhvac247.com/",
+  "phone": "+18123431218"
+ },
  "steinmetz-pediatric-dentistry": {
   "website": "http://www.steinmetzpediatricdentistry.com/",
   "phone": "+18449552378"
@@ -2038,6 +2882,10 @@ export const WEB = {
   "website": "http://www.stithbrokers.com/",
   "phone": "+18123789899"
  },
+ "strand-associates": {
+  "website": "https://www.strand.com/",
+  "phone": "+18123729911"
+ },
  "studio-55": {
   "website": "https://www.facebook.com/Studio55LLC/",
   "phone": "+18124188545"
@@ -2064,6 +2912,9 @@ export const WEB = {
  "sugar-bayers-cookie-co": {
   "website": "http://www.sugarbayerscookie.com/",
   "phone": "+18125525359"
+ },
+ "suite-d-hair-salon": {
+  "phone": "+18123503598"
  },
  "sultry-salon-and-spa": {
   "phone": "+12393085304"
@@ -2093,6 +2944,10 @@ export const WEB = {
   "website": "http://www.sweettoothbakes.com/",
   "phone": "+18125810716"
  },
+ "tacolumbus": {
+  "website": "https://tacolumbus.website/",
+  "phone": "+18123431423"
+ },
  "tail-twisters-dog-spaw": {
   "website": "https://www.facebook.com/share/16GszquSCY/",
   "phone": "+18123721730"
@@ -2111,6 +2966,10 @@ export const WEB = {
   "website": "http://www.tastyexpressmenu.com/",
   "phone": "+18123768989"
  },
+ "taulman-chiropractic": {
+  "website": "https://www.taulchiro.com/",
+  "phone": "+18123429850"
+ },
  "tax-consultants-inc": {
   "phone": "+18123722121"
  },
@@ -2121,6 +2980,10 @@ export const WEB = {
  "td-advertising": {
   "website": "http://www.tdadvertising.com/",
   "phone": "+18123421559"
+ },
+ "team-select-home-care": {
+  "website": "https://tshc.com/locations/indiana/in-home-healthcare-columbus-indiana/",
+  "phone": "+18125659131"
  },
  "tha-crew-cleaning-solutions-llc": {
   "phone": "+18123502198"
@@ -2136,6 +2999,10 @@ export const WEB = {
  "the-artisan-salon": {
   "website": "http://theartisancolumbus.com/",
   "phone": "+18124188752"
+ },
+ "the-bicycle-station": {
+  "website": "https://www.thebicyclestation.com/",
+  "phone": "+18123799005"
  },
  "the-big-cheese": {
   "website": "https://www.facebook.com/thebigcheesecolumbus/",
@@ -2157,6 +3024,10 @@ export const WEB = {
     "https://forgepub-on-4th.square.site/?owg-fulfillment=pickup&fulfillment=PICKUP&location=11edcdaaab35bda68cfeac1f6bbbd01e&location_id=LC0ZV69BNMVRW"
    ]
   ]
+ },
+ "the-gallery-kitchen-and-bar": {
+  "website": "https://www.ihg.com/hotelindigo/hotels/us/en/columbus/clubs/hoteldetail?cm_mmc=GoogleMaps-_-IN-_-US-_-CLUBS",
+  "phone": "+18123759100"
  },
  "the-garage-pub-and-grill": {
   "website": "http://thegaragepubandgrill.com/",
@@ -2180,6 +3051,9 @@ export const WEB = {
   "website": "https://facebook.com/theniftybeet",
   "phone": "+18127997546"
  },
+ "the-nutrition-lounge": {
+  "phone": "+18123914857"
+ },
  "the-phillips-company-inc": {
   "website": "http://thephillipscompany.com/",
   "phone": "+18123783797"
@@ -2192,6 +3066,18 @@ export const WEB = {
   "website": "https://thevibesmokevape.com/",
   "phone": "+18126573199"
  },
+ "the-wischmeier-group": {
+  "website": "http://inhomestoday.com/",
+  "phone": "+18123748680"
+ },
+ "the-zen-wellness-company": {
+  "website": "http://thezenwellnessco.com/",
+  "phone": "+18125525900"
+ },
+ "therapy-on-wheels-columbus": {
+  "website": "http://therapyonwheelsinc.com/",
+  "phone": "+13173329861"
+ },
  "thomas-concrete-services-llc": {
   "website": "http://tcsllc.info/",
   "phone": "+18123786063"
@@ -2203,6 +3089,10 @@ export const WEB = {
  "thompson-furniture-and-mattress": {
   "website": "http://www.thompsonfurniture.net/",
   "phone": "+18123767856"
+ },
+ "timothy-j-vrana-llc": {
+  "website": "https://www.vranaappeals.com/",
+  "phone": "+18667888270"
  },
  "tinas-nails": {
   "website": "https://tinanailscolumbus.com/",
@@ -2222,6 +3112,14 @@ export const WEB = {
   "website": "https://tlaclub.com/",
   "phone": "+18123424495"
  },
+ "tipton-lakes-family-dentistry": {
+  "website": "https://www.tiptonlakesfamilydentistry.com/",
+  "phone": "+18123423969"
+ },
+ "tipton-park-dentistry-of-columbus": {
+  "website": "https://dentist-columbus.com/",
+  "phone": "+18123769335"
+ },
  "title-center-of-indiana": {
   "website": "https://titlecenterofindiana.com/",
   "phone": "+18123721170"
@@ -2229,6 +3127,10 @@ export const WEB = {
  "tla-cleaning-llc": {
   "website": "http://www.tlacleaningin.com/",
   "phone": "+13175126217"
+ },
+ "tobar-inc": {
+  "website": "http://www.tobar.com/",
+  "phone": "+18123750400"
  },
  "tom-picketts-music-center": {
   "website": "http://www.tompicketts.com/",
@@ -2241,6 +3143,10 @@ export const WEB = {
   "website": "https://eventshirts.com/",
   "phone": "+18123730748"
  },
+ "top-nails": {
+  "website": "http://topnailspacolumbus.com/",
+  "phone": "+18127997515"
+ },
  "tops-soft-wash": {
   "website": "https://topssoftwash.net/",
   "phone": "+18125812574"
@@ -2249,9 +3155,20 @@ export const WEB = {
   "website": "https://www.totalfitnessofcolumbus.net/",
   "phone": "+18123739992"
  },
+ "total-taekwondo": {
+  "website": "http://totaltkdcolumbus.com/",
+  "phone": "+18124478775"
+ },
+ "tovey-perry-co": {
+  "phone": "+18123767496"
+ },
  "tribal-blend-cat-cafe": {
   "website": "http://columbuscat.cafe/",
   "phone": "+18126032097"
+ },
+ "triflix-llc": {
+  "website": "https://www.triflix.com/",
+  "phone": "+18122141112"
  },
  "turners-barber-styling": {
   "phone": "+18123721340"
@@ -2264,6 +3181,12 @@ export const WEB = {
   "website": "http://turtlesflowers.com/",
   "phone": "+18125529392"
  },
+ "tweak-medical-beauty-bar": {
+  "phone": "+18123721300"
+ },
+ "twins-furniture-and-more": {
+  "phone": "+18123419370"
+ },
  "twisted-scizzors": {
   "website": "https://www.facebook.com/Twisted-Scizzors-Hair-and-Day-Spa-130959473620022/",
   "phone": "+18123721880"
@@ -2271,6 +3194,10 @@ export const WEB = {
  "tyler-thompson-barber": {
   "website": "http://fadedwithhonor.booksy.com/",
   "phone": "+18123435131"
+ },
+ "united-accounting-group": {
+  "website": "http://uagllc.com/",
+  "phone": "+18123420548"
  },
  "upland-columbus-pump-house": {
   "website": "https://uplandbeer.com/columbus/",
@@ -2289,6 +3216,9 @@ export const WEB = {
   "website": "http://uwbadesign.com/",
   "phone": "+18552467862"
  },
+ "valiant-designs-and-apparel": {
+  "phone": "+18123908799"
+ },
  "vaneszko-hair-house": {
   "phone": "+18126577818"
  },
@@ -2300,6 +3230,10 @@ export const WEB = {
   "website": "https://venus-nails-columbus.nailsites.com/",
   "phone": "+18124188444"
  },
+ "veronica-j-turner-dds-llc": {
+  "website": "https://www.veronicaturnerdds.com/",
+  "phone": "+18123769317"
+ },
  "veteran-hauling-llc": {
   "website": "https://veteranhauling.com/service-areas/junk-removal-columbus-in/",
   "phone": "+18124386095"
@@ -2308,6 +3242,10 @@ export const WEB = {
   "website": "https://victorygymacademy.net/",
   "phone": "+18123444185"
  },
+ "viewpoint-books": {
+  "website": "http://www.viewpointbooks.com/",
+  "phone": "+18123760778"
+ },
  "viewpoint-books-chapter-two": {
   "website": "http://viewpointbooks.com/",
   "phone": "+18123760778"
@@ -2315,6 +3253,10 @@ export const WEB = {
  "vip-nail-spa": {
   "website": "https://vip-nail-spa-columbus.nailsites.com/",
   "phone": "+18123727777"
+ },
+ "vivian-lou-paul-mitchell-focus-salon": {
+  "website": "http://www.vivianloupmsalon.com/",
+  "phone": "+18123767202"
  },
  "voelz-body-shop-inc": {
   "website": "https://www.voelzbodyshop.com/",
@@ -2328,6 +3270,10 @@ export const WEB = {
   "website": "http://www.voelzlaw.com/",
   "phone": "+18123721303"
  },
+ "voldico": {
+  "website": "https://voldico.com/locations/pam-sample/",
+  "phone": "+18123766070"
+ },
  "walls-excavating-llc": {
   "website": "http://www.wallsexcavating.net/",
   "phone": "+18127997372"
@@ -2335,6 +3281,10 @@ export const WEB = {
  "walton-legal-services": {
   "website": "https://waltonlegal.net/",
   "phone": "+18123725533"
+ },
+ "watts-family-dentistry": {
+  "website": "https://www.wattsfamilydds.com/",
+  "phone": "+18123725568"
  },
  "wax-that-cat": {
   "website": "https://waxthatcat.com/",
@@ -2360,6 +3310,10 @@ export const WEB = {
   "website": "http://whipkersmarket.com/",
   "phone": "+18123724216"
  },
+ "white-oak-creations": {
+  "website": "http://www.whiteoakcreations.com/",
+  "phone": "+18123449823"
+ },
  "white-river-clinic-of-chiropractic": {
   "website": "https://www.whiteriverchiro.com/",
   "phone": "+18123766200",
@@ -2384,6 +3338,10 @@ export const WEB = {
   "website": "https://whiteriverrunningcompany.com/",
   "phone": "+18124188121"
  },
+ "white-star-meat-market-and-deli": {
+  "website": "https://whitestarmeatmarket.com/",
+  "phone": "+18124188063"
+ },
  "whitted-law": {
   "website": "http://www.whittedlaw.com/",
   "phone": "+18123766676",
@@ -2394,16 +3352,42 @@ export const WEB = {
    ]
   ]
  },
+ "whs-mobile-mechanic": {
+  "website": "https://theredneckgarage20.wixsite.com/theredneckgarage",
+  "phone": "+18123900827"
+ },
  "wild-wisdom": {
   "website": "http://www.wildwisdomstore.com/",
   "phone": "+18125804674"
  },
+ "williams-electronics": {
+  "website": "http://www.williamselectronics.com/",
+  "phone": "+18009522805"
+ },
  "wilsons-kennel": {
   "phone": "+18123501777"
+ },
+ "winnie-mochi-donut": {
+  "website": "https://www.winniemochi-columbus.com/",
+  "phone": "+18124188324"
+ },
+ "wolf-creek-market-and-botanicals": {
+  "phone": "+18129004412"
  },
  "wolf-creek-nursery-and-landscaping": {
   "website": "https://wolfcreeknursery.com/",
   "phone": "+18129004980"
+ },
+ "wonderwrks-it-services": {
+  "website": "https://wonderwrks.com/",
+  "phone": "+13175671350"
+ },
+ "wright-excavating-and-trucking-inc": {
+  "phone": "+18123711646"
+ },
+ "wwa-planning-and-investments": {
+  "website": "http://www.wwafp.com/",
+  "phone": "+18123791120"
  },
  "xo-by-sophias": {
   "website": "https://www.xobysophias.com/",
@@ -2415,14 +3399,49 @@ export const WEB = {
    ]
   ]
  },
+ "y-and-s-massage": {
+  "website": "http://ysmassage.com/",
+  "phone": "+18125818169"
+ },
+ "yats": {
+  "website": "https://yatscajuncreole.online/",
+  "phone": "+18123721533"
+ },
+ "ye-olde-fish-house": {
+  "website": "http://www.yeoldefishhouse.com/",
+  "phone": "+18123782921"
+ },
  "yeagers-accounting-and-tax-service": {
   "phone": "+18123444529"
+ },
+ "yee-kee-restaurant": {
+  "website": "https://www.yeekeetogo.com/",
+  "phone": "+18123768575"
+ },
+ "yes-cinema": {
+  "website": "https://yescinemaandconferencecenter.com/",
+  "phone": "+18123780377"
+ },
+ "yoyo-boba-teahouse": {
+  "phone": "+18126573236"
  },
  "yummy-bowl": {
   "website": "http://www.yummybow1455.com/",
   "phone": "+18127990906"
  },
+ "zaharakos-ice-cream-parlor": {
+  "website": "http://www.zaharakos.com/",
+  "phone": "+18123781900"
+ },
+ "zeller-insurance-llc": {
+  "website": "http://www.zellerinsurance.com/",
+  "phone": "+18123728456"
+ },
  "ziggies-bar-and-grill": {
   "phone": "+18123720898"
+ },
+ "zwanzigz-pizza-and-brewing": {
+  "website": "http://zwanzigz.com/",
+  "phone": "+18123760200"
  }
 };

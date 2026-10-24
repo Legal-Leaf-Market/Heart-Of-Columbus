@@ -9,6 +9,7 @@ import { businesses } from './businesses.mjs';
 import { landscape } from './landscape.mjs';
 import { WEB } from './web.mjs';
 import { COMMERCE } from './commerce.mjs';
+import { HOURS } from './hours.mjs';
 
 // Top-level categories, in display order. `subs` map to the landscape's
 // vertical/filter pairs. Emoji are the fallback icon until /art/ assets land.
@@ -201,9 +202,13 @@ for (const b of all) {
   b.feed = !!(c && c.feed);
   b.store = c && c.store ? c.store : '';
   b.platform = c ? c.platform || '' : '';
+  b.hours = HOURS[b.slug] || null;
+  b.tempClosed = !!(w && w.tempClosed);
 }
 
-export const directory = all.sort((a, b) => a.name.replace(/^the /i, '').localeCompare(b.name.replace(/^the /i, '')));
+// A business its own Google listing marks permanently closed leaves the
+// directory (the hand-built featured cards are checked by hand instead).
+export const directory = all.filter((b) => b.featured || !(WEB[b.slug] && WEB[b.slug].closed)).sort((a, b) => a.name.replace(/^the /i, '').localeCompare(b.name.replace(/^the /i, '')));
 export const catBySlug = Object.fromEntries(CATEGORIES.map((c) => [c.slug, c]));
 export const subBySlug = Object.fromEntries(CATEGORIES.flatMap((c) => c.subs.map((s) => [s.slug, { ...s, cat: c }])));
 export const areaBySlug = Object.fromEntries(AREAS.map((a) => [a.slug, a]));
