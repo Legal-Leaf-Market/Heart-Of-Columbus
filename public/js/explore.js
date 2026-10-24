@@ -28,14 +28,14 @@
       '<button type="button" class="bz-save" data-save="' + b.s + '" aria-pressed="false" aria-label="Save ' + esc(b.n) + '">' + HEART + '</button>' +
       '<div class="bz-body"><h3 class="bz-name"><a href="/b/' + b.s + '/">' + esc(b.n) + '</a></h3><p class="bz-type">' + esc(b.y) + '</p>' +
       (b.a ? '<p class="bz-addr">' + esc(b.a) + '</p>' : '') +
-      (b.d || b.h ? '<div class="bz-tags">' + (b.d ? '<span class="tag tag-hot">Order direct (demo)</span>' : '') + (b.h ? '<span class="tag">Columbus original</span>' : '') + '</div>' : '') +
+      (b.d || b.h || b.o || b.k || b.f ? '<div class="bz-tags">' + (b.o ? '<span class="tag tag-go">Order online</span>' : '') + (b.k ? '<span class="tag tag-go">Book online</span>' : '') + (b.f ? '<span class="tag tag-go">Shop online</span>' : '') + (b.d ? '<span class="tag tag-hot">Storefront demo</span>' : '') + (b.h ? '<span class="tag">Columbus original</span>' : '') + '</div>' : '') +
       '</div></article>';
   }
 
   var params = new URLSearchParams(location.search);
   var st = {
     q: params.get('q') || '', cat: params.get('cat') || '', sub: params.get('sub') || '', area: params.get('area') || '',
-    phone: params.get('phone') === '1', demo: params.get('demo') === '1', sort: params.get('sort') || 'az', view: params.get('view') || 'list',
+    phone: params.get('phone') === '1', demo: params.get('demo') === '1', online: params.get('online') === '1', sort: params.get('sort') || 'az', view: params.get('view') || 'list',
   };
   var PAGE = 48, shown = PAGE, all = [], map = null, layer = null;
 
@@ -44,6 +44,7 @@
     ['q', 'cat', 'sub', 'area', 'sort', 'view'].forEach(function (k) { if (st[k] && !(k === 'sort' && st[k] === 'az') && !(k === 'view' && st[k] === 'list')) p.set(k, st[k]); });
     if (st.phone) p.set('phone', '1');
     if (st.demo) p.set('demo', '1');
+    if (st.online) p.set('online', '1');
     history.replaceState(null, '', location.pathname + (p.toString() ? '?' + p : ''));
   }
 
@@ -51,7 +52,7 @@
     var saved = savedOnly ? window.HoCSaved() : null;
     var out = all.filter(function (b) {
       return (!saved || saved.indexOf(b.s) !== -1) && (!st.cat || b.c === st.cat) && (!st.sub || b.u === st.sub) &&
-        (!st.area || b.r === st.area) && (!st.phone || b.p) && (!st.demo || b.d) && (!st.q || window.HoCMatch(b, st.q));
+        (!st.area || b.r === st.area) && (!st.phone || b.p) && (!st.demo || b.d) && (!st.online || b.o || b.k || b.f) && (!st.q || window.HoCMatch(b, st.q));
     });
     var name = function (b) { return b.n.replace(/^the /i, ''); };
     out.sort(function (a, b) {
@@ -136,6 +137,8 @@
   sort.addEventListener('change', function () { st.sort = sort.value; render(); });
   var ph = $('[data-ex-phone]'); ph.checked = st.phone;
   ph.addEventListener('change', function () { st.phone = ph.checked; shown = PAGE; render(); });
+  var on = $('[data-ex-online]'); on.checked = st.online;
+  on.addEventListener('change', function () { st.online = on.checked; shown = PAGE; render(); });
   var dm = $('[data-ex-demo]'); dm.checked = st.demo;
   dm.addEventListener('change', function () { st.demo = dm.checked; shown = PAGE; render(); });
   $$('[data-view]').forEach(function (b) { b.addEventListener('click', function () { st.view = b.dataset.view; render(); }); });

@@ -16,7 +16,10 @@
       });
     });
     go.addEventListener('click', function () {
-      window.HoCDir().then(function (all) {
+      var wheel = $('[data-wheel]');
+      var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (wheel && !reduce) { wheel.classList.remove('spinning'); void wheel.offsetWidth; wheel.classList.add('spinning'); }
+      window.HoCDir().then(function (all) { return new Promise(function (res) { setTimeout(function () { res(all); }, wheel && !reduce ? 1100 : 0); }); }).then(function (all) {
         var pool = all.filter(function (b) { return !lane || b.c === lane; });
         var b = pool[Math.floor(Math.random() * pool.length)];
         var c = window.HoCCat[b.c];
