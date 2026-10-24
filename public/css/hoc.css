@@ -504,3 +504,30 @@ section { scroll-margin-top: 130px; }
 .empty img { margin: 0 auto 6px; }
 .band { background-image: url('/art/pattern-arches.png'); background-size: 260px; background-blend-mode: multiply; }
 .ftr { position: relative; }
+
+/* ---------- Pickup tickets ---------- */
+.pk { padding: 28px 16px 64px; max-width: 760px; }
+.pk-h { font-family: var(--display); font-size: clamp(28px, 5vw, 44px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.05; margin: 14px 0 10px; }
+.pk-card { background: var(--surface); border: 2px solid var(--ink); border-radius: var(--r-lg); box-shadow: var(--pop); padding: 22px; display: grid; gap: 14px; margin-top: 14px; }
+.pk-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; list-style: none; padding: 0; margin: 0; }
+.pk-steps li { text-align: center; font-weight: 800; font-size: 14px; padding: 8px 4px; border-radius: 999px; border: 2px solid var(--line); color: var(--muted); }
+.pk-steps li.on { background: #dff7e6; border-color: var(--ink); color: var(--ink); }
+.pk-code { display: grid; justify-items: center; gap: 2px; padding: 18px; border: 2px dashed var(--ink); border-radius: var(--r); background: var(--paper); }
+.pk-code b { font-family: var(--display); font-size: clamp(40px, 12vw, 64px); letter-spacing: .06em; line-height: 1; }
+.pk-code small, .pk-code span { color: var(--muted); font-weight: 700; }
+.pk-items { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line); }
+.pk-items li { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); align-items: start; }
+.pk-items small { display: block; color: var(--muted); }
+.pk-q { font-weight: 800; }
+.pk-total { margin: 0; } .pk-total small { display: block; color: var(--muted); }
+.pk-notes { background: var(--paper); border-radius: 12px; padding: 10px 12px; margin: 0; }
+.pk-demo { background: #fff4d6; border: 2px solid var(--ink); border-radius: 12px; padding: 10px 12px; margin: 0; }
+.pk-demo a { text-decoration: underline; font-weight: 800; }
+.pk-redeem { display: grid; gap: 8px; } .pk-redeem label { display: grid; gap: 4px; font-weight: 800; }
+.pk-redeem input { font: inherit; font-size: 20px; padding: 10px 12px; border: 2px solid var(--ink); border-radius: 12px; max-width: 220px; }
+.pk-done { font-weight: 800; background: #dff7e6; border-radius: 12px; padding: 10px 12px; margin: 0; }
+.pk-board { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin-top: 18px; }
+.pk-tile { display: grid; gap: 2px; padding: 16px; border: 2px solid var(--ink); border-radius: var(--r); background: var(--surface); box-shadow: var(--pop); }
+.pk-tile b { font-family: var(--display); font-size: 30px; } .pk-tile small { color: var(--muted); }
+.pk-tile em { font-style: normal; font-weight: 800; justify-self: start; margin-top: 6px; padding: 2px 10px; border-radius: 999px; background: var(--brand); color: #fff; }
+.pk-tile.pk-ready em { background: #0f7b6c; }
