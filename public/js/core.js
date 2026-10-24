@@ -278,7 +278,7 @@
         dlg.innerHTML =
           '<div class="p-6 grid gap-3">' +
           '<p class="font-display text-3xl">Order ' + esc(order.number) + ' is in!</p>' +
-          '<p class="text-lg">Pickup ' + esc(order.whenLabel.charAt(0).toLowerCase() + order.whenLabel.slice(1)) + '. ' + esc(opts.payNote || 'Pay at the counter.') + '</p>' +
+          '<p class="text-lg">Pickup ' + esc(/^(Today|Tomorrow)/.test(order.whenLabel) ? order.whenLabel.charAt(0).toLowerCase() + order.whenLabel.slice(1) : order.whenLabel) + '. ' + esc(opts.payNote || 'Pay at the counter.') + '</p>' +
           (opts.onConfirm ? opts.onConfirm(order) : '') +
           (ticket ? '<a href="/pickup/?t=' + esc(ticket.token) + '" class="rounded-2xl bg-brand text-brand-ink border-2 border-ink font-display text-xl py-3 text-center shadow-[3px_3px_0_var(--ink)]">See your pickup ticket</a>' : '') +
           '<p class="rounded-xl bg-ink/5 px-3 py-2 text-sm">This is a Heart of Columbus demo, so nothing was sent to ' + esc(opts.business) + '. The ' + money(order.subtotal) +
