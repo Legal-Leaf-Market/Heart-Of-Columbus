@@ -112,6 +112,7 @@ export function footer() {
     <div><h3>Browse</h3>${CATEGORIES.slice(0, 8).map((c) => `<a href="/c/${c.slug}/">${esc(c.label)}</a>`).join('')}</div>
     <div><h3>More</h3>${CATEGORIES.slice(8).map((c) => `<a href="/c/${c.slug}/">${esc(c.label)}</a>`).join('')}</div>
     <div><h3>Around town</h3>${AREAS.slice(0, 7).map((a) => `<a href="/n/${a.slug}/">${esc(a.label)}</a>`).join('')}<a href="/credits/">Photo credits</a></div>
+    <div><h3>Owners</h3><a href="/owners/">Claim your listing</a><a href="/owners/#claim">Take pickup orders</a><a href="/order/">Order, book and shop direct</a></div>
   </div>
 </footer>`;
 }
@@ -130,6 +131,7 @@ export function card(b, { compact = false } = {}) {
   if (b.feed || b.store) tags.push('<span class="tag tag-go">Shop online</span>');
   if (b.demo) tags.push('<span class="tag tag-hot">Storefront demo</span>');
   if (b.heritage) tags.push('<span class="tag">Columbus original</span>');
+  if (b.tempClosed) tags.push('<span class="tag tag-warn">Temporarily closed</span>');
   return `
 <article class="bz${compact ? ' bz-compact' : ''}" data-slug="${b.slug}">
   <a class="bz-cover ${pat}" href="/b/${b.slug}/" style="--c:${cat.color};--t:${cat.tint}" tabindex="-1" aria-hidden="true">
@@ -147,10 +149,10 @@ export function card(b, { compact = false } = {}) {
 </article>`;
 }
 
-export const rail = (title, href, items, { kicker = '', id = '' } = {}) =>
+export const rail = (title, href, items, { kicker = '', id = '', openOnly = false } = {}) =>
   items.length
     ? `
-<section class="rail"${id ? ` id="${id}"` : ''}>
+<section class="rail"${id ? ` id="${id}"` : ''}${openOnly ? ' data-open-rail hidden' : ''}>
   <div class="wrap rail-head">
     <div>${kicker ? `<p class="kicker">${esc(kicker)}</p>` : ''}<h2>${esc(title)}</h2></div>
     ${href ? `<a class="see-all" href="${href}">See all ${svg('arrow', 'ic-sm')}</a>` : ''}
@@ -168,6 +170,7 @@ export const searchIndex = () =>
     s: b.slug, n: b.name, c: b.cat, u: b.sub, y: b.featured ? subBySlug[b.sub].label : b.type, a: b.address,
     r: b.area, p: b.phone, l: b.ll, d: b.demo ? 1 : 0, h: b.heritage ? 1 : 0, e: subBySlug[b.sub].emoji,
     o: b.order.length ? 1 : 0, k: b.book.length ? 1 : 0, f: b.feed || b.store ? 1 : 0,
+    ...(b.hours ? { t: b.hours } : {}),
   }));
 
 export const breadcrumbs = (items) =>
