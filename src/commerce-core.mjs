@@ -122,6 +122,42 @@ export function findProviderLinks(html, extra = []) {
   return out;
 }
 
+// ---------- Gift cards ----------
+// Gift-card pages on the providers above (and the gift-card services small
+// shops use), so "Give local" can link to the business's own page. Same rule
+// as ordering: we link to theirs and take nothing.
+export const GIFT_PROVIDERS = [
+  { id: 'toast-gift', label: 'Toast', re: /https?:\/\/(?:www\.)?toasttab\.com\/[a-z0-9-]+\/giftcards[^\s"'<>)]*|https?:\/\/order\.toasttab\.com\/egiftcards\/[^\s"'<>)]+/i },
+  { id: 'square-gift', label: 'Square', re: /https?:\/\/(?:app\.)?squareup\.com\/gift\/[^\s"'<>)]+/i },
+  { id: 'clover-gift', label: 'Clover', re: /https?:\/\/(?:www\.)?clover\.com\/[^\s"'<>)]*gift-?cards?[^\s"'<>)]*/i },
+  { id: 'giftup', label: 'Gift Up!', re: /https?:\/\/(?:www\.)?giftup\.app\/place-order\/[^\s"'<>)]+/i },
+  { id: 'giftfly', label: 'Giftfly', re: /https?:\/\/(?:www\.)?giftfly\.com\/(?:shop|e)\/[^\s"'<>)]+/i },
+  { id: 'vagaro-gift', label: 'Vagaro', re: /https?:\/\/(?:www\.)?vagaro\.com\/[a-z0-9-]+\/(?:giftcards?|gift-certificates?)[^\s"'<>)]*/i },
+  { id: 'mindbody-gift', label: 'Mindbody', re: /https?:\/\/clients\.mindbodyonline\.com\/[^\s"'<>)]*giftcard[^\s"'<>)]*/i },
+];
+
+// The site's own gift-card page: a same-origin link whose text or path says
+// gift card (or gift certificate), including a Shopify gift-card product.
+export function findGiftLinks(html, base) {
+  const h = String(html || '');
+  for (const p of GIFT_PROVIDERS) {
+    const m = h.match(p.re);
+    const url = m && tidyUrl(m[0]);
+    if (url) return { id: p.id, label: p.label, url };
+  }
+  let origin;
+  try { origin = new URL(base).origin; } catch { return null; }
+  const re = /<a\b[^>]*href=["']([^"'#]+)["'][^>]*>([\s\S]*?)<\/a>/gi;
+  for (const m of h.matchAll(re)) {
+    let u;
+    try { u = new URL(m[1].replace(/&amp;/g, '&'), base); } catch { continue; }
+    if (u.origin !== origin) continue;
+    const text = m[2].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().toLowerCase();
+    if (/gift ?cards?|gift certificates?|e-?gift/.test(text) || /\/(?:products\/)?(?:e-?)?gift-?(?:cards?|certificates?)(?:[/-]|$)/i.test(u.pathname)) return { id: 'own', label: 'their website', url: tidyUrl(u.toString()) };
+  }
+  return null;
+}
+
 // ---------- Cart handoff ----------
 // Shopify: one permalink carries the whole cart. Sold-out lines must be left
 // out, because Shopify rejects the entire /cart/ URL if any variant is gone.
