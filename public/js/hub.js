@@ -1,96 +1,41 @@
-// Hub: directory tabs, category chips, forgiving search, and the
-// "Keep it in Columbus" estimate.
+// Home page: "Spin" for a random independent, and the Keep it in Columbus estimate.
 (function () {
   'use strict';
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var esc = function (s) { return String(s || '').replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
 
-  // ---------- Fuzzy search ----------
-  var norm = function (s) {
-    return String(s).toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '')
-      .replace(/['’]/g, '').replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, ' ').trim();
-  };
-  // Common ways people type the same place.
-  var ALIASES = { street: 'st', avenue: 'ave', road: 'rd', twentyfifth: '25th', '25': '25th', '2nd': '2nd', downtown: 'downtown', nexus: 'nexuspark' };
-  function lev(a, b, max) {
-    if (Math.abs(a.length - b.length) > max) return max + 1;
-    var prev = [], cur, i, j;
-    for (j = 0; j <= b.length; j++) prev[j] = j;
-    for (i = 1; i <= a.length; i++) {
-      cur = [i];
-      var best = i;
-      for (j = 1; j <= b.length; j++) {
-        cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
-        if (cur[j] < best) best = cur[j];
-      }
-      if (best > max) return max + 1;
-      prev = cur;
-    }
-    return prev[b.length];
-  }
-  function tokenHits(token, words, text) {
-    if (text.indexOf(token) !== -1) return true;
-    if (/^\d/.test(token) || token.length < 4) return words.some(function (w) { return w.indexOf(token) === 0; });
-    var max = token.length >= 7 ? 2 : 1;
-    return words.some(function (w) { return lev(token, w.slice(0, token.length + max), max) <= max || lev(token, w, max) <= max; });
-  }
-
-  var cards = $$('.biz-card').map(function (el) {
-    var text = norm(el.dataset.search);
-    return { el: el, vertical: el.dataset.vertical, filters: el.dataset.filters.split(' '), text: text, words: text.split(' ') };
-  });
-
-  // Long tabs show a page of cards first; "Show all" reveals the rest.
-  var PAGE = 36;
-  var state = { tab: 'eat', filter: {}, q: '', all: false };
-  var more = $('[data-more]');
-  if (more) more.addEventListener('click', function () { state.all = true; apply(); });
-
-  function apply() {
-    var tokens = norm(state.q).split(' ').filter(Boolean).map(function (w) { return ALIASES[w] || w; });
-    var shown = 0;
-    cards.forEach(function (c) {
-      var ok = c.vertical === state.tab;
-      var f = state.filter[state.tab] || 'all';
-      if (ok && f !== 'all') ok = c.filters.indexOf(f) !== -1;
-      // A search looks across every tab, so "pizza" on the services tab
-      // still finds pizza.
-      if (tokens.length) ok = tokens.every(function (tk) { return tokenHits(tk, c.words, c.text); });
-      if (ok) shown++;
-      c.el.hidden = !ok || (!state.all && shown > PAGE);
+  // ---------- Spin ----------
+  var go = $('[data-spin-go]');
+  if (go) {
+    var lane = '';
+    $$('[data-spin]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        lane = b.dataset.spin;
+        $$('[data-spin]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      });
     });
-    if (more) {
-      more.classList.toggle('hidden', state.all || shown <= PAGE);
-      more.textContent = 'Show all ' + shown;
-    }
-    $('[data-empty]').classList.toggle('hidden', shown > 0);
-    $('[data-count]').textContent = shown + (shown === 1 ? ' place' : ' places') + (state.q ? ' match “' + state.q + '”' : '');
-  }
-
-  function setTab(tab) {
-    state.tab = tab;
-    state.all = false;
-    $$('[data-tab]').forEach(function (b) { b.setAttribute('aria-selected', String(b.dataset.tab === tab)); });
-    $$('[data-chips]').forEach(function (g) { g.classList.toggle('hidden', g.dataset.chips !== tab); });
-    apply();
-  }
-
-  $$('[data-tab]').forEach(function (b) { b.addEventListener('click', function () { setTab(b.dataset.tab); }); });
-  $$('[data-jump]').forEach(function (a) { a.addEventListener('click', function () { setTab(a.dataset.jump); }); });
-  $$('[data-filter]').forEach(function (b) {
-    b.addEventListener('click', function () {
-      var v = b.dataset.for;
-      state.filter[v] = b.dataset.filter;
-      state.all = false;
-      $$('[data-for="' + v + '"]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
-      apply();
+    go.addEventListener('click', function () {
+      var wheel = $('[data-wheel]');
+      var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (wheel && !reduce) { wheel.classList.remove('spinning'); void wheel.offsetWidth; wheel.classList.add('spinning'); }
+      window.HoCDir().then(function (all) { return new Promise(function (res) { setTimeout(function () { res(all); }, wheel && !reduce ? 1100 : 0); }); }).then(function (all) {
+        var pool = all.filter(function (b) { return !lane || b.c === lane; });
+        var b = pool[Math.floor(Math.random() * pool.length)];
+        var c = window.HoCCat[b.c];
+        $('[data-spin-out]').innerHTML =
+          '<article class="bz"><a class="bz-cover pat-ray" href="/b/' + b.s + '/" style="--c:#1b1a17;--t:' + c[2] + '"><span class="bz-emoji">' + c[1] + '</span></a>' +
+          '<button type="button" class="bz-save" data-save="' + b.s + '" aria-pressed="false" aria-label="Save">' +
+          '<svg viewBox="0 0 24 24" class="ic" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.2-9.4C1.6 7.6 3.9 4.5 7.3 4.5c2 0 3.5 1.1 4.7 2.7 1.2-1.6 2.7-2.7 4.7-2.7 3.4 0 5.7 3.1 4.5 6.6-1.7 4.8-9.2 9.4-9.2 9.4z"/></svg></button>' +
+          '<div class="bz-body"><h3 class="bz-name"><a href="/b/' + b.s + '/">' + esc(b.n) + '</a></h3><p class="bz-type">' + esc(b.y) + '</p>' +
+          (b.a ? '<p class="bz-addr">' + esc(b.a) + '</p>' : '') + '</div></article>';
+        if (window.HoCPaintSaved) window.HoCPaintSaved();
+      });
     });
-  });
-  var input = $('[data-search]');
-  input.addEventListener('input', function () { state.q = input.value.trim(); state.all = false; apply(); });
-  apply();
+  }
 
   // ---------- Keep it in Columbus ----------
+  if (!$('[data-in]')) return;
   var fmt0 = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
   var val = function (k) { return Number($('[data-in="' + k + '"]').value); };
   function calc() {
@@ -100,7 +45,7 @@
     $('[data-out="rate"]').textContent = val('rate') + '%';
     $('[data-out="biz"]').textContent = val('biz');
     $('[data-year]').textContent = fmt0.format(weekly * 52);
-    $('[data-week]').textContent = fmt0.format(weekly) + ' a week across ' + val('biz') + (val('biz') === 1 ? ' business' : ' businesses');
+    $('[data-week]').textContent = fmt0.format(weekly) + ' a week across ' + val('biz') + (val('biz') === 1 ? ' restaurant' : ' restaurants');
     var total = window.HoC ? window.HoC.ledger.total() : 0;
     var n = window.HoC ? window.HoC.ledger.entries().length : 0;
     $('[data-ledger]').textContent = (window.HoC ? window.HoC.money(total) : '$0.00') + ' ordered';
