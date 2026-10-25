@@ -500,3 +500,10 @@ Corrections to the facts table above, from the official pages. The data in
   ages 10 and up with no public access at the house outside the tour. The
   self-guided stop guide is sold at the Visitors Center, Viewpoint Books and
   Hotel Indigo. /visit/ links to the tour page for prices instead of copying them.
+
+### Rechecked while building /free/ (October 25, 2026)
+
+- The Commons indoor playground: "free and open to the public" per columbus.in.us/family-fun-in-columbus; The Commons open 8 AM to 9 PM daily per thecommonscolumbus.com.
+- The People Trail: the visitors site now says "more than 27 miles"; we keep the parks department's "over 23 miles" until the two agree.
+- Mill Race Park: no page found that says "free"; the parks page lists no admission fee, and the page says only that.
+- No price signal for restaurants in the listings we use, so no "cheap eats" list.

@@ -11,6 +11,7 @@ import { ownersPages } from './src/pages/owners-pages.mjs';
 import { visitPages } from './src/pages/visit-pages.mjs';
 import { landmarkPages } from './src/pages/landmark-pages.mjs';
 import { icsFeed } from './src/pages/events.mjs';
+import { freePages } from './src/pages/free-pages.mjs';
 import { tripPages } from './src/pages/trip-pages.mjs';
 import { searchIndex } from './src/site.mjs';
 
@@ -44,6 +45,7 @@ const pages = [
   ...visitPages({ assets }),
   ...landmarkPages({ assets }),
   ...tripPages({ assets }),
+  ...freePages({ assets }),
 ];
 await mkdir(new URL('data/', out), { recursive: true });
 await writeFile(new URL('data/directory.json', out), JSON.stringify(searchIndex()));

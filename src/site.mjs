@@ -95,7 +95,7 @@ export function footer() {
     </div>
     <div><h3>Browse</h3>${CATEGORIES.slice(0, 8).map((c) => `<a href="/c/${c.slug}/">${esc(c.label)}</a>`).join('')}</div>
     <div><h3>More</h3>${CATEGORIES.slice(8).map((c) => `<a href="/c/${c.slug}/">${esc(c.label)}</a>`).join('')}</div>
-    <div><h3>Around town</h3>${AREAS.slice(0, 7).map((a) => `<a href="/n/${a.slug}/">${esc(a.label)}</a>`).join('')}<a href="/visit/">Plan your visit</a><a href="/credits/">Photo credits</a></div>
+    <div><h3>Around town</h3>${AREAS.slice(0, 7).map((a) => `<a href="/n/${a.slug}/">${esc(a.label)}</a>`).join('')}<a href="/visit/">Plan your visit</a><a href="/free/">Free in Columbus</a><a href="/credits/">Photo credits</a></div>
     <div><h3>Owners</h3><a href="/owners/">Claim your listing</a><a href="/owners/#claim">Take pickup orders</a><a href="/order/">Order, book and shop direct</a></div>
   </div>
 </footer>`;
