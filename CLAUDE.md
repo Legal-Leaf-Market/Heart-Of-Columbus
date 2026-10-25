@@ -24,7 +24,8 @@ Indiana. A pitch, not a live service. See README.md.
 - `src/data/landscape.mjs` holds the wider landscape; `src/data/directory.mjs`
   merges it with the hand-built cards and files everything under the browse
   taxonomy (CATEGORIES, AREAS). Pages: `/c/` categories, `/n/` neighborhoods,
-  `/b/<slug>/` one page per business, `/explore/`, `/saved/`, `/order/`.
+  `/b/<slug>/` one page per business, `/explore/`, `/saved/`, `/order/`,
+  `/visit/` (facts in `src/data/visit.mjs`, each with `source` and `checked`).
   Directory pages use plain CSS in `public/css/hoc.css`, not Tailwind.
 - `src/data/web.mjs` (websites, phones, owner-set Google action links) and
   `src/data/commerce.mjs` (cart engine, live feed, first-party order/book links)

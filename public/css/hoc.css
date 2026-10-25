@@ -78,6 +78,7 @@ p { margin: 0; }
   .hnav a:not(.saved-link) { display: none; }
   .hnav .saved-link span { display: none; }
 }
+@media (min-width: 901px) and (max-width: 1150px) { .hnav a[href="/#neighborhoods"] { display: none; } }
 
 /* typeahead */
 .ta-list { position: absolute; left: -2px; right: -2px; top: calc(100% + 8px); background: var(--surface); border: 2px solid var(--ink); border-radius: 18px; box-shadow: var(--pop); z-index: 60; overflow: hidden; max-height: 70vh; overflow-y: auto; text-align: left; }
@@ -588,3 +589,21 @@ section { scroll-margin-top: 130px; }
 .ta-closed { color: var(--muted); font-style: normal; }
 .pk-qr { display: grid; justify-items: center; gap: 4px; margin-top: 10px; }
 .pk-qr img { width: 148px; height: 148px; image-rendering: pixelated; background: #fff; border-radius: 8px; }
+
+/* ---------- Plan your visit ---------- */
+.vs-hero { background: radial-gradient(900px 400px at 90% 0, var(--sky) 0, transparent 60%), var(--paper); }
+.vs-note { margin-top: 18px; display: flex; gap: 8px; align-items: flex-start; font-size: 14px; color: var(--ink); background: var(--surface); border: 1.5px solid var(--line); border-radius: 14px; padding: 10px 12px; max-width: 680px; }
+.vs-note .ic-sm { flex: none; margin-top: 2px; }
+.vs-note a, .vs-sec a:not(.btn) { text-decoration: underline; text-underline-offset: 3px; }
+.vs-jump { margin-top: 20px; flex-wrap: wrap; }
+.vs-list { display: grid; gap: 18px; padding-top: 32px; padding-bottom: 56px; }
+@media (min-width: 1000px) { .vs-list { grid-template-columns: 1fr 1fr; align-items: start; } .vs-sec:first-child { grid-column: 1 / -1; } }
+.vs-sec { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; background: var(--surface); border: 2px solid var(--ink); border-radius: var(--r); box-shadow: var(--pop); padding: 20px; scroll-margin-top: 140px; }
+.vs-sec h2 { font-size: clamp(24px, 3vw, 32px); font-weight: 800; }
+.vs-emoji { width: 48px; height: 48px; border-radius: 14px; background: #f3ede2; display: grid; place-items: center; font-size: 26px; }
+.vs-lead, .vs-addr { margin-top: 10px; color: var(--muted); }
+.vs-addr { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; color: var(--ink); font-weight: 700; }
+.vs-facts { margin: 12px 0 0; padding-left: 20px; display: grid; gap: 8px; }
+.vs-src { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.vs-sec .btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+@media (max-width: 559px) { .vs-sec { grid-template-columns: minmax(0, 1fr); } }
