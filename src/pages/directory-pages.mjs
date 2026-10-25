@@ -3,6 +3,7 @@ import { page, esc, t } from '../layout.mjs';
 import { directory, CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, km } from '../data/directory.mjs';
 import { header, footer, card, rail, svg, PHOTOS, artIcon, coverArt, tel, mapsLink, breadcrumbs } from '../site.mjs';
 import { fmtRange, DAY_NAMES } from '../hours.mjs';
+import { MEDIA } from '../data/media.mjs';
 import { LANDMARKS } from '../data/landmarks.mjs';
 import { EVENTS } from '../data/events.mjs';
 import { dateRange } from './events.mjs';
@@ -116,6 +117,7 @@ function bizPage(b, { assets }) {
   const cat = catBySlug[b.cat];
   const sub = subBySlug[b.sub];
   const area = areaBySlug[b.area];
+  const media = MEDIA[b.slug];
   const near = b.ll
     ? directory.filter((x) => x.slug !== b.slug && x.ll).map((x) => [km(b.ll, x.ll), x]).sort((a, c) => a[0] - c[0]).slice(0, 12).map((x) => x[1])
     : [];
@@ -130,7 +132,9 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
     <div class="biz-cover pat-arch" style="--c:${cat.color};--t:${cat.tint}">
       ${coverArt(b.sub, false)}
       <span class="biz-emoji" aria-hidden="true">${sub.emoji}</span>
+      ${media?.cover ? `<img class="biz-photo" src="/business-media/${b.slug}/${media.cover.file}" width="${media.cover.width}" height="${media.cover.height}" alt="${esc(media.cover.alt)}" loading="lazy" decoding="async" onerror="this.remove()">` : ''}
     </div>
+    ${media?.cover ? `<p class="fine biz-credit">${esc(media.credit)}, shown with permission.</p>` : ''}
     <div class="biz-head">
       <p class="kicker"><a href="/c/${cat.slug}/${cat.subs.length > 1 ? sub.slug + '/' : ''}">${esc(sub.label)}</a>${area ? ` · <a href="/n/${area.slug}/">${esc(area.label)}</a>` : ''}</p>
       <h1>${t(b.name)}</h1>
