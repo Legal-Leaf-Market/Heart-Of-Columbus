@@ -170,6 +170,18 @@
     document.dispatchEvent(new CustomEvent('hoc:saved'));
   });
   paintSaved();
+  // "Save every stop" on a trip page adds them all at once.
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-save-all]');
+    if (!b) return;
+    var s = read();
+    b.dataset.saveAll.split(',').forEach(function (id) { if (s.indexOf(id) === -1) s.push(id); });
+    write(s);
+    paintSaved();
+    var l = b.querySelector('span');
+    if (l) l.textContent = 'Saved to your list';
+    document.dispatchEvent(new CustomEvent('hoc:saved'));
+  });
 
   // ---------- Rails ----------
   $$('.rail-track-wrap').forEach(function (w) {
