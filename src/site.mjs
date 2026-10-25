@@ -1,6 +1,15 @@
 // Shared pieces for the directory pages: header, footer, cards, photos.
+import { existsSync } from 'node:fs';
 import { esc, t } from './layout.mjs';
 import { CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, directory } from './data/directory.mjs';
+
+// Cover art for a business type, only when public/art has one for it;
+// otherwise the card shows its emoji on the pattern.
+export const hasCover = (sub) => existsSync(new URL(`../public/art/cover-${sub}.png`, import.meta.url));
+export const coverArt = (sub, lazy = true) =>
+  hasCover(sub)
+    ? `<img class="bz-art" src="/art/cover-${sub}.png" alt=""${lazy ? ' loading="lazy"' : ''}>`
+    : '';
 
 // Architecture photography from Wikimedia Commons, hotlinked with credit.
 // Every photo is public domain or Creative Commons; see /credits/.
@@ -135,7 +144,7 @@ export function card(b, { compact = false } = {}) {
   return `
 <article class="bz${compact ? ' bz-compact' : ''}" data-slug="${b.slug}">
   <a class="bz-cover ${pat}" href="/b/${b.slug}/" style="--c:${cat.color};--t:${cat.tint}" tabindex="-1" aria-hidden="true">
-    <img class="bz-art" src="/art/cover-${b.sub}.png" alt="" loading="lazy" onerror="this.remove()">
+    ${coverArt(b.sub)}
     <span class="bz-emoji">${sub.emoji}</span>
     ${area ? `<span class="bz-area">${svg('pin', 'ic-xs')}${esc(area.label)}</span>` : ''}
   </a>
@@ -171,6 +180,7 @@ export const searchIndex = () =>
     r: b.area, p: b.phone, l: b.ll, d: b.demo ? 1 : 0, h: b.heritage ? 1 : 0, e: subBySlug[b.sub].emoji,
     o: b.order.length ? 1 : 0, k: b.book.length ? 1 : 0, f: b.feed || b.store ? 1 : 0,
     ...(b.hours ? { t: b.hours } : {}),
+    ...(hasCover(b.sub) ? { v: 1 } : {}),
   }));
 
 export const breadcrumbs = (items) =>

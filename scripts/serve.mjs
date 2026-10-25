@@ -28,7 +28,9 @@ createServer(async (req, res) => {
     res.writeHead(200, { 'content-type': types[extname(file)] ?? 'application/octet-stream' });
     res.end(body);
   } catch {
-    res.writeHead(404, { 'content-type': 'text/plain' });
-    res.end('Not found');
+    // Same as Netlify: unknown paths get dist/404.html.
+    const body = await readFile(join(dist, '404.html')).catch(() => 'Not found');
+    res.writeHead(404, { 'content-type': types['.html'] });
+    res.end(body);
   }
 }).listen(port, () => console.log(`Heart of Columbus preview: http://localhost:${port}`));

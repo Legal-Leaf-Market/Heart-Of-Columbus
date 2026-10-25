@@ -1,7 +1,7 @@
 // Category, neighborhood, business, explore, saved and credits pages.
 import { page, esc, t } from '../layout.mjs';
 import { directory, CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, km } from '../data/directory.mjs';
-import { header, footer, card, rail, svg, PHOTOS, artIcon, tel, mapsLink, breadcrumbs } from '../site.mjs';
+import { header, footer, card, rail, svg, PHOTOS, artIcon, coverArt, tel, mapsLink, breadcrumbs } from '../site.mjs';
 import { fmtRange, DAY_NAMES } from '../hours.mjs';
 
 // Weekly hours table, Monday first, with today highlighted by site.js.
@@ -124,7 +124,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
 <section class="wrap biz">
   <div class="biz-main">
     <div class="biz-cover pat-arch" style="--c:${cat.color};--t:${cat.tint}">
-      <img class="bz-art" src="/art/cover-${b.sub}.png" alt="" onerror="this.remove()">
+      ${coverArt(b.sub, false)}
       <span class="biz-emoji" aria-hidden="true">${sub.emoji}</span>
     </div>
     <div class="biz-head">
@@ -244,6 +244,21 @@ ${footer()}`;
   return page({ title: 'Photo credits | Heart of Columbus', description: 'Credits for the photography on Heart of Columbus.', body, scripts: ['site.js'], styles, assets });
 }
 
+// Netlify serves dist/404.html for any path that isn't a page.
+function notFoundPage({ assets }) {
+  const body = `
+${header()}
+<main id="main" class="wrap prose">
+  <div class="empty"><img src="/art/empty-search.png" alt="" width="180" height="180">
+    <h1>We couldn’t find that page</h1>
+    <p>The link may be old, or the place may have closed. Search above, or start from one of these.</p>
+    <p class="btns"><a class="btn" href="/explore/">Explore every business</a><a class="btn" href="/">Home</a></p>
+  </div>
+</main>
+${footer()}`;
+  return page({ title: 'Page not found | Heart of Columbus', description: 'That page is not on Heart of Columbus.', body, scripts: ['site.js'], styles, assets });
+}
+
 function orderPage({ assets }) {
   const order = directory.filter((b) => b.order.length);
   const book = directory.filter((b) => b.book.length);
@@ -284,5 +299,6 @@ export function directoryPages(ctx) {
   out.push({ path: 'saved/index.html', html: explorePage(ctx, { saved: true }) });
   out.push({ path: 'credits/index.html', html: creditsPage(ctx) });
   out.push({ path: 'order/index.html', html: orderPage(ctx) });
+  out.push({ path: '404.html', html: notFoundPage(ctx) });
   return out;
 }
