@@ -31,6 +31,7 @@ const eventCard = (e) => `
   <p class="ev-venue">${svg('pin', 'ic-sm')}${esc(e.venue)}</p>
   <p class="ev-line">${t(e.line)}</p>
   <div class="ev-near" data-ev-near hidden></div>
+  <button type="button" class="bz-save ev-save" data-save="e:${e.slug}" aria-pressed="false" aria-label="Save ${esc(e.name)}">${svg('heart')}</button>
   <script type="application/json" data-near>${json(nearVenue(e))}</script>
 </article>`;
 

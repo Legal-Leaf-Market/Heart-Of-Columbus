@@ -26,7 +26,7 @@
       (b.v ? '<img class="bz-art" src="/art/cover-' + b.u + '.png" alt="" loading="lazy">' : '') + '<span class="bz-emoji">' + b.e + '</span>' +
       (b.r ? '<span class="bz-area">' + PIN + esc(AREA[b.r]) + '</span>' : '') + '</a>' +
       '<button type="button" class="bz-save" data-save="' + b.s + '" aria-pressed="false" aria-label="Save ' + esc(b.n) + '">' + HEART + '</button>' +
-      '<div class="bz-body"><h3 class="bz-name"><a href="/b/' + b.s + '/">' + esc(b.n) + '</a></h3><p class="bz-type">' + esc(b.y) + (st.sort === 'near' && me && b._d < Infinity ? ' · <b>' + (b._d < 0.1 ? 'right here' : b._d.toFixed(1) + ' mi') + '</b>' : '') + '</p>' +
+      '<div class="bz-body"><h3 class="bz-name"><a href="/b/' + b.s + '/">' + (st.sort === 'walk' && b._i ? '<span class="walk-n">' + b._i + '</span>' : '') + esc(b.n) + '</a></h3><p class="bz-type">' + esc(b.y) + (st.sort === 'near' && me && b._d < Infinity ? ' · <b>' + (b._d < 0.1 ? 'right here' : b._d.toFixed(1) + ' mi') + '</b>' : '') + '</p>' +
       (b.a ? '<p class="bz-addr">' + esc(b.a) + '</p>' : '') +
       (b.d || b.h || b.o || b.k || b.f ? '<div class="bz-tags">' + (b.o ? '<span class="tag tag-go">Order online</span>' : '') + (b.k ? '<span class="tag tag-go">Book online</span>' : '') + (b.f ? '<span class="tag tag-go">Shop online</span>' : '') + (b.d ? '<span class="tag tag-hot">Storefront demo</span>' : '') + (b.h ? '<span class="tag">Columbus original</span>' : '') + '</div>' : '') +
       '</div></article>';
@@ -56,6 +56,7 @@
 
   function sync() {
     var p = new URLSearchParams();
+    if (params.get('ids')) p.set('ids', params.get('ids'));
     ['q', 'cat', 'sub', 'area', 'sort', 'view'].forEach(function (k) { if (st[k] && !(k === 'sort' && st[k] === 'az') && !(k === 'view' && st[k] === 'list')) p.set(k, st[k]); });
     if (st.phone) p.set('phone', '1');
     if (st.demo) p.set('demo', '1');
@@ -65,7 +66,8 @@
   }
 
   function filtered() {
-    var saved = savedOnly ? window.HoCSaved() : null;
+    // A shared trip link (/saved/?ids=) shows its own list instead of yours.
+    var saved = savedOnly ? (window.HoCTripIds ? window.HoCTripIds() : window.HoCSaved()) : null;
     var out = all.filter(function (b) {
       return (!saved || saved.indexOf(b.s) !== -1) && (!st.cat || b.c === st.cat) && (!st.sub || b.u === st.sub) &&
         (!st.area || b.r === st.area) && (!st.phone || b.p) && (!st.demo || b.d) && (!st.online || b.o || b.k || b.f) && (!st.open || ((window.HoCOpen(b.t) || {}).open)) && (!st.q || window.HoCMatch(b, st.q));
@@ -75,11 +77,27 @@
       out.forEach(function (b) { b._d = b.l ? dist(me, b.l) : Infinity; });
       return out.sort(function (a, b) { return a._d - b._d; });
     }
+    if (st.sort === 'walk') return walkOrder(out);
     out.sort(function (a, b) {
       if (st.sort === 'area') return (AREA[a.r] || 'zz').localeCompare(AREA[b.r] || 'zz') || name(a).localeCompare(name(b));
       return st.sort === 'za' ? name(b).localeCompare(name(a)) : name(a).localeCompare(name(b));
     });
     return out;
+  }
+
+  // Saved list in a simple walking order: start at the westmost pin, then
+  // always go to the nearest place not yet visited. Places without a pin go last.
+  function walkOrder(list) {
+    var left = list.filter(function (b) { return b.l; }), rest = list.filter(function (b) { return !b.l; }), out = [];
+    left.sort(function (a, b) { return a.l[1] - b.l[1]; });
+    while (left.length) {
+      var at = out.length ? out[out.length - 1].l : left[0].l, best = 0;
+      for (var i = 1; i < left.length; i++) if (dist(at, left[i].l) < dist(at, left[best].l)) best = i;
+      out.push(left.splice(best, 1)[0]);
+    }
+    out.forEach(function (b, i) { b._i = i + 1; });
+    rest.forEach(function (b) { b._i = 0; });
+    return out.concat(rest);
   }
 
   function counts() {
@@ -108,6 +126,7 @@
     if (window.HoCPaintSaved) window.HoCPaintSaved();
     if (window.HoCPaintOpen) window.HoCPaintOpen();
     sync();
+    document.dispatchEvent(new CustomEvent('hoc:rendered'));
   }
 
   // ---------- Map (Leaflet + OpenStreetMap, loaded on demand) ----------
@@ -141,18 +160,20 @@
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
       }
       if (layer) layer.remove();
-      layer = (L.markerClusterGroup ? L.markerClusterGroup({ showCoverageOnHover: false, maxClusterRadius: 45 }) : L.layerGroup()).addTo(map);
+      var walk = st.sort === 'walk';
+      layer = (L.markerClusterGroup && !walk ? L.markerClusterGroup({ showCoverageOnHover: false, maxClusterRadius: 45 }) : L.layerGroup()).addTo(map);
       var pts = [];
       list.forEach(function (b) {
         if (!b.l) return;
         pts.push(b.l);
-        var icon = L.divIcon({ className: '', html: '<div class="pin" style="background:' + (window.HoCCat[b.c] || [])[2] + '"><span>' + b.e + '</span></div>', iconSize: [28, 28], iconAnchor: [4, 28], popupAnchor: [10, -26] });
+        var icon = L.divIcon({ className: '', html: '<div class="pin" style="background:' + (window.HoCCat[b.c] || [])[2] + '"><span>' + (walk && b._i ? b._i : b.e) + '</span></div>', iconSize: [28, 28], iconAnchor: [4, 28], popupAnchor: [10, -26] });
         L.marker(b.l, { icon: icon, title: b.n }).bindPopup('<a class="pop-name" href="/b/' + b.s + '/">' + esc(b.n) + '</a><small>' + esc(b.y) + (b.a ? '<br>' + esc(b.a) : '') + '</small>').addTo(layer);
       });
+      if (walk && pts.length > 1) L.polyline(pts, { color: '#c8232c', weight: 3, dashArray: '6 6' }).addTo(layer);
       // Frame Columbus itself; a handful of pins out in the county shouldn't zoom the map out.
       var core = pts.filter(function (p) { return dist(p, [39.2014, -85.9214]) < 6; });
       setTimeout(function () { map.invalidateSize(); if (pts.length) map.fitBounds(core.length > 5 ? core : pts, { padding: [30, 30], maxZoom: 16 }); }, 50);
-    });
+    }).catch(function () { $('#map').textContent = 'The map could not load. The list still works.'; });
   }
 
   // ---------- Controls ----------
