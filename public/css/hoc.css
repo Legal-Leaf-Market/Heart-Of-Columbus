@@ -219,6 +219,9 @@ section { scroll-margin-top: 130px; }
 .tag { font-size: 11px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; background: #fff3d1; border: 1.5px solid var(--ink); border-radius: 999px; padding: 2px 8px; }
 .tag-hot { background: var(--brand); color: #fff; }
 .tag-plain { background: #eef6ee; }
+.tag-dora { background: #e6f0fa; }
+.direct-note.dora-note { background: #eef4fa; border-color: #c4d8ec; }
+.dora-note a { text-decoration: underline; text-underline-offset: 3px; }
 
 /* cover patterns, so a rail of the same category still has rhythm */
 .pat-dots { background-image: radial-gradient(color-mix(in srgb, var(--c) 30%, transparent) 2px, transparent 2.5px); background-size: 18px 18px; }

@@ -141,6 +141,7 @@ export function card(b, { compact = false } = {}) {
   if (b.feed || b.store) tags.push('<span class="tag tag-go">Shop online</span>');
   if (b.demo) tags.push('<span class="tag tag-hot">Storefront demo</span>');
   if (b.heritage) tags.push('<span class="tag">Columbus original</span>');
+  if (b.dora) tags.push('<span class="tag tag-dora">Social District: drinks to go</span>');
   if (b.tempClosed) tags.push('<span class="tag tag-warn">Temporarily closed</span>');
   return `
 <article class="bz${compact ? ' bz-compact' : ''}" data-slug="${b.slug}">

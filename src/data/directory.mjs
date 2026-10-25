@@ -10,6 +10,7 @@ import { landscape } from './landscape.mjs';
 import { WEB } from './web.mjs';
 import { COMMERCE } from './commerce.mjs';
 import { HOURS } from './hours.mjs';
+import { DORA_SLUGS } from './dora.mjs';
 import { GEO } from './geo.mjs';
 
 // Top-level categories, in display order. `subs` map to the landscape's
@@ -210,6 +211,7 @@ for (const b of all) {
     if (!b.address && g[2]) b.address = g[2];
   }
   b.tempClosed = !!(w && w.tempClosed);
+  b.dora = DORA_SLUGS.has(b.slug);
 }
 
 // Neighborhood for places the listings did not tag: the most common area
