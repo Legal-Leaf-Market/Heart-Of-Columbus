@@ -10,6 +10,7 @@ import { landscape } from './landscape.mjs';
 import { WEB } from './web.mjs';
 import { COMMERCE } from './commerce.mjs';
 import { HOURS } from './hours.mjs';
+import { GEO } from './geo.mjs';
 
 // Top-level categories, in display order. `subs` map to the landscape's
 // vertical/filter pairs. Emoji are the fallback icon until /art/ assets land.
@@ -203,7 +204,27 @@ for (const b of all) {
   b.store = c && c.store ? c.store : '';
   b.platform = c ? c.platform || '' : '';
   b.hours = HOURS[b.slug] || null;
+  const g = GEO[b.slug];
+  if (g) {
+    b.ll = [g[0], g[1]];
+    if (!b.address && g[2]) b.address = g[2];
+  }
   b.tempClosed = !!(w && w.tempClosed);
+}
+
+// Neighborhood for places the listings did not tag: the most common area
+// among the nearest tagged neighbors, when they are close enough to count.
+{
+  const tagged = all.filter((b) => b.area && b.ll);
+  for (const b of all) {
+    if (b.area || !b.ll) continue;
+    const near = tagged.map((t) => [km(b.ll, t.ll), t.area]).sort((x, y) => x[0] - y[0]).slice(0, 7).filter(([d]) => d < 1.2);
+    if (near.length < 3) continue;
+    const votes = {};
+    for (const [, a] of near) votes[a] = (votes[a] || 0) + 1;
+    const [best, n] = Object.entries(votes).sort((x, y) => y[1] - x[1])[0];
+    if (n >= 3) b.area = best;
+  }
 }
 
 // A business its own Google listing marks permanently closed leaves the
@@ -214,9 +235,9 @@ export const subBySlug = Object.fromEntries(CATEGORIES.flatMap((c) => c.subs.map
 export const areaBySlug = Object.fromEntries(AREAS.map((a) => [a.slug, a]));
 
 // Straight-line distance in km, for "nearby" lists.
-export const km = (a, b) => {
+export function km(a, b) {
   if (!a || !b) return Infinity;
   const r = Math.PI / 180, dLat = (b[0] - a[0]) * r, dLng = (b[1] - a[1]) * r;
   const h = Math.sin(dLat / 2) ** 2 + Math.cos(a[0] * r) * Math.cos(b[0] * r) * Math.sin(dLng / 2) ** 2;
   return 12742 * Math.asin(Math.sqrt(h));
-};
+}
