@@ -727,3 +727,17 @@ section { scroll-margin-top: 130px; }
 .yw-card strong { font-family: var(--display); font-size: 22px; line-height: 1.1; }
 .yw-card span:last-child { color: var(--muted); }
 .yw-day { font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--brand); }
+
+/* free in Columbus */
+.fr-list { display: grid; gap: 28px; padding-top: 28px; padding-bottom: 56px; }
+.fr-group { display: grid; gap: 14px; scroll-margin-top: 140px; }
+.fr-group > h2 { font-size: clamp(26px, 3.4vw, 36px); font-weight: 800; }
+.fr-item { scroll-margin-top: 140px; }
+.fr-item h3 { font-size: 22px; font-weight: 800; }
+.fr-street { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+.fr-lm { display: grid; gap: 4px; background: var(--surface); border: 2px solid var(--ink); border-radius: 14px; padding: 14px; }
+.fr-lm:hover { background: #f3ede2; }
+.fr-lm span { color: var(--muted); font-size: 14px; }
+.fr-lm small { font-weight: 700; font-size: 13px; }
+.fr-group .btns { display: flex; flex-wrap: wrap; gap: 10px; }
+.fr-foot { max-width: 720px; }

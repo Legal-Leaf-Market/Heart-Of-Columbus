@@ -30,6 +30,7 @@ const JUMP = [
   ['social-district', 'Social District'],
   ['call-ahead', 'Call ahead'],
   ['your-way', 'Trip ideas'],
+  ['/free/', 'Free in Columbus'],
   ['whats-on', 'What’s on'],
 ];
 
@@ -44,7 +45,7 @@ ${header('visit')}
     <h1>Coming to Columbus?<br><span class="hl">Start here.</span></h1>
     <p class="lede">Where to start, how to see the architecture, how to get here and get around, and the downtown Social District. Then find the independent places to eat, shop and stay busy on the rest of this site.</p>
     <p class="vs-note">${svg('globe', 'ic-sm')}<span>Heart of Columbus is not the visitors bureau. For official tours, events and visitor information, go to <a href="${SRC.official}" target="_blank" rel="noopener">Visit Columbus Indiana</a>. Each fact below links to where we found it, checked ${checkedOn(vc.checked)}.</span></p>
-    <nav class="chips vs-jump" aria-label="On this page">${JUMP.map(([id, l]) => `<a class="pill" href="#${id}">${esc(l)}</a>`).join('')}</nav>
+    <nav class="chips vs-jump" aria-label="On this page">${JUMP.map(([id, l]) => `<a class="pill" href="${id.startsWith('/') ? id : '#' + id}">${esc(l)}</a>`).join('')}</nav>
   </div>
 </section>
 <div class="wrap vs-list">
