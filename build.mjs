@@ -11,6 +11,7 @@ import { ownersPages } from './src/pages/owners-pages.mjs';
 import { visitPages } from './src/pages/visit-pages.mjs';
 import { landmarkPages } from './src/pages/landmark-pages.mjs';
 import { icsFeed } from './src/pages/events.mjs';
+import { ORIGIN } from './src/jsonld.mjs';
 import { freePages } from './src/pages/free-pages.mjs';
 import { tripPages } from './src/pages/trip-pages.mjs';
 import { searchIndex } from './src/site.mjs';
@@ -54,6 +55,15 @@ for (const p of pages) {
   const file = new URL(p.path, out);
   await mkdir(new URL('./', file), { recursive: true });
   await writeFile(file, p.html);
+}
+
+// Sitemap stays off while every page is noindex. Turn it on (HOC_SITEMAP=1)
+// the day pages start going live; it lists only pages without noindex.
+if (process.env.HOC_SITEMAP === '1') {
+  const live = pages.filter((p) => !p.html.includes('name="robots" content="noindex') && p.path.endsWith('index.html') && !p.path.startsWith('404'));
+  const loc = (p) => ORIGIN + '/' + p.path.replace(/index\.html$/, '');
+  await writeFile(new URL('sitemap.xml', out), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${live.map((p) => `  <url><loc>${loc(p)}</loc></url>`).join('\n')}\n</urlset>\n`);
+  console.log(`Sitemap: ${live.length} live pages`);
 }
 
 const emDash = pages.filter((p) => p.html.includes('—')).map((p) => p.path);

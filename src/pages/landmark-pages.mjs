@@ -5,6 +5,7 @@ import { page, esc, t } from '../layout.mjs';
 import { header, footer, rail, svg, breadcrumbs } from '../site.mjs';
 import { directory, km } from '../data/directory.mjs';
 import { LANDMARKS } from '../data/landmarks.mjs';
+import { landmarkLd } from '../jsonld.mjs';
 
 const styles = ['hoc.css'];
 const M_PER_MIN = 80;
@@ -78,7 +79,7 @@ ${footer()}`;
   return page({
     title: `${l.name} | Columbus, Indiana architecture`,
     description: `${l.name} (${l.architect}, ${l.year}) in Columbus, Indiana, and the independent businesses a short walk away.`,
-    body, scripts: ['site.js', 'hub.js'], styles, assets,
+    body, scripts: ['site.js', 'hub.js'], styles, assets, ld: [landmarkLd(l)],
   });
 }
 

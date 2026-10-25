@@ -8,6 +8,7 @@ import { landmarkBySlug } from '../data/landmarks.mjs';
 import { TRIPS } from '../data/trips.mjs';
 import { fmtRange, DAY_NAMES } from '../hours.mjs';
 import { walkMin } from './landmark-pages.mjs';
+import { itemListLd } from '../jsonld.mjs';
 
 const styles = ['hoc.css'];
 const bySlug = Object.fromEntries(directory.map((b) => [b.slug, b]));
@@ -76,7 +77,7 @@ ${footer()}`;
   return page({
     title: `${trip.title} | Columbus, Indiana trip idea`,
     description: `${trip.title}: a ${DAY_NAMES[trip.day]} in Columbus, Indiana, built from real hours and addresses.`,
-    body, scripts: ['site.js'], styles, assets,
+    body, scripts: ['site.js'], styles, assets, ld: [itemListLd(trip.title, stops.map((s) => [s.name, s.href]))],
   });
 }
 

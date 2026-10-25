@@ -7,6 +7,7 @@ import { MEDIA } from '../data/media.mjs';
 import { LANDMARKS } from '../data/landmarks.mjs';
 import { EVENTS } from '../data/events.mjs';
 import { dateRange } from './events.mjs';
+import { businessLd } from '../jsonld.mjs';
 
 // Weekly hours table, Monday first, with today highlighted by site.js.
 const hoursTable = (rows) => {
@@ -182,7 +183,7 @@ ${rail(`More ${sub.label.toLowerCase()}`, `/c/${cat.slug}/${cat.subs.length > 1 
 ${rail('Close by', area ? `/n/${area.slug}/` : '', near)}
 </main>
 ${footer()}`;
-  return page({ title: `${b.name} | ${sub.label} in Columbus, Indiana`, description: `${b.name}, ${b.type}${b.address ? ', ' + b.address : ''}, Columbus, Indiana.`, body, scripts: ['site.js', 'hub.js', 'cart.js'], styles, assets });
+  return page({ title: `${b.name} | ${sub.label} in Columbus, Indiana`, description: `${b.name}, ${b.type}${b.address ? ', ' + b.address : ''}, Columbus, Indiana.`, body, scripts: ['site.js', 'hub.js', 'cart.js'], styles, assets, ld: [businessLd(b)] });
 }
 
 // Saved page extras: share a list, pick a day, print it. Landmarks and events

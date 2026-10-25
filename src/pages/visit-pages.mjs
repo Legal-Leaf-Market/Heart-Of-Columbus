@@ -6,6 +6,8 @@ import { header, footer, svg, tel, rail } from '../site.mjs';
 import { directory } from '../data/directory.mjs';
 import { eventsSection } from './events.mjs';
 import { yourWay } from './trip-pages.mjs';
+import { eventLd } from '../jsonld.mjs';
+import { EVENTS } from '../data/events.mjs';
 import { VISITORS_CENTER, TOURS, GETTING_HERE, GETTING_AROUND, SOCIAL_DISTRICT, SRC } from '../data/visit.mjs';
 
 const styles = ['hoc.css'];
@@ -83,7 +85,7 @@ ${footer()}`;
   return page({
     title: 'Plan your visit | Heart of Columbus',
     description: 'Visiting Columbus, Indiana: the Visitors Center, architecture tours, getting here and around, and the downtown Social District, with a source for every fact.',
-    body, scripts: ['site.js', 'hub.js', 'events.js'], styles, assets,
+    body, scripts: ['site.js', 'hub.js', 'events.js'], styles, assets, ld: EVENTS.map(eventLd),
   });
 }
 

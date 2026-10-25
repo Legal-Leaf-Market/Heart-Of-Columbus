@@ -22,7 +22,7 @@ export const demoBanner = (name) => `
   </div>
 </div>`;
 
-export function page({ title, description, theme = '', body, scripts = [], styles = [], data = null, assets, preview = true, path = '/' }) {
+export function page({ title, description, theme = '', body, scripts = [], styles = [], data = null, ld = [], assets, preview = true, path = '/' }) {
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -39,6 +39,7 @@ ${preview ? '<meta name="robots" content="noindex, nofollow">' : ''}
 <link rel="stylesheet" href="/assets/app.css?v=${assets.css}">
 ${styles.map((s) => `<link rel="stylesheet" href="/css/${s}?v=${assets[s] ?? ''}">`).join('\n')}
 ${data ? `<script type="application/json" id="page-data">${json(data)}</script>` : ''}
+${ld.map((x) => `<script type="application/ld+json">${json(x)}</script>`).join('\n')}
 <script src="/js/core.js?v=${assets.core}" defer></script>
 ${scripts.map((s) => `<script src="/js/${s}?v=${assets[s] ?? ''}" defer></script>`).join('\n')}
 </head>
