@@ -197,7 +197,10 @@ section { scroll-margin-top: 130px; }
 .bz:hover { transform: translateY(-4px); box-shadow: var(--pop); }
 .bz-cover { position: relative; height: 128px; background-color: var(--t); display: grid; place-items: center; overflow: hidden; border-bottom: 2px solid var(--ink); }
 .bz-compact .bz-cover { height: 112px; }
-.bz-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.bz-art { position: relative; width: 84px; height: 84px; object-fit: contain; filter: drop-shadow(2px 3px 0 rgba(0,0,0,.15)); transition: transform .3s; }
+.bz:hover .bz-art { transform: scale(1.08) rotate(-4deg); }
+.bz-compact .bz-art { width: 72px; height: 72px; }
+.biz-cover .bz-art { width: 170px; height: 170px; filter: drop-shadow(4px 6px 0 rgba(0,0,0,.15)); animation: bob 6s ease-in-out infinite; }
 .bz-emoji { position: relative; font-size: 52px; filter: drop-shadow(2px 3px 0 rgba(0,0,0,.15)); transition: transform .3s; }
 .bz:hover .bz-emoji { transform: scale(1.12) rotate(-6deg); }
 .bz-area { position: absolute; left: 10px; bottom: 10px; max-width: calc(100% - 20px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: rgba(255,255,255,.92); border: 1.5px solid var(--ink); border-radius: 999px; font-size: 12px; font-weight: 700; padding: 3px 9px; }
