@@ -61,7 +61,7 @@ ${section('getting-here', '🚗', 'Getting here', 'By car and by air', `
   <p class="btns"><a class="btn btn-sm btn-ghost" href="${SRC.gettingHere}" target="_blank" rel="noopener">Full directions ${svg('arrow', 'ic-sm')}</a></p>`)}
 ${section('getting-around', '🚌', 'Getting around', 'Bus, trail and on foot', `
   ${facts(GETTING_AROUND.facts)}
-  <p class="btns"><a class="btn btn-sm btn-ghost" href="${SRC.routes}" target="_blank" rel="noopener">Bus routes ${svg('arrow', 'ic-sm')}</a><a class="btn btn-sm btn-ghost" href="${SRC.trails}" target="_blank" rel="noopener">Parks and trails ${svg('arrow', 'ic-sm')}</a><a class="btn btn-sm btn-ghost" href="/explore/?view=map">Our map</a></p>`)}
+  <p class="btns"><a class="btn btn-sm btn-ghost" href="${SRC.routes}" target="_blank" rel="noopener">Bus routes ${svg('arrow', 'ic-sm')}</a><a class="btn btn-sm btn-ghost" href="${SRC.trails}" target="_blank" rel="noopener">Parks and trails ${svg('arrow', 'ic-sm')}</a><a class="btn btn-sm btn-ghost" href="/explore/?view=map">Our map</a><a class="btn btn-sm btn-ghost" href="/explore/?view=map&amp;now=1">Open near me now</a></p>`)}
 ${section('social-district', '🥤', 'Downtown evenings', SOCIAL_DISTRICT.name, `
   <p class="vs-lead">The city runs a designated outdoor refreshment area downtown, so you can walk between places with a drink.</p>
   ${facts(SOCIAL_DISTRICT.facts)}
