@@ -2,6 +2,7 @@
 import { existsSync } from 'node:fs';
 import { esc, t, json } from './layout.mjs';
 import { breadcrumbLd } from './jsonld.mjs';
+import { UI as ES, CATEGORY as ES_CAT } from './i18n/es.mjs';
 import { CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, directory } from './data/directory.mjs';
 import { LANDMARKS } from './data/landmarks.mjs';
 
@@ -53,13 +54,17 @@ export const tel = (p) => 'tel:+1' + p.replace(/\D/g, '');
 export const mapsLink = (b) =>
   'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(`${b.name}, ${b.address ? b.address + ', ' : ''}Columbus, IN`);
 
-export function header(active = '') {
+// lang 'es' swaps the chrome to Spanish; alt is the same page in the other
+// language, shown as a switcher link.
+export function header(active = '', { lang = 'en', alt = '' } = {}) {
+  const es = lang === 'es';
+  const L = es ? ES.nav : { visit: 'Visit', explore: 'Explore', order: 'Order & book', map: 'Map', areas: 'Neighborhoods', saved: 'Saved' };
   const nav = [
-    ['visit', '/visit/', 'Visit'],
-    ['explore', '/explore/', 'Explore'],
-    ['order', '/order/', 'Order & book'],
-    ['map', '/explore/?view=map', 'Map'],
-    ['areas', '/#neighborhoods', 'Neighborhoods'],
+    ['visit', es ? '/es/visit/' : '/visit/', L.visit],
+    ['explore', '/explore/', L.explore],
+    ['order', '/order/', L.order],
+    ['map', '/explore/?view=map', L.map],
+    ['areas', '/#neighborhoods', L.areas],
   ];
   return `
 <header class="hdr">
@@ -67,16 +72,17 @@ export function header(active = '') {
     <a href="/" class="logo">${heartLogo}<span>Heart of <em>Columbus</em></span></a>
     <form class="hsearch" action="/explore/" role="search" data-typeahead>
       ${svg('search')}
-      <input name="q" type="search" autocomplete="off" placeholder="Tacos, barbers, plumbers, 25th St…" aria-label="Search Columbus businesses">
+      <input name="q" type="search" autocomplete="off" placeholder="${es ? ES.searchPlaceholder : 'Tacos, barbers, plumbers, 25th St…'}" aria-label="${es ? ES.searchLabel : 'Search Columbus businesses'}">
       <div class="ta-list" data-ta-list hidden></div>
     </form>
-    <nav class="hnav" aria-label="Main">
+    <nav class="hnav" aria-label="${es ? 'Principal' : 'Main'}">
       ${nav.map(([k, h, l]) => `<a href="${h}"${k === active ? ' aria-current="page"' : ''}>${l}</a>`).join('')}
-      <a href="/saved/" class="saved-link"${active === 'saved' ? ' aria-current="page"' : ''}>${svg('heart')}<span>Saved</span><b data-saved-count hidden>0</b></a>
+      ${alt ? `<a href="${alt}" class="lang-link" hreflang="${es ? 'en' : 'es'}" lang="${es ? 'en' : 'es'}">${svg('globe', 'ic-sm')}<span>${es ? ES.switchTo : 'Español'}</span><abbr title="${es ? ES.switchTo : 'Español'}">${es ? 'EN' : 'ES'}</abbr></a>` : ''}
+      <a href="/saved/" class="saved-link"${active === 'saved' ? ' aria-current="page"' : ''}>${svg('heart')}<span>${L.saved}</span><b data-saved-count hidden>0</b></a>
     </nav>
   </div>
-  <nav class="catbar" aria-label="Categories"><div class="wrap catbar-row">
-    ${CATEGORIES.map((c) => `<a href="/c/${c.slug}/" class="${active === c.slug ? 'on' : ''}" style="--c:${c.color}">${artIcon(c.slug, c.emoji, 'cb-i')}${esc(c.label)}</a>`).join('')}
+  <nav class="catbar" aria-label="${es ? 'Categorías' : 'Categories'}"><div class="wrap catbar-row">
+    ${CATEGORIES.map((c) => `<a href="/c/${c.slug}/" class="${active === c.slug ? 'on' : ''}" style="--c:${c.color}">${artIcon(c.slug, c.emoji, 'cb-i')}${esc(es ? ES_CAT[c.slug] : c.label)}</a>`).join('')}
   </div></nav>
 </header>`;
 }
@@ -85,19 +91,22 @@ export function header(active = '') {
 export const artIcon = (slug, emoji, cls) =>
   `<span class="${cls}" aria-hidden="true"><img src="/art/cat-${slug}.png" alt="" loading="lazy" onerror="this.remove()"><i>${emoji}</i></span>`;
 
-export function footer() {
+export function footer({ lang = 'en' } = {}) {
+  const es = lang === 'es';
+  const cat = (c) => esc(es ? ES_CAT[c.slug] : c.label);
+  const k = es ? ES.links : { visit: 'Plan your visit', free: 'Free in Columbus', holidays: 'Shop small for the holidays', credits: 'Photo credits', claim: 'Claim your listing', pickup: 'Take pickup orders', direct: 'Order, book and shop direct' };
   return `
 <footer class="ftr">
   <div class="wrap ftr-grid">
     <div>
       <a href="/" class="logo logo-light">${heartLogo}<span>Heart of <em>Columbus</em></span></a>
-      <p class="ftr-tag">Independent businesses of Columbus, Indiana. No chains, no franchises, no app fees.</p>
-      <p class="ftr-small">A concept preview. Details come from public listings and may change; call ahead. Not affiliated with the businesses listed.</p>
+      <p class="ftr-tag">${es ? ES.footerTag : 'Independent businesses of Columbus, Indiana. No chains, no franchises, no app fees.'}</p>
+      <p class="ftr-small">${es ? ES.footerSmall : 'A concept preview. Details come from public listings and may change; call ahead. Not affiliated with the businesses listed.'}</p>
     </div>
-    <div><h3>Browse</h3>${CATEGORIES.slice(0, 8).map((c) => `<a href="/c/${c.slug}/">${esc(c.label)}</a>`).join('')}</div>
-    <div><h3>More</h3>${CATEGORIES.slice(8).map((c) => `<a href="/c/${c.slug}/">${esc(c.label)}</a>`).join('')}</div>
-    <div><h3>Around town</h3>${AREAS.slice(0, 7).map((a) => `<a href="/n/${a.slug}/">${esc(a.label)}</a>`).join('')}<a href="/visit/">Plan your visit</a><a href="/free/">Free in Columbus</a><a href="/holidays/">Shop small for the holidays</a><a href="/credits/">Photo credits</a></div>
-    <div><h3>Owners</h3><a href="/owners/">Claim your listing</a><a href="/owners/#claim">Take pickup orders</a><a href="/order/">Order, book and shop direct</a></div>
+    <div><h3>${es ? ES.browse : 'Browse'}</h3>${CATEGORIES.slice(0, 8).map((c) => `<a href="/c/${c.slug}/">${cat(c)}</a>`).join('')}</div>
+    <div><h3>${es ? ES.more : 'More'}</h3>${CATEGORIES.slice(8).map((c) => `<a href="/c/${c.slug}/">${cat(c)}</a>`).join('')}</div>
+    <div><h3>${es ? ES.aroundTown : 'Around town'}</h3>${AREAS.slice(0, 7).map((a) => `<a href="/n/${a.slug}/">${esc(a.label)}</a>`).join('')}<a href="${es ? '/es/visit/' : '/visit/'}">${k.visit}</a><a href="/free/">${k.free}</a><a href="/holidays/">${k.holidays}</a><a href="/credits/">${k.credits}</a></div>
+    <div><h3>${es ? ES.owners : 'Owners'}</h3><a href="/owners/">${k.claim}</a><a href="/owners/#claim">${k.pickup}</a><a href="/order/">${k.direct}</a></div>
   </div>
 </footer>`;
 }

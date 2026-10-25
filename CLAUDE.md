@@ -37,6 +37,11 @@ Indiana. A pitch, not a live service. See README.md.
   `public/art/pin-*.png`, this weekend's events, Social District) and a
   "near me now" mode at `/explore/?view=map&now=1`.
   Directory pages use plain CSS in `public/css/hoc.css`, not Tailwind.
+- Spanish: `/es/visit/` from the same template, strings and fact translations
+  in `src/i18n/es.mjs` (a test fails if a /visit/ fact has no Spanish).
+  `header(active, { lang, alt })` and `footer({ lang })` switch the chrome;
+  every Spanish page shows the "translation under review" note until a
+  fluent speaker signs off.
 - JSON-LD (`src/jsonld.mjs`) on business, landmark, trip and /visit/ pages,
   and breadcrumbs, built only from what the page shows (tests/jsonld.test.mjs).
   `HOC_SITEMAP=1` writes `sitemap.xml` of pages without noindex; leave it off

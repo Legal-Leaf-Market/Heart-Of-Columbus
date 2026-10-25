@@ -75,7 +75,10 @@ p { margin: 0; }
 @media (max-width: 900px) {
   .hdr-row { flex-wrap: wrap; height: auto; padding-top: 10px; padding-bottom: 10px; gap: 10px; }
   .hsearch { order: 3; max-width: none; flex-basis: 100%; }
-  .hnav a:not(.saved-link) { display: none; }
+  .hnav a:not(.saved-link):not(.lang-link) { display: none; }
+  .hdr .hnav .lang-link span { display: none; }
+  .hdr .hnav .lang-link abbr { display: inline; }
+  .hnav .lang-link { padding: 8px 6px; }
   .hnav .saved-link span { display: none; }
 }
 @media (min-width: 901px) and (max-width: 1150px) { .hnav a[href="/#neighborhoods"] { display: none; } }
@@ -749,3 +752,8 @@ section { scroll-margin-top: 130px; }
 .hol-name { font-weight: 800; font-size: 17px; }
 .hol-list span { color: var(--muted); font-size: 14px; margin-bottom: 6px; }
 .hol-foot { padding: 8px 0 48px; max-width: 720px; }
+.vs-review { background: #fff3bf; border-color: #f0c000; }
+/* language switcher: make room for it in the header at mid widths */
+@media (min-width: 901px) and (max-width: 1250px) { .hnav a[href="/#neighborhoods"], .hnav:has(.lang-link) a[href="/explore/?view=map"] { display: none; } }
+.hnav .lang-link { font-size: 14px; }
+.hnav .lang-link abbr { display: none; text-decoration: none; font-weight: 800; }
