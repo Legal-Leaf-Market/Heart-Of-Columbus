@@ -38,9 +38,28 @@
     out.innerHTML = '<div class="pk-card">' + demoNote(t, 'shopper') +
       '<h1 class="pk-h">' + (t.status === 'collected' ? 'Picked up. Thank you!' : t.status === 'ready' ? 'Your order is ready' : t.demo ? 'Demo order for ' + esc(t.business) : 'Order sent to ' + esc(t.business)) + '</h1>' +
       steps(t) +
-      '<div class="pk-code" aria-label="Pickup code"><small>Show this at the counter</small><b>' + esc(t.code) + '</b><span>' + esc(t.name) + (t.when ? ' · ' + esc(t.when) : '') + '</span></div>' +
+      '<div class="pk-code" aria-label="Pickup code"><small>Show this at the counter</small><b>' + esc(t.code) + '</b><span>' + esc(t.name) + (t.when ? ' · ' + esc(t.when) : '') + '</span><div class="pk-qr" data-qr></div></div>' +
       items(t) + (t.notes ? '<p class="pk-notes"><b>Notes:</b> ' + esc(t.notes) + '</p>' : '') +
       '<p class="muted">Pay ' + esc(t.business) + ' directly when you pick up. Heart of Columbus never takes payment and adds no fee.</p></div>';
+    drawQr(t);
+  }
+
+  // The counter can scan this to open the ticket on their own phone or tablet.
+  function drawQr(t) {
+    var box = out.querySelector('[data-qr]');
+    if (!box || t.status === 'collected') return;
+    var url = location.origin + '/pickup/counter/?t=' + t.token;
+    var go = function () {
+      try {
+        var q = window.qrcode(0, 'M'); q.addData(url); q.make();
+        box.innerHTML = '<img alt="QR code for the counter" src="' + q.createDataURL(5, 2) + '"><small>The counter can scan this</small>';
+      } catch (e) { box.remove(); }
+    };
+    if (window.qrcode) return go();
+    var s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js';
+    s.onload = go; s.onerror = function () { box.remove(); };
+    document.head.appendChild(s);
   }
 
   // ---------- Counter view (one ticket) ----------

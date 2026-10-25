@@ -112,7 +112,9 @@
         }).join('');
         html += hits.slice(0, 7).map(function (b) {
           var c = CAT[b.c] || ['', '📍', '#eee'];
-          return '<a href="/b/' + b.s + '/"><span class="ta-e" style="--t:' + c[2] + '">' + c[1] + '</span><span><strong>' + esc(b.n) + '</strong><small>' + esc(b.y) + (b.a ? ' · ' + esc(b.a) : '') + '</small></span></a>';
+          var st = b.t ? window.HoCOpen(b.t) : null;
+          var extra = (st ? ' · <em class="' + (st.open ? 'ta-open' : 'ta-closed') + '">' + (st.open ? 'Open now' : 'Closed') + '</em>' : '') + (b.o ? ' · Order online' : b.k ? ' · Book online' : b.f ? ' · Shop online' : '');
+          return '<a href="/b/' + b.s + '/"><span class="ta-e" style="--t:' + c[2] + '">' + c[1] + '</span><span><strong>' + esc(b.n) + '</strong><small>' + esc(b.y) + (b.a ? ' · ' + esc(b.a) : '') + extra + '</small></span></a>';
         }).join('');
         html += '<a href="/explore/?q=' + encodeURIComponent(q) + '" class="ta-all"><span class="ta-e">🔎</span><span><strong>See all ' + hits.length + ' results</strong><small>for “' + esc(q) + '”</small></span></a>';
         list.innerHTML = html;
