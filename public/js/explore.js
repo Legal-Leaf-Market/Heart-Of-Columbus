@@ -121,7 +121,14 @@
       document.head.appendChild(css);
       var s = document.createElement('script');
       s.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-      s.onload = function () { res(window.L); };
+      s.onload = function () {
+        // Marker clustering keeps 900 pins readable.
+        var c1 = document.createElement('link'); c1.rel = 'stylesheet'; c1.href = 'https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css'; document.head.appendChild(c1);
+        var c2 = document.createElement('link'); c2.rel = 'stylesheet'; c2.href = 'https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css'; document.head.appendChild(c2);
+        var mc = document.createElement('script'); mc.src = 'https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js';
+        mc.onload = function () { res(window.L); }; mc.onerror = function () { res(window.L); };
+        document.head.appendChild(mc);
+      };
       s.onerror = rej;
       document.head.appendChild(s);
     });
@@ -134,7 +141,7 @@
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
       }
       if (layer) layer.remove();
-      layer = L.layerGroup().addTo(map);
+      layer = (L.markerClusterGroup ? L.markerClusterGroup({ showCoverageOnHover: false, maxClusterRadius: 45 }) : L.layerGroup()).addTo(map);
       var pts = [];
       list.forEach(function (b) {
         if (!b.l) return;
@@ -142,7 +149,9 @@
         var icon = L.divIcon({ className: '', html: '<div class="pin" style="background:' + (window.HoCCat[b.c] || [])[2] + '"><span>' + b.e + '</span></div>', iconSize: [28, 28], iconAnchor: [4, 28], popupAnchor: [10, -26] });
         L.marker(b.l, { icon: icon, title: b.n }).bindPopup('<a class="pop-name" href="/b/' + b.s + '/">' + esc(b.n) + '</a><small>' + esc(b.y) + (b.a ? '<br>' + esc(b.a) : '') + '</small>').addTo(layer);
       });
-      setTimeout(function () { map.invalidateSize(); if (pts.length) map.fitBounds(pts, { padding: [30, 30], maxZoom: 16 }); }, 50);
+      // Frame Columbus itself; a handful of pins out in the county shouldn't zoom the map out.
+      var core = pts.filter(function (p) { return dist(p, [39.2014, -85.9214]) < 6; });
+      setTimeout(function () { map.invalidateSize(); if (pts.length) map.fitBounds(core.length > 5 ? core : pts, { padding: [30, 30], maxZoom: 16 }); }, 50);
     });
   }
 
