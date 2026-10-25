@@ -4,6 +4,7 @@ import { businesses, prototypes } from '../data/businesses.mjs';
 import { directory, CATEGORIES, AREAS } from '../data/directory.mjs';
 import { header, footer, rail, svg, PHOTOS, artIcon, photoCredit } from '../site.mjs';
 import { eventsSection } from './events.mjs';
+import { yourWay } from './trip-pages.mjs';
 
 const featuredStyle = {
   'gills-barber-shop': ['#1e2a4a', '#fff', 'Live chair queue, save your spot, book a cut.', '💈'],
@@ -161,6 +162,8 @@ ${rail('Good dogs welcome', '/c/pets/', pick(inSub('pets')), { kicker: 'Pets' })
       .join('')}
   </div>
 </section>
+
+${yourWay({ id: 'trip-ideas' })}
 
 <section class="areas wrap" id="neighborhoods" aria-labelledby="areas-h">
   <div class="sec-head"><p class="kicker">Around town</p><h2 id="areas-h">Pick a neighborhood and wander</h2></div>
