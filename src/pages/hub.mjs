@@ -143,7 +143,7 @@ ${rail('When the check engine light comes on', '/c/auto/auto-repair/', pick(inSu
 ${rail('Good dogs welcome', '/c/pets/', pick(inSub('pets')), { kicker: 'Pets' })}
 </div>
 
-<section class="athens" aria-labelledby="athens-h">
+<section class="athens" id="architecture" aria-labelledby="athens-h">
   <div class="wrap athens-head">
     <p class="kicker kicker-light">The Athens of the Prairie</p>
     <h2 id="athens-h">The buildings are famous.<br>The people inside them make it home.</h2>
@@ -153,7 +153,7 @@ ${rail('Good dogs welcome', '/c/pets/', pick(inSub('pets')), { kicker: 'Pets' })
     ${archOrder
       .map((k) => {
         const p = PHOTOS[k];
-        return `<figure class="arch"><img src="${p.src}" alt="${esc(p.title)}" loading="lazy" style="object-position:${p.pos}"><figcaption><strong>${esc(p.title)}</strong><span>${esc(p.note)}</span><small>Photo: ${esc(p.credit)} · ${esc(p.license)}</small></figcaption></figure>`;
+        return `<figure class="arch"><a href="/l/${k}/"><img src="${p.src}" alt="" loading="lazy" style="object-position:${p.pos}"><figcaption><strong>${esc(p.title)}</strong><span>${esc(p.note)}</span><small>Photo: ${esc(p.credit)} · ${esc(p.license)}</small></figcaption></a></figure>`;
       })
       .join('')}
   </div>
