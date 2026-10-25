@@ -10,6 +10,7 @@ import { pickupPages } from './src/pages/pickup-pages.mjs';
 import { ownersPages } from './src/pages/owners-pages.mjs';
 import { visitPages } from './src/pages/visit-pages.mjs';
 import { landmarkPages } from './src/pages/landmark-pages.mjs';
+import { icsFeed } from './src/pages/events.mjs';
 import { searchIndex } from './src/site.mjs';
 
 const root = new URL('./', import.meta.url);
@@ -44,6 +45,7 @@ const pages = [
 ];
 await mkdir(new URL('data/', out), { recursive: true });
 await writeFile(new URL('data/directory.json', out), JSON.stringify(searchIndex()));
+await writeFile(new URL('events.ics', out), icsFeed());
 for (const p of pages) {
   const file = new URL(p.path, out);
   await mkdir(new URL('./', file), { recursive: true });

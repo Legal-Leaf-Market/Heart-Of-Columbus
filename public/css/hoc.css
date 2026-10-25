@@ -627,3 +627,20 @@ section { scroll-margin-top: 130px; }
 .lm-map iframe { height: 300px; border-bottom: 0; }
 .lm-walk { font-size: 14px; padding-top: 18px; }
 .bz-note { font-size: 12px; font-weight: 700; color: var(--brand); margin-top: 4px; }
+
+/* ---------- Events ---------- */
+.ev-sec { padding-top: 36px; padding-bottom: 12px; }
+.ev-sec .rail-head { padding-left: 0; padding-right: 0; }
+.ev-grid { display: grid; gap: 16px; margin-top: 4px; }
+@media (min-width: 760px) { .ev-grid { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); } }
+.ev { background: var(--surface); border: 2px solid var(--ink); border-radius: var(--r); box-shadow: var(--pop); padding: 18px; display: grid; gap: 6px; align-content: start; }
+.ev h3 { font-size: 24px; font-weight: 800; }
+.ev h3 a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.ev-date { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--brand); }
+.ev-venue { display: flex; align-items: center; gap: 6px; font-weight: 700; }
+.ev-line { color: var(--muted); }
+.ev-near { margin-top: 8px; border-top: 1.5px dashed var(--line); padding-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+.ev-near p { width: 100%; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.ev-near a { font-size: 13px; font-weight: 700; border: 1.5px solid var(--ink); border-radius: 999px; padding: 3px 10px; background: #eef6ee; }
+.ev-near a:hover { background: #dff7e6; }
+.ev-sec .fine a { text-decoration: underline; }

@@ -4,6 +4,7 @@
 import { page, esc, t } from '../layout.mjs';
 import { header, footer, svg, tel, rail } from '../site.mjs';
 import { directory } from '../data/directory.mjs';
+import { eventsSection } from './events.mjs';
 import { VISITORS_CENTER, TOURS, GETTING_HERE, GETTING_AROUND, SOCIAL_DISTRICT, SRC } from '../data/visit.mjs';
 
 const styles = ['hoc.css'];
@@ -27,6 +28,7 @@ const JUMP = [
   ['getting-around', 'Getting around'],
   ['social-district', 'Social District'],
   ['call-ahead', 'Call ahead'],
+  ['whats-on', 'What’s on'],
 ];
 
 function visitPage({ assets }) {
@@ -70,13 +72,14 @@ ${section('call-ahead', '📞', 'Before you go', 'Call ahead', `
   </ul>
   <p class="btns"><a class="btn btn-sm" href="/explore/">See what’s open now ${svg('arrow', 'ic-sm')}</a><a class="btn btn-sm btn-ghost" href="${SRC.events}" target="_blank" rel="noopener">Official events calendar</a></p>`)}
 </div>
+${eventsSection({ mode: 'upcoming', id: 'whats-on', title: 'What’s on', kicker: 'Signature events' })}
 ${rail('Social District businesses on our list', '/n/downtown/#social-district', directory.filter((b) => b.dora), { kicker: 'Drinks to go downtown, 21 and up' })}
 </main>
 ${footer()}`;
   return page({
     title: 'Plan your visit | Heart of Columbus',
     description: 'Visiting Columbus, Indiana: the Visitors Center, architecture tours, getting here and around, and the downtown Social District, with a source for every fact.',
-    body, scripts: ['site.js', 'hub.js'], styles, assets,
+    body, scripts: ['site.js', 'hub.js', 'events.js'], styles, assets,
   });
 }
 
