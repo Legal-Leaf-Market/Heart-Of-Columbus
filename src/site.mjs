@@ -157,6 +157,7 @@ export const searchIndex = () =>
     r: b.area, p: b.phone, l: b.ll, d: b.demo ? 1 : 0, h: b.heritage ? 1 : 0, e: subBySlug[b.sub].emoji,
     o: b.order.length ? 1 : 0, k: b.book.length ? 1 : 0, f: b.feed || b.store ? 1 : 0,
     ...(b.hours ? { t: b.hours } : {}),
+    ...(b.dora ? { z: 1 } : {}),
     ...(hasCover(b.sub) ? { v: 1 } : {}),
   }));
 

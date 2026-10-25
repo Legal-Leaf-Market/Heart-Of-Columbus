@@ -199,10 +199,16 @@ const tripBar = () => `
     </div>
     <div class="trip-print" aria-hidden="true"><div data-trip-qr></div><p>Open this list on a phone:<br><span data-trip-url></span></p></div>
   </div>`;
-const tripData = () => ({
-  landmarks: LANDMARKS.map((l) => ({ s: l.slug, n: l.name, d: `${l.architect}, ${l.year}`, a: l.address, l: l.ll })),
-  events: EVENTS.map((e) => ({ s: e.slug, n: e.name, d: dateRange(e), a: e.venue, u: e.url, end: e.end, l: e.ll })),
+// Landmarks and events for the map layers and the saved page. Landmark pins
+// reuse the site's float art; anything without its own drawing gets the arch.
+const PIN_ART = { firstchristian: 'spire', northchristian: 'spire', courthouse: 'courthouse', firestation: 'firestation', bridge: 'bridge' };
+const mapData = () => ({
+  landmarks: LANDMARKS.map((l) => ({ s: l.slug, n: l.name, d: `${l.architect}, ${l.year}`, a: l.address, l: l.ll, art: PIN_ART[l.slug] || 'arch', street: l.street ? 1 : 0 })),
+  events: EVENTS.map((e) => ({ s: e.slug, n: e.name, d: dateRange(e), a: e.venue, u: e.url, start: e.start, end: e.end, l: e.ll })),
 });
+
+const NOW_CATS = ['restaurants', 'coffee-sweets', 'bars', 'shopping', 'things-to-do'];
+const LAYERS = [['b', 'Businesses'], ['l', 'Landmarks'], ['e', 'This weekend'], ['z', 'Social District']];
 
 function explorePage({ assets }, { saved = false } = {}) {
   const body = `
@@ -217,6 +223,7 @@ ${header(saved ? 'saved' : 'explore')}
     <div class="ex-views" role="group" aria-label="View">
       <button type="button" class="pill" data-view="list" aria-pressed="true">${svg('list', 'ic-sm')} List</button>
       <button type="button" class="pill" data-view="map" aria-pressed="false">${svg('map', 'ic-sm')} Map</button>
+      ${saved ? '' : `<a class="pill pill-now" href="/explore/?view=map&amp;now=1" data-now-link>${svg('pin', 'ic-sm')} Near me now</a>`}
     </div>
   </div>
   <div class="ex-layout wrap">
@@ -240,7 +247,10 @@ ${header(saved ? 'saved' : 'explore')}
     </aside>
     <section class="ex-main">
       <div class="ex-bar"><p data-ex-count aria-live="polite"></p><button type="button" class="pill ex-filters-btn" data-ex-toggle>Filters</button></div>
-      <div class="ex-map" data-ex-map hidden><div id="map"></div><p class="fine">Pins for ${directory.filter((b) => b.ll).length} of ${directory.length} places; the rest had no map pin in public listings.</p></div>
+      <div class="ex-map" data-ex-map hidden>
+        ${saved ? '' : `<div class="now-bar" data-now-bar hidden><p data-now-msg aria-live="polite">Open now, nearest first.</p><div class="chips">${NOW_CATS.map((k) => { const c = CATEGORIES.find((x) => x.slug === k); return `<button type="button" class="pill" data-now-cat="${k}" aria-pressed="false">${c.emoji} ${esc(c.label)}</button>`; }).join('')}</div><a class="fine" href="/explore/?view=map" data-now-exit>Leave near me now</a></div>`}
+        <div class="map-layers" role="group" aria-label="Show on the map">${LAYERS.map(([k, l]) => `<label class="check map-layer map-layer-${k}"><input type="checkbox" data-layer="${k}"${k === 'z' ? '' : ' checked'}> ${esc(l)}</label>`).join('')}</div>
+        <div id="map"></div><p class="fine">Pins for ${directory.filter((b) => b.ll).length} of ${directory.length} places; the rest had no map pin in public listings. Landmark pins use our own drawings. Social District pins are businesses named in the city’s ordinance; see <a href="/visit/#social-district">the district map</a> for its edges.</p></div>
       ${saved ? '<div class="trip-extras" data-trip-extras hidden></div>' : ''}
       <div class="grid" data-ex-grid></div>
       <button type="button" class="btn btn-ghost more-btn" data-ex-more hidden>Show more</button>
@@ -256,7 +266,7 @@ ${footer()}`;
     scripts: saved ? ['site.js', 'trip.js', 'explore.js'] : ['site.js', 'explore.js'],
     styles,
     assets,
-    data: saved ? tripData() : null,
+    data: mapData(),
   });
 }
 

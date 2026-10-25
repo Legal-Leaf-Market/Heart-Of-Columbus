@@ -32,7 +32,9 @@ Indiana. A pitch, not a live service. See README.md.
   `public/js/events.js` picks what shows at load time, and the build writes
   `/events.ics`. Trip ideas (`/trips/<slug>/`) come from `src/data/trips.mjs`;
   their reasons are computed from data, and a test fails if a stop is not open
-  for its whole slot.
+  for its whole slot. The explore map has layers (businesses, landmarks with
+  `public/art/pin-*.png`, this weekend's events, Social District) and a
+  "near me now" mode at `/explore/?view=map&now=1`.
   Directory pages use plain CSS in `public/css/hoc.css`, not Tailwind.
 - `src/data/web.mjs` (websites, phones, owner-set Google action links) and
   `src/data/commerce.mjs` (cart engine, live feed, first-party order/book links)

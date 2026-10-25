@@ -1,4 +1,7 @@
 // Explore and Saved: filter every business, list or map. State lives in the URL.
+// The map also has layers for landmarks, this weekend's events and the Social
+// District, and a "near me now" mode (?view=map&now=1): open now, nearest
+// first, with one-tap category chips, for a phone on a sidewalk.
 (function () {
   'use strict';
   var $ = function (s, r) { return (r || document).querySelector(s); };
@@ -36,7 +39,21 @@
   var st = {
     q: params.get('q') || '', cat: params.get('cat') || '', sub: params.get('sub') || '', area: params.get('area') || '',
     phone: params.get('phone') === '1', demo: params.get('demo') === '1', online: params.get('online') === '1', open: params.get('open') === '1', sort: params.get('sort') || 'az', view: params.get('view') || 'list',
+    now: !savedOnly && params.get('now') === '1', layers: (params.get('layers') || 'b,l,e').split(','),
   };
+  if (st.now) { st.view = 'map'; st.open = true; st.sort = 'near'; }
+  var data = JSON.parse(($('#page-data') || {}).textContent || '{}');
+  var layerOn = function (k) { return st.layers.indexOf(k) !== -1; };
+
+  // This weekend in Columbus (Friday to Sunday, or what is left of it), as in events.js.
+  var DAY = 86400000;
+  var tp = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Indiana/Indianapolis', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date());
+  var tg = function (k) { return Number(tp.filter(function (x) { return x.type === k; })[0].value); };
+  var today = Date.UTC(tg('year'), tg('month') - 1, tg('day'));
+  var dow = new Date(today).getUTCDay();
+  var fri = dow === 0 ? today - 2 * DAY : dow === 6 ? today - DAY : today + ((5 - dow + 7) % 7) * DAY;
+  var parseDay = function (x) { var a = x.split('-').map(Number); return Date.UTC(a[0], a[1] - 1, a[2]); };
+  var thisWeekend = function (e) { var s = parseDay(e.start), end = parseDay(e.end); return end >= today && Math.max(s, today, fri) <= Math.min(end, fri + 2 * DAY); };
   var PAGE = 48, shown = PAGE, all = [], map = null, layer = null, me = null;
   var dist = function (a, b) {
     var r = Math.PI / 180, dLat = (b[0] - a[0]) * r, dLng = (b[1] - a[1]) * r;
@@ -50,9 +67,16 @@
     navigator.geolocation.getCurrentPosition(function (p) {
       me = [p.coords.latitude, p.coords.longitude];
       msg.textContent = dist(me, [39.2014, -85.9214]) > 40 ? 'You look far from Columbus, so distances are from where you are now.' : 'Sorted by distance from you. Your location stays on your device.';
+      nowMsg(dist(me, [39.2014, -85.9214]) > 40 ? 'Open now. You look far from Columbus, so this shows the whole town.' : 'Open now, nearest to you first. Your location stays on your device.');
       render();
-    }, function () { msg.textContent = 'Location is off, so we sorted A to Z instead.'; st.sort = 'az'; $('[data-ex-sort]').value = 'az'; render(); }, { maximumAge: 300000, timeout: 10000 });
+    }, function () {
+      msg.textContent = 'Location is off, so we sorted A to Z instead.'; st.sort = 'az'; $('[data-ex-sort]').value = 'az';
+      nowMsg('Location is off, so this is everything open now, A to Z.');
+      render();
+    }, { maximumAge: 300000, timeout: 10000 });
   }
+
+  function nowMsg(t) { var el = $('[data-now-msg]'); if (el && st.now) el.textContent = t; }
 
   function sync() {
     var p = new URLSearchParams();
@@ -61,7 +85,9 @@
     if (st.phone) p.set('phone', '1');
     if (st.demo) p.set('demo', '1');
     if (st.online) p.set('online', '1');
-    if (st.open) p.set('open', '1');
+    if (st.open && !st.now) p.set('open', '1');
+    if (st.now) { p.set('now', '1'); p.delete('sort'); }
+    if (st.layers.join(',') !== 'b,l,e') p.set('layers', st.layers.join(','));
     history.replaceState(null, '', location.pathname + (p.toString() ? '?' + p : ''));
   }
 
@@ -121,6 +147,10 @@
     $$('[data-subs-of]').forEach(function (d) { d.hidden = d.dataset.subsOf !== st.cat; });
     $$('[data-ex-sub]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.exSub === st.sub)); });
     $$('[data-view]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.view === st.view)); });
+    $$('[data-now-cat]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.nowCat === st.cat)); });
+    var bar = $('[data-now-bar]'); if (bar) bar.hidden = !st.now;
+    var nl = $('[data-now-link]'); if (nl) nl.setAttribute('aria-pressed', String(st.now));
+    $$('[data-layer]').forEach(function (c) { c.checked = layerOn(c.dataset.layer); });
     counts();
     if (showMap) drawMap(list);
     if (window.HoCPaintSaved) window.HoCPaintSaved();
@@ -153,6 +183,12 @@
     });
     return leaflet;
   }
+  var pinIcon = function (L, cls, inner, bg) { return L.divIcon({ className: '', html: '<div class="pin ' + cls + '"' + (bg ? ' style="background:' + bg + '"' : '') + '><span>' + inner + '</span></div>', iconSize: [28, 28], iconAnchor: [4, 28], popupAnchor: [10, -26] }); };
+  var bizPopup = function (b) {
+    var o = b.t ? window.HoCOpen(b.t) : null;
+    return '<a class="pop-name" href="/b/' + b.s + '/">' + esc(b.n) + '</a><small>' + esc(b.y) + (b.a ? '<br>' + esc(b.a) : '') +
+      (o ? '<br><b class="' + (o.open ? 'pop-open' : 'pop-closed') + '">' + esc(o.label) + '</b>' : '') + (b.z ? '<br>Social District: drinks to go' : '') + '</small>';
+  };
   function drawMap(list) {
     loadLeaflet().then(function (L) {
       if (!map) {
@@ -161,18 +197,41 @@
       }
       if (layer) layer.remove();
       var walk = st.sort === 'walk';
-      layer = (L.markerClusterGroup && !walk ? L.markerClusterGroup({ showCoverageOnHover: false, maxClusterRadius: 45 }) : L.layerGroup()).addTo(map);
+      var dora = layerOn('z') && !walk;
+      layer = L.layerGroup().addTo(map);
+      var biz = (L.markerClusterGroup && !walk ? L.markerClusterGroup({ showCoverageOnHover: false, maxClusterRadius: 45 }) : L.layerGroup()).addTo(layer);
       var pts = [];
-      list.forEach(function (b) {
-        if (!b.l) return;
+      if (layerOn('b')) list.forEach(function (b) {
+        if (!b.l || (dora && b.z)) return;
         pts.push(b.l);
-        var icon = L.divIcon({ className: '', html: '<div class="pin" style="background:' + (window.HoCCat[b.c] || [])[2] + '"><span>' + (walk && b._i ? b._i : b.e) + '</span></div>', iconSize: [28, 28], iconAnchor: [4, 28], popupAnchor: [10, -26] });
-        L.marker(b.l, { icon: icon, title: b.n }).bindPopup('<a class="pop-name" href="/b/' + b.s + '/">' + esc(b.n) + '</a><small>' + esc(b.y) + (b.a ? '<br>' + esc(b.a) : '') + '</small>').addTo(layer);
+        L.marker(b.l, { icon: pinIcon(L, '', walk && b._i ? b._i : b.e, (window.HoCCat[b.c] || [])[2]), title: b.n }).bindPopup(bizPopup(b)).addTo(biz);
       });
       if (walk && pts.length > 1) L.polyline(pts, { color: '#c8232c', weight: 3, dashArray: '6 6' }).addTo(layer);
-      // Frame Columbus itself; a handful of pins out in the county shouldn't zoom the map out.
-      var core = pts.filter(function (p) { return dist(p, [39.2014, -85.9214]) < 6; });
-      setTimeout(function () { map.invalidateSize(); if (pts.length) map.fitBounds(core.length > 5 ? core : pts, { padding: [30, 30], maxZoom: 16 }); }, 50);
+      // Social District businesses stand out, unclustered, whatever the filters say (except open now).
+      var ids = savedOnly ? (window.HoCTripIds ? window.HoCTripIds() : window.HoCSaved()) : null;
+      if (dora) all.forEach(function (b) {
+        if (!b.z || !b.l || (ids && ids.indexOf(b.s) === -1) || (st.open && !((window.HoCOpen(b.t) || {}).open))) return;
+        pts.push(b.l);
+        L.marker(b.l, { icon: pinIcon(L, 'pin-dora', '🥤'), title: b.n, zIndexOffset: 500 }).bindPopup(bizPopup(b)).addTo(layer);
+      });
+      if (layerOn('l')) (data.landmarks || []).forEach(function (x) {
+        if (!x.l || (ids && ids.indexOf('l:' + x.s) === -1)) return;
+        pts.push(x.l);
+        var icon = L.divIcon({ className: '', html: '<div class="pin-art"><img src="/art/pin-' + x.art + '.png" alt=""></div>', iconSize: [46, 46], iconAnchor: [23, 40], popupAnchor: [0, -34] });
+        L.marker(x.l, { icon: icon, title: x.n, zIndexOffset: 800 }).bindPopup('<span class="pop-kind">Landmark</span><a class="pop-name" href="/l/' + x.s + '/">' + esc(x.n) + '</a><small>' + esc(x.d) + '<br>' + esc(x.a) + (x.street ? '<br>Seen from the street, free' : '') + '</small>').addTo(layer);
+      });
+      if (layerOn('e')) (data.events || []).forEach(function (x) {
+        if (!x.l || (ids ? ids.indexOf('e:' + x.s) === -1 || parseDay(x.end) < today : !thisWeekend(x))) return;
+        pts.push(x.l);
+        L.marker(x.l, { icon: pinIcon(L, 'pin-ev', '🎉'), title: x.n, zIndexOffset: 900 }).bindPopup('<span class="pop-kind">This weekend</span><a class="pop-name" href="' + esc(x.u) + '" target="_blank" rel="noopener">' + esc(x.n) + '</a><small>' + esc(x.d) + '<br>' + esc(x.a) + '</small>').addTo(layer);
+      });
+      if (me) L.circleMarker(me, { radius: 8, color: '#fff', weight: 3, fillColor: '#3b5bdb', fillOpacity: 1 }).bindTooltip('You are here').addTo(layer);
+      // Near me now frames you and the closest open places; otherwise frame
+      // Columbus itself, so a handful of pins out in the county don't zoom the map out.
+      var frame;
+      if (st.now && me && dist(me, [39.2014, -85.9214]) < 40) frame = [me].concat(list.filter(function (b) { return b.l; }).slice(0, 12).map(function (b) { return b.l; }));
+      else { var core = pts.filter(function (p) { return dist(p, [39.2014, -85.9214]) < 6; }); frame = core.length > 5 ? core : pts; }
+      setTimeout(function () { map.invalidateSize(); if (frame.length) map.fitBounds(frame, { padding: [30, 30], maxZoom: 16 }); }, 50);
     }).catch(function () { $('#map').textContent = 'The map could not load. The list still works.'; });
   }
 
@@ -190,12 +249,34 @@
   var ph = $('[data-ex-phone]'); ph.checked = st.phone;
   ph.addEventListener('change', function () { st.phone = ph.checked; shown = PAGE; render(); });
   var op = $('[data-ex-open]'); op.checked = st.open;
+  if (st.now) sort.value = 'near';
   op.addEventListener('change', function () { st.open = op.checked; shown = PAGE; render(); });
   var on = $('[data-ex-online]'); on.checked = st.online;
   on.addEventListener('change', function () { st.online = on.checked; shown = PAGE; render(); });
   var dm = $('[data-ex-demo]'); dm.checked = st.demo;
   dm.addEventListener('change', function () { st.demo = dm.checked; shown = PAGE; render(); });
   $$('[data-view]').forEach(function (b) { b.addEventListener('click', function () { st.view = b.dataset.view; render(); }); });
+  $$('[data-layer]').forEach(function (c) {
+    c.addEventListener('change', function () {
+      st.layers = $$('[data-layer]').filter(function (x) { return x.checked; }).map(function (x) { return x.dataset.layer; });
+      render();
+    });
+  });
+  $$('[data-now-cat]').forEach(function (b) { b.addEventListener('click', function () { st.cat = st.cat === b.dataset.nowCat ? '' : b.dataset.nowCat; st.sub = ''; render(); }); });
+  var nowLink = $('[data-now-link]');
+  if (nowLink) nowLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    st.now = true; st.view = 'map'; st.open = true; st.sort = 'near';
+    op.checked = true; sort.value = 'near';
+    render();
+    if (!me) locate();
+  });
+  var nowExit = $('[data-now-exit]');
+  if (nowExit) nowExit.addEventListener('click', function (e) {
+    e.preventDefault();
+    st.now = false; st.open = false; op.checked = false;
+    render();
+  });
   $('[data-ex-more]').addEventListener('click', function () { shown += PAGE; render(); });
   $('[data-ex-toggle]').addEventListener('click', function () { $('[data-ex-side]').classList.toggle('open'); });
   if (savedOnly) document.addEventListener('hoc:saved', render);
