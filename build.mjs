@@ -9,6 +9,7 @@ import { directoryPages } from './src/pages/directory-pages.mjs';
 import { pickupPages } from './src/pages/pickup-pages.mjs';
 import { ownersPages } from './src/pages/owners-pages.mjs';
 import { visitPages } from './src/pages/visit-pages.mjs';
+import { landmarkPages } from './src/pages/landmark-pages.mjs';
 import { searchIndex } from './src/site.mjs';
 
 const root = new URL('./', import.meta.url);
@@ -39,6 +40,7 @@ const pages = [
   ...pickupPages({ assets }),
   ...ownersPages({ assets }),
   ...visitPages({ assets }),
+  ...landmarkPages({ assets }),
 ];
 await mkdir(new URL('data/', out), { recursive: true });
 await writeFile(new URL('data/directory.json', out), JSON.stringify(searchIndex()));

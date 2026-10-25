@@ -610,3 +610,20 @@ section { scroll-margin-top: 130px; }
 .vs-src { font-size: 12px; color: var(--muted); white-space: nowrap; }
 .vs-sec .btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
 @media (max-width: 559px) { .vs-sec { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- Landmark pages ---------- */
+.arch > a { display: block; color: inherit; }
+.arch > a:hover strong { text-decoration: underline; text-underline-offset: 4px; }
+.lm-hero .credit a { text-decoration: underline; }
+.lm-info { display: grid; gap: 20px; padding-top: 28px; padding-bottom: 8px; }
+@media (min-width: 900px) { .lm-info { grid-template-columns: minmax(0, 1fr) 380px; align-items: start; } }
+.lm-what { font-size: clamp(18px, 2vw, 21px); max-width: 680px; }
+.lm-facts dl { margin: 18px 0 0; display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+.lm-facts dl div { background: var(--surface); border: 2px solid var(--ink); border-radius: 14px; padding: 10px 14px; }
+.lm-facts dt { font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.lm-facts dd { margin: 2px 0 0; font-weight: 700; }
+.lm-facts .btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.lm-facts .fine a { text-decoration: underline; }
+.lm-map iframe { height: 300px; border-bottom: 0; }
+.lm-walk { font-size: 14px; padding-top: 18px; }
+.bz-note { font-size: 12px; font-weight: 700; color: var(--brand); margin-top: 4px; }

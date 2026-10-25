@@ -2,6 +2,7 @@
 import { existsSync } from 'node:fs';
 import { esc, t } from './layout.mjs';
 import { CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, directory } from './data/directory.mjs';
+import { LANDMARKS } from './data/landmarks.mjs';
 
 // Cover art for a business type, only when public/art has one for it;
 // otherwise the card shows its emoji on the pattern.
@@ -12,39 +13,12 @@ export const coverArt = (sub, lazy = true) =>
     : '';
 
 // Architecture photography from Wikimedia Commons, hotlinked with credit.
-// Every photo is public domain or Creative Commons; see /credits/.
+// Every photo is public domain or Creative Commons; see /credits/. The
+// landmark photos live with their landmark in data/landmarks.mjs; PHOTOS is
+// the flat view the pages use, plus two scenes that are not landmarks.
 const C = 'https://upload.wikimedia.org/wikipedia/commons/thumb/';
 export const PHOTOS = {
-  firstchristian: { src: C + '5/5c/First_Christian_Church%2C_Columbus%2C_IN.jpg/1280px-First_Christian_Church%2C_Columbus%2C_IN.jpg',
-    title: 'First Christian Church', note: 'Eliel Saarinen, 1942', credit: 'T G Hess', license: 'CC BY-SA 4.0',
-    page: 'https://commons.wikimedia.org/wiki/File:First_Christian_Church,_Columbus,_IN.jpg', pos: '50% 30%' },
-  northchristian: { src: C + 'd/da/North_Christian_Church_%28Columbus%2C_Indiana%29_-_April_2008_-_Holly_Higgins_03.jpg/1280px-North_Christian_Church_%28Columbus%2C_Indiana%29_-_April_2008_-_Holly_Higgins_03.jpg',
-    title: 'North Christian Church', note: 'Eero Saarinen, 1964', credit: 'Holly Higgins', license: 'CC BY 2.0',
-    page: 'https://commons.wikimedia.org/wiki/File:North_Christian_Church_(Columbus,_Indiana)_-_April_2008_-_Holly_Higgins_03.jpg', pos: '50% 40%' },
-  irwin: { src: C + '7/76/Irwin_Union_Bank_building_in_Columbus%2C_Indiana_LCCN2013650700.tif/lossy-page1-1280px-Irwin_Union_Bank_building_in_Columbus%2C_Indiana_LCCN2013650700.tif.jpg',
-    title: 'Irwin Union Bank', note: 'Eero Saarinen, 1954', credit: 'Carol M. Highsmith, Library of Congress', license: 'Public domain',
-    page: 'https://commons.wikimedia.org/wiki/File:Irwin_Union_Bank_building_in_Columbus,_Indiana_LCCN2013650700.tif', pos: '50% 50%' },
-  library: { src: C + '6/69/Cleo_Rogers_Memorial_Library_and_Moore_Sculpture.jpeg/1280px-Cleo_Rogers_Memorial_Library_and_Moore_Sculpture.jpeg',
-    title: 'Cleo Rogers Memorial Library & Large Arch', note: 'I. M. Pei, 1969; Henry Moore, 1971', credit: 'RichardMcCoy', license: 'CC BY-SA 3.0',
-    page: 'https://commons.wikimedia.org/wiki/File:Cleo_Rogers_Memorial_Library_and_Moore_Sculpture.jpeg', pos: '50% 55%' },
-  courthouse: { src: C + 'd/d2/Bartholomew_County_Courthouse.jpeg/1280px-Bartholomew_County_Courthouse.jpeg',
-    title: 'Bartholomew County Courthouse', note: 'Isaac Hodgson, 1874', credit: 'RichardMcCoy', license: 'CC BY-SA 3.0',
-    page: 'https://commons.wikimedia.org/wiki/File:Bartholomew_County_Courthouse.jpeg', pos: '50% 35%' },
-  cityhall: { src: C + '7/73/Columbus_City_Hall_%28Indiana%29_-_April_2008_-_Holly_Higgins.jpg/1280px-Columbus_City_Hall_%28Indiana%29_-_April_2008_-_Holly_Higgins.jpg',
-    title: 'Columbus City Hall', note: 'Edward Charles Bassett, SOM, 1981', credit: 'Holly Higgins', license: 'CC BY 2.0',
-    page: 'https://commons.wikimedia.org/wiki/File:Columbus_City_Hall_(Indiana)_-_April_2008_-_Holly_Higgins.jpg', pos: '50% 50%' },
-  bridge: { src: C + '9/9b/Stewart-bridge-1933328.jpg/1280px-Stewart-bridge-1933328.jpg',
-    title: 'Robert N. Stewart Bridge', note: 'Second Street over the river, 1999', credit: 'Carol M. Highsmith, Library of Congress', license: 'Public domain',
-    page: 'https://commons.wikimedia.org/wiki/File:Stewart-bridge-1933328.jpg', pos: '50% 50%' },
-  miller: { src: C + '1/19/Miller_House_%28Columbus%2C_Indiana%29_-_March_2013_-_Jeff_Hart_03.jpg/1280px-Miller_House_%28Columbus%2C_Indiana%29_-_March_2013_-_Jeff_Hart_03.jpg',
-    title: 'Miller House and Garden', note: 'Eero Saarinen and Dan Kiley, 1957', credit: 'Jeff Hart', license: 'CC BY 2.0',
-    page: 'https://commons.wikimedia.org/wiki/File:Miller_House_(Columbus,_Indiana)_-_March_2013_-_Jeff_Hart_03.jpg', pos: '50% 60%' },
-  firestation: { src: C + 'f/f4/Fire_Station_4%2C_Columbus%2C_Indiana_LCCN2013650708.jpg/1280px-Fire_Station_4%2C_Columbus%2C_Indiana_LCCN2013650708.jpg',
-    title: 'Fire Station 4', note: 'Robert Venturi, 1967', credit: 'Carol M. Highsmith, Library of Congress', license: 'Public domain',
-    page: 'https://commons.wikimedia.org/wiki/File:Fire_Station_4,_Columbus,_Indiana_LCCN2013650708.jpg', pos: '50% 50%' },
-  commons: { src: 'https://upload.wikimedia.org/wikipedia/commons/d/d9/2015_Chaotic_Tuesday.jpg',
-    title: 'Chaos I at The Commons', note: 'Jean Tinguely, 1974', credit: 'RichardMcCoy', license: 'CC BY-SA 4.0',
-    page: 'https://commons.wikimedia.org/wiki/File:2015_Chaotic_Tuesday.jpg', pos: '50% 40%' },
+  ...Object.fromEntries(LANDMARKS.map((l) => [l.slug, { ...l.photo, title: l.name, note: l.note || `${l.architect}, ${l.year}`, landmark: l.slug }])),
   aerial: { src: C + 'c/c5/Columbus%2C_Indiana_-_Aerial.jpg/1280px-Columbus%2C_Indiana_-_Aerial.jpg',
     title: 'Columbus from the air', note: 'Downtown and the river', credit: 'formulanone', license: 'CC BY-SA 2.0',
     page: 'https://commons.wikimedia.org/wiki/File:Columbus,_Indiana_-_Aerial.jpg', pos: '50% 50%' },
@@ -130,7 +104,7 @@ export function footer() {
 const hash = (s) => [...s].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) >>> 0, 7);
 const PATTERNS = ['pat-dots', 'pat-arch', 'pat-grid', 'pat-wave', 'pat-ray'];
 
-export function card(b, { compact = false } = {}) {
+export function card(b, { compact = false, note = '' } = {}) {
   const cat = catBySlug[b.cat];
   const sub = subBySlug[b.sub];
   const area = areaBySlug[b.area];
@@ -155,12 +129,13 @@ export function card(b, { compact = false } = {}) {
     <h3 class="bz-name"><a href="/b/${b.slug}/">${t(b.name)}</a></h3>
     <p class="bz-type">${t(b.featured ? sub.label : b.type)}</p>
     ${b.address ? `<p class="bz-addr">${t(b.address)}</p>` : ''}
+    ${note ? `<p class="bz-note">${esc(note)}</p>` : ''}
     ${tags.length ? `<div class="bz-tags">${tags.join('')}</div>` : ''}
   </div>
 </article>`;
 }
 
-export const rail = (title, href, items, { kicker = '', id = '', openOnly = false } = {}) =>
+export const rail = (title, href, items, { kicker = '', id = '', openOnly = false, note = null } = {}) =>
   items.length
     ? `
 <section class="rail"${id ? ` id="${id}"` : ''}${openOnly ? ' data-open-rail hidden' : ''}>
@@ -168,7 +143,7 @@ export const rail = (title, href, items, { kicker = '', id = '', openOnly = fals
     <div>${kicker ? `<p class="kicker">${esc(kicker)}</p>` : ''}<h2>${esc(title)}</h2></div>
     ${href ? `<a class="see-all" href="${href}">See all ${svg('arrow', 'ic-sm')}</a>` : ''}
   </div>
-  <div class="rail-track-wrap"><div class="rail-track" data-rail>${items.map((b) => card(b, { compact: true })).join('')}</div>
+  <div class="rail-track-wrap"><div class="rail-track" data-rail>${items.map((b) => card(b, { compact: true, note: note ? note(b) : '' })).join('')}</div>
     <button type="button" class="rail-btn prev" data-rail-prev aria-label="Scroll back">‹</button>
     <button type="button" class="rail-btn next" data-rail-next aria-label="Scroll forward">›</button>
   </div>
