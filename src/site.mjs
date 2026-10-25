@@ -1,6 +1,7 @@
 // Shared pieces for the directory pages: header, footer, cards, photos.
 import { existsSync } from 'node:fs';
-import { esc, t } from './layout.mjs';
+import { esc, t, json } from './layout.mjs';
+import { breadcrumbLd } from './jsonld.mjs';
 import { CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, directory } from './data/directory.mjs';
 import { LANDMARKS } from './data/landmarks.mjs';
 
@@ -164,4 +165,4 @@ export const searchIndex = () =>
 export const breadcrumbs = (items) =>
   `<nav class="crumbs wrap" aria-label="Breadcrumb">${items
     .map(([href, label], i) => (i < items.length - 1 ? `<a href="${href}">${esc(label)}</a><span>/</span>` : `<span aria-current="page">${esc(label)}</span>`))
-    .join('')}</nav>`;
+    .join('')}</nav><script type="application/ld+json">${json(breadcrumbLd(items))}</script>`;
