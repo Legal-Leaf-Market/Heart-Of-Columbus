@@ -577,3 +577,8 @@ section { scroll-margin-top: 130px; }
 .hours tr.today th, .hours tr.today td { font-weight: 800; color: var(--ink); }
 .tag-warn { background: #fff4d6; border-color: #b86b00; color: #7a4600; }
 .biz-open { margin-top: 10px; }
+
+.ta-open { color: #0b7a3a; font-style: normal; font-weight: 800; }
+.ta-closed { color: var(--muted); font-style: normal; }
+.pk-qr { display: grid; justify-items: center; gap: 4px; margin-top: 10px; }
+.pk-qr img { width: 148px; height: 148px; image-rendering: pixelated; background: #fff; border-radius: 8px; }
