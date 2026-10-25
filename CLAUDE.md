@@ -27,7 +27,10 @@ Indiana. A pitch, not a live service. See README.md.
   `/b/<slug>/` one page per business, `/explore/`, `/saved/`, `/order/`,
   `/visit/` (facts in `src/data/visit.mjs`, each with `source` and `checked`),
   `/l/<slug>/` one page per landmark (`src/data/landmarks.mjs`; `PHOTOS` in
-  `src/site.mjs` is a view over it).
+  `src/site.mjs` is a view over it). Events are hand-entered in
+  `src/data/events.mjs` (signature events only, each with its official page);
+  `public/js/events.js` picks what shows at load time, and the build writes
+  `/events.ics`.
   Directory pages use plain CSS in `public/css/hoc.css`, not Tailwind.
 - `src/data/web.mjs` (websites, phones, owner-set Google action links) and
   `src/data/commerce.mjs` (cart engine, live feed, first-party order/book links)

@@ -3,6 +3,7 @@ import { page, esc, t } from '../layout.mjs';
 import { businesses, prototypes } from '../data/businesses.mjs';
 import { directory, CATEGORIES, AREAS } from '../data/directory.mjs';
 import { header, footer, rail, svg, PHOTOS, artIcon, photoCredit } from '../site.mjs';
+import { eventsSection } from './events.mjs';
 
 const featuredStyle = {
   'gills-barber-shop': ['#1e2a4a', '#fff', 'Live chair queue, save your spot, book a cut.', '💈'],
@@ -125,6 +126,8 @@ ${(() => {
   </div>
 </section>
 
+${eventsSection({ mode: 'weekend', id: 'this-weekend', title: 'This weekend in Columbus', kicker: 'Happening Friday to Sunday' })}
+
 ${rail('Open right now', '/explore/?open=1', directory.filter((b) => b.hours && !b.tempClosed && ['restaurants', 'coffee-sweets', 'bars'].includes(b.cat)).slice(0, 150), { kicker: 'Hungry? These are open', openOnly: true })}
 
 <div class="rails" data-shuffle-rails>
@@ -244,7 +247,7 @@ ${footer()}`;
     title: 'Heart of Columbus | Every independent business in Columbus, Indiana',
     description: `${total} independent restaurants, shops, salons and trades in Columbus, Indiana. No chains. Browse by category or neighborhood, and order direct.`,
     body,
-    scripts: ['site.js', 'hub.js'],
+    scripts: ['site.js', 'hub.js', 'events.js'],
     styles: ['hoc.css'],
     assets,
   });
