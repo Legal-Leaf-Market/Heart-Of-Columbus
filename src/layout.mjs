@@ -22,9 +22,9 @@ export const demoBanner = (name) => `
   </div>
 </div>`;
 
-export function page({ title, description, theme = '', body, scripts = [], styles = [], data = null, ld = [], assets, preview = true, path = '/' }) {
+export function page({ title, description, theme = '', body, scripts = [], styles = [], data = null, ld = [], lang = 'en', alternates = [], assets, preview = true, path = '/' }) {
   return `<!doctype html>
-<html lang="en">
+<html lang="${lang}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -35,6 +35,7 @@ ${preview ? '<meta name="robots" content="noindex, nofollow">' : ''}
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:type" content="website">
 <meta property="og:image" content="/og.png">
+${alternates.map(([l, href]) => `<link rel="alternate" hreflang="${l}" href="${href}">`).join('\n')}
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/app.css?v=${assets.css}">
 ${styles.map((s) => `<link rel="stylesheet" href="/css/${s}?v=${assets[s] ?? ''}">`).join('\n')}
@@ -44,7 +45,7 @@ ${ld.map((x) => `<script type="application/ld+json">${json(x)}</script>`).join('
 ${scripts.map((s) => `<script src="/js/${s}?v=${assets[s] ?? ''}" defer></script>`).join('\n')}
 </head>
 <body class="${theme} min-h-screen">
-<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[100] focus:rounded-lg focus:bg-ink focus:px-4 focus:py-2 focus:text-paper">Skip to content</a>
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[100] focus:rounded-lg focus:bg-ink focus:px-4 focus:py-2 focus:text-paper">${lang === 'es' ? 'Saltar al contenido' : 'Skip to content'}</a>
 ${body}
 </body>
 </html>
