@@ -62,8 +62,10 @@ for (const slug of new Set([...Object.keys(WEB), ...Object.keys(bySlug)])) {
     else if (RETAIL.has(cat) && p.own && p.own.shop && shopPath !== '/' && !/^\/products?\/[^/]+\/?$/.test(shopPath)) store = store || p.own.shop;
     else if (RETAIL.has(cat) && ['shopify', 'bigcommerce'].includes(p.platform)) store = store || p.origin;
   }
-  if (!order.length && !book.length && !feed && !store && !p.platform) continue;
-  out[slug] = { platform: p.platform || '', origin: p.origin || '', feed, store, order: order.slice(0, 2), book: book.slice(0, 2) };
+  // Gift cards: the business's own page or its provider's, never a marketplace.
+  const gift = p.ok && p.gift && p.gift.url && !MARKET.test(host(p.gift.url)) ? { label: p.gift.label, url: p.gift.url } : null;
+  if (!order.length && !book.length && !feed && !store && !p.platform && !gift) continue;
+  out[slug] = { platform: p.platform || '', origin: p.origin || '', feed, store, order: order.slice(0, 2), book: book.slice(0, 2), ...(gift ? { gift } : {}) };
 }
 const head = `// What each business's own website can do: its cart engine and the ordering
 // or booking pages it chose. Built by scripts/import-commerce.mjs from the
@@ -72,5 +74,5 @@ const head = `// What each business's own website can do: its cart engine and th
 `;
 writeFileSync(new URL('../src/data/commerce.mjs', import.meta.url), head + 'export const COMMERCE = ' + JSON.stringify(out, null, 1) + ';\n');
 const n = (f) => Object.values(out).filter(f).length;
-console.log(Object.keys(out).length, 'entries;', n((c) => c.order.length), 'order;', n((c) => c.book.length), 'book;', n((c) => c.feed), 'feeds;', n((c) => c.store), 'store links');
+console.log(Object.keys(out).length, 'entries;', n((c) => c.order.length), 'order;', n((c) => c.book.length), 'book;', n((c) => c.feed), 'feeds;', n((c) => c.store), 'store links;', n((c) => c.gift), 'gift cards');
 void PROVIDERS;

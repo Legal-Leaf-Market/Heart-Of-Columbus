@@ -6,7 +6,7 @@
 // Only fetches websites already in src/data/web.mjs, never a URL from the
 // request, so this cannot be used to make the server fetch arbitrary hosts.
 import { WEB } from '../../src/data/web.mjs';
-import { detectPlatform, findProviderLinks, findOwnPages, EMBEDS } from '../../src/commerce-core.mjs';
+import { detectPlatform, findProviderLinks, findOwnPages, findGiftLinks, EMBEDS } from '../../src/commerce-core.mjs';
 
 export const config = { path: '/api/probe' };
 const UA = 'Mozilla/5.0 (compatible; HeartOfColumbusBot/1.0; +https://heartofcolumbus.netlify.app)';
@@ -38,6 +38,8 @@ export async function probeOne(slug) {
   const links = findProviderLinks(home.body, actions);
   const own = findOwnPages(home.body, home.url || w.website);
   const out = { slug, ok: true, origin: finalOrigin, platform, links, own: {} };
+  const gift = findGiftLinks(home.body, home.url || w.website);
+  if (gift) out.gift = gift;
   // Follow the site's own "Order" / "Book" page one level down: most
   // restaurants link Toast or Square from there, not from the home page.
   const follow = [];
@@ -52,6 +54,7 @@ export async function probeOne(slug) {
     const embed = EMBEDS.find((e) => e.re.test(body));
     if (kind === 'order' && embed && !out.links.some((l) => l.kind === 'order')) out.own.order = { url: u, label: embed.label, via: embed.id };
     if (pages[i].body) out.own[kind + 'Page'] = u;
+    if (!out.gift) { const g = findGiftLinks(body, u); if (g) out.gift = g; }
   });
   if (own.shop) out.own.shop = own.shop;
   if (feedCheck) {

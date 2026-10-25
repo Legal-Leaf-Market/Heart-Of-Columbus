@@ -62,3 +62,13 @@ test('powered-by badges, assets and other towns are not booking links', async ()
   const l = findProviderLinks(html);
   assert.deepEqual(l.map((x) => x.url).sort(), ['https://order.online/business/-1', 'https://www.vagaro.com/realsalon']);
 });
+
+test('gift cards: provider pages first, then the site’s own gift-card link', async () => {
+  const { findGiftLinks } = await import('../src/commerce-core.mjs');
+  assert.equal(findGiftLinks('<a href="https://order.toasttab.com/egiftcards/abc-123">Gift cards</a>', 'https://cafe.example/').id, 'toast-gift');
+  assert.equal(findGiftLinks('<a href="https://app.squareup.com/gift/ML123/order">Buy</a>', 'https://cafe.example/').id, 'square-gift');
+  const own = findGiftLinks('<a href="https://facebook.com/gift-cards">Gift cards</a><a href="/menu">Menu</a><a href="/pages/gift-cards?utm_source=x">Gift Cards</a>', 'https://cafe.example/');
+  assert.deepEqual(own, { id: 'own', label: 'their website', url: 'https://cafe.example/pages/gift-cards' });
+  assert.equal(findGiftLinks('<a href="/products/gift-card">Shop</a>', 'https://shop.example/').url, 'https://shop.example/products/gift-card');
+  assert.equal(findGiftLinks('<a href="/gifts">Gifts for her</a><a href="/giftwrap">Wrap</a>', 'https://shop.example/'), null);
+});

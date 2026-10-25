@@ -33,6 +33,7 @@ const JUMP = [
   ['call-ahead', 'Call ahead'],
   ['your-way', 'Trip ideas'],
   ['/free/', 'Free in Columbus'],
+  ['/holidays/', 'Holiday shopping'],
   ['whats-on', 'What’s on'],
 ];
 

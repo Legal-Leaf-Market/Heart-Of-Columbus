@@ -203,6 +203,7 @@ for (const b of all) {
   b.book = c ? c.book || [] : [];
   b.feed = !!(c && c.feed);
   b.store = c && c.store ? c.store : '';
+  b.gift = c && c.gift ? c.gift : null;
   b.platform = c ? c.platform || '' : '';
   b.hours = HOURS[b.slug] || null;
   const g = GEO[b.slug];

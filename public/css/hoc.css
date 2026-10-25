@@ -741,3 +741,11 @@ section { scroll-margin-top: 130px; }
 .fr-lm small { font-weight: 700; font-size: 13px; }
 .fr-group .btns { display: flex; flex-wrap: wrap; gap: 10px; }
 .fr-foot { max-width: 720px; }
+
+/* shop small for the holidays */
+.hol-gifts { padding-top: 32px; }
+.hol-list { list-style: none; padding: 0; margin: 0 0 12px; display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.hol-list li { display: grid; gap: 4px; justify-items: start; background: var(--surface); border: 2px solid var(--ink); border-radius: 14px; padding: 14px; }
+.hol-name { font-weight: 800; font-size: 17px; }
+.hol-list span { color: var(--muted); font-size: 14px; margin-bottom: 6px; }
+.hol-foot { padding: 8px 0 48px; max-width: 720px; }

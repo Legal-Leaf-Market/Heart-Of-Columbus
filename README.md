@@ -35,7 +35,7 @@ The raw pulls are kept in `scripts/data/` and each step regenerates a file in
 | `scripts/import-web.mjs scripts/data/maps-lookup.json` | `web.mjs` | website, phone, owner-set Google action links |
 | `scripts/import-hours.mjs scripts/data/maps-hours.json` | `hours.mjs` | weekly opening hours (and recovers missed lookups) |
 | `scripts/import-geo.mjs scripts/data/maps-geo.json` | `geo.mjs` | map pins and missing street addresses |
-| `/api/probe` on a deploy, then `scripts/import-commerce.mjs scripts/data/probe-results.json` | `commerce.mjs` | each website's cart engine, live product feed, and its own ordering/booking links |
+| `/api/probe` on a deploy, then `scripts/import-commerce.mjs scripts/data/probe-results.json` | `commerce.mjs` | each website's cart engine, live product feed, its own ordering/booking links, and its gift-card page |
 
 `src/data/directory.mjs` merges all of it, files each business under the
 browse taxonomy (15 categories, about 60 types, 10 neighborhoods), drops
