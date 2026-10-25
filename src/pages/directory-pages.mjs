@@ -35,6 +35,7 @@ const refine = (items, { areas = true, subs = null } = {}) => {
     );
   return `<div class="refine wrap" data-refine>
     <label class="refine-q">${svg('search')}<input type="search" placeholder="Filter these ${items.length}…" data-f-q aria-label="Filter this list"></label>
+    ${items.some((b) => b.hours) ? '<div class="chips"><button type="button" class="pill pill-open" data-f-open aria-pressed="false">🟢 Open now</button><button type="button" class="pill" data-f-online aria-pressed="false">Order, book or shop online</button></div>' : ''}
     ${chips.join('')}
     <p class="refine-count" data-f-count aria-live="polite">${items.length} places</p>
   </div>`;
@@ -206,7 +207,7 @@ ${header(saved ? 'saved' : 'explore')}
       <label class="check"><input type="checkbox" data-ex-online> Order, book or shop online</label>
       <label class="check"><input type="checkbox" data-ex-demo> Storefront demo</label>
       <h2>Sort</h2>
-      <select data-ex-sort aria-label="Sort"><option value="az">A to Z</option><option value="za">Z to A</option><option value="area">By neighborhood</option></select>
+      <select data-ex-sort aria-label="Sort"><option value="az">A to Z</option><option value="za">Z to A</option><option value="area">By neighborhood</option><option value="near">Nearest to me</option></select><p class="fine" data-ex-near-msg hidden></p>
     </aside>
     <section class="ex-main">
       <div class="ex-bar"><p data-ex-count aria-live="polite"></p><button type="button" class="pill ex-filters-btn" data-ex-toggle>Filters</button></div>

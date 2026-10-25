@@ -14,6 +14,11 @@ const featuredStyle = {
 
 const pick = (fn, n = 14) => directory.filter(fn).slice(0, n);
 const inSub = (...subs) => (b) => subs.includes(b.sub);
+const FOOD = ['restaurants', 'coffee-sweets', 'bars'];
+// From each place's listed hours: open at 10 PM or later on some night, or
+// open by 7 AM on some morning.
+const lateNight = (b) => FOOD.includes(b.cat) && b.hours && b.hours.some(([, , close]) => close >= 22 * 60 + 30);
+const earlyBird = (b) => FOOD.includes(b.cat) && b.hours && b.hours.some(([, open, close]) => open <= 7 * 60 && close - open < 1440);
 
 export function renderHub({ assets }) {
   const bySlug = Object.fromEntries(businesses.map((b) => [b.slug, b]));
@@ -125,6 +130,8 @@ ${rail('Open right now', '/explore/?open=1', directory.filter((b) => b.hours && 
 <div class="rails" data-shuffle-rails>
 ${rail('The taco trail', '/c/restaurants/mexican/', pick(inSub('mexican')), { kicker: 'Restaurants' })}
 ${rail('Coffee, donuts & boba', '/c/coffee-sweets/', pick(inSub('coffee-sweets')), { kicker: 'Coffee & sweets' })}
+${rail('Up with the sun', '/explore/?cat=restaurants', pick(earlyBird, 16), { kicker: 'Open by 7 AM' })}
+${rail('Late-night eats', '/explore/?cat=restaurants', pick(lateNight, 16), { kicker: 'Open past 10:30 PM' })}
 ${rail('Downtown, block by block', '/n/downtown/', pick((b) => b.area === 'downtown' && ['restaurants', 'coffee-sweets', 'bars', 'shopping', 'beauty'].includes(b.cat), 18), { kicker: 'Neighborhood' })}
 ${rail('Pints & pours', '/c/bars/', pick(inSub('bars')), { kicker: 'Bars & breweries' })}
 ${rail('Fresh cuts', '/c/beauty/barbers/', pick(inSub('barbers')), { kicker: 'Barbershops' })}
