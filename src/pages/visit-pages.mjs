@@ -5,6 +5,7 @@ import { page, esc, t } from '../layout.mjs';
 import { header, footer, svg, tel, rail } from '../site.mjs';
 import { directory } from '../data/directory.mjs';
 import { eventsSection } from './events.mjs';
+import { yourWay } from './trip-pages.mjs';
 import { VISITORS_CENTER, TOURS, GETTING_HERE, GETTING_AROUND, SOCIAL_DISTRICT, SRC } from '../data/visit.mjs';
 
 const styles = ['hoc.css'];
@@ -28,6 +29,7 @@ const JUMP = [
   ['getting-around', 'Getting around'],
   ['social-district', 'Social District'],
   ['call-ahead', 'Call ahead'],
+  ['your-way', 'Trip ideas'],
   ['whats-on', 'What’s on'],
 ];
 
@@ -72,6 +74,7 @@ ${section('call-ahead', '📞', 'Before you go', 'Call ahead', `
   </ul>
   <p class="btns"><a class="btn btn-sm" href="/explore/">See what’s open now ${svg('arrow', 'ic-sm')}</a><a class="btn btn-sm btn-ghost" href="${SRC.events}" target="_blank" rel="noopener">Official events calendar</a></p>`)}
 </div>
+${yourWay()}
 ${eventsSection({ mode: 'upcoming', id: 'whats-on', title: 'What’s on', kicker: 'Signature events' })}
 ${rail('Social District businesses on our list', '/n/downtown/#social-district', directory.filter((b) => b.dora), { kicker: 'Drinks to go downtown, 21 and up' })}
 </main>
