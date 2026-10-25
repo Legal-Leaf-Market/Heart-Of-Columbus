@@ -26,7 +26,7 @@
       '<img class="bz-art" src="/art/cover-' + b.u + '.png" alt="" loading="lazy" onerror="this.remove()"><span class="bz-emoji">' + b.e + '</span>' +
       (b.r ? '<span class="bz-area">' + PIN + esc(AREA[b.r]) + '</span>' : '') + '</a>' +
       '<button type="button" class="bz-save" data-save="' + b.s + '" aria-pressed="false" aria-label="Save ' + esc(b.n) + '">' + HEART + '</button>' +
-      '<div class="bz-body"><h3 class="bz-name"><a href="/b/' + b.s + '/">' + esc(b.n) + '</a></h3><p class="bz-type">' + esc(b.y) + '</p>' +
+      '<div class="bz-body"><h3 class="bz-name"><a href="/b/' + b.s + '/">' + esc(b.n) + '</a></h3><p class="bz-type">' + esc(b.y) + (st.sort === 'near' && me && b._d < Infinity ? ' · <b>' + (b._d < 0.1 ? 'right here' : b._d.toFixed(1) + ' mi') + '</b>' : '') + '</p>' +
       (b.a ? '<p class="bz-addr">' + esc(b.a) + '</p>' : '') +
       (b.d || b.h || b.o || b.k || b.f ? '<div class="bz-tags">' + (b.o ? '<span class="tag tag-go">Order online</span>' : '') + (b.k ? '<span class="tag tag-go">Book online</span>' : '') + (b.f ? '<span class="tag tag-go">Shop online</span>' : '') + (b.d ? '<span class="tag tag-hot">Storefront demo</span>' : '') + (b.h ? '<span class="tag">Columbus original</span>' : '') + '</div>' : '') +
       '</div></article>';
@@ -37,7 +37,22 @@
     q: params.get('q') || '', cat: params.get('cat') || '', sub: params.get('sub') || '', area: params.get('area') || '',
     phone: params.get('phone') === '1', demo: params.get('demo') === '1', online: params.get('online') === '1', open: params.get('open') === '1', sort: params.get('sort') || 'az', view: params.get('view') || 'list',
   };
-  var PAGE = 48, shown = PAGE, all = [], map = null, layer = null;
+  var PAGE = 48, shown = PAGE, all = [], map = null, layer = null, me = null;
+  var dist = function (a, b) {
+    var r = Math.PI / 180, dLat = (b[0] - a[0]) * r, dLng = (b[1] - a[1]) * r;
+    var h = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(a[0] * r) * Math.cos(b[0] * r) * Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    return 7918 * Math.asin(Math.sqrt(h)); // miles
+  };
+  function locate() {
+    var msg = $('[data-ex-near-msg]');
+    if (!navigator.geolocation) { msg.textContent = 'Your browser can’t share a location.'; msg.hidden = false; return; }
+    msg.textContent = 'Finding you…'; msg.hidden = false;
+    navigator.geolocation.getCurrentPosition(function (p) {
+      me = [p.coords.latitude, p.coords.longitude];
+      msg.textContent = dist(me, [39.2014, -85.9214]) > 40 ? 'You look far from Columbus, so distances are from where you are now.' : 'Sorted by distance from you. Your location stays on your device.';
+      render();
+    }, function () { msg.textContent = 'Location is off, so we sorted A to Z instead.'; st.sort = 'az'; $('[data-ex-sort]').value = 'az'; render(); }, { maximumAge: 300000, timeout: 10000 });
+  }
 
   function sync() {
     var p = new URLSearchParams();
@@ -56,6 +71,10 @@
         (!st.area || b.r === st.area) && (!st.phone || b.p) && (!st.demo || b.d) && (!st.online || b.o || b.k || b.f) && (!st.open || ((window.HoCOpen(b.t) || {}).open)) && (!st.q || window.HoCMatch(b, st.q));
     });
     var name = function (b) { return b.n.replace(/^the /i, ''); };
+    if (st.sort === 'near' && me) {
+      out.forEach(function (b) { b._d = b.l ? dist(me, b.l) : Infinity; });
+      return out.sort(function (a, b) { return a._d - b._d; });
+    }
     out.sort(function (a, b) {
       if (st.sort === 'area') return (AREA[a.r] || 'zz').localeCompare(AREA[b.r] || 'zz') || name(a).localeCompare(name(b));
       return st.sort === 'za' ? name(b).localeCompare(name(a)) : name(a).localeCompare(name(b));
@@ -136,7 +155,8 @@
   var area = $('[data-ex-area]'); area.value = st.area;
   area.addEventListener('change', function () { st.area = area.value; shown = PAGE; render(); });
   var sort = $('[data-ex-sort]'); sort.value = st.sort;
-  sort.addEventListener('change', function () { st.sort = sort.value; render(); });
+  sort.addEventListener('change', function () { st.sort = sort.value; if (st.sort === 'near' && !me) locate(); else render(); });
+  if (st.sort === 'near') setTimeout(locate, 0);
   var ph = $('[data-ex-phone]'); ph.checked = st.phone;
   ph.addEventListener('change', function () { st.phone = ph.checked; shown = PAGE; render(); });
   var op = $('[data-ex-open]'); op.checked = st.open;
