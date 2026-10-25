@@ -60,7 +60,7 @@ ${header('')}
       <div><dt>Where</dt><dd>${esc(l.address)}, Columbus</dd></div>
       <div><dt>Seeing it</dt><dd>${l.street ? 'You can see it from the street, free.' : l.tour ? 'Only on the official tour.' : 'Indoors; check before you go.'}</dd></div>
     </dl>
-    <p class="btns">${l.tour ? `<a class="btn btn-sm" href="${l.tour}" target="_blank" rel="noopener">Official tour ${svg('arrow', 'ic-sm')}</a>` : ''}<a class="btn btn-sm btn-ghost" href="/visit/#tours">Architecture tours</a></p>
+    <p class="btns">${l.tour ? `<a class="btn btn-sm" href="${l.tour}" target="_blank" rel="noopener">Official tour ${svg('arrow', 'ic-sm')}</a>` : ''}<a class="btn btn-sm btn-ghost" href="/visit/#tours">Architecture tours</a><button type="button" class="btn btn-sm btn-ghost" data-save="l:${l.slug}" aria-pressed="false">${svg('heart', 'ic-sm')} <span data-save-label>Save</span></button></p>
     <p class="fine">Facts from <a href="${esc(l.source)}" target="_blank" rel="noopener">${esc(host(l.source))}</a>${l.ll ? `; map point from ${esc(l.llSource)}` : ''}. Checked ${esc(l.checked)}. Heart of Columbus is not the visitors bureau.</p>
   </div>
   ${map ? `<div class="side-card lm-map"><iframe title="Map of ${esc(l.name)}" loading="lazy" src="${map}" referrerpolicy="no-referrer-when-downgrade"></iframe></div>` : ''}

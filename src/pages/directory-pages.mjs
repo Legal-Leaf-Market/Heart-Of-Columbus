@@ -3,6 +3,9 @@ import { page, esc, t } from '../layout.mjs';
 import { directory, CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, km } from '../data/directory.mjs';
 import { header, footer, card, rail, svg, PHOTOS, artIcon, coverArt, tel, mapsLink, breadcrumbs } from '../site.mjs';
 import { fmtRange, DAY_NAMES } from '../hours.mjs';
+import { LANDMARKS } from '../data/landmarks.mjs';
+import { EVENTS } from '../data/events.mjs';
+import { dateRange } from './events.mjs';
 
 // Weekly hours table, Monday first, with today highlighted by site.js.
 const hoursTable = (rows) => {
@@ -178,6 +181,25 @@ ${footer()}`;
   return page({ title: `${b.name} | ${sub.label} in Columbus, Indiana`, description: `${b.name}, ${b.type}${b.address ? ', ' + b.address : ''}, Columbus, Indiana.`, body, scripts: ['site.js', 'hub.js', 'cart.js'], styles, assets });
 }
 
+// Saved page extras: share a list, pick a day, print it. Landmarks and events
+// can be saved too (as l:slug and e:slug), so the page carries their basics.
+const tripBar = () => `
+  <div class="trip-bar" data-trip>
+    <div class="trip-shared" data-trip-shared hidden><p data-trip-shared-msg></p><button type="button" class="btn btn-sm" data-trip-adopt>${svg('heart', 'ic-sm')} Add these to my saved places</button></div>
+    <div class="trip-controls">
+      <label>When are you going?<select data-trip-day aria-label="Day"></select></label>
+      <label>Time<select data-trip-time aria-label="Time of day"><option value="any">Any time</option><option value="morning">Morning</option><option value="afternoon">Afternoon</option><option value="evening">Evening</option></select></label>
+      <button type="button" class="btn btn-sm btn-ghost" data-trip-walk>${svg('map', 'ic-sm')} Map my list</button>
+      <button type="button" class="btn btn-sm btn-ghost" data-trip-share>${svg('share', 'ic-sm')} <span>Share this list</span></button>
+      <button type="button" class="btn btn-sm btn-ghost" data-trip-print>Print</button>
+    </div>
+    <div class="trip-print" aria-hidden="true"><div data-trip-qr></div><p>Open this list on a phone:<br><span data-trip-url></span></p></div>
+  </div>`;
+const tripData = () => ({
+  landmarks: LANDMARKS.map((l) => ({ s: l.slug, n: l.name, d: `${l.architect}, ${l.year}`, a: l.address, l: l.ll })),
+  events: EVENTS.map((e) => ({ s: e.slug, n: e.name, d: dateRange(e), a: e.venue, u: e.url, end: e.end, l: e.ll })),
+});
+
 function explorePage({ assets }, { saved = false } = {}) {
   const body = `
 ${header(saved ? 'saved' : 'explore')}
@@ -187,6 +209,7 @@ ${header(saved ? 'saved' : 'explore')}
       <p class="kicker">${saved ? 'Your list' : 'Explore'}</p>
       <h1>${saved ? 'Saved places' : 'Every independent in Columbus'}</h1>
     </div>
+    ${saved ? tripBar() : ''}
     <div class="ex-views" role="group" aria-label="View">
       <button type="button" class="pill" data-view="list" aria-pressed="true">${svg('list', 'ic-sm')} List</button>
       <button type="button" class="pill" data-view="map" aria-pressed="false">${svg('map', 'ic-sm')} Map</button>
@@ -209,11 +232,12 @@ ${header(saved ? 'saved' : 'explore')}
       <label class="check"><input type="checkbox" data-ex-online> Order, book or shop online</label>
       <label class="check"><input type="checkbox" data-ex-demo> Storefront demo</label>
       <h2>Sort</h2>
-      <select data-ex-sort aria-label="Sort"><option value="az">A to Z</option><option value="za">Z to A</option><option value="area">By neighborhood</option><option value="near">Nearest to me</option></select><p class="fine" data-ex-near-msg hidden></p>
+      <select data-ex-sort aria-label="Sort"><option value="az">A to Z</option><option value="za">Z to A</option><option value="area">By neighborhood</option><option value="near">Nearest to me</option>${saved ? '<option value="walk">Walking order</option>' : ''}</select><p class="fine" data-ex-near-msg hidden></p>
     </aside>
     <section class="ex-main">
       <div class="ex-bar"><p data-ex-count aria-live="polite"></p><button type="button" class="pill ex-filters-btn" data-ex-toggle>Filters</button></div>
       <div class="ex-map" data-ex-map hidden><div id="map"></div><p class="fine">Pins for ${directory.filter((b) => b.ll).length} of ${directory.length} places; the rest had no map pin in public listings.</p></div>
+      ${saved ? '<div class="trip-extras" data-trip-extras hidden></div>' : ''}
       <div class="grid" data-ex-grid></div>
       <button type="button" class="btn btn-ghost more-btn" data-ex-more hidden>Show more</button>
       <div class="empty" data-ex-empty hidden><img src="/art/${saved ? 'empty-saved' : 'empty-search'}.png" alt="" width="180" height="180">${saved ? '<p>Nothing saved yet. Tap the heart on any place to keep it here.</p><a class="btn" href="/explore/">Start exploring</a>' : '<p>Nothing matches those filters.</p>'}</div>
@@ -225,9 +249,10 @@ ${footer()}`;
     title: saved ? 'Saved places | Heart of Columbus' : 'Explore every independent business in Columbus, Indiana | Heart of Columbus',
     description: 'Search and map every independent business in Columbus, Indiana.',
     body,
-    scripts: ['site.js', 'explore.js'],
+    scripts: saved ? ['site.js', 'trip.js', 'explore.js'] : ['site.js', 'explore.js'],
     styles,
     assets,
+    data: saved ? tripData() : null,
   });
 }
 
