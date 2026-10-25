@@ -78,6 +78,11 @@ Two environment variables, set in Netlify, never in git:
 - `HOC_BOARD_KEYS`: JSON like `{"some-slug": "<long random key>"}`, one key per
   partner. Their board is `/pickup/board/?s=<slug>&k=<key>`.
 
+Functions read these at deploy time, so after adding or changing one, trigger
+a new deploy (Deploys, Trigger deploy) or push to `main`. As of October 2026
+`HOC_ADMIN_KEY` is set and `HOC_BOARD_KEYS` is not, since no business has
+signed on yet.
+
 ## Running it
 
 ```bash
