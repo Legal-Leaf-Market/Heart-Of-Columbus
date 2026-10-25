@@ -45,7 +45,7 @@ p { margin: 0; }
 .btn-big { font-size: 18px; padding: 14px 28px; }
 .btn[aria-pressed="true"] { background: var(--ink); color: #fff; }
 .pill { display: inline-flex; align-items: center; gap: 6px; border: 2px solid var(--ink); background: var(--surface); border-radius: 999px; padding: 7px 14px; font-weight: 700; font-size: 14px; white-space: nowrap; transition: background .15s; }
-.pill small { font-weight: 600; opacity: .6; }
+.pill small { font-weight: 600; opacity: .78; }
 .pill:hover { background: #f3ede2; }
 .pill[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
 
@@ -163,7 +163,7 @@ section { scroll-margin-top: 130px; }
 .demo-card { position: relative; display: flex; flex-direction: column; gap: 8px; min-height: 250px; padding: 20px; border-radius: var(--r-lg); background: var(--bg); color: var(--fg); border: 2px solid var(--ink); box-shadow: var(--pop); overflow: hidden; transition: transform .2s; }
 .demo-card:hover { transform: translateY(-6px) rotate(-1deg); }
 .demo-card strong { font-family: var(--display); font-size: 24px; line-height: 1.05; margin-top: auto; }
-.demo-line { font-size: 14px; opacity: .9; }
+.demo-line { font-size: 14px; }
 .demo-go { display: inline-flex; align-items: center; gap: 6px; font-weight: 800; font-size: 14px; text-decoration: underline; text-underline-offset: 4px; }
 .demo-top { display: flex; justify-content: space-between; align-items: flex-start; }
 .demo-emoji { font-size: 58px; line-height: 1; transform: rotate(12deg); filter: drop-shadow(3px 4px 0 rgba(0,0,0,.25)); transition: transform .3s; }
@@ -197,7 +197,10 @@ section { scroll-margin-top: 130px; }
 .bz:hover { transform: translateY(-4px); box-shadow: var(--pop); }
 .bz-cover { position: relative; height: 128px; background-color: var(--t); display: grid; place-items: center; overflow: hidden; border-bottom: 2px solid var(--ink); }
 .bz-compact .bz-cover { height: 112px; }
-.bz-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.bz-art { position: relative; width: 84px; height: 84px; object-fit: contain; filter: drop-shadow(2px 3px 0 rgba(0,0,0,.15)); transition: transform .3s; }
+.bz:hover .bz-art { transform: scale(1.08) rotate(-4deg); }
+.bz-compact .bz-art { width: 72px; height: 72px; }
+.biz-cover .bz-art { width: 170px; height: 170px; filter: drop-shadow(4px 6px 0 rgba(0,0,0,.15)); animation: bob 6s ease-in-out infinite; }
 .bz-emoji { position: relative; font-size: 52px; filter: drop-shadow(2px 3px 0 rgba(0,0,0,.15)); transition: transform .3s; }
 .bz:hover .bz-emoji { transform: scale(1.12) rotate(-6deg); }
 .bz-area { position: absolute; left: 10px; bottom: 10px; max-width: calc(100% - 20px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: rgba(255,255,255,.92); border: 1.5px solid var(--ink); border-radius: 999px; font-size: 12px; font-weight: 700; padding: 3px 9px; }
@@ -275,8 +278,8 @@ section { scroll-margin-top: 130px; }
 .keep-grid { display: grid; gap: 32px; }
 @media (min-width: 900px) { .keep-grid { grid-template-columns: 1fr 1fr; } }
 .keep h2 { font-size: clamp(32px, 4vw, 48px); font-weight: 800; }
-.keep .kicker-light { color: #ffe08a; }
-.keep-sub { color: rgba(255,255,255,.85); margin-top: 12px; max-width: 520px; }
+.keep .kicker-light { color: #fff0c0; }
+.keep-sub { color: #fff; margin-top: 12px; max-width: 520px; }
 .sliders { display: grid; gap: 18px; margin-top: 24px; }
 .sliders label { display: grid; gap: 8px; }
 .sliders label > span { display: flex; justify-content: space-between; font-weight: 700; }
@@ -286,7 +289,7 @@ section { scroll-margin-top: 130px; }
 .keep-card p { color: rgba(255,255,255,.85); }
 .keep-big { font-family: var(--display); font-size: clamp(48px, 7vw, 72px); font-weight: 800; color: var(--accent) !important; line-height: 1.05; }
 .keep-mid { font-family: var(--display); font-size: 30px; font-weight: 700; color: #fff !important; }
-.keep-fine { font-size: 13px; color: rgba(255,255,255,.7); }
+.keep-fine { font-size: 13px; color: #fff; opacity: .95; }
 
 /* ---------- Owners ---------- */
 .owners { padding: 72px 16px; }
@@ -350,7 +353,7 @@ section { scroll-margin-top: 130px; }
 .credit { display: block; margin-top: 12px; font-size: 11px; color: rgba(255,255,255,.6); }
 .jump { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-top: 18px; padding-bottom: 6px; }
 .jump a { white-space: nowrap; background: var(--t); border: 2px solid var(--ink); border-radius: 999px; padding: 7px 14px; font-weight: 700; font-size: 14px; }
-.jump a small { opacity: .6; }
+.jump a small { opacity: .78; }
 
 /* business page */
 .biz { display: grid; gap: 28px; padding-top: 10px; padding-bottom: 24px; }

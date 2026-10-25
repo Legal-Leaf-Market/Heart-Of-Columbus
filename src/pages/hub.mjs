@@ -149,7 +149,7 @@ ${rail('Good dogs welcome', '/c/pets/', pick(inSub('pets')), { kicker: 'Pets' })
     <h2 id="athens-h">The buildings are famous.<br>The people inside them make it home.</h2>
     <p>Saarinen, Pei, Venturi, Kiley, Moore. Columbus commissioned modern masters for churches, banks, schools and firehouses, and the American Institute of Architects once ranked it sixth in the nation for architectural innovation. Walk past the landmarks and you'll find the independents keeping the lights on.</p>
   </div>
-  <div class="arch-track" data-rail>
+  <div class="arch-track" data-rail tabindex="0" role="region" aria-label="Columbus architecture landmarks">
     ${archOrder
       .map((k) => {
         const p = PHOTOS[k];
