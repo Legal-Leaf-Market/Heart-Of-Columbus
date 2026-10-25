@@ -200,7 +200,10 @@ section { scroll-margin-top: 130px; }
 .bz-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .bz-emoji { position: relative; font-size: 52px; filter: drop-shadow(2px 3px 0 rgba(0,0,0,.15)); transition: transform .3s; }
 .bz:hover .bz-emoji { transform: scale(1.12) rotate(-6deg); }
-.bz-area { position: absolute; left: 10px; bottom: 10px; display: inline-flex; align-items: center; gap: 4px; background: rgba(255,255,255,.92); border: 1.5px solid var(--ink); border-radius: 999px; font-size: 12px; font-weight: 700; padding: 3px 9px; }
+.bz-area { position: absolute; left: 10px; bottom: 10px; max-width: calc(100% - 20px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: rgba(255,255,255,.92); border: 1.5px solid var(--ink); border-radius: 999px; font-size: 12px; font-weight: 700; padding: 3px 9px; }
+.bz-area svg { display: inline-block; vertical-align: -2px; margin-right: 4px; }
+.bz-cover:has(.bz-open.is-closed) .bz-area { max-width: calc(100% - 84px); }
+.bz-cover:has(.bz-open.is-open) .bz-area { max-width: calc(100% - 104px); }
 .bz-save { position: absolute; right: 10px; top: 10px; width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,.95); border: 2px solid var(--ink); display: grid; place-items: center; z-index: 2; transition: transform .15s; }
 .bz-save:hover { transform: scale(1.1); }
 .bz-save[aria-pressed="true"] svg, .btn[data-save][aria-pressed="true"] svg { fill: var(--brand); color: var(--brand); }
@@ -503,6 +506,8 @@ section { scroll-margin-top: 130px; }
 .area-tile:hover .area-badge { transform: rotate(-10deg) scale(1.08); }
 .area-hero-badge { width: 92px; height: 92px; margin-bottom: 8px; }
 .empty img { margin: 0 auto 6px; }
+.empty h1 { color: var(--ink); }
+.empty .btns { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
 .band { background-image: url('/art/pattern-arches.png'); background-size: 260px; background-blend-mode: multiply; }
 .ftr { position: relative; }
 

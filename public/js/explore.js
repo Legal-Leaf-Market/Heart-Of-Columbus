@@ -23,7 +23,7 @@
     var t = window.HoCCat[b.c];
     return '<article class="bz" data-slug="' + b.s + '">' +
       '<a class="bz-cover ' + PATS[hash(b.s) % 5] + '" href="/b/' + b.s + '/" style="--c:' + COLOR[b.c] + ';--t:' + t[2] + '" tabindex="-1" aria-hidden="true">' +
-      '<img class="bz-art" src="/art/cover-' + b.u + '.png" alt="" loading="lazy" onerror="this.remove()"><span class="bz-emoji">' + b.e + '</span>' +
+      (b.v ? '<img class="bz-art" src="/art/cover-' + b.u + '.png" alt="" loading="lazy">' : '') + '<span class="bz-emoji">' + b.e + '</span>' +
       (b.r ? '<span class="bz-area">' + PIN + esc(AREA[b.r]) + '</span>' : '') + '</a>' +
       '<button type="button" class="bz-save" data-save="' + b.s + '" aria-pressed="false" aria-label="Save ' + esc(b.n) + '">' + HEART + '</button>' +
       '<div class="bz-body"><h3 class="bz-name"><a href="/b/' + b.s + '/">' + esc(b.n) + '</a></h3><p class="bz-type">' + esc(b.y) + (st.sort === 'near' && me && b._d < Infinity ? ' · <b>' + (b._d < 0.1 ? 'right here' : b._d.toFixed(1) + ' mi') + '</b>' : '') + '</p>' +
