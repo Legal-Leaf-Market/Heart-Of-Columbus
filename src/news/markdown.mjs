@@ -39,7 +39,12 @@ export function parseYaml(text) {
   function value(rest, indent) {
     const m = rest.match(/^([|>])(-?)\s*$/);
     if (m) return block(i < lines.length ? indentOf(lines[i]) : indent + 2, m[1], false);
-    if (rest.trim() !== '') return scalar(rest);
+    if (rest.trim() !== '') {
+      // A long plain or quoted scalar may wrap onto more-indented lines.
+      let full = rest;
+      while (i < lines.length && indentOf(lines[i]) > indent && !/^\s*-(\s|$)/.test(lines[i])) full += ' ' + lines[i++].trim();
+      return scalar(full);
+    }
     if (i < lines.length && indentOf(lines[i]) > indent) return node(indentOf(lines[i]));
     if (i < lines.length && indentOf(lines[i]) === indent && lines[i].trim().startsWith('- ')) return node(indent);
     return null;

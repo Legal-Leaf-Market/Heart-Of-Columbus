@@ -19,6 +19,7 @@ import { djPages } from './src/pages/dj-pages.mjs';
 import { tripPages } from './src/pages/trip-pages.mjs';
 import { searchIndex } from './src/site.mjs';
 import { newsPages } from './src/pages/news-pages.mjs';
+import { cmsConfig } from './src/news/cms.mjs';
 
 const root = new URL('./', import.meta.url);
 const out = new URL('dist/', root);
@@ -59,6 +60,7 @@ const pages = [
 await mkdir(new URL('data/', out), { recursive: true });
 await writeFile(new URL('data/directory.json', out), JSON.stringify(searchIndex()));
 await writeFile(new URL('events.ics', out), icsFeed());
+await writeFile(new URL('admin/config.yml', out), cmsConfig());
 for (const p of pages) {
   const file = new URL(p.path, out);
   await mkdir(new URL('./', file), { recursive: true });

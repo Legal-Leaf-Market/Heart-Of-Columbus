@@ -61,6 +61,8 @@ test('front matter parser reads what the CMS writes', () => {
     tags: ['x', 'y'], methods: 'Folded text.', developing: { know: ['A'], dontKnow: [] },
   });
   assert.throws(() => parseYaml('a: &anchor x'));
+  assert.deepEqual(parseYaml('methods: We called the owner,\n  then visited.\nsources:\n  - name: A long\n      name\n    url: https://example.org'),
+    { methods: 'We called the owner, then visited.', sources: [{ name: 'A long name', url: 'https://example.org' }] });
 });
 
 test('markdown escapes HTML and refuses unsafe links', () => {
@@ -134,4 +136,15 @@ test('corrections are never edited or removed', () => {
     const now = s.corrections.map((c) => `${c.date}|${c.text}`);
     assert.deepEqual(now.slice(0, before.length), before, `${s.file}: corrections changed`);
   }
+});
+
+test('the CMS offers exactly the labels, sections and staff the build accepts', async () => {
+  const yml = read('admin/config.yml');
+  const { LABELS } = await import('../src/news/labels.mjs');
+  for (const l of Object.keys(LABELS)) assert.ok(yml.includes(`value: "${l}"`), l);
+  for (const s of SECTIONS) assert.ok(yml.includes(`value: "${s.slug}"`), s.slug);
+  for (const slug of Object.keys(STAFF)) assert.ok(yml.includes(`value: "${slug}"`), slug);
+  for (const slug of Object.keys(SAMPLE_STAFF)) assert.ok(!yml.includes(slug), `sample ${slug} offered in the CMS`);
+  assert.match(yml, /publish_mode: editorial_workflow/);
+  assert.match(read('admin/index.html'), /noindex/);
 });

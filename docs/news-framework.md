@@ -71,3 +71,23 @@ A story that breaks a rule stops the build and says which file and why.
 | `disclosures(tags)` | `src/news/disclosure.mjs` | partner and sponsor disclosure lines |
 | `STAFF`, `person(slug)` | `src/data/staff.mjs` | the newsroom |
 | `PAPER`, `NEWS_LIVE` | `src/data/paper.mjs` | the paper's name and launch switch |
+
+## The newsroom editor at /admin/ (owner setup)
+
+Reporters and editors write in Decap CMS at `/admin/`, no git needed. The
+configuration is generated from `src/news/cms.mjs`, so its dropdowns always
+match the labels, sections and staff the build accepts. Each story moves
+through Draft, In review and Ready, and each one is a pull request.
+
+To turn it on (TODO(owner), these are settings, not code):
+
+1. Pick the sign-in. The config uses Netlify Identity (`git-gateway`): in
+   Netlify, enable Identity, set registration to invite only, enable Git
+   Gateway, and invite each staff member. GitHub OAuth or DecapBridge also
+   work; change `backend` in `src/news/cms.mjs`.
+2. The two-person rule: in GitHub, protect `main` with "Require a pull
+   request before merging" and "Require approvals: 1", so a story's author
+   can't publish it alone. The build also refuses a story whose editor is
+   one of its authors.
+3. Add each new staff member to `src/data/staff.mjs` first; the CMS only
+   offers people who are there.
