@@ -15,7 +15,7 @@ const featuredStyle = {
   rohdes: ['#d7263d', '#fff', 'Build a breakfast: eggs your way, meat, potatoes, biscuit.', '🍳'],
 };
 
-const pick = (fn, n = 14) => directory.filter(fn).slice(0, n);
+const pick = (fn, n = 6) => directory.filter(fn).slice(0, n);
 const inSub = (...subs) => (b) => subs.includes(b.sub);
 const FOOD = ['restaurants', 'coffee-sweets', 'bars'];
 // From each place's listed hours: open at 10 PM or later on some night, or
@@ -137,15 +137,15 @@ ${rail('Open right now', '/explore/?open=1', directory.filter((b) => b.hours && 
 <div class="rails" data-shuffle-rails>
 ${rail('The taco trail', '/c/restaurants/mexican/', pick(inSub('mexican')), { kicker: 'Restaurants' })}
 ${rail('Coffee, donuts & boba', '/c/coffee-sweets/', pick(inSub('coffee-sweets')), { kicker: 'Coffee & sweets' })}
-${rail('Up with the sun', '/explore/?cat=restaurants', pick(earlyBird, 16), { kicker: 'Open by 7 AM' })}
-${rail('Late-night eats', '/explore/?cat=restaurants', pick(lateNight, 16), { kicker: 'Open past 10:30 PM' })}
-${rail('Downtown, block by block', '/n/downtown/', pick((b) => b.area === 'downtown' && ['restaurants', 'coffee-sweets', 'bars', 'shopping', 'beauty'].includes(b.cat), 18), { kicker: 'Neighborhood' })}
+${rail('Up with the sun', '/explore/?cat=restaurants', pick(earlyBird, 8), { kicker: 'Open by 7 AM' })}
+${rail('Late-night eats', '/explore/?cat=restaurants', pick(lateNight, 8), { kicker: 'Open past 10:30 PM' })}
+${rail('Downtown, block by block', '/n/downtown/', pick((b) => b.area === 'downtown' && ['restaurants', 'coffee-sweets', 'bars', 'shopping', 'beauty'].includes(b.cat), 8), { kicker: 'Neighborhood' })}
 ${rail('Pints & pours', '/c/bars/', pick(inSub('bars')), { kicker: 'Bars & breweries' })}
 ${rail('Fresh cuts', '/c/beauty/barbers/', pick(inSub('barbers')), { kicker: 'Barbershops' })}
 ${rail('Nails, lashes & a spa day', '/c/beauty/', pick(inSub('nails', 'spa')), { kicker: 'Beauty' })}
 ${rail('Shop small on purpose', '/c/shopping/', pick(inSub('boutiques', 'gifts', 'antiques')), { kicker: 'Shopping' })}
 ${rail('Call before it leaks', '/c/home-services/hvac-plumbing/', pick(inSub('hvac-plumbing', 'electric')), { kicker: 'Home services' })}
-${rail('Your wedding team', '/c/events/', pick((b) => b.sub === 'events' || /bridal|tux|flower|florist|bloom|photograph/i.test(b.name + ' ' + b.type), 16), { kicker: 'Events & weddings' })}
+${rail('Your wedding team', '/c/events/', pick((b) => b.sub === 'events' || /bridal|tux|flower|florist|bloom|photograph/i.test(b.name + ' ' + b.type), 8), { kicker: 'Events & weddings' })}
 ${rail('When the check engine light comes on', '/c/auto/auto-repair/', pick(inSub('auto-repair')), { kicker: 'Auto' })}
 ${rail('Good dogs welcome', '/c/pets/', pick(inSub('pets')), { kicker: 'Pets' })}
 </div>
