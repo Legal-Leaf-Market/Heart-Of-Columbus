@@ -11,6 +11,23 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Every page loads these with ?v=<content hash> (src/layout.mjs), so a changed
+# file is a new URL and a year in the browser cache is safe.
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
 # X-Robots-Tag is written to dist/_headers by build.mjs from src/indexing.mjs.
 [[headers]]
   for = "/*"

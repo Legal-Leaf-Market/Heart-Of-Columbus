@@ -26,7 +26,7 @@
     var t = window.HoCCat[b.c];
     return '<article class="bz" data-slug="' + b.s + '">' +
       '<a class="bz-cover ' + PATS[hash(b.s) % 5] + '" href="/b/' + b.s + '/" style="--c:' + COLOR[b.c] + ';--t:' + t[2] + '" tabindex="-1" aria-hidden="true">' +
-      (b.v ? '<img class="bz-art" src="/art/cover-' + b.u + '.png" alt="" loading="lazy">' : '') + '<span class="bz-emoji">' + b.e + '</span>' +
+      (b.v ? '<img class="bz-art" src="/art/cover-' + b.u + '.webp" alt="" loading="lazy">' : '') + '<span class="bz-emoji">' + b.e + '</span>' +
       (b.r ? '<span class="bz-area">' + PIN + esc(AREA[b.r]) + '</span>' : '') + '</a>' +
       '<button type="button" class="bz-save" data-save="' + b.s + '" aria-pressed="false" aria-label="Save ' + esc(b.n) + '">' + HEART + '</button>' +
       '<div class="bz-body"><h3 class="bz-name"><a href="/b/' + b.s + '/">' + (st.sort === 'walk' && b._i ? '<span class="walk-n">' + b._i + '</span>' : '') + esc(b.n) + '</a></h3><p class="bz-type">' + esc(b.y) + (st.sort === 'near' && me && b._d < Infinity ? ' · <b>' + (b._d < 0.1 ? 'right here' : b._d.toFixed(1) + ' mi') + '</b>' : '') + '</p>' +
@@ -254,7 +254,7 @@
       if (layerOn('l')) (data.landmarks || []).forEach(function (x) {
         if (!x.l || (ids && ids.indexOf('l:' + x.s) === -1)) return;
         pts.push(x.l);
-        var icon = L.divIcon({ className: '', html: '<div class="pin-art"><img src="/art/pin-' + x.art + '.png" alt=""></div>', iconSize: [46, 46], iconAnchor: [23, 40], popupAnchor: [0, -34] });
+        var icon = L.divIcon({ className: '', html: '<div class="pin-art"><img src="/art/pin-' + x.art + '.webp" alt=""></div>', iconSize: [46, 46], iconAnchor: [23, 40], popupAnchor: [0, -34] });
         L.marker(x.l, { icon: icon, title: x.n, zIndexOffset: 800 }).bindPopup('<span class="pop-kind">Landmark</span><a class="pop-name" href="/l/' + x.s + '/">' + esc(x.n) + '</a><small>' + esc(x.d) + '<br>' + esc(x.a) + (x.street ? '<br>Seen from the street, free' : '') + '</small>').addTo(layer);
       });
       if (layerOn('e')) (data.events || []).forEach(function (x) {

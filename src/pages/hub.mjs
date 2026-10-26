@@ -15,7 +15,18 @@ const featuredStyle = {
   rohdes: ['#d7263d', '#fff', 'Build a breakfast: eggs your way, meat, potatoes, biscuit.', '🍳'],
 };
 
-const pick = (fn, n = 14) => directory.filter(fn).slice(0, n);
+// A rail is a taste with a "See all" link, not the whole category: n places
+// spread evenly through the list, so it is not always the A names.
+const RAIL = 8;
+const pick = (fn, n = RAIL) => {
+  const all = directory.filter(fn);
+  if (all.length <= n) return all;
+  return Array.from({ length: n }, (_, i) => all[Math.floor((i * all.length) / n)]);
+};
+// The open-now rail ships the places open the most hours a week, so a few are
+// open at almost any hour; the page then shows only the ones open right now.
+const OPEN_CANDIDATES = 48;
+const weeklyMinutes = (b) => b.hours.reduce((n, [, o, c]) => n + (c - o), 0);
 const inSub = (...subs) => (b) => subs.includes(b.sub);
 const FOOD = ['restaurants', 'coffee-sweets', 'bars'];
 // From each place's listed hours: open at 10 PM or later on some night, or
@@ -44,7 +55,7 @@ ${header()}
 <section class="hero">
   <div class="hero-float" aria-hidden="true">
     ${[['arch', 1], ['spire', 2], ['gear', 3], ['bridge', 4], ['courthouse', 5], ['firestation', 6], ['tree', 7], ['sparkle-1', 8], ['sparkle-2', 9], ['sparkle-3', 10]]
-      .map(([n, i]) => `<img class="fl fl-${i}" src="/art/float-${n}.png" alt="" onerror="this.remove()">`).join('')}
+      .map(([n, i]) => `<img class="fl fl-${i}" src="/art/float-${n}.webp" alt="" onerror="this.remove()">`).join('')}
   </div>
   <div class="wrap hero-grid">
     <div class="hero-copy">
@@ -68,7 +79,7 @@ ${header()}
         .join('')}
     </div>
   </div>
-  <img class="skyline" src="/art/hero-skyline.png" alt="" aria-hidden="true" onerror="this.remove()">
+  <img class="skyline" src="/art/hero-skyline.webp" alt="" aria-hidden="true" onerror="this.remove()">
   <div class="wrap stats">
     <div><b>${total}</b><span>independent businesses</span></div>
     <div><b>${CATEGORIES.length}</b><span>ways to browse</span></div>
@@ -133,20 +144,20 @@ ${(() => {
 
 ${eventsSection({ mode: 'weekend', id: 'this-weekend', title: 'This weekend in Columbus', kicker: 'Happening Friday to Sunday' })}
 
-${rail('Open right now', '/explore/?open=1', directory.filter((b) => b.hours && !b.tempClosed && ['restaurants', 'coffee-sweets', 'bars'].includes(b.cat)).slice(0, 150), { kicker: 'Hungry? These are open', openOnly: true })}
+${rail('Open right now', '/explore/?open=1', directory.filter((b) => b.hours && !b.tempClosed && FOOD.includes(b.cat)).sort((a, b) => weeklyMinutes(b) - weeklyMinutes(a)).slice(0, OPEN_CANDIDATES), { kicker: 'Hungry? These are open', openOnly: true })}
 
 <div class="rails" data-shuffle-rails>
 ${rail('The taco trail', '/c/restaurants/mexican/', pick(inSub('mexican')), { kicker: 'Restaurants' })}
 ${rail('Coffee, donuts & boba', '/c/coffee-sweets/', pick(inSub('coffee-sweets')), { kicker: 'Coffee & sweets' })}
-${rail('Up with the sun', '/explore/?cat=restaurants', pick(earlyBird, 16), { kicker: 'Open by 7 AM' })}
-${rail('Late-night eats', '/explore/?cat=restaurants', pick(lateNight, 16), { kicker: 'Open past 10:30 PM' })}
-${rail('Downtown, block by block', '/n/downtown/', pick((b) => b.area === 'downtown' && ['restaurants', 'coffee-sweets', 'bars', 'shopping', 'beauty'].includes(b.cat), 18), { kicker: 'Neighborhood' })}
+${rail('Up with the sun', '/explore/?cat=restaurants', pick(earlyBird), { kicker: 'Open by 7 AM' })}
+${rail('Late-night eats', '/explore/?cat=restaurants', pick(lateNight), { kicker: 'Open past 10:30 PM' })}
+${rail('Downtown, block by block', '/n/downtown/', pick((b) => b.area === 'downtown' && ['restaurants', 'coffee-sweets', 'bars', 'shopping', 'beauty'].includes(b.cat)), { kicker: 'Neighborhood' })}
 ${rail('Pints & pours', '/c/bars/', pick(inSub('bars')), { kicker: 'Bars & breweries' })}
 ${rail('Fresh cuts', '/c/beauty/barbers/', pick(inSub('barbers')), { kicker: 'Barbershops' })}
 ${rail('Nails, lashes & a spa day', '/c/beauty/', pick(inSub('nails', 'spa')), { kicker: 'Beauty' })}
 ${rail('Shop small on purpose', '/c/shopping/', pick(inSub('boutiques', 'gifts', 'antiques')), { kicker: 'Shopping' })}
 ${rail('Call before it leaks', '/c/home-services/hvac-plumbing/', pick(inSub('hvac-plumbing', 'electric')), { kicker: 'Home services' })}
-${rail('Your wedding team', '/c/events/', pick((b) => b.sub === 'events' || /bridal|tux|flower|florist|bloom|photograph/i.test(b.name + ' ' + b.type), 16), { kicker: 'Events & weddings' })}
+${rail('Your wedding team', '/c/events/', pick((b) => b.sub === 'events' || /bridal|tux|flower|florist|bloom|photograph/i.test(b.name + ' ' + b.type)), { kicker: 'Events & weddings' })}
 ${rail('When the check engine light comes on', '/c/auto/auto-repair/', pick(inSub('auto-repair')), { kicker: 'Auto' })}
 ${rail('Good dogs welcome', '/c/pets/', pick(inSub('pets')), { kicker: 'Pets' })}
 </div>
@@ -178,7 +189,7 @@ ${yourWay({ id: 'trip-ideas' })}
       return `<a class="area-tile${i < 2 ? ' area-big' : ''}" href="/n/${a.slug}/">
         <img src="${p.src}" alt="" loading="lazy" style="object-position:${p.pos}">
         <span class="area-shade"></span>
-        <img class="area-badge" src="/art/area-${a.slug === 'business-parks' ? 'business-parks' : a.slug}.png" alt="" loading="lazy" onerror="this.remove()">
+        <img class="area-badge" src="/art/area-${a.slug === 'business-parks' ? 'business-parks' : a.slug}.webp" alt="" loading="lazy" onerror="this.remove()">
         <span class="area-txt"><strong>${esc(a.label)}</strong><span>${n} places</span></span>
       </a>`;
     }).join('')}
@@ -201,7 +212,7 @@ ${yourWay({ id: 'trip-ideas' })}
       </div>
       <button type="button" class="btn btn-big" data-spin-go>${svg('dice')} Spin</button>
     </div>
-    <div class="spin-result" data-spin-out aria-live="polite"><img class="spin-wheel" src="/art/spin-wheel.png" alt="" data-wheel></div>
+    <div class="spin-result" data-spin-out aria-live="polite"><img class="spin-wheel" src="/art/spin-wheel.webp" alt="" data-wheel></div>
   </div>
 </section>
 
@@ -242,7 +253,7 @@ ${yourWay({ id: 'trip-ideas' })}
       <li><strong>Orders straight to you</strong> Customers order or book directly. They pay you at pickup.</li>
       <li><strong>No app in the middle</strong> No per-order commission. Keep the money, the customer and their number.</li>
     </ul>
-    <img class="owners-art" src="/art/owners-storefront.png" alt="" loading="lazy">
+    <img class="owners-art" src="/art/owners-storefront.webp" alt="" loading="lazy">
     <div class="owners-cta"><a class="btn" href="/owners/">Claim your listing ${svg('arrow', 'ic-sm')}</a><a class="btn btn-ghost" href="https://jills-diner.netlify.app">See Jill's Diner, the first one live ${svg('arrow', 'ic-sm')}</a></div>
   </div>
 </section>

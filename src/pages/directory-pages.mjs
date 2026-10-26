@@ -73,7 +73,7 @@ ${breadcrumbs([['/', 'Home'], ['/explore/', 'Explore'], ...(sub && multi ? [[`/c
 ${spotlightSection({ title: `In the spotlight: ${title.toLowerCase()}`, only: (b) => b.cat === cat.slug && (!sub || b.sub === sub.slug) })}
 ${refine(items, { subs: multi && !sub ? cat.subs : null })}
 <section class="wrap list">${listGrid(items)}
-  <p class="empty" data-f-empty hidden><img src="/art/empty-search.png" alt="" width="160" height="160">Nothing matches. Try another neighborhood or clear the filter.</p>
+  <p class="empty" data-f-empty hidden><img src="/art/empty-search.webp" alt="" width="160" height="160">Nothing matches. Try another neighborhood or clear the filter.</p>
 </section>
 <section class="wrap more-cats">
   <h2>Keep exploring</h2>
@@ -96,7 +96,7 @@ ${header('areas')}
   <span class="area-shade"></span>
   <div class="wrap area-hero-txt">
     ${breadcrumbs([['/', 'Home'], ['/#neighborhoods', 'Neighborhoods'], ['', area.label]])}
-    <img class="area-hero-badge" src="/art/area-${area.slug}.png" alt="" onerror="this.remove()">
+    <img class="area-hero-badge" src="/art/area-${area.slug}.webp" alt="" onerror="this.remove()">
     <p class="kicker kicker-light">Neighborhood</p>
     <h1>${esc(area.label)}</h1>
     <p>${esc(area.blurb)} ${items.length} independent places.</p>
@@ -262,7 +262,7 @@ ${header(saved ? 'saved' : 'explore')}
       ${saved ? '<div class="trip-extras" data-trip-extras hidden></div>' : ''}
       <div class="grid" data-ex-grid></div>
       <button type="button" class="btn btn-ghost more-btn" data-ex-more hidden>Show more</button>
-      <div class="empty" data-ex-empty hidden><img src="/art/${saved ? 'empty-saved' : 'empty-search'}.png" alt="" width="180" height="180">${saved ? '<p>Nothing saved yet. Tap the heart on any place to keep it here.</p><a class="btn" href="/explore/">Start exploring</a>' : '<p data-ex-why>Nothing matches those filters.</p><div class="btns" data-ex-recover></div>'}</div>
+      <div class="empty" data-ex-empty hidden><img src="/art/${saved ? 'empty-saved' : 'empty-search'}.webp" alt="" width="180" height="180">${saved ? '<p>Nothing saved yet. Tap the heart on any place to keep it here.</p><a class="btn" href="/explore/">Start exploring</a>' : '<p data-ex-why>Nothing matches those filters.</p><div class="btns" data-ex-recover></div>'}</div>
     </section>
   </div>
 </main>
@@ -298,7 +298,7 @@ function notFoundPage({ assets }) {
   const body = `
 ${header()}
 <main id="main" class="wrap prose">
-  <div class="empty"><img src="/art/empty-search.png" alt="" width="180" height="180">
+  <div class="empty"><img src="/art/empty-search.webp" alt="" width="180" height="180">
     <h1>We couldn’t find that page</h1>
     <p>The link may be old, or the place may have closed. Search above, or start from one of these.</p>
     <p class="btns"><a class="btn" href="/explore/">Explore every business</a><a class="btn" href="/">Home</a></p>

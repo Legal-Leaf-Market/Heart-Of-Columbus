@@ -125,12 +125,19 @@
     });
     $$('[data-today]').forEach(function (tr) { if (Number(tr.getAttribute('data-today')) === nowParts().day) tr.classList.add('today'); });
     // Rails that should only show places open right now.
+    // Closed cards are hidden, never removed, so one that opens while the page
+    // is up comes back on the next repaint. Shuffled once per visit.
     $$('[data-open-rail]').forEach(function (sec) {
-      var cards = $$('.bz', sec);
-      cards.forEach(function (c) { if (c.getAttribute('data-is-open') !== '1') c.remove(); });
-      var left = $$('.bz', sec);
-      for (var i = left.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); left[i].parentNode.insertBefore(left[j], left[i]); }
-      sec.hidden = left.length < 3;
+      var track = $('[data-rail]', sec);
+      if (track && !track.hasAttribute('data-shuffled')) {
+        var kids = $$('.bz', track);
+        for (var i = kids.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = kids[i]; kids[i] = kids[j]; kids[j] = t; }
+        kids.forEach(function (k) { track.appendChild(k); });
+        track.setAttribute('data-shuffled', '');
+      }
+      var open = $$('.bz', sec).filter(function (c) { var o = c.getAttribute('data-is-open') === '1'; c.hidden = !o; return o; });
+      open.slice(12).forEach(function (c) { c.hidden = true; });
+      sec.hidden = open.length < 3;
     });
   }
   window.HoCPaintOpen = function () { window.HoCDir().then(paintOpen); };

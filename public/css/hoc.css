@@ -545,7 +545,7 @@ section { scroll-margin-top: 130px; }
 .empty img { margin: 0 auto 6px; height: auto; }
 .empty h1 { color: var(--ink); }
 .empty .btns { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-.band { background-image: url('/art/pattern-arches.png'); background-size: 260px; background-blend-mode: multiply; }
+.band { background-image: url('/art/pattern-arches.webp'); background-size: 260px; background-blend-mode: multiply; }
 .ftr { position: relative; }
 
 /* ---------- Pickup tickets ---------- */
@@ -838,7 +838,7 @@ section { scroll-margin-top: 130px; }
   .pr-mast h2 { font-size: 28pt; }
 }
 .cal-fair-wrap { padding-top: 24px; }
-.cal-fair { position: relative; overflow: hidden; display: grid; background: #fff4d6 url(/art/pattern-prairie.png) right center / auto 100% no-repeat; border: 2px solid var(--ink); border-radius: var(--r-lg); box-shadow: 6px 6px 0 var(--ink); padding: 24px; }
+.cal-fair { position: relative; overflow: hidden; display: grid; background: #fff4d6 url(/art/pattern-prairie.webp) right center / auto 100% no-repeat; border: 2px solid var(--ink); border-radius: var(--r-lg); box-shadow: 6px 6px 0 var(--ink); padding: 24px; }
 .cal-fair > div { position: relative; max-width: 620px; background: rgba(255,244,214,.92); border-radius: var(--r); }
 .cal-fair h2 { font-size: clamp(26px, 3.6vw, 40px); font-weight: 800; }
 .cal-fair-when { display: flex; align-items: center; gap: 6px; font-weight: 800; color: var(--brand); margin: 8px 0; text-transform: uppercase; letter-spacing: .06em; font-size: 14px; }
@@ -930,7 +930,7 @@ section { scroll-margin-top: 130px; }
 .cal-stage-grid { display: grid; gap: 14px; margin-top: 16px; }
 @media (min-width: 700px) { .cal-stage-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1100px) { .cal-stage-grid { grid-template-columns: repeat(4, 1fr); } }
-.cal-stage { background: #1b1a17 url(/art/pattern-girard.png) center / 220px repeat; color: #fff; border: 2px solid var(--ink); border-radius: var(--r); box-shadow: var(--pop); padding: 0; overflow: hidden; display: grid; }
+.cal-stage { background: #1b1a17 url(/art/pattern-girard.webp) center / 220px repeat; color: #fff; border: 2px solid var(--ink); border-radius: var(--r); box-shadow: var(--pop); padding: 0; overflow: hidden; display: grid; }
 .cal-stage > * { margin: 0; padding: 0 18px; background: rgba(27,26,23,.88); }
 .cal-stage h3 { font-size: 21px; font-weight: 800; padding-top: 16px; }
 .cal-stage .cal-meta { color: #f2d9a8; display: flex; gap: 6px; align-items: center; padding-top: 6px; }
