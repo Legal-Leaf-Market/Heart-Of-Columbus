@@ -46,6 +46,25 @@ Indiana. A pitch, not a live service. See README.md.
   bar and send it as an `x-hoc-key` header; those pages set no-referrer. The
   claim form is a real POST to /api/claim even without its script, and the
   function answers a form post with a plain page.
+- **Canonicals come from the build.** Every page gets `<link rel="canonical">`
+  and `og:url` from `HOC_ORIGIN` plus its own path (the layout leaves a
+  `<!--canonical-->` marker); query strings are views of the same page. Share
+  images and hreflang links are absolute. Don't hand-write a canonical.
+- **Search ranks, it never hides.** `HoCMatch` decides what matches (every
+  word somewhere); `HoCScore`/`HoCRank` in `public/js/site.js` order it: name,
+  then a specific type, then street or neighborhood, then category. A type
+  that is really a category label is marked `g` in the index and ranks low.
+  `SYN` maps a search word to real kinds of the same thing (taco to taqueria);
+  add to it only with that bar. Explore defaults to Best match, and
+  tests/search.test.mjs runs the real site.js against the real data.
+- **Homepage rails are a taste, not the list**: 8 places spread through the
+  category, with "See all". The open-now rail ships the 48 places open the
+  most hours and hides closed cards (never removes them), so they return when
+  they open.
+- **Art loads as WebP.** Export the PNG as art-source/README.md says, then run
+  `python3 scripts/art-webp.py`; pages point at the `.webp`. The Sentinels app
+  icons stay PNG. JS and CSS are cached for a year because every reference
+  carries `?v=<hash>`; a test fails on one that doesn't.
 - **Tailwind v4** (`src/styles.css`, themes as CSS variables per business).
   Class names built in `public/js` must appear literally so Tailwind finds them.
 - Vanilla JS, no framework. `public/js/core.js` is the shared cart, time-slot
