@@ -13,7 +13,9 @@ import { landmarkPages } from './src/pages/landmark-pages.mjs';
 import { icsFeed } from './src/pages/events.mjs';
 import { ORIGIN } from './src/jsonld.mjs';
 import { holidayPages } from './src/pages/holiday-pages.mjs';
+import { filmPages } from './src/pages/film-pages.mjs';
 import { freePages } from './src/pages/free-pages.mjs';
+import { djPages } from './src/pages/dj-pages.mjs';
 import { tripPages } from './src/pages/trip-pages.mjs';
 import { calendarPages } from './src/pages/calendar-pages.mjs';
 import { searchIndex } from './src/site.mjs';
@@ -49,6 +51,8 @@ const pages = [
   ...landmarkPages({ assets }),
   ...tripPages({ assets }),
   ...freePages({ assets }),
+  ...djPages({ assets }),
+  ...filmPages({ assets }),
   ...holidayPages({ assets }),
   ...calendarPages({ assets }),
 ];
@@ -70,9 +74,13 @@ if (process.env.HOC_SITEMAP === '1') {
   console.log(`Sitemap: ${live.length} live pages`);
 }
 
-// No dashes a person can see: no em dash, no en dash, no spaced hyphen.
-// Ranges read "9 AM to 5 PM". Hyphenated words ("drop-in") are fine.
-const DASH = /[–—]| - /;
-const dashed = pages.filter((p) => DASH.test(p.html)).map((p) => `${p.path} (${p.html.match(new RegExp(`.{0,30}(?:${DASH.source}).{0,30}`))[0].trim()})`);
-if (dashed.length) { console.error('Dash found in: ' + dashed.slice(0, 10).join('; ')); process.exit(1); }
+// No visible dashes (em, en, or a spaced hyphen) in page text or in the
+// alt, title, label and placeholder text a reader sees.
+const visibleText = (html) => {
+  const h = html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<!--[\s\S]*?-->/g, ' ');
+  const attrs = [...h.matchAll(/\s(?:alt|title|placeholder|aria-label|content)="([^"]*)"/g)].map((m) => m[1]);
+  return [h.replace(/<[^>]+>/g, ' '), ...attrs].join(' ');
+};
+const dashed = pages.filter((p) => p.path.endsWith('.html') && /[—–]| - /.test(visibleText(p.html))).map((p) => p.path);
+if (dashed.length) { console.error('Dash found in: ' + dashed.join(', ')); process.exit(1); }
 console.log(`Built dist/: ${pages.length} pages`);

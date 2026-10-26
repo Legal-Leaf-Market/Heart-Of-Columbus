@@ -5,6 +5,7 @@ import { breadcrumbLd } from './jsonld.mjs';
 import { UI as ES, CATEGORY as ES_CAT } from './i18n/es.mjs';
 import { CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, directory } from './data/directory.mjs';
 import { LANDMARKS } from './data/landmarks.mjs';
+import { SPOTLIGHT_SLUGS } from './data/spotlight.mjs';
 
 // Cover art for a business type, only when public/art has one for it;
 // otherwise the card shows its emoji on the pattern.
@@ -95,7 +96,7 @@ export const artIcon = (slug, emoji, cls) =>
 export function footer({ lang = 'en' } = {}) {
   const es = lang === 'es';
   const cat = (c) => esc(es ? ES_CAT[c.slug] : c.label);
-  const k = es ? ES.links : { visit: 'Plan your visit', events: 'Local events', free: 'Free in Columbus', holidays: 'Shop small for the holidays', credits: 'Photo credits', claim: 'Claim your listing', pickup: 'Take pickup orders', direct: 'Order, book and shop direct' };
+  const k = es ? ES.links : { visit: 'Plan your visit', events: 'Local events', free: 'Free in Columbus', film: 'The Columbus film trail', holidays: 'Shop small for the holidays', djs: 'Columbus DJs', credits: 'Photo credits', claim: 'Claim your listing', pickup: 'Take pickup orders', direct: 'Order, book and shop direct' };
   return `
 <footer class="ftr">
   <div class="wrap ftr-grid">
@@ -105,8 +106,8 @@ export function footer({ lang = 'en' } = {}) {
       <p class="ftr-small">${es ? ES.footerSmall : 'A concept preview. Details come from public listings and may change; call ahead. Not affiliated with the businesses listed.'}</p>
     </div>
     <div><h3>${es ? ES.browse : 'Browse'}</h3>${CATEGORIES.slice(0, 8).map((c) => `<a href="/c/${c.slug}/">${cat(c)}</a>`).join('')}</div>
-    <div><h3>${es ? ES.more : 'More'}</h3>${CATEGORIES.slice(8).map((c) => `<a href="/c/${c.slug}/">${cat(c)}</a>`).join('')}</div>
-    <div><h3>${es ? ES.aroundTown : 'Around town'}</h3>${AREAS.slice(0, 7).map((a) => `<a href="/n/${a.slug}/">${esc(a.label)}</a>`).join('')}<a href="${es ? '/es/visit/' : '/visit/'}">${k.visit}</a><a href="/events/">${k.events}</a><a href="${es ? '/es/free/' : '/free/'}">${k.free}</a><a href="/holidays/">${k.holidays}</a><a href="/credits/">${k.credits}</a></div>
+    <div><h3>${es ? ES.more : 'More'}</h3>${CATEGORIES.slice(8).map((c) => `<a href="/c/${c.slug}/">${cat(c)}</a>`).join('')}<a href="/djs/">${k.djs}</a></div>
+    <div><h3>${es ? ES.aroundTown : 'Around town'}</h3>${AREAS.slice(0, 7).map((a) => `<a href="/n/${a.slug}/">${esc(a.label)}</a>`).join('')}<a href="${es ? '/es/visit/' : '/visit/'}">${k.visit}</a><a href="/events/">${k.events}</a><a href="${es ? '/es/free/' : '/free/'}">${k.free}</a><a href="${es ? '/es/film/' : '/film/'}">${k.film}</a><a href="${es ? '/es/holidays/' : '/holidays/'}">${k.holidays}</a><a href="/credits/">${k.credits}</a></div>
     <div><h3>${es ? ES.owners : 'Owners'}</h3><a href="/owners/">${k.claim}</a><a href="/owners/#claim">${k.pickup}</a><a href="/order/">${k.direct}</a></div>
   </div>
 </footer>`;
@@ -121,6 +122,7 @@ export function card(b, { compact = false, note = '' } = {}) {
   const area = areaBySlug[b.area];
   const pat = PATTERNS[hash(b.slug) % PATTERNS.length];
   const tags = [];
+  if (SPOTLIGHT_SLUGS.has(b.slug)) tags.push('<span class="tag tag-spot">★ Spotlight</span>');
   if (b.order.length) tags.push('<span class="tag tag-go">Order online</span>');
   if (b.book.length) tags.push('<span class="tag tag-go">Book online</span>');
   if (b.feed || b.store) tags.push('<span class="tag tag-go">Shop online</span>');

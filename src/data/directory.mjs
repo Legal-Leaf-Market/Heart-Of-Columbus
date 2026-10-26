@@ -12,6 +12,7 @@ import { COMMERCE } from './commerce.mjs';
 import { HOURS } from './hours.mjs';
 import { DORA_SLUGS } from './dora.mjs';
 import { GEO } from './geo.mjs';
+import { ADDED } from './added.mjs';
 
 // Top-level categories, in display order. `subs` map to the landscape's
 // vertical/filter pairs. Emoji are the fallback icon until /art/ assets land.
@@ -180,10 +181,24 @@ for (const b of businesses) {
 for (const l of landscape) {
   const hit = SUB_BY_PAIR[`${l.vertical}/${l.filter}`];
   all.push({
-    slug: uniq(slugify(l.name)), name: l.name.replace(/\s+[-–—]\s+/g, ', '), cat: hit.cat.slug, sub: hit.sub.slug, type: l.type,
+    slug: uniq(slugify(l.name)), name: l.name, cat: hit.cat.slug, sub: hit.sub.slug, type: l.type,
     address: l.address, area: AREA_BY_LABEL[l.area] || '', phone: l.phone, website: '', demo: '',
     ll: l.ll, featured: false, heritage: false,
   });
+}
+
+for (const a of ADDED) {
+  all.push({
+    slug: uniq(slugify(a.name)), name: a.name, cat: a.cat, sub: a.sub, type: a.type, address: a.address,
+    area: '', phone: a.phone, website: a.website, demo: '', ll: null, featured: false, heritage: false, added: a,
+  });
+}
+
+// No visible dashes on the site (owner's rule): a spaced dash in a listed
+// name or type reads as a comma. Slugs come out the same either way.
+for (const b of all) {
+  b.name = b.name.replace(/\s+[-–—]\s+/g, ', ');
+  b.type = b.type.replace(/\s+[-–—]\s+/g, ', ');
 }
 
 // Fill in website and phone from each business's own Google listing, and
@@ -200,7 +215,7 @@ for (const b of all) {
   }
   const c = COMMERCE[b.slug];
   b.order = c ? c.order || [] : [];
-  b.book = c ? c.book || [] : [];
+  b.book = c ? c.book || [] : b.added ? b.added.book || [] : [];
   b.feed = !!(c && c.feed);
   b.store = c && c.store ? c.store : '';
   b.gift = c && c.gift ? c.gift : null;
