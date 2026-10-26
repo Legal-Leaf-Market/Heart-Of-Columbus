@@ -194,6 +194,13 @@ for (const a of ADDED) {
   });
 }
 
+// No visible dashes on the site (owner's rule): a spaced dash in a listed
+// name or type reads as a comma. Slugs come out the same either way.
+for (const b of all) {
+  b.name = b.name.replace(/\s+[-–—]\s+/g, ', ');
+  b.type = b.type.replace(/\s+[-–—]\s+/g, ', ');
+}
+
 // Fill in website and phone from each business's own Google listing, and
 // attach what its website can do (order, book, shop) from the commerce probe.
 const fmtPhone = (p) => {

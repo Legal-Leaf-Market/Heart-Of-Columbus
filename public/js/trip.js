@@ -63,7 +63,7 @@
   var fmt = function (m) { m = m % 1440; var h = Math.floor(m / 60), mm = m % 60; return (h % 12 || 12) + (mm ? ':' + (mm < 10 ? '0' : '') + mm : '') + ' ' + (h < 12 ? 'AM' : 'PM'); };
   function hoursOn(rows, d) {
     var r = rows.filter(function (x) { return x[0] === d; });
-    return r.length ? r.map(function (x) { return x[1] === 0 && x[2] === 1440 ? 'Open 24 hours' : fmt(x[1]) + '–' + fmt(x[2]); }).join(', ') : 'Closed';
+    return r.length ? r.map(function (x) { return x[1] === 0 && x[2] === 1440 ? 'Open 24 hours' : fmt(x[1]) + ' to ' + fmt(x[2]); }).join(', ') : 'Closed';
   }
   function openDuring(rows, d, w) {
     return rows.some(function (r) {
