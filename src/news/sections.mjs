@@ -33,6 +33,7 @@ export const SECTIONS = [
   // Sections other features build as their own pages (href): listed in the
   // paper's bar, no generic /news/<slug>/ page.
   { slug: 'markets', name: 'Markets', blurb: 'Stocks of companies that matter to Columbus.', href: '/markets/' },
+  { slug: 'agriculture', name: 'Agriculture', blurb: '4-H, the county fair, local growers and grain prices.', href: '/agriculture/' },
   { slug: 'skate', name: 'Skate park', blurb: 'The Jolie Crider Memorial Skatepark, its history and the people who skate it.', href: '/skate/', bar: false },
   { slug: 'obituaries', name: 'Obituaries', blurb: 'Submitted by families and funeral homes.', href: '/obituaries/' },
   { slug: 'history', name: 'History', blurb: 'Columbus from the 1930s to now, ten sourced stories a decade, plus the town’s newspapers and Brian Blair’s faith beat.', href: '/history/' },

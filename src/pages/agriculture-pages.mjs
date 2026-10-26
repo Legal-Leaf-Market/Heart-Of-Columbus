@@ -2,13 +2,14 @@
 // people planting things in town, and this week's grain prices, all from
 // src/data/agriculture.mjs. This file only lays them out. The grain panel
 // prints on its own page so it can be clipped like the old paper's markets box.
-import { page, esc, t } from '../layout.mjs';
-import { header, footer, svg, breadcrumbs, tel } from '../site.mjs';
+import { esc, t } from '../layout.mjs';
+import { svg, tel } from '../site.mjs';
 import { AG, GRAIN } from '../data/agriculture.mjs';
 import { directory } from '../data/directory.mjs';
-import { ORIGIN } from '../jsonld.mjs';
+import { newsPage } from '../news/frame.mjs';
+import { storiesIn } from '../news/content.mjs';
+import { storyList } from '../news/render.mjs';
 
-const styles = ['hoc.css'];
 const host = (u) => new URL(u).hostname.replace(/^www\./, '');
 const src = (u) => `<a class="vs-src" href="${esc(u)}" target="_blank" rel="noopener">${esc(host(u))}</a>`;
 const bySlug = Object.fromEntries(directory.map((b) => [b.slug, b]));
@@ -55,6 +56,7 @@ function grainPanel() {
 
 function agPage({ assets }) {
   const biz = agBusinesses();
+  const stories = storiesIn('agriculture');
   const group = (g) => `<section class="fr-group" id="${g.id}" aria-labelledby="${g.id}-h">
   <h2 id="${g.id}-h"><span aria-hidden="true">${g.emoji}</span> ${esc(g.title)}</h2>
   <p class="vs-lead">${t(g.lead)}</p>
@@ -62,9 +64,6 @@ function agPage({ assets }) {
   ${g.businesses ? `<ul class="hol-list">${biz.map((b) => `<li><a class="hol-name" href="/b/${b.slug}/">${t(b.name)}</a><span>${esc(b.type)}${b.address ? ` · ${esc(b.address)}` : ''}</span></li>`).join('')}</ul>` : ''}
 </section>`;
   const body = `
-${header('', { alt: '' })}
-<main id="main">
-${breadcrumbs([['/', 'Home'], ['', 'Farm country']])}
 <section class="order-hero vs-hero ag-hero">
   <div class="wrap">
     <p class="kicker kicker-pill">Farm country</p>
@@ -77,15 +76,14 @@ ${breadcrumbs([['/', 'Home'], ['', 'Farm country']])}
 <div class="wrap fr-list">
 ${grainPanel()}
 ${AG.map(group).join('')}
+${stories.length ? `<section class="fr-group" id="news" aria-labelledby="news-h"><h2 id="news-h">Farm news</h2>${storyList(stories)}</section>` : ''}
 <p class="fine fr-foot">Know a farm, a co-op, a 4-H club or a farm stand we should add? Owners can claim a listing on the <a href="/owners/">owners page</a>.</p>
 </div>
-</main>
-${footer()}`;
-  return page({
-    title: 'Farm country | Heart of Columbus',
+`;
+  return newsPage({
+    assets, path: '/agriculture/', title: 'Farm country',
     description: 'Agriculture around Columbus, Indiana: Bartholomew County 4-H, the county fair, the farmers market, local growers and this week’s Indiana grain prices from the USDA, each with its source.',
-    alternates: [['en', `${ORIGIN}/agriculture/`]],
-    body, scripts: ['site.js'], styles, assets,
+    crumbs: [['/news/', 'News'], ['', 'Farm country']], body,
   });
 }
 
