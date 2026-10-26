@@ -75,13 +75,24 @@ p { margin: 0; }
 @media (max-width: 900px) {
   .hdr-row { flex-wrap: wrap; height: auto; padding-top: 10px; padding-bottom: 10px; gap: 10px; }
   .hsearch { order: 3; max-width: none; flex-basis: 100%; }
-  .hnav a:not(.saved-link):not(.lang-link) { display: none; }
+  .hnav > a:not(.saved-link):not(.lang-link) { display: none; }
   .hdr .hnav .lang-link span { display: none; }
   .hdr .hnav .lang-link abbr { display: inline; }
   .hnav .lang-link { padding: 8px 6px; }
   .hnav .saved-link span { display: none; }
 }
 @media (min-width: 901px) and (max-width: 1150px) { .hnav a[href="/#neighborhoods"] { display: none; } }
+
+/* Mobile menu: a native disclosure, so it opens and reports its state with no JS. */
+.mmenu { display: none; position: relative; }
+.mmenu > summary { list-style: none; cursor: pointer; padding: 8px 12px; border-radius: 999px; display: inline-flex; align-items: center; gap: 6px; }
+.mmenu > summary::-webkit-details-marker { display: none; }
+.mmenu > summary:hover, .mmenu[open] > summary { background: #efe7d8; }
+.mmenu > summary:focus-visible, .hnav a:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }
+.mmenu-panel { position: absolute; right: 0; top: calc(100% + 8px); min-width: 220px; background: var(--surface); border: 2px solid var(--ink); border-radius: 18px; box-shadow: var(--pop); padding: 6px; z-index: 70; display: grid; }
+.mmenu-panel a { padding: 12px 14px; border-radius: 12px; font-weight: 700; }
+.mmenu-panel a:hover, .mmenu-panel a[aria-current] { background: #efe7d8; }
+@media (max-width: 900px) { .mmenu { display: block; } }
 
 /* typeahead */
 .ta-list { position: absolute; left: -2px; right: -2px; top: calc(100% + 8px); background: var(--surface); border: 2px solid var(--ink); border-radius: 18px; box-shadow: var(--pop); z-index: 60; overflow: hidden; max-height: 70vh; overflow-y: auto; text-align: left; }

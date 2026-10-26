@@ -212,14 +212,14 @@ ${yourWay({ id: 'trip-ideas' })}
       <h2 id="keep-h">Keep it in Columbus</h2>
       <p class="keep-sub">Delivery apps commonly charge restaurants 15 to 30 percent of each order. Move the sliders to see what direct ordering could keep in local pockets.</p>
       <div class="sliders">
-        <label><span><span>App orders per week, per business</span><output data-out="orders"></output></span>
-          <input type="range" min="10" max="300" step="10" value="60" data-in="orders"></label>
-        <label><span><span>Average order</span><output data-out="avg"></output></span>
-          <input type="range" min="10" max="60" step="1" value="24" data-in="avg"></label>
-        <label><span><span>App commission</span><output data-out="rate"></output></span>
-          <input type="range" min="15" max="30" step="1" value="25" data-in="rate"></label>
-        <label><span><span>Restaurants that switch</span><output data-out="biz"></output></span>
-          <input type="range" min="1" max="${count((b) => b.cat === 'restaurants')}" step="1" value="10" data-in="biz"></label>
+        <label><span><span id="k-orders-l">App orders per week, per business</span><output data-out="orders"></output></span>
+          <input type="range" min="10" max="300" step="10" value="60" data-in="orders" id="k-orders" aria-labelledby="k-orders-l"></label>
+        <label><span><span id="k-avg-l">Average order</span><output data-out="avg"></output></span>
+          <input type="range" min="10" max="60" step="1" value="24" data-in="avg" id="k-avg" aria-labelledby="k-avg-l"></label>
+        <label><span><span id="k-rate-l">App commission</span><output data-out="rate"></output></span>
+          <input type="range" min="15" max="30" step="1" value="25" data-in="rate" id="k-rate" aria-labelledby="k-rate-l"></label>
+        <label><span><span id="k-biz-l">Restaurants that switch</span><output data-out="biz"></output></span>
+          <input type="range" min="1" max="${count((b) => b.cat === 'restaurants')}" step="1" value="10" data-in="biz" id="k-biz" aria-labelledby="k-biz-l"></label>
       </div>
     </div>
     <div class="keep-out">

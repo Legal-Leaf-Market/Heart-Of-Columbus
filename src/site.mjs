@@ -80,7 +80,15 @@ export function header(active = '', { lang = 'en', alt = '' } = {}) {
     <nav class="hnav" aria-label="${es ? 'Principal' : 'Main'}">
       ${nav.map(([k, h, l]) => `<a href="${h}"${k === active ? ' aria-current="page"' : ''}>${l}</a>`).join('')}
       ${alt ? `<a href="${alt}" class="lang-link" hreflang="${es ? 'en' : 'es'}" lang="${es ? 'en' : 'es'}">${svg('globe', 'ic-sm')}<span>${es ? ES.switchTo : 'Español'}</span><abbr title="${es ? ES.switchTo : 'Español'}">${es ? 'EN' : 'ES'}</abbr></a>` : ''}
-      <a href="/saved/" class="saved-link"${active === 'saved' ? ' aria-current="page"' : ''}>${svg('heart')}<span>${L.saved}</span><b data-saved-count hidden>0</b></a>
+      <a href="/saved/" class="saved-link" aria-label="${es ? 'Lugares guardados' : 'Saved places'}"${active === 'saved' ? ' aria-current="page"' : ''}>${svg('heart')}<span>${L.saved}</span><b data-saved-count hidden aria-hidden="true">0</b></a>
+      <details class="mmenu" data-mmenu>
+        <summary>${svg('menu')}<span>${es ? 'Menú' : 'Menu'}</span></summary>
+        <div class="mmenu-panel">
+          ${nav.map(([k, h, l]) => `<a href="${h}"${k === active ? ' aria-current="page"' : ''}>${l}</a>`).join('')}
+          <a href="/saved/"${active === 'saved' ? ' aria-current="page"' : ''}>${L.saved}</a>
+          <a href="/owners/">${es ? 'Para dueños' : 'For owners'}</a>
+        </div>
+      </details>
     </nav>
   </div>
   <nav class="catbar" aria-label="${es ? 'Categorías' : 'Categories'}"><div class="wrap catbar-row">

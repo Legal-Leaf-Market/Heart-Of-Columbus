@@ -212,4 +212,14 @@
     if (navigator.share) navigator.share(data).catch(function () {});
     else if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(function () { b.lastChild.textContent = ' Link copied'; });
   });
+  // ---------- Mobile menu ----------
+  // The menu is a <details>, so it works without this. This adds Escape to
+  // close (focus back on the button) and closes it on a tap outside.
+  $$('[data-mmenu]').forEach(function (d) {
+    var sum = d.querySelector('summary');
+    d.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && d.open) { d.open = false; sum.focus(); }
+    });
+    document.addEventListener('click', function (e) { if (d.open && !d.contains(e.target)) d.open = false; });
+  });
 })();

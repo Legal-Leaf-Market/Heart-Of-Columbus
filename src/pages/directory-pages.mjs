@@ -235,7 +235,7 @@ ${header(saved ? 'saved' : 'explore')}
     </div>
   </div>
   <div class="ex-layout wrap">
-    <aside class="ex-side" data-ex-side>
+    <aside class="ex-side" id="ex-side" data-ex-side>
       <label class="refine-q">${svg('search')}<input type="search" placeholder="Name, type or street" data-ex-q aria-label="Search"></label>
       <h2>Category</h2>
       <div class="ex-cats">
@@ -254,7 +254,7 @@ ${header(saved ? 'saved' : 'explore')}
       <select data-ex-sort aria-label="Sort"><option value="az">A to Z</option><option value="za">Z to A</option><option value="area">By neighborhood</option><option value="near">Nearest to me</option>${saved ? '<option value="walk">Walking order</option>' : ''}</select><p class="fine" data-ex-near-msg hidden></p>
     </aside>
     <section class="ex-main">
-      <div class="ex-bar"><p data-ex-count aria-live="polite"></p><button type="button" class="pill ex-filters-btn" data-ex-toggle>Filters</button></div>
+      <div class="ex-bar"><p data-ex-count aria-live="polite"></p><button type="button" class="pill ex-filters-btn" data-ex-toggle aria-controls="ex-side" aria-expanded="false">Filters</button></div>
       <div class="ex-map" data-ex-map hidden>
         ${saved ? '' : `<div class="now-bar" data-now-bar hidden><p data-now-msg aria-live="polite">Open now, nearest first.</p><div class="chips">${NOW_CATS.map((k) => { const c = CATEGORIES.find((x) => x.slug === k); return `<button type="button" class="pill" data-now-cat="${k}" aria-pressed="false">${c.emoji} ${esc(c.label)}</button>`; }).join('')}</div><a class="fine" href="/explore/?view=map" data-now-exit>Leave near me now</a></div>`}
         <div class="map-layers" role="group" aria-label="Show on the map">${LAYERS.map(([k, l]) => `<label class="check map-layer map-layer-${k}"><input type="checkbox" data-layer="${k}"${k === 'z' ? '' : ' checked'}> ${esc(l)}</label>`).join('')}</div>

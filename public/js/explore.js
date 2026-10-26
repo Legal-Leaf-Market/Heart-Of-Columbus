@@ -278,7 +278,10 @@
     render();
   });
   $('[data-ex-more]').addEventListener('click', function () { shown += PAGE; render(); });
-  $('[data-ex-toggle]').addEventListener('click', function () { $('[data-ex-side]').classList.toggle('open'); });
+  $('[data-ex-toggle]').addEventListener('click', function () {
+    var open = $('[data-ex-side]').classList.toggle('open');
+    this.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
   if (savedOnly) document.addEventListener('hoc:saved', render);
 
   window.HoCDir().then(function (d) { all = d; render(); });
