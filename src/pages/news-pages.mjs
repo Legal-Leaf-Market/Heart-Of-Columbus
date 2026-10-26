@@ -5,6 +5,7 @@ import { esc, t } from '../layout.mjs';
 import { newsPage, setBarLinks } from '../news/frame.mjs';
 import { aboutPages } from './about-pages.mjs';
 import { readerPages } from './reader-pages.mjs';
+import { civicPages } from './civic-pages.mjs';
 import { ALL_STORIES, SAMPLES, stories, storiesIn, storiesBy, correctionsLog } from '../news/content.mjs';
 import { SECTIONS, sectionBySlug, sectionHref } from '../news/sections.mjs';
 import { disclosures } from '../news/disclosure.mjs';
@@ -13,6 +14,7 @@ import { card, svg, rail, PHOTOS } from '../site.mjs';
 import { directory, areaBySlug, AREAS } from '../data/directory.mjs';
 import { eventsSection } from './events.mjs';
 import { ALERT, activeAlert, LEVELS } from '../news/alert.mjs';
+import { BODIES } from '../data/civic.mjs';
 
 // Columbus, for the weather box: the Bartholomew County Courthouse.
 const WX = { lat: 39.2014, lon: -85.9214, gauge: '03364000' };
@@ -87,6 +89,18 @@ const host = (u) => new URL(u).hostname.replace(/^www\./, '');
 
 const correction = (c) => `<li><time datetime="${esc(c.date)}">${fmtDate(c.date)}</time>: ${t(c.text)}</li>`;
 
+// The Documenters-style notes box: who was there, what was decided, votes,
+// and what to ask next.
+const meetingBox = (m, sample) => {
+  const body = BODIES.find((b) => b.slug === m.body);
+  const list = (title, xs) => (xs.length ? `<div><h2>${esc(title)}</h2><ul>${xs.map((x) => `<li>${t(x)}</li>`).join('')}</ul></div>` : '');
+  return `<aside class="np-dev np-meeting" aria-label="Meeting at a glance"><p class="kicker">${esc(body ? body.name : sample ? m.body : m.body)}, ${fmtDate(m.date)}</p>
+  ${list('Who was there', m.attended)}${list('What was decided', m.decisions)}
+  ${m.votes.length ? `<div class="np-votes"><h2>Votes</h2><table><thead><tr><th scope="col">Motion</th><th scope="col">Result</th><th scope="col">Tally</th></tr></thead><tbody>${m.votes.map((v) => `<tr><td>${t(v.motion)}</td><td>${t(v.result)}</td><td>${t(v.tally || '')}</td></tr>`).join('')}</tbody></table></div>` : ''}
+  ${list('Questions to follow up', m.followUps)}
+  ${body?.url ? `<p class="np-wx-src"><a href="${esc(body.url)}" target="_blank" rel="noopener">Official agendas and minutes</a></p>` : ''}</aside>`;
+};
+
 export function storyBody(s) {
   const major = s.corrections.filter((c) => c.major);
   const minor = s.corrections.filter((c) => !c.major);
@@ -105,6 +119,7 @@ export function storyBody(s) {
   ${major.length ? `<aside class="np-corr np-corr-top" aria-label="Corrections"><h2>Correction</h2><ul>${major.map(correction).join('')}</ul></aside>` : ''}
   ${img ? `<figure class="np-fig"><img src="${esc(img.file)}" alt="${esc(img.alt)}"><figcaption>${img.caption ? `${t(img.caption)} ` : ''}<span class="np-credit">${esc(img.credit)}, ${esc(img.license)}</span></figcaption></figure>` : ''}
   ${s.developing ? `<aside class="np-dev" aria-label="Developing story"><p class="kicker">Developing story</p><div><h2>What we know</h2><ul>${s.developing.know.map((x) => `<li>${t(x)}</li>`).join('')}</ul></div><div><h2>What we don’t know yet</h2><ul>${s.developing.dontKnow.map((x) => `<li>${t(x)}</li>`).join('')}</ul></div></aside>` : ''}
+  ${s.meeting ? meetingBox(s.meeting, s.sample) : ''}
   <div class="np-prose">${s.html}</div>
   ${s.images.slice(1).map((im) => `<figure class="np-fig"><img src="${esc(im.file)}" alt="${esc(im.alt)}" loading="lazy"><figcaption>${im.caption ? `${t(im.caption)} ` : ''}<span class="np-credit">${esc(im.credit)}, ${esc(im.license)}</span></figcaption></figure>`).join('')}
   <footer class="np-trust">
@@ -193,6 +208,7 @@ export function newsPages(ctx) {
     { path: 'news/alert/index.html', html: alertPage(ctx) },
     ...SAMPLES.map((s) => ({ path: `${s.href.slice(1)}index.html`, html: storyPage(ctx, s) })),
     ...readerPages(ctx),
+    ...civicPages(ctx),
     ...aboutPages(ctx, {
       corrections: correctionsLog().map((c) => ({ date: c.date, dateText: fmtDate(c.date), text: c.text, story: c.story })),
       storiesBy,

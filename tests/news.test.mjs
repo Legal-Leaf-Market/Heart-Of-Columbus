@@ -228,3 +228,29 @@ test('drafts and lead lists are never built into the site', () => {
   assert.ok(!existsSync(new URL('drafts/', dist)) && !existsSync(new URL('content/', dist)));
   for (const s of ALL_STORIES) assert.ok(!s.leads, `${s.file} is a lead list in content/stories/`);
 });
+
+// ---------- Meetings, data and notices (item 10) ----------
+import { BODIES, MEETINGS, DATASETS, NOTICE_SOURCES, NOTICE_LAW } from '../src/data/civic.mjs';
+
+test('every civic fact has an official source and a checked date', () => {
+  const day = /^\d{4}-\d{2}-\d{2}$/;
+  for (const b of BODIES) if (b.url) assert.ok(/^https:\/\//.test(b.url) && day.test(b.checked), b.slug);
+  for (const m of MEETINGS) {
+    assert.ok(BODIES.some((b) => b.slug === m.body), m.body);
+    assert.match(m.start, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?[-+]\d{2}:\d{2}$/);
+    assert.ok(/^https:\/\//.test(m.source) && day.test(m.checked), m.title);
+  }
+  for (const d of DATASETS) {
+    assert.ok(/^https:\/\//.test(d.source) && day.test(d.checked) && d.rows.every((r) => r.length === d.columns.length), d.slug);
+    assert.ok(existsSync(new URL(`data/${d.slug}/index.html`, dist)), d.slug);
+  }
+  for (const n of [...NOTICE_SOURCES, NOTICE_LAW]) assert.ok(/^https:\/\//.test(n.url || n.source) && day.test(n.checked));
+  for (const p of ['meetings/', 'data/', 'notices/']) assert.match(read(p + 'index.html'), /noindex/, p);
+});
+
+test('meeting notes need the Documenters format and render it', () => {
+  assert.ok(checkStory({ ...good, label: 'Meeting notes' }).some((p) => /Meeting notes need/.test(p)));
+  assert.ok(checkStory({ ...good, sample: false, bylines: ['nobody'], label: 'Meeting notes', meeting: { body: 'made-up-board', date: '2026-11-03', decisions: [] } }).some((p) => /civic\.mjs/.test(p)));
+  const html = read('news/samples/sampleton-council-notes/index.html');
+  for (const want of ['np-label-meeting-notes', 'Who was there', 'What was decided', '<th scope="col">Tally</th>', 'Questions to follow up']) assert.ok(html.includes(want), want);
+});

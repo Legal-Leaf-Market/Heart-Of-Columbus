@@ -22,7 +22,7 @@
 // labeled. See docs/newspaper-plan.md.
 
 export const SECTIONS = [
-  { slug: 'local', name: 'Local', blurb: 'The city, the county and the schools.' },
+  { slug: 'local', name: 'Local', blurb: 'The city, the county and the schools.', links: [['/meetings/', 'Public meetings'], ['/data/', 'Public data'], ['/notices/', 'Public notices']] },
   { slug: 'business', name: 'Business', blurb: 'Openings, closings, new owners and expansions, confirmed with the business.' },
   { slug: 'food', name: 'Food & drink', blurb: 'Where Columbus eats and drinks, and the people behind it.' },
   { slug: 'architecture', name: 'Architecture & design', blurb: 'The beat only Columbus has.', links: [['/free/#from-the-street', 'Architecture from the street'], ['/trips/architecture-morning/', 'An architecture morning'], ['/film/', 'The Columbus film trail']] },

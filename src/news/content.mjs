@@ -35,6 +35,16 @@
 //   developing:                    # optional box for a developing story
 //     know: [Fact we confirmed]
 //     dontKnow: [Question still open]
+//   meeting:                       # required for label "Meeting notes"
+//     body: city-council           # src/data/civic.mjs BODIES (samples may use any name)
+//     date: 2026-11-03
+//     attended: [Mayor, all seven council members]
+//     decisions: [Approved the 2027 budget]
+//     votes:
+//       - motion: Approve the 2027 budget
+//         result: Passed
+//         tally: 6 to 1
+//     followUps: [What happens to the parks line next year?]
 //   draft: true                    # optional: built for preview, listed nowhere
 //
 // Anything wrong in a story stops the build with the file and the reason.
@@ -45,6 +55,9 @@ import { sectionBySlug, TOPICS } from './sections.mjs';
 import { STAFF, SAMPLE_STAFF } from '../data/staff.mjs';
 import { directory, areaBySlug } from '../data/directory.mjs';
 import { landmarkBySlug } from '../data/landmarks.mjs';
+import { BODIES } from '../data/civic.mjs';
+
+const bodyBySlug = Object.fromEntries(BODIES.map((b) => [b.slug, b]));
 
 export const CONTENT = new URL('../../content/', import.meta.url);
 const bizSlugs = new Set(directory.map((b) => b.slug));
@@ -92,6 +105,12 @@ export function checkStory(s) {
     if (!im?.license) p.push(`image ${im?.file}: license is required (Staff photo, CC BY 4.0, used with permission...)`);
     if (im?.file?.startsWith('/') && !existsSync(new URL(`../../public${im.file}`, import.meta.url))) p.push(`image ${im.file} is not in public/`);
   }
+  if (s.label === 'Meeting notes') {
+    const m = s.meeting;
+    if (!m || !m.body || !/^\d{4}-\d{2}-\d{2}$/.test(String(m.date)) || !Array.isArray(m.decisions)) p.push('Meeting notes need meeting: body, date (YYYY-MM-DD) and a decisions list');
+    else if (!s.sample && !bodyBySlug[m.body]) p.push(`meeting body "${m.body}" is not in src/data/civic.mjs`);
+    for (const v of m?.votes || []) if (!v?.motion || !v?.result) p.push('each vote needs a motion and a result');
+  }
   if (s.developing && !(Array.isArray(s.developing.know) && Array.isArray(s.developing.dontKnow))) p.push('developing needs know and dontKnow lists');
   if (!s.sample && /\bSampleton\b|\bSample (Reporter|Editor)\b/.test(JSON.stringify(s) + s.body)) p.push('sample content in a real story');
   const text = JSON.stringify({ ...s, file: '' }) + s.body;
@@ -113,6 +132,7 @@ function load(file, { sample }) {
   s.bylines = [].concat(s.bylines || []);
   s.tags = [].concat(s.tags || []);
   s.corrections = [].concat(s.corrections || []).map((c) => ({ ...c, date: String(c.date) }));
+  if (s.meeting) s.meeting = { attended: [], decisions: [], votes: [], followUps: [], ...s.meeting, date: String(s.meeting.date) };
   s.href = sample ? `/news/samples/${slug}/` : `/news/${String(s.published).slice(0, 4)}/${String(s.published).slice(5, 7)}/${slug}/`;
   if (!sample) {
     const m = s.file.match(/^content\/stories\/(\d{4})\/(\d{2})\/[a-z0-9-]+\.md$/);

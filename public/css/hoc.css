@@ -946,3 +946,9 @@ section { scroll-margin-top: 130px; }
 .np-inbox-item { margin-bottom: 12px; }
 .np-inbox-item p { font-size: 15px; white-space: pre-wrap; }
 .np-opt { font-weight: 500; font-size: 13px; }
+.np-votes { grid-column: 1 / -1; }
+.np-votes table, .np-data table { width: 100%; border-collapse: collapse; font-size: 15px; margin-top: 6px; }
+.np-votes th, .np-votes td, .np-data th, .np-data td { text-align: left; border-bottom: 1px solid var(--line); padding: 6px 8px 6px 0; vertical-align: top; }
+.np-data td.num, .np-data th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.np-data { overflow-x: auto; }
+.np-votes td:last-child { white-space: nowrap; }
