@@ -1,7 +1,7 @@
 // Guards the directory against the mistakes most likely to mislead someone.
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { businesses, prototypes, BADGES } from '../src/data/businesses.mjs';
 
 test('every business has a unique slug, a real-looking phone and known badges', () => {
@@ -27,9 +27,15 @@ test('every prototype is built and labeled as a demo', () => {
   }
 });
 
-test('no em dashes anywhere a person reads', () => {
+test('no visible dashes anywhere a person reads', () => {
+  const DASH = /[–—]| - /;
   for (const f of ['index.html', ...prototypes.map((s) => businesses.find((b) => b.slug === s).demo.slice(1) + 'index.html')]) {
-    assert.ok(!readFileSync(new URL(`../dist/${f}`, import.meta.url), 'utf8').includes('—'), f);
+    assert.ok(!DASH.test(readFileSync(new URL(`../dist/${f}`, import.meta.url), 'utf8')), f);
+  }
+  // Text the browser writes: no en or em dash in any script outside comments.
+  for (const f of readdirSync(new URL('../public/js/', import.meta.url))) {
+    const code = readFileSync(new URL(`../public/js/${f}`, import.meta.url), 'utf8').replace(/\/\*[\s\S]*?\*\/|\/\/.*$/gm, '');
+    assert.ok(!/[–—]/.test(code), `dash in public/js/${f}`);
   }
 });
 
