@@ -157,6 +157,7 @@ ${hero({
     <h2 id="numbers-h">By the numbers</h2>
     <div class="gd-nums">${C.numbers.map((n) => `<div class="gd-num"><strong>${esc(n.value)}</strong><span>${esc(n.label)}</span></div>`).join('')}</div>
     <p class="fine">Figures from ${src(C.numbers[0].source)}, checked ${C.numbers[0].checked}.</p>
+    <p class="btns"><a class="btn btn-sm" href="/markets/#board-h">Today’s delayed CMI quote ${svg('arrow', 'ic-sm')}</a></p>
   </section>
   <section class="fr-group" id="timeline" aria-labelledby="timeline-h">
     <h2 id="timeline-h">Timeline</h2>
