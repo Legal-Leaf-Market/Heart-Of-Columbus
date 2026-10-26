@@ -1,0 +1,82 @@
+/* The newspaper sections: Markets and Obituaries. Plain CSS like hoc.css,
+   plus a print layout so the same pages go on paper. */
+.pp-hero { background: radial-gradient(900px 400px at 90% 0, #ece6da 0, transparent 60%), var(--paper); }
+.pp-body { display: grid; gap: 22px; padding-top: 28px; padding-bottom: 56px; }
+.pp-sec { background: var(--surface); border: 2px solid var(--ink); border-radius: var(--r); box-shadow: var(--pop); padding: 20px; scroll-margin-top: 140px; min-width: 0; }
+.pp-sec > h2, .pp-head h2 { font-size: clamp(24px, 3vw, 32px); font-weight: 800; }
+.pp-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; }
+.pp-asof { color: var(--muted); font-size: 14px; font-weight: 600; margin: 0; }
+.pp-attr { font-size: 13px; color: var(--muted); margin-top: 12px; }
+.pp-attr a { color: var(--ink); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.pp-tools { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+
+/* Markets board */
+.mk-wrap { overflow-x: auto; margin-top: 14px; }
+.mk { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.mk th, .mk td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.mk thead th { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); border-bottom: 2px solid var(--ink); }
+.mk tbody th { font-weight: 400; }
+.mk tbody th strong { display: block; font-weight: 800; }
+.mk tbody th small { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }
+.mk .mk-num { text-align: right; white-space: nowrap; font-weight: 800; }
+.mk-sym { font-weight: 800; letter-spacing: .04em; }
+.mk-local { background: #fff8e6; }
+.mk-up { color: #0b6b33; }
+.mk-down { color: #a3131b; }
+@media (max-width: 559px) {
+  .mk thead th:nth-child(2), .mk .mk-sym { display: none; }
+  .mk th, .mk td { padding: 10px 6px; }
+  .mk { font-size: 14px; }
+  .mk td[data-change] { white-space: normal; font-size: 13px; min-width: 64px; }
+  .mk tbody th small .vs-src { display: none; }
+}
+
+/* Obituaries */
+.ob-fhs { display: grid; gap: 14px; margin-top: 14px; }
+@media (min-width: 760px) { .ob-fhs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .ob-fhs { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.ob-fh { border: 1.5px solid var(--line); border-radius: 14px; padding: 14px 16px; background: var(--paper); }
+.ob-fh h3 { font-size: 20px; }
+.ob-fh .btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.ob-how { margin: 12px 0 0; padding-left: 20px; display: grid; gap: 6px; }
+.ob-grid { display: grid; gap: 18px; margin-top: 16px; }
+@media (min-width: 1000px) { .ob-grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); align-items: start; } .ob-preview { position: sticky; top: 150px; } }
+.ow-form select { font: inherit; font-weight: 400; padding: 10px 12px; border: 2px solid var(--ink); border-radius: 12px; background: #fff; width: 100%; }
+.ow-form fieldset legend .muted { font-weight: 600; }
+.ob-preview { border: 2px dashed #cbbfa9; border-radius: var(--r); padding: 18px; background: #fffdf8; min-width: 0; }
+.ob-list { display: grid; gap: 18px; margin-top: 14px; }
+
+/* A notice, set like a newspaper column on screen and on paper. */
+.ob-notice { font-family: Georgia, "Times New Roman", serif; font-size: 16px; line-height: 1.5; max-width: 40em; overflow-wrap: anywhere; }
+.ob-notice h3 { font-family: Georgia, "Times New Roman", serif; font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }
+.ob-known { text-transform: none; font-weight: 400; }
+.ob-life { font-style: italic; margin: 4px 0 10px; }
+.ob-notice h4 { font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 14px 0 4px; font-family: var(--body); }
+.ob-text p { margin: 0 0 10px; }
+.ob-home { font-size: 14px; margin-top: 10px; }
+.ob-item { background: var(--surface); border: 2px solid var(--ink); border-radius: var(--r); padding: 18px; display: grid; gap: 12px; }
+.ob-meta { border-top: 1px solid var(--line); padding-top: 10px; display: grid; gap: 6px; justify-items: start; }
+
+@media print {
+  @page { margin: 0.6in; }
+  body { background: #fff; color: #000; }
+  .hdr, .ftr, .crumbs, .vs-jump, .pp-tools, .btn, #send, .ob-meta, [data-review-status], .lede, .kicker-pill { display: none !important; }
+  .order-hero { padding: 0 0 8px; background: none; border-bottom: 2px solid #000; }
+  .order-hero h1 { font-size: 26pt; margin: 0; }
+  .hl { color: #000; }
+  .vs-note { border: 0; padding: 0; font-size: 9pt; }
+  .pp-body { padding: 12px 0 0; gap: 12px; }
+  .pp-sec, .ob-item { border: 0; box-shadow: none; padding: 0; break-inside: auto; }
+  .mk { font-size: 10pt; }
+  .mk th, .mk td { padding: 4px 6px; }
+  .mk-local { background: none; font-weight: 700; }
+  .mk-up, .mk-down { color: #000; }
+  .mk tbody th small .vs-src { display: none; }
+  .ob-fhs { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .ob-fh { border: 0; padding: 0; background: none; }
+  .ob-fh .btn[href^="tel:"] { display: inline-flex !important; border: 0; box-shadow: none; padding: 0; background: none; color: #000; }
+  .ob-list { display: block; column-count: 2; column-gap: 0.3in; column-rule: 1px solid #999; }
+  .ob-notice { font-size: 10pt; break-inside: avoid-page; margin-bottom: 14pt; }
+  .ob-notice h3 { font-size: 12pt; }
+  a { color: #000; text-decoration: none; }
+}
