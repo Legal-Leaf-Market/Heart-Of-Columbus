@@ -81,6 +81,15 @@ Indiana. A pitch, not a live service. See README.md.
   the function returns 503 and the storefronts fall back to the local
   confirmation. Commission is `COMMISSION` in partners.mjs, 0 while the site
   says "no commission".
+- **Newspaper sections.** `/markets/` shows delayed quotes for the Indiana
+  companies in `src/data/markets.mjs` (8 symbols max, one Twelve Data call)
+  through `/api/markets`; the key is `HOC_QUOTES_KEY` (env only) and the
+  "Data provided by Twelve Data" line stays next to the table. `/obituaries/`
+  links the funeral homes' own listings (`src/data/obituaries.mjs`) and takes
+  family submissions at `/api/obituary`, reviewed at
+  `/obituaries/review/?k=<HOC_ADMIN_KEY>`. We never write, generate or copy
+  an obituary; one goes in `PUBLISHED` only with a `confirmed` date. Both
+  pages print cleanly (`public/css/paper.css`).
 - Landmark photos are Wikimedia Commons, credited on `/credits/`. They show
   Columbus, never a listed business. Art in `public/art/` is ours.
 
