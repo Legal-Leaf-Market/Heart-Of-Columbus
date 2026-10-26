@@ -16,6 +16,7 @@ const host = (u) => new URL(u).hostname.replace(/^www\./, '');
 const fmt = (n) => n.toLocaleString('en-US');
 const crumbs = (...rest) => breadcrumbs([['/', 'Home'], ['/history/', 'History'], ...rest]);
 const LENGTH = { brief: 'Brief', standard: 'Standard', feature: 'Feature' };
+const longDate = (d) => new Date(d + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 
 const mark = (s, cls = 'hx-mark') => `<img class="${cls}" src="/art/${s.art}" alt="" loading="lazy">`;
 const secTag = (a) => `<a class="hx-sec" href="/history/section/${a.section}/">${esc(sectionBySlug[a.section].label)}</a>`;
@@ -144,6 +145,7 @@ ${crumbs([`/history/${g.slug}/`, DECADES.includes(g) ? g.slug : g.title], ['', a
     <h1>${t(a.title)}</h1>
     <p class="hx-adek">${t(a.dek)}</p>
     <p class="hx-byline">By ${esc(a.byline)} · ${a.readMin} min read · ${fmt(a.words)} words</p>
+    ${a.original ? `<p class="hx-orig">Originally reported by ${esc(a.original.by.replace(', The Republic', ''))} in The Republic, ${esc(longDate(a.original.date))}. <a href="${esc(a.sources[0][1])}" target="_blank" rel="noopener">Read the original</a></p>` : ''}
     ${a.status === 'draft' ? '<p class="hx-draft">Draft: awaiting editor approval</p>' : ''}
     ${a.note ? `<p class="vs-note vs-review">${t(a.note)}</p>` : ''}
   </header>

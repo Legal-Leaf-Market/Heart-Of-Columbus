@@ -59,7 +59,7 @@ export const DECADES = [
 ].map((d) => ({ ...d, popSource: POP }));
 
 export const SERIES = [
-  { slug: 'papers', title: 'The Republican and the Democrats', kicker: 'Series', lead: 'Columbus has argued with itself in print since the 1840s. A short history of the town’s newspapers, from party papers to today.', items: PAPERS },
+  { slug: 'papers', title: 'The Republican and the Democrats', kicker: 'Series', lead: 'Columbus has argued with itself in print since 1839. A short history of the town’s newspapers, from party papers to today.', items: PAPERS },
   { slug: 'blair', title: 'Brian Blair’s faith beat', kicker: 'From the archive', lead: 'For years Brian Blair covered faith in Columbus for The Republic. These are some of his best stories, retold in short with credit to him and links to the originals.', items: BLAIR },
   { slug: 'publisher', title: 'From the publisher', kicker: 'Opinion', lead: 'Notes from Jacob Kennedy, who started Heart of Columbus. These are his views, labeled as such.', items: PUBLISHER },
 ];
@@ -77,7 +77,7 @@ export const printLength = (n) => (n < 350 ? 'brief' : n < 650 ? 'standard' : 'f
 const LABEL = { history: 'Explainer', tribute: 'Community', opinion: 'Opinion', essay: 'Opinion' };
 const METHODS = {
   history: 'Researched from the public sources listed. No interviews. Quotes appear only where a cited source prints them, and disagreements between sources are noted in the text.',
-  tribute: 'A summary in our own words of a story first published in The Republic, with credit and a link to the original. Short quotes only.',
+  tribute: 'A summary in our own words of a story first published in The Republic, with credit and a link to the original. Short quotes only, as the original printed them. Brian Blair is a friend of our publisher, Jacob Kennedy, and has interviewed Jacob for The Republic.',
   opinion: 'The author’s own views and experience, in his words. Facts in it link to their sources.',
   essay: 'The author’s own memories, in his words.',
 };
