@@ -22,13 +22,17 @@
 // labeled. See docs/newspaper-plan.md.
 
 export const SECTIONS = [
-  { slug: 'local', name: 'Local', blurb: 'The city, the county and the schools.', links: [['/meetings/', 'Public meetings'], ['/data/', 'Public data'], ['/notices/', 'Public notices']] },
+  { slug: 'local', name: 'Local', blurb: 'The city, the county and the schools.', links: [['/meetings/', 'Public meetings'], ['/data/', 'Public data'], ['/notices/', 'Public notices'], ['/help/', 'Get help in Columbus']] },
   { slug: 'business', name: 'Business', blurb: 'Openings, closings, new owners and expansions, confirmed with the business.' },
   { slug: 'food', name: 'Food & drink', blurb: 'Where Columbus eats and drinks, and the people behind it.' },
-  { slug: 'architecture', name: 'Architecture & design', blurb: 'The beat only Columbus has.', links: [['/free/#from-the-street', 'Architecture from the street'], ['/trips/architecture-morning/', 'An architecture morning'], ['/film/', 'The Columbus film trail']] },
+  { slug: 'architecture', name: 'Architecture & design', blurb: 'The beat only Columbus has.', links: [['/architecture/', 'The architecture guide'], ['/arts/', 'Public art'], ['/cummins/', 'Cummins'], ['/free/#from-the-street', 'Architecture from the street'], ['/trips/architecture-morning/', 'An architecture morning'], ['/film/', 'The Columbus film trail']] },
   { slug: 'neighborhoods', name: 'Neighborhoods', blurb: 'News from each part of town.', areas: true },
-  { slug: 'sports', name: 'Sports', blurb: 'Columbus North, Columbus East and area schools. Written by people who were there.' },
-  { slug: 'things-to-do', name: 'Things to do', blurb: 'What’s on this week, and what’s worth planning for.', events: true, links: [['/visit/', 'Plan your visit'], ['/free/', 'Free in Columbus'], ['/visit/#whats-on', 'Every upcoming event']] },
+  { slug: 'sports', name: 'Sports', blurb: 'Columbus North, Columbus East and area schools. Written by people who were there.', links: [['/sports/', 'Games and schedules'], ['/sports/sentinels/', 'Indiana Sentinels']] },
+  { slug: 'things-to-do', name: 'Things to do', blurb: 'What’s on this week, and what’s worth planning for.', events: true, links: [['/events/', 'Local events calendar'], ['/djs/', 'Columbus DJs'], ['/visit/', 'Plan your visit'], ['/free/', 'Free in Columbus'], ['/visit/#whats-on', 'Every upcoming event']] },
+  // Sections other features build as their own pages (href): listed in the
+  // paper's bar, no generic /news/<slug>/ page.
+  { slug: 'markets', name: 'Markets', blurb: 'Stocks of companies that matter to Columbus.', href: '/markets/' },
+  { slug: 'obituaries', name: 'Obituaries', blurb: 'Submitted by families and funeral homes.', href: '/obituaries/' },
   { slug: 'opinion', name: 'Opinion', blurb: 'Editorials, columns and letters from readers, always labeled.', links: [['/letters/', 'Write a letter to the editor']] },
 ];
 
