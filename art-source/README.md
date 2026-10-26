@@ -9,6 +9,8 @@ then export the PNG at the size below and drop it into `public/art/`.
 - `empty-*`: 800 x 600. `hero-skyline`: 2400 x 700. `og-image`: 1200 x 630.
 - `pattern-*`: 512 x 512 tiles. `map-pin`: 256. `spin-wheel`: 1000.
 - `owners-storefront`: 1200 x 900. `keep-local-coins`: 900 x 900.
+- `sports-app-icon`: 512 x 512, plus `-192` and `-180` copies (the Sentinels
+  dashboard's home screen icon; keep the art inside the circle so it masks).
 
 `og-image`, `keep-local-coins`, `pattern-prairie` and `pattern-tools` are in
 the library but not used on a page yet.
