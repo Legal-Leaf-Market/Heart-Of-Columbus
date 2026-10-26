@@ -12,7 +12,7 @@ import { SPOTLIGHT_SLUGS } from './data/spotlight.mjs';
 export const hasCover = (sub) => existsSync(new URL(`../public/art/cover-${sub}.png`, import.meta.url));
 export const coverArt = (sub, lazy = true) =>
   hasCover(sub)
-    ? `<img class="bz-art" src="/art/cover-${sub}.png" alt=""${lazy ? ' loading="lazy"' : ''}>`
+    ? `<img class="bz-art" width="1600" height="700" decoding="async" src="/art/cover-${sub}.png" alt=""${lazy ? ' loading="lazy"' : ''}>`
     : '';
 
 // Architecture photography from Wikimedia Commons, hotlinked with credit.
@@ -91,7 +91,7 @@ export function header(active = '', { lang = 'en', alt = '' } = {}) {
 
 // Category art from /art/ when it exists, with the emoji as the fallback.
 export const artIcon = (slug, emoji, cls) =>
-  `<span class="${cls}" aria-hidden="true"><img src="/art/cat-${slug}.png" alt="" loading="lazy" onerror="this.remove()"><i>${emoji}</i></span>`;
+  `<span class="${cls}" aria-hidden="true"><img width="512" height="512" decoding="async" src="/art/cat-${slug}.png" alt="" loading="lazy" onerror="this.remove()"><i>${emoji}</i></span>`;
 
 export function footer({ lang = 'en' } = {}) {
   const es = lang === 'es';
