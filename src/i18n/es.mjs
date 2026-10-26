@@ -15,7 +15,7 @@ export const UI = {
   footerTag: 'Negocios independientes de Columbus, Indiana. Sin cadenas, sin franquicias, sin comisiones de apps.',
   footerSmall: 'Una vista previa. Los datos vienen de listados públicos y pueden cambiar; llame antes de ir. Sin afiliación con los negocios listados.',
   browse: 'Explorar', more: 'Más', aroundTown: 'Por la ciudad', owners: 'Dueños',
-  links: { visit: 'Planee su visita', free: 'Gratis en Columbus', film: 'La ruta de la película Columbus', holidays: 'Compras locales en las fiestas', credits: 'Créditos de fotos', claim: 'Reclame su listado', pickup: 'Pedidos para recoger', direct: 'Pedir, reservar y comprar directo' },
+  links: { visit: 'Planee su visita', free: 'Gratis en Columbus', film: 'La ruta de la película Columbus', architecture: 'Arquitectura (en inglés)', arts: 'Arte público (en inglés)', cummins: 'Cummins y Columbus (en inglés)', holidays: 'Compras locales en las fiestas', credits: 'Créditos de fotos', claim: 'Reclame su listado', pickup: 'Pedidos para recoger', direct: 'Pedir, reservar y comprar directo' },
   home: 'Inicio',
 };
 
