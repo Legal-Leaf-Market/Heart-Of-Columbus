@@ -6,6 +6,9 @@ import { header, footer, svg, breadcrumbs } from '../site.mjs';
 import { SKATE } from '../data/skate.mjs';
 import { ORIGIN } from '../jsonld.mjs';
 import { PAGES, FACTS, REVIEW_NOTE } from '../i18n/es.mjs';
+import { newsPage } from '../news/frame.mjs';
+import { storiesIn } from '../news/content.mjs';
+import { storyList } from '../news/render.mjs';
 
 const styles = ['hoc.css'];
 const host = (u) => new URL(u).hostname.replace(/^www\./, '');
@@ -23,16 +26,14 @@ const EN = {
 };
 
 function skatePage({ assets }, lang = 'en') {
-  const es = lang === 'es', L = es ? PAGES.skate : EN, pre = es ? '/es' : '';
+  const es = lang === 'es', L = es ? PAGES.skate : EN;
   const say = (x) => (es ? FACTS[x] || x : x);
   const facts = (list) => `<ul class="vs-facts">${list
     .map((x) => `<li>${t(say(x.text))} <a class="vs-src" href="${esc(x.source)}" target="_blank" rel="noopener"${es ? ' hreflang="en"' : ''}>${esc(host(x.source))}</a></li>`)
     .join('')}</ul>`;
   const jump = SKATE.sections.map((s) => `<a class="pill" href="#${s.id}">${esc(L.titles[s.id])}</a>`).join('');
-  const body = `
-${header('visit', { lang, alt: es ? '/skate/' : '/es/skate/' })}
-<main id="main">
-${breadcrumbs([['/', es ? 'Inicio' : 'Home'], [`${pre}/visit/`, es ? 'Planee su visita' : 'Plan your visit'], ['', L.kicker]])}
+  const stories = es ? [] : storiesIn('skate');
+  const inner = `
 <section class="order-hero vs-hero">
   <div class="wrap">
     <p class="kicker kicker-pill">${esc(L.kicker)}</p>
@@ -56,11 +57,20 @@ ${SKATE.sections.map((s) => `
   </div>
 </section>`).join('')}
 </div>
+${stories.length ? `<section class="wrap np-section"><h2>Stories</h2>${storyList(stories)}</section>` : ''}`;
+  const alternates = [['en', `${ORIGIN}/skate/`], ['es', `${ORIGIN}/es/skate/`]];
+  // English sits in the paper's frame as its Skate park section; Spanish keeps the site chrome.
+  if (!es) return newsPage({ assets, path: '/skate/', title: 'The Columbus skate park', description: L.description, crumbs: [['/news/', 'News'], ['', L.kicker]], body: inner, alt: '/es/skate/', alternates });
+  const body = `
+${header('visit', { lang, alt: '/skate/' })}
+<main id="main">
+${breadcrumbs([['/', 'Inicio'], ['/es/visit/', 'Planee su visita'], ['', L.kicker]])}
+${inner}
 </main>
 ${footer({ lang })}`;
   return page({
     title: L.title, description: L.description, lang,
-    alternates: [['en', `${ORIGIN}/skate/`], ['es', `${ORIGIN}/es/skate/`]],
+    alternates,
     body, scripts: ['site.js'], styles, assets,
   });
 }
