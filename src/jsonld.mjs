@@ -3,7 +3,11 @@
 // the day a business signs on. tests/jsonld.test.mjs checks that every block
 // parses and that its name, phone and address appear on the page itself.
 
-export const ORIGIN = process.env.HOC_ORIGIN || 'https://heartofcolumbus.netlify.app';
+const origin = new URL(process.env.HOC_ORIGIN || 'https://heartofcolumbus.netlify.app');
+if (!['http:', 'https:'].includes(origin.protocol) || origin.username || origin.password || origin.pathname !== '/' || origin.search || origin.hash) {
+  throw new Error('HOC_ORIGIN must be an HTTP(S) origin without a path, query, credentials or fragment');
+}
+export const ORIGIN = origin.origin;
 const abs = (p) => (p.startsWith('http') ? p : ORIGIN + p);
 
 // The most specific type that fits a whole subcategory; LocalBusiness otherwise.

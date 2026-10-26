@@ -14,6 +14,26 @@ const list = (name, label, fields, hint = '') => `
         required: false${hint ? `\n        hint: ${q(hint)}` : ''}
         fields:${fields.map((f) => `\n          - ${f}`).join('')}`;
 
+// The /admin/ page itself: Decap CMS (pinned) with the Netlify Identity
+// widget. Built like every other page so it gets the same head and noindex.
+// TODO(owner): pick the sign-in (Netlify Identity is set up here; GitHub
+// OAuth and DecapBridge also work).
+export const cmsPage = () => `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Newsroom editor | Heart of Columbus</title>
+<meta name="description" content="Private. Where reporters and editors write and approve stories.">
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+<script src="https://unpkg.com/decap-cms@3.16.3/dist/decap-cms.js"></script>
+</body>
+</html>
+`;
+
 export function cmsConfig() {
   const staff = Object.entries(STAFF).map(([slug, s]) => [`${s.name}, ${s.role}`, slug]);
   const editors = Object.entries(STAFF).filter(([, s]) => s.editor).map(([slug, s]) => [s.name, slug]);

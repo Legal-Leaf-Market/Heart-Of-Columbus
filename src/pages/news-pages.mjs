@@ -8,6 +8,7 @@ import { readerPages } from './reader-pages.mjs';
 import { civicPages } from './civic-pages.mjs';
 import { habitPages, storyAsk } from './habit-pages.mjs';
 import { sponsorSlot } from '../news/sponsor-slot.mjs';
+import { cmsPage } from '../news/cms.mjs';
 import { ALL_STORIES, SAMPLES, stories, storiesIn, storiesBy, correctionsLog } from '../news/content.mjs';
 import { SECTIONS, sectionBySlug, sectionHref } from '../news/sections.mjs';
 import { disclosures } from '../news/disclosure.mjs';
@@ -210,6 +211,7 @@ export function newsPages(ctx) {
     ...ALL_STORIES.map((s) => ({ path: `${s.href.slice(1)}index.html`, html: storyPage(ctx, s) })),
     { path: 'news/samples/index.html', html: samplesPage(ctx) },
     { path: 'news/alert/index.html', html: alertPage(ctx) },
+    { path: 'admin/index.html', html: cmsPage() },
     ...SAMPLES.map((s) => ({ path: `${s.href.slice(1)}index.html`, html: storyPage(ctx, s) })),
     ...readerPages(ctx),
     ...civicPages(ctx),

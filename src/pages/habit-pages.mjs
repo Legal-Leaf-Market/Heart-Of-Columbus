@@ -88,7 +88,7 @@ function quizPage(ctx, quiz, { sample = false } = {}) {
 <section class="np-quiz" data-quiz><ol>${quiz.questions.map((q, i) => `<li class="np-q" data-q="${i}" data-answer="${q.answer}"><p>${t(q.q)}</p><div class="np-q-choices">${q.choices.map((c, j) => `<button type="button" class="pill" data-choice="${j}">${t(c)}</button>`).join('')}</div><p class="np-q-more" hidden>${q.story ? `<a href="${esc(q.story)}">Read the story</a>` : ''}</p></li>`).join('')}</ol>
 <div data-quiz-result hidden></div></section>`)
     : doc('Weekly quiz', 'The news quiz', 'The first quiz arrives with the first week of stories.', '<p>Come back on Friday.</p>');
-  return newsPage({ ...ctx, path, title: 'News quiz', description: 'The weekly Columbus news quiz.', crumbs: [['/games/', 'Games'], ['', sample ? 'Sample quiz' : 'News quiz']], body, scripts: ['games.js'], banner: sample ? '<div class="np-sample-banner"><div class="wrap"><strong>Sample quiz.</strong> Sampleton is made up.</div></div>' : '' });
+  return newsPage({ ...ctx, path, title: sample ? 'Sample news quiz' : 'News quiz', description: sample ? 'A made-up quiz that shows how the weekly news quiz works.' : 'The weekly Columbus news quiz.', crumbs: [['/games/', 'Games'], ['', sample ? 'Sample quiz' : 'News quiz']], body, scripts: ['games.js'], banner: sample ? '<div class="np-sample-banner"><div class="wrap"><strong>Sample quiz.</strong> Sampleton is made up.</div></div>' : '' });
 }
 
 export const habitPages = (ctx) => [

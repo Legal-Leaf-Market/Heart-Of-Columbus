@@ -35,7 +35,7 @@ ${preview ? '<meta name="robots" content="noindex, nofollow">' : ''}
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:type" content="website">
-<meta property="og:image" content="/og.png">
+
 ${alternates.map(([l, href]) => `<link rel="alternate" hreflang="${l}" href="${href}">`).join('\n')}
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 ${head}
