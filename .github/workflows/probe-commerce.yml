@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
   push:
     branches: ['claude/**']
-    paths: ['scripts/probe-deep.mjs', 'scripts/data/probe-request.txt', '.github/workflows/probe-commerce.yml']
+    paths: ['scripts/data/probe-request.txt']
 permissions:
   contents: write
 jobs:

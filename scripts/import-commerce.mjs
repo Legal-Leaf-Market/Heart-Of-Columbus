@@ -96,6 +96,8 @@ for (const slug of new Set([...Object.keys(WEB), ...Object.keys(bySlug)])) {
   if (!feed && !store && p.ok && ['shopping', 'pets', 'kids'].includes(cat) && (p.pages || []).some((x) => /^\/(?:checkout\/)?cart\/?$/.test(x))) store = p.origin;
   // A shop that runs its cart on a separate own-engine store (Big Cartel,
   // Ecwid, a Shopify store on another address) gets that store as its link.
+  // A store address carrying a preview key is a password page, not a shop.
+  shopLinks.splice(0, shopLinks.length, ...shopLinks.filter((l) => !/[?&](?:key|token)=/.test(l.url)));
   if (!feed && !store && RETAIL.has(cat) && shopLinks.length && !(p.platform === 'shopify' && p.ok)) store = shopLinks[0].url.replace(/\/(?:cart|checkout|account)(?:[/?#].*)?$/, '');
   // Gift cards: the business's own page or its provider's, never a marketplace.
   const gift = p.ok && p.gift && p.gift.url && !MARKET.test(host(p.gift.url)) ? { label: p.gift.label, url: p.gift.url } : null;

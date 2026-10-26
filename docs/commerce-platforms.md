@@ -8,15 +8,15 @@ were down. Results from the earlier `/api/probe` run fill in where they can.
 
 ## The direct count
 
-The homepage "to order, book or shop direct" number went from **64 to 151**.
+The homepage "to order, book or shop direct" number went from **64 to 150**.
 
 | | Before | Now |
 | --- | ---: | ---: |
 | Order online | 12 | 25 |
 | Book online | 46 | 103 |
 | Live catalog in the one cart | 13 | 16 |
-| Shop their online store (link) | 9 | 17 |
-| **Any of these** | **64** | **151** |
+| Shop their online store (link) | 9 | 16 |
+| **Any of these** | **64** | **150** |
 
 (Before, the number left out the shops with a live catalog. It counts them now.)
 

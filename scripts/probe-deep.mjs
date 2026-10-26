@@ -47,6 +47,18 @@ function addresses(html, base) {
   return [...out];
 }
 
+// Sites embed their own map and widget keys in script addresses. They are
+// public, but they are still keys: never write them to the repository.
+const SECRETISH = /^(?:key|api_?key|apikey|token|access_token|auth|sig|signature|client_secret|secret)$/i;
+export function scrub(u) {
+  if (!u || /AIza[0-9A-Za-z_-]{20,}/.test(u)) return '';
+  try {
+    const x = new URL(u);
+    for (const k of [...x.searchParams.keys()]) if (SECRETISH.test(k)) x.searchParams.delete(k);
+    return x.toString();
+  } catch { return ''; }
+}
+
 // Same-origin pages worth a second look, best first.
 const WORTH = /\b(order|ordering|menu|pickup|carry ?out|take ?out|delivery|book|booking|appointments?|schedul\w*|reserv\w*|shop|store|products?|collections|services|pricing|rates|classes|tickets|gift|contact|request|quote|estimate|patients?|new-patient|visit)\b/i;
 function candidates(html, base) {
@@ -119,13 +131,15 @@ export async function probeDeep(slug) {
   // Keep only outside addresses (and same-site ones that name a provider).
   const host = (u) => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return ''; } };
   const me = host(origin);
-  out.urls = [...urls].map(tidyUrl).filter((u) => u && host(u) !== me && !/(?:googleapis|gstatic|googletagmanager|google-analytics|doubleclick|facebook\.net|fonts\.|jquery|cloudflare|jsdelivr|unpkg|bootstrapcdn|fontawesome|typekit|w\.org|schema\.org|gravatar|youtube\.com\/embed|vimeo|recaptcha)/i.test(u)).slice(0, 200);
+  out.urls = [...urls].map(tidyUrl).map(scrub).filter((u) => u && host(u) !== me && !/(?:googleapis|gstatic|googletagmanager|google-analytics|doubleclick|facebook\.net|fonts\.|jquery|cloudflare|jsdelivr|unpkg|bootstrapcdn|fontawesome|typekit|w\.org|schema\.org|gravatar|youtube\.com\/embed|vimeo|recaptcha)/i.test(u)).slice(0, 200);
   out.links = findProviderLinks(out.urls.join(' '), actions);
   out.stack = [...stack].sort();
   if (['shopify', 'woocommerce', 'squarespace-commerce'].includes(out.platform)) out.products = await feedCount(out.platform, origin, own.shop);
   return out;
 }
 
+if (import.meta.url === `file://${process.argv[1]}`) await main();
+async function main() {
 const slugs = Object.keys(WEB).filter((s) => WEB[s].website && (!ONLY.size || ONLY.has(s))).sort();
 const results = [];
 let next = 0, done = 0;
@@ -151,3 +165,4 @@ const tally = {};
 for (const r of results) for (const s of r.stack || []) tally[s] = (tally[s] || 0) + 1;
 console.log(results.filter((r) => r.ok).length, 'of', results.length, 'reachable');
 console.log(Object.entries(tally).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k}: ${v}`).join('\n'));
+}
