@@ -29,6 +29,9 @@ Indiana. A pitch, not a live service. See README.md.
   `/b/<slug>/` one page per business, `/explore/`, `/saved/`, `/order/`,
   `/visit/` (facts in `src/data/visit.mjs`, each with `source` and `checked`), `/free/` (`src/data/free.mjs`, same rule), `/holidays/` (Small Business Saturday,
   gift cards on each business's own page via `gift` in commerce.mjs),
+  `/help/` (self-service resource center, `src/data/help.mjs`, every entry with
+  `source` and `checked`; `/help/card/` prints ten QR wallet cards; stories in
+  `src/data/help-stories.mjs` stay drafts until a person signs off),
   `/film/` (the Columbus (2017) film trail, `src/data/film.mjs`: landmarks a
   cited source places in the film, nothing else),
   `/l/<slug>/` one page per landmark (`src/data/landmarks.mjs`; `PHOTOS` in
