@@ -9,7 +9,7 @@
 // text, services, memorials, funeral home), kept separate so the same record
 // can be laid out for the web or for print.
 //
-// GET /api/obituary?k=<HOC_ADMIN_KEY> lists submissions for the private
+// GET /api/obituary with an x-hoc-key: <HOC_ADMIN_KEY> header lists submissions for the private
 // review page. The key lives only in Netlify's environment variables.
 import { blobStore } from '../../src/blobs.mjs';
 import { FUNERAL_HOMES } from '../../src/data/obituaries.mjs';
@@ -36,7 +36,7 @@ export default async (req) => {
   if (!store) return offline();
   try {
     if (req.method === 'GET') {
-      const k = new URL(req.url).searchParams.get('k') || '';
+      const k = req.headers.get('x-hoc-key') || '';
       if (!sameKey(process.env.HOC_ADMIN_KEY || '', k)) return json({ ok: false, error: 'Wrong review link.' }, 403);
       const index = (await store.getJSON('index')) || [];
       const items = (await Promise.all(index.slice(-200).map((id) => store.getJSON(`notice/${id}`)))).filter(Boolean).reverse();

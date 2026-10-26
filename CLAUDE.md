@@ -90,7 +90,7 @@ Indiana. A pitch, not a live service. See README.md.
   "Data provided by Twelve Data" line stays next to the table. `/obituaries/`
   links the funeral homes' own listings (`src/data/obituaries.mjs`) and takes
   family submissions at `/api/obituary`, reviewed at
-  `/obituaries/review/?k=<HOC_ADMIN_KEY>`. We never write, generate or copy
+  `/obituaries/review/#k=<HOC_ADMIN_KEY>`. We never write, generate or copy
   an obituary; one goes in `PUBLISHED` only with a `confirmed` date. Both
   pages print cleanly (`public/css/paper.css`).
 - Landmark photos are Wikimedia Commons, credited on `/credits/`. They show

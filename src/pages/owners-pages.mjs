@@ -1,5 +1,5 @@
 // For business owners: what Heart of Columbus can do for a listing, and the
-// claim form (/owners/), plus the private lead inbox (/owners/inbox/?k=).
+// claim form (/owners/), plus the private lead inbox (/owners/inbox/#k=).
 import { page } from '../layout.mjs';
 import { header, footer, svg } from '../site.mjs';
 import { directory } from '../data/directory.mjs';
@@ -42,17 +42,21 @@ ${header('')}
   <div class="pk-card">
     <h2 class="pk-h">Tell us about your business</h2>
     <p class="muted">A real person reads every one and calls or emails you back. Nothing changes on the site until we have confirmed you speak for the business.</p>
-    <form class="ow-form" data-claim novalidate>
+    <form class="ow-form" data-claim method="post" action="/api/claim" novalidate>
       <label class="ow-biz">Your business<input name="business" autocomplete="off" placeholder="Start typing the name" required><input type="hidden" name="slug"><span class="ow-pick" data-pick></span></label>
       <fieldset><legend>What would you like?</legend>
         ${TIERS.map(([k, e, h]) => `<label class="ow-check"><input type="checkbox" name="wants" value="${k}"> ${e} ${h}</label>`).join('')}
         <label class="ow-check"><input type="checkbox" name="wants" value="remove"> 🚫 Take my business off the site</label>
       </fieldset>
       <div class="ow-two"><label>Your name<input name="name" autocomplete="name" required></label><label>Your role<input name="role" placeholder="Owner, manager…"></label></div>
-      <div class="ow-two"><label>Phone<input name="phone" type="tel" autocomplete="tel" inputmode="tel"></label><label>Email<input name="email" type="email" autocomplete="email"></label></div>
+      <fieldset class="ow-reach" aria-describedby="ow-reach-h"><legend>How can we reach you?</legend>
+        <p class="muted" id="ow-reach-h">A phone number or an email, at least one.</p>
+        <div class="ow-two"><label>Phone<input name="phone" type="tel" autocomplete="tel" inputmode="tel"></label><label>Email<input name="email" type="email" autocomplete="email"></label></div>
+      </fieldset>
       <label>Anything else? <span class="muted">Hours, what’s wrong, what you use now</span><textarea name="message" rows="4" maxlength="1500"></textarea></label>
       <label class="ow-hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
       <p class="ow-err" data-err role="alert" hidden></p>
+      <p class="fine">We use what you send only to reply to you about this listing. We don’t sell it or add you to a mailing list.</p>
       <button class="btn">Send ${svg('arrow', 'ic-sm')}</button>
     </form>
   </div>
@@ -71,7 +75,7 @@ ${header('')}
   <p class="muted" data-inbox-status>Loading…</p>
   <div data-inbox-out></div>
 </main>`;
-  return page({ title: 'Owner inbox | Heart of Columbus', description: 'Private.', body, scripts: ['owners.js'], styles, assets });
+  return page({ title: 'Owner inbox | Heart of Columbus', description: 'Private.', body, scripts: ['owners.js'], styles, assets, head: '<meta name="referrer" content="no-referrer">' });
 }
 
 export function ownersPages(ctx) {

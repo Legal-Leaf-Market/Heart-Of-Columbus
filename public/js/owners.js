@@ -5,6 +5,18 @@
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
   var WANT = { fix: 'Fix listing', link: 'Link ordering', pickup: 'Pickup orders', storefront: 'Storefront', remove: 'REMOVE' };
 
+  // The private key arrives in the link's #fragment, which browsers never send
+  // to a server. An older ?k= link still works once. Either way it is moved to
+  // this tab's session storage and wiped from the address bar, then sent as a
+  // header, so it never lands in a log, a referrer or the history.
+  function adminKey() {
+    var h = new URLSearchParams(location.hash.slice(1)).get('k'), q = new URLSearchParams(location.search).get('k');
+    var k = h || q || '';
+    try { if (k) sessionStorage.setItem('hoc-admin', k); else k = sessionStorage.getItem('hoc-admin') || ''; } catch (e) { /* storage off */ }
+    if (h || q) history.replaceState(null, '', location.pathname);
+    return k;
+  }
+
   // ---------- Claim form ----------
   var form = $('[data-claim]');
   if (form) {
@@ -33,12 +45,17 @@
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var err = $('[data-err]', form), btn = $('button.btn', form);
+      function fail(msg, field) { err.textContent = msg; err.hidden = false; field.setAttribute('aria-invalid', 'true'); field.focus(); }
+      ['business', 'name', 'phone', 'email'].forEach(function (n) { form[n].removeAttribute('aria-invalid'); });
       var data = {
         slug: form.slug.value, business: form.business.value, name: form.name.value, role: form.role.value,
         phone: form.phone.value, email: form.email.value, message: form.message.value, website: form.website.value,
         wants: Array.prototype.slice.call(form.querySelectorAll('[name=wants]:checked')).map(function (c) { return c.value; }),
       };
       err.hidden = true;
+      if (!data.business.trim()) return fail('Which business is this about?', form.business);
+      if (!data.name.trim()) return fail('Please add your name.', form.name);
+      if (!data.phone.trim() && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(data.email.trim())) return fail('Add a phone number or email so we can reach you.', data.email.trim() ? form.email : form.phone);
       btn.disabled = true;
       fetch('/api/claim', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(data) })
         .then(function (r) { return r.json(); })
@@ -54,8 +71,7 @@
   var inbox = $('[data-inbox]');
   if (inbox) {
     var status = $('[data-inbox-status]'), out = $('[data-inbox-out]');
-    var k = new URLSearchParams(location.search).get('k') || '';
-    fetch('/api/claim?k=' + encodeURIComponent(k), { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (j) {
+    fetch('/api/claim', { cache: 'no-store', headers: { 'x-hoc-key': adminKey() } }).then(function (r) { return r.json(); }).then(function (j) {
       if (!j.ok) { status.textContent = j.error || 'Could not load.'; return; }
       status.textContent = j.leads.length + (j.leads.length === 1 ? ' lead' : ' leads');
       out.innerHTML = j.leads.map(function (l) {

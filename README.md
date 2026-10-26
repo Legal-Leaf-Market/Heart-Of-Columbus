@@ -74,7 +74,7 @@ Netlify builds from this repo (`netlify.toml`). Netlify Blobs needs no setup.
 Two environment variables, set in Netlify, never in git:
 
 - `HOC_ADMIN_KEY`: a long random string. The owner-lead inbox is
-  `/owners/inbox/?k=<that key>`.
+  `/owners/inbox/#k=<that key>` (the key goes after `#` so it never reaches a server log).
 - `HOC_BOARD_KEYS`: JSON like `{"some-slug": "<long random key>"}`, one key per
   partner. Their board is `/pickup/board/?s=<slug>&k=<key>`.
 

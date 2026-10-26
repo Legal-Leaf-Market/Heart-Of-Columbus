@@ -29,10 +29,33 @@ test('honeypot is accepted silently and stored nowhere', async () => {
 test('lead is stored and only the right key can read the inbox', async () => {
   const r = await post({ business: 'Somewhere New', name: 'Ann', phone: '812-555-0100', wants: ['pickup', 'hack'] });
   assert.equal(r.status, 200);
-  const bad = await claim(new Request('https://h/api/claim?k=nope'));
+  const bad = await claim(new Request('https://h/api/claim', { headers: { 'x-hoc-key': 'nope' } }));
   assert.equal(bad.status, 403);
-  const ok = await (await claim(new Request('https://h/api/claim?k=' + 'k'.repeat(24)))).json();
+  assert.equal((await claim(new Request('https://h/api/claim?k=' + 'k'.repeat(24)))).status, 403, 'a key in the query string is not accepted');
+  const ok = await (await claim(new Request('https://h/api/claim', { headers: { 'x-hoc-key': 'k'.repeat(24) } }))).json();
   assert.equal(ok.leads.length, 1);
   assert.deepEqual(ok.leads[0].wants, ['pickup']);
+});
+
+test('a form sent without its script is a POST that answers with a page, not a URL full of details', async () => {
+  const form = (fields) => claim(new Request('https://h/api/claim', { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(fields) }));
+  const bad = await form({ business: 'Somewhere', name: 'Ann' });
+  assert.equal(bad.status, 400);
+  assert.match(bad.headers.get('content-type'), /text\/html/);
+  assert.match(await bad.text(), /phone number or email/);
+  const good = await form([['business', 'Somewhere'], ['name', 'Bo'], ['email', 'bo@x.co'], ['wants', 'fix'], ['wants', 'link']]);
+  assert.equal(good.status, 200);
+  assert.equal(good.headers.get('location'), null);
+  const all = await (await claim(new Request('https://h/api/claim', { headers: { 'x-hoc-key': 'k'.repeat(24) } }))).json();
+  assert.deepEqual(all.leads[0].wants, ['fix', 'link']);
   globalThis.fetch = realFetch;
+});
+
+test('the built form posts, and asks for a way to reach you', async () => {
+  const { readFileSync } = await import('node:fs');
+  const html = readFileSync(new URL('../dist/owners/index.html', import.meta.url), 'utf8');
+  assert.match(html, /<form class="ow-form" data-claim method="post" action="\/api\/claim"/);
+  assert.match(html, /A phone number or an email, at least one\./);
+  for (const p of ['owners/inbox/index.html', 'obituaries/review/index.html'])
+    assert.match(readFileSync(new URL('../dist/' + p, import.meta.url), 'utf8'), /name="referrer" content="no-referrer"/, p);
 });
