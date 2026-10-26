@@ -4,6 +4,7 @@
 import { esc, t } from '../layout.mjs';
 import { newsPage, setBarLinks } from '../news/frame.mjs';
 import { aboutPages } from './about-pages.mjs';
+import { readerPages } from './reader-pages.mjs';
 import { ALL_STORIES, SAMPLES, stories, storiesIn, storiesBy, correctionsLog } from '../news/content.mjs';
 import { SECTIONS, sectionBySlug, sectionHref } from '../news/sections.mjs';
 import { disclosures } from '../news/disclosure.mjs';
@@ -110,7 +111,7 @@ export function storyBody(s) {
     ${s.sources.length ? `<section id="references"><h2>References</h2><ul>${s.sources.map((x) => `<li>${x.url ? `<a href="${esc(x.url)}" target="_blank" rel="noopener">${t(x.name)}</a> <span class="np-host">${esc(host(x.url))}</span>` : t(x.name)}${x.note ? `, ${t(x.note)}` : ''}</li>`).join('')}</ul></section>` : ''}
     ${s.methods ? `<section id="methods"><h2>How we reported this</h2><p>${t(s.methods)}</p></section>` : ''}
     ${minor.length ? `<section id="corrections"><h2>Corrections</h2><ul>${minor.map(correction).join('')}</ul></section>` : ''}
-    <p class="np-tip">Spot an error? Have a tip? <a href="/about/standards/#feedback">Tell the newsroom</a>. <a href="/about/standards/#labels">What “${esc(s.label)}” means</a>.</p>
+    <p class="np-tip">Spot an error? Have a tip? <a href="/tips/">Tell the newsroom</a>. Disagree? <a href="/letters/">Write a letter</a>. <a href="/about/standards/#labels">What “${esc(s.label)}” means</a>.</p>
   </footer>
 </article>`;
 }
@@ -191,6 +192,7 @@ export function newsPages(ctx) {
     { path: 'news/samples/index.html', html: samplesPage(ctx) },
     { path: 'news/alert/index.html', html: alertPage(ctx) },
     ...SAMPLES.map((s) => ({ path: `${s.href.slice(1)}index.html`, html: storyPage(ctx, s) })),
+    ...readerPages(ctx),
     ...aboutPages(ctx, {
       corrections: correctionsLog().map((c) => ({ date: c.date, dateText: fmtDate(c.date), text: c.text, story: c.story })),
       storiesBy,

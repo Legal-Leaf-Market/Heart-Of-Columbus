@@ -940,3 +940,9 @@ section { scroll-margin-top: 130px; }
 .np-alert-row { max-width: 1240px; margin: 0 auto; padding: 10px 16px; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
 .np-alert strong { text-transform: uppercase; letter-spacing: .1em; font-size: 13px; }
 .np-alert a { color: #fff; text-decoration: underline; font-weight: 700; }
+.np-form textarea { width: 100%; border: 2px solid var(--ink); border-radius: 12px; padding: 10px 12px; font: inherit; background: var(--surface); }
+.np-form label small { display: block; margin-top: 4px; font-size: 13px; }
+.np-doc .pk-card { margin-top: 24px; }
+.np-inbox-item { margin-bottom: 12px; }
+.np-inbox-item p { font-size: 15px; white-space: pre-wrap; }
+.np-opt { font-weight: 500; font-size: 13px; }

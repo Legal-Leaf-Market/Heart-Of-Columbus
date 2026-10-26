@@ -29,7 +29,7 @@ export const SECTIONS = [
   { slug: 'neighborhoods', name: 'Neighborhoods', blurb: 'News from each part of town.', areas: true },
   { slug: 'sports', name: 'Sports', blurb: 'Columbus North, Columbus East and area schools. Written by people who were there.' },
   { slug: 'things-to-do', name: 'Things to do', blurb: 'What’s on this week, and what’s worth planning for.', events: true, links: [['/visit/', 'Plan your visit'], ['/free/', 'Free in Columbus'], ['/visit/#whats-on', 'Every upcoming event']] },
-  { slug: 'opinion', name: 'Opinion', blurb: 'Editorials, columns and letters from readers, always labeled.' },
+  { slug: 'opinion', name: 'Opinion', blurb: 'Editorials, columns and letters from readers, always labeled.', links: [['/letters/', 'Write a letter to the editor']] },
 ];
 
 export const sectionBySlug = Object.fromEntries(SECTIONS.map((s) => [s.slug, s]));
@@ -42,4 +42,5 @@ export const TOPICS = [
   'weather', 'river', 'flooding', 'public-safety', 'health', 'jobs', 'manufacturing', 'agriculture',
   'arts', 'music', 'history', 'faith', 'events', 'festivals', 'holidays', 'film', 'architecture', 'design',
   'restaurants', 'openings', 'closings', 'small-business', 'sports', 'high-school-sports', 'skate', 'obituaries',
+  'reader-question', 'letters',
 ];

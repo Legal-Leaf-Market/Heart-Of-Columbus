@@ -40,7 +40,7 @@ function aboutPage(ctx) {
       <p><a href="https://www.therepublic.com/" target="_blank" rel="noopener"><em>The Republic</em></a> has been covering Columbus since 1872. We have been at it for slightly less time than that. We read them, we think you should too, and when they break a story we will link to it and give them full credit. We will never copy or rewrite their work.</p>
       <p>If we ever beat them to one, we promise to be gracious about it. Columbus is better with two newsrooms than with one, and we would be glad to work together any time.</p>`],
     ['reach', 'Reach us', `
-      <p>Story ideas, tips, letters and corrections all go to ${contact()}. Our <a href="/about/standards/">standards</a> explain how we handle what you send.</p>`],
+      <p><a href="/ask/">Ask us a question</a>, <a href="/tips/">send a tip</a> or <a href="/letters/">write a letter to the editor</a>. Corrections and anything else can go to ${contact()}. Our <a href="/about/standards/">standards</a> explain how we handle what you send.</p>`],
   ]);
   return newsPage({ ...ctx, path: '/about/', title: 'About us', description: `Who runs ${PAPER.name}, who pays for it, and how to reach the newsroom.`, crumbs: [['', 'About']], body });
 }
@@ -79,7 +79,7 @@ function standardsPage(ctx) {
         <li>No paywall at launch.</li>
         <li>No closing announced from a map listing alone. We call first.</li>
       </ul>`],
-    ['feedback', 'Tell us', `<p>Spot an error, have a tip, or think we got the balance wrong? Write to ${contact()}. A person reads every message.</p>`],
+    ['feedback', 'Tell us', `<p>Spot an error, have a tip, or think we got the balance wrong? <a href="/tips/">Send a tip or a correction</a>, <a href="/letters/">write a letter to the editor</a>, or <a href="/ask/">ask us a question</a>. A person reads every message.</p>`],
   ]);
   return newsPage({ ...ctx, path: '/about/standards/', title: 'Our standards', description: 'Ethics, AI use, sourcing, anonymous sources, conflicts of interest, labels and corrections.', crumbs: [['/about/', 'About'], ['', 'Standards']], body });
 }
