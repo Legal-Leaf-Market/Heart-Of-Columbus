@@ -6,6 +6,7 @@ import { UI as ES, CATEGORY as ES_CAT } from './i18n/es.mjs';
 import { CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, directory } from './data/directory.mjs';
 import { LANDMARKS } from './data/landmarks.mjs';
 import { SPOTLIGHT_SLUGS } from './data/spotlight.mjs';
+import { NEWS_LIVE } from './data/paper.mjs';
 
 // Cover art for a business type, only when public/art has one for it;
 // otherwise the card shows its emoji on the pattern.
@@ -67,6 +68,8 @@ export function header(active = '', { lang = 'en', alt = '' } = {}) {
     ['map', '/explore/?view=map', L.map],
     ['areas', '/#neighborhoods', L.areas],
   ];
+  // The newspaper is built and previewable before launch; the link shows once NEWS_LIVE is on.
+  if (NEWS_LIVE && !es) nav.unshift(['news', '/news/', 'News']);
   return `
 <header class="hdr">
   <div class="wrap hdr-row">
