@@ -9,6 +9,7 @@ import { FREE } from '../src/data/free.mjs';
 import { LANDMARKS } from '../src/data/landmarks.mjs';
 import { TRIPS } from '../src/data/trips.mjs';
 import { FILM, FILM_STOPS } from '../src/data/film.mjs';
+import { SMALL_BUSINESS_SATURDAY } from '../src/data/holidays.mjs';
 import { FACTS, REVIEW_NOTE, UI, CATEGORY, PAGES } from '../src/i18n/es.mjs';
 import { CATEGORIES } from '../src/data/directory.mjs';
 
@@ -19,7 +20,7 @@ const filmFacts = [...FILM.facts.map((f) => f.text), ...FILM_STOPS.map((x) => x.
 const lmFacts = LANDMARKS.flatMap((l) => [l.what, ...(l.note ? [l.note] : [])]);
 
 test('every translated line has Spanish, and no stale translations are left', () => {
-  const en = [...visitFacts, ...freeFacts, ...lmFacts, ...filmFacts];
+  const en = [...visitFacts, ...freeFacts, ...lmFacts, ...filmFacts, SMALL_BUSINESS_SATURDAY.text];
   for (const x of en) assert.ok(FACTS[x], `missing Spanish for: ${x}`);
   for (const k of Object.keys(FACTS)) assert.ok(en.includes(k), `no longer on any page: ${k}`);
   for (const c of CATEGORIES) assert.ok(CATEGORY[c.slug], c.slug);
@@ -31,6 +32,7 @@ const pairs = [
   ['visit/', visitFacts],
   ['free/', freeFacts],
   ['film/', filmFacts],
+  ['holidays/', [SMALL_BUSINESS_SATURDAY.text]],
   ...LANDMARKS.map((l) => [`l/${l.slug}/`, [l.what]]),
   ...TRIPS.map((tr) => [`trips/${tr.slug}/`, []]),
 ];

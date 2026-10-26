@@ -32,7 +32,7 @@ export const VISIT = {
   h1a: '¿Viene a Columbus?', h1b: 'Empiece aquí.',
   lede: 'Por dónde empezar, cómo ver la arquitectura, cómo llegar y moverse, y el Distrito Social del centro. Luego encuentre lugares independientes para comer, comprar y pasear en el resto del sitio.',
   note: (official, date) => `Heart of Columbus no es la oficina de turismo. Para tours, eventos e información oficial, visite <a href="${official}" target="_blank" rel="noopener">Visit Columbus Indiana</a>. Cada dato enlaza a su fuente, revisada el ${date}.`,
-  jump: { 'visitors-center': 'Centro de Visitantes', tours: 'Tours de arquitectura', 'getting-here': 'Cómo llegar', 'getting-around': 'Cómo moverse', 'social-district': 'Distrito Social', 'call-ahead': 'Llame antes', 'your-way': 'Ideas de viaje', '/es/free/': 'Gratis en Columbus', '/es/film/': 'Ruta de cine', '/holidays/': 'Compras en las fiestas (en inglés)' },
+  jump: { 'visitors-center': 'Centro de Visitantes', tours: 'Tours de arquitectura', 'getting-here': 'Cómo llegar', 'getting-around': 'Cómo moverse', 'social-district': 'Distrito Social', 'call-ahead': 'Llame antes', 'your-way': 'Ideas de viaje', '/es/free/': 'Gratis en Columbus', '/es/film/': 'Ruta de cine', '/es/holidays/': 'Compras en las fiestas' },
   vc: { kicker: 'Empiece aquí', name: 'Centro de Visitantes de Columbus', downtown: 'centro', hours: 'Horario y días festivos', listing: 'Su listado aquí' },
   tours: { kicker: 'Arquitectura', title: 'Vea los edificios', lead: 'Columbus es conocida por su arquitectura moderna. El Centro de Visitantes ofrece los tours guiados oficiales.', btn: 'Horarios, precios y boletos', near: 'Lugares cercanos en el centro' },
   here: { kicker: 'Cómo llegar', title: 'En auto y en avión', btn: 'Direcciones completas' },
@@ -160,7 +160,24 @@ PAGES.film = {
   seen: 'Aparece en la película Columbus (2017)',
 };
 
+PAGES.holidays = {
+  title: 'Compras locales en las fiestas | Heart of Columbus',
+  description: (d) => `Small Business Saturday en Columbus, Indiana, es el ${d}. Tiendas independientes, tarjetas de regalo compradas directo y tiendas locales que venden en línea.`,
+  kicker: 'Compras locales en las fiestas', h1a: 'Regale algo local', h1b: 'este año.',
+  lede: (d) => `Small Business Saturday es el <strong>sábado ${d}</strong>. Aquí están los negocios independientes de Columbus para visitar ese día y toda la temporada, incluidos los que venden en línea desde su propio sitio.`,
+  english: 'en inglés', take: 'Enlazamos a las páginas de cada negocio y no cobramos nada.',
+  gifts: ['Regale local', 'Tarjetas de regalo, compradas a ellos'], giftOn: (label) => `Tarjetas de regalo en ${label}`,
+  giftNote: 'Cada enlace va a la página de tarjetas de regalo del propio negocio o de su proveedor. El dinero es para ellos; nosotros no cobramos nada.',
+  online: ['Desde su casa', 'Compre en línea y pague en su sitio'], feed: 'Catálogo en vivo aquí, pago en su sitio', store: 'Su propia tienda en línea',
+  downtown: ['Por Washington Street', 'Regalos en el centro'], sweets: ['Café y dulces en el centro', 'Algo dulce en el camino'],
+  saturday: ['Un plan para el sábado', 'Compras locales un sábado'], tripDay: 'Sábado · paradas en el centro',
+  call: 'El horario de las fiestas puede cambiar, así que llame antes.',
+  foot: 'Los datos de los negocios vienen de listados públicos y pueden cambiar en las fiestas. No tenemos afiliación con estos negocios y nunca cobramos ni tomamos pedidos por ellos.',
+};
+
 Object.assign(FACTS, {
+  // /holidays/
+  'Small Business Saturday is the Saturday after Thanksgiving, started by American Express in 2010 to encourage holiday shopping at small businesses.': 'Small Business Saturday es el sábado después del Día de Acción de Gracias. American Express lo creó en 2010 para animar las compras de las fiestas en negocios pequeños.',
   // /free/
   'The James A. Henderson Playground. The visitors bureau says it is free and open to the public.': 'El James A. Henderson Playground. La oficina de turismo dice que es gratis y abierto al público.',
   'The Commons is open every day, 8 AM to 9 PM, and its playground has a 35-foot Luckey Climber.': 'The Commons abre todos los días, de 8 AM a 9 PM, y su área de juegos tiene un Luckey Climber de 35 pies.',
