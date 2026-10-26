@@ -66,6 +66,7 @@ ${breadcrumbs([['/', 'Home'], ['/explore/', 'Explore'], ...(sub && multi ? [[`/c
       <p class="band-sub">${esc(cat.blurb)} Independent and in Columbus.</p>
     </div>
     <a class="btn btn-ghost" href="/explore/?cat=${cat.slug}${sub && multi ? `&sub=${sub.slug}` : ''}&view=map">${svg('map')} See them on the map</a>
+    ${cat.slug === 'events' ? `<a class="btn" href="/djs/">🎧 Columbus DJs</a>` : ''}
   </div>
   ${multi ? `<div class="wrap subnav">${[`<a href="/c/${cat.slug}/" class="${!sub ? 'on' : ''}">All ${esc(cat.label.toLowerCase())}</a>`, ...cat.subs.map((s) => `<a href="/c/${cat.slug}/${s.slug}/" class="${sub && sub.slug === s.slug ? 'on' : ''}">${s.emoji} ${esc(s.label)} <small>${directory.filter((b) => b.sub === s.slug).length}</small></a>`)].join('')}</div>` : ''}
 </section>
