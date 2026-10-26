@@ -6,13 +6,12 @@
 
 // The public bodies we cover. `url` is their official page for agendas and
 // minutes, filled in once a reporter has checked it.
-// TODO(reporter): check and add the official agenda pages for the county,
-// school board and plan commission.
+// TODO(reporter): check and add the plan commission's own agenda page.
 export const BODIES = [
   { slug: 'city-council', name: 'Columbus City Council', url: 'https://www.columbus.in.gov/', checked: '2026-10-25', note: 'Agendas and minutes are posted on the city’s website.' },
   { slug: 'plan-commission', name: 'Columbus Plan Commission', url: 'https://www.columbus.in.gov/', checked: '2026-10-25', note: 'Agendas are posted on the city’s website, often as PDFs.' },
-  { slug: 'county-commissioners', name: 'Bartholomew County Commissioners', url: '', checked: '' },
-  { slug: 'school-board', name: 'Bartholomew Consolidated School Corporation board', url: '', checked: '' },
+  { slug: 'county-commissioners', name: 'Bartholomew County Commissioners', url: 'https://www.bartholomew.in.gov/calendar/icalrepeat.detail/2026/08/10/2300/12%7C13/bartholomew-county-commissioners-meeting.html', checked: '2026-10-26', note: 'Meetings are Mondays at 10 AM at the Government Office Building, 440 Third Street, with exceptions marked on the county calendar. Each calendar entry links its agenda as a PDF.' },
+  { slug: 'school-board', name: 'Bartholomew Consolidated School Corporation board', url: 'https://www.bcscschools.org/district-information/school-board', checked: '2026-10-26', note: 'Regular meetings are held monthly on Monday evenings at 6:30 PM and streamed on the BCSC YouTube channel. Agendas and minutes are on BoardDocs, usually by the Thursday before.' },
 ];
 
 // Upcoming meetings, copied from the official agenda or calendar:
@@ -31,6 +30,6 @@ export const GATEWAY = 'https://gateway.ifionline.org/';
 // county and school notice pages once checked, and the newspaper of record.
 export const NOTICE_SOURCES = [];
 export const NOTICE_LAW = {
-  text: 'The Republic reported in February 2026 that a bill, HEA 1210, had passed both chambers of the Indiana General Assembly. It would let local governments post public notices on their own websites, instead of only in a newspaper, starting July 1, 2027.',
-  source: 'https://www.therepublic.com/?p=891566', checked: '2026-10-25',
+  text: 'HEA 1210 was signed on March 12, 2026, as Public Law 157. The Republic reported that it makes newspaper publication of public notices optional, and that starting July 1, 2027, local governments may post notices on their own websites.',
+  source: 'https://legiscan.com/IN/bill/HB1210/2026', checked: '2026-10-26',
 };

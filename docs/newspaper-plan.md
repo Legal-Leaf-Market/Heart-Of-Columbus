@@ -63,17 +63,17 @@ directory-style pages, vanilla JS, and `npm test` must pass.
   *Columbus Republican*). IBJ reported its print edition went to
   Wednesdays and Saturdays on September 2, 2023, with daily web updates.
   HD Media of West Virginia took it over from AIM Media on September 1,
-  2026. Its 1971 building, designed by Myron Goldsmith of SOM with glass
+  2026; its announcement didn't mention print changes. Its 1971 building, designed by Myron Goldsmith of SOM with glass
   walls that showed the presses to the street, is a National Historic
   Landmark (2012) and now houses IU's J. Irwin Miller Architecture Program.
 - **Position:** complement *The Republic* and other local outlets, don't
   attack them. Link generously to their reporting, never copy it, and stay
   open to partnering (Mirror Indy shares stories with a TV station).
-- **Public notices:** *The Republic* reported that HEA 1210 passed both
-  chambers on February 27, 2026. If it became law, governments can post
-  notices on their own websites starting July 1, 2027, so notices are not a
-  business to build on. A free page that links to official notices is still
-  a public service (item 10).
+- **Public notices:** HEA 1210 was signed on March 12, 2026 (Public Law
+  157). Per *The Republic*, newspaper publication of public notices becomes
+  optional, and starting July 1, 2027, governments may post notices on their
+  own websites. Notices are not a business to build on. A free page that
+  links to official notices is still a public service (item 10).
 - **Funding:** Press Forward Indiana is a statewide funder group (Indiana
   Philanthropy Alliance, Lumina Foundation, Glick Philanthropies) within the
   national Press Forward movement.
@@ -301,7 +301,15 @@ salaries explorer.
 **Build:**
 - `/meetings/`: upcoming public meetings (city council, county
   commissioners, school board, plan commission) with links to official
-  agendas. Times come from the official source, with a checked date.
+  agendas. Times come from the official source, with a checked date. What
+  I found on October 26, 2026:
+
+  | Body | When and where | Agendas | Feed |
+  | --- | --- | --- | --- |
+  | Bartholomew County Commissioners | Mondays at 10 a.m. (about every week or two; the calendar marks exceptions), Government Office Building, 440 Third Street | PDF linked from each calendar event | The county calendar offers "Download as iCal file" for all repeats. Import that rather than scraping. |
+  | BCSC School Board | Monthly, Monday evenings at 6:30 p.m. | BoardDocs, usually posted by the Thursday before | Livestream and recordings on the BCSC YouTube channel |
+  | City Plan Commission and BZA | 6:30 p.m., City Council Chambers, City Hall, 123 Washington Street | PDFs under `columbus.in.gov/planning/` | The city's Meeting Video Resources page has live and archived video |
+  | Columbus City Council | City Hall, 123 Washington Street | Agendas and minutes as documents on columbus.in.gov | Not confirmed. Agenda file dates suggest the first and third Tuesdays; confirm with the city before publishing a schedule. |
 - A "Meeting notes" template matching the Documenters format: who was
   there, what was decided, votes, follow-up questions. Human-written, editor
   reviewed, labeled "Meeting notes." Ask the Documenters Network about
@@ -433,7 +441,9 @@ else.
 - Wikipedia, [The Republic (Columbus, Indiana)](https://en.wikipedia.org/wiki/The_Republic_(Columbus,_Indiana)) and [The Republic Newspaper Office](https://en.wikipedia.org/wiki/The_Republic_Newspaper_Office)
 - IBJ, [Newspapers in Columbus and 3 other cities to reduce print publication days](https://www.ibj.com/articles/newspapers-in-columbus-and-3-other-cities-to-reduce-print-publication-days) (2023)
 - InkFreeNews, [West Virginia company acquires 6 Indiana newspapers](https://www.inkfreenews.com/2026/08/22/west-virginia-company-acquires-6-indiana-newspapers/) (August 2026)
-- *The Republic*, [Public notice changes making newspaper publication optional](https://www.therepublic.com/?p=891566) (HEA 1210)
+- *The Republic*, [Public notice changes making newspaper publication optional](https://www.therepublic.com/?p=891566) (HEA 1210); LegiScan, [IN HB1210, 2026](https://legiscan.com/IN/bill/HB1210/2026) (signed March 12, 2026, Public Law 157)
+- HD Media, [HD Media acquires new properties](https://hdmediallc.com/2026/09/hd-media-acquires-new-properties/) (September 2026)
+- Bartholomew County, [Commissioners meeting calendar](https://www.bartholomew.in.gov/calendar/icalrepeat.detail/2026/08/10/2300/12%7C13/bartholomew-county-commissioners-meeting.html); BCSC, [School Board](https://www.bcscschools.org/district-information/school-board); City of Columbus Planning, [BZA meeting post](https://www.columbus.in.gov/planning/2026/06/29/columbus-board-of-zoning-appeals-july-28-2026/)
 - Indiana Philanthropy Alliance, [Press Forward Indiana](https://inphilanthropy.org/news/press-forward-indiana-invites-funders-join-movement)
 - Indiana ATC, [public meetings calendar](https://www.in.gov/atc/public-meetings/calendar); City of Columbus, [council agendas and minutes](https://www.columbus.in.gov/document/city-council-minutes-06-03-25/)
 - USGS, [East Fork White River at Columbus (03364000)](https://waterdata.usgs.gov/monitoring-location/USGS-03364000/statistics/) and [flood-inundation maps](https://www.usgs.gov/maps/flood-inundation-maps-east-fork-white-river-columbus-indiana)
