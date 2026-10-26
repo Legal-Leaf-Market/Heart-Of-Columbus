@@ -1,4 +1,5 @@
 // The HTML shell every page shares.
+import { alertBanner } from './news/alert.mjs';
 
 export const esc = (v) =>
   String(v ?? '')
@@ -47,6 +48,7 @@ ${scripts.map((s) => `<script src="/js/${s}?v=${assets[s] ?? ''}" defer></script
 </head>
 <body class="${theme} min-h-screen">
 <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[100] focus:rounded-lg focus:bg-ink focus:px-4 focus:py-2 focus:text-paper">${lang === 'es' ? 'Saltar al contenido' : 'Skip to content'}</a>
+${alertBanner()}
 ${body}
 </body>
 </html>
