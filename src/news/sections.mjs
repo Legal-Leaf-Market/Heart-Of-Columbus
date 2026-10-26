@@ -32,6 +32,7 @@ export const SECTIONS = [
   // Sections other features build as their own pages (href): listed in the
   // paper's bar, no generic /news/<slug>/ page.
   { slug: 'markets', name: 'Markets', blurb: 'Stocks of companies that matter to Columbus.', href: '/markets/' },
+  { slug: 'agriculture', name: 'Agriculture', blurb: '4-H, the county fair, local growers and grain prices.', href: '/agriculture/' },
   { slug: 'obituaries', name: 'Obituaries', blurb: 'Submitted by families and funeral homes.', href: '/obituaries/' },
   { slug: 'opinion', name: 'Opinion', blurb: 'Editorials, columns and letters from readers, always labeled.', links: [['/letters/', 'Write a letter to the editor']] },
 ];
