@@ -40,7 +40,10 @@ test('landmark, trip, visit and free pages carry parseable blocks that match', (
     assert.equal(list.itemListElement.length, t.stops.length, t.slug);
     for (const i of list.itemListElement) assert.ok(seen.includes(fold(i.name)), `${t.slug}: ${i.name}`);
   }
-  assert.ok(blocks(read('visit/index.html')).some((x) => x['@type'] === 'Event'));
+  // Event markup belongs on an event's own accurate page. A static visitor page
+  // cannot keep a list of dated events current between builds, and once one
+  // has passed the markup says something untrue, so /visit/ carries none.
+  assert.ok(!blocks(read('visit/index.html')).some((x) => x['@type'] === 'Event'));
   assert.ok(blocks(read('free/index.html')).some((x) => x['@type'] === 'BreadcrumbList'));
 });
 
@@ -49,4 +52,19 @@ test('every JSON-LD block on every page parses', () => {
   let n = 0;
   for (const f of walk('')) for (const x of blocks(read(f))) { assert.equal(x['@context'], 'https://schema.org', f); n++; }
   assert.ok(n > 1000);
+});
+
+test('a business block names its listing page and keeps its own website as url', () => {
+  const b = directory.find((x) => x.slug === 'jills-diner');
+  const x = blocks(read('b/jills-diner/index.html')).find((y) => y['@type'] !== 'BreadcrumbList');
+  assert.match(x['@id'], /\/b\/jills-diner\/#business$/);
+  assert.match(x.mainEntityOfPage['@id'], /\/b\/jills-diner\/$/);
+  if (b.website) assert.equal(x.url, b.website);
+});
+
+test('the home page says who publishes the site, and no rating or review is marked up anywhere', () => {
+  const g = blocks(read('index.html')).find((x) => x['@graph']);
+  assert.deepEqual(g['@graph'].map((x) => x['@type']), ['WebSite', 'Organization']);
+  const walk = (dir) => readdirSync(new URL(dir, dist), { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(`${dir}${e.name}/`) : e.name.endsWith('.html') ? [`${dir}${e.name}`] : []));
+  for (const f of walk('')) for (const x of blocks(read(f))) assert.doesNotMatch(JSON.stringify(x), /AggregateRating|"Review"|ratingValue/, f);
 });

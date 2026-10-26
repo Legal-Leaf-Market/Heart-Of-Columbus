@@ -1,3 +1,4 @@
+import { siteLd } from '../jsonld.mjs';
 // The home page: a front door to every independent business in Columbus.
 import { page, esc, t } from '../layout.mjs';
 import { businesses, prototypes } from '../data/businesses.mjs';
@@ -268,5 +269,6 @@ ${footer()}`;
     scripts: ['site.js', 'hub.js', 'events.js'],
     styles: ['hoc.css'],
     assets,
+    ld: [siteLd()],
   });
 }

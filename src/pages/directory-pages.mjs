@@ -48,6 +48,19 @@ const refine = (items, { areas = true, subs = null } = {}) => {
   </div>`;
 };
 
+// What the page actually offers, in one sentence. A listing's type is its own
+// words and can end in a period ("since 1952."), so it is trimmed first.
+const bizDescription = (b) => {
+  const type = String(b.type || '').trim().replace(/[.,;:\s]+$/, '');
+  const has = [b.hours && !b.tempClosed ? 'hours' : '', b.phone ? 'phone' : '', 'directions'].filter(Boolean);
+  const offers = has.length > 1 ? `${has.slice(0, -1).join(', ')} and ${has[has.length - 1]}` : has[0];
+  const where = `${b.name}${b.address ? ` at ${b.address}` : ''} in Columbus, Indiana.`;
+  const tail = `${offers[0].toUpperCase() + offers.slice(1)} on Heart of Columbus.`;
+  // A short label reads as an apposition; a sentence stands on its own.
+  if (type && type.length <= 40 && !/[.!?]/.test(type)) return `${b.name}, ${type.toLowerCase()}${b.address ? `, at ${b.address}` : ''} in Columbus, Indiana. ${tail}`;
+  return `${where}${type ? ` ${type}.` : ''} ${tail}`;
+};
+
 function categoryPage(cat, sub, { assets }) {
   const items = directory.filter((b) => b.cat === cat.slug && (!sub || b.sub === sub.slug));
   const multi = cat.subs.length > 1;
@@ -81,7 +94,7 @@ ${refine(items, { subs: multi && !sub ? cat.subs : null })}
 </section>
 </main>
 ${footer()}`;
-  return page({ title: `${title} in Columbus, Indiana | Heart of Columbus`, description: `${items.length} independent ${title.toLowerCase()} in Columbus, Indiana.`, body, scripts: ['site.js', 'list.js'], styles, assets });
+  return page({ title: `${title} in Columbus, Indiana | Heart of Columbus`, description: `${cat.blurb} ${items.length} independent ${title.toLowerCase()} in Columbus, Indiana, with phone numbers, maps and hours where listed.`, body, scripts: ['site.js', 'list.js'], styles, assets });
 }
 
 function areaPage(area, { assets }) {
@@ -116,7 +129,7 @@ ${CATEGORIES.filter((c) => cats[c.slug])
 </section>
 </main>
 ${footer()}`;
-  return page({ title: `${area.label}, Columbus, Indiana | Heart of Columbus`, description: `${items.length} independent businesses in ${area.label}, Columbus, Indiana.`, body, scripts: ['site.js', 'hub.js'], styles, assets });
+  return page({ title: `${area.label}, Columbus, Indiana | Heart of Columbus`, description: `${area.blurb} ${items.length} independent businesses in ${area.label}, Columbus, Indiana.`, body, scripts: ['site.js', 'hub.js'], styles, assets });
 }
 
 function bizPage(b, { assets }) {
@@ -190,7 +203,7 @@ ${rail(`More ${sub.label.toLowerCase()}`, `/c/${cat.slug}/${cat.subs.length > 1 
 ${rail('Close by', area ? `/n/${area.slug}/` : '', near)}
 </main>
 ${footer()}`;
-  return page({ title: `${b.name} | ${sub.label} in Columbus, Indiana`, description: `${b.name}, ${b.type}${b.address ? ', ' + b.address : ''}, Columbus, Indiana.`, body, scripts: ['site.js', 'hub.js', 'cart.js'], styles, assets, ld: [businessLd(b)] });
+  return page({ title: `${b.name} | ${sub.label} in Columbus, Indiana`, description: bizDescription(b), body, scripts: ['site.js', 'hub.js', 'cart.js'], styles, assets, ld: [businessLd(b)] });
 }
 
 // Saved page extras: share a list, pick a day, print it. Landmarks and events
