@@ -2,7 +2,7 @@
 // can't be forgotten, and trust pages that stay noindex until launch.
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { STAFF, SAMPLE_STAFF } from '../src/data/staff.mjs';
 import { PAPER } from '../src/data/paper.mjs';
 import { disclosures } from '../src/news/disclosure.mjs';
@@ -299,4 +299,13 @@ test('quizzes are written by staff, and sample quizzes stay samples', () => {
   assert.ok(!read('games/quiz/index.html').includes('Sampleton'));
   const where = JSON.parse(read('games/where/index.html').match(/<script type="application\/json" id="page-data">([\s\S]*?)<\/script>/)[1]).where;
   assert.ok(where.length >= 4 && where.every((w) => w.src.startsWith('https://upload.wikimedia.org/') && w.credit));
+});
+
+// docs/newsroom-policies.md marks the owner's decisions as [OWNER: ...].
+// They stay in the docs until decided and never reach a built page.
+test('no [OWNER: ...] marker reaches a built page', () => {
+  const walk = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
+    e.isDirectory() ? walk(new URL(`${e.name}/`, dir)) : e.name.endsWith('.html') ? [new URL(e.name, dir)] : []);
+  const found = walk(dist).filter((f) => readFileSync(f, 'utf8').includes('[OWNER:'));
+  assert.deepEqual(found.map((f) => f.pathname.slice(dist.pathname.length)), []);
 });

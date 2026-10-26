@@ -228,7 +228,8 @@ downtown evening.
   a directory slug, with `source` and `checked`.
 - Match by **address**, not name, and list anything uncertain for a human.
   From a quick look at `landscape.mjs`: most permittees are already in the
-  directory. "The Forge on 4th" on the city list may be "The Forge English
+  directory (ZwanzigZ Pizza is a featured card in `businesses.mjs`). "The
+  Forge on 4th" on the city list may be "The Forge English
   Pub" at 418 4th St; "ZwanzigZ Production Brewery Co." needs checking
   against the tap room at 315 12th Street; the Fraternal Order of Eagles
   #741 and The Gallery Bar & Bistro (inside Hotel Indigo) may not belong in
@@ -290,8 +291,9 @@ favorites, includes today's events and public art).
 
 ### 10. Spanish first, then decide on Japanese
 
-**Seen on:** Visit Philadelphia (7 language options), Travel Portland (7),
-Visit Seattle (8), Visit Savannah (9), Visit Austin (8), NYC Tourism (5),
+**Seen on:** Visit Philadelphia (7 language options), Travel Portland (7
+besides English), Visit Seattle (8), Visit Savannah (9), Visit Austin (8),
+NYC Tourism (5),
 Visit Tucson (a separate Spanish site, Vamos a Tucson). Visit Columbus
 Indiana itself offers English and Spanish.
 
@@ -362,7 +364,8 @@ using whatever price signal is defensible (only if the listing shows one).
     service and consent handling, so ship `/events.ics` and the weekend rail
     first.
 15. **The *Columbus* (2017) film trail.** Travel Portland has a film-location
-    guide, and Visit Columbus Indiana sells the film at its Visitors Center.
+    guide, and the Columbus Visitors Center sells Kogonada's film on DVD and
+    Blu-ray.
     Only include locations confirmed by reputable sources, cite each one, and
     show only landmarks or public places.
 16. **"In their words" owner stories.** Choose Chicago (Chicago Like a Local),
@@ -417,7 +420,7 @@ using whatever price signal is defensible (only if the listing shows one).
 
 ---
 
-## Columbus facts gathered (checked October 25, 2026; recheck before shipping)
+## Columbus facts gathered (checked October 25 and 26, 2026; recheck before shipping)
 
 | Fact | Source |
 | --- | --- |
@@ -426,8 +429,8 @@ using whatever price signal is defensible (only if the listing shows one).
 | Visit Columbus Indiana offers English and Spanish, a saved-items counter, itineraries, signature events, and a "Submit An Event" form. | [visitcolumbusindiana.com](https://visitcolumbusindiana.com/) |
 | Mill Race Monster Festival, October 23 to 25, 2026, Mill Race Park. | [Visit Columbus Indiana events](https://visitcolumbusindiana.com/events/) |
 | Downtown Columbus Social District (DORA): every day, 10 a.m. to midnight; 21+; branded clear cups; up to two drinks per person leaving a permittee; fill limits by drink type; 17 designated permittees; boundary, permittee and vendor maps. | [City of Columbus DORA page](https://www.columbus.in.gov/community-development/dora) |
-| ColumBUS: free fares (suspended indefinitely as of 2023), five weekday routes pulsing from Mill Race Station (850 Lindsey Street), weekdays 6 a.m. to 8 p.m., Saturdays 8 a.m. to 5 p.m., no Sunday service. Confirm with the city before publishing. | [Wikipedia: ColumBUS](https://en.wikipedia.org/wiki/ColumBUS) |
-| People Trail: 15.7 miles per TrailLink, asphalt and concrete, linking Lincoln, Blackwell, Mill Race and Noblitt parks. Other sources give different lengths; prefer the city's figure. | [TrailLink](https://www.traillink.com/trail/columbus-people-trail/) |
+| ColumBUS: "There is no fee to ride." Fixed routes and Call-a-Bus run Monday to Friday, 6 a.m. to 8 p.m., and Saturday, 8 a.m. to 5 p.m.; no Sunday service listed. Routes include Blue (A/B), Green, Orange and Purple. Transit Depot at 850 Lindsey Street. Live tracking at columbusindianatransit.com and in the Columbus Transit apps. | [City of Columbus transit FAQ](https://www.columbus.in.gov/columbus-transit/faqs) (checked Oct 26, 2026) |
+| People Trail: the city parks department maintains "over 23 miles of People Trails." TrailLink lists one 15.7-mile corridor linking Lincoln, Blackwell, Mill Race and Noblitt parks. Use the city's figure for the system. | [Columbus Parks and Recreation](https://columbusparksandrec.com/?p=3858), [TrailLink](https://www.traillink.com/trail/columbus-people-trail/) |
 | Exhibit Columbus (Landmark Columbus Foundation): 2026 is a "Fieldwork" year without new installations; the next cycle begins in 2027; five permanent works downtown. | [exhibitcolumbus.org](https://exhibitcolumbus.org/) |
 | Small Business Saturday 2026 falls on November 28 (the Saturday after Thanksgiving, November 26). | Calendar |
 
@@ -438,7 +441,7 @@ using whatever price signal is defensible (only if the listing shows one).
 | [Visit Philadelphia](https://www.visitphilly.com/) | PA | Philly Your Way, This Week & Weekend, Accessible Philly, Philly 101, 7 languages, Getting Here / Parking |
 | [NYC Tourism](https://www.nyctourism.com/) | NY | Budget activity finder, borough pages, AI discovery tool, 5 languages |
 | [Choose Chicago](https://www.choosechicago.com/) | IL | "Find your Chicago style," This weekend / Next week tabs, Chicago Like a Local, Chicago Greeter |
-| [Travel Portland](https://www.travelportland.com/) | OR | Near Me Now app (open now, map, favorites), Food Cart Finder, the Weekender email, 7 languages |
+| [Travel Portland](https://www.travelportland.com/) | OR | Near Me Now app (open now, map, favorites), Food Cart Finder, the Weekender email, 7 languages besides English |
 | [Visit Seattle](https://visitseattle.org/) | WA | Accessible Travel Guide, Seattle Localist email, 8 languages |
 | [Visit Austin](https://www.austintexas.org/) | TX | Live music calendar, neighborhood map, 3 Day Weekend Itinerary, 8 languages |
 | [Visit Savannah](https://www.visitsavannah.com/) | GA | Interactive map by region, self-guided walking route, 9 languages, Mindtrip AI |

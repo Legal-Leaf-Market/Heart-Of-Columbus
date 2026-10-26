@@ -155,6 +155,25 @@ Indiana. A pitch, not a live service. See README.md.
 - Landmark photos are Wikimedia Commons, credited on `/credits/`. They show
   Columbus, never a listed business. Art in `public/art/` is ours.
 
+## News and visitor content (docs/roadmap.md)
+
+- **Every new fact gets a source.** Data files for visits, landmarks,
+  events, the Social District, meetings and trips carry `source` and
+  `checked` on every entry. Tests fail without them.
+- **Claude never writes news.** No stories, quotes, headlines, obituaries,
+  letters or newsletters about real people, businesses or events. Build the
+  templates, tools and tests; a named person writes and the editor approves.
+- **Sample content must look fake** (Sampleton, "Sample Reporter") and carry
+  `sample: true`; it never appears in a published section.
+- **Automation makes leads, not stories.** Directory diffs and public-record
+  scans write to `content/drafts/` for a reporter; nothing publishes without
+  a person confirming it.
+- **Disclose our ties.** A story tagging a business in `partners.mjs` or
+  `sponsors.mjs` shows a disclosure line automatically.
+- **Owner decisions stay marked.** `[OWNER: ...]` markers in
+  `docs/newsroom-policies.md` stay until the owner decides; a test fails if
+  one reaches a built page.
+
 ## Checking work
 
 - `npm test` must pass.
