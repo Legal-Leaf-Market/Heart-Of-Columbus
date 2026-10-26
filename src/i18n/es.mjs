@@ -15,7 +15,7 @@ export const UI = {
   footerTag: 'Negocios independientes de Columbus, Indiana. Sin cadenas, sin franquicias, sin comisiones de apps.',
   footerSmall: 'Una vista previa. Los datos vienen de listados públicos y pueden cambiar; llame antes de ir. Sin afiliación con los negocios listados.',
   browse: 'Explorar', more: 'Más', aroundTown: 'Por la ciudad', owners: 'Dueños',
-  links: { visit: 'Planee su visita', events: 'Eventos locales', free: 'Gratis en Columbus', film: 'La ruta de la película Columbus', architecture: 'Arquitectura (en inglés)', arts: 'Arte público (en inglés)', cummins: 'Cummins y Columbus (en inglés)', holidays: 'Compras locales en las fiestas', djs: 'DJ de Columbus', credits: 'Créditos de fotos', ag: 'El campo y 4-H (en inglés)', markets: 'Mercados (en inglés)', obituaries: 'Obituarios (en inglés)', sports: 'Deportes (en inglés)', history: 'Historia de Columbus (en inglés)', claim: 'Reclame su listado', pickup: 'Pedidos para recoger', direct: 'Pedir, reservar y comprar directo' },
+  links: { visit: 'Planee su visita', events: 'Eventos locales', free: 'Gratis en Columbus', film: 'La ruta de la película Columbus', architecture: 'Arquitectura (en inglés)', arts: 'Arte público (en inglés)', cummins: 'Cummins y Columbus (en inglés)', holidays: 'Compras locales en las fiestas', djs: 'DJ de Columbus', credits: 'Créditos de fotos', ag: 'El campo y 4-H (en inglés)', markets: 'Mercados (en inglés)', obituaries: 'Obituarios (en inglés)', sports: 'Deportes (en inglés)', history: 'Historia de Columbus (en inglés)', skate: 'El skatepark', claim: 'Reclame su listado', pickup: 'Pedidos para recoger', direct: 'Pedir, reservar y comprar directo' },
   home: 'Inicio',
 };
 
@@ -32,7 +32,7 @@ export const VISIT = {
   h1a: '¿Viene a Columbus?', h1b: 'Empiece aquí.',
   lede: 'Por dónde empezar, cómo ver la arquitectura, cómo llegar y moverse, y el Distrito Social del centro. Luego encuentre lugares independientes para comer, comprar y pasear en el resto del sitio.',
   note: (official, date) => `Heart of Columbus no es la oficina de turismo. Para tours, eventos e información oficial, visite <a href="${official}" target="_blank" rel="noopener">Visit Columbus Indiana</a>. Cada dato enlaza a su fuente, revisada el ${date}.`,
-  jump: { 'visitors-center': 'Centro de Visitantes', tours: 'Tours de arquitectura', 'getting-here': 'Cómo llegar', 'getting-around': 'Cómo moverse', 'social-district': 'Distrito Social', 'call-ahead': 'Llame antes', 'your-way': 'Ideas de viaje', '/es/free/': 'Gratis en Columbus', '/es/film/': 'Ruta de cine', '/es/holidays/': 'Compras en las fiestas' },
+  jump: { 'visitors-center': 'Centro de Visitantes', tours: 'Tours de arquitectura', 'getting-here': 'Cómo llegar', 'getting-around': 'Cómo moverse', 'social-district': 'Distrito Social', 'call-ahead': 'Llame antes', 'your-way': 'Ideas de viaje', '/es/free/': 'Gratis en Columbus', '/es/film/': 'Ruta de cine', '/es/skate/': 'Skatepark', '/es/holidays/': 'Compras en las fiestas' },
   vc: { kicker: 'Empiece aquí', name: 'Centro de Visitantes de Columbus', downtown: 'centro', hours: 'Horario y días festivos', listing: 'Su listado aquí' },
   tours: { kicker: 'Arquitectura', title: 'Vea los edificios', lead: 'Columbus es conocida por su arquitectura moderna. El Centro de Visitantes ofrece los tours guiados oficiales.', btn: 'Horarios, precios y boletos', near: 'Lugares cercanos en el centro' },
   here: { kicker: 'Cómo llegar', title: 'En auto y en avión', btn: 'Direcciones completas' },
@@ -220,3 +220,42 @@ Object.assign(FACTS, {
 });
 
 export const esDate = (d) => new Date(d + 'T12:00:00Z').toLocaleDateString('es-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+
+PAGES.skate = {
+  title: 'El skatepark de Columbus | Heart of Columbus',
+  description: 'El Jolie Crider Memorial Skatepark 2.0 en Clifty Park, Columbus, Indiana: horario, reglas, qué tiene y cómo se construyó, cada dato con su fuente.',
+  kicker: 'Skatepark', h1a: 'Jolie Crider', h1b: 'Memorial Skatepark 2.0',
+  lede: 'Columbus tiene un skatepark de concreto en Clifty Park, diseñado por un skater finlandés que se hizo arquitecto y construido por un equipo de skaters de Bloomington. Aquí está dónde queda, qué tiene y cómo llegó a existir.',
+  note: 'Heart of Columbus no es el departamento de parques. Cada dato enlaza a donde lo encontramos. Las reglas y el horario vienen de la página de la ciudad; revísela antes de ir.',
+  titles: { 'the-park': 'El parque', 'whats-in-it': 'Qué tiene', history: 'Cómo llegó aquí', skaters: 'Skaters de Columbus' },
+  kickers: { 'the-park': 'Antes de ir', 'whats-in-it': 'El diseño', history: 'De 1999 a hoy', skaters: 'La gente' },
+  skatersNote: 'Todavía no hemos encontrado una fuente pública que nombre a un skater de Columbus que se haya hecho profesional o haya hecho carrera en el skate. Solo agregamos personas cuando una fuente lo dice, para no adivinar la historia de nadie.',
+  official: 'La página de la ciudad', directions: 'Cómo llegar', more: 'Visit Columbus Indiana sobre el parque',
+};
+
+Object.assign(FACTS, {
+  // /skate/
+  'The skate park is in Clifty Park at Indiana Avenue and Marr Road, across from Columbus East High School.': 'El skatepark está en Clifty Park, en Indiana Avenue y Marr Road, frente a Columbus East High School.',
+  'It is open daily from 8 AM to dusk, and it is not supervised.': 'Abre todos los días de 8 AM al anochecer y no tiene supervisión.',
+  'Skateboards, in-line skates, scooters and bikes only. No motorized vehicles, and no metal pegs on bikes or scooters.': 'Solo patinetas, patines en línea, scooters y bicicletas. No se permiten vehículos motorizados ni pegs de metal en bicicletas o scooters.',
+  'Helmets, knee pads and elbow pads are highly recommended, and the concrete is very slippery when wet.': 'Se recomienda mucho usar casco, rodilleras y coderas, y el concreto es muy resbaloso cuando está mojado.',
+  'Food and drink stay out of the riding area, and spectators stay in the spectator area, off the structure.': 'No se permite comida ni bebida en el área de patinaje, y los espectadores se quedan en su área, fuera de la estructura.',
+  'The park has three sections that flow into each other. The entrance reuses about 2,500 square feet of the old wood slab, with new flat ground features and a bank up to a quarter pipe.': 'El parque tiene tres secciones que fluyen entre sí. La entrada reutiliza unos 2,500 pies cuadrados de la losa de madera anterior, con nuevos elementos de piso plano y un bank hacia un quarter pipe.',
+  'The middle is street and transition: a rainbow rail and quarter, a kong wall, jumps, bank to rails, hubbas and ledges across three levels.': 'El centro es de street y transición: un rainbow rail con quarter, un kong wall, saltos, bank to rails, hubbas y ledges en tres niveles.',
+  'The third section is a long, ditch style bowl with two minis of different heights, an extension, and a big transfer into a hip that leads back around.': 'La tercera sección es un bowl largo tipo zanja con dos minis de distinta altura, una extensión y un gran transfer hacia un hip que regresa al resto del parque.',
+  'At the edge are concrete stools, a stainless steel ping pong table, a spectator area and room for outdoor concerts and events.': 'En el borde hay bancos de concreto, una mesa de ping pong de acero inoxidable, un área para espectadores y espacio para conciertos y eventos al aire libre.',
+  'Clifty Park around it has a playground, the Columbus Dog Park, about 1.25 miles of trails, three parking areas and a restroom that closes in winter.': 'Alrededor, Clifty Park tiene un área de juegos, el Columbus Dog Park, unas 1.25 millas de senderos, tres estacionamientos y un baño que cierra en invierno.',
+  'The first park, mostly wood, was built in Clifty Park in 1999 after a group of local skaters pushed for one.': 'El primer parque, casi todo de madera, se construyó en Clifty Park en 1999 después de que un grupo de skaters locales lo pidiera.',
+  'It is named for Jolie Crider, a Columbus North High School freshman who died of bacterial meningitis in 1998 at age 14.': 'Lleva el nombre de Jolie Crider, estudiante de primer año de Columbus North High School que murió de meningitis bacteriana en 1998, a los 14 años.',
+  'After about 20 years the wood was worn out, and in 2018 the city chose to rebuild in concrete rather than repair it.': 'Después de unos 20 años la madera estaba gastada, y en 2018 la ciudad decidió reconstruirlo en concreto en vez de repararlo.',
+  'Columbus designer Jonathan Nesci, the parent of a skater, heard Finnish skater and architect Janne Saario on the 99 Percent Invisible podcast and wrote to him.': 'El diseñador de Columbus Jonathan Nesci, padre de un skater, escuchó al skater y arquitecto finlandés Janne Saario en el podcast 99 Percent Invisible y le escribió.',
+  'Nesci traded Saario one of his mirror polished side tables for a concept design, and it became Saario’s first skate park in the United States.': 'Nesci le dio a Saario una de sus mesas auxiliares pulidas como espejo a cambio de un diseño conceptual, y se convirtió en el primer skatepark de Saario en Estados Unidos.',
+  'Nesci built the brief from three community input sessions.': 'Nesci armó el programa a partir de tres sesiones de opinión con la comunidad.',
+  'A $50,000 CreateINg Places grant, matched dollar for dollar by donors, was set up to close the fundraising gap.': 'Una subvención de $50,000 de CreateINg Places, igualada dólar por dólar por donantes, se usó para cerrar la brecha de recaudación.',
+  'Hunger Skateparks of Bloomington built it. The project cost about $400,000, paid for by private donors, parks capital funds, the Heritage Fund of the Community Foundation of Bartholomew County and the Columbus Park Foundation.': 'Lo construyó Hunger Skateparks, de Bloomington. El proyecto costó unos $400,000, pagados por donantes privados, fondos de capital de parques, el Heritage Fund de la Community Foundation of Bartholomew County y la Columbus Park Foundation.',
+  'The new concrete park was finished in 2019.': 'El nuevo parque de concreto se terminó en 2019.',
+  'About 100 people came to the ribbon cutting, where Jolie Crider’s mother, Shayla Holtkamp, was given a skateboard deck with her daughter’s name on it.': 'Unas 100 personas fueron a la inauguración, donde la madre de Jolie Crider, Shayla Holtkamp, recibió una tabla de skate con el nombre de su hija.',
+  'At the opening the parks director said groups from Indianapolis come to skate it every weekend.': 'En la inauguración, el director de parques dijo que cada fin de semana vienen grupos de Indianapolis a patinarlo.',
+  'Columbus skater Steve Swartzentruber was photographed by The Republic skating the new park. His twin brother, Chris, worked for Hunger Skateparks, the crew that built it.': 'The Republic fotografió al skater de Columbus Steve Swartzentruber patinando el nuevo parque. Su hermano gemelo, Chris, trabajaba para Hunger Skateparks, el equipo que lo construyó.',
+  'A survey of more than 200 park users found that for two out of three, skating, BMX or scooters at the old park was their main exercise.': 'Una encuesta a más de 200 usuarios encontró que, para dos de cada tres, patinar, andar en BMX o en scooter en el parque anterior era su principal ejercicio.',
+});

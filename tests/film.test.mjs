@@ -29,7 +29,7 @@ const visible = (h) => {
 };
 
 test('no dashes in the visible text of the visitor pages, in either language', () => {
-  const dirs = ['visit', 'free', 'film', 'holidays'];
+  const dirs = ['visit', 'free', 'film', 'skate', 'holidays'];
   const pages = [
     ...dirs.flatMap((d) => [`${d}/index.html`, `es/${d}/index.html`]),
     ...['l', 'trips'].flatMap((d) => readdirSync(new URL(`../dist/${d}/`, import.meta.url)).flatMap((s) => [`${d}/${s}/index.html`, `es/${d}/${s}/index.html`])),
