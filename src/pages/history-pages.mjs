@@ -4,11 +4,14 @@
 // Articles come from src/data/history/; this file only lays them out.
 import { page, esc, t } from '../layout.mjs';
 import { header, footer, svg, breadcrumbs, PHOTOS } from '../site.mjs';
-import { DECADES, SERIES, SECTIONS, ARTICLES, DECADE_ARTICLES, sectionBySlug, groupBySlug } from '../data/history/index.mjs';
+import { DECADES as ALL_DECADES, SERIES as ALL_SERIES, SECTIONS, ARTICLES, DECADE_ARTICLES, sectionBySlug, groupBySlug } from '../data/history/index.mjs';
 import { landmarkBySlug } from '../data/landmarks.mjs';
 import { ORIGIN } from '../jsonld.mjs';
 
 const styles = ['hoc.css'];
+// Only decades and series that have landed get pages and links.
+const DECADES = ALL_DECADES.filter((d) => d.items.length);
+const SERIES = ALL_SERIES.filter((g) => g.items.length);
 const host = (u) => new URL(u).hostname.replace(/^www\./, '');
 const fmt = (n) => n.toLocaleString('en-US');
 const crumbs = (...rest) => breadcrumbs([['/', 'Home'], ['/history/', 'History'], ...rest]);
@@ -67,7 +70,7 @@ ${DECADES.map((d) => `
 ${footer()}`;
   return page({
     title: 'Columbus history, decade by decade | Heart of Columbus',
-    description: `${DECADE_ARTICLES.length} sourced stories about Columbus, Indiana, from the 1930s to the 2020s: industry, architecture, faith, schools, the river and the people who built the town.`,
+    description: `${DECADE_ARTICLES.length} sourced stories about Columbus, Indiana, from the ${DECADES[0].slug} to the ${DECADES.at(-1).slug}: industry, architecture, faith, schools, the river and the people who built the town.`,
     body, scripts: ['site.js'], styles, assets,
   });
 }
