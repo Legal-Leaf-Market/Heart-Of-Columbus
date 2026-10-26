@@ -25,9 +25,9 @@ export const newsBar = (path) => {
 </div></nav>`;
 };
 
-export function newsPage({ assets, path, title, description, crumbs = [], body, ld = [], scripts = [], data = null, banner = '', styles = [] }) {
+export function newsPage({ assets, path, title, description, crumbs = [], body, ld = [], scripts = [], data = null, banner = '', styles = [], alt = '', alternates = [] }) {
   const html = `
-${header('news')}
+${header('news', alt ? { alt } : undefined)}
 ${newsBar(path)}
 ${banner}
 <main id="main" class="np">
@@ -35,5 +35,5 @@ ${crumbs.length ? breadcrumbs([['/', 'Home'], ...crumbs]) : ''}
 ${body}
 </main>
 ${footer()}`;
-  return page({ title: `${title} | ${PAPER.name}`, description, body: html, scripts: ['site.js', ...scripts], styles: ['hoc.css', ...styles], assets, ld, data, path });
+  return page({ title: `${title} | ${PAPER.name}`, description, body: html, scripts: ['site.js', ...scripts], styles: ['hoc.css', ...styles], assets, ld, data, path, alternates });
 }
