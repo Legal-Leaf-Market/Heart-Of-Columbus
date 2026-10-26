@@ -1,19 +1,23 @@
-// node scripts/import-commerce.mjs <probe-results.json>
-// Combines /api/probe results with the owner-set Google action links into
+// node scripts/import-commerce.mjs <probe-results.json> [probe-deep.json ...]
+// Later files win for a business when they reached its site. Combines probe
+// results (/api/probe or scripts/probe-deep.mjs) with the owner-set Google action links into
 // src/data/commerce.mjs: platform, live feed, and first-party order/book links.
 import { readFileSync, writeFileSync } from 'node:fs';
 import { WEB } from '../src/data/web.mjs';
 import { PROVIDERS, findProviderLinks } from '../src/commerce-core.mjs';
 import { directory } from '../src/data/directory.mjs';
 
-const rawProbes = JSON.parse(readFileSync(process.argv[2], 'utf8'));
-const probes = Array.isArray(rawProbes) ? rawProbes : Object.values(rawProbes);
+const bySlug = {};
+for (const file of process.argv.slice(2)) {
+  const raw = JSON.parse(readFileSync(file, 'utf8'));
+  for (const p of Array.isArray(raw) ? raw : Object.values(raw)) if (p.ok || !bySlug[p.slug]) bySlug[p.slug] = p;
+}
+const probes = Object.values(bySlug);
 const catOf = Object.fromEntries(directory.map((b) => [b.slug, b.cat]));
 const FOOD = new Set(['restaurants', 'coffee-sweets', 'bars']);
 const RETAIL = new Set(['shopping', 'coffee-sweets', 'pets', 'kids', 'things-to-do', 'beauty']);
 const NO_FEED = new Set(['pros', 'home-services', 'auto', 'health']);
 const STOREFRONT = new Set(['shopify', 'woocommerce', 'bigcommerce', 'squarespace-commerce', 'wix-stores', 'square-online']);
-const bySlug = Object.fromEntries(probes.map((p) => [p.slug, p]));
 // Marketplaces take a cut, so they are not "direct" and are never linked.
 const MARKET = /(?:^|\.)(doordash\.com|grubhub\.com|ubereats\.com|postmates\.com|seamless\.com|yelp\.com|facebook\.com|instagram\.com|google\.com)$/i;
 const host = (u) => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return ''; } };
@@ -24,10 +28,19 @@ for (const slug of new Set([...Object.keys(WEB), ...Object.keys(bySlug)])) {
   const w = WEB[slug] || {};
   const order = [], book = [];
   const push = (list, label, url) => { if (url && !MARKET.test(host(url)) && !list.some((x) => x.url === url)) list.push({ label, url }); };
-  for (const l of p.links || []) {
-    // Re-check stored probe links against today's provider rules.
-    const again = findProviderLinks(l.url)[0];
-    if (again) push(again.kind === 'order' ? order : book, again.label, again.url);
+  // Re-check stored probe links, and every outside address the deep probe
+  // saw, against today's provider rules.
+  const shopLinks = [];
+  const seen = [...(p.links || []).map((l) => l.url), ...(p.urls || [])];
+  for (const again of findProviderLinks(seen.join(' '))) {
+    if (again.kind === 'shop') shopLinks.push(again);
+    else push(again.kind === 'order' ? order : book, again.label, again.url);
+  }
+  // A listing whose website is itself a provider page (a Booksy or
+  // GlossGenius site, a Square Online store) links to that page.
+  for (const self of findProviderLinks([w.website, p.final].filter(Boolean).join(' '))) {
+    if (self.kind === 'shop') shopLinks.push(self);
+    else push(self.kind === 'order' ? order : book, self.label, self.url);
   }
   if (p.own && p.own.order) push(order, p.own.order.label, p.own.order.url);
   for (const [label, url] of w.actions || []) {
@@ -41,7 +54,7 @@ for (const slug of new Set([...Object.keys(WEB), ...Object.keys(bySlug)])) {
   // A website that now redirects to a different domain (sold, lapsed) is not
   // the business's store, whatever it sells.
   const base = (u) => host(u).split('.').slice(-2).join('.');
-  if (p.ok && w.website && base(p.origin) !== base(w.website) && !/square\.site$|wixsite\.com$|myshopify\.com$/.test(host(p.origin))) { p.ok = false; }
+  if (p.ok && w.website && base(p.origin) !== base(w.website) && !/square\.site$|wixsite\.com$|myshopify\.com$|booksy\.com$|glossgenius\.com$|vagaro\.com$|toast\.site$/.test(host(p.origin))) { p.ok = false; }
   // Square Online is a site builder too: its "order" page only means food
   // ordering for food businesses. For a shop it is the store; otherwise skip.
   let squareShop = '';
@@ -61,11 +74,15 @@ for (const slug of new Set([...Object.keys(WEB), ...Object.keys(bySlug)])) {
     if (p.platform === 'square-online' && FOOD.has(cat)) { if (!order.some((o) => o.label === 'Square Online')) push(order, 'Square Online', p.origin); }
     else if (RETAIL.has(cat) && p.own && p.own.shop && shopPath !== '/' && !/^\/products?\/[^/]+\/?$/.test(shopPath)) store = store || p.own.shop;
     else if (RETAIL.has(cat) && ['shopify', 'bigcommerce'].includes(p.platform)) store = store || p.origin;
+    else if (['shopping', 'pets', 'kids'].includes(cat) && p.platform === 'square-online') store = store || p.origin;
   }
+  // A shop that runs its cart on a separate own-engine store (Big Cartel,
+  // Ecwid, a Shopify store on another address) gets that store as its link.
+  if (!feed && !store && RETAIL.has(cat) && shopLinks.length && !(p.platform === 'shopify' && p.ok)) store = shopLinks[0].url.replace(/\/(?:cart|checkout|account)(?:[/?#].*)?$/, '');
   // Gift cards: the business's own page or its provider's, never a marketplace.
   const gift = p.ok && p.gift && p.gift.url && !MARKET.test(host(p.gift.url)) ? { label: p.gift.label, url: p.gift.url } : null;
   if (!order.length && !book.length && !feed && !store && !p.platform && !gift) continue;
-  out[slug] = { platform: p.platform || '', origin: p.origin || '', feed, store, order: order.slice(0, 2), book: book.slice(0, 2), ...(gift ? { gift } : {}) };
+  out[slug] = { platform: p.platform || '', ...(p.stack && p.stack.length ? { stack: p.stack } : {}), origin: p.origin || '', feed, store, order: order.slice(0, 2), book: book.slice(0, 2), ...(gift ? { gift } : {}) };
 }
 const head = `// What each business's own website can do: its cart engine and the ordering
 // or booking pages it chose. Built by scripts/import-commerce.mjs from the

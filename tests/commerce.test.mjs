@@ -72,3 +72,15 @@ test('gift cards: provider pages first, then the site’s own gift-card link', a
   assert.equal(findGiftLinks('<a href="/products/gift-card">Shop</a>', 'https://shop.example/').url, 'https://shop.example/products/gift-card');
   assert.equal(findGiftLinks('<a href="/gifts">Gifts for her</a><a href="/giftwrap">Wrap</a>', 'https://shop.example/'), null);
 });
+
+test('deep probe providers: trades, fitness, pets, OpenTable widget, own-engine shops', async () => {
+  const { findProviderLinks, detectStack } = await import('../src/commerce-core.mjs');
+  const text = 'https://book.housecallpro.com/book/Joes-Plumbing/abc123 https://clienthub.getjobber.com/booking/xyz/ ' +
+    'https://www.wellnessliving.com/rs/schedule/studio https://booking.moego.pet/ol/landing?name=dogs ' +
+    'https://www.opentable.com/widget/reservation/loader?rid=12345&type=standard https://maker.bigcartel.com/ ' +
+    'https://www.vagaro.com/resources/WidgetEmbeddedLoader/abc https://booksy.com/widget/code.js?id=5';
+  const ids = findProviderLinks(text).map((x) => x.id).sort();
+  assert.deepEqual(ids, ['bigcartel', 'housecallpro', 'jobber', 'moego', 'opentable', 'wellnessliving']);
+  assert.equal(findProviderLinks(text).find((x) => x.id === 'opentable').url, 'https://www.opentable.com/restref/client/?rid=12345');
+  assert.deepEqual(detectStack('<script src="https://app.ecwid.com/script.js?123"></script><link href="https://static1.squarespace.com/x.css">'), ['squarespace', 'ecwid']);
+});

@@ -9,7 +9,7 @@
 // Providers we recognize in a site's HTML or links, and what they mean.
 // kind: 'order' (food pickup/delivery), 'book' (appointments), 'shop' (retail cart).
 export const PROVIDERS = [
-  { id: 'toast', label: 'Toast', kind: 'order', re: /https?:\/\/(?:www\.|order\.)?toasttab\.com\/(?!login|signup|egiftcards|restaurants\/?["'\s<])[^\s"'<>)]+/i },
+  { id: 'toast', label: 'Toast', kind: 'order', re: /https?:\/\/[a-z0-9-]+\.toast\.site\/order[^\s"'<>)]*|https?:\/\/(?:www\.|order\.)?toasttab\.com\/(?!login|signup|egiftcards|restaurants\/?["'\s<])[^\s"'<>)]+/i },
   { id: 'square-order', label: 'Square Online', kind: 'order', re: /https?:\/\/[a-z0-9-]+\.square\.site[^\s"'<>)]*|https?:\/\/squareup\.com\/store\/[^\s"'<>)]+/i },
   { id: 'clover', label: 'Clover', kind: 'order', re: /https?:\/\/(?:www\.)?clover\.com\/online-ordering\/[^\s"'<>)]+/i },
   { id: 'chownow', label: 'ChowNow', kind: 'order', re: /https?:\/\/(?:direct\.|order\.|ordering\.)?chownow\.com\/order\/[^\s"'<>)]+/i },
@@ -23,7 +23,7 @@ export const PROVIDERS = [
   { id: 'hungerrush', label: 'HungerRush', kind: 'order', re: /https?:\/\/[a-z0-9-]+\.hungerrush\.com[^\s"'<>)]*/i },
   { id: 'menusifu', label: 'Online ordering', kind: 'order', re: /https?:\/\/(?!www\.|website-cdn\.)[a-z0-9-]+\.(?:menusifu|ordering\.app|orderspoon|beyondmenu)\.com[^\s"'<>)]*/i },
   { id: 'vagaro', label: 'Vagaro', kind: 'book', re: /https?:\/\/(?:www\.)?vagaro\.com\/[^\s"'<>)]+/i },
-  { id: 'booksy', label: 'Booksy', kind: 'book', re: /https?:\/\/booksy\.com\/[^\s"'<>)]+/i },
+  { id: 'booksy', label: 'Booksy', kind: 'book', re: /https?:\/\/(?:booksy\.com\/[^\s"'<>)]+|[a-z0-9-]+\.booksy\.com\/?[^\s"'<>)]*)/i },
   { id: 'square-book', label: 'Square Appointments', kind: 'book', re: /https?:\/\/(?:[a-z]+\.)?squareup\.com\/appointments\/[^\s"'<>)]+/i },
   { id: 'fresha', label: 'Fresha', kind: 'book', re: /https?:\/\/(?:www\.)?fresha\.com\/[^\s"'<>)]+/i },
   { id: 'glossgenius', label: 'GlossGenius', kind: 'book', re: /https?:\/\/[a-z0-9-]+\.glossgenius\.com[^\s"'<>)]*/i },
@@ -84,9 +84,11 @@ export const PROVIDERS = [
   { id: 'walla', label: 'Walla', kind: 'book', re: /https?:\/\/[a-z0-9-]+\.hellowalla\.com[^\s"'<>)]*/i },
   { id: 'arketa', label: 'Arketa', kind: 'book', re: /https?:\/\/app\.arketa\.co\/[^\s"'<>)]+/i },
   { id: 'teamup', label: 'TeamUp', kind: 'book', re: /https?:\/\/goteamup\.com\/p\/[^\s"'<>)]+/i },
-  { id: 'jackrabbit', label: 'Jackrabbit', kind: 'book', re: /https?:\/\/app\.jackrabbitclass\.com\/(?:regv2|jr3\.0\/Openings)[^\s"'<>)]*/i },
+  { id: 'jackrabbit', label: 'Jackrabbit', kind: 'book', re: /https?:\/\/app\d*\.jackrabbitclass\.com\/(?:regv2|jr3\.0\/Openings)[^\s"'<>)]*/i },
   { id: 'sawyer', label: 'Sawyer', kind: 'book', re: /https?:\/\/(?:www\.)?hisawyer\.com\/[^\s"'<>)]+/i },
   { id: 'amilia', label: 'Amilia', kind: 'book', re: /https?:\/\/app\.amilia\.com\/store\/[^\s"'<>)]+/i },
+  { id: 'gocheckin', label: 'GoCheckin', kind: 'book', re: /https?:\/\/booking\.gocheckin\.net\/[^\s"'<>)]+/i },
+  { id: 'vagaro-site', label: 'Vagaro', kind: 'book', re: /https?:\/\/mysite\.vagaro\.com\/[^\s"'<>)]+/i },
   { id: 'appointy', label: 'Appointy', kind: 'book', re: /https?:\/\/booking\.appointy\.com\/[^\s"'<>)]+/i },
   { id: 'youcanbookme', label: 'YouCanBook.me', kind: 'book', re: /https?:\/\/[a-z0-9-]+\.youcanbook\.me[^\s"'<>)]*/i },
   { id: 'tidycal', label: 'TidyCal', kind: 'book', re: /https?:\/\/tidycal\.com\/[^\s"'<>)]+/i },

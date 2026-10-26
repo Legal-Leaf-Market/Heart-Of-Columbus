@@ -96,7 +96,7 @@ export async function probeDeep(slug) {
   const own = findOwnPages(home.body, base);
   const stack = new Set(detectStack(home.body, home.headers));
   const urls = new Set(addresses(home.body, base));
-  const out = { slug, ok: true, origin, platform: detectPlatform(home.body), links: [], own: {}, pages: [] };
+  const out = { slug, ok: true, origin, final: base, platform: detectPlatform(home.body), links: [], own: {}, pages: [] };
   const gift0 = findGiftLinks(home.body, base);
   if (gift0) out.gift = gift0;
   const list = candidates(home.body, base);
@@ -137,6 +137,14 @@ async function worker() {
   }
 }
 await Promise.all(Array.from({ length: 16 }, worker));
+// Second pass, slowly, for sites that were busy or timed out the first time.
+const RETRY = /unreachable (?:0|429|5\d\d|This operation|UND_ERR|ECONNRESET|EAI_AGAIN|fetch failed)/;
+const again = results.filter((r) => !r.ok && RETRY.test(r.reason || '') && !/facebook\.com/.test(r.origin || ''));
+console.log('retrying', again.length);
+for (const r of again) {
+  await new Promise((ok) => setTimeout(ok, 1500));
+  try { const x = await probeDeep(r.slug); if (x.ok) results[results.indexOf(r)] = x; } catch { /* keep the first answer */ }
+}
 results.sort((a, b) => a.slug.localeCompare(b.slug));
 writeFileSync(OUT, JSON.stringify(results, null, 0).replace(/\},\{"slug"/g, '},\n{"slug"') + '\n');
 const tally = {};
