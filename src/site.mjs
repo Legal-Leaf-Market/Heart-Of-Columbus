@@ -172,8 +172,13 @@ export const rail = (title, href, items, { kicker = '', id = '', openOnly = fals
     : '';
 
 // Tiny index the header search and explore page load from /data/directory.json.
+// A type that is really a category label ("Coffee, Bakeries & Sweets") says
+// nothing about the place itself, so search ranks it below a specific one
+// ("Coffee shop"). `g` marks it. It only ever lowers a score; it hides nothing.
+const genericType = (b) => b.featured || /, [^,]+ & /.test(b.type);
 export const searchIndex = () =>
   directory.map((b) => ({
+    ...(genericType(b) ? { g: 1 } : {}),
     s: b.slug, n: b.name, c: b.cat, u: b.sub, y: b.featured ? subBySlug[b.sub].label : b.type, a: b.address,
     r: b.area, p: b.phone, l: b.ll, d: b.demo ? 1 : 0, h: b.heritage ? 1 : 0, e: subBySlug[b.sub].emoji,
     o: b.order.length ? 1 : 0, k: b.book.length ? 1 : 0, f: b.feed || b.store ? 1 : 0,

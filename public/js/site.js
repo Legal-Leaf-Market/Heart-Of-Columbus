@@ -23,14 +23,54 @@
     return String(s || '').toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '')
       .replace(/['’]/g, '').replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, ' ').trim();
   };
-  var ALIAS = { street: 'st', avenue: 'ave', road: 'rd', tacos: 'taco', haircut: 'barber', mechanic: 'auto', vet: 'animal', boba: 'tea', donut: 'donut', plumbers: 'plumb' };
+  var ALIAS = { street: 'st', avenue: 'ave', road: 'rd', tacos: 'taco', haircuts: 'haircut', mechanic: 'auto', vets: 'vet', boba: 'tea', donut: 'donut', plumbers: 'plumb' };
+  // Query words with aliases applied. Plurals are trimmed for matching
+  // ("tacos" finds "taco"), but kept for ranking, so "Jills" still puts
+  // Jill's Diner ahead of a Jill.
+  var tokens = function (q, keepPlural) {
+    return norm(q).split(' ').filter(Boolean).map(function (w) {
+      w = ALIAS[w] || w;
+      return !keepPlural && w.length > 4 && w.slice(-1) === 's' ? w.slice(0, -1) : w;
+    });
+  };
+  // Every word of the query has to appear somewhere: name, type, address,
+  // category or neighborhood.
+  // Words people search that a listing rarely says: a taqueria never writes
+  // "taco". Each extra word is a real kind of the same thing, not a guess.
+  var SYN = { taco: ['taqueria', 'mexican'], burrito: ['taqueria', 'mexican'], pho: ['vietnamese'], sushi: ['japanese'], haircut: ['barber', 'salon'], vet: ['veterinar', 'animal'] };
+  var hit = function (hay, w) { return hay.indexOf(w) !== -1 || (SYN[w] || []).some(function (x) { return hay.indexOf(x) !== -1; }); };
   window.HoCMatch = function (b, q) {
     var hay = b._h || (b._h = norm([b.n, b.y, b.a, (CAT[b.c] || [''])[0], b.u, b.r].join(' ')));
-    return norm(q).split(' ').filter(Boolean).every(function (w) {
-      w = ALIAS[w] || w;
-      if (w.length > 4 && w.slice(-1) === 's') w = w.slice(0, -1);
-      return hay.indexOf(w) !== -1;
+    return tokens(q).every(function (w) { return hit(hay, w); });
+  };
+  // How well a match fits, so "coffee" puts the coffee shops ahead of the
+  // popcorn maker that only shares a category with them. The name counts
+  // most, then a specific type, then the street or neighborhood, then the
+  // broad category. 0 means no match. Ties keep A to Z.
+  var starts = function (hay, w) { return (' ' + hay).indexOf(' ' + w) !== -1; };
+  window.HoCScore = function (b, q) {
+    if (!window.HoCMatch(b, q)) return 0;
+    var n = b._n || (b._n = norm(b.n.replace(/^the /i, ''))), y = norm(b.y), where = norm([b.a, b.r].join(' ')), qn = tokens(q, true).join(' ');
+    var s = n === qn ? 1000 : n.indexOf(qn) === 0 ? 400 : starts(n, qn) ? 250 : 0;
+    var whole = tokens(q, true);
+    tokens(q).forEach(function (w, i) {
+      if (starts(n, whole[i])) s += 120;
+      else if (starts(n, w)) s += 100;
+      else if (n.indexOf(w) !== -1) s += 70;
+      else if (!b.g && starts(y, w)) s += 60;
+      else if (hit(n, w) || (!b.g && hit(y, w))) s += 50;
+      else if (starts(where, w)) s += 20;
+      else s += 5;
     });
+    return s;
+  };
+  // Matches for q, best first.
+  window.HoCRank = function (list, q) {
+    var name = function (b) { return b.n.replace(/^the /i, ''); };
+    return list.map(function (b) { return [window.HoCScore(b, q), b]; })
+      .filter(function (x) { return x[0] > 0; })
+      .sort(function (a, b) { return b[0] - a[0] || name(a[1]).localeCompare(name(b[1])); })
+      .map(function (x) { return x[1]; });
   };
   var esc = function (s) { return String(s || '').replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
 
@@ -105,7 +145,7 @@
     function render(q) {
       if (!q) { list.hidden = true; return; }
       window.HoCDir().then(function (all) {
-        var hits = all.filter(function (b) { return window.HoCMatch(b, q); });
+        var hits = window.HoCRank(all, q);
         var cats = Object.keys(CAT).filter(function (k) { return norm(CAT[k][0]).indexOf(norm(q)) !== -1; }).slice(0, 2);
         var html = cats.map(function (k) {
           return '<a href="/c/' + k + '/"><span class="ta-e" style="--t:' + CAT[k][2] + '">' + CAT[k][1] + '</span><span><strong>' + esc(CAT[k][0]) + '</strong><small>Browse the category</small></span></a>';

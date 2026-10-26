@@ -251,7 +251,7 @@ ${header(saved ? 'saved' : 'explore')}
       <label class="check"><input type="checkbox" data-ex-online> Order, book or shop online</label>
       <label class="check"><input type="checkbox" data-ex-demo> Storefront demo</label>
       <h2>Sort</h2>
-      <select data-ex-sort aria-label="Sort"><option value="az">A to Z</option><option value="za">Z to A</option><option value="area">By neighborhood</option><option value="near">Nearest to me</option>${saved ? '<option value="walk">Walking order</option>' : ''}</select><p class="fine" data-ex-near-msg hidden></p>
+      <select data-ex-sort aria-label="Sort"><option value="match">Best match</option><option value="az">A to Z</option><option value="za">Z to A</option><option value="area">By neighborhood</option><option value="near">Nearest to me</option>${saved ? '<option value="walk">Walking order</option>' : ''}</select><p class="fine" data-ex-near-msg hidden></p>
     </aside>
     <section class="ex-main">
       <div class="ex-bar"><p data-ex-count aria-live="polite"></p><button type="button" class="pill ex-filters-btn" data-ex-toggle aria-controls="ex-side" aria-expanded="false">Filters</button></div>
@@ -262,7 +262,7 @@ ${header(saved ? 'saved' : 'explore')}
       ${saved ? '<div class="trip-extras" data-trip-extras hidden></div>' : ''}
       <div class="grid" data-ex-grid></div>
       <button type="button" class="btn btn-ghost more-btn" data-ex-more hidden>Show more</button>
-      <div class="empty" data-ex-empty hidden><img src="/art/${saved ? 'empty-saved' : 'empty-search'}.png" alt="" width="180" height="180">${saved ? '<p>Nothing saved yet. Tap the heart on any place to keep it here.</p><a class="btn" href="/explore/">Start exploring</a>' : '<p>Nothing matches those filters.</p>'}</div>
+      <div class="empty" data-ex-empty hidden><img src="/art/${saved ? 'empty-saved' : 'empty-search'}.png" alt="" width="180" height="180">${saved ? '<p>Nothing saved yet. Tap the heart on any place to keep it here.</p><a class="btn" href="/explore/">Start exploring</a>' : '<p data-ex-why>Nothing matches those filters.</p><div class="btns" data-ex-recover></div>'}</div>
     </section>
   </div>
 </main>
