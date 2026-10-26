@@ -7,6 +7,7 @@ import { header, footer, svg, rail, breadcrumbs } from '../site.mjs';
 import { directory } from '../data/directory.mjs';
 import { SMALL_BUSINESS_SATURDAY as SBS } from '../data/holidays.mjs';
 import { eventsSection } from './events.mjs';
+import { spotlightSection } from './spotlight.mjs';
 
 const styles = ['hoc.css'];
 const open = directory.filter((b) => !b.tempClosed);
@@ -39,6 +40,7 @@ ${gifts.length ? `<section class="wrap hol-gifts" id="gift-cards">
   <ul class="hol-list">${gifts.map((b) => `<li><a class="hol-name" href="/b/${b.slug}/">${t(b.name)}</a><span>${esc(b.type)}</span><a class="btn btn-sm" href="${esc(b.gift.url)}" target="_blank" rel="noopener">${svg('heart', 'ic-sm')} Gift cards on ${esc(b.gift.label)}</a></li>`).join('')}</ul>
   <p class="fine">Each link goes to the gift-card page on the business’s own website or its own provider. The money goes to them; we take nothing.</p>
 </section>` : ''}
+${spotlightSection({ kicker: 'Shop small, start here', title: 'In the spotlight this season' })}
 <div id="shop-online">${rail('Shop online, check out on their site', '/order/#stores', online, { kicker: 'From your couch', note: (b) => (b.feed ? 'Live catalog on our site, checkout on theirs' : 'Their own online store') })}</div>
 <div id="downtown">${rail('Gifts downtown', '/n/downtown/', downtown, { kicker: 'Walk Washington Street' })}</div>
 ${rail('Something sweet on the way', '/n/downtown/', treats, { kicker: 'Coffee and sweets downtown' })}

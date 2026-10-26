@@ -7,6 +7,7 @@ import { header, footer, svg, tel, rail, breadcrumbs } from '../site.mjs';
 import { directory } from '../data/directory.mjs';
 import { eventsSection } from './events.mjs';
 import { yourWay } from './trip-pages.mjs';
+import { spotlightSection } from './spotlight.mjs';
 import { eventLd, ORIGIN } from '../jsonld.mjs';
 import { EVENTS } from '../data/events.mjs';
 import { VISITORS_CENTER, TOURS, GETTING_HERE, GETTING_AROUND, SOCIAL_DISTRICT, SRC } from '../data/visit.mjs';
@@ -88,7 +89,8 @@ ${section('call-ahead', '📞', L.ahead.kicker, L.ahead.title, `
   <ul class="vs-facts">${L.ahead.items.map((x) => `<li>${x}</li>`).join('')}</ul>
   <p class="btns"><a class="btn btn-sm" href="/explore/">${esc(L.ahead.open)} ${svg('arrow', 'ic-sm')}</a><a class="btn btn-sm btn-ghost" href="${SRC.events}" target="_blank" rel="noopener">${esc(L.ahead.calendar)}</a></p>`)}
 </div>
-${es ? yourWay({ lang: 'es' }) : `${yourWay()}
+${es ? yourWay({ lang: 'es' }) : `${spotlightSection({ kicker: 'While you’re in town', title: 'Three local places we’d send a friend' })}
+${yourWay()}
 ${eventsSection({ mode: 'upcoming', id: 'whats-on', title: 'What’s on', kicker: 'Signature events' })}
 ${rail('Social District businesses on our list', '/n/downtown/#social-district', directory.filter((b) => b.dora), { kicker: 'Drinks to go downtown, 21 and up' })}`}
 </main>

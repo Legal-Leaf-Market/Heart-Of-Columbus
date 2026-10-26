@@ -5,6 +5,7 @@ import { breadcrumbLd } from './jsonld.mjs';
 import { UI as ES, CATEGORY as ES_CAT } from './i18n/es.mjs';
 import { CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, directory } from './data/directory.mjs';
 import { LANDMARKS } from './data/landmarks.mjs';
+import { SPOTLIGHT_SLUGS } from './data/spotlight.mjs';
 
 // Cover art for a business type, only when public/art has one for it;
 // otherwise the card shows its emoji on the pattern.
@@ -120,6 +121,7 @@ export function card(b, { compact = false, note = '' } = {}) {
   const area = areaBySlug[b.area];
   const pat = PATTERNS[hash(b.slug) % PATTERNS.length];
   const tags = [];
+  if (SPOTLIGHT_SLUGS.has(b.slug)) tags.push('<span class="tag tag-spot">★ Spotlight</span>');
   if (b.order.length) tags.push('<span class="tag tag-go">Order online</span>');
   if (b.book.length) tags.push('<span class="tag tag-go">Book online</span>');
   if (b.feed || b.store) tags.push('<span class="tag tag-go">Shop online</span>');
