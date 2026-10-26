@@ -29,6 +29,8 @@ Indiana. A pitch, not a live service. See README.md.
   `/b/<slug>/` one page per business, `/explore/`, `/saved/`, `/order/`,
   `/visit/` (facts in `src/data/visit.mjs`, each with `source` and `checked`), `/free/` (`src/data/free.mjs`, same rule), `/holidays/` (Small Business Saturday,
   gift cards on each business's own page via `gift` in commerce.mjs),
+  `/film/` (the Columbus (2017) film trail, `src/data/film.mjs`: landmarks a
+  cited source places in the film, nothing else),
   `/l/<slug>/` one page per landmark (`src/data/landmarks.mjs`; `PHOTOS` in
   `src/site.mjs` is a view over it). Events are hand-entered in
   `src/data/events.mjs` (signature events only, each with its official page);
@@ -39,7 +41,7 @@ Indiana. A pitch, not a live service. See README.md.
   `public/art/pin-*.png`, this weekend's events, Social District) and a
   "near me now" mode at `/explore/?view=map&now=1`.
   Directory pages use plain CSS in `public/css/hoc.css`, not Tailwind.
-- Spanish: `/es/visit/`, `/es/free/`, `/es/l/<slug>/` and `/es/trips/<slug>/` from
+- Spanish: `/es/visit/`, `/es/free/`, `/es/film/`, `/es/holidays/`, `/es/l/<slug>/` and `/es/trips/<slug>/` from
   the same templates, strings and fact translations
   in `src/i18n/es.mjs` (a test fails if any sourced line on them has no Spanish).
   `header(active, { lang, alt })` and `footer({ lang })` switch the chrome;
