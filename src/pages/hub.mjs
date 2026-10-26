@@ -42,7 +42,7 @@ ${header()}
 
 <section class="hero">
   <div class="hero-float" aria-hidden="true">
-    ${[['arch', 1], ['spire', 2], ['gear', 3], ['bridge', 4], ['courthouse', 5], ['firestation', 6], ['tree', 7], ['sparkle-1', 8], ['sparkle-2', 9], ['sparkle-3', 10]]
+    ${[['spire', 2], ['courthouse', 6]]
       .map(([n, i]) => `<img class="fl fl-${i}" src="/art/float-${n}.png" alt="" onerror="this.remove()">`).join('')}
   </div>
   <div class="wrap hero-grid">

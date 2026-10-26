@@ -50,7 +50,7 @@ const icon = {
 export const svg = (k, cls = 'ic') =>
   `<svg viewBox="0 0 24 24" class="${cls}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icon[k]}</svg>`;
 
-const heartLogo = `<svg viewBox="0 0 32 32" class="logo-mark" aria-hidden="true"><path d="M16 28S3 20.2 3 11.6A6.6 6.6 0 0 1 16 8.4a6.6 6.6 0 0 1 13 3.2C29 20.2 16 28 16 28z" fill="var(--brand)" stroke="var(--ink)" stroke-width="2"/><path d="M9 12.5h14M11 16.5h10M13 20.5h6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>`;
+const heartLogo = `<svg viewBox="0 0 32 32" class="logo-mark" aria-hidden="true"><path fill="var(--brand)" fill-rule="evenodd" d="M16 29C13 26 3 19 3 11C3 3 12 1 16 8C20 1 29 3 29 11C29 19 19 26 16 29Z M11 23V15C11 8 21 8 21 15V23L18 26V15C18 12 14 12 14 15V26Z"/></svg>`;
 
 export const tel = (p) => 'tel:+1' + p.replace(/\D/g, '');
 export const mapsLink = (b) =>
@@ -92,9 +92,10 @@ export function header(active = '', { lang = 'en', alt = '' } = {}) {
 </header>`;
 }
 
-// Category art from /art/ when it exists, with the emoji as the fallback.
+// Category icon: one line drawing per category (public/art/icon-<slug>.svg),
+// with the emoji as the fallback if the file is missing.
 export const artIcon = (slug, emoji, cls) =>
-  `<span class="${cls}" aria-hidden="true"><img width="512" height="512" decoding="async" src="/art/cat-${slug}.png" alt="" loading="lazy" onerror="this.remove()"><i>${emoji}</i></span>`;
+  `<span class="${cls}" aria-hidden="true"><img width="24" height="24" decoding="async" src="/art/icon-${slug}.svg" alt="" loading="lazy" onerror="this.remove()"><i>${emoji}</i></span>`;
 
 export function footer({ lang = 'en' } = {}) {
   const es = lang === 'es';
