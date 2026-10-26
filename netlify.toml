@@ -6,6 +6,10 @@
 [build.environment]
   NODE_VERSION = "22"
 
+# Deploy previews show the newspaper's News link; production waits for launch.
+[context.deploy-preview.environment]
+  NEWS_LIVE = "1"
+
 [[headers]]
   for = "/fonts/*"
   [headers.values]

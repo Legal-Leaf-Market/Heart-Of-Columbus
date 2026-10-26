@@ -27,6 +27,8 @@ import { sportsPages } from './src/pages/sports-pages.mjs';
 import { helpPages } from './src/pages/help-pages.mjs';
 import { historyPages, articlesJson } from './src/pages/history-pages.mjs';
 import { searchIndex } from './src/site.mjs';
+import { newsPages } from './src/pages/news-pages.mjs';
+import { cmsConfig } from './src/news/cms.mjs';
 import { dashes } from './src/visible.mjs';
 
 const root = new URL('./', import.meta.url);
@@ -67,6 +69,7 @@ const pages = [
   ...filmPages({ assets }),
   ...guidePages({ assets }),
   ...holidayPages({ assets }),
+  ...newsPages({ assets }),
   ...calendarPages({ assets }),
   ...paperPages({ assets }),
   ...sportsPages({ assets }),
@@ -77,6 +80,8 @@ const pages = [
 await mkdir(new URL('data/', out), { recursive: true });
 await writeFile(new URL('data/directory.json', out), JSON.stringify(searchIndex()));
 await writeFile(new URL('events.ics', out), icsFeed());
+await mkdir(new URL('admin/', out), { recursive: true });
+await writeFile(new URL('admin/config.yml', out), cmsConfig());
 await mkdir(new URL('history/', out), { recursive: true });
 await writeFile(new URL('history/articles.json', out), articlesJson());
 for (const p of pages) {
