@@ -10,7 +10,12 @@ import { directory } from '../src/data/directory.mjs';
 const bySlug = {};
 for (const file of process.argv.slice(2)) {
   const raw = JSON.parse(readFileSync(file, 'utf8'));
-  for (const p of Array.isArray(raw) ? raw : Object.values(raw)) if (p.ok || !bySlug[p.slug]) bySlug[p.slug] = p;
+  for (const p of Array.isArray(raw) ? raw : Object.values(raw)) {
+    const was = bySlug[p.slug];
+    // A catalog that answered once and was busy the next time still counts.
+    if (p.ok && was && was.ok && was.platform === p.platform && was.products > 0 && !(p.products > 0)) p.products = was.products;
+    if (p.ok || !was) bySlug[p.slug] = p;
+  }
 }
 const probes = Object.values(bySlug);
 const catOf = Object.fromEntries(directory.map((b) => [b.slug, b.cat]));
@@ -50,6 +55,17 @@ for (const slug of new Set([...Object.keys(WEB), ...Object.keys(bySlug)])) {
     if (/order|menu/.test(path)) push(order, host(url), url);
     else if (/book|appoint|schedul|reserv|request/.test(path) || /book|appoint|schedul|reserv/.test(host(url))) push(book, host(url), url);
   }
+  // The site's own booking page, when its address says it books online
+  // (Wix Bookings lives at /book-online). Contact pages don't count.
+  if (!book.length && p.ok && p.own && p.own.bookPage) {
+    const bp = (() => { try { return new URL(p.own.bookPage).pathname.toLowerCase(); } catch { return ''; } })();
+    if (/^\/(?:[a-z0-9-]+\/)?book-online\/?$/.test(bp) && /^wix/.test(p.platform)) push(book, 'Wix Bookings', p.own.bookPage);
+    else if (/(?:^|\/|-)(?:booking|book-?online|schedule-?online|online-?(?:booking|scheduling)|book-?now|book-?(?:an-)?appointment|make-?(?:an-)?appointment|schedule-?(?:an-)?appointment|appointments?|reservations?|reserve-your-spot)(?:\.html|\.php)?\/?$/.test(bp) && !/contact|privacy|blog|news|collections\/|compensation/.test(bp)) push(book, /request/.test(bp) ? 'appointment request' : 'online booking', p.own.bookPage);
+  }
+  // A restaurant's own ordering page on its own site (its own cart, or a
+  // POS widget we don't fingerprint): the page whose address is just "order".
+  const op = (() => { try { return new URL(p.own && p.own.orderPage).pathname.toLowerCase(); } catch { return ''; } })();
+  if (!order.length && p.ok && FOOD.has(catOf[slug]) && /^\/(?:order|order-?online|online-?order(?:ing)?|order-?now)(?:\.php|\.html)?\/?$/.test(op)) push(order, 'online ordering', p.own.orderPage);
   const cat = catOf[slug];
   // A website that now redirects to a different domain (sold, lapsed) is not
   // the business's store, whatever it sells.
@@ -76,6 +92,8 @@ for (const slug of new Set([...Object.keys(WEB), ...Object.keys(bySlug)])) {
     else if (RETAIL.has(cat) && ['shopify', 'bigcommerce'].includes(p.platform)) store = store || p.origin;
     else if (['shopping', 'pets', 'kids'].includes(cat) && p.platform === 'square-online') store = store || p.origin;
   }
+  // A shop whose own site has a working cart page sells on it.
+  if (!feed && !store && p.ok && ['shopping', 'pets', 'kids'].includes(cat) && (p.pages || []).some((x) => /^\/(?:checkout\/)?cart\/?$/.test(x))) store = p.origin;
   // A shop that runs its cart on a separate own-engine store (Big Cartel,
   // Ecwid, a Shopify store on another address) gets that store as its link.
   if (!feed && !store && RETAIL.has(cat) && shopLinks.length && !(p.platform === 'shopify' && p.ok)) store = shopLinks[0].url.replace(/\/(?:cart|checkout|account)(?:[/?#].*)?$/, '');

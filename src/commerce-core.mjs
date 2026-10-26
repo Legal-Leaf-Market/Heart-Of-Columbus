@@ -55,7 +55,7 @@ export const PROVIDERS = [
   { id: 'foodtec', label: 'FoodTec', kind: 'order', re: /https?:\/\/[a-z0-9-]+\.foodtecsolutions\.com[^\s"'<>)]*/i },
   { id: 'brygid', label: 'Brygid', kind: 'order', re: /https?:\/\/[a-z0-9-]+\.brygid\.online[^\s"'<>)]*/i },
   { id: 'popmenu-order', label: 'Popmenu', kind: 'order', re: /https?:\/\/[a-z0-9-]+\.popmenu\.com\/[^\s"'<>)]*order[^\s"'<>)]*/i },
-  { id: 'imenu360', label: 'iMenu360', kind: 'order', re: /https?:\/\/[a-z0-9-]+\.imenu360\.com[^\s"'<>)]*/i },
+  { id: 'imenu360', label: 'iMenu360', kind: 'order', re: /https?:\/\/(?!restadmin\.)[a-z0-9-]+\.imenu360\.com[^\s"'<>)]*/i },
   { id: 'housecallpro', label: 'Housecall Pro', kind: 'book', re: /https?:\/\/book\.housecallpro\.com\/book\/[^\s"'<>)]+/i },
   { id: 'jobber', label: 'Jobber', kind: 'book', re: /https?:\/\/clienthub\.getjobber\.com\/(?:booking|client_hubs)\/[^\s"'<>)]+/i },
   { id: 'workiz', label: 'Workiz', kind: 'book', re: /https?:\/\/online-booking\.workiz\.com\/[^\s"'<>)]+/i },
