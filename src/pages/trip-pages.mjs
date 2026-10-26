@@ -6,7 +6,7 @@ import { header, footer, svg, breadcrumbs } from '../site.mjs';
 import { directory, km, subBySlug } from '../data/directory.mjs';
 import { landmarkBySlug } from '../data/landmarks.mjs';
 import { TRIPS } from '../data/trips.mjs';
-import { fmtRange, DAY_NAMES } from '../hours.mjs';
+import { DAY_NAMES } from '../hours.mjs';
 import { walkMin } from './landmark-pages.mjs';
 import { itemListLd, ORIGIN } from '../jsonld.mjs';
 import { PAGES as ES, FACTS, REVIEW_NOTE } from '../i18n/es.mjs';
@@ -31,7 +31,7 @@ export const coveringRow = (rows, d, from, to) => (rows || []).find((r) => r[0] 
 const EN = {
   kicker: (day) => `A ${day} in Columbus`, crumb: 'Columbus your way', openList: 'Open as a list and map', saveAll: 'Save every stop',
   landmark: 'Landmark', to: 'to',
-  open: (range, day) => `Open ${range} on ${day}s`, orders: 'Orders pickup online', original: 'Columbus original',
+  open: (a, b, day) => `Open ${a} to ${b} on ${day}s`, orders: 'Orders pickup online', original: 'Columbus original',
   dora: 'Social District: drinks to go', street: 'Seen from the street, free', walk: (n, from) => `About ${n} min walk from ${from} (estimate)`,
   foot: 'Built from the listings on this site: hours from each business’s Google listing (October 2026), landmark facts from their cited sources. Walking times are straight-line estimates. Hours change; call ahead. We are not affiliated with these businesses.',
   more: 'More ways to spend a day', yourWay: 'Columbus your way', ideas: 'Trip ideas', stops: 'stops',
@@ -46,7 +46,8 @@ function reasons(s, from, prev, day, lang = 'en') {
   const L = strings(lang), out = [];
   if (s.kind === 'business') {
     const row = coveringRow(s.b.hours, day, from, from);
-    if (row) out.push(L.open(fmtRange(row[1], row[2]), dayName(lang, day)));
+    // Spelled out ("4 PM to 9 PM"), never with a dash.
+    if (row) out.push(L.open(fmt(row[1]), fmt(row[2]), dayName(lang, day)));
     if (s.b.order.length) out.push(L.orders);
     if (s.b.heritage) out.push(L.original);
     if (s.b.dora) out.push(L.dora);

@@ -13,8 +13,15 @@ import { landmarkPages } from './src/pages/landmark-pages.mjs';
 import { icsFeed } from './src/pages/events.mjs';
 import { ORIGIN } from './src/jsonld.mjs';
 import { holidayPages } from './src/pages/holiday-pages.mjs';
+import { filmPages } from './src/pages/film-pages.mjs';
 import { freePages } from './src/pages/free-pages.mjs';
+import { guidePages } from './src/pages/guide-pages.mjs';
+import { djPages } from './src/pages/dj-pages.mjs';
 import { tripPages } from './src/pages/trip-pages.mjs';
+import { calendarPages } from './src/pages/calendar-pages.mjs';
+import { paperPages } from './src/pages/paper-pages.mjs';
+import { sportsPages } from './src/pages/sports-pages.mjs';
+import { helpPages } from './src/pages/help-pages.mjs';
 import { historyPages, articlesJson } from './src/pages/history-pages.mjs';
 import { searchIndex } from './src/site.mjs';
 
@@ -49,7 +56,14 @@ const pages = [
   ...landmarkPages({ assets }),
   ...tripPages({ assets }),
   ...freePages({ assets }),
+  ...djPages({ assets }),
+  ...filmPages({ assets }),
+  ...guidePages({ assets }),
   ...holidayPages({ assets }),
+  ...calendarPages({ assets }),
+  ...paperPages({ assets }),
+  ...sportsPages({ assets }),
+  ...helpPages({ assets }),
   ...historyPages({ assets }),
 ];
 await mkdir(new URL('data/', out), { recursive: true });
@@ -72,6 +86,13 @@ if (process.env.HOC_SITEMAP === '1') {
   console.log(`Sitemap: ${live.length} live pages`);
 }
 
-const emDash = pages.filter((p) => p.html.includes('—')).map((p) => p.path);
-if (emDash.length) { console.error('Em dash found in: ' + emDash.join(', ')); process.exit(1); }
+// No visible dashes (em, en, or a spaced hyphen) in page text or in the
+// alt, title, label and placeholder text a reader sees.
+const visibleText = (html) => {
+  const h = html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<!--[\s\S]*?-->/g, ' ');
+  const attrs = [...h.matchAll(/\s(?:alt|title|placeholder|aria-label|content)="([^"]*)"/g)].map((m) => m[1]);
+  return [h.replace(/<[^>]+>/g, ' '), ...attrs].join(' ');
+};
+const dashed = pages.filter((p) => p.path.endsWith('.html') && /[—–]| - /.test(visibleText(p.html))).map((p) => p.path);
+if (dashed.length) { console.error('Dash found in: ' + dashed.join(', ')); process.exit(1); }
 console.log(`Built dist/: ${pages.length} pages`);
