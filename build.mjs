@@ -16,6 +16,7 @@ import { holidayPages } from './src/pages/holiday-pages.mjs';
 import { freePages } from './src/pages/free-pages.mjs';
 import { tripPages } from './src/pages/trip-pages.mjs';
 import { searchIndex } from './src/site.mjs';
+import { dashes } from './src/visible.mjs';
 
 const root = new URL('./', import.meta.url);
 const out = new URL('dist/', root);
@@ -68,13 +69,14 @@ if (process.env.HOC_SITEMAP === '1') {
   console.log(`Sitemap: ${live.length} live pages`);
 }
 
-// No visible dashes (em, en, or a spaced hyphen) in page text or in the
-// alt, title, label and placeholder text a reader sees.
-const visibleText = (html) => {
-  const h = html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<!--[\s\S]*?-->/g, ' ');
-  const attrs = [...h.matchAll(/\s(?:alt|title|placeholder|aria-label|content)="([^"]*)"/g)].map((m) => m[1]);
-  return [h.replace(/<[^>]+>/g, ' '), ...attrs].join(' ');
-};
-const dashed = pages.filter((p) => p.path.endsWith('.html') && /[—–]| - /.test(visibleText(p.html))).map((p) => p.path);
-if (dashed.length) { console.error('Dash found in: ' + dashed.join(', ')); process.exit(1); }
+// No dashes a person can see: em, en, or a spaced hyphen standing in for one,
+// in page text or alt, title, aria-label, placeholder and meta content
+// (src/visible.mjs). Em dashes are refused anywhere in the page, JSON-LD too.
+const dashed = pages.flatMap((p) => {
+  if (!p.path.endsWith('.html')) return [];
+  const hits = dashes(p.html);
+  if (p.html.includes('—') && !hits.length) hits.push('em dash in markup');
+  return hits.length ? [`${p.path}: "${hits[0]}"${hits.length > 1 ? ` (+${hits.length - 1} more)` : ''}`] : [];
+});
+if (dashed.length) { console.error(`Visible dash on ${dashed.length} page(s). Use a comma, colon, period or "to":\n  ` + dashed.slice(0, 40).join('\n  ')); process.exit(1); }
 console.log(`Built dist/: ${pages.length} pages`);

@@ -46,7 +46,7 @@ function reasons(s, from, prev, day, lang = 'en') {
   const L = strings(lang), out = [];
   if (s.kind === 'business') {
     const row = coveringRow(s.b.hours, day, from, from);
-    if (row) out.push(L.open(fmtRange(row[1], row[2]), dayName(lang, day)));
+    if (row) out.push(L.open(fmtRange(row[1], row[2], lang === 'es' ? ' a ' : ' to '), dayName(lang, day)));
     if (s.b.order.length) out.push(L.orders);
     if (s.b.heritage) out.push(L.original);
     if (s.b.dora) out.push(L.dora);

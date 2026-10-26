@@ -135,7 +135,7 @@ export const PAGES = {
   trip: {
     kicker: (day) => `Un ${day} en Columbus`, crumb: 'Ideas de viaje', openList: 'Abrir como lista y mapa', saveAll: 'Guardar todas las paradas',
     landmark: 'Lugar emblemático', to: 'a',
-    open: (range, day) => `Abierto ${range} los ${day.endsWith('o') ? day + 's' : day}`, orders: 'Pedidos para recoger en línea', original: 'Original de Columbus',
+    open: (range, day) => `Abierto ${/^\d/.test(range) ? 'de ' + range : range} los ${day.endsWith('o') ? day + 's' : day}`, orders: 'Pedidos para recoger en línea', original: 'Original de Columbus',
     dora: 'Distrito Social: bebidas para llevar', street: 'Se ve desde la calle, gratis', walk: (n, from) => `Unos ${n} min a pie desde ${from} (estimación)`,
     foot: 'Hecho con los listados de este sitio: horarios del listado de Google de cada negocio (octubre de 2026), datos de los lugares emblemáticos de sus fuentes citadas. Los tiempos a pie son estimaciones en línea recta. Los horarios cambian; llame antes. No tenemos afiliación con estos negocios.',
     more: 'Más formas de pasar el día', yourWay: 'Columbus a su manera', ideas: 'Ideas de viaje', stops: 'paradas',
