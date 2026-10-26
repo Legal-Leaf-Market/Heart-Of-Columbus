@@ -94,7 +94,7 @@ export const artIcon = (slug, emoji, cls) =>
 export function footer({ lang = 'en' } = {}) {
   const es = lang === 'es';
   const cat = (c) => esc(es ? ES_CAT[c.slug] : c.label);
-  const k = es ? ES.links : { visit: 'Plan your visit', free: 'Free in Columbus', holidays: 'Shop small for the holidays', credits: 'Photo credits', claim: 'Claim your listing', pickup: 'Take pickup orders', direct: 'Order, book and shop direct' };
+  const k = es ? ES.links : { visit: 'Plan your visit', free: 'Free in Columbus', history: 'Columbus history', holidays: 'Shop small for the holidays', credits: 'Photo credits', claim: 'Claim your listing', pickup: 'Take pickup orders', direct: 'Order, book and shop direct' };
   return `
 <footer class="ftr">
   <div class="wrap ftr-grid">
@@ -105,7 +105,7 @@ export function footer({ lang = 'en' } = {}) {
     </div>
     <div><h3>${es ? ES.browse : 'Browse'}</h3>${CATEGORIES.slice(0, 8).map((c) => `<a href="/c/${c.slug}/">${cat(c)}</a>`).join('')}</div>
     <div><h3>${es ? ES.more : 'More'}</h3>${CATEGORIES.slice(8).map((c) => `<a href="/c/${c.slug}/">${cat(c)}</a>`).join('')}</div>
-    <div><h3>${es ? ES.aroundTown : 'Around town'}</h3>${AREAS.slice(0, 7).map((a) => `<a href="/n/${a.slug}/">${esc(a.label)}</a>`).join('')}<a href="${es ? '/es/visit/' : '/visit/'}">${k.visit}</a><a href="${es ? '/es/free/' : '/free/'}">${k.free}</a><a href="/holidays/">${k.holidays}</a><a href="/credits/">${k.credits}</a></div>
+    <div><h3>${es ? ES.aroundTown : 'Around town'}</h3>${AREAS.slice(0, 7).map((a) => `<a href="/n/${a.slug}/">${esc(a.label)}</a>`).join('')}<a href="${es ? '/es/visit/' : '/visit/'}">${k.visit}</a><a href="${es ? '/es/free/' : '/free/'}">${k.free}</a><a href="/history/">${k.history}</a><a href="/holidays/">${k.holidays}</a><a href="/credits/">${k.credits}</a></div>
     <div><h3>${es ? ES.owners : 'Owners'}</h3><a href="/owners/">${k.claim}</a><a href="/owners/#claim">${k.pickup}</a><a href="/order/">${k.direct}</a></div>
   </div>
 </footer>`;
