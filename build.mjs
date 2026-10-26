@@ -15,6 +15,7 @@ import { finalizeSeo, robotsTxt, sitemapXml } from './src/seo.mjs';
 import { prepareImages, responsiveImages } from './scripts/images.mjs';
 import { holidayPages } from './src/pages/holiday-pages.mjs';
 import { filmPages } from './src/pages/film-pages.mjs';
+import { skatePages } from './src/pages/skate-pages.mjs';
 import { freePages } from './src/pages/free-pages.mjs';
 import { guidePages } from './src/pages/guide-pages.mjs';
 import { djPages } from './src/pages/dj-pages.mjs';
@@ -68,6 +69,7 @@ const pages = [
   ...sportsPages({ assets }),
   ...helpPages({ assets }),
   ...historyPages({ assets }),
+  ...skatePages({ assets }),
 ];
 await mkdir(new URL('data/', out), { recursive: true });
 await writeFile(new URL('data/directory.json', out), JSON.stringify(searchIndex()));

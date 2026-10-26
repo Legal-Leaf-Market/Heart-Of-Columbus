@@ -9,6 +9,7 @@ import { FREE } from '../src/data/free.mjs';
 import { LANDMARKS } from '../src/data/landmarks.mjs';
 import { TRIPS } from '../src/data/trips.mjs';
 import { FILM, FILM_STOPS } from '../src/data/film.mjs';
+import { SKATE_FACTS } from '../src/data/skate.mjs';
 import { SMALL_BUSINESS_SATURDAY } from '../src/data/holidays.mjs';
 import { FACTS, REVIEW_NOTE, UI, CATEGORY, PAGES } from '../src/i18n/es.mjs';
 import { CATEGORIES } from '../src/data/directory.mjs';
@@ -17,10 +18,11 @@ const read = (p) => readFileSync(new URL(`../dist/${p}`, import.meta.url), 'utf8
 const visitFacts = VISIT_SECTIONS.flatMap((s) => s.facts.map((f) => f.text));
 const freeFacts = FREE.flatMap((g) => g.items.flatMap((i) => [i.what, ...(i.more || []).map(([m]) => m)]));
 const filmFacts = [...FILM.facts.map((f) => f.text), ...FILM_STOPS.map((x) => x.line)];
+const skateFacts = SKATE_FACTS.map((f) => f.text);
 const lmFacts = LANDMARKS.flatMap((l) => [l.what, ...(l.note ? [l.note] : [])]);
 
 test('every translated line has Spanish, and no stale translations are left', () => {
-  const en = [...visitFacts, ...freeFacts, ...lmFacts, ...filmFacts, SMALL_BUSINESS_SATURDAY.text];
+  const en = [...visitFacts, ...freeFacts, ...lmFacts, ...filmFacts, ...skateFacts, SMALL_BUSINESS_SATURDAY.text];
   for (const x of en) assert.ok(FACTS[x], `missing Spanish for: ${x}`);
   for (const k of Object.keys(FACTS)) assert.ok(en.includes(k), `no longer on any page: ${k}`);
   for (const c of CATEGORIES) assert.ok(CATEGORY[c.slug], c.slug);
@@ -32,6 +34,7 @@ const pairs = [
   ['visit/', visitFacts],
   ['free/', freeFacts],
   ['film/', filmFacts],
+  ['skate/', skateFacts],
   ['holidays/', [SMALL_BUSINESS_SATURDAY.text]],
   ...LANDMARKS.map((l) => [`l/${l.slug}/`, [l.what]]),
   ...TRIPS.map((tr) => [`trips/${tr.slug}/`, []]),
