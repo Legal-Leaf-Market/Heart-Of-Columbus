@@ -71,6 +71,19 @@
     if (!down.length) return '';
     return ' Couldn’t reach ' + down.map(function (s) { var x = srcBy[s.id]; return '<a href="' + esc(x.calendar) + '" target="_blank" rel="noopener">the ' + esc(x.short.toLowerCase()) + ' calendar</a>'; }).join(' or ') + ' just now, so check it directly.';
   }
+  // What the calendars listed that is not open to the public, counted for the
+  // same days and calendars as the list, with closures named as venue notices.
+  var LEFT = { private: ['private booking', 'private bookings'], practice: ['team practice', 'team practices'], closed: ['facility notice', 'facility notices'] };
+  function leftOut(data, w) {
+    var rows = (data.left || []).filter(function (x) { return x.date >= w[0] && x.date <= w[1] && state.src.indexOf(x.src) >= 0; });
+    if (!rows.length) return '';
+    var n = {};
+    rows.forEach(function (x) { n[x.access] = (n[x.access] || 0) + 1; });
+    var parts = Object.keys(LEFT).filter(function (k) { return n[k]; }).map(function (k) { return n[k] + ' ' + LEFT[k][n[k] === 1 ? 0 : 1]; });
+    var closed = rows.filter(function (x) { return x.access === 'closed'; });
+    return ' <span class="cal-left">Not listed: ' + esc(parts.join(', ')) + ', which aren’t open to drop in.' +
+      (closed.length ? ' <details class="cal-notices"><summary>Venue notices</summary><ul>' + closed.map(function (x) { return '<li>' + esc(md(x.date, MON)) + ': ' + esc(x.title) + (x.venue ? ', ' + esc(x.venue) : '') + '</li>'; }).join('') + '</ul></details>' : '') + '</span>';
+  }
   function exportLinks(from, days) {
     $$('[data-cal-export]').forEach(function (a) {
       var q = 'format=' + a.getAttribute('data-cal-export') + '&from=' + from + '&days=' + days;
@@ -128,7 +141,7 @@
           }).join('') + '</section>';
         }).join('');
         var n = list.length;
-        statusEl.innerHTML = (n ? n + (n === 1 ? ' event' : ' events') : 'Nothing matches') + ', ' + esc(w[0] === w[1] ? md(w[0], MON) : md(w[0], MON) + ' to ' + md(w[1], MON)) + '.' + trouble(data);
+        statusEl.innerHTML = (n ? n + (n === 1 ? ' event' : ' events') : 'Nothing matches') + ', ' + esc(w[0] === w[1] ? md(w[0], MON) : md(w[0], MON) + ' to ' + md(w[1], MON)) + '.' + trouble(data) + leftOut(data, w);
       });
     };
     $$('[data-range]').forEach(function (b) { b.addEventListener('click', function () { state.range = b.getAttribute('data-range'); render(); }); });
