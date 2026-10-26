@@ -9,7 +9,7 @@
 // Providers we recognize in a site's HTML or links, and what they mean.
 // kind: 'order' (food pickup/delivery), 'book' (appointments), 'shop' (retail cart).
 export const PROVIDERS = [
-  { id: 'toast', label: 'Toast', kind: 'order', re: /https?:\/\/(?:www\.|order\.)?toasttab\.com\/(?!login|signup|egiftcards|restaurants\/?["'\s<])[^\s"'<>)]+/i },
+  { id: 'toast', label: 'Toast', kind: 'order', re: /https?:\/\/[a-z0-9-]+\.toast\.site\/order[^\s"'<>)]*|https?:\/\/(?:www\.|order\.)?toasttab\.com\/(?!login|signup|egiftcards|restaurants\/?["'\s<])[^\s"'<>)]+/i },
   { id: 'square-order', label: 'Square Online', kind: 'order', re: /https?:\/\/[a-z0-9-]+\.square\.site[^\s"'<>)]*|https?:\/\/squareup\.com\/store\/[^\s"'<>)]+/i },
   { id: 'clover', label: 'Clover', kind: 'order', re: /https?:\/\/(?:www\.)?clover\.com\/online-ordering\/[^\s"'<>)]+/i },
   { id: 'chownow', label: 'ChowNow', kind: 'order', re: /https?:\/\/(?:direct\.|order\.|ordering\.)?chownow\.com\/order\/[^\s"'<>)]+/i },
@@ -23,7 +23,7 @@ export const PROVIDERS = [
   { id: 'hungerrush', label: 'HungerRush', kind: 'order', re: /https?:\/\/[a-z0-9-]+\.hungerrush\.com[^\s"'<>)]*/i },
   { id: 'menusifu', label: 'Online ordering', kind: 'order', re: /https?:\/\/(?!www\.|website-cdn\.)[a-z0-9-]+\.(?:menusifu|ordering\.app|orderspoon|beyondmenu)\.com[^\s"'<>)]*/i },
   { id: 'vagaro', label: 'Vagaro', kind: 'book', re: /https?:\/\/(?:www\.)?vagaro\.com\/[^\s"'<>)]+/i },
-  { id: 'booksy', label: 'Booksy', kind: 'book', re: /https?:\/\/booksy\.com\/[^\s"'<>)]+/i },
+  { id: 'booksy', label: 'Booksy', kind: 'book', re: /https?:\/\/(?:booksy\.com\/[^\s"'<>)]+|[a-z0-9-]+\.booksy\.com\/?[^\s"'<>)]*)/i },
   { id: 'square-book', label: 'Square Appointments', kind: 'book', re: /https?:\/\/(?:[a-z]+\.)?squareup\.com\/appointments\/[^\s"'<>)]+/i },
   { id: 'fresha', label: 'Fresha', kind: 'book', re: /https?:\/\/(?:www\.)?fresha\.com\/[^\s"'<>)]+/i },
   { id: 'glossgenius', label: 'GlossGenius', kind: 'book', re: /https?:\/\/[a-z0-9-]+\.glossgenius\.com[^\s"'<>)]*/i },
@@ -45,6 +45,76 @@ export const PROVIDERS = [
   { id: 'nexhealth', label: 'NexHealth', kind: 'book', re: /https?:\/\/app\.nexhealth\.com\/[^\s"'<>)]+/i },
   { id: 'localmed', label: 'LocalMed', kind: 'book', re: /https?:\/\/(?:www\.)?localmed\.com\/[^\s"'<>)]+/i },
   { id: 'zenoti', label: 'Zenoti', kind: 'book', re: /https?:\/\/[a-z0-9-]+\.zenoti\.com[^\s"'<>)]*/i },
+  { id: 'square-link', label: 'Square', kind: 'order', re: /https?:\/\/(?:square\.link\/u\/|checkout\.square\.site\/(?:merchant|buy)\/)[^\s"'<>)]+/i },
+  { id: 'lunchbox', label: 'Lunchbox', kind: 'order', re: /https?:\/\/[a-z0-9-]+\.lunchbox\.io[^\s"'<>)]*/i },
+  { id: 'upserve', label: 'Upserve', kind: 'order', re: /https?:\/\/app\.upserve\.com\/(?:s|b)\/[^\s"'<>)]+/i },
+  { id: 'revel', label: 'Revel', kind: 'order', re: /https?:\/\/[a-z0-9-]+\.revelup\.com\/weborder[^\s"'<>)]*/i },
+  { id: 'touchbistro', label: 'TouchBistro', kind: 'order', re: /https?:\/\/(?:[a-z0-9-]+\.tbdine\.com|order\.touchbistro\.com\/)[^\s"'<>)]*/i },
+  { id: 'skytab', label: 'SkyTab', kind: 'order', re: /https?:\/\/(?:order|online)\.skytab\.com\/[^\s"'<>)]+/i },
+  { id: 'tapmango', label: 'TapMango', kind: 'order', re: /https?:\/\/[a-z0-9-]+\.tapmango\.com[^\s"'<>)]*/i },
+  { id: 'foodtec', label: 'FoodTec', kind: 'order', re: /https?:\/\/[a-z0-9-]+\.foodtecsolutions\.com[^\s"'<>)]*/i },
+  { id: 'brygid', label: 'Brygid', kind: 'order', re: /https?:\/\/[a-z0-9-]+\.brygid\.online[^\s"'<>)]*/i },
+  { id: 'popmenu-order', label: 'Popmenu', kind: 'order', re: /https?:\/\/[a-z0-9-]+\.popmenu\.com\/[^\s"'<>)]*order[^\s"'<>)]*/i },
+  { id: 'imenu360', label: 'iMenu360', kind: 'order', re: /https?:\/\/(?!restadmin\.)[a-z0-9-]+\.imenu360\.com[^\s"'<>)]*/i },
+  { id: 'housecallpro', label: 'Housecall Pro', kind: 'book', re: /https?:\/\/book\.housecallpro\.com\/book\/[^\s"'<>)]+/i },
+  { id: 'jobber', label: 'Jobber', kind: 'book', re: /https?:\/\/clienthub\.getjobber\.com\/(?:booking|client_hubs)\/[^\s"'<>)]+/i },
+  { id: 'workiz', label: 'Workiz', kind: 'book', re: /https?:\/\/online-booking\.workiz\.com\/[^\s"'<>)]+/i },
+  { id: 'servicetitan', label: 'ServiceTitan', kind: 'book', re: /https?:\/\/[a-z0-9-]+\.servicetitan\.com\/(?:book|schedul)[^\s"'<>)]*/i },
+  { id: 'autovitals', label: 'AutoVitals', kind: 'book', re: /https?:\/\/shop\.autovitals\.com\/RequestAppointment[^\s"'<>)]*/i },
+  { id: 'shopmonkey', label: 'Shopmonkey', kind: 'book', re: /https?:\/\/app\.shopmonkey\.(?:io|cloud)\/[^\s"'<>)]*(?:book|schedul|appoint)[^\s"'<>)]*/i },
+  { id: 'tekmetric', label: 'Tekmetric', kind: 'book', re: /https?:\/\/[a-z0-9-]*\.?tekmetric\.com\/[^\s"'<>)]*(?:book|appoint|schedul)[^\s"'<>)]*/i },
+  { id: 'orbisx', label: 'OrbisX', kind: 'book', re: /https?:\/\/orbisx\.ca\/app\/booknow\/[^\s"'<>)]+/i },
+  { id: 'weave', label: 'Weave', kind: 'book', re: /https?:\/\/book\.getweave\.com\/[^\s"'<>)]+/i },
+  { id: 'healow', label: 'healow', kind: 'book', re: /https?:\/\/healow\.com\/apps\/[^\s"'<>)]+/i },
+  { id: 'vetstoria', label: 'Vetstoria', kind: 'book', re: /https?:\/\/[a-z0-9-]+\.vetstoria\.com[^\s"'<>)]*/i },
+  { id: 'gingr', label: 'Gingr', kind: 'book', re: /https?:\/\/[a-z0-9-]+\.portal\.gingrapp\.com[^\s"'<>)]*/i },
+  { id: 'petexec', label: 'PetExec', kind: 'book', re: /https?:\/\/(?:secure\.)?petexec\.net\/[^\s"'<>)]+/i },
+  { id: 'moego', label: 'MoeGo', kind: 'book', re: /https?:\/\/booking\.moego\.pet\/[^\s"'<>)]+/i },
+  { id: 'squire', label: 'Squire', kind: 'book', re: /https?:\/\/(?:www\.)?getsquire\.com\/(?:booking|discover)\/[^\s"'<>)]+/i },
+  { id: 'meevo', label: 'Meevo', kind: 'book', re: /https?:\/\/[a-z0-9]+\.meevo\.com\/onlinebooking[^\s"'<>)]*/i },
+  { id: 'phorest', label: 'Phorest', kind: 'book', re: /https?:\/\/(?:www\.)?phorest\.com\/book\/[^\s"'<>)]+/i },
+  { id: 'timely', label: 'Timely', kind: 'book', re: /https?:\/\/bookings\.gettimely\.com\/[^\s"'<>)]+/i },
+  { id: 'wellnessliving', label: 'WellnessLiving', kind: 'book', re: /https?:\/\/(?:www\.)?wellnessliving\.com\/(?:rs|schedule|catalog)\/[^\s"'<>)]+/i },
+  { id: 'zenplanner', label: 'Zen Planner', kind: 'book', re: /https?:\/\/[a-z0-9-]+\.sites\.zenplanner\.com[^\s"'<>)]*/i },
+  { id: 'pushpress', label: 'PushPress', kind: 'book', re: /https?:\/\/[a-z0-9-]+\.pushpress\.com[^\s"'<>)]*/i },
+  { id: 'glofox', label: 'Glofox', kind: 'book', re: /https?:\/\/app\.glofox\.com\/portal\/[^\s"'<>)]+/i },
+  { id: 'marianatek', label: 'Mariana Tek', kind: 'book', re: /https?:\/\/[a-z0-9-]+\.marianatek\.com[^\s"'<>)]*/i },
+  { id: 'momence', label: 'Momence', kind: 'book', re: /https?:\/\/(?:www\.)?momence\.com\/(?!sign-in|login)[^\s"'<>)]+/i },
+  { id: 'punchpass', label: 'Punchpass', kind: 'book', re: /https?:\/\/[a-z0-9-]+\.punchpass\.com[^\s"'<>)]*/i },
+  { id: 'walla', label: 'Walla', kind: 'book', re: /https?:\/\/[a-z0-9-]+\.hellowalla\.com[^\s"'<>)]*/i },
+  { id: 'arketa', label: 'Arketa', kind: 'book', re: /https?:\/\/app\.arketa\.co\/[^\s"'<>)]+/i },
+  { id: 'teamup', label: 'TeamUp', kind: 'book', re: /https?:\/\/goteamup\.com\/p\/[^\s"'<>)]+/i },
+  { id: 'jackrabbit', label: 'Jackrabbit', kind: 'book', re: /https?:\/\/app\d*\.jackrabbitclass\.com\/(?:regv2|jr3\.0\/Openings)[^\s"'<>)]*/i },
+  { id: 'sawyer', label: 'Sawyer', kind: 'book', re: /https?:\/\/(?:www\.)?hisawyer\.com\/[^\s"'<>)]+/i },
+  { id: 'amilia', label: 'Amilia', kind: 'book', re: /https?:\/\/app\.amilia\.com\/store\/[^\s"'<>)]+/i },
+  { id: 'gocheckin', label: 'GoCheckin', kind: 'book', re: /https?:\/\/booking\.gocheckin\.net\/[^\s"'<>)]+/i },
+  { id: 'vagaro-site', label: 'Vagaro', kind: 'book', re: /https?:\/\/mysite\.vagaro\.com\/[^\s"'<>)]+/i },
+  { id: 'appointy', label: 'Appointy', kind: 'book', re: /https?:\/\/booking\.appointy\.com\/[^\s"'<>)]+/i },
+  { id: 'youcanbookme', label: 'YouCanBook.me', kind: 'book', re: /https?:\/\/[a-z0-9-]+\.youcanbook\.me[^\s"'<>)]*/i },
+  { id: 'tidycal', label: 'TidyCal', kind: 'book', re: /https?:\/\/tidycal\.com\/[^\s"'<>)]+/i },
+  { id: 'hubspot-meetings', label: 'HubSpot Meetings', kind: 'book', re: /https?:\/\/meetings\.hubspot\.com\/[^\s"'<>)]+/i },
+  { id: 'ms-bookings', label: 'Microsoft Bookings', kind: 'book', re: /https?:\/\/outlook\.office(?:365)?\.com\/(?:owa\/calendar|book)\/[^\s"'<>)]+/i },
+  { id: 'google-appointments', label: 'Google Calendar', kind: 'book', re: /https?:\/\/(?:calendar\.app\.google\/|calendar\.google\.com\/calendar\/(?:u\/\d\/)?appointments\/schedules\/)[^\s"'<>)]+/i },
+  { id: 'bookeo', label: 'Bookeo', kind: 'book', re: /https?:\/\/(?:www\.)?bookeo\.com\/[^\s"'<>)]+/i },
+  { id: 'sevenrooms', label: 'SevenRooms', kind: 'book', re: /https?:\/\/(?:www\.)?sevenrooms\.com\/(?:reservations|explore|landing)\/[^\s"'<>)]+/i },
+  { id: 'fareharbor', label: 'FareHarbor', kind: 'book', re: /https?:\/\/fareharbor\.com\/(?:embeds\/book\/)?[a-z0-9-]+\/[^\s"'<>)]*/i },
+  { id: 'peek', label: 'Peek', kind: 'book', re: /https?:\/\/book\.peek\.com\/[^\s"'<>)]+/i },
+  { id: 'checkfront', label: 'Checkfront', kind: 'book', re: /https?:\/\/[a-z0-9-]+\.checkfront\.com\/reserve[^\s"'<>)]*/i },
+  { id: 'resova', label: 'Resova', kind: 'book', re: /https?:\/\/[a-z0-9-]+\.resova\.(?:us|io|eu)[^\s"'<>)]*/i },
+  { id: 'roller', label: 'ROLLER', kind: 'book', re: /https?:\/\/ecom\.roller\.app\/[^\s"'<>)]+/i },
+  { id: 'cloudbeds', label: 'Cloudbeds', kind: 'book', re: /https?:\/\/hotels\.cloudbeds\.com\/reservation\/[^\s"'<>)]+/i },
+  { id: 'thinkreservations', label: 'ThinkReservations', kind: 'book', re: /https?:\/\/secure\.thinkreservations\.com\/[^\s"'<>)]+/i },
+  { id: 'resnexus', label: 'ResNexus', kind: 'book', re: /https?:\/\/(?:www\.)?resnexus\.com\/resnexus\/reservations\/[^\s"'<>)]+/i },
+  { id: 'lodgify', label: 'Lodgify', kind: 'book', re: /https?:\/\/checkout\.lodgify\.com\/[^\s"'<>)]+/i },
+  { id: 'webrez', label: 'WebRezPro', kind: 'book', re: /https?:\/\/secure\.webrez\.com\/[^\s"'<>)]+/i },
+  { id: 'foreup', label: 'foreUP', kind: 'book', re: /https?:\/\/foreupsoftware\.com\/index\.php\/booking\/[^\s"'<>)]+/i },
+  { id: 'chronogolf', label: 'Chronogolf', kind: 'book', re: /https?:\/\/(?:www\.)?chronogolf\.com\/club\/[^\s"'<>)]+/i },
+  { id: 'teesnap', label: 'Teesnap', kind: 'book', re: /https?:\/\/[a-z0-9-]+\.teesnap\.net[^\s"'<>)]*/i },
+  { id: 'courtreserve', label: 'CourtReserve', kind: 'book', re: /https?:\/\/app\.courtreserve\.com\/Online\/[^\s"'<>)]+/i },
+  { id: 'myshopify', label: 'Shopify', kind: 'shop', re: /https?:\/\/[a-z0-9-]+\.myshopify\.com[^\s"'<>)]*/i },
+  { id: 'bigcartel', label: 'Big Cartel', kind: 'shop', re: /https?:\/\/[a-z0-9-]+\.bigcartel\.com[^\s"'<>)]*/i },
+  { id: 'ecwid', label: 'Ecwid', kind: 'shop', re: /https?:\/\/(?:[a-z0-9-]+\.company\.site|store\d+\.company\.site)[^\s"'<>)]*/i },
+  { id: 'wix-store', label: 'Wix', kind: 'shop', re: /https?:\/\/[a-z0-9-]+\.wixsite\.com\/[^\s"'<>)]*(?:shop|store|product-page)[^\s"'<>)]*/i },
 ];
 
 // Ordering widgets that live inside the business's own page rather than on a
@@ -93,6 +163,90 @@ export function detectPlatform(html) {
   return '';
 }
 
+// Every engine whose fingerprint shows in a page, for the platform report.
+// Builders, cart engines and the ordering, booking and gift systems a site
+// embeds. A fingerprint is only a sign of the software; the links a business
+// gets still come from PROVIDERS and the import rules.
+export const PLATFORM_SIGNS = [
+  ['shopify', /cdn\.shopify\.com|Shopify\.theme|shopify-features|myshopify\.com/i],
+  ['shopify-buy-button', /sdks\.shopifycdn\.com\/buy-button/i],
+  ['woocommerce', /woocommerce|wc-block|wp-content\/plugins\/woocommerce/i],
+  ['bigcommerce', /cdn\d*\.bigcommerce\.com|bigcommerce\.com\/s-|data-stencil/i],
+  ['squarespace', /static1\.squarespace\.com|squarespace-cdn\.com/i],
+  ['squarespace-commerce', /sqs-add-to-cart|ProductItem-details|"storeSettings"/i],
+  ['square-online', /square\.site|squareup\.com\/online|editmysite\.com|weebly\.com/i],
+  ['wix', /wixstatic\.com|static\.parastorage\.com|wix\.com/i],
+  ['wix-stores', /wix-ecommerce|wixstores|"stores-/i],
+  ['wordpress', /wp-content|wp-includes|wordpress/i],
+  ['godaddy', /img1\.wsimg\.com|godaddy/i],
+  ['godaddy-commerce', /wsimg\.com\/[^"']*(?:ola|commerce)|onlinestore\.godaddy/i],
+  ['ecwid', /app\.ecwid\.com|ecwid\.com\/script\.js|company\.site/i],
+  ['bigcartel', /bigcartel\.com|bigcartel\.net/i],
+  ['lightspeed-ecom', /webshopapp\.com|shoplightspeed\.com/i],
+  ['volusion', /volusion\.com|\/v\/vspfiles\//i],
+  ['shift4shop', /3dcartstores\.com|shift4shop/i],
+  ['duda', /dudaone|cdn-website\.com|multiscreensite/i],
+  ['webflow', /webflow\.(?:com|io)|data-wf-site/i],
+  ['weebly', /weebly\.com|editmysite\.com/i],
+  ['joomla', /\/media\/jui\/|joomla/i],
+  ['drupal', /drupal-settings-json|\/sites\/default\/files\//i],
+  ['hibu', /hibu\.com|yodle/i],
+  ['thryv', /thryv/i],
+  ['scorpion', /scorpion\.co|scorpioncms/i],
+  ['clover', /clover\.com\/online-ordering|cloverstatic/i],
+  ['toast', /toasttab\.com/i],
+  ['square-appointments', /squareup\.com\/appointments/i],
+  ['chownow', /chownow\.com/i],
+  ['popmenu', /popmenu\.com|popmenucloud/i],
+  ['bentobox', /getbento\.com/i],
+  ['gloriafood', /fbgcdn\.com\/embedder|data-glf-cuid|foodbooking\.com/i],
+  ['menufy', /menufy\.com/i],
+  ['owner', /\.owner\.com/i],
+  ['spoton', /spoton\.com/i],
+  ['doordash-storefront', /order\.online\//i],
+  ['olo', /\.olo\.com/i],
+  ['slice', /slicelife\.com/i],
+  ['opentable', /opentable\.com/i],
+  ['resy', /resy\.com/i],
+  ['tock', /exploretock\.com/i],
+  ['sevenrooms', /sevenrooms\.com/i],
+  ['vagaro', /vagaro\.com/i],
+  ['booksy', /booksy\.com/i],
+  ['glossgenius', /glossgenius\.com/i],
+  ['fresha', /fresha\.com/i],
+  ['styleseat', /styleseat\.com/i],
+  ['schedulicity', /schedulicity\.com/i],
+  ['mindbody', /mindbodyonline\.com|healcode\.com/i],
+  ['calendly', /calendly\.com/i],
+  ['acuity', /acuityscheduling\.com|\.as\.me\b/i],
+  ['setmore', /setmore\.com/i],
+  ['booking-other', /simplybook\.me|youcanbook\.me|appointy\.com|tidycal\.com|meetings\.hubspot\.com|bookeo\.com|gettimely\.com|phorest\.com|meevo\.com|getsquire\.com/i],
+  ['fitness-booking', /wellnessliving\.com|zenplanner\.com|pushpress\.com|glofox\.com|marianatek\.com|momence\.com|punchpass\.com|hellowalla\.com|wodify\.com|arketa\.co|goteamup\.com/i],
+  ['class-registration', /jackrabbitclass\.com|hisawyer\.com|amilia\.com/i],
+  ['health-booking', /zocdoc\.com|nexhealth\.com|localmed\.com|getweave\.com|healow\.com|janeapp\.com|solutionreach|lighthouse360|patientpop|demandforce/i],
+  ['pet-booking', /petdesk\.com|vetstoria\.com|gingrapp\.com|petexec\.net|moego\.pet/i],
+  ['home-services-booking', /housecallpro\.com|getjobber\.com|servicetitan\.com|workiz\.com|scheduleengine/i],
+  ['auto-booking', /autovitals\.com|shopmonkey\.(?:io|cloud)|tekmetric\.com|orbisx\.ca|mitchell1|myshopmanager/i],
+  ['tours-tickets', /fareharbor\.com|book\.peek\.com|checkfront\.com|resova\.|roller\.app|eventbrite\.com|ludus\.com|showclix\.com|ticketleap/i],
+  ['lodging-booking', /cloudbeds\.com|thinkreservations\.com|resnexus\.com|lodgify\.com|webrez\.com|innroad/i],
+  ['golf-courts', /foreupsoftware\.com|chronogolf\.com|teesnap\.net|courtreserve\.com/i],
+  ['etsy', /etsy\.com\/shop\//i],
+  ['marketplace-delivery', /doordash\.com\/store|grubhub\.com\/restaurant|ubereats\.com\/store|seamless\.com/i],
+];
+export function detectStack(html, headers = {}) {
+  const h = String(html || '') + ' ' + Object.values(headers || {}).join(' ');
+  return PLATFORM_SIGNS.filter(([, re]) => re.test(h)).map(([id]) => id);
+}
+
+// OpenTable's reservation widget names the restaurant only by number; its
+// public booking page takes the same number.
+export function widgetLinks(text) {
+  const out = [];
+  const ot = String(text || '').match(/opentable\.com\/widget\/reservation\/loader\?[^"'\s<>]*\brids?=(\d+)/i);
+  if (ot) out.push({ id: 'opentable', label: 'OpenTable', kind: 'book', url: `https://www.opentable.com/restref/client/?rid=${ot[1]}` });
+  return out;
+}
+
 // HTML-escaped, tracking-tagged URL -> clean URL, or '' for images and the like.
 export function tidyUrl(raw) {
   let u = String(raw || '').replace(/&amp;|&#0?38;/g, '&').replace(/&quot;?.*$|&#0?39;?.*$/, '').replace(/[.,;]+$/, '');
@@ -106,7 +260,7 @@ export function tidyUrl(raw) {
 
 // Provider links that are not a booking page: "powered by" badges, static
 // assets, app downloads, directory pages, other towns' locations.
-const DENY = /static\.glossgenius|vagaro\.com\/pro\b|petdesk\.com\/download|mindbodyonline\.com\/explore|opentable\.com\/(?![^?#]*columbus)|booksy\.com\/en-us\/?$|calendly\.com\/?$/i;
+const DENY = /static\.glossgenius|vagaro\.com\/(?:pro\b|resources|websitebuilder|js\/|images|users\/|signup|login)|booksy\.com\/(?:biz|widget|static)|fareharbor\.com\/(?:embeds\/(?:script|api)|static|help)|momence\.com\/(?:plugin|_next|static)|fresha\.com\/(?:for-business|assets|partners)|squareup\.com\/appointments\/?(?:["'\s]|$)|calendly\.com\/(?:assets|login|signup)|myshopify\.com\/(?:admin|cdn)|(?:www\.)?setmore\.com\/(?:pricing|features)|vagaro\.com\/?$|petdesk\.com\/download|mindbodyonline\.com\/explore|opentable\.com\/(?![^?#]*columbus)|booksy\.com\/en-us\/?$|calendly\.com\/?$/i;
 
 // Every ordering / booking link the site points at, de-duplicated by provider.
 export function findProviderLinks(html, extra = []) {
@@ -116,9 +270,10 @@ export function findProviderLinks(html, extra = []) {
     const re = new RegExp(p.re.source, 'gi');
     for (const m of text.matchAll(re)) {
       const url = tidyUrl(m[0]);
-      if (url && !DENY.test(url)) { out.push({ id: p.id, label: p.label, kind: p.kind, url }); break; }
+      if (url && !DENY.test(url) && !/\.(?:js|css|png|jpe?g|svg|woff2?)(?:[?#]|$)/i.test(url)) { out.push({ id: p.id, label: p.label, kind: p.kind, url }); break; }
     }
   }
+  for (const w of widgetLinks(text)) if (!out.some((x) => x.id === w.id)) out.push(w);
   return out;
 }
 

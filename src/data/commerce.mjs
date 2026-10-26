@@ -5,15 +5,28 @@
 export const COMMERCE = {
  "411-gallery": {
   "platform": "wix-stores",
-  "origin": "https://www.artsincolumbus.org",
+  "stack": [
+   "wix",
+   "wix-stores",
+   "wordpress"
+  ],
+  "origin": "https://www.artsincolumbus.org/",
   "feed": false,
   "store": "",
-  "order": [],
+  "order": [
+   {
+    "label": "Square",
+    "url": "https://square.link/u/NIsc97ej"
+   }
+  ],
   "book": []
  },
  "4th-street-bar-and-grill": {
   "platform": "godaddy",
-  "origin": "https://4thstreetbar.com",
+  "stack": [
+   "godaddy"
+  ],
+  "origin": "https://4thstreetbar.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -21,7 +34,11 @@ export const COMMERCE = {
  },
  "a-step-ahead-pediatric-therapy": {
   "platform": "wix-stores",
-  "origin": "https://www.astepaheadpediatrictherapy.org",
+  "stack": [
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.astepaheadpediatrictherapy.org/",
   "feed": false,
   "store": "",
   "order": [],
@@ -35,14 +52,17 @@ export const COMMERCE = {
   "order": [],
   "book": [
    {
-    "label": "orbisx.ca",
+    "label": "OrbisX",
     "url": "https://orbisx.ca/app/booknow/VSnkj"
    }
   ]
  },
  "accurate-home-inspections": {
   "platform": "wordpress",
-  "origin": "https://www.accuratein.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.accuratein.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -50,7 +70,10 @@ export const COMMERCE = {
  },
  "adaptive-nursing-and-healthcare-services": {
   "platform": "wordpress",
-  "origin": "https://adaptiveindiana.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://adaptiveindiana.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -58,7 +81,11 @@ export const COMMERCE = {
  },
  "administrative-resources-association": {
   "platform": "squarespace-commerce",
-  "origin": "https://www.aracities.org",
+  "stack": [
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://www.aracities.org/",
   "feed": false,
   "store": "",
   "order": [],
@@ -66,20 +93,29 @@ export const COMMERCE = {
  },
  "advanced-auto-care-of-columbus": {
   "platform": "",
-  "origin": "https://www.advancedautocare.co",
+  "stack": [
+   "auto-booking",
+   "duda",
+   "webflow"
+  ],
+  "origin": "https://www.advancedautocare.co/",
   "feed": false,
   "store": "",
   "order": [],
   "book": [
    {
-    "label": "shop.autovitals.com",
+    "label": "AutoVitals",
     "url": "https://shop.autovitals.com/RequestAppointmentShopWebsite.aspx?s=6470"
    }
   ]
  },
  "advanced-business-computing": {
   "platform": "woocommerce",
-  "origin": "https://eazyasabc.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://eazyasabc.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -95,7 +131,10 @@ export const COMMERCE = {
  },
  "advantage-one-graphics": {
   "platform": "wordpress",
-  "origin": "https://advantageone.biz",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://advantageone.biz/",
   "feed": false,
   "store": "",
   "order": [],
@@ -111,7 +150,10 @@ export const COMMERCE = {
  },
  "aesthetic-centre-of-indiana": {
   "platform": "wordpress",
-  "origin": "https://skinsolutionsaci.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://skinsolutionsaci.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -119,7 +161,10 @@ export const COMMERCE = {
  },
  "agresta-storms-and-oleary-llc": {
   "platform": "wordpress",
-  "origin": "https://www.asocpa.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.asocpa.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -127,7 +172,11 @@ export const COMMERCE = {
  },
  "ali-vollmer-design": {
   "platform": "squarespace-commerce",
-  "origin": "https://alivollmerdesign.com",
+  "stack": [
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://alivollmerdesign.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -135,7 +184,12 @@ export const COMMERCE = {
  },
  "align-columbus-chiropractic": {
   "platform": "wix",
-  "origin": "https://www.inmanchiro.com",
+  "stack": [
+   "health-booking",
+   "wix",
+   "wordpress"
+  ],
+  "origin": "https://www.inmanchiro.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -146,9 +200,34 @@ export const COMMERCE = {
    }
   ]
  },
+ "alivio-medical-center-columbus": {
+  "platform": "wordpress",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://aliviohealth.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": []
+ },
+ "all-pro-driving-academy-llc": {
+  "platform": "wordpress",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.jandjdriving.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": []
+ },
  "am-home-inspection-services": {
   "platform": "wix",
-  "origin": "https://www.amhomeservices.net",
+  "stack": [
+   "wix"
+  ],
+  "origin": "https://www.amhomeservices.net/",
   "feed": false,
   "store": "",
   "order": [],
@@ -156,20 +235,32 @@ export const COMMERCE = {
  },
  "amazing-joes-grill": {
   "platform": "square-online",
-  "origin": "https://www.amazingjoes.com",
+  "stack": [
+   "square-online",
+   "weebly"
+  ],
+  "origin": "https://www.amazingjoes.com/",
   "feed": false,
   "store": "",
   "order": [
    {
     "label": "Square Online",
-    "url": "https://www.amazingjoes.com"
+    "url": "https://www.amazingjoes.com/"
    }
   ],
-  "book": []
+  "book": [],
+  "gift": {
+   "label": "their website",
+   "url": "https://www.amazingjoes.com/giftcards.html"
+  }
  },
  "analytical-engineering-inc": {
   "platform": "woocommerce",
-  "origin": "https://www.aei-tech.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://www.aei-tech.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -177,7 +268,22 @@ export const COMMERCE = {
  },
  "anderson-therapy-group": {
   "platform": "wix-stores",
-  "origin": "https://www.andersontherapygroup.org",
+  "stack": [
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.andersontherapygroup.org/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": []
+ },
+ "ann-coriden-law-llc": {
+  "platform": "wordpress",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://anncoridenlaw.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -185,20 +291,28 @@ export const COMMERCE = {
  },
  "anok-hair-braiding": {
   "platform": "",
-  "origin": "https://lhkw.app.link",
+  "stack": [
+   "booksy"
+  ],
+  "origin": "https://booksy.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": [
    {
     "label": "Booksy",
-    "url": "https://booksy.com/en-us/938185_anok-hair-braiding_braids-locs_19373_columbus?do=invite&_branch_match_id=1642497081943826736&_branch_referrer=H4sIAAAAAAAAA8soKSkottLXT07J0UvKz88urtRLzs%2FV9%2FUyT8k2dLGwiEgCAAxEDXsiAAAA"
+    "url": "https://help.booksy.com/"
    }
   ]
  },
  "appliance-mart-sales-and-services": {
   "platform": "wix-stores",
-  "origin": "https://www.appliancemartss.com",
+  "stack": [
+   "wix",
+   "wix-stores",
+   "wordpress"
+  ],
+  "origin": "https://www.appliancemartss.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -206,7 +320,11 @@ export const COMMERCE = {
  },
  "arshem-web-solutions": {
   "platform": "woocommerce",
-  "origin": "https://arshem.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://arshem.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -214,7 +332,10 @@ export const COMMERCE = {
  },
  "artisan-roofing-llc": {
   "platform": "wix",
-  "origin": "https://www.artisanroofingllc.com",
+  "stack": [
+   "wix"
+  ],
+  "origin": "https://www.artisanroofingllc.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -222,7 +343,10 @@ export const COMMERCE = {
  },
  "arts-cleaners": {
   "platform": "wix",
-  "origin": "https://www.arts-cleaners.com",
+  "stack": [
+   "wix"
+  ],
+  "origin": "https://www.arts-cleaners.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -230,7 +354,12 @@ export const COMMERCE = {
  },
  "ascend-counseling-llc": {
   "platform": "wix-stores",
-  "origin": "https://www.ascend-counseling.com",
+  "stack": [
+   "wix",
+   "wix-stores",
+   "wordpress"
+  ],
+  "origin": "https://www.ascend-counseling.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -238,7 +367,10 @@ export const COMMERCE = {
  },
  "at-home-with-heartland": {
   "platform": "shopify",
-  "origin": "https://ahwheartland.com",
+  "stack": [
+   "shopify"
+  ],
+  "origin": "https://ahwheartland.com/",
   "feed": true,
   "store": "",
   "order": [],
@@ -246,15 +378,29 @@ export const COMMERCE = {
  },
  "athens-animal-clinic": {
   "platform": "woocommerce",
-  "origin": "https://athensanimalclinic.com",
+  "stack": [
+   "pet-booking",
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://athensanimalclinic.com/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "online booking",
+    "url": "https://athensanimalclinic.com/columbus-in-veterinary-appointment/"
+   }
+  ]
  },
  "atons-self-storage": {
   "platform": "woocommerce",
-  "origin": "https://selfstorageofcolumbus.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://selfstorageofcolumbus.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -262,7 +408,10 @@ export const COMMERCE = {
  },
  "audio-magic-entertainment": {
   "platform": "wordpress",
-  "origin": "https://audiomagicentertainment.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://audiomagicentertainment.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -270,7 +419,12 @@ export const COMMERCE = {
  },
  "audio-source-inc": {
   "platform": "wix-stores",
-  "origin": "https://www.audiosourceinc.com",
+  "stack": [
+   "wix",
+   "wix-stores",
+   "wordpress"
+  ],
+  "origin": "https://www.audiosourceinc.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -278,7 +432,11 @@ export const COMMERCE = {
  },
  "auto-mobile-diagnostics": {
   "platform": "woocommerce",
-  "origin": "https://helpingpeoplewithcars.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://helpingpeoplewithcars.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -286,7 +444,28 @@ export const COMMERCE = {
  },
  "auto-shine-detailing": {
   "platform": "wix-stores",
-  "origin": "https://angelcapales.wixsite.com",
+  "stack": [
+   "wix",
+   "wix-stores",
+   "wordpress"
+  ],
+  "origin": "https://angelcapales.wixsite.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "Wix Bookings",
+    "url": "https://angelcapales.wixsite.com/autoshinedetailing/book-online"
+   }
+  ]
+ },
+ "automotive-color-and-supply": {
+  "platform": "wordpress",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://automotivecolor.us/",
   "feed": false,
   "store": "",
   "order": [],
@@ -294,7 +473,10 @@ export const COMMERCE = {
  },
  "axsom-franke-plumbing": {
   "platform": "wordpress",
-  "origin": "http://axsomfrankeplumbing.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "http://axsomfrankeplumbing.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -302,15 +484,29 @@ export const COMMERCE = {
  },
  "b-and-b-plumbing": {
   "platform": "wordpress",
-  "origin": "https://www.bbplumbingservice.com",
+  "stack": [
+   "home-services-booking",
+   "wordpress"
+  ],
+  "origin": "https://www.bbplumbingservice.com/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "Jobber",
+    "url": "https://clienthub.getjobber.com/client_hubs/a3b58cbf-8049-4288-b7cf-281b4891294e/login/new?source=share_login"
+   }
+  ]
  },
  "balance-massage-and-wellness-studio": {
   "platform": "woocommerce",
-  "origin": "https://balancecolumbus.com",
+  "stack": [
+   "glossgenius",
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://balancecolumbus.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -323,23 +519,51 @@ export const COMMERCE = {
  },
  "bankruptcy-law-office-of-mark-s-zuckerberg": {
   "platform": "wordpress",
-  "origin": "https://zucklaw.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://zucklaw.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
+ },
+ "bardonner-dentistry": {
+  "platform": "",
+  "origin": "https://www.bardonnerdentistry.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "online booking",
+    "url": "https://www.bardonnerdentistry.com/appointments/"
+   }
+  ]
  },
  "bark-avenue": {
   "platform": "wordpress",
-  "origin": "https://barkavenuecolumbus.com",
+  "stack": [
+   "pet-booking",
+   "wordpress"
+  ],
+  "origin": "https://barkavenuecolumbus.com/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "Gingr",
+    "url": "https://barkavenuecolumbus.portal.gingrapp.com/public/login"
+   }
+  ]
  },
  "beckemeyer-insurance-inc": {
   "platform": "wix",
-  "origin": "https://www.beckemeyerinsuranceagency.com",
+  "stack": [
+   "wix"
+  ],
+  "origin": "https://www.beckemeyerinsuranceagency.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -347,7 +571,10 @@ export const COMMERCE = {
  },
  "bei-bambini": {
   "platform": "wix",
-  "origin": "https://www.beibambini.com",
+  "stack": [
+   "wix"
+  ],
+  "origin": "https://www.beibambini.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -355,7 +582,11 @@ export const COMMERCE = {
  },
  "benchmark-construction-llc": {
   "platform": "woocommerce",
-  "origin": "https://www.benchmarkhomesllc.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://www.benchmarkhomesllc.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -363,7 +594,10 @@ export const COMMERCE = {
  },
  "bespoke-events-experiences": {
   "platform": "wix",
-  "origin": "https://www.experiencebespoke.co",
+  "stack": [
+   "wix"
+  ],
+  "origin": "https://www.experiencebespoke.co/",
   "feed": false,
   "store": "",
   "order": [],
@@ -371,11 +605,28 @@ export const COMMERCE = {
  },
  "best-friends-animal-healthcare": {
   "platform": "woocommerce",
-  "origin": "https://bfanimal.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://bfanimal.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
+ },
+ "best-in-sight-eye-care": {
+  "platform": "",
+  "origin": "https://www.bestinsighteyecare.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "appointment request",
+    "url": "https://www.bestinsighteyecare.com/request-an-appointment.html"
+   }
+  ]
  },
  "best-one-tire-and-service": {
   "platform": "wordpress",
@@ -387,23 +638,81 @@ export const COMMERCE = {
  },
  "beths-dancenter": {
   "platform": "squarespace-commerce",
-  "origin": "https://www.bethsdancenter.com",
+  "stack": [
+   "acuity",
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://www.bethsdancenter.com/",
   "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "Acuity",
+    "url": "https://squarespace-example.as.me/schedule.php"
+   }
+  ]
+ },
+ "bettner-wire-coating-dies-inc": {
+  "platform": "wordpress",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://bettner.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": []
+ },
+ "black-jewell-popcorn": {
+  "platform": "woocommerce",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://blackjewell.com/",
+  "feed": true,
   "store": "",
   "order": [],
   "book": []
  },
  "black-sheep-craft-pizza-and-cocktails": {
   "platform": "squarespace-commerce",
-  "origin": "https://www.blksheeppizza.com",
+  "stack": [
+   "opentable",
+   "squarespace",
+   "squarespace-commerce",
+   "toast"
+  ],
+  "origin": "https://www.blksheeppizza.com/",
   "feed": false,
   "store": "",
-  "order": [],
-  "book": []
+  "order": [
+   {
+    "label": "Toast",
+    "url": "https://order.toasttab.com/online/black-sheep-345-4th-street"
+   }
+  ],
+  "book": [
+   {
+    "label": "OpenTable",
+    "url": "https://www.opentable.com/r/blacksheep-pizza-and-cocktails-reservations-columbus?restref=1397095&lang=en-US&ot_source=Restaurant%20website"
+   }
+  ],
+  "gift": {
+   "label": "Toast",
+   "url": "https://order.toasttab.com/egiftcards/black-sheep-345-4th-street"
+  }
  },
  "blackerbys-hangar-5-restaurant": {
   "platform": "squarespace-commerce",
-  "origin": "https://www.blackerbyshangar5.com",
+  "stack": [
+   "marketplace-delivery",
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://www.blackerbyshangar5.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -411,11 +720,19 @@ export const COMMERCE = {
  },
  "blondies-salon-and-spa": {
   "platform": "wordpress",
-  "origin": "https://blondiescolumbus.com",
+  "stack": [
+   "booking-other",
+   "wordpress"
+  ],
+  "origin": "https://blondiescolumbus.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": [
+   {
+    "label": "Phorest",
+    "url": "https://phorest.com/book/salons/blondiessalonspa"
+   },
    {
     "label": "blondiescolumbus.com",
     "url": "https://blondiescolumbus.com/appointments/"
@@ -424,7 +741,10 @@ export const COMMERCE = {
  },
  "blue-and-co-llc": {
   "platform": "wordpress",
-  "origin": "https://www.blueandco.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.blueandco.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -432,7 +752,14 @@ export const COMMERCE = {
  },
  "boudoir-by-naomi": {
   "platform": "square-online",
-  "origin": "https://www.boudoirbynaomi.com",
+  "stack": [
+   "calendly",
+   "square-online",
+   "webflow",
+   "weebly",
+   "wordpress"
+  ],
+  "origin": "https://www.boudoirbynaomi.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -445,7 +772,10 @@ export const COMMERCE = {
  },
  "boutique-elise": {
   "platform": "shopify",
-  "origin": "https://www.boutiqueelise.com",
+  "stack": [
+   "shopify"
+  ],
+  "origin": "https://www.boutiqueelise.com/",
   "feed": true,
   "store": "",
   "order": [],
@@ -453,7 +783,10 @@ export const COMMERCE = {
  },
  "boyer-machine-and-tool-co-inc": {
   "platform": "wordpress",
-  "origin": "https://boyermachine.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://boyermachine.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -461,7 +794,11 @@ export const COMMERCE = {
  },
  "breathe-halotherapy-wellness-center": {
   "platform": "square-online",
-  "origin": "https://breathesaltair.com",
+  "stack": [
+   "square-appointments",
+   "square-online"
+  ],
+  "origin": "https://breathesaltair.com/",
   "feed": false,
   "store": "https://breathe-halotherapy-wellness-center.square.site/",
   "order": [],
@@ -470,11 +807,19 @@ export const COMMERCE = {
     "label": "Square Appointments",
     "url": "https://squareup.com/appointments/book/rn1y52pbci0nu4/L0J14508H2Z7E/start"
    }
-  ]
+  ],
+  "gift": {
+   "label": "Square",
+   "url": "https://squareup.com/gift/MLT1YZ34G1MQ7/order"
+  }
  },
  "breeden-commercial": {
   "platform": "wix",
-  "origin": "https://www.breedencommercial.com",
+  "stack": [
+   "wix",
+   "wordpress"
+  ],
+  "origin": "https://www.breedencommercial.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -482,7 +827,11 @@ export const COMMERCE = {
  },
  "brittnys-bobbins": {
   "platform": "squarespace-commerce",
-  "origin": "https://www.britbobbins.com",
+  "stack": [
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://www.britbobbins.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -490,7 +839,10 @@ export const COMMERCE = {
  },
  "broadwing-legal": {
   "platform": "wordpress",
-  "origin": "https://www.broadwinglegal.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.broadwinglegal.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -498,7 +850,11 @@ export const COMMERCE = {
  },
  "brown-hill-nursery-and-landscape-design-llc": {
   "platform": "wix-stores",
-  "origin": "https://www.brownhillnursery.org",
+  "stack": [
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.brownhillnursery.org/",
   "feed": false,
   "store": "",
   "order": [],
@@ -506,7 +862,11 @@ export const COMMERCE = {
  },
  "browns-brazilian-jiu-jitsu": {
   "platform": "wix-stores",
-  "origin": "https://www.brownsbrazilianjiujitsu.com",
+  "stack": [
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.brownsbrazilianjiujitsu.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -514,7 +874,10 @@ export const COMMERCE = {
  },
  "bullet-property-management": {
   "platform": "godaddy",
-  "origin": "https://bulletpropertymanagement.com",
+  "stack": [
+   "godaddy"
+  ],
+  "origin": "https://bulletpropertymanagement.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -522,7 +885,12 @@ export const COMMERCE = {
  },
  "buns-and-beards-beauty-lounge": {
   "platform": "square-online",
-  "origin": "https://www.bunsandbeardsbeauty.com",
+  "stack": [
+   "square-online",
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.bunsandbeardsbeauty.com/",
   "feed": false,
   "store": "https://buns-and-beards-salonspa.square.site/",
   "order": [],
@@ -530,7 +898,11 @@ export const COMMERCE = {
  },
  "burts-termite-and-pest-control-inc": {
   "platform": "wix-stores",
-  "origin": "https://www.burtspestcontrol.com",
+  "stack": [
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.burtspestcontrol.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -538,7 +910,10 @@ export const COMMERCE = {
  },
  "bushhorn-law-office": {
   "platform": "godaddy",
-  "origin": "https://bky4less.info",
+  "stack": [
+   "godaddy"
+  ],
+  "origin": "https://bky4less.info/",
   "feed": false,
   "store": "",
   "order": [],
@@ -546,15 +921,57 @@ export const COMMERCE = {
  },
  "carpet-mania": {
   "platform": "wix-stores",
-  "origin": "https://www.carpetmaniafloors.com",
+  "stack": [
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.carpetmaniafloors.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "Wix Bookings",
+    "url": "https://www.carpetmaniafloors.com/book-online"
+   }
+  ]
+ },
+ "chicagos-pizza": {
+  "platform": "wordpress",
+  "stack": [
+   "doordash-storefront",
+   "wordpress"
+  ],
+  "origin": "https://chicagospizza.com/",
+  "feed": false,
+  "store": "",
+  "order": [
+   {
+    "label": "DoorDash Storefront (commission-free)",
+    "url": "https://order.online/store/chicago"
+   }
+  ],
+  "book": []
+ },
+ "chumleys-doghouse": {
+  "platform": "wix-stores",
+  "stack": [
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.chumleysdoghouse.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
- "chumleys-doghouse": {
-  "platform": "wix-stores",
-  "origin": "https://www.chumleysdoghouse.com",
+ "cinlee-services-llc": {
+  "platform": "woocommerce",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://cinleecleaning.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -562,7 +979,11 @@ export const COMMERCE = {
  },
  "circle-city-signings": {
   "platform": "wix",
-  "origin": "https://www.circlecitysignings.com",
+  "stack": [
+   "calendly",
+   "wix"
+  ],
+  "origin": "https://www.circlecitysignings.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -575,15 +996,30 @@ export const COMMERCE = {
  },
  "ciscos-barber-shop": {
   "platform": "wix-stores",
-  "origin": "https://www.ciscos.site",
+  "stack": [
+   "booksy",
+   "wix",
+   "wix-stores",
+   "wordpress"
+  ],
+  "origin": "https://www.ciscos.site/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "Booksy",
+    "url": "https://booksy.com/en-us/256160_ciscos-barber-tattoo_barber-shop_19373_columbus/staffer/1609761#ba_s=dl_1"
+   }
+  ]
  },
  "clarke-electrical-services-llc": {
   "platform": "wix-stores",
-  "origin": "https://www.cespowerpros.com",
+  "stack": [
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.cespowerpros.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -591,7 +1027,11 @@ export const COMMERCE = {
  },
  "clear-choice-chiropractic": {
   "platform": "wix-stores",
-  "origin": "https://www.clearchoicechiroportland.com",
+  "stack": [
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.clearchoicechiroportland.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -599,15 +1039,39 @@ export const COMMERCE = {
  },
  "cmr-electric-inc": {
   "platform": "wordpress",
-  "origin": "https://www.cmrelectric.net",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.cmrelectric.net/",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
+ "coers-family-eyecare": {
+  "platform": "",
+  "stack": [
+   "health-booking"
+  ],
+  "origin": "https://www.coersfamilyeyecare.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "online booking",
+    "url": "https://www.coersfamilyeyecare.com/appointment.html"
+   }
+  ]
+ },
  "college-movers-and-junk-hauling": {
   "platform": "wix-stores",
-  "origin": "https://www.collegemoversandhauling.com",
+  "stack": [
+   "wix",
+   "wix-stores",
+   "wordpress"
+  ],
+  "origin": "https://www.collegemoversandhauling.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -615,7 +1079,10 @@ export const COMMERCE = {
  },
  "columbus-advanced-family-dentistry": {
   "platform": "wix",
-  "origin": "https://www.columbusdentalgroup.com",
+  "stack": [
+   "wix"
+  ],
+  "origin": "https://www.columbusdentalgroup.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -623,7 +1090,22 @@ export const COMMERCE = {
  },
  "columbus-audiology-and-hearing-aid-center": {
   "platform": "wordpress",
-  "origin": "https://columbusaudiology.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://columbusaudiology.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": []
+ },
+ "columbus-bar": {
+  "platform": "woocommerce",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://thecolumbusbar.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -631,7 +1113,10 @@ export const COMMERCE = {
  },
  "columbus-bowling-center": {
   "platform": "godaddy",
-  "origin": "https://columbusbowlingcenter.com",
+  "stack": [
+   "godaddy"
+  ],
+  "origin": "https://columbusbowlingcenter.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -639,15 +1124,38 @@ export const COMMERCE = {
  },
  "columbus-carpet-llc": {
   "platform": "wordpress",
-  "origin": "https://www.columbuscarpetinc.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.columbuscarpetinc.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
+ "columbus-chem-dry": {
+  "platform": "",
+  "stack": [
+   "home-services-booking"
+  ],
+  "origin": "https://columbuschemdry.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "Housecall Pro",
+    "url": "https://book.housecallpro.com/book/Columbus-Chem-Dry/6ebdae0b166944cab15b7a4f7b6e7abe?v2=true&attr=7811"
+   }
+  ]
+ },
  "columbus-counseling-partners-llc": {
   "platform": "wix-stores",
-  "origin": "https://www.columbuscounselingpartners.com",
+  "stack": [
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.columbuscounselingpartners.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -655,7 +1163,10 @@ export const COMMERCE = {
  },
  "columbus-dental-group": {
   "platform": "wix",
-  "origin": "https://www.columbusdentalgroup.com",
+  "stack": [
+   "wix"
+  ],
+  "origin": "https://www.columbusdentalgroup.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -663,7 +1174,12 @@ export const COMMERCE = {
  },
  "columbus-dental-smile": {
   "platform": "wix-stores",
-  "origin": "https://www.columbusdentalsmile.com",
+  "stack": [
+   "wix",
+   "wix-stores",
+   "wordpress"
+  ],
+  "origin": "https://www.columbusdentalsmile.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -671,7 +1187,10 @@ export const COMMERCE = {
  },
  "columbus-endodontics": {
   "platform": "wix",
-  "origin": "https://www.columbusendo.net",
+  "stack": [
+   "wix"
+  ],
+  "origin": "https://www.columbusendo.net/",
   "feed": false,
   "store": "",
   "order": [],
@@ -679,15 +1198,33 @@ export const COMMERCE = {
  },
  "columbus-fit": {
   "platform": "wordpress",
-  "origin": "https://cbusfit.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://cbusfit.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
+ "columbus-greeks-pizzeria": {
+  "platform": "",
+  "origin": "https://www.greekspizzeria.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [],
+  "gift": {
+   "label": "their website",
+   "url": "https://www.greekspizzeria.com/order/giftcard"
+  }
+ },
  "columbus-gymnastics-center": {
   "platform": "wordpress",
-  "origin": "https://columbusparksandrec.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://columbusparksandrec.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -695,15 +1232,39 @@ export const COMMERCE = {
  },
  "columbus-massage-center-and-salon": {
   "platform": "wordpress",
-  "origin": "https://www.columbusmassagecenter.com",
+  "stack": [
+   "vagaro",
+   "wordpress"
+  ],
+  "origin": "https://www.columbusmassagecenter.com/",
   "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "Vagaro",
+    "url": "https://www.vagaro.com//resources/WidgetPopupLoader/OZqpDJ0tCpWcT3qnV3avV34mC2PlFLDbSdPfOsLp9dSycvCu7gevEhAJDXwPapcUbfY?v=PvH6CI2HwUSojQatLgKBBz7towohUwdSM7YgwRP1ktm#"
+   }
+  ]
+ },
+ "columbus-outdoor-power": {
+  "platform": "woocommerce",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://columbusoutdoorpower.com/",
+  "feed": true,
   "store": "",
   "order": [],
   "book": []
  },
  "columbus-pediatric-dentistry": {
   "platform": "wix",
-  "origin": "https://www.columbusdentalgroup.com",
+  "stack": [
+   "wix"
+  ],
+  "origin": "https://www.columbusdentalgroup.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -711,7 +1272,11 @@ export const COMMERCE = {
  },
  "columbus-periodontics-and-implants": {
   "platform": "woocommerce",
-  "origin": "https://www.columbusperioandimplants.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://www.columbusperioandimplants.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -719,7 +1284,10 @@ export const COMMERCE = {
  },
  "columbus-towing-and-recovery": {
   "platform": "wordpress",
-  "origin": "https://towingservicecolumbusindiana.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://towingservicecolumbusindiana.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -727,7 +1295,11 @@ export const COMMERCE = {
  },
  "columbus-uppercuts": {
   "platform": "squarespace-commerce",
-  "origin": "https://www.columbusuppercuts.com",
+  "stack": [
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://www.columbusuppercuts.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -735,15 +1307,39 @@ export const COMMERCE = {
  },
  "columbus-veterinary-services": {
   "platform": "squarespace-commerce",
-  "origin": "https://columbusveterinaryservices.com",
+  "stack": [
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://columbusveterinaryservices.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
+ "columbus-visitors-center-gift-shop": {
+  "platform": "",
+  "stack": [
+   "drupal",
+   "tours-tickets"
+  ],
+  "origin": "https://visitcolumbusindiana.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "FareHarbor",
+    "url": "https://fareharbor.com/embeds/book/columbusin/items/calendar/"
+   }
+  ]
+ },
  "columbus-warehouse-and-cartage": {
   "platform": "wix",
-  "origin": "https://www.columbuswarehouse.com",
+  "stack": [
+   "wix"
+  ],
+  "origin": "https://www.columbuswarehouse.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -751,7 +1347,12 @@ export const COMMERCE = {
  },
  "columbus-wealth": {
   "platform": "wordpress",
-  "origin": "https://columbuswealthinc.com",
+  "stack": [
+   "calendly",
+   "godaddy",
+   "wordpress"
+  ],
+  "origin": "https://columbuswealthinc.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -764,23 +1365,64 @@ export const COMMERCE = {
  },
  "cookie-paradise-llc": {
   "platform": "shopify",
-  "origin": "https://cookieparadise.co",
+  "stack": [
+   "shopify"
+  ],
+  "origin": "https://cookieparadise.co/",
   "feed": true,
   "store": "",
   "order": [],
   "book": []
  },
+ "cooper-electric-llc": {
+  "platform": "woocommerce",
+  "stack": [
+   "calendly",
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://cooperelectricin.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "Calendly",
+    "url": "https://calendly.com/cooperelectricin-info/30min?primary_color=ffb100"
+   }
+  ]
+ },
  "cork-liquors": {
   "platform": "wordpress",
-  "origin": "https://www.corkliquor.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.corkliquor.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
+ "cove-direct-primary-care-llc": {
+  "platform": "",
+  "origin": "https://www.covedpc.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "Google Calendar",
+    "url": "https://calendar.app.google/r6LU5de242pPiq219"
+   }
+  ]
+ },
  "cozy-cauldron-hair-studio": {
   "platform": "square-online",
-  "origin": "https://www.cozycauldronhairstudio.com",
+  "stack": [
+   "square-online",
+   "weebly"
+  ],
+  "origin": "https://www.cozycauldronhairstudio.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -788,7 +1430,12 @@ export const COMMERCE = {
  },
  "craft-and-bounce-with-us": {
   "platform": "squarespace-commerce",
-  "origin": "https://www.craftandbounce.com",
+  "stack": [
+   "acuity",
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://www.craftandbounce.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -796,7 +1443,11 @@ export const COMMERCE = {
  },
  "crossfit-ripcord": {
   "platform": "squarespace-commerce",
-  "origin": "https://www.crossfitripcord.com",
+  "stack": [
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://www.crossfitripcord.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -804,7 +1455,11 @@ export const COMMERCE = {
  },
  "daileys-cnc-machining-llc": {
   "platform": "woocommerce",
-  "origin": "https://daileyscnc.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://daileyscnc.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -812,7 +1467,12 @@ export const COMMERCE = {
  },
  "dance-by-design": {
   "platform": "woocommerce",
-  "origin": "https://dance-by-design.com",
+  "stack": [
+   "godaddy",
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://dance-by-design.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -820,7 +1480,10 @@ export const COMMERCE = {
  },
  "dance-street": {
   "platform": "godaddy",
-  "origin": "https://dancestreetcolumbus.com",
+  "stack": [
+   "godaddy"
+  ],
+  "origin": "https://dancestreetcolumbus.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -828,7 +1491,10 @@ export const COMMERCE = {
  },
  "dancers-studio-inc": {
   "platform": "wix",
-  "origin": "https://www.dancers-studio.org",
+  "stack": [
+   "wix"
+  ],
+  "origin": "https://www.dancers-studio.org/",
   "feed": false,
   "store": "",
   "order": [],
@@ -836,20 +1502,27 @@ export const COMMERCE = {
  },
  "daniel-shanti-barber": {
   "platform": "",
-  "origin": "https://lhkw.app.link",
+  "stack": [
+   "booksy"
+  ],
+  "origin": "https://booksy.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": [
    {
     "label": "Booksy",
-    "url": "https://booksy.com/en-us/1153615_daniel-en-cisco_barber-shop_19373_columbus?do=invite&_branch_match_id=1642515439181937480&_branch_referrer=H4sIAAAAAAAAA8soKSkottLXT07J0UvKz88urtRLzs%2FVdw0NNMuJSgsKjUgCAN6BECciAAAA"
+    "url": "https://help.booksy.com/"
    }
   ]
  },
  "day-chiropractic-clinic": {
   "platform": "squarespace-commerce",
-  "origin": "https://www.drdarrellday.com",
+  "stack": [
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://www.drdarrellday.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -857,7 +1530,11 @@ export const COMMERCE = {
  },
  "days-of-old-antique-shoppe": {
   "platform": "wordpress",
-  "origin": "https://daysofold.store",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://daysofold.store/",
   "feed": false,
   "store": "",
   "order": [],
@@ -865,7 +1542,11 @@ export const COMMERCE = {
  },
  "dcre-llc": {
   "platform": "woocommerce",
-  "origin": "https://dcrellc.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://dcrellc.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -878,15 +1559,35 @@ export const COMMERCE = {
  },
  "dee-family-dental": {
   "platform": "woocommerce",
-  "origin": "https://www.deefamilydental.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://www.deefamilydental.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
+ "dental-care-at-columbus-crossing": {
+  "platform": "",
+  "origin": "https://dentalcareatcolumbuscrossing.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "online booking",
+    "url": "https://dentalcareatcolumbuscrossing.com/make-appointment"
+   }
+  ]
+ },
  "dental-solutions-of-columbus": {
   "platform": "wordpress",
-  "origin": "https://columbusdentalsolutions.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://columbusdentalsolutions.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -894,7 +1595,10 @@ export const COMMERCE = {
  },
  "digitalaim-media": {
   "platform": "wordpress",
-  "origin": "https://www.digitalaimmedia.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.digitalaimmedia.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -902,23 +1606,45 @@ export const COMMERCE = {
  },
  "district-six-event-space": {
   "platform": "wix-stores",
-  "origin": "https://www.districtsixcolumbus.com",
+  "stack": [
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.districtsixcolumbus.com/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "Wix Bookings",
+    "url": "https://www.districtsixcolumbus.com/book-online"
+   }
+  ]
  },
  "divine-family-bbq": {
   "platform": "woocommerce",
-  "origin": "https://divinefamilybbq.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://divinefamilybbq.com/",
   "feed": true,
   "store": "",
-  "order": [],
+  "order": [
+   {
+    "label": "online ordering",
+    "url": "https://divinefamilybbq.com/online-order/"
+   }
+  ],
   "book": []
  },
  "divine-hair-studio": {
   "platform": "squarespace-commerce",
-  "origin": "https://divinehairstudio.squarespace.com",
+  "stack": [
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://divinehairstudio.squarespace.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -926,20 +1652,26 @@ export const COMMERCE = {
  },
  "divine-hands": {
   "platform": "",
-  "origin": "https://lhkw.app.link",
+  "stack": [
+   "booksy"
+  ],
+  "origin": "https://booksy.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": [
    {
     "label": "Booksy",
-    "url": "https://booksy.com/en-us/1882419_divine-hands_hair-salon_19373_columbus?do=invite&_branch_match_id=1642497136295394005&_branch_referrer=H4sIAAAAAAAAA8soKSkottLXT07J0UvKz88urtRLzs%2FVN80psEh1CogqME8CAIKt%2F4AiAAAA"
+    "url": "https://help.booksy.com/"
    }
   ]
  },
  "dog-world-daycare-and-behavior-center": {
   "platform": "godaddy",
-  "origin": "https://dogworlddaycare.net",
+  "stack": [
+   "godaddy"
+  ],
+  "origin": "https://dogworlddaycare.net/",
   "feed": false,
   "store": "",
   "order": [],
@@ -947,7 +1679,11 @@ export const COMMERCE = {
  },
  "donut-central": {
   "platform": "wix-stores",
-  "origin": "https://www.donutcentralcolumbus.com",
+  "stack": [
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.donutcentralcolumbus.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -955,31 +1691,59 @@ export const COMMERCE = {
  },
  "dorothys-playhouse": {
   "platform": "square-online",
-  "origin": "https://www.dorothysplayhouse.com",
+  "stack": [
+   "square-online",
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.dorothysplayhouse.com/",
   "feed": false,
   "store": "https://dorothys-playhouse.square.site/s/order#7D5D35Y2STR2YVKZDKM54VFM",
   "order": [],
-  "book": []
+  "book": [],
+  "gift": {
+   "label": "Square",
+   "url": "https://app.squareup.com/gift/ML2X9GQ8WK610/order"
+  }
  },
  "dr-george-collins-dentistry": {
   "platform": "wordpress",
-  "origin": "https://emergencydental.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://emergencydental.com/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "online booking",
+    "url": "https://emergencydental.com/book-online/"
+   }
+  ]
  },
  "dr-tavel-family-eyecare": {
   "platform": "woocommerce",
-  "origin": "https://www.drtavel.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://www.drtavel.com/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [],
+  "gift": {
+   "label": "their website",
+   "url": "https://www.drtavel.com/?page_id=9426"
+  }
  },
  "driftwood-builders-inc": {
   "platform": "wordpress",
-  "origin": "https://driftwoodbuildersinc.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://driftwoodbuildersinc.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -987,7 +1751,10 @@ export const COMMERCE = {
  },
  "dugan-air-heating-and-cooling": {
   "platform": "wordpress",
-  "origin": "https://goduganair.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://goduganair.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -995,7 +1762,10 @@ export const COMMERCE = {
  },
  "dunlap-and-co-inc": {
   "platform": "wordpress",
-  "origin": "https://dunlapinc.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://dunlapinc.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1003,7 +1773,11 @@ export const COMMERCE = {
  },
  "dunn-and-associates-benefit-administrators-inc": {
   "platform": "squarespace-commerce",
-  "origin": "https://www.dunnbenefit.com",
+  "stack": [
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://www.dunnbenefit.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1011,7 +1785,11 @@ export const COMMERCE = {
  },
  "el-nopal-mexican-cuisine": {
   "platform": "wordpress",
-  "origin": "https://www.elnopalmex.com",
+  "stack": [
+   "doordash-storefront",
+   "wordpress"
+  ],
+  "origin": "https://www.elnopalmex.com/",
   "feed": false,
   "store": "",
   "order": [
@@ -1020,11 +1798,31 @@ export const COMMERCE = {
     "url": "https://order.online/business/-124403"
    }
   ],
+  "book": [],
+  "gift": {
+   "label": "their website",
+   "url": "https://www.elnopalmex.com/gift-cards/"
+  }
+ },
+ "el-popocatepetl-mexican-restaurant-and-grill": {
+  "platform": "",
+  "origin": "https://order.online",
+  "feed": false,
+  "store": "",
+  "order": [
+   {
+    "label": "DoorDash Storefront (commission-free)",
+    "url": "https://order.online/business/el-popocatepetl-mexican-restaurant-grill-11607715"
+   }
+  ],
   "book": []
  },
  "elders-journey-home-care": {
   "platform": "wordpress",
-  "origin": "https://eldersjourney.org",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://eldersjourney.org/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1032,7 +1830,10 @@ export const COMMERCE = {
  },
  "elevated-eye-care": {
   "platform": "wix",
-  "origin": "https://www.myeyedoctornearme.com",
+  "stack": [
+   "wix"
+  ],
+  "origin": "https://www.myeyedoctornearme.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1040,7 +1841,11 @@ export const COMMERCE = {
  },
  "elite-wellness-and-beauty": {
   "platform": "wordpress",
-  "origin": "https://www.elitewellnesscolumbus.com",
+  "stack": [
+   "mindbody",
+   "wordpress"
+  ],
+  "origin": "https://www.elitewellnesscolumbus.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1053,7 +1858,10 @@ export const COMMERCE = {
  },
  "empire-tea-services": {
   "platform": "shopify",
-  "origin": "https://empiretea.com",
+  "stack": [
+   "shopify"
+  ],
+  "origin": "https://empiretea.com/",
   "feed": true,
   "store": "",
   "order": [],
@@ -1061,7 +1869,10 @@ export const COMMERCE = {
  },
  "empowering-kids-speech-therapy": {
   "platform": "",
-  "origin": "https://empoweringkidspediatrictherapy.com",
+  "stack": [
+   "health-booking"
+  ],
+  "origin": "https://empoweringkidspediatrictherapy.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1074,15 +1885,27 @@ export const COMMERCE = {
  },
  "endodontic-specialists-of-columbus": {
   "platform": "wordpress",
-  "origin": "https://columbusrootcanal.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://columbusrootcanal.com/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "appointment request",
+    "url": "https://columbusrootcanal.com/request-an-appointment/"
+   }
+  ]
  },
  "energy-balancing-holistic-wellness-center": {
   "platform": "wix",
-  "origin": "https://www.energybalancing444.com",
+  "stack": [
+   "wix",
+   "wordpress"
+  ],
+  "origin": "https://www.energybalancing444.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1090,7 +1913,10 @@ export const COMMERCE = {
  },
  "ers-wireless": {
   "platform": "wordpress",
-  "origin": "https://erswireless.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://erswireless.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1098,15 +1924,21 @@ export const COMMERCE = {
  },
  "extreme-clean-laundry": {
   "platform": "godaddy",
-  "origin": "https://extremecleanlaundromat.com",
+  "stack": [
+   "godaddy"
+  ],
+  "origin": "https://extremecleanlaundromat.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "family-allergy-and-asthma": {
-  "platform": "",
-  "origin": "https://www.familyallergy.com",
+  "platform": "wordpress",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://familyallergy.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1119,7 +1951,10 @@ export const COMMERCE = {
  },
  "farmhouse-favorites": {
   "platform": "godaddy",
-  "origin": "https://favoritebakery.net",
+  "stack": [
+   "godaddy"
+  ],
+  "origin": "https://favoritebakery.net/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1127,7 +1962,10 @@ export const COMMERCE = {
  },
  "finance-specialists-inc": {
   "platform": "wordpress",
-  "origin": "https://jwinsurance.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://jwinsurance.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1135,7 +1973,10 @@ export const COMMERCE = {
  },
  "findley-law-llc": {
   "platform": "godaddy",
-  "origin": "https://mfindleylaw.com",
+  "stack": [
+   "godaddy"
+  ],
+  "origin": "https://mfindleylaw.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1143,23 +1984,48 @@ export const COMMERCE = {
  },
  "firefly-shirt-co": {
   "platform": "squarespace-commerce",
-  "origin": "https://www.fireflyshirtcompany.com",
+  "stack": [
+   "acuity",
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://www.fireflyshirtcompany.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "Acuity",
+    "url": "https://app.acuityscheduling.com/schedule.php?owner=40456201"
+   }
+  ]
+ },
+ "first-call-staffing": {
+  "platform": "wordpress",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://firstcallinc.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
- "first-call-staffing": {
-  "platform": "wordpress",
-  "origin": "https://firstcallinc.com",
+ "flora-and-fauna-flowers": {
+  "platform": "",
+  "origin": "https://modernfloristcolumbusindiana.com/",
   "feed": false,
-  "store": "",
+  "store": "https://modernfloristcolumbusindiana.com/",
   "order": [],
   "book": []
  },
  "flourish-columbus": {
   "platform": "squarespace-commerce",
-  "origin": "https://flourishcolumbus.com",
+  "stack": [
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://flourishcolumbus.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1167,7 +2033,11 @@ export const COMMERCE = {
  },
  "flowers-from-the-woods": {
   "platform": "wix-stores",
-  "origin": "https://www.flowersfromthewoods.com",
+  "stack": [
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.flowersfromthewoods.com/",
   "feed": false,
   "store": "https://www.flowersfromthewoods.com/shop",
   "order": [],
@@ -1175,15 +2045,28 @@ export const COMMERCE = {
  },
  "footworks": {
   "platform": "shopify",
-  "origin": "https://safetyshoedistributors.com",
+  "stack": [
+   "shopify",
+   "wordpress"
+  ],
+  "origin": "https://safetyshoedistributors.com/",
   "feed": true,
   "store": "",
   "order": [],
-  "book": []
+  "book": [],
+  "gift": {
+   "label": "their website",
+   "url": "https://safetyshoedistributors.com/collections/gift-cards"
+  }
  },
  "for-the-love-of-brunch": {
   "platform": "wix-stores",
-  "origin": "https://www.fortheloveofbrunch.com",
+  "stack": [
+   "toast",
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.fortheloveofbrunch.com/",
   "feed": false,
   "store": "",
   "order": [
@@ -1192,19 +2075,34 @@ export const COMMERCE = {
     "url": "https://order.toasttab.com/online/for-the-love-of-brunch-1606-central-ave"
    }
   ],
-  "book": []
+  "book": [],
+  "gift": {
+   "label": "Toast",
+   "url": "https://www.toasttab.com/for-the-love-of-brunch-1606-central-ave/giftcards"
+  }
  },
  "forman-investment-services-inc": {
   "platform": "wordpress",
-  "origin": "https://formanis.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://formanis.com/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "online booking",
+    "url": "https://formanis.com/schedule-an-appointment/"
+   }
+  ]
  },
  "four-seasons-retirement-center": {
   "platform": "wordpress",
-  "origin": "https://www.fourseasonsretirement.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.fourseasonsretirement.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1212,7 +2110,10 @@ export const COMMERCE = {
  },
  "fresh-take-kitchen": {
   "platform": "godaddy",
-  "origin": "https://freshtakekitchen.com",
+  "stack": [
+   "godaddy"
+  ],
+  "origin": "https://freshtakekitchen.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1220,7 +2121,11 @@ export const COMMERCE = {
  },
  "gamso-law": {
   "platform": "woocommerce",
-  "origin": "http://www.gamsolaw.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "http://www.gamsolaw.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1228,7 +2133,11 @@ export const COMMERCE = {
  },
  "garb2art-cosmetics": {
   "platform": "wix-stores",
-  "origin": "https://www.garb2art.com",
+  "stack": [
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.garb2art.com/",
   "feed": false,
   "store": "https://www.garb2art.com/shop",
   "order": [],
@@ -1236,7 +2145,11 @@ export const COMMERCE = {
  },
  "garland-brook-cemetery": {
   "platform": "woocommerce",
-  "origin": "https://garlandbrookcemetery.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://garlandbrookcemetery.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1244,7 +2157,11 @@ export const COMMERCE = {
  },
  "gausmann-family-dental": {
   "platform": "squarespace-commerce",
-  "origin": "https://www.drgausmann.com",
+  "stack": [
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://www.drgausmann.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1252,7 +2169,10 @@ export const COMMERCE = {
  },
  "gaylor-inc": {
   "platform": "wordpress",
-  "origin": "https://www.gaylor.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.gaylor.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1260,7 +2180,11 @@ export const COMMERCE = {
  },
  "gehring-underground-inc": {
   "platform": "wordpress",
-  "origin": "https://gehringunderground.com",
+  "stack": [
+   "godaddy",
+   "wordpress"
+  ],
+  "origin": "https://gehringunderground.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1268,15 +2192,28 @@ export const COMMERCE = {
  },
  "ginger-ink-boutique": {
   "platform": "godaddy",
-  "origin": "https://gingerinkboutique.com",
+  "stack": [
+   "godaddy"
+  ],
+  "origin": "https://gingerinkboutique.com/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "online booking",
+    "url": "https://gingerinkboutique.com/appointments"
+   }
+  ]
  },
  "girlee-boutique": {
   "platform": "wix-stores",
-  "origin": "https://www.theriothaus.com",
+  "stack": [
+   "squarespace-commerce",
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.theriothaus.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1284,7 +2221,10 @@ export const COMMERCE = {
  },
  "glover-deweese-llc": {
   "platform": "wix",
-  "origin": "https://www.gloverdeweeselaw.com",
+  "stack": [
+   "wix"
+  ],
+  "origin": "https://www.gloverdeweeselaw.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1292,7 +2232,10 @@ export const COMMERCE = {
  },
  "gossip-nails-columbus": {
   "platform": "wordpress",
-  "origin": "https://gossipnailscolumbus.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://gossipnailscolumbus.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1303,9 +2246,31 @@ export const COMMERCE = {
    }
   ]
  },
+ "gracie-mae-events-llc": {
+  "platform": "woocommerce",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://graciemaeevents.com/",
+  "feed": true,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "online booking",
+    "url": "https://graciemaeevents.com/book-appointment/"
+   }
+  ]
+ },
  "grammer-logistics": {
   "platform": "woocommerce",
-  "origin": "https://grammerlogistics.com",
+  "stack": [
+   "godaddy",
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://grammerlogistics.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1313,20 +2278,28 @@ export const COMMERCE = {
  },
  "gramz-bakery-and-cafe": {
   "platform": "square-online",
-  "origin": "https://gramz-bakery.square.site",
+  "stack": [
+   "square-online",
+   "weebly"
+  ],
+  "origin": "https://gramz-bakery.square.site/",
   "feed": false,
   "store": "",
   "order": [
    {
     "label": "Square Online",
-    "url": "https://gramz-bakery.square.site/"
+    "url": "https://olympio-restaurant.square.site/s"
+   },
+   {
+    "label": "Square Online",
+    "url": "http://gramz-bakery.square.site/"
    }
   ],
   "book": []
  },
  "greenes-truck-auto-service": {
   "platform": "",
-  "origin": "https://www.greenestruckautoservice.com",
+  "origin": "https://www.greenestruckautoservice.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1339,15 +2312,28 @@ export const COMMERCE = {
  },
  "greenwell-plumbing-heating-and-air": {
   "platform": "woocommerce",
-  "origin": "https://greenwellservice.com",
+  "stack": [
+   "home-services-booking",
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://greenwellservice.com/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "online booking",
+    "url": "https://greenwellservice.com/schedule-online/"
+   }
+  ]
  },
  "griegers-tint-and-restoration": {
   "platform": "wordpress",
-  "origin": "https://griegerstintandrestoration.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://griegerstintandrestoration.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1355,15 +2341,76 @@ export const COMMERCE = {
  },
  "guardian-k9-llc": {
   "platform": "square-online",
-  "origin": "http://www.guardiank9columbus.com",
+  "stack": [
+   "pet-booking",
+   "square-online",
+   "weebly"
+  ],
+  "origin": "http://www.guardiank9columbus.com/",
+  "feed": false,
+  "store": "http://www.guardiank9columbus.com/",
+  "order": [],
+  "book": [
+   {
+    "label": "Gingr",
+    "url": "https://gk9columbus.portal.gingrapp.com/#/public/new_customer"
+   }
+  ]
+ },
+ "hair-by-alkat": {
+  "platform": "",
+  "stack": [
+   "glossgenius"
+  ],
+  "origin": "https://alexdavis.glossgenius.com/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "GlossGenius",
+    "url": "https://alexdavis.glossgenius.com/"
+   }
+  ]
+ },
+ "hair-by-chelisy": {
+  "platform": "",
+  "stack": [
+   "glossgenius"
+  ],
+  "origin": "https://chelisyfoster.glossgenius.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "GlossGenius",
+    "url": "https://chelisyfoster.glossgenius.com/"
+   }
+  ]
+ },
+ "hair-by-savanna": {
+  "platform": "",
+  "stack": [
+   "glossgenius"
+  ],
+  "origin": "https://savannaperry.glossgenius.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "GlossGenius",
+    "url": "https://files.glossgenius.com/catalogs/public/1002a/df794401/8155/45f9/8524/5a1606186c5c"
+   }
+  ]
  },
  "hawcreek-landscaping": {
   "platform": "wordpress",
-  "origin": "https://hawcreeklandscaping.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://hawcreeklandscaping.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1371,7 +2418,10 @@ export const COMMERCE = {
  },
  "help-u-hear": {
   "platform": "wordpress",
-  "origin": "https://www.helpuhear.net",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.helpuhear.net/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1384,15 +2434,44 @@ export const COMMERCE = {
  },
  "henry-chiropractic-center": {
   "platform": "woocommerce",
-  "origin": "https://www.henrychiropracticcenter.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://www.henrychiropracticcenter.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
+ "hex-beauty-collective": {
+  "platform": "",
+  "stack": [
+   "glossgenius",
+   "webflow"
+  ],
+  "origin": "https://glossgenius.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "GlossGenius",
+    "url": "https://app.glossgenius.com/?_gl=1*iyazql*_ga*MzA1MTUxMDc4LjE3MTcyNjc3ODI.*_ga_WW872X2QWJ*MTcxNzQzMzczMi40My4wLjE3MTc0MzM3MzIuNjAuMC4w"
+   }
+  ],
+  "gift": {
+   "label": "their website",
+   "url": "https://glossgenius.com/gift-cards"
+  }
+ },
  "hidden-treasures-finders-keepers": {
   "platform": "squarespace-commerce",
-  "origin": "https://www.hiddentreasuresfinderskeepers.com",
+  "stack": [
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://www.hiddentreasuresfinderskeepers.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1400,15 +2479,27 @@ export const COMMERCE = {
  },
  "hiker-trailers": {
   "platform": "woocommerce",
-  "origin": "https://hikertrailers.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://hikertrailers.com/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "online booking",
+    "url": "https://hikertrailers.com/spring-reservations/"
+   }
+  ]
  },
  "hk-auto-repair-center-inc": {
   "platform": "wordpress",
-  "origin": "https://hkautocolumbus.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://hkautocolumbus.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1416,7 +2507,10 @@ export const COMMERCE = {
  },
  "hnf-electric": {
   "platform": "wordpress",
-  "origin": "https://hnfelectric.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://hnfelectric.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1424,15 +2518,26 @@ export const COMMERCE = {
  },
  "hog-molly-brewing-company": {
   "platform": "wordpress",
-  "origin": "https://hogmollybrewing.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://hogmollybrewing.com/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [],
+  "gift": {
+   "label": "their website",
+   "url": "https://hogmollybrewing.com/e-gift-card/"
+  }
  },
  "honcura": {
   "platform": "square-online",
-  "origin": "https://www.honcura.net",
+  "stack": [
+   "square-online",
+   "weebly"
+  ],
+  "origin": "https://www.honcura.net/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1440,15 +2545,27 @@ export const COMMERCE = {
  },
  "hoosier-brokers-real-estate": {
   "platform": "wix-stores",
-  "origin": "https://www.hoosierbrokers.com",
+  "stack": [
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.hoosierbrokers.com/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "Wix Bookings",
+    "url": "https://www.hoosierbrokers.com/book-online"
+   }
+  ]
  },
  "hoosier-sporting-goods": {
   "platform": "wordpress",
-  "origin": "https://hoosiersportinggoods.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://hoosiersportinggoods.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1462,9 +2579,23 @@ export const COMMERCE = {
   "order": [],
   "book": []
  },
+ "hush-aesthetics-and-wellness": {
+  "platform": "",
+  "stack": [
+   "shopify"
+  ],
+  "origin": "https://hushaestheticswellness.com/",
+  "feed": false,
+  "store": "https://hushaw.myshopify.com/",
+  "order": [],
+  "book": []
+ },
  "icing-on-the-cake-by-kristina": {
   "platform": "wix",
-  "origin": "https://www.icingonthecakebykristina.com",
+  "stack": [
+   "wix"
+  ],
+  "origin": "https://www.icingonthecakebykristina.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1472,7 +2603,12 @@ export const COMMERCE = {
  },
  "imprint-pediatric-therapy-llc": {
   "platform": "woocommerce",
-  "origin": "https://www.imprintpediatrictherapy.com",
+  "stack": [
+   "godaddy",
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://www.imprintpediatrictherapy.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1480,7 +2616,10 @@ export const COMMERCE = {
  },
  "in-style-kitchen-and-bath": {
   "platform": "wordpress",
-  "origin": "https://www.instylekitchenandbaths.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.instylekitchenandbaths.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1488,7 +2627,11 @@ export const COMMERCE = {
  },
  "indiana-conservatory-of-music": {
   "platform": "squarespace-commerce",
-  "origin": "https://www.indianaconservatory.com",
+  "stack": [
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://www.indianaconservatory.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1496,7 +2639,10 @@ export const COMMERCE = {
  },
  "indiana-insurance-solutions-inc": {
   "platform": "wordpress",
-  "origin": "http://www.indianainsurancesolutions.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "http://www.indianainsurancesolutions.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1504,7 +2650,10 @@ export const COMMERCE = {
  },
  "indiana-precast": {
   "platform": "wix",
-  "origin": "https://www.indianaprecastinc.com",
+  "stack": [
+   "wix"
+  ],
+  "origin": "https://www.indianaprecastinc.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1512,7 +2661,12 @@ export const COMMERCE = {
  },
  "indiana-road-ready-llc": {
   "platform": "wix-stores",
-  "origin": "https://www.indianaroadready.com",
+  "stack": [
+   "wix",
+   "wix-stores",
+   "wordpress"
+  ],
+  "origin": "https://www.indianaroadready.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1520,7 +2674,11 @@ export const COMMERCE = {
  },
  "inn-at-irwin-gardens": {
   "platform": "wix-stores",
-  "origin": "https://www.irwingardens.com",
+  "stack": [
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.irwingardens.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1528,7 +2686,11 @@ export const COMMERCE = {
  },
  "innova-marketing-solutions-llc": {
   "platform": "woocommerce",
-  "origin": "https://innovacompany.co",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://innovacompany.co/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1536,7 +2698,11 @@ export const COMMERCE = {
  },
  "inspire-motives-llc": {
   "platform": "squarespace-commerce",
-  "origin": "https://www.inspiremotives.com",
+  "stack": [
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://www.inspiremotives.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1544,7 +2710,11 @@ export const COMMERCE = {
  },
  "integrated-insurance-and-financial-services-llc": {
   "platform": "wordpress",
-  "origin": "https://iifs.company",
+  "stack": [
+   "godaddy",
+   "wordpress"
+  ],
+  "origin": "https://iifs.company/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1552,7 +2722,10 @@ export const COMMERCE = {
  },
  "integrity-life-and-health": {
   "platform": "wordpress",
-  "origin": "https://integritywealthmanagement.org",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://integritywealthmanagement.org/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1560,7 +2733,10 @@ export const COMMERCE = {
  },
  "j-and-s-outfitters": {
   "platform": "wordpress",
-  "origin": "https://jnsoutfitters.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://jnsoutfitters.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1568,7 +2744,10 @@ export const COMMERCE = {
  },
  "j-clayton-callaway-dds": {
   "platform": "wix",
-  "origin": "https://www.callaway-dental.com",
+  "stack": [
+   "wix"
+  ],
+  "origin": "https://www.callaway-dental.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1576,15 +2755,39 @@ export const COMMERCE = {
  },
  "jackson-tax-service": {
   "platform": "wix-stores",
-  "origin": "https://www.jacksonfamilytaxservice.com",
+  "stack": [
+   "wix",
+   "wix-stores",
+   "wordpress"
+  ],
+  "origin": "https://www.jacksonfamilytaxservice.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
+ "jaggers": {
+  "platform": "",
+  "stack": [
+   "drupal"
+  ],
+  "origin": "https://www.eatjaggers.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [],
+  "gift": {
+   "label": "their website",
+   "url": "https://www.eatjaggers.com/gift-cards"
+  }
+ },
  "jeffs-lawn-care-service": {
   "platform": "woocommerce",
-  "origin": "https://jeffslawncareservices.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://jeffslawncareservices.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1592,7 +2795,11 @@ export const COMMERCE = {
  },
  "jerry-l-rinehart-dds": {
   "platform": "woocommerce",
-  "origin": "https://www.jerryrinehartdds.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://www.jerryrinehartdds.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1605,15 +2812,27 @@ export const COMMERCE = {
  },
  "jewell-rittman-funeral-service-and-crematory": {
   "platform": "woocommerce",
-  "origin": "https://jewellrittman.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://jewellrittman.com/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "appointment request",
+    "url": "https://jewellrittman.com/request-an-appointment/"
+   }
+  ]
  },
  "johnson-witkemper-insurance": {
   "platform": "wordpress",
-  "origin": "https://jwinsurance.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://jwinsurance.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1621,7 +2840,11 @@ export const COMMERCE = {
  },
  "joseph-e-golding-dds": {
   "platform": "woocommerce",
-  "origin": "http://columbusdentalcare.net",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "http://columbusdentalcare.net/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1629,7 +2852,10 @@ export const COMMERCE = {
  },
  "kamp-technologies-llc": {
   "platform": "wix",
-  "origin": "https://www.kamptechnologies.com",
+  "stack": [
+   "wix"
+  ],
+  "origin": "https://www.kamptechnologies.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1637,7 +2863,11 @@ export const COMMERCE = {
  },
  "kat-dunn-photography": {
   "platform": "woocommerce",
-  "origin": "https://katdunn.photos",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://katdunn.photos/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1645,15 +2875,40 @@ export const COMMERCE = {
  },
  "keepsake-village-of-columbus": {
   "platform": "woocommerce",
-  "origin": "https://www.gardant.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://www.gardant.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
+ "kessler-orthodontics": {
+  "platform": "",
+  "stack": [
+   "webflow"
+  ],
+  "origin": "https://www.kesslerorthodontics.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "online booking",
+    "url": "https://www.kesslerorthodontics.com/appointment"
+   }
+  ]
+ },
  "kidz-first-daycare-and-preschool": {
   "platform": "wix-stores",
-  "origin": "https://www.kidzfirstdaycare.org",
+  "stack": [
+   "wix",
+   "wix-stores",
+   "wordpress"
+  ],
+  "origin": "https://www.kidzfirstdaycare.org/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1661,7 +2916,11 @@ export const COMMERCE = {
  },
  "kind-car-wash": {
   "platform": "woocommerce",
-  "origin": "https://www.kindcarwash.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://www.kindcarwash.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1669,7 +2928,11 @@ export const COMMERCE = {
  },
  "kirr-marbach-and-company-llc": {
   "platform": "wordpress",
-  "origin": "https://kirrmar.com",
+  "stack": [
+   "godaddy",
+   "wordpress"
+  ],
+  "origin": "https://kirrmar.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1677,7 +2940,10 @@ export const COMMERCE = {
  },
  "kos-martial-arts-academy": {
   "platform": "wordpress",
-  "origin": "https://grandmasterko.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://grandmasterko.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1685,7 +2951,11 @@ export const COMMERCE = {
  },
  "laurels-hair-studio": {
   "platform": "square-online",
-  "origin": "https://www.laurelshairstudio.org",
+  "stack": [
+   "square-online",
+   "weebly"
+  ],
+  "origin": "https://www.laurelshairstudio.org/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1693,7 +2963,11 @@ export const COMMERCE = {
  },
  "learning-tree-preschool": {
   "platform": "wix",
-  "origin": "https://www.fumccolumbus.org",
+  "stack": [
+   "wix",
+   "wordpress"
+  ],
+  "origin": "https://www.fumccolumbus.org/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1701,7 +2975,11 @@ export const COMMERCE = {
  },
  "lees-glam-cam-360-photo-booth": {
   "platform": "wix-stores",
-  "origin": "https://www.theriothaus.com",
+  "stack": [
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.theriothaus.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1709,7 +2987,10 @@ export const COMMERCE = {
  },
  "loesch-heating-and-air-conditioning": {
   "platform": "wordpress",
-  "origin": "https://www.efficientsystems.net",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.efficientsystems.net/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1717,7 +2998,10 @@ export const COMMERCE = {
  },
  "lohmeyer-plumbing-llc": {
   "platform": "wordpress",
-  "origin": "https://www.lohmeyerplumbing.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.lohmeyerplumbing.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1725,7 +3009,10 @@ export const COMMERCE = {
  },
  "lovins-select-pool-and-spa": {
   "platform": "wordpress",
-  "origin": "https://lovinsselectpoolandspa.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://lovinsselectpoolandspa.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1733,7 +3020,12 @@ export const COMMERCE = {
  },
  "lucabe-coffee-co-4th-street": {
   "platform": "square-online",
-  "origin": "https://www.lucabecoffeeco.com",
+  "stack": [
+   "square-online",
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.lucabecoffeeco.com/",
   "feed": false,
   "store": "",
   "order": [
@@ -1746,7 +3038,12 @@ export const COMMERCE = {
  },
  "lucabe-coffee-co-eastbrook": {
   "platform": "square-online",
-  "origin": "https://www.lucabecoffeeco.com",
+  "stack": [
+   "square-online",
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.lucabecoffeeco.com/",
   "feed": false,
   "store": "",
   "order": [
@@ -1759,20 +3056,27 @@ export const COMMERCE = {
  },
  "lucas-brothers-sandwich-shop": {
   "platform": "square-online",
-  "origin": "https://lucasbrothersshop.square.site",
+  "stack": [
+   "square-online",
+   "weebly"
+  ],
+  "origin": "https://lucasbrothersshop.square.site/",
   "feed": false,
   "store": "",
   "order": [
    {
     "label": "Square Online",
-    "url": "https://lucasbrothersshop.square.site"
+    "url": "http://lucasbrothersshop.square.site/"
    }
   ],
   "book": []
  },
  "lucianas-mexican-restaurant": {
   "platform": "wordpress",
-  "origin": "https://lucianasmexicanrestaurant.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://lucianasmexicanrestaurant.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1780,15 +3084,26 @@ export const COMMERCE = {
  },
  "luxe-designs-by-jess-llc": {
   "platform": "wordpress",
-  "origin": "https://www.luxedesignsllc.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.luxedesignsllc.com/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "online booking",
+    "url": "https://www.luxedesignsllc.com/book-appointment/"
+   }
+  ]
  },
  "luxury-auto-boutique": {
   "platform": "godaddy",
-  "origin": "https://expireddomains.com",
+  "stack": [
+   "godaddy"
+  ],
+  "origin": "https://expireddomains.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1796,7 +3111,11 @@ export const COMMERCE = {
  },
  "m-and-y-massage-and-foot-massage": {
   "platform": "woocommerce",
-  "origin": "https://mymassagein.net",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://mymassagein.net/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1804,7 +3123,10 @@ export const COMMERCE = {
  },
  "mac-general-contractor": {
   "platform": "wordpress",
-  "origin": "https://macpropertygroup.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://macpropertygroup.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1812,7 +3134,10 @@ export const COMMERCE = {
  },
  "made-rite-fence": {
   "platform": "wix",
-  "origin": "https://www.fencemaderite.com",
+  "stack": [
+   "wix"
+  ],
+  "origin": "https://www.fencemaderite.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1820,7 +3145,11 @@ export const COMMERCE = {
  },
  "malone-workforce-solutions": {
   "platform": "woocommerce",
-  "origin": "https://www.malonesolutions.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://www.malonesolutions.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1828,7 +3157,10 @@ export const COMMERCE = {
  },
  "mark-a-barr-dds": {
   "platform": "wordpress",
-  "origin": "https://www.markbarrdds.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.markbarrdds.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1836,15 +3168,35 @@ export const COMMERCE = {
  },
  "marvin-johnson-and-associates": {
   "platform": "wordpress",
-  "origin": "https://www.mjai.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.mjai.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
+ "masala-magic": {
+  "platform": "",
+  "origin": "https://masalamagic.shop/",
+  "feed": false,
+  "store": "",
+  "order": [
+   {
+    "label": "online ordering",
+    "url": "https://masalamagic.shop/order-online.php"
+   }
+  ],
+  "book": []
+ },
  "master-power-transmission": {
   "platform": "woocommerce",
-  "origin": "https://master-pt.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://master-pt.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1852,7 +3204,10 @@ export const COMMERCE = {
  },
  "matlock-plumbing-inc": {
   "platform": "wordpress",
-  "origin": "https://www.matlockplumbing.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.matlockplumbing.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1860,7 +3215,10 @@ export const COMMERCE = {
  },
  "mcbride-cosaint-solutions-llc": {
   "platform": "godaddy",
-  "origin": "https://mcbridecosaintinsurance.com",
+  "stack": [
+   "godaddy"
+  ],
+  "origin": "https://mcbridecosaintinsurance.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1868,7 +3226,11 @@ export const COMMERCE = {
  },
  "mccabe-orthodontics": {
   "platform": "wordpress",
-  "origin": "https://drmccabeortho.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://drmccabeortho.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1876,7 +3238,11 @@ export const COMMERCE = {
  },
  "meeks-and-company-professional-surveying-inc": {
   "platform": "square-online",
-  "origin": "https://meekscompany.com",
+  "stack": [
+   "square-online",
+   "weebly"
+  ],
+  "origin": "https://meekscompany.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1884,15 +3250,23 @@ export const COMMERCE = {
  },
  "meli-market": {
   "platform": "square-online",
-  "origin": "https://www.melimarket.co",
+  "stack": [
+   "square-online",
+   "weebly"
+  ],
+  "origin": "https://www.melimarket.co/",
   "feed": false,
-  "store": "",
+  "store": "https://www.melimarket.co/",
   "order": [],
   "book": []
  },
  "mendoza-personal-injury-lawyers": {
   "platform": "woocommerce",
-  "origin": "https://caraccidentlawyerscolumbus.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://caraccidentlawyerscolumbus.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1900,7 +3274,11 @@ export const COMMERCE = {
  },
  "midwest-computer-solutions-inc": {
   "platform": "woocommerce",
-  "origin": "https://www.mwcomputersolutions.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://www.mwcomputersolutions.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1908,15 +3286,37 @@ export const COMMERCE = {
  },
  "minash-boutique": {
   "platform": "shopify",
-  "origin": "https://www.minashboutique.com",
+  "stack": [
+   "shopify"
+  ],
+  "origin": "https://www.minashboutique.com/",
   "feed": true,
+  "store": "",
+  "order": [],
+  "book": [],
+  "gift": {
+   "label": "their website",
+   "url": "https://www.minashboutique.com/products/minash-boutique-gift-card"
+  }
+ },
+ "misora": {
+  "platform": "woocommerce",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://www.eatmisora.com/",
+  "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
- "misora": {
-  "platform": "woocommerce",
-  "origin": "https://www.eatmisora.com",
+ "miss-rachels-neat-treats": {
+  "platform": "wordpress",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://neat-treats.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1924,7 +3324,10 @@ export const COMMERCE = {
  },
  "mlt-technologies-inc": {
   "platform": "wordpress",
-  "origin": "https://www.mltinnovations.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.mltinnovations.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1932,7 +3335,10 @@ export const COMMERCE = {
  },
  "moores-roofing-inc": {
   "platform": "wordpress",
-  "origin": "https://mooresroofing.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://mooresroofing.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1940,15 +3346,31 @@ export const COMMERCE = {
  },
  "mother-bears-pizza": {
   "platform": "wix",
-  "origin": "https://www.motherbearspizza.com",
+  "stack": [
+   "wix"
+  ],
+  "origin": "https://www.motherbearspizza.com/",
   "feed": false,
   "store": "",
-  "order": [],
-  "book": []
+  "order": [
+   {
+    "label": "FoodTec",
+    "url": "https://motherbearpizza-campus.foodtecsolutions.com/"
+   }
+  ],
+  "book": [],
+  "gift": {
+   "label": "their website",
+   "url": "https://www.motherbearspizza.com/e-gift"
+  }
  },
  "my-mobility-llc": {
   "platform": "woocommerce",
-  "origin": "https://mymobilitydesign.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://mymobilitydesign.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1956,7 +3378,11 @@ export const COMMERCE = {
  },
  "my-motorsports": {
   "platform": "woocommerce",
-  "origin": "https://myridercourse.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://myridercourse.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1964,15 +3390,32 @@ export const COMMERCE = {
  },
  "my-whole-kitchen": {
   "platform": "wix-stores",
-  "origin": "https://www.mywholekitchen.com",
+  "stack": [
+   "wix",
+   "wix-stores",
+   "wordpress"
+  ],
+  "origin": "https://www.mywholekitchen.com/",
   "feed": false,
   "store": "",
-  "order": [],
-  "book": []
+  "order": [
+   {
+    "label": "online ordering",
+    "url": "https://www.mywholekitchen.com/order"
+   }
+  ],
+  "book": [],
+  "gift": {
+   "label": "their website",
+   "url": "https://www.mywholekitchen.com/gift-card"
+  }
  },
  "nails-station-and-spa-columbus": {
   "platform": "wordpress",
-  "origin": "https://nailsstationandspa.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://nailsstationandspa.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1980,15 +3423,34 @@ export const COMMERCE = {
  },
  "nanos-car-detailing-and-cleaning": {
   "platform": "godaddy",
-  "origin": "https://nanoscardetailingandcleaning.com",
+  "stack": [
+   "godaddy"
+  ],
+  "origin": "https://nanoscardetailingandcleaning.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
+ "neal-tire-and-auto-service": {
+  "platform": "",
+  "origin": "https://nealtire.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "online booking",
+    "url": "https://nealtire.com/schedule-appointment/"
+   }
+  ]
+ },
  "near-north-title-group": {
   "platform": "wordpress",
-  "origin": "https://nntg.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://nntg.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -1996,15 +3458,50 @@ export const COMMERCE = {
  },
  "neuroversity": {
   "platform": "woocommerce",
-  "origin": "https://www.imprintpediatrictherapy.com",
+  "stack": [
+   "godaddy",
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://www.imprintpediatrictherapy.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
+ "next-step-massage": {
+  "platform": "",
+  "stack": [
+   "vagaro"
+  ],
+  "origin": "https://mysite.vagaro.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "Vagaro",
+    "url": "https://mysite.vagaro.com/nextstepmassage"
+   }
+  ]
+ },
  "nichols-body-company-inc": {
   "platform": "wordpress",
-  "origin": "https://nicholsbody.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://nicholsbody.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": []
+ },
+ "noblitt-fabricating": {
+  "platform": "wordpress",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://noblittfab.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2012,7 +3509,11 @@ export const COMMERCE = {
  },
  "nomad-barber-shop": {
   "platform": "godaddy",
-  "origin": "https://nomadbarbershop.com",
+  "stack": [
+   "booking-other",
+   "godaddy"
+  ],
+  "origin": "https://nomadbarbershop.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2020,41 +3521,88 @@ export const COMMERCE = {
  },
  "northside-pediatrics": {
   "platform": "squarespace-commerce",
-  "origin": "https://www.northside-pediatrics.org",
+  "stack": [
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://www.northside-pediatrics.org/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "online booking",
+    "url": "https://www.northside-pediatrics.org/appointments"
+   }
+  ]
  },
  "nutri-bee": {
   "platform": "square-online",
-  "origin": "https://www.nutri-bee.org",
+  "stack": [
+   "square-online",
+   "weebly"
+  ],
+  "origin": "https://www.nutri-bee.org/",
   "feed": false,
   "store": "",
   "order": [
    {
     "label": "Square Online",
-    "url": "https://www.nutri-bee.org"
+    "url": "https://www.nutri-bee.org/"
    }
   ],
   "book": []
  },
  "ofelias-fades": {
   "platform": "",
-  "origin": "https://lhkw.app.link",
+  "stack": [
+   "booksy"
+  ],
+  "origin": "https://booksy.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": [
    {
     "label": "Booksy",
-    "url": "https://booksy.com/en-us/1283811_haircuts-clauher_barber-shop_19373_columbus?do=invite&_branch_match_id=1642515560683544339&_branch_referrer=H4sIAAAAAAAAA8soKSkottLXT07J0UvKz88urtRLzs%2FVDza3yC%2FLqgwKjkoCAEdeNx0iAAAA"
+    "url": "https://help.booksy.com/"
    }
   ]
  },
+ "ogles-tool-and-party-rentals": {
+  "platform": "woocommerce",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://oglesrentals.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": []
+ },
+ "olesyas-kitchen": {
+  "platform": "",
+  "stack": [
+   "marketplace-delivery"
+  ],
+  "origin": "https://olesyaskitchen.com/",
+  "feed": false,
+  "store": "",
+  "order": [
+   {
+    "label": "online ordering",
+    "url": "https://olesyaskitchen.com/order-now"
+   }
+  ],
+  "book": []
+ },
  "olive-branch-dental": {
   "platform": "wordpress",
-  "origin": "https://olivebranchdentalcolumbus.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://olivebranchdentalcolumbus.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2067,15 +3615,27 @@ export const COMMERCE = {
  },
  "one-of-a-kind-hr-consulting-llc": {
   "platform": "wix-stores",
-  "origin": "https://www.oneofakindhr.com",
+  "stack": [
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.oneofakindhr.com/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "Wix Bookings",
+    "url": "https://www.oneofakindhr.com/book-online"
+   }
+  ]
  },
  "ono-brothers-general-contractors-inc": {
   "platform": "godaddy",
-  "origin": "https://onobrothers.com",
+  "stack": [
+   "godaddy"
+  ],
+  "origin": "https://onobrothers.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2083,7 +3643,10 @@ export const COMMERCE = {
  },
  "ozols-construction-corp": {
   "platform": "wordpress",
-  "origin": "http://ozolsconstruction.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "http://ozolsconstruction.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2091,7 +3654,11 @@ export const COMMERCE = {
  },
  "pankratz-eye-institute": {
   "platform": "wordpress",
-  "origin": "https://pankratzvision.com",
+  "stack": [
+   "webflow",
+   "wordpress"
+  ],
+  "origin": "https://pankratzvision.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2099,7 +3666,10 @@ export const COMMERCE = {
  },
  "papas-grill": {
   "platform": "godaddy",
-  "origin": "https://papasgrill.net",
+  "stack": [
+   "godaddy"
+  ],
+  "origin": "https://papasgrill.net/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2107,23 +3677,45 @@ export const COMMERCE = {
  },
  "party-on-rentals": {
   "platform": "woocommerce",
-  "origin": "https://www.party-on-rentals.com",
+  "stack": [
+   "wix",
+   "wix-stores",
+   "woocommerce"
+  ],
+  "origin": "https://www.party-on-rentals.com/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "online booking",
+    "url": "https://www.party-on-rentals.com/book-online"
+   }
+  ]
  },
  "party-rental-vazquez-llc": {
   "platform": "wordpress",
-  "origin": "https://partyrentalvazquez.com",
+  "stack": [
+   "godaddy",
+   "wordpress"
+  ],
+  "origin": "https://partyrentalvazquez.com/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "online booking",
+    "url": "https://partyrentalvazquez.com/booking/"
+   }
+  ]
  },
  "peter-king-law": {
   "platform": "wordpress",
-  "origin": "https://www.peterkinglaw.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.peterkinglaw.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2131,7 +3723,10 @@ export const COMMERCE = {
  },
  "phegleys-motorsports-inc": {
   "platform": "godaddy",
-  "origin": "http://www.phegleysmotorsports.com",
+  "stack": [
+   "godaddy"
+  ],
+  "origin": "http://www.phegleysmotorsports.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2139,7 +3734,10 @@ export const COMMERCE = {
  },
  "pollert-design-associates-inc": {
   "platform": "wordpress",
-  "origin": "https://pollertdesign.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://pollertdesign.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2147,23 +3745,52 @@ export const COMMERCE = {
  },
  "pomp-and-bloom": {
   "platform": "squarespace-commerce",
-  "origin": "https://www.pompandbloom.com",
+  "stack": [
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://www.pompandbloom.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
+ },
+ "posh-sloth-massage": {
+  "platform": "",
+  "origin": "https://poshsloth.massagetherapy.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [],
+  "gift": {
+   "label": "their website",
+   "url": "https://poshsloth.massagetherapy.com/gift-certificates"
+  }
  },
  "positive-performance-llc": {
   "platform": "wordpress",
-  "origin": "https://positiveperformance1.com",
+  "stack": [
+   "auto-booking",
+   "wordpress"
+  ],
+  "origin": "https://positiveperformance1.com/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "online booking",
+    "url": "https://positiveperformance1.com/appointments/"
+   }
+  ]
  },
  "precision-eye-group": {
   "platform": "wordpress",
-  "origin": "https://precisioneye.com",
+  "stack": [
+   "health-booking",
+   "wordpress"
+  ],
+  "origin": "https://precisioneye.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2171,7 +3798,7 @@ export const COMMERCE = {
  },
  "prestige-printing-inc": {
   "platform": "",
-  "origin": "https://www.prestigeteam.biz",
+  "origin": "https://www.prestigeteam.biz/",
   "feed": false,
   "store": "",
   "order": [
@@ -2184,7 +3811,10 @@ export const COMMERCE = {
  },
  "prime-capital-financial-the-murphy-group": {
   "platform": "wordpress",
-  "origin": "https://primefinancialmidwest.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://primefinancialmidwest.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2192,7 +3822,11 @@ export const COMMERCE = {
  },
  "priority-risk-management": {
   "platform": "wordpress",
-  "origin": "https://www.priorityrisk.com",
+  "stack": [
+   "calendly",
+   "wordpress"
+  ],
+  "origin": "https://www.priorityrisk.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2205,7 +3839,7 @@ export const COMMERCE = {
  },
  "pro-nails": {
   "platform": "",
-  "origin": "https://manage2.mangoforsalon.com",
+  "origin": "https://manage2.mangoforsalon.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2216,43 +3850,83 @@ export const COMMERCE = {
    }
   ]
  },
+ "radiance-by-rhianna-spa": {
+  "platform": "",
+  "stack": [
+   "vagaro"
+  ],
+  "origin": "https://mysite.vagaro.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "Vagaro",
+    "url": "https://mysite.vagaro.com/radiancebyrhiannallc"
+   }
+  ],
+  "gift": {
+   "label": "their website",
+   "url": "https://mysite.vagaro.com/gift-certificates"
+  }
+ },
  "raging-hair-by-brandie": {
   "platform": "",
-  "origin": "https://lhkw.app.link",
+  "stack": [
+   "booksy"
+  ],
+  "origin": "https://booksy.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": [
    {
     "label": "Booksy",
-    "url": "https://booksy.com/en-us/211667_raging-hair-by-brandie_hair-salon_19373_columbus?do=invite&_branch_match_id=1642497345670691520&_branch_referrer=H4sIAAAAAAAAA8soKSkottLXT07J0UvKz88urtRLzs%2FVN%2FAJM68wLfNPM0gCAO4fvPgiAAAA"
+    "url": "https://help.booksy.com/"
    }
   ]
  },
  "ramen-alley": {
   "platform": "square-online",
-  "origin": "https://www.ramen-alley.com",
+  "stack": [
+   "square-online",
+   "weebly"
+  ],
+  "origin": "https://www.ramen-alley.com/",
   "feed": false,
   "store": "",
   "order": [
    {
     "label": "Square Online",
-    "url": "https://www.ramen-alley.com"
+    "url": "https://www.ramen-alley.com/"
    }
   ],
   "book": []
  },
  "rays-automotive-center": {
   "platform": "wordpress",
-  "origin": "https://raysautomotivecenter.com",
+  "stack": [
+   "auto-booking",
+   "wordpress"
+  ],
+  "origin": "https://raysautomotivecenter.com/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "online booking",
+    "url": "https://raysautomotivecenter.com/appointments/"
+   }
+  ]
  },
  "rdc-commercial-real-estate": {
   "platform": "squarespace-commerce",
-  "origin": "https://rdc-commercial.com",
+  "stack": [
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://rdc-commercial.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2260,15 +3934,22 @@ export const COMMERCE = {
  },
  "really-the-barbers": {
   "platform": "square-online",
-  "origin": "https://really-the-barber.square.site",
+  "stack": [
+   "square-online",
+   "weebly"
+  ],
+  "origin": "https://really-the-barber.square.site/",
   "feed": false,
-  "store": "",
+  "store": "https://really-the-barber.square.site/",
   "order": [],
   "book": []
  },
  "reichel-stohry-dean-llp": {
   "platform": "wordpress",
-  "origin": "https://www.rsindy.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.rsindy.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2276,7 +3957,11 @@ export const COMMERCE = {
  },
  "reliable-comfort-heating-air-conditioning-and-plumbing": {
   "platform": "wordpress",
-  "origin": "https://www.reliablecomfort.com",
+  "stack": [
+   "home-services-booking",
+   "wordpress"
+  ],
+  "origin": "https://www.reliablecomfort.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2289,15 +3974,38 @@ export const COMMERCE = {
  },
  "richard-hawes-insurance": {
   "platform": "wordpress",
-  "origin": "https://www.hawesinsurance.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.hawesinsurance.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
+ "riviera-maya-west": {
+  "platform": "",
+  "stack": [
+   "clover"
+  ],
+  "origin": "https://www.clover.com/",
+  "feed": false,
+  "store": "",
+  "order": [
+   {
+    "label": "Clover",
+    "url": "https://www.clover.com/online-ordering/rivera-maya-mexican-gril-columbus"
+   }
+  ],
+  "book": []
+ },
  "rlc-truck-and-auto-accessories": {
   "platform": "woocommerce",
-  "origin": "https://rhinolinings.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://rhinolinings.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2305,7 +4013,21 @@ export const COMMERCE = {
  },
  "rnr-tire-express": {
   "platform": "wordpress",
-  "origin": "https://rnrtires.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://rnrtires.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": []
+ },
+ "road-rescue-mobile-mechanic": {
+  "platform": "wordpress",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://roadrescuemobilemechaniccolumbus.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2313,7 +4035,10 @@ export const COMMERCE = {
  },
  "robert-hendershot-agency-inc": {
   "platform": "wordpress",
-  "origin": "https://hendershotinsurance.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://hendershotinsurance.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2321,7 +4046,10 @@ export const COMMERCE = {
  },
  "rohdes-family-diner": {
   "platform": "wix",
-  "origin": "https://www.rohdesfamilydiner.com",
+  "stack": [
+   "wix"
+  ],
+  "origin": "https://www.rohdesfamilydiner.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2329,7 +4057,11 @@ export const COMMERCE = {
  },
  "rs-warren-construction": {
   "platform": "woocommerce",
-  "origin": "https://rswarren.construction",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://rswarren.construction/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2337,7 +4069,11 @@ export const COMMERCE = {
  },
  "ryan-furr-creative": {
   "platform": "wix-stores",
-  "origin": "https://www.ryanfurr.com",
+  "stack": [
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.ryanfurr.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2345,7 +4081,10 @@ export const COMMERCE = {
  },
  "ryoshi-karate-columbus": {
   "platform": "godaddy",
-  "origin": "https://ryoshikarate.com",
+  "stack": [
+   "godaddy"
+  ],
+  "origin": "https://ryoshikarate.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2353,14 +4092,17 @@ export const COMMERCE = {
  },
  "salon-aura-hair-color-studio": {
   "platform": "",
-  "origin": "https://lhkw.app.link",
+  "stack": [
+   "booksy"
+  ],
+  "origin": "https://booksy.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": [
    {
     "label": "Booksy",
-    "url": "https://booksy.com/en-us/638068_salon-aura_hair-salon_19373_columbus?do=invite&_branch_match_id=1642497355522156448&_branch_referrer=H4sIAAAAAAAAA8soKSkottLXT07J0UvKz88urtRLzs%2FVD6syj8iKMk8pjEoCAGzJ2%2FoiAAAA"
+    "url": "https://help.booksy.com/"
    },
    {
     "label": "visibook.com",
@@ -2370,7 +4112,10 @@ export const COMMERCE = {
  },
  "sandcrest-dental-health": {
   "platform": "",
-  "origin": "https://www.sandcrestdental.com",
+  "stack": [
+   "health-booking"
+  ],
+  "origin": "https://www.sandcrestdental.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2383,28 +4128,44 @@ export const COMMERCE = {
  },
  "saner-barbershop": {
   "platform": "",
-  "origin": "https://lhkw.app.link",
+  "stack": [
+   "booksy"
+  ],
+  "origin": "https://booksy.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": [
    {
     "label": "Booksy",
-    "url": "https://booksy.com/en-us/838998_saner-812-styles_barber-shop_19373_columbus?do=invite&_branch_match_id=1642515577593703105&_branch_referrer=H4sIAAAAAAAAA8soKSkottLXT07J0UvKz88urtRLzs%2FVzzdLsfQycvJJNk8CAHy4u8oiAAAA"
+    "url": "https://help.booksy.com/"
    }
   ]
  },
  "sassafras-salon-and-spa": {
   "platform": "squarespace-commerce",
-  "origin": "https://www.sassafras-salon.com",
+  "stack": [
+   "booking-other",
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://www.sassafras-salon.com/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "Phorest",
+    "url": "https://phorest.com/book/salons/sassafrassalonanddayspa"
+   }
+  ]
  },
  "savage-distilling": {
   "platform": "godaddy",
-  "origin": "https://savagedistillingllc.godaddysites.com",
+  "stack": [
+   "godaddy"
+  ],
+  "origin": "https://savagedistillingllc.godaddysites.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2412,7 +4173,10 @@ export const COMMERCE = {
  },
  "security-title-services": {
   "platform": "wordpress",
-  "origin": "https://stindy.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://stindy.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2420,7 +4184,10 @@ export const COMMERCE = {
  },
  "sew-vivid-designs": {
   "platform": "shopify",
-  "origin": "https://sewvividdesigns.com",
+  "stack": [
+   "shopify"
+  ],
+  "origin": "https://sewvividdesigns.com/",
   "feed": true,
   "store": "",
   "order": [],
@@ -2428,7 +4195,11 @@ export const COMMERCE = {
  },
  "shabby-sheep-and-ewe": {
   "platform": "square-online",
-  "origin": "https://my-site-102122-109801.square.site",
+  "stack": [
+   "square-online",
+   "weebly"
+  ],
+  "origin": "https://my-site-102122-109801.square.site/",
   "feed": false,
   "store": "https://my-site-102122-109801.square.site/",
   "order": [],
@@ -2436,7 +4207,10 @@ export const COMMERCE = {
  },
  "sharpnack-bigley": {
   "platform": "wix",
-  "origin": "https://www.sharpnacklaw.com",
+  "stack": [
+   "wix"
+  ],
+  "origin": "https://www.sharpnacklaw.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2444,7 +4218,11 @@ export const COMMERCE = {
  },
  "shepherd-insurance": {
   "platform": "woocommerce",
-  "origin": "https://www.shepherdins.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://www.shepherdins.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2452,7 +4230,12 @@ export const COMMERCE = {
  },
  "shieldsmith-chiropractic": {
   "platform": "squarespace-commerce",
-  "origin": "https://www.shieldsmithchiropractic.com",
+  "stack": [
+   "health-booking",
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://www.shieldsmithchiropractic.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2463,17 +4246,46 @@ export const COMMERCE = {
    }
   ]
  },
- "simmons-winery-450-north-brewery": {
-  "platform": "wordpress",
-  "origin": "https://www.450northbrewing.com",
+ "silent3partners-llc": {
+  "platform": "woocommerce",
+  "stack": [
+   "calendly",
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://silent3partners.com/",
   "feed": false,
   "store": "",
   "order": [],
+  "book": [
+   {
+    "label": "Calendly",
+    "url": "https://calendly.com/silent3partners-info/30min"
+   }
+  ]
+ },
+ "simmons-winery-450-north-brewery": {
+  "platform": "wordpress",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.450northbrewing.com/",
+  "feed": false,
+  "store": "",
+  "order": [
+   {
+    "label": "Toast",
+    "url": "https://450northbrewingcompany.toast.site/order"
+   }
+  ],
   "book": []
  },
  "simply-you-photo-booth-co": {
   "platform": "wix",
-  "origin": "https://www.simplyyouphotoboothco.com",
+  "stack": [
+   "wix"
+  ],
+  "origin": "https://www.simplyyouphotoboothco.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2481,7 +4293,10 @@ export const COMMERCE = {
  },
  "skin-trendz-day-spa": {
   "platform": "",
-  "origin": "https://skintrendz.skincaretherapy.net",
+  "stack": [
+   "vagaro"
+  ],
+  "origin": "https://skintrendz.skincaretherapy.net/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2490,11 +4305,20 @@ export const COMMERCE = {
     "label": "Vagaro",
     "url": "https://vagaro.com/skintrendzdayspa1"
    }
-  ]
+  ],
+  "gift": {
+   "label": "their website",
+   "url": "https://skintrendz.skincaretherapy.net/gift-certificates"
+  }
  },
  "sky-sport-fitness": {
   "platform": "squarespace-commerce",
-  "origin": "https://www.skysportfitness.com",
+  "stack": [
+   "mindbody",
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://www.skysportfitness.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2507,7 +4331,11 @@ export const COMMERCE = {
  },
  "soils-plus-llc": {
   "platform": "woocommerce",
-  "origin": "https://soilsplusllc.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://soilsplusllc.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2515,15 +4343,26 @@ export const COMMERCE = {
  },
  "sojourn-coffee-company": {
   "platform": "woocommerce",
-  "origin": "https://www.sojourncoffeecompany.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://www.sojourncoffeecompany.com/",
   "feed": true,
   "store": "",
   "order": [],
-  "book": []
+  "book": [],
+  "gift": {
+   "label": "Square",
+   "url": "https://squareup.com/gift/ML2P5KM1F3DS0/order"
+  }
  },
  "sonrisas-family-dental": {
   "platform": "wordpress",
-  "origin": "https://sonrisasfamilydental.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://sonrisasfamilydental.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2531,20 +4370,24 @@ export const COMMERCE = {
  },
  "sophea-nails": {
   "platform": "",
-  "origin": "https://sophea-nails-columbus.nailsites.com",
+  "origin": "https://sophea-nails-columbus.nailsites.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": [
    {
-    "label": "booking.gocheckin.net",
+    "label": "GoCheckin",
     "url": "https://booking.gocheckin.net/v2/17635"
    }
   ]
  },
  "south-central-roofing": {
   "platform": "godaddy",
-  "origin": "https://www.scroof.com",
+  "stack": [
+   "godaddy",
+   "webflow"
+  ],
+  "origin": "https://www.scroof.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2552,7 +4395,10 @@ export const COMMERCE = {
  },
  "southern-indiana-aesthetic-and-plastic-surgery": {
   "platform": "wordpress",
-  "origin": "https://indianaaesthetics.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://indianaaesthetics.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2560,11 +4406,20 @@ export const COMMERCE = {
  },
  "southern-indiana-ent": {
   "platform": "wordpress",
-  "origin": "https://www.southernindianaent.com",
+  "stack": [
+   "health-booking",
+   "webflow",
+   "wordpress"
+  ],
+  "origin": "https://www.southernindianaent.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": [
+   {
+    "label": "healow",
+    "url": "https://healow.com/apps/practice/southern-indiana-ent-llc-32966?v=2&t=1"
+   },
    {
     "label": "southernindianaent.com",
     "url": "https://www.southernindianaent.com/request-an-appointment/"
@@ -2573,7 +4428,12 @@ export const COMMERCE = {
  },
  "southern-indiana-epoxy-flooring": {
   "platform": "wordpress",
-  "origin": "https://southernindianaepoxy.com",
+  "stack": [
+   "godaddy",
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://southernindianaepoxy.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2581,7 +4441,10 @@ export const COMMERCE = {
  },
  "southern-indiana-orthopedics": {
   "platform": "",
-  "origin": "https://www.southerninortho.com",
+  "stack": [
+   "drupal"
+  ],
+  "origin": "https://www.southerninortho.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2593,8 +4456,22 @@ export const COMMERCE = {
   ]
  },
  "southern-roofing-inc": {
-  "platform": "woocommerce",
-  "origin": "https://www.southernroofinginc.com",
+  "platform": "wordpress",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.southernroofinginc.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": []
+ },
+ "spoon-real-estate": {
+  "platform": "wordpress",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.spoonrealestate.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2602,7 +4479,11 @@ export const COMMERCE = {
  },
  "st-paul-lutheran-preschool": {
   "platform": "wix-stores",
-  "origin": "https://www.stpaulcolumbus.org",
+  "stack": [
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.stpaulcolumbus.org/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2610,15 +4491,27 @@ export const COMMERCE = {
  },
  "star-heating-and-air": {
   "platform": "wix",
-  "origin": "https://www.starhvac247.com",
+  "stack": [
+   "home-services-booking",
+   "wix"
+  ],
+  "origin": "https://www.starhvac247.com/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "Housecall Pro",
+    "url": "https://book.housecallpro.com/book/Star-Heating--Air-Inc/67bb2045f42d498e866adb864ea62151"
+   }
+  ]
  },
  "stephen-c-haworth-cpa": {
   "platform": "wordpress",
-  "origin": "https://schaworthcpa.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://schaworthcpa.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2626,7 +4519,11 @@ export const COMMERCE = {
  },
  "stith-commercial-brokers-co": {
   "platform": "woocommerce",
-  "origin": "http://stithbrokers.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "http://stithbrokers.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2634,7 +4531,10 @@ export const COMMERCE = {
  },
  "strand-associates": {
   "platform": "wordpress",
-  "origin": "https://www.strand.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.strand.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2642,7 +4542,13 @@ export const COMMERCE = {
  },
  "studio-shag-salon-and-boutique": {
   "platform": "woocommerce",
-  "origin": "https://studioshagsalon.com",
+  "stack": [
+   "square-appointments",
+   "square-online",
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://studioshagsalon.com/",
   "feed": false,
   "store": "https://hair-by-brittnay.square.site/",
   "order": [],
@@ -2655,15 +4561,39 @@ export const COMMERCE = {
  },
  "stunnas": {
   "platform": "wix-stores",
-  "origin": "https://www.stunnas812.com",
+  "stack": [
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.stunnas812.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
+ "stylez-by-nette": {
+  "platform": "",
+  "stack": [
+   "glossgenius"
+  ],
+  "origin": "https://annetteprescott.glossgenius.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "GlossGenius",
+    "url": "https://annetteprescott.glossgenius.com/"
+   }
+  ]
+ },
  "sugar-bayers-cookie-co": {
   "platform": "wix-stores",
-  "origin": "https://www.sugarbayerscookie.com",
+  "stack": [
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.sugarbayerscookie.com/",
   "feed": false,
   "store": "https://www.sugarbayerscookie.com/shop",
   "order": [],
@@ -2671,7 +4601,10 @@ export const COMMERCE = {
  },
  "summers-plumbing-heating-and-cooling": {
   "platform": "wordpress",
-  "origin": "https://summersphc.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://summersphc.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2684,7 +4617,11 @@ export const COMMERCE = {
  },
  "summit-cleaners": {
   "platform": "wix-stores",
-  "origin": "https://www.summitseymour.com",
+  "stack": [
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.summitseymour.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2692,15 +4629,37 @@ export const COMMERCE = {
  },
  "superior-drywall-and-painting": {
   "platform": "square-online",
-  "origin": "https://www.superiordrywallandpainting.com",
+  "stack": [
+   "joomla",
+   "square-online",
+   "weebly",
+   "wordpress"
+  ],
+  "origin": "https://www.superiordrywallandpainting.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
+ "taulman-chiropractic": {
+  "platform": "",
+  "origin": "https://www.taulchiro.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "online booking",
+    "url": "https://www.taulchiro.com/appointment"
+   }
+  ]
+ },
  "td-advertising": {
   "platform": "wordpress",
-  "origin": "https://tdadvertising.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://tdadvertising.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2708,7 +4667,10 @@ export const COMMERCE = {
  },
  "team-select-home-care": {
   "platform": "wordpress",
-  "origin": "https://tshc.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://tshc.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2716,28 +4678,45 @@ export const COMMERCE = {
  },
  "the-alley-mobile-salon": {
   "platform": "",
-  "origin": "https://lhkw.app.link",
+  "stack": [
+   "booksy"
+  ],
+  "origin": "https://booksy.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": [
    {
     "label": "Booksy",
-    "url": "https://booksy.com/en-us/1350090_the-alley-mobile-salon_hair-salon_19373_columbus?do=invite&_branch_match_id=1642497055607486904&_branch_referrer=H4sIAAAAAAAAA8soKSkottLXT07J0UvKz88urtRLzs%2FVL00MiqhMy8ss908CAAowwP0iAAAA"
+    "url": "https://blog.booksy.com/us/hair/thinking-of-getting-a-new-haircut-check-your-face-shape-first/"
    }
   ]
  },
  "the-artisan-salon": {
   "platform": "wix-stores",
-  "origin": "https://www.theartisancolumbus.com",
+  "stack": [
+   "glossgenius",
+   "square-online",
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.theartisancolumbus.com/",
   "feed": false,
-  "store": "",
+  "store": "http://nails-by-liane.square.site/",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "GlossGenius",
+    "url": "http://mindfulmassagecolumbus.glossgenius.com/"
+   }
+  ]
  },
  "the-bicycle-station": {
   "platform": "shopify",
-  "origin": "https://thebicyclestation.com",
+  "stack": [
+   "shopify"
+  ],
+  "origin": "https://thebicyclestation.com/",
   "feed": true,
   "store": "",
   "order": [],
@@ -2745,7 +4724,10 @@ export const COMMERCE = {
  },
  "the-castle-games": {
   "platform": "shopify",
-  "origin": "https://castlegameshoppe.com",
+  "stack": [
+   "shopify"
+  ],
+  "origin": "https://castlegameshoppe.com/",
   "feed": true,
   "store": "",
   "order": [],
@@ -2753,7 +4735,10 @@ export const COMMERCE = {
  },
  "the-forge-english-pub": {
   "platform": "wordpress",
-  "origin": "https://forgeon4th.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://forgeon4th.com/",
   "feed": false,
   "store": "",
   "order": [
@@ -2766,7 +4751,7 @@ export const COMMERCE = {
  },
  "the-garage-pub-and-grill": {
   "platform": "",
-  "origin": "https://thegaragepubandgrill.com",
+  "origin": "https://thegaragepubandgrill.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2779,7 +4764,10 @@ export const COMMERCE = {
  },
  "the-gardeners-landscape": {
   "platform": "godaddy",
-  "origin": "https://thegardenerslandscaping.com",
+  "stack": [
+   "godaddy"
+  ],
+  "origin": "https://thegardenerslandscaping.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2787,7 +4775,10 @@ export const COMMERCE = {
  },
  "the-phillips-company-inc": {
   "platform": "wordpress",
-  "origin": "https://thephillipscompany.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://thephillipscompany.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2795,15 +4786,28 @@ export const COMMERCE = {
  },
  "the-zen-wellness-company": {
   "platform": "squarespace-commerce",
-  "origin": "https://www.thezenwellnessco.com",
+  "stack": [
+   "fitness-booking",
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://www.thezenwellnessco.com/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "WellnessLiving",
+    "url": "https://www.wellnessliving.com/rs/catalog-view.html?k_business=8470&id_sale=1&k_id=2916216"
+   }
+  ]
  },
  "therapy-on-wheels-columbus": {
   "platform": "godaddy",
-  "origin": "https://therapyonwheelsinc.com",
+  "stack": [
+   "godaddy"
+  ],
+  "origin": "https://therapyonwheelsinc.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2811,7 +4815,10 @@ export const COMMERCE = {
  },
  "thomasson-thomasson-long-and-guthrie": {
   "platform": "wordpress",
-  "origin": "https://www.thomassonlaw.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.thomassonlaw.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2819,7 +4826,7 @@ export const COMMERCE = {
  },
  "tinas-nails": {
   "platform": "",
-  "origin": "https://tinanailscolumbus.com",
+  "origin": "https://tinanailscolumbus.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2832,7 +4839,11 @@ export const COMMERCE = {
  },
  "tipton-home-services-llc": {
   "platform": "squarespace-commerce",
-  "origin": "https://www.tiptonhomeservices.com",
+  "stack": [
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://www.tiptonhomeservices.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2840,7 +4851,46 @@ export const COMMERCE = {
  },
  "tipton-lakes-athletic-club": {
   "platform": "woocommerce",
-  "origin": "https://tlaclub.com",
+  "stack": [
+   "joomla",
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://tlaclub.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": []
+ },
+ "tipton-park-dentistry-of-columbus": {
+  "platform": "wordpress",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://dentist-columbus.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": []
+ },
+ "tobar-inc": {
+  "platform": "woocommerce",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://www.tobar.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": []
+ },
+ "tom-picketts-music-center": {
+  "platform": "godaddy",
+  "stack": [
+   "godaddy"
+  ],
+  "origin": "https://www.hugedomains.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2848,7 +4898,10 @@ export const COMMERCE = {
  },
  "tony-london-co": {
   "platform": "godaddy",
-  "origin": "https://eventshirts.com",
+  "stack": [
+   "godaddy"
+  ],
+  "origin": "https://eventshirts.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2856,15 +4909,26 @@ export const COMMERCE = {
  },
  "top-nails": {
   "platform": "wordpress",
-  "origin": "http://topnailspacolumbus.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "http://topnailspacolumbus.com/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "GoCheckin",
+    "url": "https://booking.gocheckin.net/v2/3377"
+   }
+  ]
  },
  "total-fitness-of-columbus": {
   "platform": "wordpress",
-  "origin": "https://www.totalfitnessofcolumbus.net",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.totalfitnessofcolumbus.net/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2872,7 +4936,10 @@ export const COMMERCE = {
  },
  "total-taekwondo": {
   "platform": "wordpress",
-  "origin": "https://totaltkdcolumbus.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://totaltkdcolumbus.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2880,15 +4947,44 @@ export const COMMERCE = {
  },
  "tribal-blend-cat-cafe": {
   "platform": "woocommerce",
-  "origin": "https://columbuscat.cafe",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://columbuscat.cafe/",
   "feed": true,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "online booking",
+    "url": "https://columbuscat.cafe/reserve-your-spot/"
+   }
+  ]
+ },
+ "triflix-llc": {
+  "platform": "",
+  "stack": [
+   "acuity"
+  ],
+  "origin": "https://triflix.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "Acuity",
+    "url": "https://triflix.as.me/?appointmentType=category:Property%20Media%20%28Photo-Only%29"
+   }
+  ]
  },
  "turnkey-home-solutions-inc": {
   "platform": "wix",
-  "origin": "https://www.turnkeyhomesolutions.com",
+  "stack": [
+   "wix",
+   "wordpress"
+  ],
+  "origin": "https://www.turnkeyhomesolutions.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2896,28 +4992,39 @@ export const COMMERCE = {
  },
  "turtles-flowers": {
   "platform": "square-online",
-  "origin": "https://www.turtlesflowers.com",
+  "stack": [
+   "square-online",
+   "weebly"
+  ],
+  "origin": "https://www.turtlesflowers.com/",
   "feed": false,
-  "store": "",
+  "store": "https://www.turtlesflowers.com/",
   "order": [],
   "book": []
  },
  "tyler-thompson-barber": {
   "platform": "",
-  "origin": "https://lhkw.app.link",
+  "stack": [
+   "booksy"
+  ],
+  "origin": "https://booksy.com/",
   "feed": false,
   "store": "",
   "order": [],
   "book": [
    {
     "label": "Booksy",
-    "url": "https://booksy.com/en-us/847302_tyler-thompson_barber-shop_19373_columbus?do=invite&_branch_match_id=1642497443556722988&_branch_referrer=H4sIAAAAAAAAA8soKSkottLXT07J0UvKz88urtRLzs%2FV9%2FbJDjQJDM8rMEgCAIwHDwAiAAAA"
+    "url": "https://help.booksy.com/"
    }
   ]
  },
  "united-accounting-group": {
   "platform": "woocommerce",
-  "origin": "http://uagllc.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "http://uagllc.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2925,7 +5032,12 @@ export const COMMERCE = {
  },
  "upland-columbus-pump-house": {
   "platform": "wordpress",
-  "origin": "https://uplandbeer.com",
+  "stack": [
+   "opentable",
+   "toast",
+   "wordpress"
+  ],
+  "origin": "https://uplandbeer.com/",
   "feed": false,
   "store": "",
   "order": [
@@ -2939,11 +5051,19 @@ export const COMMERCE = {
     "label": "OpenTable",
     "url": "https://www.opentable.com/r/upland-brewing-co-columbus-reservations-columbus?restref=1278787&lang=en-US&ot_source=Restaurant%20website"
    }
-  ]
+  ],
+  "gift": {
+   "label": "Toast",
+   "url": "https://www.toasttab.com/upland-brewing-brewpub-woodshop-350-west-11th-street/giftcards"
+  }
  },
  "uwba-design-llc": {
   "platform": "woocommerce",
-  "origin": "https://uwbadesign.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://uwbadesign.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2951,7 +5071,10 @@ export const COMMERCE = {
  },
  "vasquez-photography-llc": {
   "platform": "wordpress",
-  "origin": "https://www.tonyvasquez.net",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.tonyvasquez.net/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2959,23 +5082,45 @@ export const COMMERCE = {
  },
  "veteran-hauling-llc": {
   "platform": "woocommerce",
-  "origin": "https://veteranhauling.com",
+  "stack": [
+   "home-services-booking",
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://veteranhauling.com/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "Workiz",
+    "url": "https://online-booking.workiz.com/?ac=e268cda098cb6b76eb8f6c5202dfc26f4168dd9346c6d622109cf5e2b0ad360e"
+   }
+  ]
  },
  "victory-gymnastics-academy": {
   "platform": "wordpress",
-  "origin": "https://victorygymacademy.net",
+  "stack": [
+   "class-registration",
+   "wordpress"
+  ],
+  "origin": "https://victorygymacademy.net/",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "Jackrabbit",
+    "url": "https://app3.jackrabbitclass.com/regv2.asp?id=514695"
+   }
+  ]
  },
  "vivian-lou-paul-mitchell-focus-salon": {
   "platform": "wix",
-  "origin": "https://www.vivianloupmsalon.com",
+  "stack": [
+   "wix"
+  ],
+  "origin": "https://www.vivianloupmsalon.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2983,7 +5128,10 @@ export const COMMERCE = {
  },
  "voelz-law-llc": {
   "platform": "wordpress",
-  "origin": "https://voelzlaw.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://voelzlaw.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2991,7 +5139,10 @@ export const COMMERCE = {
  },
  "voelz-reed-and-mount-llc": {
   "platform": "wordpress",
-  "origin": "https://voelzlaw.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://voelzlaw.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -2999,7 +5150,10 @@ export const COMMERCE = {
  },
  "walls-excavating-llc": {
   "platform": "wix",
-  "origin": "https://www.wallsexcavating.net",
+  "stack": [
+   "wix"
+  ],
+  "origin": "https://www.wallsexcavating.net/",
   "feed": false,
   "store": "",
   "order": [],
@@ -3007,7 +5161,10 @@ export const COMMERCE = {
  },
  "walton-legal-services": {
   "platform": "wordpress",
-  "origin": "https://waltonlegal.net",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://waltonlegal.net/",
   "feed": false,
   "store": "",
   "order": [],
@@ -3015,10 +5172,19 @@ export const COMMERCE = {
  },
  "wax-that-cat": {
   "platform": "godaddy",
-  "origin": "https://waxthatcat.com",
+  "stack": [
+   "booksy",
+   "godaddy"
+  ],
+  "origin": "https://waxthatcat.com/",
   "feed": false,
   "store": "",
-  "order": [],
+  "order": [
+   {
+    "label": "Square",
+    "url": "https://square.link/u/0dqMZlPw"
+   }
+  ],
   "book": [
    {
     "label": "Booksy",
@@ -3028,7 +5194,11 @@ export const COMMERCE = {
  },
  "wayne-meyer-electric-llc": {
   "platform": "woocommerce",
-  "origin": "https://waynemeyerelectric.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://waynemeyerelectric.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -3036,7 +5206,10 @@ export const COMMERCE = {
  },
  "webbs-auto-center": {
   "platform": "wordpress",
-  "origin": "https://www.webbsautorepair.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.webbsautorepair.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -3044,7 +5217,11 @@ export const COMMERCE = {
  },
  "west-towing-and-recovery": {
   "platform": "squarespace-commerce",
-  "origin": "https://www.westtowingservice.com",
+  "stack": [
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://www.westtowingservice.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -3052,7 +5229,10 @@ export const COMMERCE = {
  },
  "whipkers-market-and-greenhouses": {
   "platform": "godaddy",
-  "origin": "http://whipkersmarket.com",
+  "stack": [
+   "godaddy"
+  ],
+  "origin": "http://whipkersmarket.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -3060,7 +5240,10 @@ export const COMMERCE = {
  },
  "white-river-clinic-of-chiropractic": {
   "platform": "wordpress",
-  "origin": "https://www.whiteriverchiro.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.whiteriverchiro.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -3081,7 +5264,11 @@ export const COMMERCE = {
  },
  "white-river-running-company": {
   "platform": "woocommerce",
-  "origin": "https://whiteriverrunningcompany.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://whiteriverrunningcompany.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -3089,7 +5276,10 @@ export const COMMERCE = {
  },
  "white-star-meat-market-and-deli": {
   "platform": "wordpress",
-  "origin": "https://whitestarmeatmarket.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://whitestarmeatmarket.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -3097,7 +5287,12 @@ export const COMMERCE = {
  },
  "whitted-law": {
   "platform": "wix",
-  "origin": "https://www.whittedlaw.com",
+  "stack": [
+   "thryv",
+   "wix",
+   "wordpress"
+  ],
+  "origin": "https://www.whittedlaw.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -3105,7 +5300,11 @@ export const COMMERCE = {
  },
  "whs-mobile-mechanic": {
   "platform": "wix-stores",
-  "origin": "https://theredneckgarage20.wixsite.com",
+  "stack": [
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://theredneckgarage20.wixsite.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -3113,7 +5312,11 @@ export const COMMERCE = {
  },
  "wild-wisdom": {
   "platform": "squarespace-commerce",
-  "origin": "https://www.wildwisdomstore.com",
+  "stack": [
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://www.wildwisdomstore.com/",
   "feed": false,
   "store": "https://www.wildwisdomstore.com/shop",
   "order": [],
@@ -3121,7 +5324,11 @@ export const COMMERCE = {
  },
  "williams-electronics": {
   "platform": "wordpress",
-  "origin": "https://williamselectronics.com",
+  "stack": [
+   "godaddy",
+   "wordpress"
+  ],
+  "origin": "https://williamselectronics.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -3129,7 +5336,11 @@ export const COMMERCE = {
  },
  "winnie-mochi-donut": {
   "platform": "woocommerce",
-  "origin": "https://www.winniemochi-columbus.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://www.winniemochi-columbus.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -3137,7 +5348,22 @@ export const COMMERCE = {
  },
  "wolf-creek-nursery-and-landscaping": {
   "platform": "square-online",
-  "origin": "https://www.wolfcreeknursery.com",
+  "stack": [
+   "square-online",
+   "weebly"
+  ],
+  "origin": "https://www.wolfcreeknursery.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": []
+ },
+ "wonderwrks-it-services": {
+  "platform": "wordpress",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://wonderwrks.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -3145,7 +5371,11 @@ export const COMMERCE = {
  },
  "wwa-planning-and-investments": {
   "platform": "",
-  "origin": "https://www.wwafp.com",
+  "stack": [
+   "acuity",
+   "drupal"
+  ],
+  "origin": "https://www.wwafp.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -3153,12 +5383,19 @@ export const COMMERCE = {
    {
     "label": "Acuity",
     "url": "https://app.acuityscheduling.com/schedule.php?owner=13722204"
+   },
+   {
+    "label": "Microsoft Bookings",
+    "url": "https://outlook.office365.com/owa/calendar/WWA@wwafp.com/bookings/"
    }
   ]
  },
  "xo-by-sophias": {
   "platform": "shopify",
-  "origin": "https://www.xobysophias.com",
+  "stack": [
+   "shopify"
+  ],
+  "origin": "https://www.xobysophias.com/",
   "feed": true,
   "store": "",
   "order": [],
@@ -3166,7 +5403,11 @@ export const COMMERCE = {
  },
  "y-and-s-massage": {
   "platform": "woocommerce",
-  "origin": "http://ysmassage.com",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "http://ysmassage.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -3174,15 +5415,53 @@ export const COMMERCE = {
  },
  "yats": {
   "platform": "woocommerce",
-  "origin": "https://yatscajuncreole.online",
+  "stack": [
+   "gloriafood",
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://yatscajuncreole.online/",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
+ "yummy-bowl": {
+  "platform": "",
+  "origin": "https://www.yummybow1455.com/",
+  "feed": false,
+  "store": "",
+  "order": [
+   {
+    "label": "online ordering",
+    "url": "https://www.yummybow1455.com/order"
+   }
+  ],
+  "book": []
+ },
+ "zaharakos-ice-cream-parlor": {
+  "platform": "",
+  "origin": "https://www.zaharakos.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "online booking",
+    "url": "https://www.zaharakos.com/reservations.html"
+   }
+  ],
+  "gift": {
+   "label": "their website",
+   "url": "https://www.zaharakos.com/zaharakosgiftcard.html"
+  }
+ },
  "zeller-insurance-llc": {
   "platform": "wordpress",
-  "origin": "https://www.zellerinsurance.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.zellerinsurance.com/",
   "feed": false,
   "store": "",
   "order": [],

@@ -39,7 +39,7 @@ export function renderHub({ assets }) {
   const bySlug = Object.fromEntries(businesses.map((b) => [b.slug, b]));
   const count = (fn) => directory.filter(fn).length;
   const total = directory.length;
-  const direct = count((b) => b.order.length || b.book.length || b.store);
+  const direct = count((b) => b.order.length || b.book.length || b.store || b.feed);
 
   const quick = [
     ['🌮 Tacos', '/c/restaurants/mexican/'], ['☕ Coffee', '/c/coffee-sweets/'], ['💈 Barbers', '/c/beauty/barbers/'],
