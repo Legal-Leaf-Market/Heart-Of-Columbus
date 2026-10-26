@@ -33,3 +33,13 @@ test('the events page reads the left-out list', () => {
   assert.match(js, /data\.left/);
   assert.match(js, /Venue notices/);
 });
+
+test('/events/ has real listings in its HTML before any script runs', async () => {
+  const { handEntered, inWindow, today, addDays } = await import('../src/event-feeds.mjs');
+  const html = readFileSync(new URL('../dist/events/index.html', import.meta.url), 'utf8');
+  const list = html.match(/<div class="cal-list" data-cal-list>([\s\S]*?)<\/div>\s*<noscript>/)[1];
+  const due = inWindow(handEntered(), today(), addDays(today(), 30));
+  assert.equal((list.match(/class="cal-ev"/g) || []).length, due.length);
+  for (const e of due) assert.ok(list.includes(`href="${e.url.replace(/&/g, '&amp;')}"`), e.title);
+  assert.doesNotMatch(html, /data-cal-status role="status">Loading events/);
+});
