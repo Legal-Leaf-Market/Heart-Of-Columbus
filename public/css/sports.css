@@ -1,0 +1,73 @@
+/* Sports (/sports/) and the Indiana Sentinels dashboard (/sports/sentinels/).
+   Builds on hoc.css; the dashboard is in ice blues, not team colors. */
+:root { --rink: #12324a; --ice: #dfeaf2; --win: #1f7a3d; --loss: #b3261e; }
+
+.sn-hero { background: radial-gradient(900px 420px at 85% 0, var(--ice) 0, transparent 60%), var(--paper); border-bottom: 2px solid var(--ink); padding: 28px 0 18px; }
+.sn-hero h1, .sn-hub-hero h1 { font-size: clamp(36px, 6vw, 68px); font-weight: 800; letter-spacing: -0.03em; margin-top: 16px; }
+.sn-hub-hero { background: radial-gradient(900px 400px at 90% 0, var(--ice) 0, transparent 60%), var(--paper); }
+.sn-hero-grid { display: grid; gap: 22px; align-items: start; }
+@media (min-width: 960px) { .sn-hero-grid { grid-template-columns: 1.1fr 1fr; gap: 40px; } }
+.sn-stats { list-style: none; margin: 22px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: 520px; }
+@media (min-width: 560px) { .sn-stats { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+.sn-stats li { background: var(--surface); border: 2px solid var(--ink); border-radius: 14px; padding: 8px 6px; text-align: center; }
+.sn-stats b { display: block; font-family: var(--display); font-size: 24px; line-height: 1.1; }
+.sn-stats span { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.sn-tabs { margin-top: 20px; }
+.sn-hub-tabs { margin: 0; padding-left: 0; padding-right: 0; flex-wrap: wrap; }
+
+.sn-next { background: var(--rink); color: #fff; border: 2px solid var(--ink); border-radius: var(--r-lg); box-shadow: var(--pop); padding: 22px; min-width: 0; }
+.sn-next .sn-when { font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.sn-match { font-size: clamp(26px, 3.4vw, 38px); font-weight: 800; margin-top: 10px; overflow-wrap: anywhere; }
+.sn-match [data-next-ha] { font-family: var(--body); font-size: .5em; font-weight: 700; opacity: .8; vertical-align: middle; }
+.sn-where { display: flex; gap: 6px; align-items: center; margin-top: 10px; color: var(--ice); font-size: 15px; }
+.sn-count { margin-top: 14px; display: inline-block; background: rgba(255,255,255,.12); border-radius: 999px; padding: 6px 14px; font-weight: 700; }
+.sn-next-btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.sn-next .btn-ghost { background: transparent; color: #fff; border-color: #fff; box-shadow: none; }
+
+.sn-body { display: grid; gap: 18px; padding-top: 28px; padding-bottom: 56px; }
+.sn-sec { background: var(--surface); border: 2px solid var(--ink); border-radius: var(--r); box-shadow: var(--pop); padding: 20px; scroll-margin-top: 140px; min-width: 0; }
+.sn-sec h2 { font-size: clamp(24px, 3vw, 32px); font-weight: 800; }
+.sn-sec > p { margin-top: 10px; }
+.sn-sec .btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.sn-sec .vs-facts a, .sn-sec .fine a, .sn-sec > p a:not(.btn) { text-decoration: underline; text-underline-offset: 3px; }
+.sn-sec-head { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+.sn-filter { padding-bottom: 0; flex-wrap: wrap; }
+
+.sn-month h3 { font-family: var(--body); font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 22px 0 8px; }
+.sn-games { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.sn-game { display: grid; grid-template-columns: 58px minmax(0, 1fr) auto; gap: 12px; align-items: center; border: 1.5px solid var(--line); border-radius: 14px; padding: 10px 12px; }
+.sn-home { background: #f4f8fb; border-color: #c9d9e6; }
+.sn-done { opacity: .78; }
+.sn-past { opacity: .6; }
+.sn-is-next { border: 2px solid var(--rink); box-shadow: 3px 3px 0 var(--rink); opacity: 1; }
+.sn-date { text-align: center; line-height: 1.1; }
+.sn-date b { display: block; font-size: 15px; }
+.sn-date small, .sn-opp small { font-size: 12px; color: var(--muted); }
+.sn-opp { display: grid; min-width: 0; }
+.sn-opp strong { overflow-wrap: anywhere; }
+.sn-res { font-weight: 700; font-size: 14px; text-align: right; white-space: nowrap; }
+.sn-w { color: var(--win); } .sn-l { color: var(--loss); } .sn-pp { color: var(--muted); font-weight: 600; }
+
+.sn-news { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 8px; }
+.sn-news a { display: grid; gap: 2px; border: 1.5px solid var(--line); border-radius: 14px; padding: 12px 14px; }
+.sn-news a:hover { border-color: var(--ink); }
+.sn-news small { color: var(--muted); }
+.sn-installed { margin-top: 12px; font-weight: 700; color: var(--win); }
+
+.sn-feature { display: grid; gap: 20px; }
+@media (min-width: 900px) { .sn-feature { grid-template-columns: 1fr 1fr; align-items: center; } }
+.sn-local { display: grid; gap: 14px; margin-top: 14px; }
+@media (min-width: 900px) { .sn-local { grid-template-columns: 1fr 1fr; } }
+.sn-grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr)); }
+@media (min-width: 900px) { .sn-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.sn-loc { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; border: 1.5px solid var(--line); border-radius: 14px; padding: 14px; }
+.sn-loc h3 { font-size: 20px; font-weight: 800; }
+.sn-loc h3 a:hover { text-decoration: underline; }
+.sn-loc .btns { margin-top: 12px; }
+.sn-foot { max-width: 760px; }
+
+/* Opened from the home screen: no site chrome, the dashboard fills the screen. */
+@media (display-mode: standalone) {
+  .sn ~ .ftr, body:has(.sn) .catbar, body:has(.sn) .hsearch, body:has(.sn) .crumbs { display: none; }
+  body:has(.sn) .hdr { padding-top: env(safe-area-inset-top); }
+}
