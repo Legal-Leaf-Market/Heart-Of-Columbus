@@ -76,7 +76,8 @@ const apOne = (m, withMer = true) => {
 export function apTime(a, b) {
   if (a == null) return 'all day';
   if (b == null || b <= a) return apOne(a);
-  const same = (a < 720) === (b < 720) && a % 720 && b % 720;
+  const bm = b % 1440; // past midnight: 1560 is 2 a.m.
+  const same = b < 1440 && (a < 720) === (bm < 720) && a % 720 && bm % 720;
   return `${apOne(a, !same)} to ${apOne(b)}`;
 }
 export const apDate = (s) => { const [, m, d] = ymd(s); return `${DAYS[dow(s)]}, ${AP_MON[m - 1]} ${d}`; };
@@ -95,11 +96,16 @@ export function audience(ages = [], title = '') {
   return [...out];
 }
 
+// Live music and arts: concerts, open mics, comedy, poetry, dance nights.
+const LIVE = /\b(concerts?|live music|bands?|open mic|comedy|comedian|stand ?up|poetry|poets?|spoken word|karaoke|jam session|jam|dj|line danc\w*|symphony|orchestra|choir|recital|musical|theat(?:er|re)|improv|songwriters?|drag show)\b|, live$/i;
+export const isLive = (title, flag = false) => flag || LIVE.test(title);
+
 // Every item: { id, src, title, date, until, start, stop, when, ap, venue,
 // ages, aud, url }. `date` is the day it is listed under, `until` the last
 // day of a run; start/stop are minutes after midnight, or null.
 function item(o) {
   const x = { ...o };
+  x.live = isLive(x.title, x.live);
   x.when = webTime(x.start, x.stop);
   x.ap = apTime(x.start, x.stop);
   if (x.until && x.until > x.date) { x.when = `Through ${shortDate(x.until)}`; x.ap = `through ${apShort(x.until)}`; }
@@ -265,7 +271,7 @@ export function handEntered() {
   return [...EVENTS, ...LISTINGS].map((e) => item({
     id: `${e.from || 'hoc'}-${e.slug}`, src: e.from || 'arts', title: clean(e.name), date: e.start,
     until: e.end > e.start ? e.end : null, start: e.times ? e.times[0] : null, stop: e.times ? e.times[1] : null,
-    venue: clean(e.venue), ages: '', aud: audience([], e.name), url: e.url,
+    venue: clean(e.venue), ages: '', aud: audience([], e.name), url: e.url, live: !!e.live,
   }));
 }
 
@@ -352,8 +358,8 @@ export function toText({ events, from, to }, ids = SOURCES.map((s) => s.id)) {
 const csvCell = (v) => { const s = String(v ?? ''); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
 const clock = (m) => (m == null ? '' : `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`);
 export function toCsv({ events }) {
-  const head = ['date', 'through', 'start', 'end', 'title', 'time_web', 'time_ap', 'venue', 'ages', 'source', 'source_name', 'url'];
-  const rows = events.map((e) => [e.date, e.until || '', clock(e.start), clock(e.stop), e.title, e.when, e.ap, e.venue, e.ages, e.src, sourceById[e.src]?.name || '', e.url]);
+  const head = ['date', 'through', 'start', 'end', 'title', 'time_web', 'time_ap', 'venue', 'ages', 'live_arts', 'source', 'source_name', 'url'];
+  const rows = events.map((e) => [e.date, e.until || '', clock(e.start), clock(e.stop), e.title, e.when, e.ap, e.venue, e.ages, e.live ? 'yes' : '', e.src, sourceById[e.src]?.name || '', e.url]);
   return [head, ...rows].map((r) => r.map(csvCell).join(',')).join('\r\n') + '\r\n';
 }
 

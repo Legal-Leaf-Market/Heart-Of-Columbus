@@ -4,6 +4,7 @@
 //   ?days=N           1 to 62 (default 31)
 //   ?src=bcpl,parks   only these sources
 //   ?aud=kids|teens|adults  only events with that age label
+//   ?kind=live        only live music and arts (concerts, open mics, comedy...)
 //   ?format=json|ics|csv|txt
 // Cached at the CDN for an hour, so the listings refresh on their own and
 // we ask each calendar at most about once an hour per view of the data.
@@ -29,6 +30,7 @@ export default async (req) => {
   const data = await collect({ from, days, only: ids });
   const aud = q.get('aud');
   if (AUDIENCES.some(([k]) => k === aud)) data.events = data.events.filter((e) => e.aud.includes(aud));
+  if (q.get('kind') === 'live') data.events = data.events.filter((e) => e.live);
   const allOk = data.sources.every((s) => s.ok);
   const body = format === 'ics' ? toIcs(data) : format === 'csv' ? toCsv(data) : format === 'txt' ? toText(data, ids)
     : JSON.stringify({ ok: true, generated: new Date().toISOString(), ...data });

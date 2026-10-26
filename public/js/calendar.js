@@ -55,12 +55,13 @@
   var state = {
     src: (params.get('src') || D.sources.map(function (s) { return s.id; }).join(',')).split(',').filter(function (s) { return srcBy[s]; }),
     aud: params.get('aud') || '',
+    kind: params.get('kind') === 'live' ? 'live' : '',
     q: params.get('q') || '',
   };
   var pick = function (events) {
     var q = state.q.trim().toLowerCase();
     return events.filter(function (e) {
-      return state.src.indexOf(e.src) >= 0 && (!state.aud || (e.aud || []).indexOf(state.aud) >= 0) &&
+      return state.src.indexOf(e.src) >= 0 && (!state.aud || (e.aud || []).indexOf(state.aud) >= 0) && (!state.kind || e.live) &&
         (!q || (e.title + ' ' + e.venue + ' ' + (e.ages || '')).toLowerCase().indexOf(q) >= 0);
     });
   };
@@ -75,6 +76,7 @@
       var q = 'format=' + a.getAttribute('data-cal-export') + '&from=' + from + '&days=' + days;
       if (state.src.length < D.sources.length) q += '&src=' + state.src.join(',');
       if (state.aud) q += '&aud=' + state.aud;
+      if (state.kind) q += '&kind=' + state.kind;
       a.href = '/api/events?' + q;
     });
   }
@@ -94,14 +96,16 @@
       $$('[data-range]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-range') === state.range)); });
       $$('[data-src]').forEach(function (b) { b.setAttribute('aria-pressed', String(state.src.indexOf(b.getAttribute('data-src')) >= 0)); });
       $$('[data-aud]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-aud') === state.aud)); });
+      $$('[data-kind]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-kind') === state.kind)); });
       var q = new URLSearchParams();
       if (state.range !== 'week') q.set('range', state.range);
       if (state.src.length < D.sources.length) q.set('src', state.src.join(','));
       if (state.aud) q.set('aud', state.aud);
+      if (state.kind) q.set('kind', state.kind);
       if (state.q) q.set('q', state.q);
       try { history.replaceState(null, '', location.pathname + (String(q) ? '?' + q : '')); } catch (e) { /* file:// */ }
       var pr = $('[data-cal-print]');
-      if (pr) pr.href = '/events/print/' + (state.src.length < D.sources.length || state.aud ? '?' + new URLSearchParams({ src: state.src.join(','), aud: state.aud }) : '');
+      if (pr) pr.href = '/events/print/' + (state.src.length < D.sources.length || state.aud || state.kind ? '?' + new URLSearchParams({ src: state.src.join(','), aud: state.aud, kind: state.kind }) : '');
     };
     var render = function () {
       sync();
@@ -136,6 +140,15 @@
       });
     });
     $$('[data-aud]').forEach(function (b) { b.addEventListener('click', function () { state.aud = b.getAttribute('data-aud'); render(); }); });
+    $$('[data-kind]').forEach(function (b) { b.addEventListener('click', function () { state.kind = b.getAttribute('data-kind'); render(); }); });
+    // "Live music and arts" in the hero (a link to the stages) and in the
+    // stages text (back up to the list) also filter the list to it.
+    $$('[data-kind-link], [data-kind-set]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        state.kind = 'live'; render();
+        if (b.hasAttribute('data-kind-set')) $('.cal-filters').scrollIntoView({ behavior: 'smooth' });
+      });
+    });
     var qIn = $('[data-cal-q]'), t;
     qIn.value = state.q;
     qIn.addEventListener('input', function () { clearTimeout(t); t = setTimeout(function () { state.q = qIn.value; render(); }, 150); });
@@ -144,17 +157,19 @@
   }
 
   // ---------- /events/print/ ----------
-  var fromIn = $('[data-pr-from]'), daysIn = $('[data-pr-days]'), audIn = $('[data-pr-aud]'), colsIn = $('[data-pr-cols]');
+  var fromIn = $('[data-pr-from]'), daysIn = $('[data-pr-days]'), audIn = $('[data-pr-aud]'), kindIn = $('[data-pr-kind]'), colsIn = $('[data-pr-cols]');
   var sheet = $('[data-pr-sheet]');
   fromIn.value = /^\d{4}-\d{2}-\d{2}$/.test(params.get('from') || '') ? params.get('from') : TODAY;
   if (params.get('days')) daysIn.value = params.get('days');
   audIn.value = state.aud;
+  kindIn.value = state.kind;
   $$('[data-src]').forEach(function (c) { c.checked = state.src.indexOf(c.getAttribute('data-src')) >= 0; });
   var shown = [];
   function line(e) { return { title: e.title, rest: [e.ap, e.venue].filter(Boolean).join(', ') + '.' + (e.ages ? ' ' + e.ages + '.' : ''), tag: (srcBy[e.src] || {}).short || '' }; }
   function draw() {
     var from = fromIn.value || TODAY, days = Number(daysIn.value) || 7, to = addDays(from, days - 1);
     state.aud = audIn.value;
+    state.kind = kindIn.value;
     state.src = $$('[data-src]').filter(function (c) { return c.checked; }).map(function (c) { return c.getAttribute('data-src'); });
     if (!state.src.length) { state.src = [D.sources[0].id]; $('[data-src="' + state.src[0] + '"]').checked = true; }
     sheet.style.setProperty('--cols', colsIn.value);
@@ -185,7 +200,7 @@
     out.push('', $('[data-pr-credit]').textContent);
     return out.join('\n');
   }
-  [fromIn, daysIn, audIn, colsIn].forEach(function (el) { el.addEventListener('change', draw); });
+  [fromIn, daysIn, audIn, kindIn, colsIn].forEach(function (el) { el.addEventListener('change', draw); });
   $$('[data-src]').forEach(function (c) { c.addEventListener('change', draw); });
   $('[data-pr-print]').addEventListener('click', function () { window.print(); });
   $('[data-pr-copy]').addEventListener('click', function () {

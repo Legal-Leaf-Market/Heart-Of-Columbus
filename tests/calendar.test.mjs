@@ -43,6 +43,8 @@ test('no dashes survive, ranges read "to"', () => {
   assert.equal(apTime(1050, 1170), '5:30 to 7:30 p.m.');
   assert.equal(apTime(600, 720), '10 a.m. to noon');
   assert.equal(apTime(null, null), 'all day');
+  assert.equal(apTime(1260, 1560), '9 p.m. to 2 a.m.');
+  assert.equal(webTime(1260, 1560), '9 PM to 2 AM');
 });
 
 test('library rows: kept, cleaned, linked; closures, private and cancelled dropped', () => {
@@ -103,8 +105,10 @@ test('collect: one feed down never empties the page, and every item has a source
   assert.match(txt, /Listings from the public calendars of Bartholomew County Public Library \(mybcpl\.org\)/);
   assert.ok(!/[–—]| - /.test(txt));
   const csv = toCsv(d).split('\r\n');
-  assert.equal(csv[0], 'date,through,start,end,title,time_web,time_ap,venue,ages,source,source_name,url');
+  assert.equal(csv[0], 'date,through,start,end,title,time_web,time_ap,venue,ages,live_arts,source,source_name,url');
   assert.ok(csv.some((l) => l.startsWith('2026-10-27,,10:30,11:00,Toddler Storytime & Songs,')));
+  assert.ok(d.events.filter((e) => e.src === 'garage').every((e) => e.live));
+  assert.ok(!d.events.find((e) => e.id === 'bcpl-101').live);
   const ics = toIcs(d);
   assert.match(ics, /DTSTART:20261027T143000Z/); // 10:30 AM EDT
   for (const line of ics.split('\r\n')) assert.ok(line.length <= 75, line);

@@ -42,7 +42,10 @@ Indiana. A pitch, not a live service. See README.md.
   library (Communico JSON) and parks (Tockify iCalendar) feeds live through
   `/api/events` (`netlify/functions/events.mjs`, CDN cached an hour; json,
   ics, csv and AP-style txt) with hand-entered `LISTINGS` for calendars
-  with no feed (Arts Council, county fair). `SOURCES` in events.mjs lists
+  with no feed (Arts Council, county fair, The Garage). Live music and
+  arts (concerts, open mics, comedy, poetry) is a filter (`live`, `isLive`)
+  plus `STAGES`: venues that post lineups only on social media are listed
+  without dates until a date is seen on their own page. `SOURCES` in events.mjs lists
   them; parsing and exports live in `src/event-feeds.mjs`. Only title,
   time, place and ages are kept, never descriptions, and every item links
   to its organizer. The explore map has layers (businesses, landmarks with

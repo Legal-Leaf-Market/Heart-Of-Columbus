@@ -5,7 +5,7 @@
 // along in the page so it is never empty when a feed can't be reached.
 import { page, esc } from '../layout.mjs';
 import { header, footer, svg, breadcrumbs } from '../site.mjs';
-import { SOURCES, LISTINGS } from '../data/events.mjs';
+import { SOURCES, LISTINGS, STAGES } from '../data/events.mjs';
 import { handEntered, AUDIENCES, creditLine, today } from '../event-feeds.mjs';
 import { dateRange } from './events.mjs';
 import { ORIGIN } from '../jsonld.mjs';
@@ -61,10 +61,11 @@ ${breadcrumbs([['/', 'Home'], ['', 'Local events']])}
   <div class="wrap">
     <p class="kicker kicker-pill">Local events</p>
     <h1>What’s on in<br><span class="hl">Columbus</span></h1>
-    <p class="lede">Library programs, parks events, the county fair and Arts Council nights in one list, each linked to the organizer’s own page.</p>
+    <p class="lede">Library programs, parks events, the county fair, live music and Arts Council nights in one list, each linked to the organizer’s own page.</p>
     <p class="vs-note">${svg('globe', 'ic-sm')}<span>From the public calendars of the ${SOURCES.map((s) => ext(s.calendar, esc(s.name))).join(', ').replace(/, ([^,]*)$/, ' and $1')}. Not affiliated with them. Times and places change, so check the event page before you go.</span></p>
     <p class="btns cal-tools">
-      <a class="btn btn-sm" href="/events/print/" data-cal-print>${svg('list', 'ic-sm')}Printable listing</a>
+      <a class="btn btn-sm" href="#live" data-kind-link>${svg('heart', 'ic-sm')}Live music and arts</a>
+      <a class="btn btn-sm btn-ghost" href="/events/print/" data-cal-print>${svg('list', 'ic-sm')}Printable listing</a>
       <a class="btn btn-sm btn-ghost" href="/api/events?format=ics" data-cal-export="ics">Add to my calendar</a>
       <a class="btn btn-sm btn-ghost" href="/api/events?format=csv" data-cal-export="csv" download>Spreadsheet (CSV)</a>
     </p>
@@ -79,6 +80,10 @@ ${fairCard()}
     <div class="cal-row" role="group" aria-label="From">
       ${SOURCES.map((s) => `<button type="button" class="pill cal-pill" data-src="${s.id}" aria-pressed="true"><span class="cal-dot cal-dot-${s.id}" aria-hidden="true"></span>${esc(s.short)}</button>`).join('')}
     </div>
+    <div class="cal-row" role="group" aria-label="What">
+      <button type="button" class="pill" data-kind="" aria-pressed="true">Everything</button>
+      <button type="button" class="pill" data-kind="live" aria-pressed="false">🎸 Live music and arts</button>
+    </div>
     <div class="cal-row" role="group" aria-label="For">
       <button type="button" class="pill" data-aud="" aria-pressed="true">Everyone</button>
       ${AUDIENCES.map(([k, l]) => `<button type="button" class="pill" data-aud="${k}" aria-pressed="false">${esc(l)}</button>`).join('')}
@@ -88,6 +93,20 @@ ${fairCard()}
   <p class="cal-status" data-cal-status role="status">Loading events…</p>
   <div class="cal-list" data-cal-list></div>
   <noscript><p class="cal-status">This list needs JavaScript. The calendars themselves: ${SOURCES.map((s) => ext(s.calendar, esc(s.name))).join(', ')}.</p></noscript>
+  <section class="cal-live" id="live" aria-labelledby="cal-live-h">
+    <p class="kicker">Concerts, open mics, comedy and poetry</p>
+    <h2 id="cal-live-h">Live music and arts</h2>
+    <p class="vs-lead">Dated shows are in the list above under <button type="button" class="linkish" data-kind-set="live">Live music and arts</button>. These are the stages to watch. Most post their lineups on social media rather than a calendar we can read, so we only list a date once we have seen it on the place’s own page.</p>
+    <div class="cal-stage-grid">${STAGES.map((v) => `
+      <article class="cal-stage">
+        <h3>${esc(v.name)}</h3>
+        <p class="cal-meta">${svg('pin', 'ic-sm')}${esc(v.where)}</p>
+        <p>${esc(v.what)}</p>
+        <p class="cal-stage-links">${v.url ? ext(v.url, `Their page ${svg('arrow', 'ic-sm')}`, 'see-all') : ''}${v.listing ? `<a href="/b/${v.listing}/">Listing here</a>` : ''}</p>
+      </article>`).join('')}
+    </div>
+    <p class="fine">Checked ${esc(fmtChecked(STAGES[0].checked))}. Run a stage, an open mic or a poetry night in Columbus? Send us the link to your calendar and we’ll add it.</p>
+  </section>
   <section class="cal-sources" aria-labelledby="cal-sources-h">
     <h2 id="cal-sources-h">Where these come from</h2>
     <div class="cal-source-grid">${sourceCards()}</div>
@@ -118,6 +137,7 @@ ${breadcrumbs([['/', 'Home'], ['/events/', 'Local events'], ['', 'Printable list
     <label>Starts <input type="date" data-pr-from></label>
     <label>Covers <select data-pr-days><option value="7" selected>7 days</option><option value="14">14 days</option><option value="31">31 days</option></select></label>
     <label>For <select data-pr-aud><option value="">Everyone</option>${AUDIENCES.map(([k, l]) => `<option value="${k}">${esc(l)}</option>`).join('')}</select></label>
+    <label>What <select data-pr-kind><option value="">Everything</option><option value="live">Live music and arts</option></select></label>
     <label>Columns <select data-pr-cols><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option></select></label>
     <fieldset><legend>From</legend>${SOURCES.map((s) => `<label class="pr-check"><input type="checkbox" data-src="${s.id}" checked> ${esc(s.short)}</label>`).join('')}</fieldset>
   </form>

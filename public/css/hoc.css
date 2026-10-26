@@ -889,3 +889,20 @@ section { scroll-margin-top: 130px; }
 .dj-feature { border-width: 3px; background: linear-gradient(135deg, #ffe3ec, var(--surface) 60%); }
 .dj-feature .kicker { margin: 0 0 4px; }
 .dj-feature h3 { font-size: clamp(24px, 3vw, 30px); }
+
+/* ---------- Live music and arts (/events/#live) ---------- */
+.cal-live { margin-top: 44px; scroll-margin-top: 140px; }
+.cal-live h2 { font-size: clamp(26px, 3.4vw, 36px); font-weight: 800; }
+.cal-live .vs-lead { max-width: 720px; }
+.linkish { font: inherit; color: inherit; background: none; border: 0; padding: 0; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; font-weight: 700; }
+.cal-stage-grid { display: grid; gap: 14px; margin-top: 16px; }
+@media (min-width: 700px) { .cal-stage-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .cal-stage-grid { grid-template-columns: repeat(4, 1fr); } }
+.cal-stage { background: #1b1a17 url(/art/pattern-girard.png) center / 220px repeat; color: #fff; border: 2px solid var(--ink); border-radius: var(--r); box-shadow: var(--pop); padding: 0; overflow: hidden; display: grid; }
+.cal-stage > * { margin: 0; padding: 0 18px; background: rgba(27,26,23,.88); }
+.cal-stage h3 { font-size: 21px; font-weight: 800; padding-top: 16px; }
+.cal-stage .cal-meta { color: #f2d9a8; display: flex; gap: 6px; align-items: center; padding-top: 6px; }
+.cal-stage p:not(.cal-meta):not(.cal-stage-links) { padding-top: 8px; font-size: 14px; color: #ece6da; }
+.cal-stage-links { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; padding-top: 12px !important; padding-bottom: 16px !important; font-size: 14px; font-weight: 700; }
+.cal-stage-links a:not(.see-all) { text-decoration: underline; text-underline-offset: 3px; }
+.cal-stage .see-all { border-color: var(--accent); color: var(--accent); }
