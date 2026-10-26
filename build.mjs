@@ -19,6 +19,7 @@ import { skatePages } from './src/pages/skate-pages.mjs';
 import { freePages } from './src/pages/free-pages.mjs';
 import { guidePages } from './src/pages/guide-pages.mjs';
 import { djPages } from './src/pages/dj-pages.mjs';
+import { agriculturePages } from './src/pages/agriculture-pages.mjs';
 import { tripPages } from './src/pages/trip-pages.mjs';
 import { calendarPages } from './src/pages/calendar-pages.mjs';
 import { paperPages } from './src/pages/paper-pages.mjs';
@@ -61,6 +62,7 @@ const pages = [
   ...tripPages({ assets }),
   ...freePages({ assets }),
   ...djPages({ assets }),
+  ...agriculturePages({ assets }),
   ...filmPages({ assets }),
   ...guidePages({ assets }),
   ...holidayPages({ assets }),
