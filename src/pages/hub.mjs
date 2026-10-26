@@ -5,6 +5,7 @@ import { directory, CATEGORIES, AREAS } from '../data/directory.mjs';
 import { header, footer, rail, svg, PHOTOS, artIcon, photoCredit } from '../site.mjs';
 import { eventsSection } from './events.mjs';
 import { yourWay } from './trip-pages.mjs';
+import { spotlightSection } from './spotlight.mjs';
 
 const featuredStyle = {
   'gills-barber-shop': ['#1e2a4a', '#fff', 'Live chair queue, save your spot, book a cut.', '💈'],
@@ -74,6 +75,8 @@ ${header()}
     <div><b>0</b><span>chains or franchises</span></div>
   </div>
 </section>
+
+${spotlightSection()}
 
 <section class="cats wrap" aria-labelledby="cats-h">
   <div class="sec-head"><p class="kicker">Browse by category</p><h2 id="cats-h">What are you hungry for? Or fixing? Or booking?</h2></div>

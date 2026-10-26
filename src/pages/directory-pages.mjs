@@ -8,6 +8,8 @@ import { LANDMARKS } from '../data/landmarks.mjs';
 import { EVENTS } from '../data/events.mjs';
 import { dateRange } from './events.mjs';
 import { businessLd } from '../jsonld.mjs';
+import { spotlightSection, ownersPicks } from './spotlight.mjs';
+import { SPOTLIGHT_SLUGS } from '../data/spotlight.mjs';
 
 // Weekly hours table, Monday first, with today highlighted by site.js.
 const hoursTable = (rows) => {
@@ -67,6 +69,7 @@ ${breadcrumbs([['/', 'Home'], ['/explore/', 'Explore'], ...(sub && multi ? [[`/c
   </div>
   ${multi ? `<div class="wrap subnav">${[`<a href="/c/${cat.slug}/" class="${!sub ? 'on' : ''}">All ${esc(cat.label.toLowerCase())}</a>`, ...cat.subs.map((s) => `<a href="/c/${cat.slug}/${s.slug}/" class="${sub && sub.slug === s.slug ? 'on' : ''}">${s.emoji} ${esc(s.label)} <small>${directory.filter((b) => b.sub === s.slug).length}</small></a>`)].join('')}</div>` : ''}
 </section>
+${spotlightSection({ title: `In the spotlight: ${title.toLowerCase()}`, only: (b) => b.cat === cat.slug && (!sub || b.sub === sub.slug) })}
 ${refine(items, { subs: multi && !sub ? cat.subs : null })}
 <section class="wrap list">${listGrid(items)}
   <p class="empty" data-f-empty hidden><img src="/art/empty-search.png" alt="" width="160" height="160">Nothing matches. Try another neighborhood or clear the filter.</p>
@@ -99,6 +102,7 @@ ${header('areas')}
     <small class="credit">Pictured: ${esc(p.title)}. Photo: ${esc(p.credit)}, ${esc(p.license)}</small>
   </div>
 </section>
+${spotlightSection({ title: `In the spotlight in ${area.label}`, only: (b) => b.area === area.slug })}
 ${area.slug === 'downtown' ? rail('Social District: drinks to go', '/visit/#social-district', items.filter((b) => b.dora), { kicker: 'Downtown evenings, 21 and up', id: 'social-district' }) : ''}
 <div class="wrap jump">${CATEGORIES.filter((c) => cats[c.slug])
     .map((c) => `<a href="#cat-${c.slug}" style="--c:${c.color};--t:${c.tint}">${c.emoji} ${esc(c.label)} <small>${cats[c.slug]}</small></a>`)
@@ -140,7 +144,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
       <p class="kicker"><a href="/c/${cat.slug}/${cat.subs.length > 1 ? sub.slug + '/' : ''}">${esc(sub.label)}</a>${area ? ` · <a href="/n/${area.slug}/">${esc(area.label)}</a>` : ''}</p>
       <h1>${t(b.name)}</h1>
       <p class="biz-type">${t(b.type)}</p>
-      <div class="bz-tags">${b.demo ? '<span class="tag tag-hot">Order direct (demo)</span>' : ''}${b.heritage ? '<span class="tag">Columbus original</span>' : ''}${b.dora ? '<span class="tag tag-dora">Social District: drinks to go</span>' : ''}<span class="tag tag-plain">Independent</span></div>
+      <div class="bz-tags">${SPOTLIGHT_SLUGS.has(b.slug) ? '<a class="tag tag-spot" href="#owners-picks">★ Spotlight</a>' : ''}${b.demo ? '<span class="tag tag-hot">Order direct (demo)</span>' : ''}${b.heritage ? '<span class="tag">Columbus original</span>' : ''}${b.dora ? '<span class="tag tag-dora">Social District: drinks to go</span>' : ''}<span class="tag tag-plain">Independent</span></div>
       ${b.hours ? `<p class="open-badge biz-open" data-open-now='${JSON.stringify(b.hours)}' hidden></p>` : ''}
       <div class="biz-actions">
         ${b.order.map((o, i) => `<a class="btn${i ? ' btn-ghost' : ''}" href="${esc(o.url)}" target="_blank" rel="noopener">${svg('store')} Order online${b.order.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
@@ -177,6 +181,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
     <p class="fine">Details come from public listings (Chamber directory, Visit Columbus, Google Maps) and may change. Call ahead. Heart of Columbus is not affiliated with this business.</p>
   </aside>
 </section>
+${ownersPicks(b)}
 ${b.feed ? `<section class="wrap shop-sec" id="shop"><p class="kicker">Live from their store</p><h2>Shop ${t(b.name)} online</h2>
   <p class="sub">Their real products and prices, read from their own online store. Add to your cart here, then check out on their site with everything already in the cart. Choose pickup there if they offer it.</p>
   <div data-shop="${b.slug}" data-name="${esc(b.name)}"><p class="muted">Loading their store…</p></div></section>` : ''}
