@@ -38,8 +38,9 @@ export const AG = [
         more: [
           ['The last days had the Parade of Champions, an antique tractor pull, the livestock sale in the Pavilion and a demolition derby in the grandstand.', FAIR_2026_CLOSE],
           ['Past fairs have also had a rodeo, truck and tractor pulls, a 4-H Fashion Review, local bands and dirt track racing.', FAIR_PREVIEW],
+          ['The fair board lists the 2027 fair for June 25 to July 3.', FAIR],
         ],
-        link: [FAIR, 'Fair schedule and 2027 dates'] }),
+        link: [FAIR, 'The fair’s own site'] }),
       x({ slug: 'fairgrounds', name: 'The fairgrounds, the rest of the year', what: 'The county spent $629,180 in federal COVID-19 relief money on fairgrounds upgrades ahead of the 2023 fair.', source: FAIR_PREVIEW,
         more: [['That year the fair also expanded RV camping with new hookups.', FAIR_PREVIEW]],
         link: [FAIR, 'What’s on at the fairgrounds'] }),

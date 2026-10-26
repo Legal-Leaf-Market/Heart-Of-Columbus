@@ -11,12 +11,20 @@ import { ownersPages } from './src/pages/owners-pages.mjs';
 import { visitPages } from './src/pages/visit-pages.mjs';
 import { landmarkPages } from './src/pages/landmark-pages.mjs';
 import { icsFeed } from './src/pages/events.mjs';
-import { ORIGIN } from './src/jsonld.mjs';
+import { finalizeSeo, robotsTxt, sitemapXml } from './src/seo.mjs';
+import { prepareImages, responsiveImages } from './scripts/images.mjs';
 import { holidayPages } from './src/pages/holiday-pages.mjs';
 import { filmPages } from './src/pages/film-pages.mjs';
 import { freePages } from './src/pages/free-pages.mjs';
+import { guidePages } from './src/pages/guide-pages.mjs';
+import { djPages } from './src/pages/dj-pages.mjs';
 import { agriculturePages } from './src/pages/agriculture-pages.mjs';
 import { tripPages } from './src/pages/trip-pages.mjs';
+import { calendarPages } from './src/pages/calendar-pages.mjs';
+import { paperPages } from './src/pages/paper-pages.mjs';
+import { sportsPages } from './src/pages/sports-pages.mjs';
+import { helpPages } from './src/pages/help-pages.mjs';
+import { historyPages, articlesJson } from './src/pages/history-pages.mjs';
 import { searchIndex } from './src/site.mjs';
 
 const root = new URL('./', import.meta.url);
@@ -25,6 +33,8 @@ const hash = (buf) => createHash('sha256').update(buf).digest('hex').slice(0, 10
 
 await rm(out, { recursive: true, force: true });
 await cp(new URL('public/', root), out, { recursive: true });
+
+const images = await prepareImages(root, out);
 
 // Tailwind scans src/ and public/js for class names.
 await mkdir(new URL('assets/', out), { recursive: true });
@@ -50,26 +60,35 @@ const pages = [
   ...landmarkPages({ assets }),
   ...tripPages({ assets }),
   ...freePages({ assets }),
+  ...djPages({ assets }),
   ...agriculturePages({ assets }),
   ...filmPages({ assets }),
+  ...guidePages({ assets }),
   ...holidayPages({ assets }),
+  ...calendarPages({ assets }),
+  ...paperPages({ assets }),
+  ...sportsPages({ assets }),
+  ...helpPages({ assets }),
+  ...historyPages({ assets }),
 ];
 await mkdir(new URL('data/', out), { recursive: true });
 await writeFile(new URL('data/directory.json', out), JSON.stringify(searchIndex()));
 await writeFile(new URL('events.ics', out), icsFeed());
+await mkdir(new URL('history/', out), { recursive: true });
+await writeFile(new URL('history/articles.json', out), articlesJson());
 for (const p of pages) {
+  p.html = finalizeSeo(responsiveImages(p.html, images), p.path);
   const file = new URL(p.path, out);
   await mkdir(new URL('./', file), { recursive: true });
   await writeFile(file, p.html);
 }
 
-// Sitemap stays off while every page is noindex. Turn it on (HOC_SITEMAP=1)
-// the day pages start going live; it lists only pages without noindex.
-if (process.env.HOC_SITEMAP === '1') {
-  const live = pages.filter((p) => !p.html.includes('name="robots" content="noindex') && p.path.endsWith('index.html') && !p.path.startsWith('404'));
-  const loc = (p) => ORIGIN + '/' + p.path.replace(/index\.html$/, '');
-  await writeFile(new URL('sitemap.xml', out), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${live.map((p) => `  <url><loc>${loc(p)}</loc></url>`).join('\n')}\n</urlset>\n`);
-  console.log(`Sitemap: ${live.length} live pages`);
+// Crawlers must be able to read the pages to see their noindex directives.
+// Do not advertise an empty sitemap during the concept preview.
+const sitemap = process.env.HOC_SITEMAP === '1' ? sitemapXml(pages) : null;
+await writeFile(new URL('robots.txt', out), robotsTxt(Boolean(sitemap)));
+if (sitemap) {
+  await writeFile(new URL('sitemap.xml', out), sitemap);
 }
 
 // No visible dashes (em, en, or a spaced hyphen) in page text or in the

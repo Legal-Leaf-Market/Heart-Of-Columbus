@@ -41,9 +41,9 @@ export function eventsSection({ mode, id = 'events', title, kicker }) {
   return `
 <section class="wrap ev-sec" id="${id}" data-events="${mode}" hidden>
   <div class="rail-head"><div><p class="kicker">${esc(kicker)}</p><h2>${esc(title)}</h2></div>
-    <a class="see-all" href="/events.ics">Add to calendar ${svg('arrow', 'ic-sm')}</a></div>
+    <a class="see-all" href="/events/">All local events ${svg('arrow', 'ic-sm')}</a></div>
   <div class="ev-grid">${EVENTS.map(eventCard).join('')}</div>
-  <p class="fine">Signature events only, from each organizer’s own page. For everything else: ${CALENDARS.map(([l, u]) => `<a href="${u}" target="_blank" rel="noopener">${esc(l)}</a>`).join(' · ')}. Hours for nearby places come from their Google listings; call ahead.</p>
+  <p class="fine">Signature events only, from each organizer’s own page (<a href="/events.ics">add them to your calendar</a>). Library, parks and Arts Council listings are on <a href="/events/">Local events</a>. Also: ${CALENDARS.map(([l, u]) => `<a href="${u}" target="_blank" rel="noopener">${esc(l)}</a>`).join(' · ')}. Hours for nearby places come from their Google listings; call ahead.</p>
 </section>`;
 }
 
