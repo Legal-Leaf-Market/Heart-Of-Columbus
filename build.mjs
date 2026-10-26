@@ -13,6 +13,7 @@ import { landmarkPages } from './src/pages/landmark-pages.mjs';
 import { icsFeed } from './src/pages/events.mjs';
 import { ORIGIN } from './src/jsonld.mjs';
 import { holidayPages } from './src/pages/holiday-pages.mjs';
+import { sportsPages } from './src/pages/sports-pages.mjs';
 import { filmPages } from './src/pages/film-pages.mjs';
 import { freePages } from './src/pages/free-pages.mjs';
 import { tripPages } from './src/pages/trip-pages.mjs';
@@ -51,6 +52,7 @@ const pages = [
   ...freePages({ assets }),
   ...filmPages({ assets }),
   ...holidayPages({ assets }),
+  ...sportsPages({ assets }),
 ];
 await mkdir(new URL('data/', out), { recursive: true });
 await writeFile(new URL('data/directory.json', out), JSON.stringify(searchIndex()));
