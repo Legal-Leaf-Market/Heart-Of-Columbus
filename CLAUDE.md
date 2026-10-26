@@ -37,8 +37,9 @@ Indiana. A pitch, not a live service. See README.md.
   `public/art/pin-*.png`, this weekend's events, Social District) and a
   "near me now" mode at `/explore/?view=map&now=1`.
   Directory pages use plain CSS in `public/css/hoc.css`, not Tailwind.
-- Spanish: `/es/visit/` from the same template, strings and fact translations
-  in `src/i18n/es.mjs` (a test fails if a /visit/ fact has no Spanish).
+- Spanish: `/es/visit/`, `/es/free/`, `/es/l/<slug>/` and `/es/trips/<slug>/` from
+  the same templates, strings and fact translations
+  in `src/i18n/es.mjs` (a test fails if any sourced line on them has no Spanish).
   `header(active, { lang, alt })` and `footer({ lang })` switch the chrome;
   every Spanish page shows the "translation under review" note until a
   fluent speaker signs off.
