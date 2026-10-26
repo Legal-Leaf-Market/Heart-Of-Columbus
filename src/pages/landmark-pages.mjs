@@ -6,6 +6,7 @@ import { header, footer, rail, svg, breadcrumbs } from '../site.mjs';
 import { directory, km } from '../data/directory.mjs';
 import { LANDMARKS } from '../data/landmarks.mjs';
 import { landmarkLd, ORIGIN } from '../jsonld.mjs';
+import { filmBySlug } from '../data/film.mjs';
 import { PAGES as ES, FACTS, REVIEW_NOTE, esDate } from '../i18n/es.mjs';
 
 const styles = ['hoc.css'];
@@ -65,7 +66,7 @@ ${header('', { lang, alt: es ? `/l/${l.slug}/` : `/es/l/${l.slug}/` })}
   <img src="${p.src}" alt="${esc(l.name)}" style="object-position:${p.pos}">
   <span class="area-shade"></span>
   <div class="wrap area-hero-txt">
-    ${breadcrumbs([['/', es ? 'Inicio' : 'Home'], ['/#architecture', L.crumb], ['', l.name]])}
+    ${breadcrumbs([['/', es ? 'Inicio' : 'Home'], [es ? '/#architecture' : '/architecture/', L.crumb], ['', l.name]])}
     <p class="kicker kicker-light">${esc(L.kicker)}</p>
     <h1>${t(l.name)}</h1>
     <p>${esc(arch)}, ${l.year}</p>
@@ -76,6 +77,7 @@ ${es ? `<p class="wrap vs-note vs-review lm-review">${esc(REVIEW_NOTE)}</p>` : '
 <section class="wrap lm-info">
   <div class="lm-facts">
     <p class="lm-what">${t(say(l.what))}</p>
+    ${filmBySlug[l.slug] ? `<p class="lm-film">🎬 <a href="${pre}/film/">${es ? ES.film.seen : 'Seen in the film Columbus (2017)'}</a></p>` : ''}
     <dl>
       <div><dt>${L.designed}</dt><dd>${esc(arch)}</dd></div>
       <div><dt>${L.year}</dt><dd>${l.year}</dd></div>
