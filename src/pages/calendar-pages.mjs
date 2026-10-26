@@ -5,6 +5,7 @@
 // along in the page so it is never empty when a feed can't be reached.
 import { page, esc } from '../layout.mjs';
 import { header, footer, svg, breadcrumbs } from '../site.mjs';
+import { newsBar } from '../news/frame.mjs';
 import { SOURCES, LISTINGS, STAGES } from '../data/events.mjs';
 import { handEntered, AUDIENCES, creditLine, today } from '../event-feeds.mjs';
 import { dateRange } from './events.mjs';
@@ -55,6 +56,7 @@ function fairCard() {
 function eventsPage({ assets }) {
   const body = `
 ${header('events')}
+${newsBar('/events/')}
 <main id="main" data-cal="list">
 ${breadcrumbs([['/', 'Home'], ['', 'Local events']])}
 <section class="order-hero vs-hero cal-hero">
@@ -127,6 +129,7 @@ function printPage({ assets }) {
   const body = `
 <div class="pr-screen">
 ${header('events')}
+${newsBar('/events/')}
 ${breadcrumbs([['/', 'Home'], ['/events/', 'Local events'], ['', 'Printable listing']])}
 </div>
 <main id="main" data-cal="print">
