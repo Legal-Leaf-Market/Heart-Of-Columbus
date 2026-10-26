@@ -7,9 +7,10 @@ import { aboutPages } from './about-pages.mjs';
 import { ALL_STORIES, SAMPLES, stories, storiesIn, storiesBy, correctionsLog } from '../news/content.mjs';
 import { SECTIONS, sectionBySlug, sectionHref } from '../news/sections.mjs';
 import { disclosures } from '../news/disclosure.mjs';
-import { storyList, label, byline, editorLine, fmtWhen, fmtDate } from '../news/render.mjs';
-import { card, svg } from '../site.mjs';
-import { directory, areaBySlug } from '../data/directory.mjs';
+import { storyList, storyCard, label, byline, editorLine, fmtWhen, fmtDate } from '../news/render.mjs';
+import { card, svg, rail, PHOTOS } from '../site.mjs';
+import { directory, areaBySlug, AREAS } from '../data/directory.mjs';
+import { eventsSection } from './events.mjs';
 import { landmarkBySlug } from '../data/landmarks.mjs';
 import { newsArticleLd } from '../jsonld.mjs';
 import { person } from '../data/staff.mjs';
@@ -86,12 +87,16 @@ function storyPage(ctx, s) {
 }
 
 function sectionPage(ctx, sec) {
+  const items = storiesIn(sec.slug);
   const body = `
 <section class="wrap np-section">
   <header class="np-doc-head"><p class="kicker">Section</p><h1>${esc(sec.name)}</h1><p class="np-dek">${esc(sec.blurb)}</p></header>
-  ${storyList(storiesIn(sec.slug), { showSection: false, empty: 'No stories in this section yet.' })}
-</section>`;
-  return newsPage({ ...ctx, path: sectionHref(sec), title: sec.name, description: sec.blurb, crumbs: [['/news/', 'News'], ['', sec.name]], body });
+  ${sec.links ? `<nav class="chips np-sec-links" aria-label="Related">${sec.links.map(([h, l]) => `<a class="pill" href="${h}">${esc(l)}</a>`).join('')}</nav>` : ''}
+  ${sec.areas ? `<nav class="chips np-sec-links" aria-label="Neighborhoods">${AREAS.map((a) => `<a class="pill" href="/n/${a.slug}/">${esc(a.label)}</a>`).join('')}</nav>` : ''}
+  ${storyList(items, { showSection: false, empty: 'No stories in this section yet.' })}
+</section>
+${sec.events ? eventsSection({ mode: 'upcoming', id: 'whats-on', title: 'What’s on', kicker: 'Signature events' }) : ''}`;
+  return newsPage({ ...ctx, path: sectionHref(sec), title: sec.name, description: sec.blurb, crumbs: [['/news/', 'News'], ['', sec.name]], body, scripts: sec.events ? ['hub.js', 'events.js'] : [] });
 }
 
 function samplesPage(ctx) {
@@ -103,13 +108,37 @@ function samplesPage(ctx) {
   return newsPage({ ...ctx, path: '/news/samples/', title: 'Sample stories', description: 'Templates, not news.', crumbs: [['/news/', 'News'], ['', 'Samples']], body });
 }
 
+// The front page: the lead and a few more, the useful boxes, then a short
+// list from each section. Every story page stands on its own; this is a
+// front door, not the only one.
 function frontPage(ctx) {
+  const [lead, ...rest] = stories;
+  const more = rest.slice(0, 5);
+  const shown = new Set([lead, ...more].filter(Boolean).map((s) => s.href));
+  const changes = stories.filter((s) => s.section === 'business' && s.tags.some((t) => t === 'openings' || t === 'closings')).slice(0, 4);
+  const bySection = SECTIONS.map((sec) => [sec, storiesIn(sec.slug).filter((s) => !shown.has(s.href)).slice(0, 3)]).filter(([, xs]) => xs.length);
+  const photo = PHOTOS.aerial;
   const body = `
-<section class="wrap np-section">
-  <header class="np-doc-head"><p class="kicker">Coming soon</p><h1>The front page is being built</h1><p class="np-dek">Read <a href="/about/">about the paper</a> and <a href="/about/standards/">how we report</a> in the meantime.</p></header>
-  ${storyList(stories.slice(0, 12), { empty: 'No stories published yet.' })}
-</section>`;
-  return newsPage({ ...ctx, path: '/news/', title: 'News', description: 'Local news for Columbus, Indiana.', body });
+<header class="wrap np-mast">
+  <p class="np-mast-date" data-np-today></p>
+  <h1 class="np-mast-name">${esc(PAPER.name)}</h1>
+  <p class="np-mast-motto">${PAPER.motto ? t(PAPER.motto) : 'Local news for Columbus, Indiana'}</p>
+</header>
+<div class="wrap np-front">
+  <div class="np-front-main">
+    ${lead ? storyCard(lead, { size: 'lead' }) : `<div class="np-empty-front"><p class="kicker">Before the first edition</p><h2>No stories yet</h2><p>The newsroom is getting ready. Read <a href="/about/">who we are</a> and <a href="/about/standards/">how we report</a>.</p></div>`}
+    ${more.length ? `<div class="np-front-more">${more.map((s) => storyCard(s)).join('')}</div>` : ''}
+  </div>
+  <aside class="np-front-side">
+    <div data-np-wx-slot></div>
+    ${changes.length ? `<section class="np-box"><h2>Openings and closings</h2>${changes.map((s) => storyCard(s, { size: 'line', showSection: false })).join('')}<a class="np-more" href="/news/business/">More business news</a></section>` : ''}
+    <figure class="np-box np-photo"><img src="${esc(photo.src)}" alt="${esc(photo.title)}" loading="lazy"><figcaption>${esc(photo.title)}. Photo: ${esc(photo.credit)}, ${esc(photo.license)}. <a href="/credits/">Credits</a></figcaption></figure>
+  </aside>
+</div>
+${rail('Open right now', '/explore/?open=1', directory.filter((b) => b.hours && !b.tempClosed && ['restaurants', 'coffee-sweets', 'bars'].includes(b.cat)).slice(0, 150), { kicker: 'From the directory', openOnly: true, id: 'open-now' })}
+${eventsSection({ mode: 'weekend', id: 'this-weekend', title: 'This weekend in Columbus', kicker: 'Happening Friday to Sunday' })}
+${bySection.length ? `<div class="wrap np-sections">${bySection.map(([sec, xs]) => `<section class="np-sec-block"><h2><a href="${sectionHref(sec)}">${esc(sec.name)}</a></h2>${xs.map((s) => storyCard(s, { size: 'line', showSection: false })).join('')}</section>`).join('')}</div>` : ''}`;
+  return newsPage({ ...ctx, path: '/news/', title: 'News', description: 'Local news for Columbus, Indiana: the city, the county, schools, business, food, architecture, sports and things to do.', body, scripts: ['hub.js', 'events.js', 'news.js'] });
 }
 
 export function newsPages(ctx) {

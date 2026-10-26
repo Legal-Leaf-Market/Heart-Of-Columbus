@@ -9,6 +9,7 @@
 //     blurb: 'One plain sentence on what the section covers.',
 //     bar: true,                     // show in the paper's bar (default true)
 //     href: '/faith/',               // only if your own file builds the page
+//     links: [['/faith/map/', 'Map']], // optional: related pages shown on the section page
 //   }
 //
 // A section with its own page (a dashboard, a directory, a data tool) sets
@@ -24,10 +25,10 @@ export const SECTIONS = [
   { slug: 'local', name: 'Local', blurb: 'The city, the county and the schools.' },
   { slug: 'business', name: 'Business', blurb: 'Openings, closings, new owners and expansions, confirmed with the business.' },
   { slug: 'food', name: 'Food & drink', blurb: 'Where Columbus eats and drinks, and the people behind it.' },
-  { slug: 'architecture', name: 'Architecture & design', blurb: 'The beat only Columbus has.' },
-  { slug: 'neighborhoods', name: 'Neighborhoods', blurb: 'News from each part of town.' },
+  { slug: 'architecture', name: 'Architecture & design', blurb: 'The beat only Columbus has.', links: [['/free/#from-the-street', 'Architecture from the street'], ['/trips/architecture-morning/', 'An architecture morning'], ['/film/', 'The Columbus film trail']] },
+  { slug: 'neighborhoods', name: 'Neighborhoods', blurb: 'News from each part of town.', areas: true },
   { slug: 'sports', name: 'Sports', blurb: 'Columbus North, Columbus East and area schools. Written by people who were there.' },
-  { slug: 'things-to-do', name: 'Things to do', blurb: 'What’s on this week, and what’s worth planning for.' },
+  { slug: 'things-to-do', name: 'Things to do', blurb: 'What’s on this week, and what’s worth planning for.', events: true, links: [['/visit/', 'Plan your visit'], ['/free/', 'Free in Columbus'], ['/visit/#whats-on', 'Every upcoming event']] },
   { slug: 'opinion', name: 'Opinion', blurb: 'Editorials, columns and letters from readers, always labeled.' },
 ];
 

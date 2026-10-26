@@ -905,3 +905,26 @@ section { scroll-margin-top: 130px; }
 @media (min-width: 900px) { .np-tagged-row:has(.np-map):has(.np-tagged-grid) { grid-template-columns: 2fr 1fr; } }
 .np-map { width: 100%; min-height: 260px; border: 2px solid var(--ink); border-radius: 14px; }
 .np-in-news { padding-top: 28px; padding-bottom: 12px; }
+.np-mast { text-align: center; padding-top: 22px; padding-bottom: 14px; border-bottom: 4px double var(--ink); }
+.np-mast-date { font-size: 13px; color: var(--muted); min-height: 1.5em; }
+.np-mast-name { font-size: clamp(36px, 7vw, 76px); font-weight: 900; letter-spacing: -0.03em; margin: 4px 0; }
+.np-mast-motto { font-family: var(--display); font-style: italic; color: var(--muted); }
+.np-front { display: grid; grid-template-columns: 1fr; gap: 28px; padding-top: 24px; padding-bottom: 20px; }
+@media (min-width: 960px) { .np-front { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); } }
+.np-front-main, .np-front-side { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+.np-front-more { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 22px; }
+.np-card-lead { border-top: 0; padding-top: 0; }
+.np-empty-front { background: var(--surface); border: 2px solid var(--ink); border-radius: 18px; padding: 24px; box-shadow: var(--pop); }
+.np-empty-front h2 { font-size: 34px; margin-bottom: 8px; }
+.np-empty-front a, .np-photo a, .np-box a.np-more { text-decoration: underline; text-underline-offset: 3px; }
+.np-box { background: var(--surface); border: 2px solid var(--ink); border-radius: 14px; padding: 14px 16px; }
+.np-box h2 { font-size: 20px; margin-bottom: 6px; }
+.np-box .np-card { border-top: 1px solid var(--line); padding-top: 10px; margin-top: 10px; gap: 4px; }
+.np-more { display: inline-block; margin-top: 10px; font-weight: 700; font-size: 14px; }
+.np-photo { margin: 0; padding: 0; overflow: hidden; }
+.np-photo img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.np-photo figcaption { font-size: 12px; color: var(--muted); padding: 8px 12px; }
+.np-sections { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 26px; padding-top: 12px; padding-bottom: 48px; }
+.np-sec-block h2 { font-size: 22px; border-bottom: 2px solid var(--ink); padding-bottom: 6px; }
+.np-sec-block .np-card { border-top: 0; padding-top: 10px; }
+.np-sec-links { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
