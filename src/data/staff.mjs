@@ -19,7 +19,10 @@ export const STAFF = {
     // TODO(owner): a bio in your own words, and the public newsroom email.
     bio: 'Publisher of Heart of Columbus.',
     email: '',
-    editor: false, // TODO(owner): name an editor. The publisher may also edit until one is hired.
+    // Acting editor until one is hired, so other people's stories can be
+    // approved. The publisher's own pieces still need a second person.
+    // TODO(owner): name an editor, then set this back to false if you like.
+    editor: true,
   },
 };
 
@@ -27,6 +30,7 @@ export const STAFF = {
 // get a /staff/ page and can only appear on content flagged sample: true.
 export const SAMPLE_STAFF = {
   'sample-reporter': { name: 'Sample Reporter', role: 'Reporter', beat: 'Everything in Sampleton', bio: 'Not a real person. Used to show what a byline looks like.', email: '', editor: false, sample: true },
+  'sample-columnist': { name: 'Sample Columnist', role: 'Columnist', beat: '', bio: 'Not a real person. Used to show what an opinion byline looks like.', email: '', editor: false, sample: true },
   'sample-editor': { name: 'Sample Editor', role: 'Editor', beat: '', bio: 'Not a real person. Used to show what an editor credit looks like.', email: '', editor: true, sample: true },
 };
 

@@ -848,3 +848,53 @@ section { scroll-margin-top: 130px; }
 .np-corr-log { padding-left: 0; list-style: none; }
 .np-corr-log li { border-top: 1px solid var(--line); padding: 12px 0; }
 .np-corr-log time { font-weight: 700; margin-right: 8px; }
+.np-sample-banner { background: #fff4d6; border-bottom: 2px dashed #c99a2e; font-size: 14px; padding: 8px 0; }
+.np-story { max-width: 760px; padding-top: 18px; padding-bottom: 56px; }
+.np-story-head { border-bottom: 2px solid var(--ink); padding-bottom: 16px; margin-bottom: 18px; }
+.np-story-kick { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 700; margin-bottom: 12px; }
+.np-story-kick a { color: var(--brand); text-transform: uppercase; letter-spacing: .1em; font-size: 12px; font-weight: 800; }
+.np-story h1 { font-size: clamp(32px, 5.4vw, 54px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.04; }
+.np-byline { margin-top: 14px; font-weight: 700; }
+.np-meta { font-size: 14px; color: var(--muted); margin-top: 4px; }
+.np-byline a, .np-meta a, .np-trust a, .np-prose a, .np-disclose a, .np-section .np-dek a { text-decoration: underline; text-underline-offset: 3px; }
+.np-disclose { background: #eef4f8; border-left: 4px solid #1f5f8b; padding: 10px 14px; font-size: 15px; margin: 0 0 14px; border-radius: 0 8px 8px 0; }
+.np-corr { background: #fff4d6; border: 1px solid #e6c46e; border-radius: 10px; padding: 12px 16px; margin: 0 0 18px; }
+.np-corr h2 { font-size: 16px; font-family: var(--body); font-weight: 800; margin-bottom: 4px; }
+.np-corr ul, .np-trust ul { padding-left: 20px; margin: 6px 0; }
+.np-fig { margin: 0 0 20px; }
+.np-fig img { width: 100%; border-radius: 10px; border: 2px solid var(--ink); }
+.np-fig figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
+.np-credit { white-space: nowrap; }
+.np-dev { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 22px; background: var(--surface); border: 2px solid var(--ink); border-radius: 14px; padding: 14px 18px; margin: 0 0 22px; box-shadow: var(--pop); }
+.np-dev .kicker { grid-column: 1 / -1; margin: 0; }
+.np-dev h2 { font-family: var(--body); font-size: 15px; font-weight: 800; }
+.np-dev ul { padding-left: 18px; margin: 6px 0 0; font-size: 15px; }
+@media (max-width: 560px) { .np-dev { grid-template-columns: 1fr; } }
+.np-prose { font-family: Georgia, "Times New Roman", serif; font-size: 19px; line-height: 1.7; }
+.np-prose p, .np-prose ul, .np-prose ol, .np-prose blockquote { margin: 0 0 18px; }
+.np-prose h2 { font-size: 26px; margin: 30px 0 10px; }
+.np-prose h3 { font-size: 21px; margin: 24px 0 8px; }
+.np-prose blockquote { border-left: 4px solid var(--brand); padding-left: 16px; font-style: italic; }
+.np-trust { border-top: 2px solid var(--ink); margin-top: 32px; padding-top: 8px; }
+.np-trust section { margin-top: 16px; }
+.np-trust h2 { font-size: 20px; margin-bottom: 6px; }
+.np-trust p, .np-trust li { font-size: 15px; }
+.np-host { color: var(--muted); font-size: 13px; }
+.np-tip { margin-top: 20px; font-size: 15px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; }
+.np-section { padding-top: 18px; padding-bottom: 56px; }
+.np-section .np-doc-head { max-width: 760px; margin-bottom: 22px; }
+.np-section h1 { font-size: clamp(32px, 5vw, 52px); font-weight: 800; }
+.np-list-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 22px; }
+.np-card { display: flex; flex-direction: column; gap: 10px; border-top: 2px solid var(--ink); padding-top: 12px; min-width: 0; }
+.np-card-img img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 8px; }
+.np-card-kick { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+.np-card-kick a { color: var(--brand); font-weight: 800; text-transform: uppercase; letter-spacing: .1em; }
+.np-card h3 { font-size: 22px; line-height: 1.15; }
+.np-card h3 a:hover { text-decoration: underline; }
+.np-card-dek { color: var(--muted); font-size: 15px; }
+.np-card-meta { font-size: 13px; color: var(--muted); }
+.np-card-line h3 { font-size: 18px; }
+.np-card-lead h3 { font-size: clamp(28px, 4vw, 42px); }
+.np-empty { color: var(--muted); font-style: italic; }
+.np-prose ul, .np-trust ul, .np-corr ul, .np-dev ul, .np-list, .np-doc ul:not(.np-corr-log) { list-style: disc; padding-left: 22px; }
+.np-prose ol { list-style: decimal; padding-left: 24px; }

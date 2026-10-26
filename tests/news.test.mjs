@@ -42,3 +42,96 @@ test('trust pages exist, are noindex, and explain every label', () => {
   const std = read('about/standards/index.html');
   for (const id of ['ethics', 'ai', 'sources', 'anonymous', 'conflicts', 'labels', 'corrections']) assert.ok(std.includes(`id="${id}"`), id);
 });
+
+// ---------- The content model (item 2) ----------
+import { execFileSync } from 'node:child_process';
+import { parseYaml, markdown } from '../src/news/markdown.mjs';
+import { checkStory, ALL_STORIES, SAMPLES, stories, localOffset } from '../src/news/content.mjs';
+import { SECTIONS } from '../src/news/sections.mjs';
+
+test('front matter parser reads what the CMS writes', () => {
+  const y = parseYaml([
+    'headline: "Quoted: with a colon"', 'label: News', 'bylines: [a, b]', 'n: 3', 'draft: false',
+    'sources:', '  - name: One', '    url: https://example.org/1', '  - name: Two', '    note: interview, May 1',
+    'tags:', '  - x', '  - y', 'methods: >-', '  Folded', '  text.', 'developing:', '  know:', '    - A', '  dontKnow: []',
+  ].join('\n'));
+  assert.deepEqual(y, {
+    headline: 'Quoted: with a colon', label: 'News', bylines: ['a', 'b'], n: 3, draft: false,
+    sources: [{ name: 'One', url: 'https://example.org/1' }, { name: 'Two', note: 'interview, May 1' }],
+    tags: ['x', 'y'], methods: 'Folded text.', developing: { know: ['A'], dontKnow: [] },
+  });
+  assert.throws(() => parseYaml('a: &anchor x'));
+});
+
+test('markdown escapes HTML and refuses unsafe links', () => {
+  assert.equal(markdown('<script>x</script>'), '<p>&lt;script&gt;x&lt;/script&gt;</p>');
+  assert.throws(() => markdown('[x](javascript:alert(1))'));
+  assert.throws(() => markdown('# Two headlines'));
+  assert.match(markdown('It\'s **bold** and *italic* and [a link](https://example.org).'), /It’s <strong>bold<\/strong> and <em>italic<\/em> and <a href="https:\/\/example.org" target="_blank" rel="noopener">a link<\/a>/);
+  assert.equal(markdown('- one\n- two'), '<ul><li>one</li><li>two</li></ul>');
+});
+
+const good = {
+  headline: 'H', label: 'News', section: 'local', bylines: ['sample-reporter'], editor: 'sample-editor', sample: true,
+  published: '2026-11-02T08:00:00-05:00', tags: ['schools'], sources: [], corrections: [], images: [], body: 'Text.',
+};
+
+test('checkStory catches each broken rule', () => {
+  assert.deepEqual(checkStory(good), []);
+  const bad = (patch, re) => assert.ok(checkStory({ ...good, ...patch }).some((p) => re.test(p)), JSON.stringify(patch));
+  bad({ label: 'Rumor' }, /label/);
+  bad({ section: 'gossip' }, /section/);
+  bad({ bylines: ['nobody'] }, /byline/);
+  bad({ editor: 'sample-reporter' }, /not allowed to approve/);
+  bad({ bylines: ['sample-editor'] }, /own story/);
+  bad({ published: '2026-07-02T08:00:00-05:00' }, /offset should be -04:00/);
+  bad({ published: '2026-11-02' }, /must look like/);
+  bad({ label: 'Sponsored' }, /name the sponsor/);
+  bad({ sponsor: 'Shop' }, /labeled Sponsored/);
+  bad({ tags: ['not-a-thing-anywhere'] }, /tag/);
+  bad({ images: [{ file: 'https://example.org/a.jpg', alt: 'A' }] }, /credit/);
+  bad({ images: [{ file: 'https://example.org/a.jpg', credit: 'C', license: 'L' }] }, /alt/);
+  bad({ sources: [{ name: 'No link' }] }, /source/);
+  bad({ body: 'One — two' }, /dash/);
+  bad({ sample: false, bylines: ['jacob-kennedy'], editor: 'jacob-kennedy' }, /own story/);
+  bad({ sample: false, bylines: ['sample-reporter'] }, /byline/);
+  assert.deepEqual(checkStory({ ...good, editor: '', draft: true }), [], 'drafts may wait for an editor');
+  assert.equal(localOffset(new Date('2026-01-15T12:00:00Z')), '-05:00');
+  assert.equal(localOffset(new Date('2026-07-15T12:00:00Z')), '-04:00');
+});
+
+test('no sample content in published stories, and samples stay out of the paper', () => {
+  for (const s of ALL_STORIES) assert.ok(!s.sample, s.file);
+  assert.ok(SAMPLES.length >= 2 && SAMPLES.every((s) => s.sample && s.href.startsWith('/news/samples/')));
+  const listed = ['news/index.html', ...SECTIONS.filter((s) => !s.href).map((s) => `news/${s.slug}/index.html`)];
+  for (const p of listed) assert.ok(!/\/news\/samples\/|Sampleton/.test(read(p)), `${p} links a sample`);
+});
+
+test('a story page shows label, byline, editor, sources, methods and corrections', () => {
+  const html = read('news/samples/sampleton-bakery-opens/index.html');
+  for (const want of ['np-label-news', 'By <span>Sample Reporter</span>', 'Edited by', 'id="references"', 'id="methods"', 'np-corr-top', 'id="corrections"', 'What we don’t know yet', 'Sample story.', 'noindex']) assert.ok(html.includes(want), want);
+  assert.ok(read('news/samples/sampleton-opinion/index.html').includes('np-label-opinion'));
+});
+
+test('every published story has a page and appears in its section', () => {
+  for (const s of stories) {
+    const page = read(`${s.href.slice(1)}index.html`);
+    assert.ok(page.includes('name="robots" content="noindex'), s.href);
+    const sec = SECTIONS.find((x) => x.slug === s.section);
+    if (!sec.href) assert.ok(read(`news/${sec.slug}/index.html`).includes(`href="${s.href}"`), s.href);
+  }
+});
+
+// Corrections are append only: compared with the same file on origin/main
+// when git has it (CI and local checkouts), skipped otherwise.
+test('corrections are never edited or removed', () => {
+  let base;
+  try { base = execFileSync('git', ['merge-base', 'HEAD', 'origin/main'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim(); } catch { return; }
+  for (const s of ALL_STORIES) {
+    let old;
+    try { old = execFileSync('git', ['show', `${base}:${s.file}`], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }); } catch { continue; }
+    const before = [].concat(parseYaml(old.split(/^---$/m)[1]).corrections || []).map((c) => `${c.date}|${c.text}`);
+    const now = s.corrections.map((c) => `${c.date}|${c.text}`);
+    assert.deepEqual(now.slice(0, before.length), before, `${s.file}: corrections changed`);
+  }
+});

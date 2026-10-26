@@ -8,7 +8,8 @@ export const PAPER = {
   name: 'Heart of Columbus',
   motto: '',
   publisher: 'jacob-kennedy', // a slug in src/data/staff.mjs
-  // TODO(owner): the editor (a staff slug). Nothing publishes without one.
+  // TODO(owner): the editor (a staff slug). The publisher is acting editor
+  // until one is named (editor: true in staff.mjs).
   editor: '',
   // TODO(owner): free with members, sponsors, grants, or a mix. The plan
   // recommends free to read with a membership ask and labeled sponsors.
