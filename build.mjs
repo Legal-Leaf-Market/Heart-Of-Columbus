@@ -21,6 +21,7 @@ import { tripPages } from './src/pages/trip-pages.mjs';
 import { calendarPages } from './src/pages/calendar-pages.mjs';
 import { paperPages } from './src/pages/paper-pages.mjs';
 import { sportsPages } from './src/pages/sports-pages.mjs';
+import { helpPages } from './src/pages/help-pages.mjs';
 import { searchIndex } from './src/site.mjs';
 
 const root = new URL('./', import.meta.url);
@@ -61,6 +62,7 @@ const pages = [
   ...calendarPages({ assets }),
   ...paperPages({ assets }),
   ...sportsPages({ assets }),
+  ...helpPages({ assets }),
 ];
 await mkdir(new URL('data/', out), { recursive: true });
 await writeFile(new URL('data/directory.json', out), JSON.stringify(searchIndex()));
