@@ -12,7 +12,7 @@ export const UI = {
   searchLabel: 'Buscar negocios de Columbus',
   nav: { visit: 'Visitar', events: 'Eventos', explore: 'Explorar', order: 'Pedir y reservar', map: 'Mapa', areas: 'Vecindarios', saved: 'Guardados' },
   switchTo: 'English',
-  footerTag: 'Negocios independientes de Columbus, Indiana. Sin cadenas, sin franquicias, sin comisiones de apps.',
+  footerTag: 'Negocios independientes de Columbus, Indiana. De dueños locales. ¿Ve una cadena? Avísenos y la quitamos.',
   footerSmall: 'Una vista previa. Los datos vienen de listados públicos y pueden cambiar; llame antes de ir. Sin afiliación con los negocios listados.',
   browse: 'Explorar', more: 'Más', aroundTown: 'Por la ciudad', owners: 'Dueños',
   links: { visit: 'Planee su visita', events: 'Eventos locales', free: 'Gratis en Columbus', film: 'La ruta de la película Columbus', architecture: 'Arquitectura (en inglés)', arts: 'Arte público (en inglés)', cummins: 'Cummins y Columbus (en inglés)', holidays: 'Compras locales en las fiestas', djs: 'DJ de Columbus', credits: 'Créditos de fotos', markets: 'Mercados (en inglés)', obituaries: 'Obituarios (en inglés)', sports: 'Deportes (en inglés)', claim: 'Reclame su listado', pickup: 'Pedidos para recoger', direct: 'Pedir, reservar y comprar directo' },

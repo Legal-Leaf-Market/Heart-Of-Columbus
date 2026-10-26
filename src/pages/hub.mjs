@@ -27,6 +27,7 @@ export function renderHub({ assets }) {
   const bySlug = Object.fromEntries(businesses.map((b) => [b.slug, b]));
   const count = (fn) => directory.filter(fn).length;
   const total = directory.length;
+  const direct = count((b) => b.order.length || b.book.length || b.store);
 
   const quick = [
     ['🌮 Tacos', '/c/restaurants/mexican/'], ['☕ Coffee', '/c/coffee-sweets/'], ['💈 Barbers', '/c/beauty/barbers/'],
@@ -49,7 +50,7 @@ ${header()}
     <div class="hero-copy">
       <p class="kicker kicker-pill">Columbus, Indiana · The Athens of the Prairie</p>
       <h1>Built by legends.<br><span class="hl">Run by neighbors.</span></h1>
-      <p class="lede">${total} independent businesses and not a single chain. Find the taqueria, the barber, the plumber and the bookshop that make this town home.</p>
+      <p class="lede">${total} independent businesses, owner-run and local. Find the taqueria, the barber, the plumber and the bookshop that make this town home.</p>
       <form class="big-search" action="/explore/" role="search" data-typeahead>
         ${svg('search')}
         <input name="q" type="search" autocomplete="off" placeholder="Search ${total} local businesses" aria-label="Search local businesses" data-rotate='["Search birria, boba, biscuits…","Search barbers, nails, lashes…","Search plumbers, roofers, mechanics…","Search 25th St, downtown, West Hill…"]'>
@@ -72,7 +73,7 @@ ${header()}
     <div><b>${total}</b><span>independent businesses</span></div>
     <div><b>${CATEGORIES.length}</b><span>ways to browse</span></div>
     <div><b>${AREAS.length}</b><span>neighborhoods</span></div>
-    <div><b>0</b><span>chains or franchises</span></div>
+    <div><b>${direct}</b><span>to order, book or shop direct</span></div>
   </div>
 </section>
 
@@ -250,8 +251,8 @@ ${yourWay({ id: 'trip-ideas' })}
 ${footer()}`;
 
   return page({
-    title: 'Heart of Columbus | Every independent business in Columbus, Indiana',
-    description: `${total} independent restaurants, shops, salons and trades in Columbus, Indiana. No chains. Browse by category or neighborhood, and order direct.`,
+    title: 'Heart of Columbus | Local Businesses in Columbus, Indiana',
+    description: `${total} independent restaurants, shops, salons and trades in Columbus, Indiana. Browse by category or neighborhood, and order direct.`,
     body,
     scripts: ['site.js', 'hub.js', 'events.js'],
     styles: ['hoc.css'],

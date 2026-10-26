@@ -102,7 +102,7 @@ export function footer({ lang = 'en' } = {}) {
   <div class="wrap ftr-grid">
     <div>
       <a href="/" class="logo logo-light">${heartLogo}<span>Heart of <em>Columbus</em></span></a>
-      <p class="ftr-tag">${es ? ES.footerTag : 'Independent businesses of Columbus, Indiana. No chains, no franchises, no app fees.'}</p>
+      <p class="ftr-tag">${es ? ES.footerTag : 'Independent businesses of Columbus, Indiana. Owner-run and local. Spot a chain? Tell us and it comes off.'}</p>
       <p class="ftr-small">${es ? ES.footerSmall : 'A concept preview. Details come from public listings and may change; call ahead. Not affiliated with the businesses listed.'}</p>
     </div>
     <div><h3>${es ? ES.browse : 'Browse'}</h3>${CATEGORIES.slice(0, 8).map((c) => `<a href="/c/${c.slug}/">${cat(c)}</a>`).join('')}</div>

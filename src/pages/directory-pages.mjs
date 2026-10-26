@@ -225,7 +225,7 @@ ${header(saved ? 'saved' : 'explore')}
   <div class="ex-top wrap">
     <div>
       <p class="kicker">${saved ? 'Your list' : 'Explore'}</p>
-      <h1>${saved ? 'Saved places' : 'Every independent in Columbus'}</h1>
+      <h1>${saved ? 'Saved places' : 'Independent businesses in Columbus'}</h1>
     </div>
     ${saved ? tripBar() : ''}
     <div class="ex-views" role="group" aria-label="View">
@@ -268,8 +268,8 @@ ${header(saved ? 'saved' : 'explore')}
 </main>
 ${footer()}`;
   return page({
-    title: saved ? 'Saved places | Heart of Columbus' : 'Explore every independent business in Columbus, Indiana | Heart of Columbus',
-    description: 'Search and map every independent business in Columbus, Indiana.',
+    title: saved ? 'Saved places | Heart of Columbus' : 'Explore independent businesses in Columbus, Indiana | Heart of Columbus',
+    description: 'Search and map independent businesses in Columbus, Indiana.',
     body,
     scripts: saved ? ['site.js', 'trip.js', 'explore.js'] : ['site.js', 'explore.js'],
     styles,
