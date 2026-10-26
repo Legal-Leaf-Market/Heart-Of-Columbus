@@ -91,3 +91,14 @@ To turn it on (TODO(owner), these are settings, not code):
    one of its authors.
 3. Add each new staff member to `src/data/staff.mjs` first; the CMS only
    offers people who are there.
+
+## The business beat's lead lists
+
+After each listings refresh, run `node scripts/diff-directory.mjs`. It
+compares the directory with `content/drafts/directory-snapshot.json` and
+writes `content/drafts/business-changes-<date>.md`: closings, temporary
+closings, reopenings, new listings, big hours changes and new ordering or
+booking links, plus the public-record calendars to check by hand. It is a
+checklist for a reporter, never a story, and `content/drafts/` is never
+built into the site. `--holiday 2026-11-26` writes the list of places to
+call about holiday hours, because our listings carry regular hours only.

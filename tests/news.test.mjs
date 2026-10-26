@@ -200,3 +200,31 @@ test('the front page has the weather and river box with its sources', () => {
   for (const want of ['data-np-wx', 'data-gauge="03364000"', 'forecast.weather.gov', 'flood-inundation-maps-east-fork-white-river-columbus-indiana', '/js/news.js']) assert.ok(html.includes(want), want);
   assert.ok(read('news/alert/index.html').includes('noindex'));
 });
+
+// ---------- The business beat's lead lists (item 6) ----------
+import { snapshotOf, diffDirectory, draftMarkdown, bigHoursChange, holidayCalls } from '../src/news/leads.mjs';
+
+test('the directory diff finds closings, openings, hours and new links, as a lead list', () => {
+  const base = { name: 'A Place', address: '1 Main', phone: '(812) 555-0100', hours: [[1, 540, 1020], [2, 540, 1020]], tempClosed: false, closed: false, order: [], book: [], store: '' };
+  const before = { a: base, b: { ...base, name: 'B' }, c: { ...base, name: 'C' }, d: { ...base, name: 'D' }, gone: { ...base, name: 'Gone' } };
+  const after = {
+    a: { ...base, closed: true }, b: { ...base, name: 'B', tempClosed: true }, c: { ...base, name: 'C', hours: [[1, 540, 1020]] },
+    d: { ...base, name: 'D', order: ['https://order.example'] }, n: { ...base, name: 'New' },
+  };
+  const d = diffDirectory(before, after);
+  assert.deepEqual(Object.fromEntries(Object.entries(d).map(([k, v]) => [k, v.map((x) => x.slug)])),
+    { added: ['n'], gone: ['gone'], closed: ['a'], tempClosed: ['b'], reopened: [], hours: ['c'], online: ['d'] });
+  const md = draftMarkdown(d, { date: '2026-11-02', since: '2026-10-26' });
+  assert.match(md, /^---\ndraft: true\n/);
+  assert.match(md, /This is a lead list, not a story/);
+  assert.ok(!/[—–]/.test(md));
+  assert.ok(!bigHoursChange([[1, 540, 1020]], [[1, 540, 1050]]), 'half an hour is not news');
+  assert.ok(bigHoursChange([[1, 540, 1020]], [[2, 540, 1020]]), 'a different day is');
+  assert.deepEqual(snapshotOf({ name: 'X', order: [{ url: 'u' }] }).order, ['u']);
+  assert.equal(holidayCalls([{ hours: [[4, 540, 1020]], phone: '1' }, { hours: [[5, 540, 1020]], phone: '2' }], '2026-11-26').length, 1, 'Thanksgiving is a Thursday');
+});
+
+test('drafts and lead lists are never built into the site', () => {
+  assert.ok(!existsSync(new URL('drafts/', dist)) && !existsSync(new URL('content/', dist)));
+  for (const s of ALL_STORIES) assert.ok(!s.leads, `${s.file} is a lead list in content/stories/`);
+});
