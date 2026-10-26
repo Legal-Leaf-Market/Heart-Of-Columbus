@@ -15,6 +15,7 @@ import { ORIGIN } from './src/jsonld.mjs';
 import { holidayPages } from './src/pages/holiday-pages.mjs';
 import { freePages } from './src/pages/free-pages.mjs';
 import { tripPages } from './src/pages/trip-pages.mjs';
+import { calendarPages } from './src/pages/calendar-pages.mjs';
 import { searchIndex } from './src/site.mjs';
 
 const root = new URL('./', import.meta.url);
@@ -49,6 +50,7 @@ const pages = [
   ...tripPages({ assets }),
   ...freePages({ assets }),
   ...holidayPages({ assets }),
+  ...calendarPages({ assets }),
 ];
 await mkdir(new URL('data/', out), { recursive: true });
 await writeFile(new URL('data/directory.json', out), JSON.stringify(searchIndex()));

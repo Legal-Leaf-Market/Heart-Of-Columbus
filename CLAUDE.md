@@ -35,7 +35,14 @@ Indiana. A pitch, not a live service. See README.md.
   `public/js/events.js` picks what shows at load time, and the build writes
   `/events.ics`. Trip ideas (`/trips/<slug>/`) come from `src/data/trips.mjs`;
   their reasons are computed from data, and a test fails if a stop is not open
-  for its whole slot. The explore map has layers (businesses, landmarks with
+  for its whole slot. Local events (`/events/`, `/events/print/`) merge the
+  library (Communico JSON) and parks (Tockify iCalendar) feeds live through
+  `/api/events` (`netlify/functions/events.mjs`, CDN cached an hour; json,
+  ics, csv and AP-style txt) with hand-entered `LISTINGS` for calendars
+  with no feed (Arts Council, county fair). `SOURCES` in events.mjs lists
+  them; parsing and exports live in `src/event-feeds.mjs`. Only title,
+  time, place and ages are kept, never descriptions, and every item links
+  to its organizer. The explore map has layers (businesses, landmarks with
   `public/art/pin-*.png`, this weekend's events, Social District) and a
   "near me now" mode at `/explore/?view=map&now=1`.
   Directory pages use plain CSS in `public/css/hoc.css`, not Tailwind.
