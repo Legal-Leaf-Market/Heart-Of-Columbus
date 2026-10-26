@@ -22,6 +22,7 @@ import { calendarPages } from './src/pages/calendar-pages.mjs';
 import { paperPages } from './src/pages/paper-pages.mjs';
 import { sportsPages } from './src/pages/sports-pages.mjs';
 import { searchIndex } from './src/site.mjs';
+import { LAUNCH, indexable, ROBOTS_META, headersFile, robotsTxt } from './src/indexing.mjs';
 
 const root = new URL('./', import.meta.url);
 const out = new URL('dist/', root);
@@ -65,19 +66,28 @@ const pages = [
 await mkdir(new URL('data/', out), { recursive: true });
 await writeFile(new URL('data/directory.json', out), JSON.stringify(searchIndex()));
 await writeFile(new URL('events.ics', out), icsFeed());
+// The robots meta is decided here, per path, by the one policy in
+// src/indexing.mjs. The layout leaves a marker so no page can opt itself in.
+for (const p of pages) {
+  if (!p.path.endsWith('.html')) continue;
+  if (!p.html.includes('<!--robots-->')) { console.error('No robots marker in ' + p.path); process.exit(1); }
+  p.html = p.html.replace('<!--robots-->', indexable(p.path) ? '' : ROBOTS_META);
+}
+await writeFile(new URL('_headers', out), headersFile());
+await writeFile(new URL('robots.txt', out), robotsTxt(ORIGIN));
 for (const p of pages) {
   const file = new URL(p.path, out);
   await mkdir(new URL('./', file), { recursive: true });
   await writeFile(file, p.html);
 }
 
-// Sitemap stays off while every page is noindex. Turn it on (HOC_SITEMAP=1)
-// the day pages start going live; it lists only pages without noindex.
-if (process.env.HOC_SITEMAP === '1') {
-  const live = pages.filter((p) => !p.html.includes('name="robots" content="noindex') && p.path.endsWith('index.html') && !p.path.startsWith('404'));
+// The sitemap lists exactly the pages the policy indexes, so it exists only
+// after launch and can never name a noindex page.
+if (LAUNCH) {
+  const live = pages.filter((p) => p.path.endsWith('index.html') && indexable(p.path));
   const loc = (p) => ORIGIN + '/' + p.path.replace(/index\.html$/, '');
   await writeFile(new URL('sitemap.xml', out), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${live.map((p) => `  <url><loc>${loc(p)}</loc></url>`).join('\n')}\n</urlset>\n`);
-  console.log(`Sitemap: ${live.length} live pages`);
+  console.log(`Sitemap: ${live.length} indexable pages`);
 }
 
 // No visible dashes (em, en, or a spaced hyphen) in page text or in the

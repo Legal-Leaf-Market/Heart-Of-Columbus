@@ -22,7 +22,7 @@ export const demoBanner = (name) => `
   </div>
 </div>`;
 
-export function page({ title, description, theme = '', body, scripts = [], styles = [], data = null, ld = [], lang = 'en', alternates = [], assets, preview = true, path = '/', head = '' }) {
+export function page({ title, description, theme = '', body, scripts = [], styles = [], data = null, ld = [], lang = 'en', alternates = [], assets, path = '/', head = '' }) {
   return `<!doctype html>
 <html lang="${lang}">
 <head>
@@ -30,7 +30,7 @@ export function page({ title, description, theme = '', body, scripts = [], style
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
-${preview ? '<meta name="robots" content="noindex, nofollow">' : ''}
+<!--robots-->
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:type" content="website">
