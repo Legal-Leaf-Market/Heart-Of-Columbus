@@ -178,3 +178,25 @@ test('a story shows cards for the businesses it tags, and the business shows the
   assert.ok(inTheNews(biz, [fake]).includes('href="/news/2026/11/wiring-check/"'));
   assert.equal(inTheNews(biz, []), '');
 });
+
+// ---------- Weather, river and breaking mode (item 7) ----------
+import { activeAlert, alertBanner, ALERT } from '../src/news/alert.mjs';
+
+test('the alert banner never shows an expired, undated or inactive alert', () => {
+  const now = new Date('2026-11-02T12:00:00-05:00');
+  const a = { active: true, level: 'breaking', headline: 'Road closed', expires: '2026-11-02T18:00:00-05:00' };
+  assert.ok(activeAlert(a, now) && alertBanner(a, now).includes('Road closed'));
+  assert.equal(alertBanner({ ...a, expires: '2026-11-02T11:59:00-05:00' }, now), '', 'expired');
+  assert.equal(alertBanner({ ...a, expires: '' }, now), '', 'no expiry');
+  assert.equal(alertBanner({ ...a, expires: 'soon' }, now), '', 'bad date');
+  assert.equal(alertBanner({ ...a, active: false }, now), '', 'inactive');
+  assert.equal(alertBanner({ ...a, headline: '' }, now), '', 'no headline');
+  assert.match(alertBanner(a, now), /data-expires="2026-11-02T18:00:00-05:00"/, 'the browser hides it at expiry too');
+  if (!activeAlert(ALERT)) for (const p of ['index.html', 'news/index.html', 'gills/index.html']) assert.ok(!read(p).includes('class="np-alert'), p);
+});
+
+test('the front page has the weather and river box with its sources', () => {
+  const html = read('news/index.html');
+  for (const want of ['data-np-wx', 'data-gauge="03364000"', 'forecast.weather.gov', 'flood-inundation-maps-east-fork-white-river-columbus-indiana', '/js/news.js']) assert.ok(html.includes(want), want);
+  assert.ok(read('news/alert/index.html').includes('noindex'));
+});

@@ -102,5 +102,33 @@ collections:
           - { name: dontKnow, label: "What we don't know yet", widget: list }
       - { name: draft, label: "Draft (build it for preview, list it nowhere)", widget: boolean, required: false, default: false }
       - { name: body, label: Story, widget: markdown, buttons: [bold, italic, link, heading-two, heading-three, quote, bulleted-list, numbered-list], editor_components: [], modes: [rich_text, raw] }
+  - name: settings
+    label: Breaking news
+    files:
+      - name: alert
+        label: "Breaking news banner"
+        file: content/alert.json
+        description: "Turn on the banner on every page and fill /news/alert/. It shows only while Active is on and the expiry is in the future."
+        fields:
+          - { name: active, label: Active, widget: boolean, default: false }
+          - name: level
+            label: Level
+            widget: select
+            options: [{ label: Breaking, value: breaking }, { label: Weather warning, value: warning }, { label: Update, value: update }]
+          - { name: headline, label: Headline, widget: string, required: false }
+          - { name: summary, label: Summary, widget: text, required: false }
+          - { name: updated, label: "Last updated", widget: datetime, format: 'YYYY-MM-DDTHH:mm:ssZ', required: false }
+          - { name: expires, label: "Expires (required to show)", widget: datetime, format: 'YYYY-MM-DDTHH:mm:ssZ', required: false }
+          - { name: know, label: "What we know", widget: list, required: false }
+          - { name: closures, label: Closures, widget: list, required: false }
+          - { name: whereToGo, label: "Where to go", widget: list, required: false }
+          - { name: howToHelp, label: "How to help", widget: list, required: false }
+          - name: sources
+            label: "Official sources"
+            widget: list
+            required: false
+            fields:
+              - { name: name, label: Name, widget: string }
+              - { name: url, label: Link, widget: string }
 `;
 }

@@ -928,3 +928,15 @@ section { scroll-margin-top: 130px; }
 .np-sec-block h2 { font-size: 22px; border-bottom: 2px solid var(--ink); padding-bottom: 6px; }
 .np-sec-block .np-card { border-top: 0; padding-top: 10px; }
 .np-sec-links { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+.np-wx-list { list-style: none; padding: 0; margin: 4px 0 0; display: grid; gap: 6px; font-size: 15px; }
+.np-wx-t { font-family: var(--display); font-weight: 800; font-size: 18px; }
+.np-wx-when, .np-wx-src { font-size: 12px; color: var(--muted); margin-top: 6px; }
+.np-wx-src a { text-decoration: underline; text-underline-offset: 2px; }
+.np-wx-alert { background: #fde4e4; border-left: 4px solid var(--brand); padding: 6px 10px; margin-top: 8px; font-size: 14px; border-radius: 0 6px 6px 0; }
+.np-river { border-top: 1px solid var(--line); margin-top: 10px; padding-top: 10px; font-size: 15px; }
+.np-alert { background: var(--brand); color: #fff; font-size: 15px; }
+.np-alert-update { background: #1f5f8b; }
+.np-alert-warning { background: #b45309; }
+.np-alert-row { max-width: 1240px; margin: 0 auto; padding: 10px 16px; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
+.np-alert strong { text-transform: uppercase; letter-spacing: .1em; font-size: 13px; }
+.np-alert a { color: #fff; text-decoration: underline; font-weight: 700; }

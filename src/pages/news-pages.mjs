@@ -11,6 +11,48 @@ import { storyList, storyCard, label, byline, editorLine, fmtWhen, fmtDate } fro
 import { card, svg, rail, PHOTOS } from '../site.mjs';
 import { directory, areaBySlug, AREAS } from '../data/directory.mjs';
 import { eventsSection } from './events.mjs';
+import { ALERT, activeAlert, LEVELS } from '../news/alert.mjs';
+
+// Columbus, for the weather box: the Bartholomew County Courthouse.
+const WX = { lat: 39.2014, lon: -85.9214, gauge: '03364000' };
+
+// Filled in the browser by news.js from the National Weather Service and
+// USGS, with the last good reading kept as a fallback. Without JavaScript it
+// is just the links.
+const weatherBox = () => `
+<section class="np-box np-wx" data-np-wx data-lat="${WX.lat}" data-lon="${WX.lon}" data-gauge="${WX.gauge}" aria-labelledby="wx-h">
+  <h2 id="wx-h">Weather and river</h2>
+  <div data-np-wx-now><p class="muted">Loading the forecast…</p></div>
+  <div data-np-wx-alerts></div>
+  <div class="np-river" data-np-river><p class="muted">Loading the river gauge…</p></div>
+  <p class="np-wx-src" data-np-wx-src>From the <a href="https://forecast.weather.gov/MapClick.php?lat=${WX.lat}&amp;lon=${WX.lon}" target="_blank" rel="noopener">National Weather Service</a> and the <a href="https://waterdata.usgs.gov/monitoring-location/USGS-${WX.gauge}/" target="_blank" rel="noopener">USGS gauge on the East Fork White River at Columbus</a>.</p>
+  <p class="np-wx-src"><a href="https://www.usgs.gov/maps/flood-inundation-maps-east-fork-white-river-columbus-indiana" target="_blank" rel="noopener">Flood inundation maps for Columbus</a></p>
+</section>`;
+
+const alertList = (title, items) => (items?.length ? `<section><h2>${esc(title)}</h2><ul>${items.map((x) => `<li>${t(x)}</li>`).join('')}</ul></section>` : '');
+
+// /news/alert/: the emergency page. Built every time; says so plainly when
+// nothing is going on.
+function alertPage(ctx) {
+  const a = ALERT;
+  const on = activeAlert(a);
+  const body = on ? `
+<article class="wrap np-doc np-alert-page">
+  <header class="np-doc-head"><p class="kicker">${esc(LEVELS[a.level] || 'Alert')}</p><h1>${t(a.headline)}</h1>${a.summary ? `<p class="np-dek">${t(a.summary)}</p>` : ''}
+  <p class="np-meta">Last updated <time datetime="${esc(a.updated)}" data-np-updated>${a.updated ? fmtWhen(a.updated) : ''}</time>. This page changes as we confirm more.</p></header>
+  ${alertList('What we know', a.know)}
+  ${alertList('Closures', a.closures)}
+  ${alertList('Where to go', a.whereToGo)}
+  ${alertList('How to help', a.howToHelp)}
+  ${a.sources?.length ? `<section><h2>Official sources</h2><ul>${a.sources.map((x) => `<li><a href="${esc(x.url)}" target="_blank" rel="noopener">${t(x.name)}</a></li>`).join('')}</ul></section>` : ''}
+  <p class="np-tip">In an emergency, call 911. Have something we should know? <a href="/about/standards/#feedback">Tell the newsroom</a>.</p>
+</article>` : `
+<article class="wrap np-doc">
+  <header class="np-doc-head"><p class="kicker">Alerts</p><h1>No active alert</h1><p class="np-dek">When something big is happening in Columbus, this page will say what we know, what is closed, where to go and how to help.</p></header>
+  <p>In an emergency, call 911. For weather warnings, see the <a href="https://www.weather.gov/ind/" target="_blank" rel="noopener">National Weather Service in Indianapolis</a>.</p>
+</article>`;
+  return newsPage({ ...ctx, path: '/news/alert/', title: on ? a.headline : 'Alerts', description: on ? a.summary || a.headline : 'Breaking news and emergencies in Columbus, Indiana.', crumbs: [['/news/', 'News'], ['', 'Alert']], body });
+}
 import { landmarkBySlug } from '../data/landmarks.mjs';
 import { newsArticleLd } from '../jsonld.mjs';
 import { person } from '../data/staff.mjs';
@@ -130,7 +172,7 @@ function frontPage(ctx) {
     ${more.length ? `<div class="np-front-more">${more.map((s) => storyCard(s)).join('')}</div>` : ''}
   </div>
   <aside class="np-front-side">
-    <div data-np-wx-slot></div>
+    ${weatherBox()}
     ${changes.length ? `<section class="np-box"><h2>Openings and closings</h2>${changes.map((s) => storyCard(s, { size: 'line', showSection: false })).join('')}<a class="np-more" href="/news/business/">More business news</a></section>` : ''}
     <figure class="np-box np-photo"><img src="${esc(photo.src)}" alt="${esc(photo.title)}" loading="lazy"><figcaption>${esc(photo.title)}. Photo: ${esc(photo.credit)}, ${esc(photo.license)}. <a href="/credits/">Credits</a></figcaption></figure>
   </aside>
@@ -147,6 +189,7 @@ export function newsPages(ctx) {
     ...SECTIONS.filter((s) => !s.href).map((s) => ({ path: `news/${s.slug}/index.html`, html: sectionPage(ctx, s) })),
     ...ALL_STORIES.map((s) => ({ path: `${s.href.slice(1)}index.html`, html: storyPage(ctx, s) })),
     { path: 'news/samples/index.html', html: samplesPage(ctx) },
+    { path: 'news/alert/index.html', html: alertPage(ctx) },
     ...SAMPLES.map((s) => ({ path: `${s.href.slice(1)}index.html`, html: storyPage(ctx, s) })),
     ...aboutPages(ctx, {
       corrections: correctionsLog().map((c) => ({ date: c.date, dateText: fmtDate(c.date), text: c.text, story: c.story })),
