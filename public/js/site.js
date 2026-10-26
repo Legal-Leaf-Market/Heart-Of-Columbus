@@ -204,6 +204,20 @@
     tr.scrollLeft = 0;
   });
 
+  // ---------- Print one box ----------
+  // [data-print] prints only its own section (the grain prices box).
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-print]');
+    if (!b) return;
+    document.body.classList.add('print-one');
+    b.closest('section').classList.add('is-printing');
+    window.print();
+  });
+  window.addEventListener('afterprint', function () {
+    document.body.classList.remove('print-one');
+    $$('.is-printing').forEach(function (s) { s.classList.remove('is-printing'); });
+  });
+
   // ---------- Share ----------
   document.addEventListener('click', function (e) {
     var b = e.target.closest('[data-share]');
