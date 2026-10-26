@@ -15,6 +15,7 @@ import { ORIGIN } from './src/jsonld.mjs';
 import { holidayPages } from './src/pages/holiday-pages.mjs';
 import { filmPages } from './src/pages/film-pages.mjs';
 import { freePages } from './src/pages/free-pages.mjs';
+import { djPages } from './src/pages/dj-pages.mjs';
 import { tripPages } from './src/pages/trip-pages.mjs';
 import { searchIndex } from './src/site.mjs';
 
@@ -49,6 +50,7 @@ const pages = [
   ...landmarkPages({ assets }),
   ...tripPages({ assets }),
   ...freePages({ assets }),
+  ...djPages({ assets }),
   ...filmPages({ assets }),
   ...holidayPages({ assets }),
 ];

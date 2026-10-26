@@ -808,3 +808,8 @@ section { scroll-margin-top: 130px; }
 .film-photo img { width: 100%; height: 100%; object-fit: cover; }
 .film-n { position: absolute; left: 10px; top: 10px; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--brand); color: #fff; font-weight: 800; border: 2px solid var(--ink); }
 .lm-film { margin-top: 12px; font-weight: 700; }
+
+/* Columbus DJs (/djs/) */
+.dj-feature { border-width: 3px; background: linear-gradient(135deg, #ffe3ec, var(--surface) 60%); }
+.dj-feature .kicker { margin: 0 0 4px; }
+.dj-feature h3 { font-size: clamp(24px, 3vw, 30px); }
