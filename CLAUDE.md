@@ -5,8 +5,10 @@ Indiana. A pitch, not a live service. See README.md.
 
 ## Standing rules
 
-- **No em dashes anywhere a person reads** (repo owner's directive). The en dash
-  is fine inside numeric ranges. The build fails on an em dash in any page.
+- **No visible dashes anywhere a person reads** (repo owner's directive): no em
+  dash, no en dash (write ranges as "9 AM to 5 PM"), no spaced hyphen. Listed
+  names with " - " show it as a comma. Hyphens inside words and phone numbers
+  are fine. The build fails on any of these in a page's visible text.
 - **Never invent facts about a real business.** Addresses, phones, hours and
   prices come from public listings and are noted at the top of each page file.
   Anything unverified is shown with the `sample` tag. No made-up reviews,

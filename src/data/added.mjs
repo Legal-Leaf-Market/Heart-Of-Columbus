@@ -4,14 +4,14 @@
 //
 // Crossroads Wedding Co. (crossroadsweddingco.shop, checked 2026-10-26): "Based
 // in Columbus, Indiana"; wedding DJ and MC, live solo acoustic sets, bar
-// service and day-of coordination; dates booked from its own /book page. No
+// service and coordination on the day; dates booked from its own /book page. No
 // street address or phone is published, so none is shown.
 export const ADDED = [
   {
     name: 'Crossroads Wedding Co.',
     cat: 'events',
     sub: 'events',
-    type: 'Wedding DJ and MC, live acoustic sets, bar service and day-of coordination',
+    type: 'Wedding DJ and MC, live acoustic sets, bar service and coordination on the day',
     address: '',
     phone: '',
     website: 'https://crossroadsweddingco.shop/',

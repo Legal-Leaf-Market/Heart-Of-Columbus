@@ -68,6 +68,13 @@ if (process.env.HOC_SITEMAP === '1') {
   console.log(`Sitemap: ${live.length} live pages`);
 }
 
-const emDash = pages.filter((p) => p.html.includes('—')).map((p) => p.path);
-if (emDash.length) { console.error('Em dash found in: ' + emDash.join(', ')); process.exit(1); }
+// No visible dashes (em, en, or a spaced hyphen) in page text or in the
+// alt, title, label and placeholder text a reader sees.
+const visibleText = (html) => {
+  const h = html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<!--[\s\S]*?-->/g, ' ');
+  const attrs = [...h.matchAll(/\s(?:alt|title|placeholder|aria-label|content)="([^"]*)"/g)].map((m) => m[1]);
+  return [h.replace(/<[^>]+>/g, ' '), ...attrs].join(' ');
+};
+const dashed = pages.filter((p) => p.path.endsWith('.html') && /[—–]| - /.test(visibleText(p.html))).map((p) => p.path);
+if (dashed.length) { console.error('Dash found in: ' + dashed.join(', ')); process.exit(1); }
 console.log(`Built dist/: ${pages.length} pages`);

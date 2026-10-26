@@ -43,7 +43,7 @@ export const businesses = [
     name: "Jill's Diner",
     vertical: 'eat',
     filters: ['sandwiches', 'historic'],
-    focus: 'Biscuits and gravy, fried mush, tenderloins and all-day breakfast. A Columbus diner counter since 1952.',
+    focus: 'Biscuits and gravy, fried mush, tenderloins and breakfast all day. A Columbus diner counter since 1952.',
     address: '3005 N. National Road',
     area: ['National Rd', 'North'],
     phone: '(812) 799-0016',
