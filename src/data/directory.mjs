@@ -13,6 +13,7 @@ import { HOURS } from './hours.mjs';
 import { DORA_SLUGS } from './dora.mjs';
 import { GEO } from './geo.mjs';
 import { ADDED } from './added.mjs';
+import { excludedForOwnership } from './ownership.mjs';
 
 // Top-level categories, in display order. `subs` map to the landscape's
 // vertical/filter pairs. Emoji are the fallback icon until /art/ assets land.
@@ -246,8 +247,11 @@ for (const b of all) {
 }
 
 // A business its own Google listing marks permanently closed leaves the
-// directory (the hand-built featured cards are checked by hand instead).
-export const directory = all.filter((b) => b.featured || !(WEB[b.slug] && WEB[b.slug].closed)).sort((a, b) => a.name.replace(/^the /i, '').localeCompare(b.name.replace(/^the /i, '')));
+// directory (the hand-built featured cards are checked by hand instead), and
+// so does one found to be a chain or franchise (ownership.mjs has the evidence).
+// Every record before filtering, so tests can check ownership entries name real rows.
+export const everyRecord = all;
+export const directory = all.filter((b) => (b.featured || !(WEB[b.slug] && WEB[b.slug].closed)) && !excludedForOwnership(b.slug)).sort((a, b) => a.name.replace(/^the /i, '').localeCompare(b.name.replace(/^the /i, '')));
 export const catBySlug = Object.fromEntries(CATEGORIES.map((c) => [c.slug, c]));
 export const subBySlug = Object.fromEntries(CATEGORIES.flatMap((c) => c.subs.map((s) => [s.slug, { ...s, cat: c }])));
 export const areaBySlug = Object.fromEntries(AREAS.map((a) => [a.slug, a]));

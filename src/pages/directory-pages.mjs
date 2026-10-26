@@ -3,12 +3,12 @@ import { page, esc, t } from '../layout.mjs';
 import { directory, CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, km } from '../data/directory.mjs';
 import { header, footer, card, rail, svg, PHOTOS, artIcon, coverArt, tel, mapsLink, breadcrumbs } from '../site.mjs';
 import { fmtRange, DAY_NAMES } from '../hours.mjs';
-import { MEDIA } from '../data/media.mjs';
+import { MEDIA as MEDIA_ALL, mediaFor, mediaSrc } from '../data/media.mjs';
 import { LANDMARKS } from '../data/landmarks.mjs';
 import { EVENTS } from '../data/events.mjs';
 import { dateRange } from './events.mjs';
 import { businessLd } from '../jsonld.mjs';
-import { spotlightSection, ownersPicks } from './spotlight.mjs';
+import { spotlightSection, ownersPicks, spotFor } from './spotlight.mjs';
 import { SPOTLIGHT_SLUGS } from '../data/spotlight.mjs';
 import { storiesTagged } from '../news/content.mjs';
 import { storyList } from '../news/render.mjs';
@@ -50,6 +50,19 @@ const refine = (items, { areas = true, subs = null } = {}) => {
   </div>`;
 };
 
+// What the page actually offers, in one sentence. A listing's type is its own
+// words and can end in a period ("since 1952."), so it is trimmed first.
+const bizDescription = (b) => {
+  const type = String(b.type || '').trim().replace(/[.,;:\s]+$/, '');
+  const has = [b.hours && !b.tempClosed ? 'hours' : '', b.phone ? 'phone' : '', 'directions'].filter(Boolean);
+  const offers = has.length > 1 ? `${has.slice(0, -1).join(', ')} and ${has[has.length - 1]}` : has[0];
+  const where = `${b.name}${b.address ? ` at ${b.address}` : ''} in Columbus, Indiana.`;
+  const tail = `${offers[0].toUpperCase() + offers.slice(1)} on Heart of Columbus.`;
+  // A short label reads as an apposition; a sentence stands on its own.
+  if (type && type.length <= 40 && !/[.!?]/.test(type)) return `${b.name}, ${type.toLowerCase()}${b.address ? `, at ${b.address}` : ''} in Columbus, Indiana. ${tail}`;
+  return `${where}${type ? ` ${type}.` : ''} ${tail}`;
+};
+
 function categoryPage(cat, sub, { assets }) {
   const items = directory.filter((b) => b.cat === cat.slug && (!sub || b.sub === sub.slug));
   const multi = cat.subs.length > 1;
@@ -75,7 +88,7 @@ ${breadcrumbs([['/', 'Home'], ['/explore/', 'Explore'], ...(sub && multi ? [[`/c
 ${spotlightSection({ title: `In the spotlight: ${title.toLowerCase()}`, only: (b) => b.cat === cat.slug && (!sub || b.sub === sub.slug) })}
 ${refine(items, { subs: multi && !sub ? cat.subs : null })}
 <section class="wrap list">${listGrid(items)}
-  <p class="empty" data-f-empty hidden><img src="/art/empty-search.png" alt="" width="160" height="160">Nothing matches. Try another neighborhood or clear the filter.</p>
+  <p class="empty" data-f-empty hidden><img src="/art/empty-search.webp" alt="" width="160" height="160">Nothing matches. Try another neighborhood or clear the filter.</p>
 </section>
 <section class="wrap more-cats">
   <h2>Keep exploring</h2>
@@ -83,7 +96,7 @@ ${refine(items, { subs: multi && !sub ? cat.subs : null })}
 </section>
 </main>
 ${footer()}`;
-  return page({ title: `${title} in Columbus, Indiana | Heart of Columbus`, description: `${items.length} independent ${title.toLowerCase()} in Columbus, Indiana.`, body, scripts: ['site.js', 'list.js'], styles, assets });
+  return page({ title: `${title} in Columbus, Indiana | Heart of Columbus`, description: `${cat.blurb} ${items.length} independent ${title.toLowerCase()} in Columbus, Indiana, with phone numbers, maps and hours where listed.`, body, scripts: ['site.js', 'list.js'], styles, assets });
 }
 
 function areaPage(area, { assets }) {
@@ -98,7 +111,7 @@ ${header('areas')}
   <span class="area-shade"></span>
   <div class="wrap area-hero-txt">
     ${breadcrumbs([['/', 'Home'], ['/#neighborhoods', 'Neighborhoods'], ['', area.label]])}
-    <img class="area-hero-badge" src="/art/area-${area.slug}.png" alt="" onerror="this.remove()">
+    <img class="area-hero-badge" src="/art/area-${area.slug}.webp" alt="" onerror="this.remove()">
     <p class="kicker kicker-light">Neighborhood</p>
     <h1>${esc(area.label)}</h1>
     <p>${esc(area.blurb)} ${items.length} independent places.</p>
@@ -118,7 +131,7 @@ ${CATEGORIES.filter((c) => cats[c.slug])
 </section>
 </main>
 ${footer()}`;
-  return page({ title: `${area.label}, Columbus, Indiana | Heart of Columbus`, description: `${items.length} independent businesses in ${area.label}, Columbus, Indiana.`, body, scripts: ['site.js', 'hub.js'], styles, assets });
+  return page({ title: `${area.label}, Columbus, Indiana | Heart of Columbus`, description: `${area.blurb} ${items.length} independent businesses in ${area.label}, Columbus, Indiana.`, body, scripts: ['site.js', 'hub.js'], styles, assets });
 }
 
 // Stories tagged with this business, newest first (content/stories/).
@@ -130,7 +143,7 @@ function bizPage(b, { assets }) {
   const cat = catBySlug[b.cat];
   const sub = subBySlug[b.sub];
   const area = areaBySlug[b.area];
-  const media = MEDIA[b.slug];
+  const media = mediaFor(b.slug);
   const near = b.ll
     ? directory.filter((x) => x.slug !== b.slug && x.ll).map((x) => [km(b.ll, x.ll), x]).sort((a, c) => a[0] - c[0]).slice(0, 12).map((x) => x[1])
     : [];
@@ -145,14 +158,14 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
     <div class="biz-cover pat-arch" style="--c:${cat.color};--t:${cat.tint}">
       ${coverArt(b.sub, false)}
       <span class="biz-emoji" aria-hidden="true">${sub.emoji}</span>
-      ${media?.cover ? `<img class="biz-photo" src="/business-media/${b.slug}/${media.cover.file}" width="${media.cover.width}" height="${media.cover.height}" alt="${esc(media.cover.alt)}" loading="lazy" decoding="async" onerror="this.remove()">` : ''}
+      ${media?.cover ? `<img class="biz-photo" src="${mediaSrc(b.slug, media.cover)}" width="${media.cover.width}" height="${media.cover.height}" alt="${esc(media.cover.alt)}" loading="lazy" decoding="async" onerror="this.remove()">` : ''}
     </div>
-    ${media?.cover ? `<p class="fine biz-credit">${esc(media.credit)}, shown with permission.</p>` : ''}
+    ${media ? `<p class="fine biz-credit">${esc(media.credit)}, shown with permission.</p>` : `<p class="fine biz-credit">Own ${t(b.name)}? <a href="/owners/?b=${b.slug}&amp;want=photos#claim">Send us photos</a> and we will show them here with your credit. We never copy them from your website.</p>`}
     <div class="biz-head">
       <p class="kicker"><a href="/c/${cat.slug}/${cat.subs.length > 1 ? sub.slug + '/' : ''}">${esc(sub.label)}</a>${area ? ` · <a href="/n/${area.slug}/">${esc(area.label)}</a>` : ''}</p>
       <h1>${t(b.name)}</h1>
       <p class="biz-type">${t(b.type)}</p>
-      <div class="bz-tags">${SPOTLIGHT_SLUGS.has(b.slug) ? '<a class="tag tag-spot" href="#owners-picks">★ Spotlight</a>' : ''}${b.demo ? '<span class="tag tag-hot">Order direct (demo)</span>' : ''}${b.heritage ? '<span class="tag">Columbus original</span>' : ''}${b.dora ? '<span class="tag tag-dora">Social District: drinks to go</span>' : ''}<span class="tag tag-plain">Independent</span></div>
+      <div class="bz-tags">${SPOTLIGHT_SLUGS.has(b.slug) ? (spotFor(b.slug)?.picks.length ? '<a class="tag tag-spot" href="#owners-picks">★ Spotlight</a>' : '<span class="tag tag-spot">★ Spotlight</span>') : ''}${b.demo ? '<span class="tag tag-hot">Order direct (demo)</span>' : ''}${b.heritage ? '<span class="tag">Columbus original</span>' : ''}${b.dora ? '<span class="tag tag-dora">Social District: drinks to go</span>' : ''}<span class="tag tag-plain">Independent</span></div>
       ${b.hours ? `<p class="open-badge biz-open" data-open-now='${JSON.stringify(b.hours)}' hidden></p>` : ''}
       <div class="biz-actions">
         ${b.order.map((o, i) => `<a class="btn${i ? ' btn-ghost' : ''}" href="${esc(o.url)}" target="_blank" rel="noopener">${svg('store')} Order online${b.order.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
@@ -190,6 +203,12 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
   </aside>
 </section>
 ${inTheNews(b)}
+${media && (media.logo || (media.gallery || []).length) ? `
+<section class="wrap biz-gallery" aria-label="Photos from ${t(b.name)}">
+  ${media.logo ? `<img class="biz-logo" src="${mediaSrc(b.slug, media.logo)}" width="${media.logo.width}" height="${media.logo.height}" alt="${esc(media.logo.alt)}" loading="lazy" decoding="async">` : ''}
+  ${(media.gallery || []).map((f) => `<figure><img src="${mediaSrc(b.slug, f)}" width="${f.width}" height="${f.height}" alt="${esc(f.alt)}" loading="lazy" decoding="async"></figure>`).join('')}
+  <p class="fine">${esc(media.credit)}, shown with permission.</p>
+</section>` : ''}
 ${ownersPicks(b)}
 ${b.feed ? `<section class="wrap shop-sec" id="shop"><p class="kicker">Live from their store</p><h2>Shop ${t(b.name)} online</h2>
   <p class="sub">Their real products and prices, read from their own online store. Add to your cart here, then check out on their site with everything already in the cart. Choose pickup there if they offer it.</p>
@@ -198,7 +217,7 @@ ${rail(`More ${sub.label.toLowerCase()}`, `/c/${cat.slug}/${cat.subs.length > 1 
 ${rail('Close by', area ? `/n/${area.slug}/` : '', near)}
 </main>
 ${footer()}`;
-  return page({ title: `${b.name} | ${sub.label} in Columbus, Indiana`, description: `${b.name}, ${b.type}${b.address ? ', ' + b.address : ''}, Columbus, Indiana.`, body, scripts: ['site.js', 'hub.js', 'cart.js'], styles, assets, ld: [businessLd(b)] });
+  return page({ title: `${b.name} | ${sub.label} in Columbus, Indiana`, description: bizDescription(b), body, scripts: ['site.js', 'hub.js', 'cart.js'], styles, assets, ld: [businessLd(b)] });
 }
 
 // Saved page extras: share a list, pick a day, print it. Landmarks and events
@@ -233,7 +252,7 @@ ${header(saved ? 'saved' : 'explore')}
   <div class="ex-top wrap">
     <div>
       <p class="kicker">${saved ? 'Your list' : 'Explore'}</p>
-      <h1>${saved ? 'Saved places' : 'Every independent in Columbus'}</h1>
+      <h1>${saved ? 'Saved places' : 'Independent businesses in Columbus'}</h1>
     </div>
     ${saved ? tripBar() : ''}
     <div class="ex-views" role="group" aria-label="View">
@@ -243,7 +262,7 @@ ${header(saved ? 'saved' : 'explore')}
     </div>
   </div>
   <div class="ex-layout wrap">
-    <aside class="ex-side" data-ex-side>
+    <aside class="ex-side" id="ex-side" data-ex-side>
       <label class="refine-q">${svg('search')}<input type="search" placeholder="Name, type or street" data-ex-q aria-label="Search"></label>
       <h2>Category</h2>
       <div class="ex-cats">
@@ -259,10 +278,10 @@ ${header(saved ? 'saved' : 'explore')}
       <label class="check"><input type="checkbox" data-ex-online> Order, book or shop online</label>
       <label class="check"><input type="checkbox" data-ex-demo> Storefront demo</label>
       <h2>Sort</h2>
-      <select data-ex-sort aria-label="Sort"><option value="az">A to Z</option><option value="za">Z to A</option><option value="area">By neighborhood</option><option value="near">Nearest to me</option>${saved ? '<option value="walk">Walking order</option>' : ''}</select><p class="fine" data-ex-near-msg hidden></p>
+      <select data-ex-sort aria-label="Sort"><option value="match">Best match</option><option value="az">A to Z</option><option value="za">Z to A</option><option value="area">By neighborhood</option><option value="near">Nearest to me</option>${saved ? '<option value="walk">Walking order</option>' : ''}</select><p class="fine" data-ex-near-msg hidden></p>
     </aside>
     <section class="ex-main">
-      <div class="ex-bar"><p data-ex-count aria-live="polite"></p><button type="button" class="pill ex-filters-btn" data-ex-toggle>Filters</button></div>
+      <div class="ex-bar"><p data-ex-count aria-live="polite"></p><button type="button" class="pill ex-filters-btn" data-ex-toggle aria-controls="ex-side" aria-expanded="false">Filters</button></div>
       <div class="ex-map" data-ex-map hidden>
         ${saved ? '' : `<div class="now-bar" data-now-bar hidden><p data-now-msg aria-live="polite">Open now, nearest first.</p><div class="chips">${NOW_CATS.map((k) => { const c = CATEGORIES.find((x) => x.slug === k); return `<button type="button" class="pill" data-now-cat="${k}" aria-pressed="false">${c.emoji} ${esc(c.label)}</button>`; }).join('')}</div><a class="fine" href="/explore/?view=map" data-now-exit>Leave near me now</a></div>`}
         <div class="map-layers" role="group" aria-label="Show on the map">${LAYERS.map(([k, l]) => `<label class="check map-layer map-layer-${k}"><input type="checkbox" data-layer="${k}"${k === 'z' ? '' : ' checked'}> ${esc(l)}</label>`).join('')}</div>
@@ -270,14 +289,14 @@ ${header(saved ? 'saved' : 'explore')}
       ${saved ? '<div class="trip-extras" data-trip-extras hidden></div>' : ''}
       <div class="grid" data-ex-grid></div>
       <button type="button" class="btn btn-ghost more-btn" data-ex-more hidden>Show more</button>
-      <div class="empty" data-ex-empty hidden><img src="/art/${saved ? 'empty-saved' : 'empty-search'}.png" alt="" width="180" height="180">${saved ? '<p>Nothing saved yet. Tap the heart on any place to keep it here.</p><a class="btn" href="/explore/">Start exploring</a>' : '<p>Nothing matches those filters.</p>'}</div>
+      <div class="empty" data-ex-empty hidden><img src="/art/${saved ? 'empty-saved' : 'empty-search'}.webp" alt="" width="180" height="180">${saved ? '<p>Nothing saved yet. Tap the heart on any place to keep it here.</p><a class="btn" href="/explore/">Start exploring</a>' : '<p data-ex-why>Nothing matches those filters.</p><div class="btns" data-ex-recover></div>'}</div>
     </section>
   </div>
 </main>
 ${footer()}`;
   return page({
-    title: saved ? 'Saved places | Heart of Columbus' : 'Explore every independent business in Columbus, Indiana | Heart of Columbus',
-    description: 'Search and map every independent business in Columbus, Indiana.',
+    title: saved ? 'Saved places | Heart of Columbus' : 'Explore independent businesses in Columbus, Indiana | Heart of Columbus',
+    description: 'Search and map independent businesses in Columbus, Indiana.',
     body,
     scripts: saved ? ['site.js', 'trip.js', 'explore.js'] : ['site.js', 'explore.js'],
     styles,
@@ -295,6 +314,8 @@ ${header()}
   <div class="credits">${Object.values(PHOTOS)
     .map((p) => `<figure><img src="${p.src}" alt="${esc(p.title)}" loading="lazy"><figcaption><strong>${esc(p.title)}</strong> (${esc(p.note)})<br>Photo: ${esc(p.credit)}. License: ${esc(p.license)}. <a href="${p.page}" target="_blank" rel="noopener">Source</a></figcaption></figure>`)
     .join('')}</div>
+  <h2>Business photos</h2>
+  ${Object.keys(MEDIA_ALL).filter((s) => mediaFor(s)).length ? `<p>Photos of a listed business come only from that business, shown with its permission and the credit it asked for.</p><ul>${Object.keys(MEDIA_ALL).filter((s) => mediaFor(s)).map((s) => `<li><a href="/b/${s}/">${t(directory.find((b) => b.slug === s)?.name || s)}</a>: ${esc(mediaFor(s).credit)}. Permission: ${esc(mediaFor(s).permission)}, checked ${esc(mediaFor(s).checked)}.</li>`).join('')}</ul>` : '<p>None yet. Photos of a listed business come only from that business, with its permission. Until an owner sends some, each listing shows our own illustration.</p>'}
   <p>Business details come from the Columbus Area Chamber of Commerce member directory, Visit Columbus Indiana listings and Google Maps, gathered October 2026. Map tiles on the explore page are from OpenStreetMap contributors.</p>
 </main>
 ${footer()}`;
@@ -306,7 +327,7 @@ function notFoundPage({ assets }) {
   const body = `
 ${header()}
 <main id="main" class="wrap prose">
-  <div class="empty"><img src="/art/empty-search.png" alt="" width="180" height="180">
+  <div class="empty"><img src="/art/empty-search.webp" alt="" width="180" height="180">
     <h1>We couldn’t find that page</h1>
     <p>The link may be old, or the place may have closed. Search above, or start from one of these.</p>
     <p class="btns"><a class="btn" href="/explore/">Explore every business</a><a class="btn" href="/">Home</a></p>

@@ -1,6 +1,6 @@
-// schema.org JSON-LD for business, landmark, event and trip pages, built only
-// from the data each page already shows. Pages stay noindex; this is ready for
-// the day a business signs on. tests/jsonld.test.mjs checks that every block
+// schema.org JSON-LD for business, landmark and trip pages, built only
+// from the data each page already shows. Whether a page is indexed is
+// src/indexing.mjs's decision, not this file's. tests/jsonld.test.mjs checks that every block
 // parses and that its name, phone and address appear on the page itself.
 
 const origin = new URL(process.env.HOC_ORIGIN || 'https://heartofcolumbus.netlify.app');
@@ -31,9 +31,14 @@ const hoursSpec = (rows) => rows.map(([d, o, c]) => ({ '@type': 'OpeningHoursSpe
 const address = (street) => ({ '@type': 'PostalAddress', streetAddress: street, addressLocality: 'Columbus', addressRegion: 'IN', addressCountry: 'US' });
 const geo = (ll) => ({ '@type': 'GeoCoordinates', latitude: ll[0], longitude: ll[1] });
 
+// The business is the page's subject, not its publisher: a stable @id for the
+// entity, and mainEntityOfPage pointing at our listing page. `url` stays the
+// business's own site when we have it, never ours.
 export function businessLd(b) {
+  const page = abs(`/b/${b.slug}/`);
   return {
-    '@context': 'https://schema.org', '@type': schemaType(b), name: b.name,
+    '@context': 'https://schema.org', '@type': schemaType(b), '@id': `${page}#business`, name: b.name,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': page },
     ...(b.address ? { address: address(b.address) } : {}),
     ...(b.ll ? { geo: geo(b.ll) } : {}),
     ...(b.phone ? { telephone: b.phone } : {}),
@@ -50,13 +55,6 @@ export function landmarkLd(l) {
   };
 }
 
-export function eventLd(e) {
-  return {
-    '@context': 'https://schema.org', '@type': 'Event', name: e.name, description: e.line, url: e.url, startDate: e.start, endDate: e.end,
-    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
-    location: { '@type': 'Place', name: e.venue, address: { '@type': 'PostalAddress', addressLocality: 'Columbus', addressRegion: 'IN', addressCountry: 'US' }, ...(e.ll ? { geo: geo(e.ll) } : {}) },
-  };
-}
 
 // [[name, href], ...] in order.
 export const itemListLd = (name, items) => ({
@@ -86,3 +84,15 @@ export function newsArticleLd(s, { people, paper }) {
     publisher: { '@type': 'NewsMediaOrganization', name: paper.name, url: abs('/news/'), logo: { '@type': 'ImageObject', url: abs('/og.png') } },
   };
 }
+
+// The home page names the site and who publishes it. Heart of Columbus is a
+// directory; it does not own or speak for the businesses it lists.
+export const siteLd = () => ({
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'WebSite', '@id': `${ORIGIN}/#website`, url: `${ORIGIN}/`, name: 'Heart of Columbus', inLanguage: 'en',
+      description: 'A directory of independent businesses in Columbus, Indiana.', publisher: { '@id': `${ORIGIN}/#org` } },
+    { '@type': 'Organization', '@id': `${ORIGIN}/#org`, name: 'Heart of Columbus', url: `${ORIGIN}/`, logo: `${ORIGIN}/og.png`,
+      areaServed: { '@type': 'City', name: 'Columbus', containedInPlace: { '@type': 'State', name: 'Indiana' } } },
+  ],
+});

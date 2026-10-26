@@ -90,8 +90,9 @@ test('an obituary needs the name, the date, the text, a contact and consent', as
 
 test('an obituary is stored as received and only the right key reads it', async () => {
   assert.equal((await obit({ ...good, text: good.text + '\r\n\r\n\r\nSecond paragraph.' })).status, 200);
-  assert.equal((await obituary(new Request('https://h/api/obituary?k=nope'))).status, 403);
-  const j = await (await obituary(new Request('https://h/api/obituary?k=' + 'k'.repeat(24)))).json();
+  assert.equal((await obituary(new Request('https://h/api/obituary', { headers: { 'x-hoc-key': 'nope' } }))).status, 403);
+  assert.equal((await obituary(new Request('https://h/api/obituary?k=' + 'k'.repeat(24)))).status, 403);
+  const j = await (await obituary(new Request('https://h/api/obituary', { headers: { 'x-hoc-key': 'k'.repeat(24) } }))).json();
   assert.equal(j.items.length, 1);
   assert.equal(j.items[0].status, 'received');
   assert.equal(j.items[0].home, 'Myers-Reed Chapel');

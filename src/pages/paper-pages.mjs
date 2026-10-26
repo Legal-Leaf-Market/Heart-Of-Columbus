@@ -1,5 +1,5 @@
 // The newspaper sections: Markets (/markets/) and Obituaries (/obituaries/,
-// plus the private review page /obituaries/review/?k=). Data lives in
+// plus the private review page /obituaries/review/#k=). Data lives in
 // src/data/markets.mjs and src/data/obituaries.mjs; this file lays it out.
 // Both pages print cleanly (public/css/paper.css) so the same content can go
 // on paper.
@@ -146,7 +146,7 @@ ${header('')}
   <p class="btns pp-tools"><button type="button" class="btn btn-sm btn-ghost" data-print>Print all</button></p>
   <div class="ob-list" data-review-out></div>
 </main>`;
-  return page({ title: 'Obituary review | Heart of Columbus', description: 'Private.', body, scripts: ['obituaries.js'], styles, assets });
+  return page({ title: 'Obituary review | Heart of Columbus', description: 'Private.', body, scripts: ['obituaries.js'], styles, assets, head: '<meta name="referrer" content="no-referrer">' });
 }
 
 export const paperPages = (ctx) => [

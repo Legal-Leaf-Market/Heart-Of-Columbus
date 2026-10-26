@@ -30,32 +30,32 @@ import { BLAIR } from './blair.mjs';
 // Sections work like a magazine's departments. `art` is existing artwork in
 // public/art used as the section's mark.
 export const SECTIONS = [
-  { slug: 'industry', label: 'Industry & Work', art: 'float-gear.png' },
-  { slug: 'architecture', label: 'Architecture & Design', art: 'float-arch.png' },
-  { slug: 'faith', label: 'Faith', art: 'float-spire.png' },
-  { slug: 'civic', label: 'Civic Life', art: 'float-courthouse.png' },
-  { slug: 'schools', label: 'Schools', art: 'float-tree.png' },
-  { slug: 'culture', label: 'Arts & Culture', art: 'float-sparkle-1.png' },
-  { slug: 'sports', label: 'Sports & Recreation', art: 'float-confetti.png' },
-  { slug: 'service', label: 'War & Service', art: 'float-firestation.png' },
-  { slug: 'river', label: 'River & Weather', art: 'float-bridge.png' },
-  { slug: 'media', label: 'Media', art: 'float-heart.png' },
+  { slug: 'industry', label: 'Industry & Work', art: 'float-gear.webp' },
+  { slug: 'architecture', label: 'Architecture & Design', art: 'float-arch.webp' },
+  { slug: 'faith', label: 'Faith', art: 'float-spire.webp' },
+  { slug: 'civic', label: 'Civic Life', art: 'float-courthouse.webp' },
+  { slug: 'schools', label: 'Schools', art: 'float-tree.webp' },
+  { slug: 'culture', label: 'Arts & Culture', art: 'float-sparkle-1.webp' },
+  { slug: 'sports', label: 'Sports & Recreation', art: 'float-confetti.webp' },
+  { slug: 'service', label: 'War & Service', art: 'float-firestation.webp' },
+  { slug: 'river', label: 'River & Weather', art: 'float-bridge.webp' },
+  { slug: 'media', label: 'Media', art: 'float-heart.webp' },
 ];
 export const sectionBySlug = Object.fromEntries(SECTIONS.map((s) => [s.slug, s]));
 
 // Census counts for the city, from the Wikipedia article on Columbus.
 const POP = 'https://en.wikipedia.org/wiki/Columbus,_Indiana';
 export const DECADES = [
-  { slug: '1930s', title: 'The 1930s', pop: [1930, 9935], art: 'pattern-tools.png', items: A1930s },
-  { slug: '1940s', title: 'The 1940s', pop: [1940, 11738], art: 'pattern-prairie.png', items: A1940s },
-  { slug: '1950s', title: 'The 1950s', pop: [1950, 18370], art: 'pattern-girard.png', items: A1950s },
-  { slug: '1960s', title: 'The 1960s', pop: [1960, 20778], art: 'pattern-arches.png', items: A1960s },
-  { slug: '1970s', title: 'The 1970s', pop: [1970, 26457], art: 'pattern-food.png', items: A1970s },
-  { slug: '1980s', title: 'The 1980s', pop: [1980, 30614], art: 'pattern-tools.png', items: A1980s },
-  { slug: '1990s', title: 'The 1990s', pop: [1990, 31802], art: 'pattern-prairie.png', items: A1990s },
-  { slug: '2000s', title: 'The 2000s', pop: [2000, 39059], art: 'pattern-girard.png', items: A2000s },
-  { slug: '2010s', title: 'The 2010s', pop: [2010, 44061], art: 'pattern-arches.png', items: A2010s },
-  { slug: '2020s', title: 'The 2020s', pop: [2020, 50474], art: 'pattern-food.png', items: A2020s },
+  { slug: '1930s', title: 'The 1930s', pop: [1930, 9935], art: 'pattern-tools.webp', items: A1930s },
+  { slug: '1940s', title: 'The 1940s', pop: [1940, 11738], art: 'pattern-prairie.webp', items: A1940s },
+  { slug: '1950s', title: 'The 1950s', pop: [1950, 18370], art: 'pattern-girard.webp', items: A1950s },
+  { slug: '1960s', title: 'The 1960s', pop: [1960, 20778], art: 'pattern-arches.webp', items: A1960s },
+  { slug: '1970s', title: 'The 1970s', pop: [1970, 26457], art: 'pattern-food.webp', items: A1970s },
+  { slug: '1980s', title: 'The 1980s', pop: [1980, 30614], art: 'pattern-tools.webp', items: A1980s },
+  { slug: '1990s', title: 'The 1990s', pop: [1990, 31802], art: 'pattern-prairie.webp', items: A1990s },
+  { slug: '2000s', title: 'The 2000s', pop: [2000, 39059], art: 'pattern-girard.webp', items: A2000s },
+  { slug: '2010s', title: 'The 2010s', pop: [2010, 44061], art: 'pattern-arches.webp', items: A2010s },
+  { slug: '2020s', title: 'The 2020s', pop: [2020, 50474], art: 'pattern-food.webp', items: A2020s },
 ].map((d) => ({ ...d, popSource: POP }));
 
 export const SERIES = [

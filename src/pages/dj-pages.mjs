@@ -50,7 +50,7 @@ ${OTHER_DJS.length ? `<section class="fr-group" id="more" aria-labelledby="more-
 </main>
 ${footer()}`;
   return page({
-    title: 'Columbus DJs | Heart of Columbus',
+    title: 'Wedding and event DJs in Columbus, Indiana | Heart of Columbus',
     description: 'Wedding, party and event DJs in Columbus, Indiana, led by Crossroads Wedding Co., each with its source.',
     body, scripts: ['site.js'], styles, assets,
   });

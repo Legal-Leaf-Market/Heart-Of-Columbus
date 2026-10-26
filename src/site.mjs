@@ -7,13 +7,14 @@ import { CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, directory } from '
 import { LANDMARKS } from './data/landmarks.mjs';
 import { SPOTLIGHT_SLUGS } from './data/spotlight.mjs';
 import { NEWS_LIVE } from './data/paper.mjs';
+import { mediaFor, mediaSrc } from './data/media.mjs';
 
 // Cover art for a business type, only when public/art has one for it;
 // otherwise the card shows its emoji on the pattern.
-export const hasCover = (sub) => existsSync(new URL(`../public/art/cover-${sub}.png`, import.meta.url));
+export const hasCover = (sub) => existsSync(new URL(`../public/art/cover-${sub}.webp`, import.meta.url));
 export const coverArt = (sub, lazy = true) =>
   hasCover(sub)
-    ? `<img class="bz-art" width="1600" height="700" decoding="async" src="/art/cover-${sub}.png" alt=""${lazy ? ' loading="lazy"' : ''}>`
+    ? `<img class="bz-art" width="1600" height="700" decoding="async" src="/art/cover-${sub}.webp" alt=""${lazy ? ' loading="lazy"' : ''}>`
     : '';
 
 // Architecture photography from Wikimedia Commons, hotlinked with credit.
@@ -83,7 +84,15 @@ export function header(active = '', { lang = 'en', alt = '' } = {}) {
     <nav class="hnav" aria-label="${es ? 'Principal' : 'Main'}">
       ${nav.map(([k, h, l]) => `<a href="${h}"${k === active ? ' aria-current="page"' : ''}>${l}</a>`).join('')}
       ${alt ? `<a href="${alt}" class="lang-link" hreflang="${es ? 'en' : 'es'}" lang="${es ? 'en' : 'es'}">${svg('globe', 'ic-sm')}<span>${es ? ES.switchTo : 'Español'}</span><abbr title="${es ? ES.switchTo : 'Español'}">${es ? 'EN' : 'ES'}</abbr></a>` : ''}
-      <a href="/saved/" class="saved-link"${active === 'saved' ? ' aria-current="page"' : ''}>${svg('heart')}<span>${L.saved}</span><b data-saved-count hidden>0</b></a>
+      <a href="/saved/" class="saved-link" aria-label="${es ? 'Lugares guardados' : 'Saved places'}"${active === 'saved' ? ' aria-current="page"' : ''}>${svg('heart')}<span>${L.saved}</span><b data-saved-count hidden aria-hidden="true">0</b></a>
+      <details class="mmenu" data-mmenu>
+        <summary>${svg('menu')}<span>${es ? 'Menú' : 'Menu'}</span></summary>
+        <div class="mmenu-panel">
+          ${nav.map(([k, h, l]) => `<a href="${h}"${k === active ? ' aria-current="page"' : ''}>${l}</a>`).join('')}
+          <a href="/saved/"${active === 'saved' ? ' aria-current="page"' : ''}>${L.saved}</a>
+          <a href="/owners/">${es ? 'Para dueños' : 'For owners'}</a>
+        </div>
+      </details>
     </nav>
   </div>
   <nav class="catbar" aria-label="${es ? 'Categorías' : 'Categories'}"><div class="wrap catbar-row">
@@ -106,7 +115,7 @@ export function footer({ lang = 'en' } = {}) {
   <div class="wrap ftr-grid">
     <div>
       <a href="/" class="logo logo-light">${heartLogo}<span>Heart of <em>Columbus</em></span></a>
-      <p class="ftr-tag">${es ? ES.footerTag : 'Independent businesses of Columbus, Indiana. No chains, no franchises, no app fees.'}</p>
+      <p class="ftr-tag">${es ? ES.footerTag : 'Independent businesses of Columbus, Indiana. Owner-run and local. Spot a chain? Tell us and it comes off.'}</p>
       <p class="ftr-small">${es ? ES.footerSmall : 'A concept preview. Details come from public listings and may change; call ahead. Not affiliated with the businesses listed.'}</p>
     </div>
     <div><h3>${es ? ES.browse : 'Browse'}</h3>${CATEGORIES.slice(0, 8).map((c) => `<a href="/c/${c.slug}/">${cat(c)}</a>`).join('')}</div>
@@ -125,6 +134,8 @@ export function card(b, { compact = false, note = '' } = {}) {
   const sub = subBySlug[b.sub];
   const area = areaBySlug[b.area];
   const pat = PATTERNS[hash(b.slug) % PATTERNS.length];
+  // The owner's own photo when they have sent one; the illustration otherwise.
+  const photo = mediaFor(b.slug)?.cover;
   const tags = [];
   if (SPOTLIGHT_SLUGS.has(b.slug)) tags.push('<span class="tag tag-spot">★ Spotlight</span>');
   if (b.order.length) tags.push('<span class="tag tag-go">Order online</span>');
@@ -137,7 +148,7 @@ export function card(b, { compact = false, note = '' } = {}) {
   return `
 <article class="bz${compact ? ' bz-compact' : ''}" data-slug="${b.slug}">
   <a class="bz-cover ${pat}" href="/b/${b.slug}/" style="--c:${cat.color};--t:${cat.tint}" tabindex="-1" aria-hidden="true">
-    ${coverArt(b.sub)}
+    ${photo ? `<img class="bz-art" src="${mediaSrc(b.slug, photo)}" width="${photo.width}" height="${photo.height}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : coverArt(b.sub)}
     <span class="bz-emoji">${sub.emoji}</span>
     ${area ? `<span class="bz-area">${svg('pin', 'ic-xs')}${esc(area.label)}</span>` : ''}
   </a>
@@ -168,8 +179,14 @@ export const rail = (title, href, items, { kicker = '', id = '', openOnly = fals
     : '';
 
 // Tiny index the header search and explore page load from /data/directory.json.
+// A type that is really a category label ("Coffee, Bakeries & Sweets") says
+// nothing about the place itself, so search ranks it below a specific one
+// ("Coffee shop"). `g` marks it. It only ever lowers a score; it hides nothing.
+const genericType = (b) => b.featured || /, [^,]+ & /.test(b.type);
 export const searchIndex = () =>
   directory.map((b) => ({
+    ...(genericType(b) ? { g: 1 } : {}),
+    ...(mediaFor(b.slug)?.cover ? { i: mediaSrc(b.slug, mediaFor(b.slug).cover) } : {}),
     s: b.slug, n: b.name, c: b.cat, u: b.sub, y: b.featured ? subBySlug[b.sub].label : b.type, a: b.address,
     r: b.area, p: b.phone, l: b.ll, d: b.demo ? 1 : 0, h: b.heritage ? 1 : 0, e: subBySlug[b.sub].emoji,
     o: b.order.length ? 1 : 0, k: b.book.length ? 1 : 0, f: b.feed || b.store ? 1 : 0,

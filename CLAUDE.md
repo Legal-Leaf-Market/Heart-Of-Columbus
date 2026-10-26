@@ -16,13 +16,69 @@ Indiana. A pitch, not a live service. See README.md.
   ratings, awards, owners' names or history.
 - **Demos must read as demos.** Every storefront keeps the `demoBanner`, says
   "not affiliated", and never sends an order, booking or text. Badges for
-  features we built say "(demo)". Pages stay `noindex` until a business signs on.
+  features we built say "(demo)". Demos stay `noindex` even after launch.
+- **One indexing policy: `src/indexing.mjs`.** Nothing is indexed until
+  `HOC_INDEX=1` is set AND the build runs on Netlify's production context, so a
+  deploy preview stays noindex even with the variable set. build.mjs applies
+  the policy to the robots meta (the layout leaves a `<!--robots-->` marker and
+  no page can opt itself in), writes `dist/_headers` for X-Robots-Tag, writes
+  `robots.txt`, and writes `sitemap.xml` only of indexable pages. Never set
+  X-Robots-Tag in netlify.toml again: the header and the meta have to agree,
+  and removing one alone does nothing. `NEVER_INDEX` lists what stays out
+  after launch (demos, pickup, private inboxes, /saved/, /explore/, the print
+  view, /es/ until it is signed off). Before launch robots.txt allows crawling
+  on purpose: a crawler must fetch a page to read its noindex.
+- **Independence is a claim with evidence: `src/data/ownership.mjs`.** A record
+  confirmed to be a national chain or franchise leaves the directory, with the
+  evidence URL, date and who checked kept there. Name matching never decides a
+  row; an unconfirmed flag is `unknown` and stays listed. Copy never says "zero
+  chains" or "every independent": nobody has verified every record. Totals are
+  `directory.length`, so they follow the data.
+- **Owner picks come only from owners.** With none sent, no picks box shows at
+  all (no placeholder rows); the business's own page gets a one-line invitation.
+- **Public events only.** `access()` in `src/event-feeds.mjs` reads a listing's
+  own words: rentals, team practices and closures ("No Drop-ins") leave the
+  public list and come back as `left`, which /events/ counts and shows as venue
+  notices. Exports use the same filtered list. Keep the patterns narrow: hiding
+  a real public event is the worse mistake.
+- **Private keys never ride in a query string.** The owner inbox and obituary
+  review read `#k=` from the link, move it to sessionStorage, scrub the address
+  bar and send it as an `x-hoc-key` header; those pages set no-referrer. The
+  claim form is a real POST to /api/claim even without its script, and the
+  function answers a form post with a plain page.
+- **Canonicals come from the build.** Every page gets `<link rel="canonical">`
+  and `og:url` from `HOC_ORIGIN` plus its own path (the layout leaves a
+  `<!--canonical-->` marker); query strings are views of the same page. Share
+  images and hreflang links are absolute. Don't hand-write a canonical.
+- **Search ranks, it never hides.** `HoCMatch` decides what matches (every
+  word somewhere); `HoCScore`/`HoCRank` in `public/js/site.js` order it: name,
+  then a specific type, then street or neighborhood, then category. A type
+  that is really a category label is marked `g` in the index and ranks low.
+  `SYN` maps a search word to real kinds of the same thing (taco to taqueria);
+  add to it only with that bar. Explore defaults to Best match, and
+  tests/search.test.mjs runs the real site.js against the real data.
+- **Homepage rails are a taste, not the list**: 8 places spread through the
+  category, with "See all". The open-now rail ships the 48 places open the
+  most hours and hides closed cards (never removes them), so they return when
+  they open.
+- **Art loads as WebP.** Export the PNG as art-source/README.md says, then run
+  `python3 scripts/art-webp.py`; pages point at the `.webp`. The Sentinels app
+  icons stay PNG. JS and CSS are cached for a year because every reference
+  carries `?v=<hash>`; a test fails on one that doesn't.
+- **Business photos come only from the business.** `src/data/media.mjs` is
+  the manifest; pages read it through `mediaFor()`, which shows nothing for an
+  entry missing `permission`, `checked` or `credit`. Files live in
+  `public/business-media/<slug>/`, are added with `scripts/add-photo.py`, and
+  a file with no entry fails the tests. A photo on a business's own website is
+  not permission, and no page may load a business photo from another server.
+  Every listing without photos invites the owner (`/owners/?b=<slug>&want=photos#claim`).
+  `docs/photo-outreach.md` is who to ask; it holds no image links on purpose.
 - **Tailwind v4** (`src/styles.css`, themes as CSS variables per business).
   Class names built in `public/js` must appear literally so Tailwind finds them.
 - Vanilla JS, no framework. `public/js/core.js` is the shared cart, time-slot
   and checkout engine; keep business logic in each storefront's own script.
 
-## Directory (the 930) and ordering
+## Directory and ordering
 
 - `src/data/landscape.mjs` holds the wider landscape; `src/data/directory.mjs`
   merges it with the hand-built cards and files everything under the browse
@@ -66,8 +122,8 @@ Indiana. A pitch, not a live service. See README.md.
   fluent speaker signs off.
 - JSON-LD (`src/jsonld.mjs`) on business, landmark, trip and /visit/ pages,
   and breadcrumbs, built only from what the page shows (tests/jsonld.test.mjs).
-  `HOC_SITEMAP=1` writes `sitemap.xml` of pages without noindex; leave it off
-  until a business signs on. `HOC_ORIGIN` sets the absolute URLs.
+  The sitemap comes from the indexing policy above. `HOC_ORIGIN` sets the
+  absolute URLs.
 - `src/data/web.mjs` (websites, phones, owner-set Google action links) and
   `src/data/commerce.mjs` (cart engine, live feed, first-party order/book links)
   are generated by `scripts/import-web.mjs` and `scripts/import-commerce.mjs`.
@@ -93,7 +149,7 @@ Indiana. A pitch, not a live service. See README.md.
   "Data provided by Twelve Data" line stays next to the table. `/obituaries/`
   links the funeral homes' own listings (`src/data/obituaries.mjs`) and takes
   family submissions at `/api/obituary`, reviewed at
-  `/obituaries/review/?k=<HOC_ADMIN_KEY>`. We never write, generate or copy
+  `/obituaries/review/#k=<HOC_ADMIN_KEY>`. We never write, generate or copy
   an obituary; one goes in `PUBLISHED` only with a `confirmed` date. Both
   pages print cleanly (`public/css/paper.css`).
 - Landmark photos are Wikimedia Commons, credited on `/credits/`. They show

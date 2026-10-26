@@ -11,7 +11,8 @@ import { ownersPages } from './src/pages/owners-pages.mjs';
 import { visitPages } from './src/pages/visit-pages.mjs';
 import { landmarkPages } from './src/pages/landmark-pages.mjs';
 import { icsFeed } from './src/pages/events.mjs';
-import { finalizeSeo, robotsTxt, sitemapXml } from './src/seo.mjs';
+import { finalizeSeo } from './src/seo.mjs';
+import { ORIGIN } from './src/jsonld.mjs';
 import { prepareImages, responsiveImages } from './scripts/images.mjs';
 import { holidayPages } from './src/pages/holiday-pages.mjs';
 import { filmPages } from './src/pages/film-pages.mjs';
@@ -30,6 +31,7 @@ import { searchIndex } from './src/site.mjs';
 import { newsPages } from './src/pages/news-pages.mjs';
 import { cmsConfig } from './src/news/cms.mjs';
 import { dashes } from './src/visible.mjs';
+import { LAUNCH, indexable, ROBOTS_META, headersFile, robotsTxt, urlPath } from './src/indexing.mjs';
 
 const root = new URL('./', import.meta.url);
 const out = new URL('dist/', root);
@@ -84,6 +86,15 @@ await mkdir(new URL('admin/', out), { recursive: true });
 await writeFile(new URL('admin/config.yml', out), cmsConfig());
 await mkdir(new URL('history/', out), { recursive: true });
 await writeFile(new URL('history/articles.json', out), articlesJson());
+// The robots meta is decided here, per path, by the one policy in
+// src/indexing.mjs. The layout leaves a marker so no page can opt itself in.
+for (const p of pages) {
+  if (!p.path.endsWith('.html')) continue;
+  if (!p.html.includes('<!--robots-->')) { console.error('No robots marker in ' + p.path); process.exit(1); }
+  p.html = p.html.replace('<!--robots-->', indexable(p.path) ? '' : ROBOTS_META);
+}
+await writeFile(new URL('_headers', out), headersFile());
+await writeFile(new URL('robots.txt', out), robotsTxt(ORIGIN));
 for (const p of pages) {
   p.html = finalizeSeo(responsiveImages(p.html, images), p.path);
   const file = new URL(p.path, out);
@@ -91,12 +102,13 @@ for (const p of pages) {
   await writeFile(file, p.html);
 }
 
-// Crawlers must be able to read the pages to see their noindex directives.
-// Do not advertise an empty sitemap during the concept preview.
-const sitemap = process.env.HOC_SITEMAP === '1' ? sitemapXml(pages) : null;
-await writeFile(new URL('robots.txt', out), robotsTxt(Boolean(sitemap)));
-if (sitemap) {
-  await writeFile(new URL('sitemap.xml', out), sitemap);
+// The sitemap lists exactly the pages the policy indexes, so it exists only
+// after launch and can never name a noindex page.
+if (LAUNCH) {
+  const live = pages.filter((p) => p.path.endsWith('index.html') && indexable(p.path));
+  const loc = (p) => ORIGIN + '/' + p.path.replace(/index\.html$/, '');
+  await writeFile(new URL('sitemap.xml', out), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${live.map((p) => `  <url><loc>${loc(p)}</loc></url>`).join('\n')}\n</urlset>\n`);
+  console.log(`Sitemap: ${live.length} indexable pages`);
 }
 
 // No dashes a person can see: em, en, or a spaced hyphen standing in for one,

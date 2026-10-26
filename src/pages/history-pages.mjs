@@ -84,7 +84,7 @@ function groupPage(g, { assets }) {
 ${header()}
 <main id="main">
 ${crumbs(['', isDecade ? g.slug : g.title])}
-<section class="order-hero hx-hero hx-ghero" style="--pat:url('/art/${g.art || 'pattern-arches.png'}')">
+<section class="order-hero hx-hero hx-ghero" style="--pat:url('/art/${g.art || 'pattern-arches.webp'}')">
   <div class="wrap">
     <p class="kicker kicker-pill">${isDecade ? 'Columbus history' : esc(g.kicker)}</p>
     <h1>${t(g.title)}</h1>
@@ -149,7 +149,7 @@ ${crumbs([`/history/${g.slug}/`, DECADES.includes(g) ? g.slug : g.title], ['', a
     ${a.status === 'draft' ? '<p class="hx-draft">Draft: awaiting editor approval</p>' : ''}
     ${a.note ? `<p class="vs-note vs-review">${t(a.note)}</p>` : ''}
   </header>
-  ${photo ? `<figure class="hx-fig"><img src="${photo.src}" alt="${esc(lm.name)}" style="object-position:${photo.pos}"><figcaption>${t(lm.name)}. Photo: ${esc(photo.credit)}, ${esc(photo.license)}. <a href="${photo.page}" target="_blank" rel="noopener">Source</a></figcaption></figure>` : `<div class="hx-band" style="--pat:url('/art/${g.art || 'pattern-arches.png'}')">${mark(s, 'hx-band-art')}</div>`}
+  ${photo ? `<figure class="hx-fig"><img src="${photo.src}" alt="${esc(lm.name)}" style="object-position:${photo.pos}"><figcaption>${t(lm.name)}. Photo: ${esc(photo.credit)}, ${esc(photo.license)}. <a href="${photo.page}" target="_blank" rel="noopener">Source</a></figcaption></figure>` : `<div class="hx-band" style="--pat:url('/art/${g.art || 'pattern-arches.webp'}')">${mark(s, 'hx-band-art')}</div>`}
   <div class="hx-body">${a.body.map((p) => (p.startsWith('## ') ? `<h2>${t(p.slice(3))}</h2>` : `<p>${t(p)}</p>`)).join('')}</div>
   ${lm ? `<p class="btns hx-lm"><a class="btn btn-sm btn-ghost" href="/l/${lm.slug}/">${svg('pin', 'ic-sm')} Visit ${esc(lm.name)}</a></p>` : ''}
   ${a.sources.length ? `<section class="hx-sources" aria-labelledby="src-h"><h2 id="src-h">Sources</h2><ol>${a.sources.map(([l, u]) => `<li><a href="${esc(u)}" target="_blank" rel="noopener">${t(l)}</a> <span class="vs-src">${esc(host(u))}</span></li>`).join('')}</ol>
