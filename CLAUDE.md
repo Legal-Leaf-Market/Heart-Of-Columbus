@@ -5,8 +5,10 @@ Indiana. A pitch, not a live service. See README.md.
 
 ## Standing rules
 
-- **No em dashes anywhere a person reads** (repo owner's directive). The en dash
-  is fine inside numeric ranges. The build fails on an em dash in any page.
+- **No visible dashes anywhere** (repo owner's directive): no em dash, no en
+  dash, no spaced hyphen, not even in ranges. Write "9 AM to 5 PM", "Dec 3 to
+  Jan 15". Imported titles are cleaned (`noDash` in `src/event-feeds.mjs`).
+  The build fails on a dash in any page, and a test checks `public/js`.
 - **Never invent facts about a real business.** Addresses, phones, hours and
   prices come from public listings and are noted at the top of each page file.
   Anything unverified is shown with the `sample` tag. No made-up reviews,

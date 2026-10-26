@@ -180,7 +180,7 @@ for (const b of businesses) {
 for (const l of landscape) {
   const hit = SUB_BY_PAIR[`${l.vertical}/${l.filter}`];
   all.push({
-    slug: uniq(slugify(l.name)), name: l.name, cat: hit.cat.slug, sub: hit.sub.slug, type: l.type,
+    slug: uniq(slugify(l.name)), name: l.name.replace(/\s+[-–—]\s+/g, ', '), cat: hit.cat.slug, sub: hit.sub.slug, type: l.type,
     address: l.address, area: AREA_BY_LABEL[l.area] || '', phone: l.phone, website: '', demo: '',
     ll: l.ll, featured: false, heritage: false,
   });

@@ -68,6 +68,9 @@ if (process.env.HOC_SITEMAP === '1') {
   console.log(`Sitemap: ${live.length} live pages`);
 }
 
-const emDash = pages.filter((p) => p.html.includes('—')).map((p) => p.path);
-if (emDash.length) { console.error('Em dash found in: ' + emDash.join(', ')); process.exit(1); }
+// No dashes a person can see: no em dash, no en dash, no spaced hyphen.
+// Ranges read "9 AM to 5 PM". Hyphenated words ("drop-in") are fine.
+const DASH = /[–—]| - /;
+const dashed = pages.filter((p) => DASH.test(p.html)).map((p) => `${p.path} (${p.html.match(new RegExp(`.{0,30}(?:${DASH.source}).{0,30}`))[0].trim()})`);
+if (dashed.length) { console.error('Dash found in: ' + dashed.slice(0, 10).join('; ')); process.exit(1); }
 console.log(`Built dist/: ${pages.length} pages`);

@@ -56,7 +56,8 @@ const fmt = (min) => {
   const h12 = h % 12 || 12;
   return mm ? `${h12}:${String(mm).padStart(2, '0')} ${ap}` : `${h12} ${ap}`;
 };
-export const fmtRange = (a, b) => (a === 0 && b === 1440 ? 'Open 24 hours' : `${fmt(a)}–${fmt(b)}`);
+// Written "9 AM to 5 PM": the site shows no dashes. Spanish passes ' a '.
+export const fmtRange = (a, b, to = ' to ') => (a === 0 && b === 1440 ? 'Open 24 hours' : `${fmt(a)}${to}${fmt(b)}`);
 
 // Is it open at day/minute (Columbus local time)? Returns { open, until, next }.
 export function openAt(rows, day, min) {

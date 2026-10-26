@@ -23,5 +23,5 @@ test('open now, including past midnight', () => {
   assert.deepEqual(openAt(w, 2, 60), { open: true, until: 120 });
   assert.equal(openAt(w, 2, 180).open, false);
   assert.deepEqual(openAt(w, 2, 180), { open: false, nextDay: 3, opens: 660 });
-  assert.equal(fmtRange(660, 1500), '11 AM–1 AM');
+  assert.equal(fmtRange(660, 1500), '11 AM to 1 AM');
 });

@@ -58,8 +58,8 @@ ${demoBanner(data.business)}
     <h1 class="mt-3 font-display text-5xl sm:text-6xl leading-[0.95]">Walk-ins welcome. Or save your spot.</h1>
     <p class="mt-5 text-lg text-muted max-w-md">See who’s in the chair and how long the wait is before you leave the house. Put your name on the list from your phone and walk in when it’s your turn.</p>
     <dl class="mt-8 grid grid-cols-2 gap-4 max-w-md">
-      <div class="rounded-2xl border-2 border-ink bg-surface p-4"><dt class="text-sm font-bold text-muted">Tue to Fri</dt><dd class="font-display text-2xl">8 – 5</dd></div>
-      <div class="rounded-2xl border-2 border-ink bg-surface p-4"><dt class="text-sm font-bold text-muted">Saturday</dt><dd class="font-display text-2xl">8 – 2</dd></div>
+      <div class="rounded-2xl border-2 border-ink bg-surface p-4"><dt class="text-sm font-bold text-muted">Tue to Fri</dt><dd class="font-display text-2xl">8 to 5</dd></div>
+      <div class="rounded-2xl border-2 border-ink bg-surface p-4"><dt class="text-sm font-bold text-muted">Saturday</dt><dd class="font-display text-2xl">8 to 2</dd></div>
     </dl>
     <p class="mt-3 text-sm text-muted">Closed Sunday and Monday. 2548 McKinley Avenue.</p>
   </div>
