@@ -809,6 +809,27 @@ section { scroll-margin-top: 130px; }
 .film-n { position: absolute; left: 10px; top: 10px; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--brand); color: #fff; font-weight: 800; border: 2px solid var(--ink); }
 .lm-film { margin-top: 12px; font-weight: 700; }
 
+/* ---------- Guides: architecture, arts, Cummins ---------- */
+.gd-facts { max-width: 760px; margin-top: 0; font-size: 17px; }
+.gd-grid { padding: 0; }
+.gd-by { color: var(--muted); font-weight: 700; font-size: 14px; margin-top: 2px; }
+.film-stop h3 { font-size: 22px; font-weight: 800; }
+.gd-text { align-content: stretch; }
+.gd-works { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.gd-work { display: grid; gap: 4px; align-content: start; background: var(--surface); border: 2px solid var(--ink); border-radius: 14px; padding: 14px; }
+.gd-work strong { font-family: var(--display); font-size: 21px; line-height: 1.1; }
+.gd-work strong a { text-decoration: underline; text-underline-offset: 3px; }
+.gd-work span { color: var(--muted); font-weight: 700; font-size: 14px; }
+.gd-work small { display: flex; gap: 6px; align-items: flex-start; font-size: 13px; font-weight: 700; }
+.gd-work p { margin-top: 6px; font-size: 15px; }
+.gd-nums { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+.gd-num { display: grid; gap: 4px; background: var(--surface); border: 2px solid var(--ink); border-radius: var(--r); box-shadow: var(--pop); padding: 16px; }
+.gd-num strong { font-family: var(--display); font-size: clamp(26px, 3.4vw, 34px); line-height: 1; color: var(--brand); }
+.gd-num span { color: var(--muted); font-weight: 700; font-size: 14px; }
+.gd-tl { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; max-width: 820px; border-left: 3px solid var(--ink); }
+.gd-tl li { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 14px; padding: 10px 0 10px 16px; position: relative; }
+.gd-tl li::before { content: ''; position: absolute; left: -8px; top: 16px; width: 13px; height: 13px; border-radius: 50%; background: var(--brand); border: 2px solid var(--ink); }
+.gd-yr { font-family: var(--display); font-weight: 800; font-size: 20px; }
 /* Columbus DJs (/djs/) */
 .dj-feature { border-width: 3px; background: linear-gradient(135deg, #ffe3ec, var(--surface) 60%); }
 .dj-feature .kicker { margin: 0 0 4px; }
