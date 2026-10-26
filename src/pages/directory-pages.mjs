@@ -8,7 +8,7 @@ import { LANDMARKS } from '../data/landmarks.mjs';
 import { EVENTS } from '../data/events.mjs';
 import { dateRange } from './events.mjs';
 import { businessLd } from '../jsonld.mjs';
-import { spotlightSection, ownersPicks } from './spotlight.mjs';
+import { spotlightSection, ownersPicks, spotFor } from './spotlight.mjs';
 import { SPOTLIGHT_SLUGS } from '../data/spotlight.mjs';
 
 // Weekly hours table, Monday first, with today highlighted by site.js.
@@ -145,7 +145,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
       <p class="kicker"><a href="/c/${cat.slug}/${cat.subs.length > 1 ? sub.slug + '/' : ''}">${esc(sub.label)}</a>${area ? ` · <a href="/n/${area.slug}/">${esc(area.label)}</a>` : ''}</p>
       <h1>${t(b.name)}</h1>
       <p class="biz-type">${t(b.type)}</p>
-      <div class="bz-tags">${SPOTLIGHT_SLUGS.has(b.slug) ? '<a class="tag tag-spot" href="#owners-picks">★ Spotlight</a>' : ''}${b.demo ? '<span class="tag tag-hot">Order direct (demo)</span>' : ''}${b.heritage ? '<span class="tag">Columbus original</span>' : ''}${b.dora ? '<span class="tag tag-dora">Social District: drinks to go</span>' : ''}<span class="tag tag-plain">Independent</span></div>
+      <div class="bz-tags">${SPOTLIGHT_SLUGS.has(b.slug) ? (spotFor(b.slug)?.picks.length ? '<a class="tag tag-spot" href="#owners-picks">★ Spotlight</a>' : '<span class="tag tag-spot">★ Spotlight</span>') : ''}${b.demo ? '<span class="tag tag-hot">Order direct (demo)</span>' : ''}${b.heritage ? '<span class="tag">Columbus original</span>' : ''}${b.dora ? '<span class="tag tag-dora">Social District: drinks to go</span>' : ''}<span class="tag tag-plain">Independent</span></div>
       ${b.hours ? `<p class="open-badge biz-open" data-open-now='${JSON.stringify(b.hours)}' hidden></p>` : ''}
       <div class="biz-actions">
         ${b.order.map((o, i) => `<a class="btn${i ? ' btn-ghost' : ''}" href="${esc(o.url)}" target="_blank" rel="noopener">${svg('store')} Order online${b.order.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
