@@ -4,7 +4,8 @@
 // Both pages print cleanly (public/css/paper.css) so the same content can go
 // on paper.
 import { page, esc, t } from '../layout.mjs';
-import { header, footer, svg, breadcrumbs, tel } from '../site.mjs';
+import { header, svg, tel } from '../site.mjs';
+import { newsPage } from '../news/frame.mjs';
 import { COMPANIES, QUOTE_SOURCE, REFRESH_MINUTES } from '../data/markets.mjs';
 import { FUNERAL_HOMES, PUBLISHED } from '../data/obituaries.mjs';
 import { LIMITS } from '../../netlify/functions/obituary.mjs';
@@ -26,9 +27,6 @@ function marketsPage({ assets }) {
   <td class="mk-num" data-change></td>
 </tr>`;
   const body = `
-${header('')}
-<main id="main">
-${breadcrumbs([['/', 'Home'], ['', 'Markets']])}
 <section class="order-hero pp-hero">
   <div class="wrap">
     <p class="kicker kicker-pill">Markets</p>
@@ -48,10 +46,8 @@ ${breadcrumbs([['/', 'Home'], ['', 'Markets']])}
     <p class="btns pp-tools"><button type="button" class="btn btn-sm btn-ghost" data-print>Print this board</button></p>
   </section>
   <p class="fine">Which companies are here: Cummins because it is a Columbus company, and the others because each one says on its own site that it is headquartered in Indiana (Old National, that it was founded in Evansville). Each line links to that site.</p>
-</div>
-</main>
-${footer()}`;
-  return page({ title: 'Markets | Heart of Columbus', description: 'Delayed stock quotes for Cummins and other Indiana companies, with the source on the page.', body, scripts: ['site.js', 'markets.js'], styles, assets });
+</div>`;
+  return newsPage({ assets, path: '/markets/', title: 'Markets', description: 'Delayed stock quotes for Cummins and other Indiana companies, with the source on the page.', crumbs: [['/news/', 'News'], ['', 'Markets']], body, scripts: ['markets.js'], styles: ['paper.css'] });
 }
 
 // A notice laid out the same way online and in print. Every word in it is
@@ -83,9 +79,6 @@ function obituariesPage({ assets }) {
   <p class="fine">Source: ${src(h.source)}</p>
 </article>`;
   const body = `
-${header('')}
-<main id="main">
-${breadcrumbs([['/', 'Home'], ['', 'Obituaries']])}
 <section class="order-hero pp-hero">
   <div class="wrap">
     <p class="kicker kicker-pill">Obituaries</p>
@@ -139,10 +132,8 @@ ${breadcrumbs([['/', 'Home'], ['', 'Obituaries']])}
       </aside>
     </div>
   </section>
-</div>
-</main>
-${footer()}`;
-  return page({ title: 'Obituaries | Heart of Columbus', description: 'Obituaries for Columbus, Indiana: send one in your own words at no charge, or find recent ones at local funeral homes.', body, scripts: ['site.js', 'obituaries.js'], styles, assets });
+</div>`;
+  return newsPage({ assets, path: '/obituaries/', title: 'Obituaries', description: 'Obituaries for Columbus, Indiana: send one in your own words at no charge, or find recent ones at local funeral homes.', crumbs: [['/news/', 'News'], ['', 'Obituaries']], body, scripts: ['obituaries.js'], styles: ['paper.css'] });
 }
 
 function reviewPage({ assets }) {

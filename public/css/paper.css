@@ -60,7 +60,7 @@
 @media print {
   @page { margin: 0.6in; }
   body { background: #fff; color: #000; }
-  .hdr, .ftr, .crumbs, .vs-jump, .pp-tools, .btn, #send, .ob-meta, [data-review-status], .lede, .kicker-pill { display: none !important; }
+  .hdr, .ftr, .np-bar, .crumbs, .vs-jump, .pp-tools, .btn, #send, .ob-meta, [data-review-status], .lede, .kicker-pill { display: none !important; }
   .order-hero { padding: 0 0 8px; background: none; border-bottom: 2px solid #000; }
   .order-hero h1 { font-size: 26pt; margin: 0; }
   .hl { color: #000; }
