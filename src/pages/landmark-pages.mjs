@@ -66,7 +66,7 @@ ${header('', { lang, alt: es ? `/l/${l.slug}/` : `/es/l/${l.slug}/` })}
   <img src="${p.src}" alt="${esc(l.name)}" style="object-position:${p.pos}">
   <span class="area-shade"></span>
   <div class="wrap area-hero-txt">
-    ${breadcrumbs([['/', es ? 'Inicio' : 'Home'], ['/#architecture', L.crumb], ['', l.name]])}
+    ${breadcrumbs([['/', es ? 'Inicio' : 'Home'], [es ? '/#architecture' : '/architecture/', L.crumb], ['', l.name]])}
     <p class="kicker kicker-light">${esc(L.kicker)}</p>
     <h1>${t(l.name)}</h1>
     <p>${esc(arch)}, ${l.year}</p>

@@ -13,10 +13,14 @@ import { landmarkPages } from './src/pages/landmark-pages.mjs';
 import { icsFeed } from './src/pages/events.mjs';
 import { ORIGIN } from './src/jsonld.mjs';
 import { holidayPages } from './src/pages/holiday-pages.mjs';
-import { sportsPages } from './src/pages/sports-pages.mjs';
 import { filmPages } from './src/pages/film-pages.mjs';
 import { freePages } from './src/pages/free-pages.mjs';
+import { guidePages } from './src/pages/guide-pages.mjs';
+import { djPages } from './src/pages/dj-pages.mjs';
 import { tripPages } from './src/pages/trip-pages.mjs';
+import { calendarPages } from './src/pages/calendar-pages.mjs';
+import { paperPages } from './src/pages/paper-pages.mjs';
+import { sportsPages } from './src/pages/sports-pages.mjs';
 import { searchIndex } from './src/site.mjs';
 
 const root = new URL('./', import.meta.url);
@@ -50,8 +54,12 @@ const pages = [
   ...landmarkPages({ assets }),
   ...tripPages({ assets }),
   ...freePages({ assets }),
+  ...djPages({ assets }),
   ...filmPages({ assets }),
+  ...guidePages({ assets }),
   ...holidayPages({ assets }),
+  ...calendarPages({ assets }),
+  ...paperPages({ assets }),
   ...sportsPages({ assets }),
 ];
 await mkdir(new URL('data/', out), { recursive: true });
