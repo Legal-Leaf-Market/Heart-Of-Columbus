@@ -1,0 +1,302 @@
+name,category,type,address,phone,independent,status,in_directory,source,notes
+Jill's Diner,food,diner,3005 N National Rd,(812) 799-0016,yes,listed,yes,directory,
+TaColumbus,food,mexican,1637 N National Rd,(812) 343-1423,yes,listed,yes,directory,
+The Big Cheese,food,sandwiches,2403 Cottage Ave,(812) 376-3567,yes,listed,yes,directory; DG,
+Tasty Express (Feng's Express),food,chinese,1804 25th St,(812) 376-8989,yes,listed,yes,directory,
+Rohde's Family Diner,food,diner,1040 2nd St,(812) 372-1890,yes,listed,yes,directory; Yelp,Tripadvisor still shows an older Orinoco Ave address
+Lucas Brothers Sandwich Shop,food,sandwiches,2318 25th St (NexusPark),(812) 376-7010,yes,check,yes,directory; Yelp,Yelp marks a Lucas Bros at 1842 Indiana Ave CLOSED; confirm the 25th St shop is open
+Carlos Pizza,food,pizza,2314 25th St (NexusPark),(812) 379-9750,yes,listed,yes,directory; Restaurant Guru,
+Mother Bear's Pizza,food,pizza,2306 25th St,(930) 220-7028,check,listed,yes,directory,Mother Bear's also operates in Bloomington; confirm ownership of this location
+ZwanzigZ Pizza & Brewing,food,pizza/brewery,1038 Lafayette Ave,(812) 376-0200,yes,listed,yes,directory,
+Guatemex Restaurant,food,latin,2241 State St,(812) 390-0502,yes,listed,yes,directory,
+Taqueria J & C,food,mexican,1741 State St,(812) 552-8792,yes,listed,yes,directory; MQ,
+Yee Kee Restaurant,food,chinese,3984 25th St (47203),(812) 376-8575,yes,listed,yes,directory; MQ,
+Zaharakos Ice Cream Parlor,food,ice cream,329 Washington St,,yes,listed,yes,directory; Yelp,Since 1900
+Gill's Barber Shop,service,barber,2548 McKinley Ave,(812) 376-7128,yes,listed,yes,directory,
+Coach's Cutz,service,barber,3188 Washington St,(812) 372-2400,yes,check,yes,directory; Squire; YP,YP lists 1453 Washington St instead
+Nomad Barber Shop,service,barber,808 3rd St Ste A,(317) 739-2158,check,listed,yes,directory; Squire,Three locations (Greenwood; Indy; Columbus); small regional
+El Mexicano Taqueria,food,mexican,251 Center St,,likely,listed,no,MQ; Yelp,Also listed at the same address as Otro Taco Restaurant; confirm current name
+El Nopal Mexican Cuisine,food,mexican,3330 W Jonathan Moore Pike,,check,listed,no,YP,El Nopal has several Indiana locations
+Camila's Mexican Restaurant,food,mexican,1824 25th St,,yes,listed,no,MQ; Yelp,Described as locally owned
+Luciana's Mexican Restaurant & Cantina,food,mexican,310 Washington St,,yes,listed,no,MQ; YP,Described as family-owned
+El Popocatepetl Mexican Restaurant Grill,food,mexican,3932 25th St (47203),,likely,listed,no,MQ,Reviewer says cash only
+Mi Tierra,food,mexican/grocery,1461 Central Ave,(812) 376-0668,likely,check,no,MQ; Yelp,One Yelp snapshot showed closed
+Sabor De La Vida,food,mexican,1625 State St,,likely,listed,no,Yelp,
+La Guanajuato Grocery and Restaurant,food,mexican/grocery,2710 State St,(812) 286-0170,yes,listed,no,MQ; Yelp; Facebook,
+Riviera Maya Mexican Restaurant,food,mexican,,,check,listed,no,Yelp,No address found yet
+La Patrona Cantina and Grill,food,mexican,,,likely,listed,no,Yelp,No address found yet
+Taqueria Don Jose,food,mexican,,,likely,listed,no,Yelp,No address found yet
+Tapatio Mexican Restaurant,food,mexican,2309 N Marr Rd,,likely,listed,no,MQ,
+El Toreo,food,mexican,10020 N US Hwy 31,,likely,listed,no,MQ,
+Panaderia La Azteca,food,bakery,2522 Central Ave,,likely,listed,no,MQ,Pan dulce; conchas; tres leches
+Ru Yi Asian Restaurant,food,chinese/japanese,,,likely,listed,no,Tripadvisor; Yelp,No address found yet
+Sophea's Asian Restaurant,food,chinese,2508 25th St,,likely,check,no,Restaurant Guru,YP gives the same address for Texas Roadhouse; confirm
+Great Wall Chinese Restaurant,food,chinese,1289 N National Rd,(812) 379-4398,likely,listed,no,Yelp; MQ,
+China Buffet,food,chinese buffet,2628 Eastbrook Plz,,likely,listed,no,Yelp; MQ,
+Chopstick Restaurant,food,chinese,3045 Columbus Ctr,,likely,listed,no,YP,
+Thai Connection,food,thai,527 Washington St,,yes,listed,no,Yelp; MQ,
+Taku Japanese Steak House,food,japanese,305 4th St,,likely,listed,no,YP; DG,
+E Sushi Japanese Restaurant,food,japanese,3820 25th St (47203),,yes,listed,no,DG; Yelp,
+Koi Grill & Sushi Bar,food,japanese,3860 W Carlos Folger Dr,,likely,listed,no,YP,
+Pho Shiki,food,vietnamese/japanese,,,likely,listed,no,Yelp,No address found yet
+Misora,food,japanese,,,likely,listed,no,Yelp,No address found yet
+Yummy Bowl,food,japanese,,,likely,listed,no,Yelp,No address found yet
+Apna Kitchen,food,indian,1609 Cottage Ave,,yes,listed,no,DG; YP,
+Flavors of India,food,indian,217 Washington St Ste A,,yes,listed,no,DG; YP,
+Masala Magic,food,indian,,,check,check,no,Yelp,Search results mixed Columbus OH listings in; confirm it is in Indiana
+Le Fernandez Cafe,food,cafe,908 25th St,,yes,listed,no,VC; Yelp,Family-owned
+Henry Social Club,food,bar/cocktails,423 Washington St,,yes,listed,no,VC; Yelp,
+Smith's Row Food & Spirits,food,american,418 4th St,,likely,listed,no,IDOC list,
+Tre Bicchieri,food,italian,425 Washington St,,likely,listed,no,IDOC list,Shares an address with Viewpoint Books Chapter Two in one source; confirm
+Gramz Bakery & Cafe,food,bakery/cafe,409 Washington St,(812) 378-9728,yes,listed,no,Yelp; VC,
+Lucabe Coffee Co.,food,coffee,310 4th St,,yes,listed,no,VC; Yelp,Husband-and-wife owned; second location on Eastbrook Plaza
+Donuts N' Coffee,food,donuts,2222 State St,,yes,listed,no,Yelp; MQ,Family-owned since 1981
+Donut Central,food,donuts,,,likely,listed,no,Yelp,No address found yet
+Sojourn Coffee Company,food,coffee,,,likely,listed,no,Yelp,No address found yet
+Nutri Bee,food,smoothies/coffee,,,yes,listed,no,Yelp,Locally owned; no address found yet
+The Nifty Beet,food,juice/smoothies,901 Washington St,,likely,listed,no,Yelp,YP lists Cakes for All Occasions at the same address; confirm
+Dancing Goat Coffee,food,coffee,Ivy Tech / IUPUC Learning Center,,likely,listed,no,Yelp,
+Ahlemeyer Farms Bakery,food,bakery,1120 Washington St,,yes,listed,no,MQ,Second location listed at 2304 17th St
+Cakes for All Occasions,food,bakery,901 Washington St,(812) 378-2113,likely,check,no,YP,
+The Original Partymart,food,bakery/party,903 Washington St,,likely,listed,no,YP,Also 300 Hope Ave; listing says 74 years in business
+Icing On the Cake by Kristina,food,custom cakes,,,yes,listed,no,YP,Home baker; no storefront address
+Lotsa Love Baked,food,bakery,,,yes,listed,no,MQ,No street address
+Papa's Deli Downtown,food,deli,412 Washington St,(812) 376-8705,likely,check,no,YP,YP also lists 228 Chestnut St; confirm
+Papa's Deli Westside,food,deli,3532 W Two Mile House Rd,,likely,listed,no,MQ,
+Papa's Grill,food,american,3780 W Jonathan Moore Pike,,likely,listed,no,MQ; YP,
+Amazing Joe's Grill,food,steakhouse,2607 Central Ave,,yes,listed,no,Web; Tripadvisor,Locally owned; also has a Muncie location
+Columbus Bar,food,bar/american,322 4th St,,yes,listed,no,VC; MQ,Since 1939; run by Powerhouse Brewing
+4th Street Bar & Grill,food,bar/american,433 4th St,,yes,listed,no,VC; DG,
+The Garage Pub & Grill,food,bar/american,308 4th St,,likely,listed,no,VC; YP,
+Ziggie Pub & Eatery,food,bar/american,3029 N National Rd,,yes,listed,no,Yelp,Locally owned; known for tenderloins
+Cozy Lounge,food,bar,3870 25th St,,likely,listed,no,Yelp,
+Frenchy's Pub,food,bar,,,likely,listed,no,Yelp,No address found yet
+On the Rox,food,bar,,,likely,listed,no,Yelp,No address found yet
+Upland Brewing Co.,food,brewery,148 Lindsey St,,check,listed,no,VC,Bloomington-based brewery's Columbus taproom
+Hog Molly Brewing,food,brewery,1405 Hutchins Ave,,yes,listed,no,VC,
+450 North Brewing Company,food,brewery,8111 E 450 N,,yes,listed,no,VC; DG,On the Simmons family farm outside Columbus
+Savage Distilling,food,distillery,,,likely,listed,no,VC; Yelp,No address found yet
+BlackSheep Pizza & Cocktails,food,pizza,345 4th St,,likely,listed,no,Yelp,
+Bucceto's Pizza & Pasta,food,pizza,318 Washington St,,check,listed,no,Yelp,Bucceto's has other Indiana locations
+Greek's Pizzeria,food,pizza,920 25th St,,check,listed,no,Yelp,Greek's is an Indiana franchise
+Big JT's BBQ,food,bbq,300 Hope Ave,(812) 799-6282,likely,listed,no,YP,
+Bankin Baby BBQ,food,bbq,2961 Tulip Dr (47203),(812) 565-2602,likely,listed,no,YP,
+Divine Family BBQ,food,bbq truck,,,yes,listed,no,Yelp,Food truck
+Lincoln Square Pancake House,food,breakfast,2315 W Jonathan Moore Pike,,check,listed,no,YP,Lincoln Square is a small Indiana group
+Kramer's Restaurant,food,diner,1606 Central Ave,,likely,listed,no,YP,Listing says 26 years in business
+Skooter's Family Restaurant,food,diner,1602 State St,,likely,listed,no,YP,
+Grillerz Bar & Grill,food,american,10020 N US Hwy 31 Ste 105E,,yes,check,no,MQ,Family-owned; listing is old; confirm open
+Ye Olde Fish House,food,seafood/american,2024 17th St,,yes,listed,no,YP,Family-run
+Larrison's Diner,food,diner,,,likely,listed,no,Yelp,No address found yet
+Pop's Diner,food,diner,,,likely,listed,no,Yelp,No address found yet
+Green Hill Diner,food,diner,,,likely,listed,no,Yelp,No address found yet
+Blackerby's Hangar 5,food,breakfast,,,likely,listed,no,Restaurant guide,No address found yet
+Hoosier Custard,food,ice cream,,,likely,listed,no,YP,No address found yet
+Columbus Oriental Market,retail,grocery,1643 N National Rd,(812) 372-7899,likely,listed,no,YP,
+SRT International Bazaar,retail,grocery (indian),1609 Cottage Ave Ste C,(812) 372-1744,likely,listed,no,YP,Appana Bazaar listed at the same address and phone
+India Market,retail,grocery (indian),1825 Central Ave,,likely,listed,no,YP,
+Los Azteca,retail,grocery (latin),2361 Henry Lakes Blvd,,likely,listed,no,YP,
+Meli Market,retail,grocery,1117 16th St,,likely,listed,no,YP,
+India Emporium,retail,gifts/clothing,2380 25th St,,likely,listed,no,YP,
+Viewpoint Books,retail,books,548 Washington St,,yes,listed,no,VC; NewPages,Indie bookstore founded 1973; Chapter Two at 425 Washington St
+The St. Denis: Wine Books and Wonders,retail,gifts/books,426 Washington St,,yes,check,no,VC,Minash Boutique also listed at 426 Washington; confirm
+Minash Boutique,retail,boutique,426 Washington St,,yes,check,no,VC,Mother/daughter owned; shares address with The St. Denis in sources
+T.S. Artisans,retail,gifts/crafts,422 Washington St,(812) 372-9635,likely,check,no,VC,Another source says 427 Washington St
+Baker's Fine Gifts & Accessories,retail,gifts,433 Washington St,,likely,listed,no,VC; CH,
+Boutique Elise,retail,boutique,408 Washington St,,yes,check,no,VC,Another source says the 227 Washington area
+At Home With Heartland,retail,home decor,,,likely,listed,no,VC,No address found yet
+Pollert Design Associates,retail,home decor,724 Franklin St,(812) 376-4044,yes,listed,no,VC,
+Columbus Visitors Center Gift Shop,retail,gifts,,,n/a,listed,no,VC,Run by the visitors center; not a private business
+Lockett's,retail,women's clothing,1202 Washington St,,yes,listed,no,Yelp,
+Abe's Corner Boutique,retail,boutique,,,likely,listed,no,Yelp,No address found yet
+Mulberry Cottage,retail,boutique,,,likely,listed,no,Yelp,No address found yet
+XO By Sophia's,retail,boutique,,,likely,listed,no,Yelp,No address found yet
+Sophia's Bridal and Tux,retail,bridal,,,likely,listed,no,CH,No address found yet
+Ginger Ink Boutique,retail,boutique,,,likely,listed,no,CH,No address found yet
+Redefined Upscale Consignment,retail,consignment,Cottage Ave,,yes,listed,no,CH; Yelp,Street number not found
+Nirvana,retail,women's clothing,2338 25th St,,likely,listed,no,YP,
+Nervona Gals,retail,women's clothing,2302 25th St,,likely,check,no,YP,Possibly the same shop as Nirvana; confirm
+Hoosier Sporting Goods,retail,sporting goods,611 Washington St,,likely,listed,no,YP; CH,
+Small Town Sports & Outdoors,retail,sporting goods,,,likely,listed,no,Yelp,No address found yet
+Wet & Wild Outdoors,retail,outdoors,,,likely,listed,no,Yelp,No address found yet
+Columbus Cycling & Fitness,retail,bikes,833 16th St,,yes,listed,no,Web,Says it has served Columbus since the 1920s
+Guitar City & Sound,retail,music,2525 25th St,,yes,listed,no,Yelp,Since 2002
+Karma Records,retail,music,1645 N National Rd,,check,listed,no,YP,Karma is a small Indiana chain
+The Mix,retail,music,301 Washington St,,likely,listed,no,YP,
+Magnus Music & Media,retail,music,1115 16th St,,likely,listed,no,YP,
+This Old Guitar,retail,music,1117 16th St,,likely,listed,no,Yelp,
+Pickett's Tom Music,retail,music lessons,,,likely,listed,no,YP,Listing says 66 years in business
+Everything Musical,retail,music,,,likely,check,no,Columbus People's Choice,Details unconfirmed
+Max's Jewelry,retail,jewelry,401 Washington St,(812) 379-4572,yes,listed,no,YP; Yelp,Since 1972; corner of 4th and Washington
+Columbus Gold & Diamond,retail,jewelry,2725 24th St,(812) 372-6530,yes,listed,no,MQ; Facebook,Family-run
+Casey Jewelers,retail,jewelry,326 4th St,(812) 376-8168,likely,listed,no,YP,
+Pearl Black Indl,retail,jewelry,432 S Mapleton St,(812) 376-9470,likely,check,no,YP,Details thin
+Zap'D Permanent Jewelry,retail,jewelry,,,likely,listed,no,Yelp,No address found yet
+Thompson Furniture,retail,furniture,2440 Central Ave,(812) 376-7856,yes,listed,no,Yelp; MQ,Since 1927
+MFG Furniture & Mattress,retail,furniture,1535 N National Rd,(812) 375-1167,likely,listed,no,Yelp; MQ,
+Long's Mattress Columbus,retail,mattress,3800 W Carlos Folger Dr,(812) 342-4900,check,listed,no,YP,Small Indiana chain based in Franklin
+Brad's Home Furnishings,retail,furniture,4335 Washington St,(812) 372-9179,likely,listed,no,YP,Several Columbus locations
+Mattress & More,retail,mattress,2467 W Jonathan Moore Pike,,likely,listed,no,YP,
+Picker's Paradise Trader Mall,retail,antiques/flea,1750 25th St,,yes,listed,no,Facebook; Yelp,
+Days of Old Antique Shoppe,retail,antiques,3850 25th St,,yes,listed,no,Facebook; Yelp,
+Out of the Blue Finds,retail,vintage,,,likely,listed,no,VC,No address found yet
+Nichols & Dimes Antiques,retail,antiques,,,likely,listed,no,VC,No address found yet
+Fantastic Finds Resale,retail,resale,1601 Cottage Ave Ste A,,likely,listed,no,Thrift directory,
+Amy's Closet,retail,resale,3928 25th St,,likely,listed,no,Thrift directory,
+Grizzlee Pretty,retail,thrift,2521 25th St,,likely,listed,no,Thrift directory,
+This Time Around LLC,retail,resale/records,2552 McKinley Ave,,likely,listed,no,Thrift directory,
+Sans Souci Inc,retail,nonprofit thrift,1526 13th St,,n/a,listed,no,Thrift directory,Nonprofit
+Psi Iota Xi Thrift Shop,retail,nonprofit thrift,935 8th St,,n/a,listed,no,Thrift directory,Sorority-run
+Fisher's Flower Basket,retail,florist,662 N Gladstone Ave,,yes,listed,no,Yelp; Yext,Family-owned; two phone numbers in listings
+Amari Arrangements & Gifts,retail,florist,955 2nd St,,likely,listed,no,Yelp,
+Flowers From the Woods,retail,florist,1550 Central Ave,,likely,check,no,MQ; Yelp,A Mapleton St address is also listed
+Turtle's Flowers,retail,florist,911 Washington St,,likely,listed,no,MQ,
+Flora and Fauna Flowers,retail,florist,Osprey Dr,,likely,listed,no,Yelp,Street number not listed
+Florist MK,retail,florist,1153 Robert Dr Apt 1D,,yes,listed,no,MQ,Home-based
+Cindy's Flower Market at Elsbury's,retail,florist,1034 Washington St,,likely,listed,no,YP,
+Gracie Mae Events LLC,retail,wedding florist,,,yes,listed,no,Zola,Woman-owned; no storefront
+Folger's Four Seasons Florist,retail,florist,4710 W Carlos Folger Dr,,yes,CLOSED,no,Yelp,Yelp marks closed (Sept 2026); listed only so nobody re-adds it
+Whipker's Market & Greenhouse,retail,farm market/greenhouse,5190 S US Hwy 31,,yes,listed,no,YP; IN WIC 2018; The Republic,U-pick strawberries per The Republic
+Hackman's Farm Market,retail,farm market,6040 E State St,,yes,check,no,IN WIC 2018,2018 listing; confirm open
+Bush's Market,retail,farm market,7301 E 25th St,,yes,check,no,IN WIC 2018,2018 listing; confirm open
+Nay-ture's Hilltop Farm,retail,farm stand,5883 Hamilton Creek Rd,,yes,check,no,IN WIC 2018,2018 listing; confirm open
+Daily's Farm Market,retail,farm market,,,yes,check,no,The Republic,Named as a long-standing market; no address found
+Nienaber's Farm Market,retail,farm market,,,yes,check,no,The Republic,Named as a long-standing market; no address found
+Wischmeier Nursery,retail,nursery,240 Jonesville Rd,,likely,listed,no,YP,
+Country Bins,retail,garden center,1860 W 550 N,,likely,listed,no,YP,
+Sitka Nursery,retail,nursery,,,likely,listed,no,Yelp,No address found yet
+Helton Garden Center & Nursery,retail,nursery,,,likely,listed,no,Yelp,No address found yet
+Premier Farm and Pet,retail,farm/pet supply,1021 W Tipton St,,likely,listed,no,Yelp,
+Bob-O-Link Liquors,retail,liquor,,,likely,listed,no,Yelp,No address found yet
+Bartholomew County Beverage Co,retail,liquor,,,likely,listed,no,Yelp,No address found yet
+Ricker's,retail,convenience/fuel,,,check,listed,no,Yelp,Ricker's is an Indiana chain
+Cork Liquors,retail,liquor,1204 Washington St,(812) 378-5535,check,listed,no,YP,About a dozen Columbus locations; local but multi-store
+Maratime Food Mart,retail,convenience,2190 N National Rd,(812) 799-0845,likely,listed,no,YP,
+Columbus Uppercuts Barbershop,service,barber,1453 Washington St,,likely,listed,no,CH; YP,
+Nobles Barbershop,service,barber,525 Washington St,,likely,listed,no,Squire,
+Turner's Barber Styling,service,barber,735 3rd St,,likely,listed,no,YP,
+Cisco's Barber Shop,service,barber,1719 Central Ave,,likely,listed,no,YP,
+King's and Queen's Barber and Beauty,service,barber/beauty,1731 Central Ave,,likely,listed,no,YP,
+Esquire Hair Design,service,barber,2014 17th St,,likely,listed,no,YP,
+Danny & Faye's Beauty & Barber Shop,service,barber/beauty,1230 Jonesville Rd,,likely,listed,no,YP,
+Central Avenue Barber Shop,service,barber,2611 Central Ave,,likely,listed,no,YP,
+Really The Barbers,service,barber,217 Washington St Ste E,,likely,listed,no,Square site,
+Max's Barber Shop,service,barber,1629 State St,,likely,check,no,barbershops.net,Directory may be stale
+Nordman's Barber Shop,service,barber,602 Hutchins Ave,,likely,check,no,barbershops.net,Directory may be stale
+Condon's Bob Barber Shop,service,barber,1521 17th St,,likely,check,no,barbershops.net,Directory may be stale
+Palace Barber Shop,service,barber,3988 25th St (47203),,likely,check,no,barbershops.net,Directory may be stale
+OVLKD,service,barber,424 Washington St,,likely,check,no,findglocal,
+Studio 55,service,barber,1531 Cottage Ave,,likely,check,no,findglocal,
+Stilo's Barbershop,service,barber,2516 Central Ave,,likely,check,no,findglocal,
+Blondie's Salon & Spa,service,salon/spa,227 Washington St,,yes,listed,no,VC; Web,Also Blondie's Tan & Spa at 808 3rd St Ste A (812) 376-3066
+Salon Independence,service,salon suites,1083 N National Rd,,likely,listed,no,CH,Suite rental for independent stylists
+A Better Cut,service,salon,2331 N Marr Rd (47203),,likely,listed,no,MQ,
+VanEszko Uptown Hair House,service,salon,927 Washington St,(812) 657-7818,likely,listed,no,MQ,
+Suite D Hair Salon,service,salon,1609 Cottage Ave Ste D,(812) 372-7571,likely,listed,no,MQ; YP,
+Hair Unlimited,service,salon,1910 N National Rd,,likely,listed,no,YP,Walk-ins welcome
+Latino Hair Salon,service,salon,2167 State St,,likely,listed,no,MQ,
+Elan Aveda Concept Salon,service,salon,415 7th St,,likely,listed,no,YP,
+Laurel's Hair Studio,service,salon,402 Washington St,,likely,listed,no,YP,
+Studio Shag,service,salon,,,likely,listed,no,Yelp,No address found yet
+Innovations,service,salon,,,likely,listed,no,Yelp,No address found yet
+Parlor 424,service,salon,,,likely,listed,no,Yelp,No address found yet
+Creative Hair Design,service,salon,,,likely,listed,no,Yelp,No address found yet
+Salon 1750,service,salon,,,likely,listed,no,Yelp,No address found yet
+Comb Together,service,salon,,,likely,listed,no,Yelp,No address found yet
+Tangled Waves Hair Salon,service,salon,,,likely,listed,no,Yelp,No address found yet
+Elite Wellness & Beauty,service,spa/salon,3555 N National Rd,(812) 372-1300,likely,listed,no,YP,
+Columbus Massage Center and Salon,service,spa,3126 17th St,(812) 378-2880,likely,listed,no,YP; Yelp,
+Beautiful Reflections Aesthetics Bar,service,spa,1015 3rd St Ste D,(812) 657-3444,likely,listed,no,YP,
+Y&S Massage,service,massage,2209 Central Ave,(812) 657-3811,likely,listed,no,Yelp,
+Spring Foot Massage,service,massage,10020 N US Hwy 31 Ste B,(812) 581-6600,likely,listed,no,Yelp,Cash only per one listing
+Balance Massage & Wellness Studio,service,massage,1260 Jackson St,(812) 799-7538,likely,listed,no,Yelp; MQ,
+Massage Oasis,service,massage,1260 Jackson St,(812) 767-7663,likely,listed,no,Yelp,
+Tina's Nails,service,nails,1441 N National Rd,(812) 375-0268,likely,listed,no,MQ; Web,
+Top Nails,service,nails,1283 N National Rd,,likely,listed,no,MQ,
+Nails Station & Spa,service,nails,3780 W Jonathan Moore Pike Ste 140,,likely,listed,no,MQ; Web,
+Venus Nails & Spa,service,nails,1629 N National Rd,,likely,check,no,MQ,One listing showed closed
+Lynn's Nails,service,nails,2361 Beam Rd (47203),,likely,listed,no,MQ,
+VIP Nail Spa,service,nails,2463 W Jonathan Moore Pike,,likely,listed,no,MQ,Formerly Julie's Nails II
+King Nails and Pro Dip,service,nails,3009 N National Rd,,likely,listed,no,MQ,
+Jennifer Nails,service,nails,2315 N Marr Rd,,likely,listed,no,YP,
+Pro Nails,service,nails,2646 Eastbrook Plz,,likely,listed,no,YP,
+Gossip Nails,service,nails,2105 W Jonathan Moore Pike,,likely,listed,no,YP,
+Silky Nails,service,nails,2124 25th St,,likely,listed,no,YP,
+Pink & White Nails,service,nails,1774 25th St,,likely,listed,no,YP,
+Nail Time,service,nails,3435 Edgefield Pl,,likely,listed,no,YP,
+Columbus Nails & Pro Dip,service,nails,1310 N National Rd,,likely,listed,no,YP,
+Amazing Nail Spa One,service,nails,,,likely,listed,no,Web,No street address found yet
+Kelly's Nails & Spa,service,nails,Washington St,,likely,CLOSED,no,YP,Listed as closed
+Skeleton Crew Tattoo,service,tattoo,907 Washington St,(812) 378-9277,likely,listed,no,Yelp; MQ,
+Expressions Ink,service,tattoo,1827 25th St,(812) 372-3160,likely,listed,no,Yelp; MQ,YP also lists 2320 N National Rd
+Nordic Ink Tattoos,service,tattoo,880 Jonesville Rd,(260) 760-1163,likely,listed,no,Yelp,
+Ritual Adornment Tattoos and Piercing,service,tattoo,951 2nd St,(812) 418-8137,likely,listed,no,MQ,
+Body Art By Jess,service,tattoo,431 S Mapleton St,(812) 592-2538,yes,listed,no,MQ,
+Good Vibrations Tattoo and Body,service,tattoo,1516 Central Ave,(812) 657-3205,likely,listed,no,YP,
+Columbus Pet Salon,service,pet grooming,1035 Michigan St,(812) 603-7513,likely,listed,no,dogdog.org,
+Tailwaggers Grooming Salon,service,pet grooming,2380 N National Rd,(812) 372-1546,yes,listed,no,Yelp,Locally owned since 2006
+Dirty Dogs,service,pet grooming,953 2nd St,(812) 552-4460,likely,listed,no,dogdog.org,
+Pet-Cures Dog Grooming,service,pet grooming,2308 Cottage Ave,,likely,listed,no,MQ,
+Muddy Paws Pet Salon,service,pet grooming,300 Hope Ave Ste 2,(812) 341-6680,yes,listed,no,Facebook,Opened 2015
+Rosie's Mobile Grooming Salon,service,pet grooming,mobile,(812) 767-0295,yes,listed,no,BringFido,
+Columbus Animal Hospital,service,veterinary,3571 N National Rd,(812) 372-2555,likely,check,no,Yelp; MQ,One directory says 3071 N National Rd
+Hope Veterinary Clinic,service,veterinary,3000 State St,(812) 546-4424,likely,listed,no,MQ,Three clinics (East; West; North)
+Eastside Veterinary Hospital,service,veterinary,604 N Marr Rd,(812) 669-3368,likely,listed,no,YP,Since 1998
+Best Friends Animal Healthcare & Laser Center,service,veterinary,4915 Pine Ridge Dr,,likely,listed,no,YP,
+Art's Cleaners,service,dry cleaning,326 California St,,likely,listed,no,MQ; Yelp,Second location 1980 N National Rd; does alterations
+Summit Cleaners,service,dry cleaning,1508 Central Ave,,likely,listed,no,Yelp,
+Main Street Alterations,service,alterations,,,likely,listed,no,Yelp,No address found yet
+Karen White Couture,service,alterations,,,yes,listed,no,Yelp,No address found yet
+A Fitting Creation,service,alterations,,,likely,listed,no,Yelp,No address found yet
+Hour Glass Laundry & Car Wash,service,laundromat,2317 Cottage Ave,(812) 376-7255,likely,listed,no,Yelp,
+Miracle Wash,service,car wash,2822 Central Ave,,likely,listed,no,YP,
+Lanning Automotive & Tire,service,auto repair,2660 Hawcreek Blvd,,yes,listed,no,Web,Family-owned since 2015
+H K Auto,service,auto repair,420 Jonesville Rd,,yes,listed,no,Web; MQ,Independent shop
+Ray's Automotive Center,service,auto repair,3060 Central Ave,(812) 372-1311,yes,listed,no,YP,Family-owned
+Eldon's Automotive Service Center,service,auto repair,4220 Middle Rd,(812) 372-1440,check,check,no,YP,Same address and phone as Advanced Auto Care of Columbus; possibly renamed
+Advanced Auto Care of Columbus,service,auto repair,4220 Middle Rd,(812) 372-1440,likely,listed,no,YP,Says it has operated since 1983
+Webbs Auto Center,service,auto repair,481 Center St,,likely,listed,no,YP,Listing says 54 years in business
+Norris Automotive Service,service,auto repair,780 Repp Dr,,yes,listed,no,YP,Family-owned
+Classic Auto Body,service,auto body,472 Center St,,likely,listed,no,YP,Listing says 42 years in business
+Huckaby's Auto Electric,service,auto electric,1135 Jonesville Rd,,likely,listed,no,YP,Listing says 37 years in business
+Recon of Columbus,service,auto,965 Repp Dr,,likely,listed,no,MQ,
+Leonard's Tire Shop,service,tires,7955 N State Hwy 7,,likely,listed,no,YP,
+Johnson Tire,service,tires,803 Maple St,,yes,listed,no,Yelp,Family-owned per a review
+Columbus Mobile Mechanic,service,auto repair,mobile (47203),,likely,listed,no,MQ,
+Central Computer Repair,service,computer repair,2611 Central Ave Ste 4,,likely,listed,no,YP,
+Advanced Computer Solutions,service,computer repair,2739 Central Ave Ste 2,,likely,listed,no,YP,
+Midwest Computer Solutions,service,computer repair,3028 State St,,likely,listed,no,YP,
+iMechanic,service,phone repair,,,likely,listed,no,Yelp,No address found yet
+WRD Cell & Tech Repair,service,phone repair,,,likely,listed,no,Yelp,No address found yet
+Ko's Martial Arts Academy,service,martial arts,2490 Taylor Rd (47203),(812) 375-9000,yes,listed,no,MQ; YP,About 50 years
+Guardian Kung Fu,service,martial arts,322 12th St,,likely,check,no,MQ; dojos.info,Another listing says 1633 N National Rd
+Total Taekwondo,service,martial arts,3075 Middle Dr,,likely,listed,no,YP,
+Brown's Brazilian Jiu-Jitsu,service,martial arts,,,likely,listed,no,dojos.info,No address found yet
+Total Fitness of Columbus,service,gym,3075 Middle Dr (47203),,likely,listed,no,MQ,
+Tipton Lakes Athletic Club,service,gym,4000 W Goeller Blvd,,likely,listed,no,YP,
+Crossfit Retaliation,service,gym,364 S Mapleton St,,likely,listed,no,YP,
+Center Studio,service,pilates/yoga,3192 Washington St,,likely,listed,no,Mindbody,
+The Zen Wellness Company,service,yoga/fitness,,,likely,listed,no,Web,No address found yet
+Uptown Yoga,service,yoga,,,likely,check,no,Yelp,Confirm it is in Columbus IN
+Summers Plumbing Heating & Cooling,trades,plumbing/hvac,4660 Progress Dr,,yes,listed,no,Web,Family-owned
+Lohmeyer Plumbing,trades,plumbing,4555 Progress Dr,,yes,listed,no,Web,Family-owned since 1936
+Matlock Plumbing,trades,plumbing,,,yes,listed,no,Web,Family-owned
+Plumbing Solutions,trades,plumbing,,,yes,listed,no,Web,Locally owned
+Reliable Comfort,trades,hvac/plumbing/electric,,,yes,check,no,Web,Family operated; confirm Columbus base
+Columbus Plumbing Inc,trades,plumbing,,,likely,listed,no,Superpages,
+Barr Plumbing,trades,plumbing,,,likely,listed,no,Superpages,
+Gary Clark Plumbing,trades,plumbing,,,likely,listed,no,Superpages,
+Barker Brothers Plumbing,trades,plumbing,,,likely,listed,no,Superpages,
+Moore's Roofing Inc,trades,roofing,2063 Iroquois Trl (47203),,likely,listed,no,YP,
+Tim & Daughters Inc,trades,roofing/painting,Henry Lakes Blvd,(812) 376-0342,likely,listed,no,YP,
+Burden Jim Services,trades,roofing/painting,,,likely,listed,no,YP,Listing says 42 years in business
+Scott on the Spot,trades,landscaping/painting,,,likely,listed,no,YP,Listing says 37 years in business
+Quickcare Lawn & Landscape,trades,landscaping,,(812) 603-7273,likely,listed,no,YP,
+Flora Brothers Lawn & Landscape,trades,landscaping,,,likely,listed,no,YP,
+Blackwood Lawn & Landscape,trades,landscaping,,,likely,listed,no,YP,
+Pahl's Lawn Care Inc,trades,lawn care,,,likely,listed,no,YP,Listing says 26 years in business
+Hawcreek Landscaping,trades,landscaping,,,likely,listed,no,YP,
+Bruce Otte Painting,trades,painting,2085 W Lewis Pl,(812) 342-0735,yes,listed,no,YP,Listing says 40 years in business
+Mike Miske Painting Contractor,trades,painting,3027 27th St,(812) 376-9712,yes,listed,no,YP,
+Heagy's Painting,trades,painting,,(812) 343-7494,likely,listed,no,YP,
+Veteran Painters & Handymen,trades,painting/handyman,,(812) 371-7368,likely,listed,no,YP,
