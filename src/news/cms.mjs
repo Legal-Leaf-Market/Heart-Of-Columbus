@@ -23,7 +23,7 @@ export const cmsPage = () => `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex, nofollow">
+<!--robots-->
 <title>Newsroom editor | Heart of Columbus</title>
 <meta name="description" content="Private. Where reporters and editors write and approve stories.">
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>

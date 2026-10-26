@@ -100,12 +100,32 @@ export function audience(ages = [], title = '') {
 const LIVE = /\b(concerts?|live music|bands?|open mic|comedy|comedian|stand ?up|poetry|poets?|spoken word|karaoke|jam session|jam|dj|line danc\w*|symphony|orchestra|choir|recital|musical|theat(?:er|re)|improv|songwriters?|drag show)\b|, live$/i;
 export const isLive = (title, flag = false) => flag || LIVE.test(title);
 
+// What a listing lets the public do. The parks calendar is also the booking
+// sheet for its rooms, rinks and gyms, so it carries private rentals, team
+// practices and "No Drop-ins" blocks next to real public programs. Those are
+// read from the listing's own words and kept off the public list; a closure is
+// a notice about the venue, not something to attend. Anything the words do not
+// settle stays public, because these are public program calendars and a broad
+// pattern that hides a real concert is the worse mistake.
+//   private   a rental or private booking
+//   practice  a team practice or scrimmage (not assumed open to watch)
+//   closed    a facility closure or a block with no drop-in
+//   public    everything else
+const ACCESS = [
+  ['closed', /\bno drop[- ]?ins?\b|\bclosed\b|\bclosure\b/i],
+  ['private', /\bprivate (?:event|party|rental|booking|function)s?\b|\brentals?\b/i],
+  ['practice', /\bpractices?\b|\bscrimmages?\b/i],
+];
+export const access = (title) => (ACCESS.find(([, re]) => re.test(title)) || ['public'])[0];
+export const LEFT_OUT = { private: 'private bookings', practice: 'team practices', closed: 'facility notices' };
+
 // Every item: { id, src, title, date, until, start, stop, when, ap, venue,
-// ages, aud, url }. `date` is the day it is listed under, `until` the last
+// ages, aud, url, access }. `date` is the day it is listed under, `until` the last
 // day of a run; start/stop are minutes after midnight, or null.
 function item(o) {
   const x = { ...o };
   x.live = isLive(x.title, x.live);
+  x.access = x.access || access(x.title);
   x.when = webTime(x.start, x.stop);
   x.ap = apTime(x.start, x.stop);
   if (x.until && x.until > x.date) { x.when = `Through ${shortDate(x.until)}`; x.ap = `through ${apShort(x.until)}`; }
@@ -332,7 +352,11 @@ export async function collect({ from, days = 31, only = null, fetchImpl = global
   });
   await Promise.all(jobs);
   status.sort((a, b) => SOURCES.findIndex((s) => s.id === a.id) - SOURCES.findIndex((s) => s.id === b.id));
-  return { from, to, sources: status, events: inWindow(items, from, to) };
+  const listed = inWindow(items, from, to);
+  // Left off the public list, but said so: the page counts them and shows
+  // closures as venue notices, so nothing disappears without a word.
+  const left = listed.filter((x) => x.access !== 'public').map(({ id, src, title, date, venue, access: a }) => ({ id, src, title, date, venue, access: a }));
+  return { from, to, sources: status, events: listed.filter((x) => x.access === 'public'), left };
 }
 
 // ---------- Exports for print, newspapers and calendars ----------

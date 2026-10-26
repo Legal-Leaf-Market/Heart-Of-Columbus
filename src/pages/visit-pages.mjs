@@ -8,8 +8,7 @@ import { directory } from '../data/directory.mjs';
 import { eventsSection } from './events.mjs';
 import { yourWay } from './trip-pages.mjs';
 import { spotlightSection } from './spotlight.mjs';
-import { eventLd, ORIGIN } from '../jsonld.mjs';
-import { EVENTS } from '../data/events.mjs';
+import { ORIGIN } from '../jsonld.mjs';
 import { VISITORS_CENTER, TOURS, GETTING_HERE, GETTING_AROUND, SOCIAL_DISTRICT, SRC } from '../data/visit.mjs';
 import { VISIT as ES, FACTS as ES_FACTS, REVIEW_NOTE, esDate } from '../i18n/es.mjs';
 
@@ -18,7 +17,7 @@ const host = (u) => new URL(u).hostname.replace(/^www\./, '');
 const checkedOn = (d) => new Date(d + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 
 const EN = {
-  title: 'Plan your visit | Heart of Columbus',
+  title: 'Things to do in Columbus, Indiana | Plan your visit',
   description: 'Visiting Columbus, Indiana: the Visitors Center, architecture tours, getting here and around, and the downtown Social District, with a source for every fact.',
   kicker: 'Plan your visit',
   h1a: 'Coming to Columbus?', h1b: 'Start here.',
@@ -98,7 +97,7 @@ ${footer({ lang })}`;
   return page({
     title: L.title, description: L.description, lang,
     alternates: [['en', ORIGIN + '/visit/'], ['es', ORIGIN + '/es/visit/']],
-    body, scripts: es ? ['site.js'] : ['site.js', 'hub.js', 'events.js'], styles, assets, ld: es ? [] : EVENTS.map(eventLd),
+    body, scripts: es ? ['site.js'] : ['site.js', 'hub.js', 'events.js'], styles, assets,
   });
 }
 

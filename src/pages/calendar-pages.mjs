@@ -7,7 +7,7 @@ import { page, esc } from '../layout.mjs';
 import { header, footer, svg, breadcrumbs } from '../site.mjs';
 import { newsBar } from '../news/frame.mjs';
 import { SOURCES, LISTINGS, STAGES } from '../data/events.mjs';
-import { handEntered, AUDIENCES, creditLine, today } from '../event-feeds.mjs';
+import { handEntered, AUDIENCES, creditLine, today, inWindow, addDays, webDate } from '../event-feeds.mjs';
 import { dateRange } from './events.mjs';
 import { ORIGIN } from '../jsonld.mjs';
 
@@ -18,6 +18,21 @@ const pageData = () => ({
   fallback: handEntered(),
   credit: creditLine(ids),
 });
+// What the page shows before its script runs, and all a crawler or a reader
+// without JavaScript ever sees: the hand-checked listings for the month from
+// the build date, each linked to its organizer. The script replaces it with
+// the live calendars. Nothing here is a feed item, so nothing goes stale
+// faster than the hand-entered data itself.
+const firstPaint = () => {
+  const from = today(), list = inWindow(handEntered(), from, addDays(from, 30));
+  if (!list.length) return '';
+  const days = [];
+  for (const e of list) (days.at(-1)?.date === e.date ? days.at(-1) : days[days.push({ date: e.date, items: [] }) - 1]).items.push(e);
+  return days.map((d) => `<section class="cal-day"><h2>${esc(webDate(d.date))}</h2>${d.items.map((e) => {
+    const s = SOURCES.find((x) => x.id === e.src) || { short: '', name: '', calendar: '#' };
+    return `<article class="cal-ev"><p class="cal-time">${esc(e.when)}</p><div class="cal-body"><h3>${ext(e.url, esc(e.title))}</h3><p class="cal-meta">${esc(e.venue)}</p></div>${ext(s.calendar, esc(s.short), `cal-tag cal-tag-${esc(e.src)}`)}</article>`;
+  }).join('')}</section>`).join('');
+};
 const ext = (href, text, cls = '') => `<a${cls ? ` class="${cls}"` : ''} href="${esc(href)}" target="_blank" rel="noopener">${text}</a>`;
 const fmtChecked = (iso) => { const [y, m, d] = iso.split('-').map(Number); return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' }); };
 
@@ -92,9 +107,9 @@ ${fairCard()}
     </div>
     <label class="cal-search">${svg('search')}<input type="search" data-cal-q placeholder="Storytime, yoga, ice skating…" aria-label="Search events"></label>
   </form>
-  <p class="cal-status" data-cal-status role="status">Loading events…</p>
-  <div class="cal-list" data-cal-list></div>
-  <noscript><p class="cal-status">This list needs JavaScript. The calendars themselves: ${SOURCES.map((s) => ext(s.calendar, esc(s.name))).join(', ')}.</p></noscript>
+  <p class="cal-status" data-cal-status role="status">Arts, fair and venue listings checked by hand are below. The library and parks calendars load next.</p>
+  <div class="cal-list" data-cal-list>${firstPaint()}</div>
+  <noscript><p class="cal-status">The library and parks listings need JavaScript. Their calendars: ${SOURCES.filter((s) => s.feed).map((s) => ext(s.calendar, esc(s.name))).join(', ')}.</p></noscript>
   <section class="cal-live" id="live" aria-labelledby="cal-live-h">
     <p class="kicker">Concerts, open mics, comedy and poetry</p>
     <h2 id="cal-live-h">Live music and arts</h2>

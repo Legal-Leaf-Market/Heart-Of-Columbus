@@ -1,0 +1,349 @@
+<!doctype html>
+<!--
+  Cozy Lounge, Columbus, Indiana. Draft website, built as a gift for the owners to review.
+
+  Facts and where they came from (checked 2026-10-26):
+  - Address 3870 E 25th St, Columbus, IN 47203: Google Maps listing, Groupon, Yellow Pages.
+  - Phone (812) 372-3165: Google Maps listing, Groupon, Restaurantji.
+  - Hours 11 AM to 1 AM every day: Google Maps listing. Groupon shows an older
+    "until 3 AM" listing, so hours are marked "please confirm".
+  - 21 and over, pool tables, darts, cornhole, karaoke, drag shows: Restaurantji
+    summary of public reviews. Days and times are not published anywhere we found.
+  - Food named in listings and reviews: wings, grilled tenderloin, pizza, subs,
+    sandwiches, taco salad, appetizer sampler (Groupon, Restaurantji). No prices found.
+  - Facebook page: from the Google Maps listing.
+  - DJ Edder playing at Cozy: from Jacob, who knows the room. Schedule not published.
+  Everything else on the page is marked "placeholder" until the owners fill it in.
+  No reviews, ratings, owner names or history are invented.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cozy Lounge | Columbus, Indiana</title>
+<meta name="description" content="Cozy Lounge on East 25th Street in Columbus, Indiana. Pool, darts, karaoke, DJs, cold drinks and bar food. Open daily, 21 and over.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#140f1f">
+<meta property="og:title" content="Cozy Lounge, Columbus, Indiana">
+<meta property="og:description" content="Pool, darts, karaoke, DJs, cold drinks and bar food on East 25th Street.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23140f1f'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='36' font-weight='700' text-anchor='middle' fill='%23f5b04a'%3EC%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #140f1f;
+    --bg2: #1d1630;
+    --card: #241c3a;
+    --line: #3a2f57;
+    --ink: #f6f0ff;
+    --muted: #b9add3;
+    --amber: #f5b04a;
+    --pink: #ff5fa2;
+    --teal: #3fd1c3;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.6 Inter, system-ui, sans-serif;
+    overflow-x: hidden;
+  }
+  a { color: var(--amber); }
+  h1, h2, h3 { font-family: Fraunces, Georgia, serif; line-height: 1.1; margin: 0 0 .5em; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+  .draft {
+    background: var(--amber); color: #1a1205; font-size: 14px; text-align: center;
+    padding: 8px 16px; font-weight: 500;
+  }
+  nav {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(20, 15, 31, .9); backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; height: 60px; }
+  .logo { font-family: Fraunces, Georgia, serif; font-weight: 800; font-size: 22px; color: var(--ink); text-decoration: none; }
+  .logo span { color: var(--amber); }
+  nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; }
+  nav ul a { color: var(--muted); text-decoration: none; font-weight: 500; font-size: 15px; }
+  nav ul a:hover { color: var(--ink); }
+  .call { background: var(--pink); color: #fff; padding: 8px 14px; border-radius: 999px; text-decoration: none; font-weight: 700; font-size: 15px; white-space: nowrap; }
+
+  .hero {
+    position: relative; padding: 96px 0 88px; overflow: hidden;
+    background:
+      radial-gradient(600px 300px at 15% 20%, rgba(255, 95, 162, .28), transparent 70%),
+      radial-gradient(700px 360px at 85% 70%, rgba(245, 176, 74, .22), transparent 70%),
+      radial-gradient(500px 260px at 60% 0%, rgba(63, 209, 195, .14), transparent 70%),
+      var(--bg);
+  }
+  .hero h1 { font-size: clamp(48px, 9vw, 104px); letter-spacing: -1px; }
+  .hero h1 em { font-style: normal; color: var(--amber); text-shadow: 0 0 28px rgba(245, 176, 74, .55); }
+  .hero p.lead { font-size: clamp(18px, 2.4vw, 22px); color: var(--muted); max-width: 640px; margin: 0 0 28px; }
+  .status { display: inline-flex; align-items: center; gap: 10px; background: var(--card); border: 1px solid var(--line); padding: 8px 14px; border-radius: 999px; margin-bottom: 22px; font-weight: 500; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--muted); }
+  .dot.open { background: var(--teal); box-shadow: 0 0 10px var(--teal); }
+  .btns { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn { display: inline-block; padding: 14px 22px; border-radius: 12px; font-weight: 700; text-decoration: none; }
+  .btn.primary { background: var(--amber); color: #1a1205; }
+  .btn.ghost { border: 1px solid var(--line); color: var(--ink); background: var(--bg2); }
+
+  section { padding: 72px 0; }
+  section.alt { background: var(--bg2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  h2 { font-size: clamp(32px, 5vw, 48px); }
+  .sub { color: var(--muted); max-width: 640px; margin: 0 0 32px; }
+  .grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 22px; }
+  .card h3 { font-size: 22px; }
+  .card p { margin: 0; color: var(--muted); }
+  .icon { font-size: 30px; margin-bottom: 8px; display: block; }
+  .tag { display: inline-block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: 3px 8px; border-radius: 6px; background: rgba(245, 176, 74, .15); color: var(--amber); vertical-align: middle; margin-left: 6px; font-family: Inter, sans-serif; }
+
+  .week { display: grid; gap: 10px; }
+  .day { display: grid; grid-template-columns: 130px 1fr; gap: 16px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 18px; }
+  .day b { font-family: Fraunces, Georgia, serif; font-size: 20px; }
+  .day.today { border-color: var(--amber); box-shadow: 0 0 0 1px var(--amber) inset; }
+  .day span { color: var(--muted); }
+
+  .dj { display: grid; gap: 28px; grid-template-columns: 1.1fr 1fr; align-items: center; }
+  .dj .art {
+    aspect-ratio: 1; border-radius: 24px; border: 1px solid var(--line);
+    background:
+      repeating-radial-gradient(circle at 50% 50%, #1b1430 0 6px, #231a3b 6px 8px),
+      var(--card);
+    display: grid; place-items: center; position: relative; overflow: hidden;
+  }
+  .dj .art::after { content: ""; position: absolute; width: 34%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, var(--bg) 0 8%, var(--pink) 9% 100%); }
+
+  .menu { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .menu ul { list-style: none; margin: 0; padding: 0; }
+  .menu li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px dashed var(--line); }
+  .menu li:last-child { border-bottom: 0; }
+  .menu li i { font-style: normal; color: var(--muted); white-space: nowrap; }
+
+  .visit { display: grid; gap: 24px; grid-template-columns: 1fr 1.2fr; }
+  .map { width: 100%; min-height: 340px; border: 0; border-radius: 18px; filter: invert(.9) hue-rotate(180deg) saturate(.8); }
+  .hours { width: 100%; border-collapse: collapse; }
+  .hours td { padding: 8px 0; border-bottom: 1px solid var(--line); }
+  .hours td:last-child { text-align: right; color: var(--muted); }
+  .hours tr.today td { color: var(--amber); font-weight: 700; }
+
+  form { display: grid; gap: 12px; }
+  label { font-weight: 500; font-size: 14px; color: var(--muted); }
+  input, select, textarea { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); font: inherit; }
+  .row2 { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+  .note { font-size: 14px; color: var(--muted); }
+  #sent { display: none; background: rgba(63, 209, 195, .12); border: 1px solid var(--teal); padding: 14px; border-radius: 12px; }
+
+  footer { padding: 40px 0 60px; color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; }
+
+  @media (max-width: 820px) {
+    nav ul { display: none; }
+    .dj, .visit { grid-template-columns: 1fr; }
+    .dj .art { max-width: 320px; }
+    .day { grid-template-columns: 100px 1fr; }
+    .row2 { grid-template-columns: 1fr; }
+    .hero { padding: 64px 0 56px; }
+    section { padding: 56px 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="draft" id="draft">Draft website for Cozy Lounge to review. Items tagged "placeholder" or "please confirm" are waiting on the owners.</div>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#top">Cozy <span>Lounge</span></a>
+    <ul>
+      <li><a href="#play">Play</a></li>
+      <li><a href="#week">This week</a></li>
+      <li><a href="#dj">DJs</a></li>
+      <li><a href="#food">Food</a></li>
+      <li><a href="#visit">Visit</a></li>
+      <li><a href="#party">Parties</a></li>
+    </ul>
+    <a class="call" href="tel:+18123723165">Call (812) 372-3165</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="status"><span class="dot" id="dot"></span><span id="statusText">Open daily, 11 AM to 1 AM</span></div>
+    <h1>Pull up a stool.<br>Stay <em>cozy.</em></h1>
+    <p class="lead">Your neighborhood lounge on East 25th Street in Columbus, Indiana. Pool, darts, karaoke, DJs, cold drinks and bar food, every day of the week. 21 and over.</p>
+    <div class="btns">
+      <a class="btn primary" href="https://www.google.com/maps/dir/?api=1&destination=Cozy+Lounge+3870+E+25th+St+Columbus+IN+47203" target="_blank" rel="noopener">Get directions</a>
+      <a class="btn ghost" href="#week">See what's on</a>
+    </div>
+  </div>
+</header>
+
+<section id="play">
+  <div class="wrap">
+    <h2>Something going on every night</h2>
+    <p class="sub">Grab your friends, rack them up, and stick around for the music.</p>
+    <div class="grid">
+      <div class="card"><span class="icon">🎱</span><h3>Pool tables</h3><p>Several tables and plenty of room around them.</p></div>
+      <div class="card"><span class="icon">🎯</span><h3>Darts</h3><p>Bring your own or use ours. League nights <span class="tag">placeholder</span></p></div>
+      <div class="card"><span class="icon">🌽</span><h3>Cornhole</h3><p>Boards are out and ready for a game.</p></div>
+      <div class="card"><span class="icon">🎤</span><h3>Karaoke</h3><p>Several nights a week, Saturdays included. Sign up at the bar.</p></div>
+      <div class="card"><span class="icon">👑</span><h3>Drag shows</h3><p>Everyone is welcome at Cozy. Show dates <span class="tag">please confirm</span></p></div>
+      <div class="card"><span class="icon">🎧</span><h3>DJ nights</h3><p>Local DJs, including DJ Edder, keep the floor moving.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="week">
+  <div class="wrap">
+    <h2>This week at Cozy <span class="tag">placeholder</span></h2>
+    <p class="sub">A sample weekly lineup for the owners to fill in. Follow <a href="https://m.facebook.com/Cozy-Lounge-149100758482621/" target="_blank" rel="noopener">Cozy Lounge on Facebook</a> for the latest.</p>
+    <div class="week" id="weekList">
+      <div class="day" data-d="1"><b>Monday</b><span>Pool and darts, open play</span></div>
+      <div class="day" data-d="2"><b>Tuesday</b><span>Karaoke night</span></div>
+      <div class="day" data-d="3"><b>Wednesday</b><span>Cornhole and drink specials</span></div>
+      <div class="day" data-d="4"><b>Thursday</b><span>Karaoke night</span></div>
+      <div class="day" data-d="5"><b>Friday</b><span>DJ Edder on the decks</span></div>
+      <div class="day" data-d="6"><b>Saturday</b><span>Karaoke, then DJ late</span></div>
+      <div class="day" data-d="0"><b>Sunday</b><span>Drag show or game day</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="dj">
+  <div class="wrap dj">
+    <div>
+      <h2>DJ Edder at Cozy</h2>
+      <p class="sub">DJ Edder is a regular behind the decks at Cozy Lounge. When Edder plays, the pool cues go down and the dance floor fills up.</p>
+      <p class="note">Next date <span class="tag">placeholder</span> &nbsp; Booking and socials for Edder go here once Edder signs off.</p>
+      <p class="note" style="margin-top:18px">Are you a DJ, drag performer or band who wants a night at Cozy? Call the bar at <a href="tel:+18123723165">(812) 372-3165</a>.</p>
+    </div>
+    <div class="art" role="img" aria-label="Spinning record illustration"></div>
+  </div>
+</section>
+
+<section class="alt" id="food">
+  <div class="wrap">
+    <h2>Kitchen</h2>
+    <p class="sub">Bar food done right, served from 11 AM. Prices and the full menu <span class="tag">placeholder</span></p>
+    <div class="menu">
+      <div class="card">
+        <h3>Starters</h3>
+        <ul>
+          <li>Hot wings <i>price soon</i></li>
+          <li>Appetizer sampler <i>price soon</i></li>
+          <li>Taco salad <i>price soon</i></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Sandwiches and subs</h3>
+        <ul>
+          <li>Grilled tenderloin <i>price soon</i></li>
+          <li>Baked subs <i>price soon</i></li>
+          <li>Sandwiches <i>price soon</i></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Pizza</h3>
+        <ul>
+          <li>Pizza, your way <i>price soon</i></li>
+          <li>Vegetarian options <i>ask your server</i></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>At the bar</h3>
+        <ul>
+          <li>Cold beer <i>ask your bartender</i></li>
+          <li>Mixed drinks <i>ask your bartender</i></li>
+          <li>Daily specials <i>placeholder</i></li>
+        </ul>
+      </div>
+    </div>
+    <p class="note" style="margin-top:18px">Call ahead for carryout: <a href="tel:+18123723165">(812) 372-3165</a></p>
+  </div>
+</section>
+
+<section id="visit">
+  <div class="wrap visit">
+    <div>
+      <h2>Find us</h2>
+      <p style="font-size:20px;margin:0 0 6px"><b>3870 E 25th St</b><br>Columbus, IN 47203</p>
+      <p class="note" style="margin:0 0 20px">On the east side, on 25th Street.</p>
+      <table class="hours" id="hours">
+        <tr data-d="1"><td>Monday</td><td>11 AM to 1 AM</td></tr>
+        <tr data-d="2"><td>Tuesday</td><td>11 AM to 1 AM</td></tr>
+        <tr data-d="3"><td>Wednesday</td><td>11 AM to 1 AM</td></tr>
+        <tr data-d="4"><td>Thursday</td><td>11 AM to 1 AM</td></tr>
+        <tr data-d="5"><td>Friday</td><td>11 AM to 1 AM</td></tr>
+        <tr data-d="6"><td>Saturday</td><td>11 AM to 1 AM</td></tr>
+        <tr data-d="0"><td>Sunday</td><td>11 AM to 1 AM</td></tr>
+      </table>
+      <p class="note">Hours from our Google listing <span class="tag">please confirm</span><br>21 and over. Bring a valid ID.</p>
+      <div class="btns" style="margin-top:18px">
+        <a class="btn primary" href="tel:+18123723165">Call the bar</a>
+        <a class="btn ghost" href="https://www.google.com/maps/dir/?api=1&destination=Cozy+Lounge+3870+E+25th+St+Columbus+IN+47203" target="_blank" rel="noopener">Directions</a>
+      </div>
+    </div>
+    <iframe class="map" title="Map to Cozy Lounge" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+      src="https://www.google.com/maps?q=3870+E+25th+St,+Columbus,+IN+47203&z=15&output=embed"></iframe>
+  </div>
+</section>
+
+<section class="alt" id="party">
+  <div class="wrap visit">
+    <div>
+      <h2>Throw your party at Cozy</h2>
+      <p class="sub">Birthdays, send offs, team nights, pool tournaments. Tell us what you have in mind and we'll call you back.</p>
+      <p class="note">Group sizes, deposits and private room details <span class="tag">placeholder</span></p>
+    </div>
+    <div class="card">
+      <form id="partyForm">
+        <div class="row2">
+          <div><label for="pn">Your name</label><input id="pn" required></div>
+          <div><label for="pp">Phone</label><input id="pp" type="tel" required></div>
+        </div>
+        <div class="row2">
+          <div><label for="pd">Date</label><input id="pd" type="date"></div>
+          <div><label for="pg">Group size</label><input id="pg" type="number" min="1" placeholder="15"></div>
+        </div>
+        <div><label for="pt">What's the occasion?</label><textarea id="pt" rows="3"></textarea></div>
+        <button class="btn primary" type="submit" style="border:0;cursor:pointer;font:inherit;font-weight:700">Send request</button>
+        <p class="note" style="margin:0">Draft: this form is not connected yet, so nothing is sent. For now, call <a href="tel:+18123723165">(812) 372-3165</a>.</p>
+        <div id="sent">Thanks! In the finished site this goes straight to the bar. For now, please call <a href="tel:+18123723165">(812) 372-3165</a>.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><b style="color:var(--ink)">Cozy Lounge</b><br>3870 E 25th St, Columbus, IN 47203<br><a href="tel:+18123723165">(812) 372-3165</a></div>
+    <div>Open daily, 11 AM to 1 AM. 21 and over.<br><a href="https://m.facebook.com/Cozy-Lounge-149100758482621/" target="_blank" rel="noopener">Facebook</a><br>Please drink responsibly.</div>
+  </div>
+</footer>
+
+<script>
+  // Open or closed right now, Columbus time. Every day is 11 AM to 1 AM (Google listing).
+  (function () {
+    var OPEN = 11, CLOSE = 1;
+    var now = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Indiana/Indianapolis" }));
+    var h = now.getHours() + now.getMinutes() / 60;
+    var open = h >= OPEN || h < CLOSE;
+    // After midnight the night still belongs to yesterday.
+    var day = h < CLOSE ? (now.getDay() + 6) % 7 : now.getDay();
+    document.getElementById("dot").classList.toggle("open", open);
+    document.getElementById("statusText").textContent = open
+      ? "Open now until 1 AM"
+      : "Closed now, opens at 11 AM";
+    document.querySelectorAll('[data-d="' + day + '"]').forEach(function (el) { el.classList.add("today"); });
+
+    document.getElementById("partyForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      document.getElementById("sent").style.display = "block";
+    });
+  })();
+</script>
+</body>
+</html>

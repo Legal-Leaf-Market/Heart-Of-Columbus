@@ -17,3 +17,11 @@
 // A listing with no entry keeps its illustration, which is also the fallback
 // if a photo fails to load.
 export const MEDIA = {};
+
+// The approved media for a listing, or null. Pages call this rather than
+// reading MEDIA, so a half-filled entry (no permission, no date) shows nothing.
+export function mediaFor(slug) {
+  const m = MEDIA[slug];
+  return m && m.permission && m.checked && m.credit ? m : null;
+}
+export const mediaSrc = (slug, f) => `/business-media/${slug}/${f.file}`;

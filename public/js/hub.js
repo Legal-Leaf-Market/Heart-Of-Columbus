@@ -44,6 +44,11 @@
     $('[data-out="avg"]').textContent = fmt0.format(val('avg'));
     $('[data-out="rate"]').textContent = val('rate') + '%';
     $('[data-out="biz"]').textContent = val('biz');
+    // What a screen reader announces as each slider moves.
+    $('[data-in="orders"]').setAttribute('aria-valuetext', val('orders') + ' orders a week');
+    $('[data-in="avg"]').setAttribute('aria-valuetext', fmt0.format(val('avg')));
+    $('[data-in="rate"]').setAttribute('aria-valuetext', val('rate') + ' percent');
+    $('[data-in="biz"]').setAttribute('aria-valuetext', val('biz') + ' restaurants');
     $('[data-year]').textContent = fmt0.format(weekly * 52);
     $('[data-week]').textContent = fmt0.format(weekly) + ' a week across ' + val('biz') + (val('biz') === 1 ? ' restaurant' : ' restaurants');
     var total = window.HoC ? window.HoC.ledger.total() : 0;

@@ -26,7 +26,7 @@
     var t = window.HoCCat[b.c];
     return '<article class="bz" data-slug="' + b.s + '">' +
       '<a class="bz-cover ' + PATS[hash(b.s) % 5] + '" href="/b/' + b.s + '/" style="--c:' + COLOR[b.c] + ';--t:' + t[2] + '" tabindex="-1" aria-hidden="true">' +
-      (b.v ? '<img class="bz-art" src="/art/cover-' + b.u + '.png" alt="" loading="lazy">' : '') + '<span class="bz-emoji">' + b.e + '</span>' +
+      (b.i ? '<img class="bz-art" src="' + esc(b.i) + '" alt="" loading="lazy" decoding="async" onerror="this.remove()">' : b.v ? '<img class="bz-art" src="/art/cover-' + b.u + '.webp" alt="" loading="lazy">' : '') + '<span class="bz-emoji">' + b.e + '</span>' +
       (b.r ? '<span class="bz-area">' + PIN + esc(AREA[b.r]) + '</span>' : '') + '</a>' +
       '<button type="button" class="bz-save" data-save="' + b.s + '" aria-pressed="false" aria-label="Save ' + esc(b.n) + '">' + HEART + '</button>' +
       '<div class="bz-body"><h3 class="bz-name"><a href="/b/' + b.s + '/">' + (st.sort === 'walk' && b._i ? '<span class="walk-n">' + b._i + '</span>' : '') + esc(b.n) + '</a></h3><p class="bz-type">' + esc(b.y) + (st.sort === 'near' && me && b._d < Infinity ? ' · <b>' + (b._d < 0.1 ? 'right here' : b._d.toFixed(1) + ' mi') + '</b>' : '') + '</p>' +
@@ -38,7 +38,7 @@
   var params = new URLSearchParams(location.search);
   var st = {
     q: params.get('q') || '', cat: params.get('cat') || '', sub: params.get('sub') || '', area: params.get('area') || '',
-    phone: params.get('phone') === '1', demo: params.get('demo') === '1', online: params.get('online') === '1', open: params.get('open') === '1', sort: params.get('sort') || 'az', view: params.get('view') || 'list',
+    phone: params.get('phone') === '1', demo: params.get('demo') === '1', online: params.get('online') === '1', open: params.get('open') === '1', sort: params.get('sort') || 'match', view: params.get('view') || 'list',
     now: !savedOnly && params.get('now') === '1', layers: (params.get('layers') || 'b,l,e').split(','),
   };
   if (st.now) { st.view = 'map'; st.open = true; st.sort = 'near'; }
@@ -70,7 +70,7 @@
       nowMsg(dist(me, [39.2014, -85.9214]) > 40 ? 'Open now. You look far from Columbus, so this shows the whole town.' : 'Open now, nearest to you first. Your location stays on your device.');
       render();
     }, function () {
-      msg.textContent = 'Location is off, so we sorted A to Z instead.'; st.sort = 'az'; $('[data-ex-sort]').value = 'az';
+      msg.textContent = 'Location is off, so we sorted by best match instead.'; st.sort = 'match'; $('[data-ex-sort]').value = 'match';
       nowMsg('Location is off, so this is everything open now, A to Z.');
       render();
     }, { maximumAge: 300000, timeout: 10000 });
@@ -81,7 +81,7 @@
   function sync() {
     var p = new URLSearchParams();
     if (params.get('ids')) p.set('ids', params.get('ids'));
-    ['q', 'cat', 'sub', 'area', 'sort', 'view'].forEach(function (k) { if (st[k] && !(k === 'sort' && st[k] === 'az') && !(k === 'view' && st[k] === 'list')) p.set(k, st[k]); });
+    ['q', 'cat', 'sub', 'area', 'sort', 'view'].forEach(function (k) { if (st[k] && !(k === 'sort' && st[k] === 'match') && !(k === 'view' && st[k] === 'list')) p.set(k, st[k]); });
     if (st.phone) p.set('phone', '1');
     if (st.demo) p.set('demo', '1');
     if (st.online) p.set('online', '1');
@@ -104,6 +104,8 @@
       return out.sort(function (a, b) { return a._d - b._d; });
     }
     if (st.sort === 'walk') return walkOrder(out);
+    // Best match is the default: relevance with a search, A to Z without one.
+    if (st.sort === 'match' && st.q) return window.HoCRank(out, st.q);
     out.sort(function (a, b) {
       if (st.sort === 'area') return (AREA[a.r] || 'zz').localeCompare(AREA[b.r] || 'zz') || name(a).localeCompare(name(b));
       return st.sort === 'za' ? name(b).localeCompare(name(a)) : name(a).localeCompare(name(b));
@@ -138,6 +140,7 @@
     var list = filtered();
     $('[data-ex-count]').textContent = list.length + (list.length === 1 ? ' place' : ' places') + (st.q ? ' for “' + st.q + '”' : '');
     $('[data-ex-empty]').hidden = list.length > 0;
+    if (!list.length) recover();
     var showMap = st.view === 'map';
     $('[data-ex-map]').hidden = !showMap;
     $('[data-ex-grid]').innerHTML = list.slice(0, shown).map(card).join('');
@@ -158,6 +161,40 @@
     sync();
     document.dispatchEvent(new CustomEvent('hoc:rendered'));
   }
+
+  // ---------- No results: say why and offer a way back ----------
+  // Each button says how many places it would bring back, counted with the
+  // same filter the list uses, so a button never leads to another empty page.
+  var FILTERS = { cat: '', sub: '', area: '', phone: false, open: false, online: false, demo: false };
+  function countWith(over) {
+    var keep = {}, k;
+    for (k in over) { keep[k] = st[k]; st[k] = over[k]; }
+    var n = filtered().length;
+    for (k in keep) st[k] = keep[k];
+    return n;
+  }
+  function recover() {
+    var box = $('[data-ex-recover]'), why = $('[data-ex-why]');
+    if (!box) return;
+    var active = Object.keys(FILTERS).filter(function (k) { return st[k]; });
+    var opts = [];
+    if (st.q && active.length) { var n1 = countWith(FILTERS); if (n1) opts.push(['filters', 'Search all of Columbus for “' + st.q + '” (' + n1 + ')']); }
+    if (st.q) { var n2 = countWith({ q: '' }); if (n2) opts.push(['query', 'Clear the search (' + n2 + ')']); }
+    if (!st.q && active.length) opts.push(['filters', 'Clear all filters']);
+    why.textContent = st.q && !active.length ? 'Nothing in the directory matches “' + st.q + '”. Try a shorter word, or a kind of place like “bakery”.'
+      : st.q ? 'Nothing matches “' + st.q + '” with those filters.' : 'Nothing matches those filters.';
+    box.innerHTML = opts.map(function (o) { return '<button type="button" class="btn btn-sm" data-recover="' + o[0] + '">' + esc(o[1]) + '</button>'; }).join('') +
+      '<a class="btn btn-sm btn-ghost" href="/#cats-h">Browse by category</a>';
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('[data-recover]');
+    if (!b) return;
+    if (b.dataset.recover === 'query') { st.q = ''; q.value = ''; }
+    else { for (var k in FILTERS) st[k] = FILTERS[k]; area.value = ''; ph.checked = op.checked = on.checked = dm.checked = false; st.now = false; }
+    shown = PAGE; render();
+    $('[data-ex-count]').focus && $('[data-ex-count]').setAttribute('tabindex', '-1');
+    $('[data-ex-count]').focus();
+  });
 
   // ---------- Map (Leaflet + OpenStreetMap, loaded on demand) ----------
   var leaflet = null;
@@ -217,7 +254,7 @@
       if (layerOn('l')) (data.landmarks || []).forEach(function (x) {
         if (!x.l || (ids && ids.indexOf('l:' + x.s) === -1)) return;
         pts.push(x.l);
-        var icon = L.divIcon({ className: '', html: '<div class="pin-art"><img src="/art/pin-' + x.art + '.png" alt=""></div>', iconSize: [46, 46], iconAnchor: [23, 40], popupAnchor: [0, -34] });
+        var icon = L.divIcon({ className: '', html: '<div class="pin-art"><img src="/art/pin-' + x.art + '.webp" alt=""></div>', iconSize: [46, 46], iconAnchor: [23, 40], popupAnchor: [0, -34] });
         L.marker(x.l, { icon: icon, title: x.n, zIndexOffset: 800 }).bindPopup('<span class="pop-kind">Landmark</span><a class="pop-name" href="/l/' + x.s + '/">' + esc(x.n) + '</a><small>' + esc(x.d) + '<br>' + esc(x.a) + (x.street ? '<br>Seen from the street, free' : '') + '</small>').addTo(layer);
       });
       if (layerOn('e')) (data.events || []).forEach(function (x) {
@@ -278,7 +315,10 @@
     render();
   });
   $('[data-ex-more]').addEventListener('click', function () { shown += PAGE; render(); });
-  $('[data-ex-toggle]').addEventListener('click', function () { $('[data-ex-side]').classList.toggle('open'); });
+  $('[data-ex-toggle]').addEventListener('click', function () {
+    var open = $('[data-ex-side]').classList.toggle('open');
+    this.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
   if (savedOnly) document.addEventListener('hoc:saved', render);
 
   window.HoCDir().then(function (d) { all = d; render(); });

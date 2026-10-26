@@ -60,12 +60,23 @@
     });
   }
 
+  // The private key arrives in the link's #fragment, which browsers never send
+  // to a server. An older ?k= link still works once. Either way it is moved to
+  // this tab's session storage and wiped from the address bar, then sent as a
+  // header, so it never lands in a log, a referrer or the history.
+  function adminKey() {
+    var h = new URLSearchParams(location.hash.slice(1)).get('k'), q = new URLSearchParams(location.search).get('k');
+    var k = h || q || '';
+    try { if (k) sessionStorage.setItem('hoc-admin', k); else k = sessionStorage.getItem('hoc-admin') || ''; } catch (e) { /* storage off */ }
+    if (h || q) history.replaceState(null, '', location.pathname);
+    return k;
+  }
+
   // ---------- Review page ----------
   var review = $('[data-obit-review]');
   if (review) {
     var status = $('[data-review-status]'), out = $('[data-review-out]');
-    var k = new URLSearchParams(location.search).get('k') || '';
-    fetch('/api/obituary?k=' + encodeURIComponent(k), { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (j) {
+    fetch('/api/obituary', { cache: 'no-store', headers: { 'x-hoc-key': adminKey() } }).then(function (r) { return r.json(); }).then(function (j) {
       if (!j.ok) { status.textContent = j.error || 'Could not load.'; return; }
       status.textContent = j.items.length + (j.items.length === 1 ? ' submission' : ' submissions');
       out.innerHTML = j.items.map(function (n, i) {

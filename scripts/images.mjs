@@ -1,12 +1,16 @@
 // Optimize only local assets at build time; keep source artwork untouched.
 import { readdir, mkdir, writeFile, readFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import sharp from 'sharp';
 
 export async function prepareImages(root, out) {
   const manifest = new Map();
   await mkdir(new URL('assets/images/', out), { recursive: true });
-  const files = (await readdir(new URL('public/', root), { recursive: true }))
+  let files = (await readdir(new URL('public/', root), { recursive: true }))
     .filter((f) => /\.(png|jpe?g|webp)$/i.test(f));
+  // A PNG with a WebP beside it would write the same resized files; pages load the WebP.
+  const have = new Set(files);
+  files = files.filter((f) => !(/\.png$/i.test(f) && have.has(f.replace(/\.png$/i, '.webp'))));
   // Limit simultaneous encoders to keep Netlify builds within memory limits.
   for (let i = 0; i < files.length; i += 4) {
     await Promise.all(files.slice(i, i + 4).map(async (file) => {
@@ -17,8 +21,10 @@ export async function prepareImages(root, out) {
         const buffer = await sharp(input).resize({ width: size, withoutEnlargement: true }).webp({ quality: 80 }).toBuffer();
         // Never make a page download a larger replacement at full resolution.
         if (buffer.length >= input.length && size === width) continue;
-        const url = `/assets/images/${file.replace(/\.[^.]+$/, '').replaceAll('/', '-')}-${size}.webp`;
-        await writeFile(new URL('.' + url, out), buffer);
+        // /assets/ is cached for a year, so the URL carries the content hash.
+        const path = `/assets/images/${file.replace(/\.[^.]+$/, '').replaceAll('/', '-')}-${size}.webp`;
+        await writeFile(new URL('.' + path, out), buffer);
+        const url = `${path}?v=${createHash('sha256').update(buffer).digest('hex').slice(0, 10)}`;
         variants.push({ url, width: size, bytes: buffer.length });
       }
       manifest.set('/' + file, { width, height, variants, bytes: input.length });
