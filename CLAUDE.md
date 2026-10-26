@@ -65,6 +65,14 @@ Indiana. A pitch, not a live service. See README.md.
   `python3 scripts/art-webp.py`; pages point at the `.webp`. The Sentinels app
   icons stay PNG. JS and CSS are cached for a year because every reference
   carries `?v=<hash>`; a test fails on one that doesn't.
+- **Business photos come only from the business.** `src/data/media.mjs` is
+  the manifest; pages read it through `mediaFor()`, which shows nothing for an
+  entry missing `permission`, `checked` or `credit`. Files live in
+  `public/business-media/<slug>/`, are added with `scripts/add-photo.py`, and
+  a file with no entry fails the tests. A photo on a business's own website is
+  not permission, and no page may load a business photo from another server.
+  Every listing without photos invites the owner (`/owners/?b=<slug>&want=photos#claim`).
+  `docs/photo-outreach.md` is who to ask; it holds no image links on purpose.
 - **Tailwind v4** (`src/styles.css`, themes as CSS variables per business).
   Class names built in `public/js` must appear literally so Tailwind finds them.
 - Vanilla JS, no framework. `public/js/core.js` is the shared cart, time-slot

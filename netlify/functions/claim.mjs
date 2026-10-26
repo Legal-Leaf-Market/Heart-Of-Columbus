@@ -17,7 +17,7 @@ export const config = { path: '/api/claim' };
 
 const json = (body, status = 200) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
 const clean = (s, max) => String(s ?? '').replace(/[\u0000-\u001f\u007f]/g, ' ').trim().slice(0, max);
-const WANTS = ['fix', 'link', 'pickup', 'storefront', 'remove'];
+const WANTS = ['fix', 'link', 'pickup', 'storefront', 'photos', 'remove'];
 const escHtml = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
 // The answer to a form sent without its script: a plain page, never a redirect

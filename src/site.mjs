@@ -6,6 +6,7 @@ import { UI as ES, CATEGORY as ES_CAT } from './i18n/es.mjs';
 import { CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, directory } from './data/directory.mjs';
 import { LANDMARKS } from './data/landmarks.mjs';
 import { SPOTLIGHT_SLUGS } from './data/spotlight.mjs';
+import { mediaFor, mediaSrc } from './data/media.mjs';
 
 // Cover art for a business type, only when public/art has one for it;
 // otherwise the card shows its emoji on the pattern.
@@ -129,6 +130,8 @@ export function card(b, { compact = false, note = '' } = {}) {
   const sub = subBySlug[b.sub];
   const area = areaBySlug[b.area];
   const pat = PATTERNS[hash(b.slug) % PATTERNS.length];
+  // The owner's own photo when they have sent one; the illustration otherwise.
+  const photo = mediaFor(b.slug)?.cover;
   const tags = [];
   if (SPOTLIGHT_SLUGS.has(b.slug)) tags.push('<span class="tag tag-spot">★ Spotlight</span>');
   if (b.order.length) tags.push('<span class="tag tag-go">Order online</span>');
@@ -141,7 +144,7 @@ export function card(b, { compact = false, note = '' } = {}) {
   return `
 <article class="bz${compact ? ' bz-compact' : ''}" data-slug="${b.slug}">
   <a class="bz-cover ${pat}" href="/b/${b.slug}/" style="--c:${cat.color};--t:${cat.tint}" tabindex="-1" aria-hidden="true">
-    ${coverArt(b.sub)}
+    ${photo ? `<img class="bz-art" src="${mediaSrc(b.slug, photo)}" width="${photo.width}" height="${photo.height}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : coverArt(b.sub)}
     <span class="bz-emoji">${sub.emoji}</span>
     ${area ? `<span class="bz-area">${svg('pin', 'ic-xs')}${esc(area.label)}</span>` : ''}
   </a>
@@ -179,6 +182,7 @@ const genericType = (b) => b.featured || /, [^,]+ & /.test(b.type);
 export const searchIndex = () =>
   directory.map((b) => ({
     ...(genericType(b) ? { g: 1 } : {}),
+    ...(mediaFor(b.slug)?.cover ? { i: mediaSrc(b.slug, mediaFor(b.slug).cover) } : {}),
     s: b.slug, n: b.name, c: b.cat, u: b.sub, y: b.featured ? subBySlug[b.sub].label : b.type, a: b.address,
     r: b.area, p: b.phone, l: b.ll, d: b.demo ? 1 : 0, h: b.heritage ? 1 : 0, e: subBySlug[b.sub].emoji,
     o: b.order.length ? 1 : 0, k: b.book.length ? 1 : 0, f: b.feed || b.store ? 1 : 0,

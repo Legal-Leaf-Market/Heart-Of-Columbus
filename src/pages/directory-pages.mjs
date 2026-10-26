@@ -3,7 +3,7 @@ import { page, esc, t } from '../layout.mjs';
 import { directory, CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, km } from '../data/directory.mjs';
 import { header, footer, card, rail, svg, PHOTOS, artIcon, coverArt, tel, mapsLink, breadcrumbs } from '../site.mjs';
 import { fmtRange, DAY_NAMES } from '../hours.mjs';
-import { MEDIA } from '../data/media.mjs';
+import { MEDIA as MEDIA_ALL, mediaFor, mediaSrc } from '../data/media.mjs';
 import { LANDMARKS } from '../data/landmarks.mjs';
 import { EVENTS } from '../data/events.mjs';
 import { dateRange } from './events.mjs';
@@ -136,7 +136,7 @@ function bizPage(b, { assets }) {
   const cat = catBySlug[b.cat];
   const sub = subBySlug[b.sub];
   const area = areaBySlug[b.area];
-  const media = MEDIA[b.slug];
+  const media = mediaFor(b.slug);
   const near = b.ll
     ? directory.filter((x) => x.slug !== b.slug && x.ll).map((x) => [km(b.ll, x.ll), x]).sort((a, c) => a[0] - c[0]).slice(0, 12).map((x) => x[1])
     : [];
@@ -151,9 +151,9 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
     <div class="biz-cover pat-arch" style="--c:${cat.color};--t:${cat.tint}">
       ${coverArt(b.sub, false)}
       <span class="biz-emoji" aria-hidden="true">${sub.emoji}</span>
-      ${media?.cover ? `<img class="biz-photo" src="/business-media/${b.slug}/${media.cover.file}" width="${media.cover.width}" height="${media.cover.height}" alt="${esc(media.cover.alt)}" loading="lazy" decoding="async" onerror="this.remove()">` : ''}
+      ${media?.cover ? `<img class="biz-photo" src="${mediaSrc(b.slug, media.cover)}" width="${media.cover.width}" height="${media.cover.height}" alt="${esc(media.cover.alt)}" loading="lazy" decoding="async" onerror="this.remove()">` : ''}
     </div>
-    ${media?.cover ? `<p class="fine biz-credit">${esc(media.credit)}, shown with permission.</p>` : ''}
+    ${media ? `<p class="fine biz-credit">${esc(media.credit)}, shown with permission.</p>` : `<p class="fine biz-credit">Own ${t(b.name)}? <a href="/owners/?b=${b.slug}&amp;want=photos#claim">Send us photos</a> and we will show them here with your credit. We never copy them from your website.</p>`}
     <div class="biz-head">
       <p class="kicker"><a href="/c/${cat.slug}/${cat.subs.length > 1 ? sub.slug + '/' : ''}">${esc(sub.label)}</a>${area ? ` · <a href="/n/${area.slug}/">${esc(area.label)}</a>` : ''}</p>
       <h1>${t(b.name)}</h1>
@@ -195,6 +195,12 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
     <p class="fine">Details come from public listings (Chamber directory, Visit Columbus, Google Maps) and may change. Call ahead. Heart of Columbus is not affiliated with this business.</p>
   </aside>
 </section>
+${media && (media.logo || (media.gallery || []).length) ? `
+<section class="wrap biz-gallery" aria-label="Photos from ${t(b.name)}">
+  ${media.logo ? `<img class="biz-logo" src="${mediaSrc(b.slug, media.logo)}" width="${media.logo.width}" height="${media.logo.height}" alt="${esc(media.logo.alt)}" loading="lazy" decoding="async">` : ''}
+  ${(media.gallery || []).map((f) => `<figure><img src="${mediaSrc(b.slug, f)}" width="${f.width}" height="${f.height}" alt="${esc(f.alt)}" loading="lazy" decoding="async"></figure>`).join('')}
+  <p class="fine">${esc(media.credit)}, shown with permission.</p>
+</section>` : ''}
 ${ownersPicks(b)}
 ${b.feed ? `<section class="wrap shop-sec" id="shop"><p class="kicker">Live from their store</p><h2>Shop ${t(b.name)} online</h2>
   <p class="sub">Their real products and prices, read from their own online store. Add to your cart here, then check out on their site with everything already in the cart. Choose pickup there if they offer it.</p>
@@ -300,6 +306,8 @@ ${header()}
   <div class="credits">${Object.values(PHOTOS)
     .map((p) => `<figure><img src="${p.src}" alt="${esc(p.title)}" loading="lazy"><figcaption><strong>${esc(p.title)}</strong> (${esc(p.note)})<br>Photo: ${esc(p.credit)}. License: ${esc(p.license)}. <a href="${p.page}" target="_blank" rel="noopener">Source</a></figcaption></figure>`)
     .join('')}</div>
+  <h2>Business photos</h2>
+  ${Object.keys(MEDIA_ALL).filter((s) => mediaFor(s)).length ? `<p>Photos of a listed business come only from that business, shown with its permission and the credit it asked for.</p><ul>${Object.keys(MEDIA_ALL).filter((s) => mediaFor(s)).map((s) => `<li><a href="/b/${s}/">${t(directory.find((b) => b.slug === s)?.name || s)}</a>: ${esc(mediaFor(s).credit)}. Permission: ${esc(mediaFor(s).permission)}, checked ${esc(mediaFor(s).checked)}.</li>`).join('')}</ul>` : '<p>None yet. Photos of a listed business come only from that business, with its permission. Until an owner sends some, each listing shows our own illustration.</p>'}
   <p>Business details come from the Columbus Area Chamber of Commerce member directory, Visit Columbus Indiana listings and Google Maps, gathered October 2026. Map tiles on the explore page are from OpenStreetMap contributors.</p>
 </main>
 ${footer()}`;

@@ -938,3 +938,10 @@ section { scroll-margin-top: 130px; }
 .cal-stage-links { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; padding-top: 12px !important; padding-bottom: 16px !important; font-size: 14px; font-weight: 700; }
 .cal-stage-links a:not(.see-all) { text-decoration: underline; text-underline-offset: 3px; }
 .cal-stage .see-all { border-color: var(--accent); color: var(--accent); }
+
+/* Owner-approved business photos (src/data/media.mjs) */
+.biz-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; align-items: start; margin-top: 24px; }
+.biz-gallery figure { margin: 0; border: 2px solid var(--ink); border-radius: var(--r); overflow: hidden; }
+.biz-gallery figure img { display: block; width: 100%; height: auto; }
+.biz-gallery .biz-logo { max-width: 160px; height: auto; align-self: center; }
+.biz-gallery .fine { grid-column: 1 / -1; }

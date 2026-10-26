@@ -3,7 +3,7 @@
   'use strict';
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
-  var WANT = { fix: 'Fix listing', link: 'Link ordering', pickup: 'Pickup orders', storefront: 'Storefront', remove: 'REMOVE' };
+  var WANT = { fix: 'Fix listing', link: 'Link ordering', pickup: 'Pickup orders', storefront: 'Storefront', photos: 'Photos', remove: 'REMOVE' };
 
   // The private key arrives in the link's #fragment, which browsers never send
   // to a server. An older ?k= link still works once. Either way it is moved to
@@ -27,6 +27,10 @@
       form.slug.value = b.s;
       pick.innerHTML = '<span class="ow-chosen">' + esc(b.n) + (b.a ? ' · ' + esc(b.a) : '') + '</span>';
     }
+    // A link like /owners/?b=<slug>&want=photos#claim ticks that box for them.
+    var want = new URLSearchParams(location.search).get('want');
+    var box = want && form.querySelector('[name=wants][value="' + want.replace(/[^a-z]/g, '') + '"]');
+    if (box) box.checked = true;
     if (window.HoCDir) window.HoCDir().then(function (d) {
       all = d;
       var pre = new URLSearchParams(location.search).get('b');

@@ -11,6 +11,7 @@ const TIERS = [
   ['link', '🔗', 'Link your own ordering or booking', 'Already on Toast, Square, Vagaro, Booksy, Shopify? Your "Order online" or "Book online" button goes straight there. We take nothing.'],
   ['pickup', '🛍️', 'Take pickup orders here', 'No ordering system yet? Customers send their order through Heart of Columbus, you get it on a live counter board on any phone or tablet, they pay you at pickup.'],
   ['storefront', '🏪', 'Get a full storefront', 'A site that looks like your place, with your real menu or services, like Jill’s Diner.'],
+  ['photos', '📷', 'Send us your photos', 'Your storefront, your food, your team, your logo. We show them on your listing with your credit, and never copy them from your website without asking.'],
 ];
 
 function ownersPage({ assets }) {
