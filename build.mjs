@@ -22,7 +22,7 @@ import { calendarPages } from './src/pages/calendar-pages.mjs';
 import { paperPages } from './src/pages/paper-pages.mjs';
 import { sportsPages } from './src/pages/sports-pages.mjs';
 import { searchIndex } from './src/site.mjs';
-import { LAUNCH, indexable, ROBOTS_META, headersFile, robotsTxt } from './src/indexing.mjs';
+import { LAUNCH, indexable, ROBOTS_META, headersFile, robotsTxt, urlPath } from './src/indexing.mjs';
 
 const root = new URL('./', import.meta.url);
 const out = new URL('dist/', root);
@@ -72,6 +72,10 @@ for (const p of pages) {
   if (!p.path.endsWith('.html')) continue;
   if (!p.html.includes('<!--robots-->')) { console.error('No robots marker in ' + p.path); process.exit(1); }
   p.html = p.html.replace('<!--robots-->', indexable(p.path) ? '' : ROBOTS_META);
+  // Every page names itself, absolutely, from the one origin. Query strings
+  // (list or map view, a search) are views of this same page.
+  const self = ORIGIN + urlPath(p.path);
+  p.html = p.html.replace('<!--canonical-->', p.path.startsWith('404') ? '' : `<link rel="canonical" href="${self}">\n<meta property="og:url" content="${self}">`);
 }
 await writeFile(new URL('_headers', out), headersFile());
 await writeFile(new URL('robots.txt', out), robotsTxt(ORIGIN));

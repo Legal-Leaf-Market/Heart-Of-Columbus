@@ -1,3 +1,4 @@
+import { ORIGIN } from './jsonld.mjs';
 // The HTML shell every page shares.
 
 export const esc = (v) =>
@@ -34,8 +35,13 @@ export function page({ title, description, theme = '', body, scripts = [], style
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:type" content="website">
-<meta property="og:image" content="/og.png">
-${alternates.map(([l, href]) => `<link rel="alternate" hreflang="${l}" href="${href}">`).join('\n')}
+<!--canonical-->
+<meta property="og:image" content="${ORIGIN}/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Heart of Columbus: local businesses in Columbus, Indiana">
+<meta name="twitter:card" content="summary_large_image">
+${alternates.map(([l, href]) => `<link rel="alternate" hreflang="${l}" href="${href.startsWith('/') ? ORIGIN + href : href}">`).join('\n')}
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 ${head}
 <link rel="stylesheet" href="/assets/app.css?v=${assets.css}">

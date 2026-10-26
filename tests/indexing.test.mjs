@@ -63,3 +63,17 @@ test('every demo storefront the build makes is on the never-index list', async (
   const { neverIndexed } = await import('../src/indexing.mjs');
   for (const p of pages) assert.ok(neverIndexed(`${p.slug}/index.html`), p.slug);
 });
+
+test('every page names itself with one absolute canonical, and share tags are absolute', async () => {
+  const { ORIGIN } = await import('../src/jsonld.mjs');
+  for (const f of htmlFiles(dist)) {
+    const h = readFileSync(f, 'utf8');
+    const rel = f.slice(dist.length);
+    const can = [...h.matchAll(/<link rel="canonical" href="([^"]+)">/g)].map((m) => m[1]);
+    if (rel === '404.html') { assert.equal(can.length, 0); continue; }
+    assert.deepEqual(can, [ORIGIN + '/' + rel.replace(/index\.html$/, '')], rel);
+    assert.ok(h.includes(`<meta property="og:url" content="${can[0]}">`), rel);
+    assert.doesNotMatch(h, /og:image" content="\//, rel);
+    assert.doesNotMatch(h, /hreflang="[a-z]+" href="\//, rel);
+  }
+});
