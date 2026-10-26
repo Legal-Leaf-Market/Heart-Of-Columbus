@@ -8,14 +8,13 @@ import { landmarkBySlug } from '../src/data/landmarks.mjs';
 const dist = (p) => new URL(`../dist/${p}`, import.meta.url);
 const text = (a) => [a.title, a.dek, a.when, a.byline, a.note || '', ...a.body, ...a.sources.map(([l]) => l)];
 
-// Decades land in batches, oldest first; each one lands whole.
-const LANDED = DECADES.filter((d) => d.items.length);
+// Every decade has landed: ten articles each, 100 in all.
+const LANDED = DECADES;
 
 test('ten articles in each decade, 1930s to 2020s', () => {
   assert.deepEqual(DECADES.map((d) => d.slug), ['1930s', '1940s', '1950s', '1960s', '1970s', '1980s', '1990s', '2000s', '2010s', '2020s']);
-  assert.ok(LANDED.length >= 5);
-  assert.deepEqual(LANDED, DECADES.slice(0, LANDED.length), 'decades land oldest first');
-  for (const d of LANDED) assert.equal(d.items.length, 10, d.slug);
+  for (const d of DECADES) assert.equal(d.items.length, 10, d.slug);
+  assert.equal(DECADES.reduce((n, d) => n + d.items.length, 0), 100);
 });
 
 test('every article is complete and every history article cites at least two sources', () => {
