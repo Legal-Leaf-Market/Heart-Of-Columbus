@@ -103,3 +103,19 @@ The build fails if an em dash shows up anywhere a person reads.
 5. For a full storefront: reuse Jill's Diner (`Legal-Leaf-Market/jills-diner`),
    which takes real orders through a Netlify Function, Supabase and a staff
    tablet.
+
+## SEO readiness
+
+The preview remains noindex in both HTML and Netlify response headers.
+The build generates absolute canonical and social URLs from each output path
+and a robots.txt that allows crawlers to read those noindex directives.
+`HOC_ORIGIN` overrides the canonical HTTP(S) origin (no path or query).
+`HOC_SITEMAP=1` emits a sitemap and advertises it in robots.txt only when there
+are indexable pages; it does not remove preview protection. See
+[the SEO audit and launch sequence](docs/seo-audit-2026-10-26.md).
+
+The build uses Sharp to generate responsive WebP variants of local raster
+assets and adds measured image dimensions to static pages. Source artwork is
+preserved. Generated images and their size manifest live in
+`dist/assets/images/`; do not commit dist. The tests cover image candidates,
+canonical URLs, reciprocal language alternates and homepage size budgets.

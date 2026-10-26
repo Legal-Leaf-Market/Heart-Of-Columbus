@@ -8,7 +8,8 @@ Indiana. A pitch, not a live service. See README.md.
 - **No visible dashes anywhere a person reads** (repo owner's directive): no em
   dash, no en dash (write ranges as "9 AM to 5 PM"), no spaced hyphen. Listed
   names with " - " show it as a comma. Hyphens inside words and phone numbers
-  are fine. The build fails on any of these in a page's visible text.
+  are fine. The build fails on any of these in a page's visible text. Imported
+  event titles are cleaned the same way (`noDash` in `src/event-feeds.mjs`).
 - **Never invent facts about a real business.** Addresses, phones, hours and
   prices come from public listings and are noted at the top of each page file.
   Anything unverified is shown with the `sample` tag. No made-up reviews,
@@ -29,15 +30,31 @@ Indiana. A pitch, not a live service. See README.md.
   `/b/<slug>/` one page per business, `/explore/`, `/saved/`, `/order/`,
   `/visit/` (facts in `src/data/visit.mjs`, each with `source` and `checked`), `/free/` (`src/data/free.mjs`, same rule), `/holidays/` (Small Business Saturday,
   gift cards on each business's own page via `gift` in commerce.mjs),
+  `/help/` (self-service resource center, `src/data/help.mjs`, every entry with
+  `source` and `checked`; `/help/card/` prints ten QR wallet cards; stories in
+  `src/data/help-stories.mjs` stay drafts until a person signs off),
   `/film/` (the Columbus (2017) film trail, `src/data/film.mjs`: landmarks a
   cited source places in the film, nothing else),
+  `/architecture/`, `/arts/` and `/cummins/` (guides from `src/data/architecture.mjs`,
+  `arts.mjs`, `cummins.mjs`; every line sourced, public art only on public ground;
+  Cummins is not affiliated),
   `/l/<slug>/` one page per landmark (`src/data/landmarks.mjs`; `PHOTOS` in
   `src/site.mjs` is a view over it). Events are hand-entered in
   `src/data/events.mjs` (signature events only, each with its official page);
   `public/js/events.js` picks what shows at load time, and the build writes
   `/events.ics`. Trip ideas (`/trips/<slug>/`) come from `src/data/trips.mjs`;
   their reasons are computed from data, and a test fails if a stop is not open
-  for its whole slot. The explore map has layers (businesses, landmarks with
+  for its whole slot. Local events (`/events/`, `/events/print/`) merge the
+  library (Communico JSON) and parks (Tockify iCalendar) feeds live through
+  `/api/events` (`netlify/functions/events.mjs`, CDN cached an hour; json,
+  ics, csv and AP-style txt) with hand-entered `LISTINGS` for calendars
+  with no feed (Arts Council, county fair, The Garage). Live music and
+  arts (concerts, open mics, comedy, poetry) is a filter (`live`, `isLive`)
+  plus `STAGES`: venues that post lineups only on social media are listed
+  without dates until a date is seen on their own page. `SOURCES` in events.mjs lists
+  them; parsing and exports live in `src/event-feeds.mjs`. Only title,
+  time, place and ages are kept, never descriptions, and every item links
+  to its organizer. The explore map has layers (businesses, landmarks with
   `public/art/pin-*.png`, this weekend's events, Social District) and a
   "near me now" mode at `/explore/?view=map&now=1`.
   Directory pages use plain CSS in `public/css/hoc.css`, not Tailwind.
@@ -70,6 +87,15 @@ Indiana. A pitch, not a live service. See README.md.
   the function returns 503 and the storefronts fall back to the local
   confirmation. Commission is `COMMISSION` in partners.mjs, 0 while the site
   says "no commission".
+- **Newspaper sections.** `/markets/` shows delayed quotes for the Indiana
+  companies in `src/data/markets.mjs` (8 symbols max, one Twelve Data call)
+  through `/api/markets`; the key is `HOC_QUOTES_KEY` (env only) and the
+  "Data provided by Twelve Data" line stays next to the table. `/obituaries/`
+  links the funeral homes' own listings (`src/data/obituaries.mjs`) and takes
+  family submissions at `/api/obituary`, reviewed at
+  `/obituaries/review/?k=<HOC_ADMIN_KEY>`. We never write, generate or copy
+  an obituary; one goes in `PUBLISHED` only with a `confirmed` date. Both
+  pages print cleanly (`public/css/paper.css`).
 - Landmark photos are Wikimedia Commons, credited on `/credits/`. They show
   Columbus, never a listed business. Art in `public/art/` is ours.
 

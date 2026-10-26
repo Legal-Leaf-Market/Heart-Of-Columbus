@@ -12,7 +12,7 @@ import { SPOTLIGHT_SLUGS } from './data/spotlight.mjs';
 export const hasCover = (sub) => existsSync(new URL(`../public/art/cover-${sub}.png`, import.meta.url));
 export const coverArt = (sub, lazy = true) =>
   hasCover(sub)
-    ? `<img class="bz-art" src="/art/cover-${sub}.png" alt=""${lazy ? ' loading="lazy"' : ''}>`
+    ? `<img class="bz-art" width="1600" height="700" decoding="async" src="/art/cover-${sub}.png" alt=""${lazy ? ' loading="lazy"' : ''}>`
     : '';
 
 // Architecture photography from Wikimedia Commons, hotlinked with credit.
@@ -59,9 +59,10 @@ export const mapsLink = (b) =>
 // language, shown as a switcher link.
 export function header(active = '', { lang = 'en', alt = '' } = {}) {
   const es = lang === 'es';
-  const L = es ? ES.nav : { visit: 'Visit', explore: 'Explore', order: 'Order & book', map: 'Map', areas: 'Neighborhoods', saved: 'Saved' };
+  const L = es ? ES.nav : { visit: 'Visit', events: 'Events', explore: 'Explore', order: 'Order & book', map: 'Map', areas: 'Neighborhoods', saved: 'Saved' };
   const nav = [
     ['visit', es ? '/es/visit/' : '/visit/', L.visit],
+    ['events', '/events/', L.events],
     ['explore', '/explore/', L.explore],
     ['order', '/order/', L.order],
     ['map', '/explore/?view=map', L.map],
@@ -90,12 +91,12 @@ export function header(active = '', { lang = 'en', alt = '' } = {}) {
 
 // Category art from /art/ when it exists, with the emoji as the fallback.
 export const artIcon = (slug, emoji, cls) =>
-  `<span class="${cls}" aria-hidden="true"><img src="/art/cat-${slug}.png" alt="" loading="lazy" onerror="this.remove()"><i>${emoji}</i></span>`;
+  `<span class="${cls}" aria-hidden="true"><img width="512" height="512" decoding="async" src="/art/cat-${slug}.png" alt="" loading="lazy" onerror="this.remove()"><i>${emoji}</i></span>`;
 
 export function footer({ lang = 'en' } = {}) {
   const es = lang === 'es';
   const cat = (c) => esc(es ? ES_CAT[c.slug] : c.label);
-  const k = es ? ES.links : { visit: 'Plan your visit', free: 'Free in Columbus', film: 'The Columbus film trail', skate: 'The skate park', holidays: 'Shop small for the holidays', credits: 'Photo credits', claim: 'Claim your listing', pickup: 'Take pickup orders', direct: 'Order, book and shop direct' };
+  const k = es ? ES.links : { visit: 'Plan your visit', events: 'Local events', free: 'Free in Columbus', film: 'The Columbus film trail', architecture: 'Architecture', arts: 'Public art', cummins: 'Cummins and Columbus', holidays: 'Shop small for the holidays', djs: 'Columbus DJs', credits: 'Photo credits', markets: 'Markets', obituaries: 'Obituaries', sports: 'Sports', history: 'Columbus history', skate: 'The skate park', claim: 'Claim your listing', pickup: 'Take pickup orders', direct: 'Order, book and shop direct' };
   return `
 <footer class="ftr">
   <div class="wrap ftr-grid">
@@ -105,8 +106,8 @@ export function footer({ lang = 'en' } = {}) {
       <p class="ftr-small">${es ? ES.footerSmall : 'A concept preview. Details come from public listings and may change; call ahead. Not affiliated with the businesses listed.'}</p>
     </div>
     <div><h3>${es ? ES.browse : 'Browse'}</h3>${CATEGORIES.slice(0, 8).map((c) => `<a href="/c/${c.slug}/">${cat(c)}</a>`).join('')}</div>
-    <div><h3>${es ? ES.more : 'More'}</h3>${CATEGORIES.slice(8).map((c) => `<a href="/c/${c.slug}/">${cat(c)}</a>`).join('')}</div>
-    <div><h3>${es ? ES.aroundTown : 'Around town'}</h3>${AREAS.slice(0, 7).map((a) => `<a href="/n/${a.slug}/">${esc(a.label)}</a>`).join('')}<a href="${es ? '/es/visit/' : '/visit/'}">${k.visit}</a><a href="${es ? '/es/free/' : '/free/'}">${k.free}</a><a href="${es ? '/es/film/' : '/film/'}">${k.film}</a><a href="${es ? '/es/skate/' : '/skate/'}">${k.skate}</a><a href="${es ? '/es/holidays/' : '/holidays/'}">${k.holidays}</a><a href="/credits/">${k.credits}</a></div>
+    <div><h3>${es ? ES.more : 'More'}</h3>${CATEGORIES.slice(8).map((c) => `<a href="/c/${c.slug}/">${cat(c)}</a>`).join('')}<a href="/djs/">${k.djs}</a></div>
+    <div><h3>${es ? ES.aroundTown : 'Around town'}</h3>${AREAS.slice(0, 7).map((a) => `<a href="/n/${a.slug}/">${esc(a.label)}</a>`).join('')}<a href="${es ? '/es/visit/' : '/visit/'}">${k.visit}</a><a href="/events/">${k.events}</a><a href="${es ? '/es/free/' : '/free/'}">${k.free}</a><a href="${es ? '/es/film/' : '/film/'}">${k.film}</a><a href="${es ? '/es/skate/' : '/skate/'}">${k.skate}</a><a href="/architecture/">${k.architecture}</a><a href="/arts/">${k.arts}</a><a href="/cummins/">${k.cummins}</a><a href="${es ? '/es/holidays/' : '/holidays/'}">${k.holidays}</a><a href="/markets/">${k.markets}</a><a href="/obituaries/">${k.obituaries}</a><a href="/sports/">${k.sports}</a><a href="/history/">${k.history}</a><a href="/help/">${es ? 'Ayuda en Columbus (en inglés)' : 'Get help in Columbus'}</a><a href="/credits/">${k.credits}</a></div>
     <div><h3>${es ? ES.owners : 'Owners'}</h3><a href="/owners/">${k.claim}</a><a href="/owners/#claim">${k.pickup}</a><a href="/order/">${k.direct}</a></div>
   </div>
 </footer>`;
