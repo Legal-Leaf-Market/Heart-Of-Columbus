@@ -36,6 +36,9 @@ export const SECTIONS = [
   { slug: 'obituaries', name: 'Obituaries', blurb: 'Submitted by families and funeral homes.', href: '/obituaries/' },
   { slug: 'history', name: 'History', blurb: 'Columbus from the 1930s to now, ten sourced stories a decade, plus the town’s newspapers and Brian Blair’s faith beat.', href: '/history/' },
   { slug: 'opinion', name: 'Opinion', blurb: 'Editorials, columns and letters from readers, always labeled.', links: [['/letters/', 'Write a letter to the editor']] },
+  // The live events calendar (library, parks, fairgrounds, Arts Council, live
+  // music), built by src/pages/calendar-pages.mjs.
+  { slug: 'events', name: 'Events', blurb: 'Library, parks, fairgrounds, Arts Council and live music listings, each linked to its organizer.', href: '/events/' },
 ];
 
 export const sectionBySlug = Object.fromEntries(SECTIONS.map((s) => [s.slug, s]));
