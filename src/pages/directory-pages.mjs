@@ -10,6 +10,8 @@ import { dateRange } from './events.mjs';
 import { businessLd } from '../jsonld.mjs';
 import { spotlightSection, ownersPicks } from './spotlight.mjs';
 import { SPOTLIGHT_SLUGS } from '../data/spotlight.mjs';
+import { storiesTagged } from '../news/content.mjs';
+import { storyList } from '../news/render.mjs';
 
 // Weekly hours table, Monday first, with today highlighted by site.js.
 const hoursTable = (rows) => {
@@ -119,6 +121,11 @@ ${footer()}`;
   return page({ title: `${area.label}, Columbus, Indiana | Heart of Columbus`, description: `${items.length} independent businesses in ${area.label}, Columbus, Indiana.`, body, scripts: ['site.js', 'hub.js'], styles, assets });
 }
 
+// Stories tagged with this business, newest first (content/stories/).
+export const inTheNews = (b, items = storiesTagged(b.slug).slice(0, 6)) => {
+  return items.length ? `<section class="wrap np-in-news" id="in-the-news"><p class="kicker">In the news</p><h2>Stories about ${t(b.name)}</h2>${storyList(items, { size: 'line' })}</section>` : '';
+};
+
 function bizPage(b, { assets }) {
   const cat = catBySlug[b.cat];
   const sub = subBySlug[b.sub];
@@ -182,6 +189,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
     <p class="fine">Details come from public listings (Chamber directory, Visit Columbus, Google Maps) and may change. Call ahead. Heart of Columbus is not affiliated with this business.</p>
   </aside>
 </section>
+${inTheNews(b)}
 ${ownersPicks(b)}
 ${b.feed ? `<section class="wrap shop-sec" id="shop"><p class="kicker">Live from their store</p><h2>Shop ${t(b.name)} online</h2>
   <p class="sub">Their real products and prices, read from their own online store. Add to your cart here, then check out on their site with everything already in the cart. Choose pickup there if they offer it.</p>

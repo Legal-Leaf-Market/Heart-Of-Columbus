@@ -898,3 +898,10 @@ section { scroll-margin-top: 130px; }
 .np-empty { color: var(--muted); font-style: italic; }
 .np-prose ul, .np-trust ul, .np-corr ul, .np-dev ul, .np-list, .np-doc ul:not(.np-corr-log) { list-style: disc; padding-left: 22px; }
 .np-prose ol { list-style: decimal; padding-left: 24px; }
+.np-tagged { max-width: 1100px; padding-bottom: 48px; }
+.np-tagged h2, .np-in-news h2 { font-size: 26px; margin-bottom: 14px; }
+.np-tagged .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.np-tagged-row { display: grid; grid-template-columns: 1fr; gap: 18px; }
+@media (min-width: 900px) { .np-tagged-row:has(.np-map):has(.np-tagged-grid) { grid-template-columns: 2fr 1fr; } }
+.np-map { width: 100%; min-height: 260px; border: 2px solid var(--ink); border-radius: 14px; }
+.np-in-news { padding-top: 28px; padding-bottom: 12px; }

@@ -8,6 +8,34 @@ import { ALL_STORIES, SAMPLES, stories, storiesIn, storiesBy, correctionsLog } f
 import { SECTIONS, sectionBySlug, sectionHref } from '../news/sections.mjs';
 import { disclosures } from '../news/disclosure.mjs';
 import { storyList, label, byline, editorLine, fmtWhen, fmtDate } from '../news/render.mjs';
+import { card, svg } from '../site.mjs';
+import { directory, areaBySlug } from '../data/directory.mjs';
+import { landmarkBySlug } from '../data/landmarks.mjs';
+import { newsArticleLd } from '../jsonld.mjs';
+import { person } from '../data/staff.mjs';
+import { PAPER } from '../data/paper.mjs';
+
+const bizBySlug = Object.fromEntries(directory.map((b) => [b.slug, b]));
+
+// Everything a story tags that has a page here: business cards, landmark and
+// neighborhood links, and a small map of the first place with an address.
+export function inThisStory(s) {
+  const biz = s.tags.map((t) => bizBySlug[t]).filter(Boolean);
+  const lms = s.tags.map((t) => landmarkBySlug[t]).filter(Boolean);
+  const areas = s.tags.map((t) => areaBySlug[t]).filter(Boolean);
+  if (!biz.length && !lms.length && !areas.length) return '';
+  const where = biz.find((b) => b.address) || lms[0];
+  const q = where && encodeURIComponent(`${where.name}, ${where.address ? where.address + ', ' : ''}Columbus, IN`);
+  return `
+<section class="wrap np-tagged" aria-labelledby="in-story-h">
+  <h2 id="in-story-h">In this story</h2>
+  ${lms.length || areas.length ? `<p class="chips">${lms.map((l) => `<a class="pill" href="/l/${l.slug}/">${svg('pin', 'ic-sm')} ${esc(l.name)}</a>`).join('')}${areas.map((a) => `<a class="pill" href="/n/${a.slug}/">${esc(a.label)}</a>`).join('')}</p>` : ''}
+  <div class="np-tagged-row">
+    ${biz.length ? `<div class="grid np-tagged-grid">${biz.map((b) => card(b)).join('')}</div>` : ''}
+    ${where ? `<iframe class="np-map" title="Map of ${esc(where.name)}" loading="lazy" src="https://www.google.com/maps?q=${q}&amp;output=embed" referrerpolicy="no-referrer-when-downgrade"></iframe>` : ''}
+  </div>
+</section>`;
+}
 
 setBarLinks(() => SECTIONS.filter((s) => s.bar !== false).map((s) => [sectionHref(s), s.name]));
 
@@ -52,7 +80,8 @@ function storyPage(ctx, s) {
   return newsPage({
     ...ctx, path: s.href, title: s.headline, description: s.dek || s.headline, banner,
     crumbs: [['/news/', 'News'], [sectionHref(sec), sec.name], ['', s.headline]],
-    body: storyBody(s),
+    body: storyBody(s) + inThisStory(s),
+    ld: s.sample || s.draft ? [] : [newsArticleLd({ ...s, sectionName: sec.name }, { people: s.bylines.map((b) => person(b)), paper: PAPER })],
   });
 }
 

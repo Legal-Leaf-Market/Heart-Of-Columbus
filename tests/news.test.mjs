@@ -148,3 +148,33 @@ test('the CMS offers exactly the labels, sections and staff the build accepts', 
   assert.match(yml, /publish_mode: editorial_workflow/);
   assert.match(read('admin/index.html'), /noindex/);
 });
+
+// ---------- The story template (item 5) ----------
+import { newsArticleLd } from '../src/jsonld.mjs';
+import { inThisStory } from '../src/pages/news-pages.mjs';
+import { inTheNews } from '../src/pages/directory-pages.mjs';
+import { directory } from '../src/data/directory.mjs';
+import { person } from '../src/data/staff.mjs';
+
+// Built in memory only: a made-up story tagged with a real slug, to check the
+// wiring. It is never written to content/ or dist/.
+const biz = directory.find((b) => b.address);
+const fake = { ...good, slug: 'wiring-check', href: '/news/2026/11/wiring-check/', tags: [biz.slug, 'downtown'], images: [{ file: '/og.png', crops: ['/a-16x9.jpg'], alt: 'A', credit: 'C', license: 'L' }] };
+
+test('NewsArticle JSON-LD has authors with links, offset times and image crops', () => {
+  const ld = newsArticleLd({ ...fake, bylines: ['jacob-kennedy'], sectionName: 'Local' }, { people: [person('jacob-kennedy')], paper: PAPER });
+  assert.equal(ld['@type'], 'NewsArticle');
+  assert.deepEqual(ld.author, [{ '@type': 'Person', name: 'Jacob Kennedy', url: ld.author[0].url }]);
+  assert.match(ld.author[0].url, /\/staff\/jacob-kennedy\/$/);
+  assert.match(ld.datePublished, /-05:00$/);
+  assert.equal(ld.dateModified, ld.datePublished);
+  assert.equal(ld.image.length, 2);
+  assert.equal(newsArticleLd({ ...fake, label: 'Opinion' }, { people: [], paper: PAPER })['@type'], 'OpinionNewsArticle');
+});
+
+test('a story shows cards for the businesses it tags, and the business shows the story', () => {
+  const html = inThisStory(fake);
+  assert.ok(html.includes(`data-slug="${biz.slug}"`) && html.includes('href="/n/downtown/"') && html.includes('np-map'));
+  assert.ok(inTheNews(biz, [fake]).includes('href="/news/2026/11/wiring-check/"'));
+  assert.equal(inTheNews(biz, []), '');
+});

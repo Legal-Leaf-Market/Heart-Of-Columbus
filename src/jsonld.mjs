@@ -65,3 +65,20 @@ export const breadcrumbLd = (items) => ({
   '@context': 'https://schema.org', '@type': 'BreadcrumbList',
   itemListElement: items.map(([href, n], i) => ({ '@type': 'ListItem', position: i + 1, name: n, ...(href ? { item: abs(href) } : {}) })),
 });
+
+// A story: NewsArticle, or OpinionNewsArticle for opinion. One author entry
+// per byline with a link to the bio, times with their offset, and the photo
+// crops Google asks for (16x9, 4x3, 1x1) when the story lists them.
+export function newsArticleLd(s, { people, paper }) {
+  const img = s.images?.[0];
+  const images = img ? [...new Set([...(img.crops || []), img.file])].map(abs) : [];
+  return {
+    '@context': 'https://schema.org', '@type': s.label === 'Opinion' ? 'OpinionNewsArticle' : 'NewsArticle',
+    headline: s.headline, ...(s.dek ? { description: s.dek } : {}), url: abs(s.href), mainEntityOfPage: abs(s.href),
+    datePublished: s.published, dateModified: s.updated || s.published,
+    author: people.map((p) => ({ '@type': 'Person', name: p.name, url: abs(`/staff/${p.slug}/`) })),
+    ...(images.length ? { image: images } : {}),
+    articleSection: s.sectionName, isAccessibleForFree: true,
+    publisher: { '@type': 'NewsMediaOrganization', name: paper.name, url: abs('/news/'), logo: { '@type': 'ImageObject', url: abs('/og.png') } },
+  };
+}
