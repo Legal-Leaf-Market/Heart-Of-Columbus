@@ -105,7 +105,7 @@ export function footer({ lang = 'en' } = {}) {
     </div>
     <div><h3>${es ? ES.browse : 'Browse'}</h3>${CATEGORIES.slice(0, 8).map((c) => `<a href="/c/${c.slug}/">${cat(c)}</a>`).join('')}</div>
     <div><h3>${es ? ES.more : 'More'}</h3>${CATEGORIES.slice(8).map((c) => `<a href="/c/${c.slug}/">${cat(c)}</a>`).join('')}</div>
-    <div><h3>${es ? ES.aroundTown : 'Around town'}</h3>${AREAS.slice(0, 7).map((a) => `<a href="/n/${a.slug}/">${esc(a.label)}</a>`).join('')}<a href="${es ? '/es/visit/' : '/visit/'}">${k.visit}</a><a href="/free/">${k.free}</a><a href="/holidays/">${k.holidays}</a><a href="/credits/">${k.credits}</a></div>
+    <div><h3>${es ? ES.aroundTown : 'Around town'}</h3>${AREAS.slice(0, 7).map((a) => `<a href="/n/${a.slug}/">${esc(a.label)}</a>`).join('')}<a href="${es ? '/es/visit/' : '/visit/'}">${k.visit}</a><a href="${es ? '/es/free/' : '/free/'}">${k.free}</a><a href="/holidays/">${k.holidays}</a><a href="/credits/">${k.credits}</a></div>
     <div><h3>${es ? ES.owners : 'Owners'}</h3><a href="/owners/">${k.claim}</a><a href="/owners/#claim">${k.pickup}</a><a href="/order/">${k.direct}</a></div>
   </div>
 </footer>`;
@@ -145,13 +145,13 @@ export function card(b, { compact = false, note = '' } = {}) {
 </article>`;
 }
 
-export const rail = (title, href, items, { kicker = '', id = '', openOnly = false, note = null } = {}) =>
+export const rail = (title, href, items, { kicker = '', id = '', openOnly = false, note = null, seeAll = 'See all' } = {}) =>
   items.length
     ? `
 <section class="rail"${id ? ` id="${id}"` : ''}${openOnly ? ' data-open-rail hidden' : ''}>
   <div class="wrap rail-head">
     <div>${kicker ? `<p class="kicker">${esc(kicker)}</p>` : ''}<h2>${esc(title)}</h2></div>
-    ${href ? `<a class="see-all" href="${href}">See all ${svg('arrow', 'ic-sm')}</a>` : ''}
+    ${href ? `<a class="see-all" href="${href}">${esc(seeAll)} ${svg('arrow', 'ic-sm')}</a>` : ''}
   </div>
   <div class="rail-track-wrap"><div class="rail-track" data-rail>${items.map((b) => card(b, { compact: true, note: note ? note(b) : '' })).join('')}</div>
     <button type="button" class="rail-btn prev" data-rail-prev aria-label="Scroll back">‹</button>
