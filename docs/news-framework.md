@@ -102,3 +102,19 @@ booking links, plus the public-record calendars to check by hand. It is a
 checklist for a reporter, never a story, and `content/drafts/` is never
 built into the site. `--holiday 2026-11-26` writes the list of places to
 call about holiday hours, because our listings carry regular hours only.
+
+## Newsletter, games, membership, sponsors
+
+- `node scripts/morning-edition.mjs [date]` writes
+  `content/drafts/morning-<date>.html` from published stories, events,
+  early hours and one business change. An editor reviews it and sends it
+  through the newsletter service. TODO(owner): pick the service and set
+  `NEWSLETTER` in `src/data/paper.mjs`; the signup form appears then.
+- Games: `/games/where/` (daily landmark close-up, from
+  `src/data/landmarks.mjs`) and `/games/quiz/` (the editor adds
+  `content/quizzes/<date>.json`; format at the top of
+  `src/pages/habit-pages.mjs`). A crossword waits for a local constructor.
+- `/members/` explains the plan and asks for nothing until
+  `MEMBERSHIP.open` is set. TODO(owner): taking member payments is your call.
+- Sponsors go in `src/data/sponsors.mjs` and appear only through
+  `sponsorSlot()`, labeled, inside their dates, never in a story.

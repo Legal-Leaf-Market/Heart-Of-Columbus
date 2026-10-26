@@ -6,6 +6,8 @@ import { newsPage, setBarLinks } from '../news/frame.mjs';
 import { aboutPages } from './about-pages.mjs';
 import { readerPages } from './reader-pages.mjs';
 import { civicPages } from './civic-pages.mjs';
+import { habitPages, storyAsk } from './habit-pages.mjs';
+import { sponsorSlot } from '../news/sponsor-slot.mjs';
 import { ALL_STORIES, SAMPLES, stories, storiesIn, storiesBy, correctionsLog } from '../news/content.mjs';
 import { SECTIONS, sectionBySlug, sectionHref } from '../news/sections.mjs';
 import { disclosures } from '../news/disclosure.mjs';
@@ -139,7 +141,7 @@ function storyPage(ctx, s) {
   return newsPage({
     ...ctx, path: s.href, title: s.headline, description: s.dek || s.headline, banner,
     crumbs: [['/news/', 'News'], [sectionHref(sec), sec.name], ['', s.headline]],
-    body: storyBody(s) + inThisStory(s),
+    body: storyBody(s) + inThisStory(s) + `<div class="wrap np-story-end">${storyAsk()}</div>`,
     ld: s.sample || s.draft ? [] : [newsArticleLd({ ...s, sectionName: sec.name }, { people: s.bylines.map((b) => person(b)), paper: PAPER })],
   });
 }
@@ -178,6 +180,7 @@ function frontPage(ctx) {
   const photo = PHOTOS.aerial;
   const body = `
 <header class="wrap np-mast">
+  <nav class="np-mast-links" aria-label="Get the paper"><a href="/newsletter/">Newsletter</a><a href="/games/">Games</a><a href="/ask/">Ask us</a><a href="/tips/">Send a tip</a></nav>
   <p class="np-mast-date" data-np-today></p>
   <h1 class="np-mast-name">${esc(PAPER.name)}</h1>
   <p class="np-mast-motto">${PAPER.motto ? t(PAPER.motto) : 'Local news for Columbus, Indiana'}</p>
@@ -189,6 +192,7 @@ function frontPage(ctx) {
   </div>
   <aside class="np-front-side">
     ${weatherBox()}
+    ${sponsorSlot('front')}
     ${changes.length ? `<section class="np-box"><h2>Openings and closings</h2>${changes.map((s) => storyCard(s, { size: 'line', showSection: false })).join('')}<a class="np-more" href="/news/business/">More business news</a></section>` : ''}
     <figure class="np-box np-photo"><img src="${esc(photo.src)}" alt="${esc(photo.title)}" loading="lazy"><figcaption>${esc(photo.title)}. Photo: ${esc(photo.credit)}, ${esc(photo.license)}. <a href="/credits/">Credits</a></figcaption></figure>
   </aside>
@@ -209,6 +213,7 @@ export function newsPages(ctx) {
     ...SAMPLES.map((s) => ({ path: `${s.href.slice(1)}index.html`, html: storyPage(ctx, s) })),
     ...readerPages(ctx),
     ...civicPages(ctx),
+    ...habitPages(ctx),
     ...aboutPages(ctx, {
       corrections: correctionsLog().map((c) => ({ date: c.date, dateText: fmtDate(c.date), text: c.text, story: c.story })),
       storiesBy,

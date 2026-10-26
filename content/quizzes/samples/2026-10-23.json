@@ -1,0 +1,9 @@
+{
+  "sample": true,
+  "week": "October 23, 2026",
+  "editor": "sample-editor",
+  "questions": [
+    { "q": "What did the Sampleton council approve for Pretend Street?", "choices": ["A bike lane", "A second crosswalk", "A parking garage", "A new name"], "answer": 1, "story": "/news/samples/sampleton-council-notes/" },
+    { "q": "What does the new Sampleton bakery bake every morning?", "choices": ["Bread", "Pies", "Bagels", "Nothing yet"], "answer": 0, "story": "/news/samples/sampleton-bakery-opens/" }
+  ]
+}

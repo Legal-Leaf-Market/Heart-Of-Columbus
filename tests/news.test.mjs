@@ -254,3 +254,49 @@ test('meeting notes need the Documenters format and render it', () => {
   const html = read('news/samples/sampleton-council-notes/index.html');
   for (const want of ['np-label-meeting-notes', 'Who was there', 'What was decided', '<th scope="col">Tally</th>', 'Questions to follow up']) assert.ok(html.includes(want), want);
 });
+
+// ---------- Newsletter, games, membership and sponsors (items 8, 11, 12) ----------
+import { morningEdition } from '../src/news/morning.mjs';
+import { sponsorSlot, sponsorsFor } from '../src/news/sponsor-slot.mjs';
+import { SAMPLE_QUIZZES, QUIZZES } from '../src/pages/habit-pages.mjs';
+import { NEWSLETTER, MEMBERSHIP } from '../src/data/paper.mjs';
+
+test('the morning edition is built only from published stories, newest first', () => {
+  const s = (n, h) => ({ ...good, sample: false, href: `/news/2026/11/s${n}/`, headline: `Story ${n}`, label: 'News', section: n === 9 ? 'business' : 'local', bylines: ['jacob-kennedy'], published: `2026-11-0${n > 9 ? 1 : 2}T0${h}:00:00-05:00` });
+  const list = [s(1, 7), s(2, 6), s(3, 5), s(9, 1)];
+  const ed = morningEdition({ date: '2026-11-02', now: new Date('2026-11-02T09:00:00-05:00'), stories: list, events: [{ name: 'Fair', venue: 'Park', url: 'https://example.org', start: '2026-11-01', end: '2026-11-03' }], dir: [] });
+  assert.deepEqual(ed.stories.map((x) => x.headline), ['Story 1', 'Story 2', 'Story 3', 'Story 9']);
+  assert.equal(ed.events.length, 1);
+  assert.ok(ed.html.includes('Unsubscribe') && !/[—–]/.test(ed.html));
+  const future = morningEdition({ date: '2026-11-02', now: new Date('2026-11-02T04:00:00-05:00'), stories: list, events: [], dir: [] });
+  assert.ok(!future.stories.some((x) => x.headline === 'Story 1'), 'never a story before it is published');
+});
+
+test('sponsors appear only in labeled slots, only while their deal runs, never in a story', () => {
+  const sponsors = { shop: { name: 'Some Shop', since: '2026-11-01', until: '2026-11-30', slots: ['front'], line: 'Hi.' } };
+  assert.match(sponsorSlot('front', { sponsors, now: new Date('2026-11-15T12:00:00Z') }), /Sponsored[\s\S]*Some Shop/);
+  assert.equal(sponsorSlot('front', { sponsors, now: new Date('2026-12-01T12:00:00Z') }), '');
+  assert.equal(sponsorSlot('newsletter', { sponsors, now: new Date('2026-11-15T12:00:00Z') }), '');
+  assert.equal(sponsorsFor('front', new Date('2026-10-31T12:00:00Z'), sponsors).length, 0);
+  const story = read('news/samples/sampleton-bakery-opens/index.html');
+  const article = story.slice(story.indexOf('<article class="wrap np-story">'), story.indexOf('</article>'));
+  assert.ok(!article.includes('np-sponsor'), 'sponsor inside a story');
+});
+
+test('no page asks for money or an email address until the owner turns it on', () => {
+  if (!MEMBERSHIP.open) assert.ok(!read('members/index.html').includes('Become a member</a>'));
+  if (!NEWSLETTER.signupAction) assert.ok(!read('newsletter/index.html').includes('type="email"'));
+  for (const p of ['newsletter/', 'members/', 'privacy/', 'games/', 'games/where/', 'games/quiz/']) assert.match(read(p + 'index.html'), /noindex/, p);
+  assert.ok(read('news/samples/sampleton-opinion/index.html').includes('np-ask'), 'the ask ends each story');
+});
+
+test('quizzes are written by staff, and sample quizzes stay samples', () => {
+  for (const q of QUIZZES) {
+    assert.ok(!q.sample && STAFF[q.editor], q.file);
+    for (const x of q.questions) assert.ok(x.choices.length >= 2 && x.answer >= 0 && x.answer < x.choices.length && (!x.story || stories.some((s) => s.href === x.story)), x.q);
+  }
+  for (const q of SAMPLE_QUIZZES) assert.ok(q.sample && SAMPLE_STAFF[q.editor], q.file);
+  assert.ok(!read('games/quiz/index.html').includes('Sampleton'));
+  const where = JSON.parse(read('games/where/index.html').match(/<script type="application\/json" id="page-data">([\s\S]*?)<\/script>/)[1]).where;
+  assert.ok(where.length >= 4 && where.every((w) => w.src.startsWith('https://upload.wikimedia.org/') && w.credit));
+});

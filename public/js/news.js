@@ -13,6 +13,15 @@
   var today = $('[data-np-today]');
   if (today) today.textContent = new Intl.DateTimeFormat('en-US', { timeZone: TZ, weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }).format(new Date());
 
+  // The evening edition of the open rail: after 5 PM it's "Open tonight".
+  var hour = Number(new Intl.DateTimeFormat('en-US', { timeZone: TZ, hour: 'numeric', hourCycle: 'h23' }).format(new Date()));
+  var openRail = $('#open-now');
+  if (openRail && hour >= 17) {
+    var h2 = $('h2', openRail), kick = $('.kicker', openRail);
+    if (h2) h2.textContent = 'Open tonight';
+    if (kick) kick.textContent = 'Dinner, drinks and dessert';
+  }
+
   var box = $('[data-np-wx]');
   if (!box) return;
 

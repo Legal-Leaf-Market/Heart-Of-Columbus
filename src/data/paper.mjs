@@ -37,3 +37,15 @@ export const AI_POLICY = [
   'We do not publish AI written stories, recaps or summaries, and we do not use AI to create or alter news photos.',
   'If a tool ever helps with something a reader sees, such as a translation, the page says so.',
 ];
+
+// The morning newsletter. We never build email delivery: a newsletter
+// service (Buttondown, beehiiv, Ghost...) handles double opt-in, sending
+// and one-click unsubscribe. TODO(owner): pick the service, then set its
+// public signup form address here; until then /newsletter/ says it's coming.
+export const NEWSLETTER = { provider: '', signupAction: '', archive: '' };
+
+// TODO(owner): memberships mean taking payment, which CLAUDE.md rules out
+// for business orders but doesn't decide for the paper itself. Until you
+// decide (and choose Stripe or the newsletter's paid tier), /members/ only
+// explains the plan and no page asks for money.
+export const MEMBERSHIP = { open: false, joinUrl: '' };
