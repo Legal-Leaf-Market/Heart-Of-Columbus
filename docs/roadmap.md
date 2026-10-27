@@ -7,7 +7,8 @@ Claude Code working in `Legal-Leaf-Market/Heart-Of-Columbus`.
 > had already shipped (visit, Social District, landmarks, events, standards,
 > stories, CMS, front page, alerts, trips, leads, reader forms, meetings,
 > newsletter, games, membership), and trails with browser stamp cards
-> (visitor item 8, phase 1) shipped October 27. It is kept as the record of the plan. The
+> (visitor item 8, phase 1) and owner deals and "in their words" through
+> the claim form (items 16 and 17) shipped October 27. It is kept as the record of the plan. The
 > owner decisions below are still open.
 
 ## The files

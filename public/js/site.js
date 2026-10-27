@@ -103,6 +103,11 @@
     }
     return { open: false, label: 'Closed' };
   };
+  // An owner's deal comes down by itself the day after it ends, even on a page built earlier.
+  (function () {
+    var today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Indiana/Indianapolis' });
+    $$('[data-ends]').forEach(function (el) { if (el.getAttribute('data-ends') < today) el.remove(); });
+  })();
   // Paint "Open now" on every card that has hours, and fill [data-open-now].
   function paintOpen(all) {
     var by = {};

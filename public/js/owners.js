@@ -3,7 +3,7 @@
   'use strict';
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
-  var WANT = { fix: 'Fix listing', link: 'Link ordering', pickup: 'Pickup orders', storefront: 'Storefront', photos: 'Photos', remove: 'REMOVE' };
+  var WANT = { fix: 'Fix listing', link: 'Link ordering', pickup: 'Pickup orders', storefront: 'Storefront', photos: 'Photos', story: 'In their words', deal: 'Deal', remove: 'REMOVE' };
 
   // The private key arrives in the link's #fragment, which browsers never send
   // to a server. An older ?k= link still works once. Either way it is moved to
@@ -50,15 +50,16 @@
       e.preventDefault();
       var err = $('[data-err]', form), btn = $('button.btn', form);
       function fail(msg, field) { err.textContent = msg; err.hidden = false; field.setAttribute('aria-invalid', 'true'); field.focus(); }
-      ['business', 'name', 'phone', 'email'].forEach(function (n) { form[n].removeAttribute('aria-invalid'); });
+      ['business', 'name', 'phone', 'email', 'dealEnds'].forEach(function (n) { form[n].removeAttribute('aria-invalid'); });
       var data = {
         slug: form.slug.value, business: form.business.value, name: form.name.value, role: form.role.value,
-        phone: form.phone.value, email: form.email.value, message: form.message.value, website: form.website.value,
+        phone: form.phone.value, email: form.email.value, message: form.message.value, story: form.story.value, deal: form.deal.value, dealEnds: form.dealEnds.value, website: form.website.value,
         wants: Array.prototype.slice.call(form.querySelectorAll('[name=wants]:checked')).map(function (c) { return c.value; }),
       };
       err.hidden = true;
       if (!data.business.trim()) return fail('Which business is this about?', form.business);
       if (!data.name.trim()) return fail('Please add your name.', form.name);
+      if (data.deal.trim() && !data.dealEnds) return fail('When does the deal end? Every deal needs an end date.', form.dealEnds);
       if (!data.phone.trim() && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(data.email.trim())) return fail('Add a phone number or email so we can reach you.', data.email.trim() ? form.email : form.phone);
       btn.disabled = true;
       fetch('/api/claim', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(data) })
@@ -82,6 +83,8 @@
         return '<div class="pk-card"><h2>' + (l.slug ? '<a href="/b/' + esc(l.slug) + '/">' + esc(l.business) + '</a>' : esc(l.business) + ' <small class="muted">(not listed)</small>') + '</h2>' +
           '<p><b>' + esc(l.name) + '</b>' + (l.role ? ', ' + esc(l.role) : '') + ' · ' + (l.phone ? '<a href="tel:' + esc(l.phone.replace(/[^0-9+]/g, '')) + '">' + esc(l.phone) + '</a> ' : '') + (l.email ? '<a href="mailto:' + esc(l.email) + '">' + esc(l.email) + '</a>' : '') + '</p>' +
           '<p>' + l.wants.map(function (w) { return '<span class="tag">' + esc(WANT[w] || w) + '</span>'; }).join(' ') + '</p>' +
+(l.story ? '<p class="pk-notes"><b>In their words:</b> ' + esc(l.story) + '</p>' : '') +
+          (l.deal ? '<p class="pk-notes"><b>Deal, ends ' + esc(l.dealEnds) + ':</b> ' + esc(l.deal) + '</p>' : '') +
           (l.message ? '<p class="pk-notes">' + esc(l.message) + '</p>' : '') + '<p class="muted">' + esc(new Date(l.createdAt).toLocaleString()) + '</p></div>';
       }).join('');
     }).catch(function () { status.textContent = 'Could not load.'; });
