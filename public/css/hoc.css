@@ -1289,3 +1289,17 @@ section { scroll-margin-top: 130px; }
 .biz-gallery figure img { display: block; width: 100%; height: auto; }
 .biz-gallery .biz-logo { max-width: 160px; height: auto; align-self: center; }
 .biz-gallery .fine { grid-column: 1 / -1; }
+
+/* ---------- Trails (stamp cards) ---------- */
+.tl-count { font-weight: 800; margin-top: 14px; }
+.tl-stamp { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; min-height: 40px; border: 2px solid var(--ink); border-radius: 12px; padding: 0 12px; background: var(--surface); font-weight: 800; cursor: pointer; }
+.tl-box { width: 20px; height: 20px; border: 2px solid var(--ink); border-radius: 6px; display: grid; place-items: center; }
+.tl-on { background: #e6f6ea; }
+.tl-on .tl-box { background: var(--brand); border-color: var(--brand); }
+.tl-on .tl-box::after { content: ""; width: 6px; height: 11px; border: solid #fff; border-width: 0 3px 3px 0; transform: translateY(-1px) rotate(45deg); }
+@media print {
+  .hdr, .ftr, .tp-head .btns, .tp-foot .btns, .yw, .crumbs, .skip { display: none !important; }
+  .tp-stop { break-inside: avoid; padding-bottom: 10px; }
+  .tp-card { border-width: 1px; }
+  .tl-stamp { border-width: 1px; }
+}

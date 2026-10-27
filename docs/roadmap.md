@@ -6,7 +6,8 @@ Claude Code working in `Legal-Leaf-Market/Heart-Of-Columbus`.
 > **Status (October 26, 2026):** this file arrived after most of its PR table
 > had already shipped (visit, Social District, landmarks, events, standards,
 > stories, CMS, front page, alerts, trips, leads, reader forms, meetings,
-> newsletter, games, membership). It is kept as the record of the plan. The
+> newsletter, games, membership), and trails with browser stamp cards
+> (visitor item 8, phase 1) shipped October 27. It is kept as the record of the plan. The
 > owner decisions below are still open.
 
 ## The files
