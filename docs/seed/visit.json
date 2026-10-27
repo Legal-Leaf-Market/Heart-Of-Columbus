@@ -1,0 +1,83 @@
+{
+  "about": "Seed data for src/data/visit.mjs and the /visit/ page (visitor brief item 1). Each fact has its source and the date it was checked. Link to official pages for anything that changes often, like tour prices.",
+  "facts": [
+    {
+      "key": "visitors-center",
+      "title": "Columbus Visitors Center",
+      "text": "506 Fifth Street, downtown. 812-378-2622. Free parking. Open Monday to Saturday, 10 a.m. to 5 p.m.; closed Mondays in January and February; holiday hours vary. Maps, brochures, a self-guided architecture tour, free videos, and a gift shop of local and regional art.",
+      "ll": null,
+      "url": "https://columbus.in.us/visitors-center",
+      "source": "https://columbus.in.us/visitors-center",
+      "checked": "2026-10-25"
+    },
+    {
+      "key": "tours",
+      "title": "Official architecture tours",
+      "text": "Architectural Highlights by shuttle (2 hours), Miller House and Garden (90 minutes, ages 10 and up), and the Iconic Columbus Walking Tour (90 minutes). All leave from the Visitors Center. Tours often sell out, so book ahead.",
+      "url": "https://columbus.in.us/see-do/tour-info",
+      "source": "https://columbus.in.us/see-do/tour-info",
+      "checked": "2026-10-25",
+      "note": "Prices were $30, $30 and $15 on the checked date. Show them only with 'as of' and the link, or leave them off."
+    },
+    {
+      "key": "self-guided",
+      "title": "Tour on your own",
+      "text": "Up to 82 architecture stops on the Downtown and City loops, with a paid stop guide sold at the Visitors Center, Viewpoint Books and Hotel Indigo. Free bike-route maps at the Visitors Center.",
+      "url": "https://columbus.in.us/see-do/tour-info",
+      "source": "https://columbus.in.us/see-do/tour-info",
+      "checked": "2026-10-25"
+    },
+    {
+      "key": "bus",
+      "title": "ColumBUS",
+      "text": "Free to ride. Fixed routes and Call-a-Bus run Monday to Friday, 6 a.m. to 8 p.m., and Saturday, 8 a.m. to 5 p.m. No Sunday service listed. Transit Depot at 850 Lindsey Street. Live bus tracking at columbusindianatransit.com and in the Columbus Transit apps.",
+      "url": "https://www.columbus.in.gov/columbus-transit/faqs",
+      "source": "https://www.columbus.in.gov/columbus-transit/faqs",
+      "checked": "2026-10-26"
+    },
+    {
+      "key": "people-trail",
+      "title": "People Trail",
+      "text": "Over 23 miles of People Trails, maintained by Columbus Parks and Recreation.",
+      "url": "https://columbusparksandrec.com/?p=3858",
+      "source": "https://columbusparksandrec.com/?p=3858",
+      "checked": "2026-10-26",
+      "note": "TrailLink lists one 15.7-mile corridor linking Lincoln, Blackwell, Mill Race and Noblitt parks. Use the city's system figure. Link the city's trail map if one is found."
+    },
+    {
+      "key": "social-district",
+      "title": "Downtown Social District (DORA)",
+      "text": "Drinks to go from designated downtown businesses, every day from 10 a.m. to midnight. 21 and older, in the branded clear cups, up to two drinks per person.",
+      "url": "https://www.columbus.in.gov/community-development/dora",
+      "source": "https://www.columbus.in.gov/community-development/dora",
+      "checked": "2026-10-25",
+      "note": "Full rules and the permittee list are in seed/dora.json."
+    },
+    {
+      "key": "getting-here",
+      "title": "Getting here",
+      "text": "Columbus is on I-65. Visit Columbus Indiana has a page for Exit 76.",
+      "url": "https://visitcolumbusindiana.com/",
+      "source": "https://visitcolumbusindiana.com/",
+      "checked": "2026-10-25",
+      "note": "Add drive times only from a cited source. Exit 76 coordinates come from OpenStreetMap, with credit."
+    },
+    {
+      "key": "official-site",
+      "title": "The official visitor site",
+      "text": "Heart of Columbus isn't the visitors bureau. For official visitor information, events and tour booking, see Visit Columbus Indiana.",
+      "url": "https://visitcolumbusindiana.com/",
+      "source": "https://visitcolumbusindiana.com/",
+      "checked": "2026-10-25"
+    },
+    {
+      "key": "film",
+      "title": "Columbus (2017)",
+      "text": "Kogonada's feature film Columbus is set in the city. The Visitors Center sells it on DVD and Blu-ray.",
+      "url": "https://columbus.in.us/visitors-center",
+      "source": "https://columbus.in.us/visitors-center",
+      "checked": "2026-10-25",
+      "note": "For the film trail (visitor brief item 15), cite every filming location separately."
+    }
+  ]
+}

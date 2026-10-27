@@ -149,8 +149,9 @@ test('/events/ and the printable listing are built, linked and credit every sour
   const list = readFileSync(new URL('../dist/events/index.html', import.meta.url), 'utf8');
   const print = readFileSync(new URL('../dist/events/print/index.html', import.meta.url), 'utf8');
   for (const s of SOURCES) {
-    assert.ok(list.includes(`href="${s.calendar}"`), `${s.id} calendar link`);
-    assert.ok(print.includes(s.site), `${s.id} credit`);
+    // A source with no calendar of its own (organizers' pages) links each listing instead.
+    if (s.calendar) assert.ok(list.includes(`href="${s.calendar}"`), `${s.id} calendar link`);
+    assert.ok(print.includes(s.site || s.credit), `${s.id} credit`);
   }
   assert.match(list, /noindex/);
   assert.match(list, /href="\/events\/print\/"/);

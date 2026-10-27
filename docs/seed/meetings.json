@@ -1,0 +1,54 @@
+{
+  "about": "Seed data for /meetings/ (newspaper plan item 10). Link to official agendas; never copy agenda text. Recheck schedules every quarter.",
+  "checked": "2026-10-26",
+  "bodies": [
+    {
+      "slug": "county-commissioners",
+      "name": "Bartholomew County Commissioners",
+      "when": "Mondays at 10 a.m., about every week or two; the county calendar marks exceptions",
+      "where": "Government Office Building, 440 Third Street",
+      "agendas": "PDF linked from each event on the county calendar",
+      "feed": "The county calendar offers 'Download as iCal file' for all repeats. Import that file rather than scraping pages.",
+      "source": "https://www.bartholomew.in.gov/calendar/icalrepeat.detail/2026/08/10/2300/12%7C13/bartholomew-county-commissioners-meeting.html"
+    },
+    {
+      "slug": "bcsc-school-board",
+      "name": "BCSC School Board",
+      "when": "Monthly, Monday evenings at 6:30 p.m.",
+      "where": "Not stated on the board page; get it from each BoardDocs agenda",
+      "agendas": "BoardDocs, usually posted by the Thursday before the meeting",
+      "feed": "Livestream and recordings on the BCSC YouTube channel (youtube.com/@BCSCSchools/streams)",
+      "source": "https://www.bcscschools.org/district-information/school-board"
+    },
+    {
+      "slug": "plan-commission-bza",
+      "name": "Columbus Plan Commission and Board of Zoning Appeals",
+      "when": "6:30 p.m. (dates vary; see each meeting post)",
+      "where": "City Council Chambers, City Hall, 123 Washington Street",
+      "agendas": "PDFs under columbus.in.gov/planning/",
+      "feed": "The city's Meeting Video Resources page has live and archived video",
+      "source": "https://www.columbus.in.gov/planning/2026/06/29/columbus-board-of-zoning-appeals-july-28-2026/"
+    },
+    {
+      "slug": "city-council",
+      "name": "Columbus City Council",
+      "when": "Not confirmed. Agenda file dates suggest the first and third Tuesdays; confirm with the city before publishing a schedule.",
+      "where": "City Hall, 123 Washington Street",
+      "agendas": "Agendas and minutes as documents on columbus.in.gov",
+      "feed": null,
+      "source": "https://www.columbus.in.gov/document/city-council-minutes-06-03-25/"
+    }
+  ],
+  "leads": [
+    {
+      "name": "Indiana Alcohol and Tobacco Commission public meetings",
+      "use": "Permit applications and local board agendas often signal a new restaurant or bar. Leads for reporters only.",
+      "source": "https://www.in.gov/atc/public-meetings/calendar"
+    },
+    {
+      "name": "Indiana Gateway for Government Units",
+      "use": "Budgets, debt and employee pay for the city, county and schools. Start with department totals.",
+      "source": "https://gateway.ifionline.org/"
+    }
+  ]
+}

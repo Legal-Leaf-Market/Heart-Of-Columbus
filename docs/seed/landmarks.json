@@ -1,0 +1,223 @@
+{
+  "about": "Seed data for src/data/landmarks.mjs (visitor brief item 2). Every entry cites its sources. ll is [lat, lng] in decimal degrees from the cited page; null means not found yet: fill it from OpenStreetMap and cite it. photo_key matches PHOTOS in src/site.mjs; null means no photo yet.",
+  "checked": "2026-10-27",
+  "landmarks": [
+    {
+      "slug": "first-christian-church",
+      "photo_key": "firstchristian",
+      "name": "First Christian Church",
+      "architect": "Eliel Saarinen, with Eero Saarinen",
+      "year": 1942,
+      "address": "531 Fifth Street",
+      "ll": [39.20306, -85.91889],
+      "nhl": "2001-01-03",
+      "access": "Active congregation. Visiting arrangements not confirmed; view from outside.",
+      "free_outside": true,
+      "notes": "Visit Columbus Indiana gives the NHL year as 2000; Wikipedia gives January 3, 2001. Confirm with the NPS NHL list before showing a date.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/First_Christian_Church_(Columbus,_Indiana)",
+        "https://columbus.in.us/seven-national-historic-landmarks/"
+      ]
+    },
+    {
+      "slug": "north-christian-church",
+      "photo_key": "northchristian",
+      "name": "North Christian Church (The LEX)",
+      "architect": "Eero Saarinen, completed by Kevin Roche; landscape by Dan Kiley; furnishings by Alexander Girard",
+      "year": 1964,
+      "address": "850 Tipton Lane",
+      "ll": [39.22972, -85.91611],
+      "nhl": "2000-05-16",
+      "access": "The church closed in July 2022. The Bartholomew County Public Library has owned it since 2024 as The LEX and is renovating it. General interior access not confirmed.",
+      "free_outside": true,
+      "notes": "",
+      "sources": [
+        "https://en.wikipedia.org/wiki/North_Christian_Church",
+        "https://columbus.in.us/seven-national-historic-landmarks/"
+      ]
+    },
+    {
+      "slug": "irwin-union-bank",
+      "photo_key": "irwin",
+      "name": "Irwin Union Bank (Irwin Office Building)",
+      "architect": "Eero Saarinen; 1973 annex by Kevin Roche and John Dinkeloo; landscape by Dan Kiley",
+      "year": 1954,
+      "address": "Fifth and Washington streets",
+      "ll": null,
+      "nhl": "2000-05",
+      "access": "Vacant since the pandemic and on the market, per The Republic. Not open to visitors.",
+      "free_outside": true,
+      "notes": "Wikipedia gives 500 Washington Street; The Republic gives 525 Jackson St. for the Irwin Office Building at Fifth and Washington. A planned sale to Toyota Material Handling fell through. Recheck status before publishing.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Irwin_Union_Bank",
+        "https://www.therepublic.com/?p=844597"
+      ]
+    },
+    {
+      "slug": "cleo-rogers-memorial-library",
+      "photo_key": "library",
+      "name": "Cleo Rogers Memorial Library and Henry Moore's Large Arch",
+      "architect": "I. M. Pei; sculpture by Henry Moore",
+      "year": 1969,
+      "address": "536 Fifth Street",
+      "ll": [39.2039528, -85.9188944],
+      "nhl": null,
+      "access": "Main library of the Bartholomew County Public Library, open during library hours. The Large Arch (1971) is outdoors.",
+      "free_outside": true,
+      "notes": "Construction finished December 1969; dedicated 1971.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Cleo_Rogers_Memorial_Library"
+      ]
+    },
+    {
+      "slug": "bartholomew-county-courthouse",
+      "photo_key": "courthouse",
+      "name": "Bartholomew County Courthouse",
+      "architect": "Isaac Hodgson",
+      "year": 1874,
+      "address": "Third and Washington streets",
+      "ll": [39.20111, -85.92139],
+      "nhl": null,
+      "access": "View from outside. Interior access not confirmed.",
+      "free_outside": true,
+      "notes": "Listed on the National Register of Historic Places November 15, 1979.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Bartholomew_County_Courthouse"
+      ]
+    },
+    {
+      "slug": "columbus-city-hall",
+      "photo_key": "cityhall",
+      "name": "Columbus City Hall",
+      "architect": "Edward Charles Bassett, Skidmore, Owings & Merrill",
+      "year": 1981,
+      "address": "123 Washington Street",
+      "ll": null,
+      "nhl": null,
+      "access": "City offices. Public meetings in the City Council Chambers.",
+      "free_outside": true,
+      "notes": "",
+      "sources": [
+        "https://pcad.lib.washington.edu/building/11219",
+        "https://www.columbus.in.gov/document/city-council-minutes-06-03-25/"
+      ]
+    },
+    {
+      "slug": "robert-n-stewart-bridge",
+      "photo_key": "bridge",
+      "name": "Robert N. Stewart Bridge",
+      "architect": "J. Muller International (engineer)",
+      "year": 1999,
+      "address": "Carries Second Street (confirm the crossing and endpoints on OpenStreetMap)",
+      "ll": null,
+      "nhl": null,
+      "access": "Public bridge.",
+      "free_outside": true,
+      "notes": "Formerly the Second Street Bridge. Cable-stayed, with 40 cables in a fan. Colored lighting added in 2012; renamed for former mayor Robert N. Stewart in 2013.",
+      "sources": [
+        "https://www.columbus.in.gov/engineering/news/about-the-bridge/"
+      ]
+    },
+    {
+      "slug": "miller-house-and-garden",
+      "photo_key": "miller",
+      "name": "Miller House and Garden",
+      "architect": "Eero Saarinen; interiors by Alexander Girard; garden by Dan Kiley",
+      "year": 1957,
+      "address": "2760 Highland Way",
+      "ll": [39.2272, -85.9231],
+      "nhl": "2000-05-16",
+      "access": "Tour only. The official tour departs from and returns to the Columbus Visitors Center; ages 10 and up; no other public access. Typically closed for maintenance in January and February.",
+      "free_outside": false,
+      "notes": "Owned by the Indianapolis Museum of Art at Newfields. Don't send visitors to the house address.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Miller_House_(Columbus,_Indiana)",
+        "https://columbus.in.us/see-do/tour-info"
+      ]
+    },
+    {
+      "slug": "fire-station-4",
+      "photo_key": "firestation",
+      "name": "Fire Station 4",
+      "architect": "Robert Venturi (Venturi and Rauch), with Denise Scott Brown",
+      "year": 1968,
+      "address": "4730 East 25th Street",
+      "ll": null,
+      "nhl": null,
+      "access": "View from outside. Current use not confirmed.",
+      "free_outside": true,
+      "notes": "Designed 1967, completed 1968. PHOTOS currently says 1967.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Fire_Station_Number_4_(Columbus,_Indiana)"
+      ]
+    },
+    {
+      "slug": "the-commons-chaos-i",
+      "photo_key": "commons",
+      "name": "The Commons and Chaos I",
+      "architect": "Jean Tinguely (Chaos I, 1974); building rebuilt by Koetter Kim & Associates, 2011 (original by Cesar Pelli)",
+      "year": 1974,
+      "address": "Downtown, Washington Street (confirm the street number with The Commons)",
+      "ll": [39.201889, -85.921778],
+      "nhl": null,
+      "access": "Enclosed public space owned by the city. Hours not confirmed.",
+      "free_outside": true,
+      "notes": "Chaos I is owned by the Columbus Park and Recreation Department.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Chaos_I",
+        "https://columbus.in.us/chaos-story/"
+      ]
+    },
+    {
+      "slug": "first-baptist-church",
+      "photo_key": null,
+      "name": "First Baptist Church",
+      "architect": "Harry Weese",
+      "year": 1965,
+      "address": "3300 Fairlawn Drive",
+      "ll": [39.23361, -85.87222],
+      "nhl": "2000-05-16",
+      "access": "Church. Visiting arrangements not confirmed; view from outside.",
+      "free_outside": true,
+      "notes": "Needs a credited photo before it appears in photo layouts.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/First_Baptist_Church_(Columbus,_Indiana)",
+        "https://columbus.in.us/seven-national-historic-landmarks/"
+      ]
+    },
+    {
+      "slug": "mabel-mcdowell-education-center",
+      "photo_key": null,
+      "name": "Mabel McDowell Adult Education Center",
+      "architect": "John Carl Warnecke",
+      "year": 1960,
+      "address": "2700 McKinley Avenue",
+      "ll": [39.20194, -85.89194],
+      "nhl": "2003-01-03",
+      "access": "A working BCSC adult education center. View from outside.",
+      "free_outside": true,
+      "notes": "Wikipedia's two pages disagree on the NHL year (2001 and 2003). Confirm with the NPS NHL list.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Mabel_McDowell_Adult_Education_Center",
+        "https://columbus.in.us/seven-national-historic-landmarks/"
+      ]
+    },
+    {
+      "slug": "republic-newspaper-office",
+      "photo_key": null,
+      "name": "The Republic Newspaper Office",
+      "architect": "Myron Goldsmith, Skidmore, Owings & Merrill",
+      "year": 1971,
+      "address": "333 Second Street",
+      "ll": [39.20000, -85.92167],
+      "nhl": "2012-10-16",
+      "access": "Now IU's J. Irwin Miller Architecture Program. Visit Columbus Indiana says a public gallery is open to visitors.",
+      "free_outside": true,
+      "notes": "Wikipedia gives October 16 and October 17, 2012 in different places. Glass walls once showed the presses to the street.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/The_Republic_Newspaper_Office",
+        "https://columbus.in.us/seven-national-historic-landmarks/"
+      ]
+    }
+  ]
+}

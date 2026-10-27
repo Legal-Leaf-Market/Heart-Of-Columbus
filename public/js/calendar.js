@@ -137,7 +137,7 @@
             var s = srcBy[e.src] || { short: '', calendar: '#' };
             return '<article class="cal-ev"><p class="cal-time">' + esc(e.when) + '</p><div class="cal-body"><h3><a href="' + esc(e.url) + '" target="_blank" rel="noopener">' + esc(e.title) + '</a></h3>' +
               '<p class="cal-meta">' + [e.venue, e.ages].filter(Boolean).map(esc).join(' · ') + '</p></div>' +
-              '<a class="cal-tag cal-tag-' + esc(e.src) + '" href="' + esc(s.calendar) + '" target="_blank" rel="noopener" title="From the ' + esc(s.name) + ' calendar">' + esc(s.short) + '</a></article>';
+              '<a class="cal-tag cal-tag-' + esc(e.src) + '" href="' + esc(s.calendar || e.url) + '" target="_blank" rel="noopener" title="' + (s.calendar ? 'From the ' + esc(s.name) + ' calendar' : 'From the organizer’s own page') + '">' + esc(s.short) + '</a></article>';
           }).join('') + '</section>';
         }).join('');
         var n = list.length;
@@ -189,7 +189,7 @@
     exportLinks(from, days);
     var y = from.slice(0, 4), y2 = to.slice(0, 4);
     $('[data-pr-range]').textContent = md(from, AP) + (y !== y2 ? ', ' + y : '') + ' to ' + md(to, AP) + ', ' + y2;
-    $('[data-pr-credit]').textContent = 'Listings from the public calendars of ' + state.src.map(function (s) { return srcBy[s].name + ' (' + srcBy[s].site + ')'; }).join(', ').replace(/, ([^,]*)$/, ' and $1') + '. Times and places can change; check with the organizer. Compiled by Heart of Columbus.';
+    $('[data-pr-credit]').textContent = 'Listings from the public calendars of ' + state.src.map(function (s) { return srcBy[s].site ? srcBy[s].name + ' (' + srcBy[s].site + ')' : srcBy[s].credit; }).join(', ').replace(/, ([^,]*)$/, ' and $1') + '. Times and places can change; check with the organizer. Compiled by Heart of Columbus.';
     statusEl.textContent = 'Loading events…';
     load(from, days).then(function (data) {
       shown = pick(inWindow(data.events, from, to));
