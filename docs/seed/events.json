@@ -1,0 +1,66 @@
+{
+  "about": "Seed data for src/data/events.mjs (visitor brief item 3). Signature events only, each with its official page. Dates are local (America/Indiana/Indianapolis). The descriptions are ours, one plain line each; never copy an organizer's text. The Mill Race Monster Festival has already ended and is included as a test case for hiding past events.",
+  "checked": "2026-10-27",
+  "events": [
+    {
+      "slug": "mill-race-monster-festival-2026",
+      "name": "Mill Race Monster Festival",
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "venue": "Mill Race Park",
+      "ll": null,
+      "line": "A weekend festival built around the 1974 Mill Race Park monster sightings.",
+      "url": "https://visitcolumbusindiana.com/events/",
+      "sources": ["https://visitcolumbusindiana.com/events/"],
+      "note": "Past event. Keep as a fixture for the past-event test, or drop."
+    },
+    {
+      "slug": "deja-vu-art-fine-craft-show-2026",
+      "name": "Deja Vu Art and Fine Craft Show",
+      "start": "2026-11-14",
+      "end": "2026-11-14",
+      "hours": "10 a.m. to 4 p.m.",
+      "venue": "The Commons",
+      "ll": [39.201889, -85.921778],
+      "line": "A one-day art and fine craft show at The Commons.",
+      "url": "https://www.kid-at-art.com/htdoc/dejavu2026.html",
+      "sources": [
+        "https://www.kid-at-art.com/htdoc/dejavu2026.html",
+        "https://indianaartisan.org/deja-vu-art-and-fine-craft-show/"
+      ],
+      "note": "One craft-fair listing site says November 8; the official page says Saturday, November 14, 2026. Use the official page. The ll is The Commons' Chaos I coordinates from Wikipedia."
+    },
+    {
+      "slug": "small-business-saturday-2026",
+      "name": "Small Business Saturday",
+      "start": "2026-11-28",
+      "end": "2026-11-28",
+      "venue": null,
+      "ll": null,
+      "line": "The Saturday after Thanksgiving, a national day for shopping at independent businesses.",
+      "url": null,
+      "sources": [],
+      "kind": "observance",
+      "note": "A national observance, not a local event, so there's no venue. Use it to feature the Give local page (visitor brief item 12). Thanksgiving 2026 is November 26."
+    },
+    {
+      "slug": "festival-of-lights-2026",
+      "name": "Columbus Festival of Lights",
+      "start": "2026-12-05",
+      "end": "2026-12-05",
+      "venue": "Downtown Columbus",
+      "ll": null,
+      "line": "A free downtown holiday celebration with an evening parade.",
+      "url": "https://columbusfestivaloflights.com/",
+      "sources": [
+        "https://columbusfestivaloflights.com/",
+        "https://www.therepublic.com/?p=846405"
+      ],
+      "note": "The official site says it returns December 5, 2026. The parade time, route and side events are from The Republic's 2025 coverage (parade at 6 p.m. from Fifth and Brown streets) and must be reconfirmed for 2026 before showing them. Produced by Red Arch Community Events."
+    }
+  ],
+  "more_to_research": [
+    "The official 2027 dates for the events on Visit Columbus Indiana's signature events list: Columbus Farmers Market, Columbus on Tap, Smoke on the Square, Juneteenth Jubilee, Exhibit Columbus (its next cycle begins in 2027), Columbus Pride Festival, Fiesta Latina, Scottish Festival, Hot Rods & Rock 'n' Roll, Mill Race Marathon, Hope Heritage Days, Ethnic Expo",
+    "Ask Visit Columbus Indiana for an events feed before adding anything from their calendar"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "about": "Seed data for src/data/dora.mjs (visitor brief item 7). The city's page lists permittee names only, with no addresses, so these are matched by name to the directory. Before tagging anything, confirm each location against the city's Designated Permittee Map (an image linked below). directory_slug was computed with the slugify() rules in src/data/directory.mjs; confirm each one exists in the built directory.",
+  "checked": "2026-10-27",
+  "source": "https://www.columbus.in.gov/community-development/dora",
+  "maps": {
+    "boundary": "https://www.columbus.in.gov/wp-content/uploads/2025/05/Dora-District-05.12.2025.png",
+    "permittees": "https://www.columbus.in.gov/wp-content/uploads/2025/08/Dora-Business-Designees-08.12.2025.jpg",
+    "vendors": "https://www.columbus.in.gov/wp-content/uploads/2025/08/Dora-Temporary-Locations-06.17.2025-Proposal.jpg"
+  },
+  "rules": {
+    "name": "Downtown Columbus Social District (DORA)",
+    "hours": "Every day, 10 a.m. to midnight",
+    "age": "21 and older",
+    "cups": "Clear plastic cups with DORA branding, from the permittee",
+    "limit": "Up to two open drinks per person leaving a permittee",
+    "fill_limits": "Beer or flavored malt beverages up to 16 oz; wine, cider or premixed cocktails up to 12 oz; liquor or liquor-based cocktails up to 10 oz with no more than 2 oz of liquor",
+    "outside_drinks": "Drinks bought outside the DORA may not be consumed in its public areas",
+    "businesses": "Businesses may refuse entry with alcohol, on a nondiscriminatory basis"
+  },
+  "permittees": [
+    { "city_name": "ZwanzigZ Pizza", "directory_slug": "zwanzigz-pizza-and-brewing", "directory_name": "ZwanzigZ Pizza & Brewing", "directory_address": "1038 Lafayette Avenue", "status": "check", "note": "The directory's ZwanzigZ is a featured card at 1038 Lafayette Avenue, which may be outside the downtown boundary. The permittee may be a different location. Check the permittee map." },
+    { "city_name": "Thai Connection", "directory_slug": "thai-connection", "directory_name": "Thai Connection", "directory_address": "527 Washington St", "status": "likely", "note": "" },
+    { "city_name": "Henry Social Club", "directory_slug": "henry-social-club", "directory_name": "Henry Social Club", "directory_address": "423 Washington St", "status": "likely", "note": "" },
+    { "city_name": "Bespoke Events + Experiences (formerly Swine & Dine)", "directory_slug": "bespoke-events-experiences", "directory_name": "Bespoke Events + Experiences", "directory_address": "412 Washington Street", "status": "likely", "note": "" },
+    { "city_name": "4th Street Bar & Grill", "directory_slug": "4th-street-bar-and-grill", "directory_name": "4th Street Bar and Grill", "directory_address": "433 Fourth Street", "status": "likely", "note": "" },
+    { "city_name": "Black Sheep Pizza", "directory_slug": "black-sheep-craft-pizza-and-cocktails", "directory_name": "Black Sheep Craft Pizza & Cocktails", "directory_address": "345 4th Street", "status": "likely", "note": "" },
+    { "city_name": "The Columbus Bar", "directory_slug": "columbus-bar", "directory_name": "Columbus Bar", "directory_address": "322 4th St", "status": "likely", "note": "" },
+    { "city_name": "Taku Japanese Steakhouse", "directory_slug": "taku-japanese-steakhouse", "directory_name": "Taku Japanese Steakhouse", "directory_address": "305 4th Street", "status": "likely", "note": "" },
+    { "city_name": "The Garage Pub", "directory_slug": "the-garage-pub-and-grill", "directory_name": "The Garage Pub & Grill", "directory_address": "308 4th Street", "status": "likely", "note": "" },
+    { "city_name": "Upland Pumphouse", "directory_slug": "upland-columbus-pump-house", "directory_name": "Upland Columbus Pump House", "directory_address": "148 Lindsey Street", "status": "likely", "note": "" },
+    { "city_name": "ZwanzigZ Production Brewery Co.", "directory_slug": null, "directory_name": "ZwanzigZ Tap Room (possible)", "directory_address": "315 12th Street", "status": "check", "note": "The directory's ZwanzigZ Tap Room is filed under Columbus Central, likely outside the downtown boundary. The production brewery may be a different, unlisted location. Check the permittee map." },
+    { "city_name": "Luciana's Mexican Restaurant", "directory_slug": "lucianas-mexican-restaurant", "directory_name": "Luciana's Mexican Restaurant", "directory_address": "310 Washington St", "status": "likely", "note": "" },
+    { "city_name": "White Star Meat Market", "directory_slug": "white-star-meat-market-and-deli", "directory_name": "White Star Meat Market & Deli", "directory_address": "410 Washington Street", "status": "likely", "note": "" },
+    { "city_name": "The Gallery Bar & Bistro (Hotel Indigo)", "directory_slug": null, "directory_name": null, "directory_address": null, "status": "not-listed", "note": "Inside a chain hotel. The owner decides whether it belongs in an independents directory." },
+    { "city_name": "The Forge on 4th", "directory_slug": "the-forge-english-pub", "directory_name": "The Forge English Pub", "directory_address": "418 4th St", "status": "check", "note": "Names differ. Confirm they're the same business before tagging." },
+    { "city_name": "Fraternal Order of Eagles #741", "directory_slug": null, "directory_name": null, "directory_address": null, "status": "not-listed", "note": "A members' club, not in the directory. The owner decides whether to list it." },
+    { "city_name": "St. Denis (Wine, Books, and Wonders)", "directory_slug": "the-st-denis-wine-books-and-wonders", "directory_name": "The St Denis: Wine, Books, and Wonders", "directory_address": "426 Washington St", "status": "likely", "note": "" }
+  ]
+}

@@ -21,7 +21,7 @@ export const LANDMARKS = [
       credit: 'T G Hess', license: 'CC BY-SA 4.0', page: 'https://commons.wikimedia.org/wiki/File:First_Christian_Church,_Columbus,_IN.jpg', pos: '50% 30%' } },
   { slug: 'northchristian', name: 'North Christian Church', architect: 'Eero Saarinen', year: 1964,
     address: '850 Tipton Lane', ll: [39.22972, -85.91611], llSource: 'Wikipedia', street: true,
-    what: 'A church completed in 1964, with Kevin Roche as associate architect. A National Historic Landmark since 2000.',
+    what: 'A church completed in 1964, with Kevin Roche as associate architect. A National Historic Landmark since 2000. The congregation disbanded in 2022; the Bartholomew County Public Library accepted the building in 2024 and renamed it The LEX in 2025.',
     source: WP + 'North_Christian_Church', checked: CHECKED,
     photo: { src: C + 'd/da/North_Christian_Church_%28Columbus%2C_Indiana%29_-_April_2008_-_Holly_Higgins_03.jpg/1280px-North_Christian_Church_%28Columbus%2C_Indiana%29_-_April_2008_-_Holly_Higgins_03.jpg',
       credit: 'Holly Higgins', license: 'CC BY 2.0', page: 'https://commons.wikimedia.org/wiki/File:North_Christian_Church_(Columbus,_Indiana)_-_April_2008_-_Holly_Higgins_03.jpg', pos: '50% 40%' } },

@@ -9,7 +9,9 @@ Claude Code working in `Legal-Leaf-Market/Heart-Of-Columbus`.
 > newsletter, games, membership), and trails with browser stamp cards
 > (visitor item 8, phase 1) and owner deals and "in their words" through
 > the claim form (items 16 and 17) shipped October 27. It is kept as the record of the plan. The
-> owner decisions below are still open.
+> owner decisions below are still open. Version 2 of the brief (October 27)
+> added `docs/seed/`: what was new in it is noted at the top of
+> `docs/seed/README.md`.
 
 ## The files
 
@@ -22,6 +24,7 @@ at them:
 | `docs/newspaper-plan.md` | 14 news organizations reviewed, 12 build items in four phases (from `heart-of-columbus-newspaper-plan.md`) |
 | `docs/newsroom-policies.md` | Draft standards pages with `[OWNER: ...]` decisions (from `heart-of-columbus-newsroom-policies.md`) |
 | `docs/roadmap.md` | This file |
+| `docs/seed/` | Researched, sourced starting data for PRs 1 to 4 and 16 (see `docs/seed/README.md`) |
 
 ## Add these to CLAUDE.md
 
@@ -75,11 +78,11 @@ Item numbers refer to the briefs.
 
 | # | PR | Brief item | Needs | Adds tests for |
 | --- | --- | --- | --- | --- |
-| 0 | Add the four docs and the CLAUDE.md rules | | | |
-| 1 | `/visit/` page and `src/data/visit.mjs` | Visitor 1 | | source and checked on every entry |
-| 2 | Social District (DORA) tags | Visitor 7 | | each permittee matched by address, unmatched ones listed |
-| 3 | Landmarks dataset and `/l/<slug>/` pages, linked from the architecture strip | Visitor 2 | strip keyboard fix | coordinates present, photo credit present |
-| 4 | Events data, "This weekend" rail, `/events.ics` | Visitor 3 | | source on every event, stale-event warning |
+| 0 | Add the four docs, `docs/seed/`, and the CLAUDE.md rules | | | |
+| 1 | `/visit/` page and `src/data/visit.mjs`, from `docs/seed/visit.json` | Visitor 1 | | source and checked on every entry |
+| 2 | Social District (DORA) tags, from `docs/seed/dora.json` | Visitor 7 | permittee map check for 3 entries | every tagged slug exists, unmatched ones listed |
+| 3 | Landmarks dataset and `/l/<slug>/` pages, linked from the architecture strip, from `docs/seed/landmarks.json` | Visitor 2 | strip keyboard fix, 4 missing coordinates | coordinates present, photo credit present |
+| 4 | Events data, "This weekend" rail, `/events.ics`, from `docs/seed/events.json` | Visitor 3 | | source on every event, stale-event warning |
 | 5 | Standards pages, `staff.mjs`, automatic disclosures | Newspaper 1 | policies draft | `[OWNER: ...]` blocks production |
 | 6 | Story content model, Markdown build, `tests/news.test.mjs` | Newspaper 2 | PR 5 | bylines, labels, alt text, tags, no sample content |
 | 7 | Story template, NewsArticle JSON-LD, "In the news" on business pages | Newspaper 5 | PR 6 | JSON-LD parses and matches page data |
@@ -91,7 +94,7 @@ Item numbers refer to the briefs.
 | 13 | Listing attributes and filters, accessibility page | Visitor 6 | a new data pull | |
 | 14 | Directory diff drafts and public-record leads | Newspaper 6 | PR 6 | drafts never land in published content |
 | 15 | `/ask/`, `/letters/`, `/tips/` | Newspaper 9 | PR 5 | |
-| 16 | `/meetings/`, meeting-notes template, `/data/`, `/notices/` | Newspaper 10 | PR 6 | |
+| 16 | `/meetings/`, meeting-notes template, `/data/`, `/notices/`, from `docs/seed/meetings.json` | Newspaper 10 | PR 6 | |
 | 17 | Morning newsletter and evening "open tonight" | Newspaper 8 | PR 9, email service decision | |
 | 18 | "Where in Columbus?" and the weekly quiz engine | Newspaper 11 | PR 3 | |
 | 19 | Membership page and labeled sponsor slots | Newspaper 12 | funding decision | sponsor slots never inside a story |
@@ -109,9 +112,9 @@ Item numbers refer to the briefs.
 
 ```text
 Read docs/roadmap.md, docs/visitor-site-research.md,
-docs/newspaper-plan.md and docs/newsroom-policies.md. (If they aren't in
-the repo yet, the files are attached: add them under docs/ as PR 0, along
-with the CLAUDE.md rules in the roadmap.)
+docs/newspaper-plan.md, docs/newsroom-policies.md and docs/seed/README.md.
+(If they aren't in the repo yet, the files are attached: add them under
+docs/ as PR 0, along with the CLAUDE.md rules in the roadmap.)
 
 Then work the roadmap's PR table in order, one PR at a time, starting with
 PR 1. Follow CLAUDE.md, including the new rules. Before each PR, recheck any

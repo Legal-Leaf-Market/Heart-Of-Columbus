@@ -14,7 +14,7 @@ import { ORIGIN } from '../jsonld.mjs';
 const styles = ['hoc.css'];
 const ids = SOURCES.map((s) => s.id);
 const pageData = () => ({
-  sources: SOURCES.map(({ id, name, short, calendar, site, feed, checked }) => ({ id, name, short, calendar, site, live: !!feed, checked: checked || '' })),
+  sources: SOURCES.map(({ id, name, short, calendar, site, credit, feed, checked }) => ({ id, name, short, calendar, site, credit: credit || '', live: !!feed, checked: checked || '' })),
   fallback: handEntered(),
   credit: creditLine(ids),
 });
@@ -30,7 +30,7 @@ const firstPaint = () => {
   for (const e of list) (days.at(-1)?.date === e.date ? days.at(-1) : days[days.push({ date: e.date, items: [] }) - 1]).items.push(e);
   return days.map((d) => `<section class="cal-day"><h2>${esc(webDate(d.date))}</h2>${d.items.map((e) => {
     const s = SOURCES.find((x) => x.id === e.src) || { short: '', name: '', calendar: '#' };
-    return `<article class="cal-ev"><p class="cal-time">${esc(e.when)}</p><div class="cal-body"><h3>${ext(e.url, esc(e.title))}</h3><p class="cal-meta">${esc(e.venue)}</p></div>${ext(s.calendar, esc(s.short), `cal-tag cal-tag-${esc(e.src)}`)}</article>`;
+    return `<article class="cal-ev"><p class="cal-time">${esc(e.when)}</p><div class="cal-body"><h3>${ext(e.url, esc(e.title))}</h3><p class="cal-meta">${esc(e.venue)}</p></div>${ext(s.calendar || e.url, esc(s.short), `cal-tag cal-tag-${esc(e.src)}`)}</article>`;
   }).join('')}</section>`).join('');
 };
 const ext = (href, text, cls = '') => `<a${cls ? ` class="${cls}"` : ''} href="${esc(href)}" target="_blank" rel="noopener">${text}</a>`;
@@ -41,9 +41,9 @@ const sourceCards = () => SOURCES.map((s) => `
     <span class="cal-dot cal-dot-${s.id}" aria-hidden="true"></span>
     <div>
       <h3>${esc(s.name)}</h3>
-      <p class="muted">${s.feed ? 'Read from their public calendar feed and refreshed every hour.' : `No public feed yet, so we enter its calendar by hand. Last checked ${esc(fmtChecked(s.checked))}.`}</p>
+      <p class="muted">${s.feed ? 'Read from their public calendar feed and refreshed every hour.' : s.calendar ? `No public feed yet, so we enter its calendar by hand. Last checked ${esc(fmtChecked(s.checked))}.` : `Signature events we read on each organizer’s own page and enter by hand; every listing links that page. Last checked ${esc(fmtChecked(s.checked))}.`}</p>
       <p class="cal-src-state" data-src-state="${s.id}" aria-live="polite"></p>
-      <p>${ext(s.calendar, `Their calendar ${svg('arrow', 'ic-sm')}`, 'see-all')}</p>
+      ${s.calendar ? `<p>${ext(s.calendar, `Their calendar ${svg('arrow', 'ic-sm')}`, 'see-all')}</p>` : ''}
     </div>
   </article>`).join('');
 
@@ -79,7 +79,7 @@ ${breadcrumbs([['/', 'Home'], ['', 'Local events']])}
     <p class="kicker kicker-pill">Local events</p>
     <h1>What’s on in<br><span class="hl">Columbus</span></h1>
     <p class="lede">Library programs, parks events, the county fair, live music and Arts Council nights in one list, each linked to the organizer’s own page.</p>
-    <p class="vs-note">${svg('globe', 'ic-sm')}<span>From the public calendars of the ${SOURCES.map((s) => ext(s.calendar, esc(s.name))).join(', ').replace(/, ([^,]*)$/, ' and $1')}. Not affiliated with them. Times and places change, so check the event page before you go.</span></p>
+    <p class="vs-note">${svg('globe', 'ic-sm')}<span>From the public calendars of the ${SOURCES.filter((s) => s.calendar).map((s) => ext(s.calendar, esc(s.name))).join(', ').replace(/, ([^,]*)$/, ' and $1')}, and from organizers’ own pages. Not affiliated with them. Times and places change, so check the event page before you go.</span></p>
     <p class="btns cal-tools">
       <a class="btn btn-sm" href="#live" data-kind-link>${svg('heart', 'ic-sm')}Live music and arts</a>
       <a class="btn btn-sm btn-ghost" href="/events/print/" data-cal-print>${svg('list', 'ic-sm')}Printable listing</a>

@@ -22,6 +22,11 @@ export const EVENTS = [
     venue: '411 Gallery, 6th Street Arts Alley', ll: [39.20438, -85.92098], llSource: 'U.S. Census geocoder, 411 6th Street',
     line: 'A community art show at the Arts Council’s 411 Gallery. Opening reception December 3, 5 to 7 PM.',
     from: 'arts', url: 'https://www.artsincolumbus.org/50-50', source: 'https://www.artsincolumbus.org/50-50', checked: CHECKED },
+  // The official page gives the date and hours; the point is The Commons, as above.
+  { slug: 'deja-vu-2026', name: 'Deja Vu Art and Fine Craft Show', start: '2026-11-14', end: '2026-11-14', times: [600, 960],
+    venue: 'The Commons', ll: [39.20189, -85.92178], llSource: 'Wikipedia',
+    line: 'A one-day art and fine craft show at The Commons, 10 AM to 4 PM.',
+    from: 'org', url: 'https://www.kid-at-art.com/htdoc/dejavu2026.html', source: 'https://www.kid-at-art.com/htdoc/dejavu2026.html', checked: '2026-10-27' },
 ];
 
 // Calendar-only entries: smaller dated happenings from a calendar that has
@@ -36,6 +41,11 @@ export const LISTINGS = [
     venue: 'Studio C', from: 'arts', url: 'https://www.artsincolumbus.org/studio-c', source: 'https://www.artsincolumbus.org/calendar', checked: CHECKED },
   { slug: 'wheel-throwing-2026-11-28-b', name: 'One-Night Wheel Throwing with Ben Eckert', start: '2026-11-28', end: '2026-11-28', times: [1020, 1140],
     venue: 'Studio C', from: 'arts', url: 'https://www.artsincolumbus.org/studio-c', source: 'https://www.artsincolumbus.org/calendar', checked: CHECKED },
+  // The official page says only "Returning December 5, 2026": no time, route
+  // or place yet, so it is listed by date (it was downtown in 2025) and kept
+  // off the map until the 2026 details are posted there.
+  { slug: 'festival-of-lights-2026', name: 'Columbus Festival of Lights', start: '2026-12-05', end: '2026-12-05',
+    venue: 'Downtown Columbus, details to come', from: 'org', url: 'https://columbusfestivaloflights.com/', source: 'https://columbusfestivaloflights.com/', checked: '2026-10-27' },
   // The county fair, from the fair's own home page. `feature` puts it at the
   // top of /events/ whenever it is the next fair, however far off.
   { slug: 'county-fair-2027', name: 'Bartholomew County 4-H Fair', start: '2027-06-25', end: '2027-07-03', feature: true,
@@ -89,6 +99,10 @@ export const SOURCES = [
     calendar: 'https://thegaragepubandgrill.com/events', feed: null, checked: '2026-10-26' },
   { id: 'arts', name: 'Columbus Area Arts Council', short: 'Arts Council', site: 'artsincolumbus.org',
     calendar: 'https://www.artsincolumbus.org/calendar', feed: null, checked: CHECKED },
+  // Signature events read on the organizer's own page, one page per event,
+  // so there is no calendar to link: each listing links its own page.
+  { id: 'org', name: 'Event organizers', short: 'Organizer', site: '', credit: 'the organizers’ own pages',
+    calendar: null, feed: null, checked: '2026-10-27' },
 ];
 
 // For anything else, link out.

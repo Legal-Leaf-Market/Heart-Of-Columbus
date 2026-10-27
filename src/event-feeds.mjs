@@ -361,7 +361,7 @@ export async function collect({ from, days = 31, only = null, fetchImpl = global
 
 // ---------- Exports for print, newspapers and calendars ----------
 const credit = (srcs) => {
-  const names = srcs.map((s) => `${s.name} (${s.site})`);
+  const names = srcs.map((s) => (s.site ? `${s.name} (${s.site})` : s.credit));
   const list = names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}` : names[0] || '';
   return `Listings from the public calendars of ${list}. Times and places can change; check with the organizer. Compiled by Heart of Columbus.`;
 };
@@ -402,7 +402,7 @@ export function toIcs({ events }, now = new Date()) {
     }
     const s = sourceById[e.src];
     lines.push(`SUMMARY:${text(e.title)}`, ...(e.venue ? [`LOCATION:${text(e.venue + ', Columbus, Indiana')}`] : []), `URL:${e.url}`,
-      `DESCRIPTION:${text(`${e.when}. From the ${s ? s.name : 'organizer'} calendar. Details: ${e.url}`)}`, 'END:VEVENT');
+      `DESCRIPTION:${text(`${e.when}. From ${s && s.calendar ? `the ${s.name} calendar` : 'the organizer’s page'}. Details: ${e.url}`)}`, 'END:VEVENT');
   }
   lines.push('END:VCALENDAR');
   return lines.map((l) => { const parts = []; let rest = l; while (rest.length > 73) { parts.push(rest.slice(0, 73)); rest = rest.slice(73); } parts.push(rest); return parts.join('\r\n '); }).join('\r\n') + '\r\n';
