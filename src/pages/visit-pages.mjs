@@ -7,6 +7,7 @@ import { header, footer, svg, tel, rail, breadcrumbs } from '../site.mjs';
 import { directory } from '../data/directory.mjs';
 import { eventsSection } from './events.mjs';
 import { yourWay } from './trip-pages.mjs';
+import { trailCards } from './trail-pages.mjs';
 import { spotlightSection } from './spotlight.mjs';
 import { ORIGIN } from '../jsonld.mjs';
 import { VISITORS_CENTER, TOURS, GETTING_HERE, GETTING_AROUND, SOCIAL_DISTRICT, SRC } from '../data/visit.mjs';
@@ -23,7 +24,7 @@ const EN = {
   h1a: 'Coming to Columbus?', h1b: 'Start here.',
   lede: 'Where to start, how to see the architecture, how to get here and get around, and the downtown Social District. Then find the independent places to eat, shop and stay busy on the rest of this site.',
   note: (official, date) => `Heart of Columbus is not the visitors bureau. For official tours, events and visitor information, go to <a href="${official}" target="_blank" rel="noopener">Visit Columbus Indiana</a>. Each fact below links to where we found it, checked ${date}.`,
-  jump: { 'visitors-center': 'Visitors Center', tours: 'Architecture tours', 'getting-here': 'Getting here', 'getting-around': 'Getting around', 'social-district': 'Social District', 'call-ahead': 'Call ahead', 'your-way': 'Trip ideas', 'whats-on': 'What’s on', '/free/': 'Free in Columbus', '/film/': 'Film trail', '/architecture/': 'Architecture', '/arts/': 'Public art', '/cummins/': 'Cummins', '/skate/': 'Skate park', '/holidays/': 'Holiday shopping' },
+  jump: { 'visitors-center': 'Visitors Center', tours: 'Architecture tours', 'getting-here': 'Getting here', 'getting-around': 'Getting around', 'social-district': 'Social District', 'call-ahead': 'Call ahead', 'your-way': 'Trip ideas', 'whats-on': 'What’s on', '/free/': 'Free in Columbus', '/film/': 'Film trail', '/trails/': 'Stamp trails', '/architecture/': 'Architecture', '/arts/': 'Public art', '/cummins/': 'Cummins', '/skate/': 'Skate park', '/holidays/': 'Holiday shopping' },
   vc: { kicker: 'Start here', name: VISITORS_CENTER.name, downtown: 'downtown', hours: 'Hours and holiday hours', listing: 'Its listing here' },
   tours: { kicker: 'Architecture', title: 'See the buildings', lead: 'Columbus is known for modern architecture. The Visitors Center runs the official guided tours.', btn: 'Tour times, prices and tickets', near: 'Downtown places nearby' },
   here: { kicker: 'Getting here', title: 'By car and by air', btn: 'Full directions' },
@@ -90,6 +91,7 @@ ${section('call-ahead', '📞', L.ahead.kicker, L.ahead.title, `
 </div>
 ${es ? yourWay({ lang: 'es' }) : `${spotlightSection({ kicker: 'While you’re in town', title: 'Three local places we’d send a friend' })}
 ${yourWay()}
+${trailCards({ title: 'Trails with a stamp card' })}
 ${eventsSection({ mode: 'upcoming', id: 'whats-on', title: 'What’s on', kicker: 'Signature events' })}
 ${rail('Social District businesses on our list', '/n/downtown/#social-district', directory.filter((b) => b.dora), { kicker: 'Drinks to go downtown, 21 and up' })}`}
 </main>

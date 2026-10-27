@@ -94,6 +94,10 @@ Indiana. A pitch, not a live service. See README.md.
   `/architecture/`, `/arts/` and `/cummins/` (guides from `src/data/architecture.mjs`,
   `arts.mjs`, `cummins.mjs`; every line sourced, public art only on public ground;
   Cummins is not affiliated),
+  `/trails/<slug>/` (`src/data/trails.mjs`: each trail is a rule over the
+  directory or landmarks, with an honor-system stamp card kept only in the
+  browser; "not a program they joined", no prizes, no check-ins until a
+  business is in partners.mjs),
   `/l/<slug>/` one page per landmark (`src/data/landmarks.mjs`; `PHOTOS` in
   `src/site.mjs` is a view over it). Events are hand-entered in
   `src/data/events.mjs` (signature events only, each with its official page);
