@@ -9,6 +9,7 @@ import { EVENTS } from '../data/events.mjs';
 import { dateRange } from './events.mjs';
 import { businessLd } from '../jsonld.mjs';
 import { spotlightSection, ownersPicks, spotFor } from './spotlight.mjs';
+import { ownerWords } from './owner-words.mjs';
 import { SPOTLIGHT_SLUGS } from '../data/spotlight.mjs';
 import { storiesTagged } from '../news/content.mjs';
 import { storyList } from '../news/render.mjs';
@@ -196,7 +197,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
     </div>
     <div class="side-card claim">
       <p class="kicker">Is this your business?</p>
-      <p>Fix your hours and links, point customers at your own ordering, or take pickup orders here with no app fees.</p>
+      <p>Fix your hours and links, point customers at your own ordering, or take pickup orders here with no app fees. You can also post a deal or tell your story in your own words.</p>
       <a class="btn btn-sm" href="/owners/?b=${b.slug}#claim">Claim this listing ${svg('arrow', 'ic-sm')}</a>
     </div>
     <p class="fine">Details come from public listings (Chamber directory, Visit Columbus, Google Maps) and may change. Call ahead. Heart of Columbus is not affiliated with this business.</p>
@@ -210,6 +211,7 @@ ${media && (media.logo || (media.gallery || []).length) ? `
   <p class="fine">${esc(media.credit)}, shown with permission.</p>
 </section>` : ''}
 ${ownersPicks(b)}
+${ownerWords(b)}
 ${b.feed ? `<section class="wrap shop-sec" id="shop"><p class="kicker">Live from their store</p><h2>Shop ${t(b.name)} online</h2>
   <p class="sub">Their real products and prices, read from their own online store. Add to your cart here, then check out on their site with everything already in the cart. Choose pickup there if they offer it.</p>
   <div data-shop="${b.slug}" data-name="${esc(b.name)}"><p class="muted">Loading their store…</p></div></section>` : ''}

@@ -11,6 +11,8 @@ const TIERS = [
   ['link', '🔗', 'Link your own ordering or booking', 'Already on Toast, Square, Vagaro, Booksy, Shopify? Your "Order online" or "Book online" button goes straight there. We take nothing.'],
   ['pickup', '🛍️', 'Take pickup orders here', 'No ordering system yet? Customers send their order through Heart of Columbus, you get it on a live counter board on any phone or tablet, they pay you at pickup.'],
   ['storefront', '🏪', 'Get a full storefront', 'A site that looks like your place, with your real menu or services, like Jill’s Diner.'],
+  ['story', '✍️', 'Tell it in your words', 'A few lines about your place, from you. We show it on your listing as yours, labeled with when you sent it, and never write or rewrite it.'],
+  ['deal', '🏷️', 'Post a deal', 'A special or discount with an end date. It shows on your listing until the day it ends, then comes down by itself.'],
   ['photos', '📷', 'Send us your photos', 'Your storefront, your food, your team, your logo. We show them on your listing with your credit, and never copy them from your website without asking.'],
 ];
 
@@ -53,6 +55,10 @@ ${header('')}
       <fieldset class="ow-reach" aria-describedby="ow-reach-h"><legend>How can we reach you?</legend>
         <p class="muted" id="ow-reach-h">A phone number or an email, at least one.</p>
         <div class="ow-two"><label>Phone<input name="phone" type="tel" autocomplete="tel" inputmode="tel"></label><label>Email<input name="email" type="email" autocomplete="email"></label></div>
+      </fieldset>
+      <fieldset class="ow-yours"><legend>For your listing <span class="muted">(optional)</span></legend>
+        <label>In your words <span class="muted">A few lines about your place, shown as yours</span><textarea name="story" rows="3" maxlength="800"></textarea></label>
+        <div class="ow-two"><label>A deal <span class="muted">What it is</span><input name="deal" maxlength="200"></label><label>Deal ends<input name="dealEnds" type="date"></label></div>
       </fieldset>
       <label>Anything else? <span class="muted">Hours, what’s wrong, what you use now</span><textarea name="message" rows="4" maxlength="1500"></textarea></label>
       <label class="ow-hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>

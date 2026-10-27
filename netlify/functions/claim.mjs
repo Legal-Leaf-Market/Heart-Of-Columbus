@@ -17,7 +17,7 @@ export const config = { path: '/api/claim' };
 
 const json = (body, status = 200) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
 const clean = (s, max) => String(s ?? '').replace(/[\u0000-\u001f\u007f]/g, ' ').trim().slice(0, max);
-const WANTS = ['fix', 'link', 'pickup', 'storefront', 'photos', 'remove'];
+const WANTS = ['fix', 'link', 'pickup', 'storefront', 'photos', 'story', 'deal', 'remove'];
 const escHtml = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
 // The answer to a form sent without its script: a plain page, never a redirect
@@ -64,10 +64,15 @@ export default async (req) => {
       name: clean(b.name, 80), role: clean(b.role, 60),
       phone: clean(b.phone, 30), email: clean(b.email, 120),
       wants: (Array.isArray(b.wants) ? b.wants : []).map((w) => clean(w, 20)).filter((w) => WANTS.includes(w)),
+      story: clean(b.story, 800), deal: clean(b.deal, 200),
+      dealEnds: /^\d{4}-\d{2}-\d{2}$/.test(clean(b.dealEnds, 10)) ? clean(b.dealEnds, 10) : '',
       message: clean(b.message, 1500), createdAt: new Date().toISOString(), status: 'new',
     };
     if (!lead.business) return reply(false, 'Which business is this about?', 400);
     if (!lead.name) return reply(false, 'Please add your name.', 400);
+    if (lead.deal && !lead.dealEnds) return reply(false, 'When does the deal end? Every deal needs an end date.', 400);
+    if (lead.story && !lead.wants.includes('story')) lead.wants.push('story');
+    if (lead.deal && !lead.wants.includes('deal')) lead.wants.push('deal');
     if (!lead.phone && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(lead.email)) return reply(false, 'Add a phone number or email so we can reach you.', 400);
     await store.setJSON(`lead/${lead.id}`, lead);
     const index = (await store.getJSON('index')) || [];

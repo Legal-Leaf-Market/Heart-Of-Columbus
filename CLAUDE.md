@@ -34,6 +34,9 @@ Indiana. A pitch, not a live service. See README.md.
   row; an unconfirmed flag is `unknown` and stays listed. Copy never says "zero
   chains" or "every independent": nobody has verified every record. Totals are
   `directory.length`, so they follow the data.
+- **Owner words and deals come only from owners** (`src/data/owner-words.mjs`):
+  sent through the claim form, entered by hand with `sent` and `confirmed`,
+  published as written; every deal has `ends` and comes down by itself.
 - **Owner picks come only from owners.** With none sent, no picks box shows at
   all (no placeholder rows); the business's own page gets a one-line invitation.
 - **Public events only.** `access()` in `src/event-feeds.mjs` reads a listing's
