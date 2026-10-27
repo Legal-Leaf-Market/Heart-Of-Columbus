@@ -7,6 +7,7 @@ import { header, footer, svg, breadcrumbs, PHOTOS } from '../site.mjs';
 import { DECADES as ALL_DECADES, SERIES as ALL_SERIES, SECTIONS, ARTICLES, DECADE_ARTICLES, sectionBySlug, groupBySlug } from '../data/history/index.mjs';
 import { landmarkBySlug } from '../data/landmarks.mjs';
 import { ORIGIN } from '../jsonld.mjs';
+import { reader, nameplate } from '../kindle.mjs';
 
 const styles = ['hoc.css'];
 // Only decades and series that have landed get pages and links.
@@ -139,7 +140,8 @@ function articlePage(a, { assets }) {
 ${header()}
 <main id="main">
 ${crumbs([`/history/${g.slug}/`, DECADES.includes(g) ? g.slug : g.title], ['', a.title])}
-<article class="wrap hx-article">
+${reader({ section: s.label, inner: `<article class="wrap hx-article">
+  ${nameplate(['History', s.label, a.decade ? a.decade : ''])}
   <header class="hx-ahead">
     <p class="kicker">${label(a)}<a href="/history/section/${s.slug}/">${esc(s.label)}</a> · ${esc(a.when)}</p>
     <h1>${t(a.title)}</h1>
@@ -155,11 +157,11 @@ ${crumbs([`/history/${g.slug}/`, DECADES.includes(g) ? g.slug : g.title], ['', a
   ${a.sources.length ? `<section class="hx-sources" aria-labelledby="src-h"><h2 id="src-h">Sources</h2><ol>${a.sources.map(([l, u]) => `<li><a href="${esc(u)}" target="_blank" rel="noopener">${t(l)}</a> <span class="vs-src">${esc(host(u))}</span></li>`).join('')}</ol>
   <h3>How we reported this</h3><p class="fine">${t(a.methods)}${a.checked ? ` Sources checked ${esc(a.checked)}.` : ''} Know something we got wrong? Tell us and we’ll fix it.</p></section>` : `<p class="fine">${opinion ? 'Opinion: the views here are the author’s.' : ''}</p>`}
   <nav class="hx-pager" aria-label="More from ${esc(g.slug)}">${prev ? `<a class="btn btn-sm btn-ghost" href="${prev.path}">‹ Previous</a>` : ''}<a class="btn btn-sm btn-ghost" href="/history/${g.slug}/">${DECADES.includes(g) ? `All of the ${g.slug}` : esc(g.title)}</a>${next ? `<a class="btn btn-sm btn-ghost" href="${next.path}">Next ›</a>` : ''}</nav>
-</article>
+</article>` })}
 </main>
 ${footer()}`;
   return page({
-    title: `${a.title} | Columbus history | Heart of Columbus`, description: a.dek, body, scripts: ['site.js'], styles, assets,
+    title: `${a.title} | Columbus history | Heart of Columbus`, description: a.dek, body, scripts: ['site.js', 'kindle.js'], styles: [...styles, 'kindle.css'], assets,
     ld: opinion ? [] : [{ '@context': 'https://schema.org', '@type': 'Article', headline: a.title, description: a.dek, url: ORIGIN + a.path, wordCount: a.words, articleSection: s.label, author: { '@type': 'Organization', name: a.byline }, citation: a.sources.map(([, u]) => u) }],
   });
 }

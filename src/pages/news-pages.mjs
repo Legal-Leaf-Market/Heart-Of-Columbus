@@ -18,6 +18,7 @@ import { directory, areaBySlug, AREAS } from '../data/directory.mjs';
 import { eventsSection } from './events.mjs';
 import { ALERT, activeAlert, LEVELS } from '../news/alert.mjs';
 import { BODIES } from '../data/civic.mjs';
+import { reader, nameplate } from '../kindle.mjs';
 
 // Columbus, for the weather box: the Bartholomew County Courthouse.
 const WX = { lat: 39.2014, lon: -85.9214, gauge: '03364000' };
@@ -142,7 +143,8 @@ function storyPage(ctx, s) {
   return newsPage({
     ...ctx, path: s.href, title: s.headline, description: s.dek || s.headline, banner,
     crumbs: [['/news/', 'News'], [sectionHref(sec), sec.name], ['', s.headline]],
-    body: storyBody(s) + inThisStory(s) + `<div class="wrap np-story-end">${storyAsk()}</div>`,
+    styles: ['kindle.css'], scripts: ['kindle.js'],
+    body: reader({ section: sec.name, inner: nameplate(['News', sec.name]) + storyBody(s) }) + inThisStory(s) + `<div class="wrap np-story-end">${storyAsk()}</div>`,
     ld: s.sample || s.draft ? [] : [newsArticleLd({ ...s, sectionName: sec.name }, { people: s.bylines.map((b) => person(b)), paper: PAPER })],
   });
 }
