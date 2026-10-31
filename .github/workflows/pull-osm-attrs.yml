@@ -1,0 +1,29 @@
+# Pulls the visitor attributes OpenStreetMap mappers have recorded
+# (scripts/pull-osm-attrs.mjs) and commits the raw file, so src/data/attrs.mjs
+# can be rebuilt from a machine with open internet. One read-only query to
+# the public Overpass API, nothing posted.
+name: Pull OSM attributes
+on:
+  workflow_dispatch:
+  push:
+    branches: ['claude/**']
+    paths: ['scripts/data/attrs-request.txt']
+permissions:
+  contents: write
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/pull-osm-attrs.mjs scripts/data/osm-attrs.json
+      - name: Commit results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/data/osm-attrs.json
+          git diff --cached --quiet || git commit -m "OSM attributes from the Pull OSM attributes workflow"
+          git push
