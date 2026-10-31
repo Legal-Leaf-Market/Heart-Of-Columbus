@@ -8,6 +8,7 @@ import { LANDMARKS } from './data/landmarks.mjs';
 import { SPOTLIGHT_SLUGS } from './data/spotlight.mjs';
 import { NEWS_LIVE } from './data/paper.mjs';
 import { mediaFor, mediaSrc } from './data/media.mjs';
+import { attrCodes } from './attrs.mjs';
 
 // Cover art for a business type, only when public/art has one for it;
 // otherwise the card shows its emoji on the pattern.
@@ -192,6 +193,7 @@ export const searchIndex = () =>
     o: b.order.length ? 1 : 0, k: b.book.length ? 1 : 0, f: b.feed || b.store ? 1 : 0,
     ...(b.hours ? { t: b.hours } : {}),
     ...(b.dora ? { z: 1 } : {}),
+    ...(attrCodes(b) ? { x: attrCodes(b) } : {}),
     ...(hasCover(b.sub) ? { v: 1 } : {}),
   }));
 

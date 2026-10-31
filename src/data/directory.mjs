@@ -10,6 +10,7 @@ import { landscape } from './landscape.mjs';
 import { WEB } from './web.mjs';
 import { COMMERCE } from './commerce.mjs';
 import { HOURS } from './hours.mjs';
+import { ATTRS } from './attrs.mjs';
 import { DORA_SLUGS } from './dora.mjs';
 import { GEO } from './geo.mjs';
 import { ADDED } from './added.mjs';
@@ -222,6 +223,7 @@ for (const b of all) {
   b.gift = c && c.gift ? c.gift : null;
   b.platform = c ? c.platform || '' : '';
   b.hours = HOURS[b.slug] || null;
+  b.attrs = ATTRS[b.slug] || null;
   const g = GEO[b.slug];
   if (g) {
     b.ll = [g[0], g[1]];

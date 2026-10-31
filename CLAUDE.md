@@ -141,6 +141,16 @@ Indiana. A pitch, not a live service. See README.md.
   to `scripts/data/probe-deep.json`. Rebuild with
   `node scripts/import-commerce.mjs scripts/data/probe-results.json scripts/data/probe-deep.json`;
   new provider patterns in `PROVIDERS` apply without probing again.
+- **Listing attributes** (wheelchair access, dogs, outdoor seating, vegetarian)
+  come from OpenStreetMap, never inferred: the "Pull OSM attributes" workflow
+  (`scripts/pull-osm-attrs.mjs`, triggered by editing
+  `scripts/data/attrs-request.txt` on a claude branch) saves
+  `scripts/data/osm-attrs.json`; `node scripts/import-attrs.mjs` writes
+  `src/data/attrs.mjs`, matching by address plus a shared name word (or a
+  shared name word within 40 m when the map has no address) and leaving the
+  rest in `scripts/data/attrs-unmatched.json` for a person. Every place they
+  show carries "© OpenStreetMap contributors" and a fix link. Missing means
+  unknown. `/visit/accessibility/` and the /explore/ `attr=` filter read them.
 - **We never take payment or orders for a business that hasn't signed on.**
   "Order online" and "Book online" link to the business's own provider page
   (Toast, Square, Vagaro...). "Shop online" reads a public Shopify or

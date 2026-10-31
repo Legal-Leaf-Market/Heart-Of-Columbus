@@ -10,6 +10,7 @@ import { dateRange } from './events.mjs';
 import { businessLd } from '../jsonld.mjs';
 import { spotlightSection, ownersPicks, spotFor } from './spotlight.mjs';
 import { ownerWords } from './owner-words.mjs';
+import { attrBlock, ANY_ATTRS, ATTR_FILTERS } from '../attrs.mjs';
 import { SPOTLIGHT_SLUGS } from '../data/spotlight.mjs';
 import { storiesTagged } from '../news/content.mjs';
 import { storyList } from '../news/render.mjs';
@@ -193,6 +194,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
         ${b.phone ? `<p>${svg('phone', 'ic-sm')} <a href="${tel(b.phone)}">${esc(b.phone)}</a></p>` : '<p class="muted">No public phone number in the listings we used. Try the map link for current contact details.</p>'}
         ${b.tempClosed ? '<p class="open-badge is-closed">Temporarily closed, per their Google listing</p>' : ''}
         ${b.hours ? `${hoursTable(b.hours)}<p class="fine">Hours from their Google listing, October 2026. Holidays can differ; call ahead.</p>` : ''}
+        ${attrBlock(b)}
       </div>
     </div>
     <div class="side-card claim">
@@ -279,6 +281,7 @@ ${header(saved ? 'saved' : 'explore')}
       <label class="check"><input type="checkbox" data-ex-open> Open now</label>
       <label class="check"><input type="checkbox" data-ex-online> Order, book or shop online</label>
       <label class="check"><input type="checkbox" data-ex-demo> Storefront demo</label>
+      ${ANY_ATTRS ? `<h2>On the map as <small class="muted">(OpenStreetMap)</small></h2>${ATTR_FILTERS.map(([k, l]) => `<label class="check"><input type="checkbox" data-ex-attr="${k}"> ${l}</label>`).join('')}` : ''}
       <h2>Sort</h2>
       <select data-ex-sort aria-label="Sort"><option value="match">Best match</option><option value="az">A to Z</option><option value="za">Z to A</option><option value="area">By neighborhood</option><option value="near">Nearest to me</option>${saved ? '<option value="walk">Walking order</option>' : ''}</select><p class="fine" data-ex-near-msg hidden></p>
     </aside>
