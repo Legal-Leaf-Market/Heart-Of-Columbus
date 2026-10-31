@@ -8,7 +8,9 @@ Claude Code working in `Legal-Leaf-Market/Heart-Of-Columbus`.
 > stories, CMS, front page, alerts, trips, leads, reader forms, meetings,
 > newsletter, games, membership), and trails with browser stamp cards
 > (visitor item 8, phase 1) and owner deals and "in their words" through
-> the claim form (items 16 and 17) shipped October 27. It is kept as the record of the plan. The
+> the claim form (items 16 and 17) shipped October 27. Listing attributes
+> and `/visit/accessibility/` (item 6, PR 13) shipped October 31 from
+> OpenStreetMap, which needs no key. It is kept as the record of the plan. The
 > owner decisions below are still open. Version 2 of the brief (October 27)
 > added `docs/seed/`: what was new in it is noted at the top of
 > `docs/seed/README.md`.

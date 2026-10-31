@@ -38,7 +38,7 @@
   var params = new URLSearchParams(location.search);
   var st = {
     q: params.get('q') || '', cat: params.get('cat') || '', sub: params.get('sub') || '', area: params.get('area') || '',
-    phone: params.get('phone') === '1', demo: params.get('demo') === '1', online: params.get('online') === '1', open: params.get('open') === '1', sort: params.get('sort') || 'match', view: params.get('view') || 'list',
+    phone: params.get('phone') === '1', demo: params.get('demo') === '1', online: params.get('online') === '1', open: params.get('open') === '1', attr: (params.get('attr') || '').split(',').filter(Boolean), sort: params.get('sort') || 'match', view: params.get('view') || 'list',
     now: !savedOnly && params.get('now') === '1', layers: (params.get('layers') || 'b,l,e').split(','),
   };
   if (st.now) { st.view = 'map'; st.open = true; st.sort = 'near'; }
@@ -85,6 +85,7 @@
     if (st.phone) p.set('phone', '1');
     if (st.demo) p.set('demo', '1');
     if (st.online) p.set('online', '1');
+    if (st.attr.length) p.set('attr', st.attr.join(','));
     if (st.open && !st.now) p.set('open', '1');
     if (st.now) { p.set('now', '1'); p.delete('sort'); }
     if (st.layers.join(',') !== 'b,l,e') p.set('layers', st.layers.join(','));
@@ -96,7 +97,7 @@
     var saved = savedOnly ? (window.HoCTripIds ? window.HoCTripIds() : window.HoCSaved()) : null;
     var out = all.filter(function (b) {
       return (!saved || saved.indexOf(b.s) !== -1) && (!st.cat || b.c === st.cat) && (!st.sub || b.u === st.sub) &&
-        (!st.area || b.r === st.area) && (!st.phone || b.p) && (!st.demo || b.d) && (!st.online || b.o || b.k || b.f) && (!st.open || ((window.HoCOpen(b.t) || {}).open)) && (!st.q || window.HoCMatch(b, st.q));
+        (!st.area || b.r === st.area) && (!st.phone || b.p) && (!st.demo || b.d) && (!st.online || b.o || b.k || b.f) && st.attr.every(function (a) { return (b.x || '').indexOf(a) !== -1; }) && (!st.open || ((window.HoCOpen(b.t) || {}).open)) && (!st.q || window.HoCMatch(b, st.q));
     });
     var name = function (b) { return b.n.replace(/^the /i, ''); };
     if (st.sort === 'near' && me) {
@@ -165,7 +166,7 @@
   // ---------- No results: say why and offer a way back ----------
   // Each button says how many places it would bring back, counted with the
   // same filter the list uses, so a button never leads to another empty page.
-  var FILTERS = { cat: '', sub: '', area: '', phone: false, open: false, online: false, demo: false };
+  var FILTERS = { cat: '', sub: '', area: '', phone: false, open: false, online: false, demo: false, attr: [] };
   function countWith(over) {
     var keep = {}, k;
     for (k in over) { keep[k] = st[k]; st[k] = over[k]; }
@@ -176,7 +177,7 @@
   function recover() {
     var box = $('[data-ex-recover]'), why = $('[data-ex-why]');
     if (!box) return;
-    var active = Object.keys(FILTERS).filter(function (k) { return st[k]; });
+    var active = Object.keys(FILTERS).filter(function (k) { return Array.isArray(st[k]) ? st[k].length : st[k]; });
     var opts = [];
     if (st.q && active.length) { var n1 = countWith(FILTERS); if (n1) opts.push(['filters', 'Search all of Columbus for “' + st.q + '” (' + n1 + ')']); }
     if (st.q) { var n2 = countWith({ q: '' }); if (n2) opts.push(['query', 'Clear the search (' + n2 + ')']); }
@@ -190,7 +191,7 @@
     var b = e.target.closest && e.target.closest('[data-recover]');
     if (!b) return;
     if (b.dataset.recover === 'query') { st.q = ''; q.value = ''; }
-    else { for (var k in FILTERS) st[k] = FILTERS[k]; area.value = ''; ph.checked = op.checked = on.checked = dm.checked = false; st.now = false; }
+    else { for (var k in FILTERS) st[k] = FILTERS[k]; area.value = ''; ph.checked = op.checked = on.checked = dm.checked = false; $$('[data-ex-attr]').forEach(function (c) { c.checked = false; }); st.now = false; }
     shown = PAGE; render();
     $('[data-ex-count]').focus && $('[data-ex-count]').setAttribute('tabindex', '-1');
     $('[data-ex-count]').focus();
@@ -290,6 +291,10 @@
   op.addEventListener('change', function () { st.open = op.checked; shown = PAGE; render(); });
   var on = $('[data-ex-online]'); on.checked = st.online;
   on.addEventListener('change', function () { st.online = on.checked; shown = PAGE; render(); });
+  $$('[data-ex-attr]').forEach(function (c) {
+    c.checked = st.attr.indexOf(c.dataset.exAttr) !== -1;
+    c.addEventListener('change', function () { st.attr = $$('[data-ex-attr]').filter(function (x) { return x.checked; }).map(function (x) { return x.dataset.exAttr; }); shown = PAGE; render(); });
+  });
   var dm = $('[data-ex-demo]'); dm.checked = st.demo;
   dm.addEventListener('change', function () { st.demo = dm.checked; shown = PAGE; render(); });
   $$('[data-view]').forEach(function (b) { b.addEventListener('click', function () { st.view = b.dataset.view; render(); }); });

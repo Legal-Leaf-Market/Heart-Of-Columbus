@@ -1,0 +1,1041 @@
+{
+ "pulled": "2026-10-31",
+ "source": "https://www.openstreetmap.org/",
+ "license": "ODbL",
+ "elements": [
+  {
+   "id": "node/2758275801",
+   "ll": [
+    39.2025717,
+    -85.921713
+   ],
+   "tags": {
+    "name": "Columbus Bar",
+    "amenity": "bar",
+    "addr:housenumber": "322",
+    "addr:street": "4th Street",
+    "wheelchair": "yes",
+    "toilets:wheelchair": "yes"
+   }
+  },
+  {
+   "id": "node/2838808950",
+   "ll": [
+    39.2017248,
+    -85.9212034
+   ],
+   "tags": {
+    "name": "2 Arcs de 212.5˚ -- \"Red C\"",
+    "addr:housenumber": "300",
+    "addr:street": "Washington Street",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "node/2838810478",
+   "ll": [
+    39.2011795,
+    -85.9219616
+   ],
+   "tags": {
+    "name": "Dolphin",
+    "amenity": "fountain",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "node/2838932791",
+   "ll": [
+    39.2001133,
+    -85.9221778
+   ],
+   "tags": {
+    "name": "Birds of Fire",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "id": "node/2838947641",
+   "ll": [
+    39.2527475,
+    -85.9025751
+   ],
+   "tags": {
+    "name": "Bravo Cohort",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "id": "node/2838961742",
+   "ll": [
+    39.2021864,
+    -85.9213956
+   ],
+   "tags": {
+    "name": "Chaos I",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "node/2838963265",
+   "ll": [
+    39.1999195,
+    -85.9234156
+   ],
+   "tags": {
+    "name": "Crack the Whip",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "node/2838964276",
+   "ll": [
+    39.2044045,
+    -85.8929646
+   ],
+   "tags": {
+    "name": "Christus",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "id": "node/2842435546",
+   "ll": [
+    39.207941,
+    -85.9230402
+   ],
+   "tags": {
+    "name": "Dreaming of a Greener Columbus",
+    "addr:street": "Jackson Street",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "id": "node/2842827694",
+   "ll": [
+    39.2039719,
+    -85.9228837
+   ],
+   "tags": {
+    "name": "Exploded Engine",
+    "addr:housenumber": "500",
+    "addr:street": "Jackson Street",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "node/2842832871",
+   "ll": [
+    39.1973373,
+    -85.880093
+   ],
+   "tags": {
+    "name": "Flight",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "id": "node/2842832886",
+   "ll": [
+    39.199947,
+    -85.9202727
+   ],
+   "tags": {
+    "name": "Friendship Quilt",
+    "addr:street": "2nd Street",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "node/2842839770",
+   "ll": [
+    39.2029448,
+    -85.9215249
+   ],
+   "tags": {
+    "name": "Friendship Way",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "node/2842874316",
+   "ll": [
+    39.205001,
+    -85.8937154
+   ],
+   "tags": {
+    "name": "Garden of Gethsemane",
+    "addr:housenumber": "501",
+    "addr:street": "Gladstone Avenue",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "node/2842879427",
+   "ll": [
+    39.2031083,
+    -85.9228088
+   ],
+   "tags": {
+    "name": "Generations",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "node/2842879958",
+   "ll": [
+    39.2245873,
+    -85.9117956
+   ],
+   "tags": {
+    "name": "Gift of the Sage",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "node/2843377942",
+   "ll": [
+    39.2085646,
+    -85.8988681
+   ],
+   "tags": {
+    "name": "One Step at a Time",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "id": "node/2844197047",
+   "ll": [
+    39.2024031,
+    -85.926868
+   ],
+   "tags": {
+    "name": "Skopos",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "id": "node/2844197989",
+   "ll": [
+    39.2031322,
+    -85.8989603
+   ],
+   "tags": {
+    "name": "Stop…Think",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "id": "node/2844198597",
+   "ll": [
+    39.251304,
+    -85.9038839
+   ],
+   "tags": {
+    "name": "Sun Dial Tower",
+    "wheelchair": "no"
+   }
+  },
+  {
+   "id": "node/2844232678",
+   "ll": [
+    39.2225978,
+    -85.8952467
+   ],
+   "tags": {
+    "name": "The Skater",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "id": "node/2844239923",
+   "ll": [
+    39.253069,
+    -85.9035261
+   ],
+   "tags": {
+    "name": "Transformations",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "node/2844251505",
+   "ll": [
+    39.2075999,
+    -85.89262
+   ],
+   "tags": {
+    "name": "War Memorial",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "id": "node/2844255311",
+   "ll": [
+    39.1357281,
+    -85.9365839
+   ],
+   "tags": {
+    "name": "When I Was Your Age",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "id": "node/2844257995",
+   "ll": [
+    39.2038751,
+    -85.9195654
+   ],
+   "tags": {
+    "name": "Yellow Neon Chandelier and Persians",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "node/2844260434",
+   "ll": [
+    39.1881613,
+    -85.9006261
+   ],
+   "tags": {
+    "name": "Yellowwood Coral",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "id": "node/6049043440",
+   "ll": [
+    39.2174171,
+    -85.8833396
+   ],
+   "tags": {
+    "name": "Jimmy John's",
+    "brand": "Jimmy John's",
+    "amenity": "fast_food",
+    "cuisine": "sandwich",
+    "addr:housenumber": "1675",
+    "addr:street": "North National Road",
+    "outdoor_seating": "no"
+   }
+  },
+  {
+   "id": "node/6049043539",
+   "ll": [
+    39.2137471,
+    -85.8786962
+   ],
+   "tags": {
+    "name": "Mancino's",
+    "amenity": "restaurant",
+    "cuisine": "pizza",
+    "outdoor_seating": "no"
+   }
+  },
+  {
+   "id": "node/7110728197",
+   "ll": [
+    39.2171649,
+    -85.8836955
+   ],
+   "tags": {
+    "name": "Five Guys",
+    "brand": "Five Guys",
+    "amenity": "fast_food",
+    "cuisine": "burger",
+    "addr:housenumber": "1675",
+    "addr:street": "North National Road",
+    "wheelchair": "yes",
+    "outdoor_seating": "no"
+   }
+  },
+  {
+   "id": "node/7110728238",
+   "ll": [
+    39.2113326,
+    -85.8794028
+   ],
+   "tags": {
+    "name": "Penn Station",
+    "brand": "Penn Station",
+    "amenity": "fast_food",
+    "cuisine": "sandwich",
+    "outdoor_seating": "no"
+   }
+  },
+  {
+   "id": "node/7836155033",
+   "ll": [
+    39.2228883,
+    -85.8860533
+   ],
+   "tags": {
+    "name": "The UPS Store",
+    "brand": "The UPS Store",
+    "amenity": "post_office",
+    "shop": "copyshop",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "node/7836155037",
+   "ll": [
+    39.2206133,
+    -85.884823
+   ],
+   "tags": {
+    "name": "TJ Maxx",
+    "brand": "TJ Maxx",
+    "shop": "department_store",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "node/7836155038",
+   "ll": [
+    39.2227593,
+    -85.8870916
+   ],
+   "tags": {
+    "name": "Planet Fitness",
+    "brand": "Planet Fitness",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "node/8295269641",
+   "ll": [
+    39.2208406,
+    -85.8875705
+   ],
+   "tags": {
+    "name": "Panera Bread",
+    "brand": "Panera Bread",
+    "amenity": "fast_food",
+    "cuisine": "sandwich;bakery",
+    "addr:housenumber": "3056",
+    "addr:street": "Columbus Center",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "node/10066761036",
+   "ll": [
+    39.2554819,
+    -85.8965372
+   ],
+   "tags": {
+    "name": "Hangar 5",
+    "amenity": "restaurant",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "node/10611495483",
+   "ll": [
+    39.2009298,
+    -85.9649534
+   ],
+   "tags": {
+    "name": "Papa's Grill",
+    "amenity": "restaurant",
+    "addr:housenumber": "3780",
+    "addr:street": "Jonathan Moore Pike",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "node/11709080094",
+   "ll": [
+    39.2231143,
+    -85.9154322
+   ],
+   "tags": {
+    "name": "Le Fernandez Cafe",
+    "amenity": "cafe",
+    "outdoor_seating": "no"
+   }
+  },
+  {
+   "id": "node/11709080095",
+   "ll": [
+    39.2231351,
+    -85.9150862
+   ],
+   "tags": {
+    "name": "Olesya's Kitchen",
+    "amenity": "restaurant",
+    "cuisine": "ukrainian",
+    "outdoor_seating": "no"
+   }
+  },
+  {
+   "id": "node/11709080096",
+   "ll": [
+    39.2231351,
+    -85.9148394
+   ],
+   "tags": {
+    "name": "Greek's",
+    "amenity": "restaurant",
+    "cuisine": "pizza",
+    "outdoor_seating": "no"
+   }
+  },
+  {
+   "id": "way/279673432",
+   "ll": [
+    39.2006483,
+    -85.921587
+   ],
+   "tags": {
+    "name": "Bartholomew County Memorial for Veterans",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "way/279673433",
+   "ll": [
+    39.2010505,
+    -85.9214762
+   ],
+   "tags": {
+    "name": "Bartholomew County Courthouse",
+    "amenity": "courthouse",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "way/279687399",
+   "ll": [
+    39.2032313,
+    -85.9164823
+   ],
+   "tags": {
+    "name": "Saint Peter Church",
+    "amenity": "place_of_worship",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "way/280118852",
+   "ll": [
+    39.2112895,
+    -85.9043573
+   ],
+   "tags": {
+    "name": "Frog Pond",
+    "amenity": "fountain",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "id": "way/280122838",
+   "ll": [
+    39.2165081,
+    -85.8925686
+   ],
+   "tags": {
+    "name": "Our Hospice of South Central Indiana",
+    "addr:housenumber": "2626",
+    "addr:street": "17th Street",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "way/280133943",
+   "ll": [
+    39.2038645,
+    -85.9195011
+   ],
+   "tags": {
+    "name": "Columbus Area Visitors Center",
+    "addr:housenumber": "506",
+    "addr:street": "5th Street",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "way/280182404",
+   "ll": [
+    39.2019513,
+    -85.9179122
+   ],
+   "tags": {
+    "name": "DQ Grill & Chill",
+    "brand": "DQ Grill & Chill",
+    "amenity": "fast_food",
+    "cuisine": "ice_cream;burger;chicken",
+    "addr:housenumber": "616",
+    "addr:street": "3rd Street",
+    "wheelchair": "yes",
+    "outdoor_seating": "yes"
+   }
+  },
+  {
+   "id": "way/280185446",
+   "ll": [
+    39.254457,
+    -85.8914017
+   ],
+   "tags": {
+    "name": "Columbus Animal Control Shelter",
+    "amenity": "animal_shelter",
+    "addr:housenumber": "2730",
+    "addr:street": "Arnold Street",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "way/280185977",
+   "ll": [
+    39.2061405,
+    -85.9317884
+   ],
+   "tags": {
+    "name": "Red Arbor",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "way/354108344",
+   "ll": [
+    39.205708,
+    -85.8921978
+   ],
+   "tags": {
+    "name": "Garland Brook Cemetery",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "id": "way/383924115",
+   "ll": [
+    39.195907,
+    -85.9499836
+   ],
+   "tags": {
+    "name": "Menards",
+    "brand": "Menards",
+    "shop": "doityourself",
+    "addr:housenumber": "2315",
+    "addr:street": "Merchant Mile",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "way/383924120",
+   "ll": [
+    39.1961394,
+    -85.9548582
+   ],
+   "tags": {
+    "name": "Sam's Club",
+    "brand": "Sam's Club",
+    "shop": "wholesale",
+    "addr:housenumber": "2715",
+    "addr:street": "Merchant Mile",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "way/410821803",
+   "ll": [
+    39.1679293,
+    -85.8423753
+   ],
+   "tags": {
+    "name": "Hunter's Resale",
+    "shop": "furniture",
+    "addr:housenumber": "7140",
+    "addr:street": "East State Street",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "way/479975158",
+   "ll": [
+    39.2280186,
+    -85.901888
+   ],
+   "tags": {
+    "name": "Kroger",
+    "brand": "Kroger",
+    "shop": "supermarket",
+    "addr:housenumber": "3060",
+    "addr:street": "National Road",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "way/482130124",
+   "ll": [
+    39.2161304,
+    -85.8954772
+   ],
+   "tags": {
+    "name": "Columbus Regional Hospital Heliport",
+    "addr:housenumber": "2400",
+    "addr:street": "17th Street",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "way/533071047",
+   "ll": [
+    39.2424514,
+    -85.9099309
+   ],
+   "tags": {
+    "name": "Freedom Field Park",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "way/533487521",
+   "ll": [
+    39.2247831,
+    -85.9034307
+   ],
+   "tags": {
+    "name": "Amazing Joe's Grill",
+    "amenity": "restaurant",
+    "outdoor_seating": "yes"
+   }
+  },
+  {
+   "id": "way/533648959",
+   "ll": [
+    39.2234985,
+    -85.8960566
+   ],
+   "tags": {
+    "name": "PromptMed",
+    "amenity": "clinic",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "way/533792646",
+   "ll": [
+    39.2278922,
+    -85.9047046
+   ],
+   "tags": {
+    "name": "Kroger Fuel Center",
+    "brand": "Kroger",
+    "amenity": "fuel",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "way/533792648",
+   "ll": [
+    39.230486,
+    -85.9047222
+   ],
+   "tags": {
+    "name": "Shell",
+    "brand": "Shell",
+    "shop": "convenience",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "id": "way/533792655",
+   "ll": [
+    39.2282266,
+    -85.8965261
+   ],
+   "tags": {
+    "name": "Tacos Don Jose",
+    "amenity": "restaurant",
+    "cuisine": "mexican",
+    "addr:housenumber": "2825",
+    "addr:street": "Middle Road",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "way/533928731",
+   "ll": [
+    39.2226663,
+    -85.9124195
+   ],
+   "tags": {
+    "name": "Taco Bell",
+    "brand": "Taco Bell",
+    "amenity": "fast_food",
+    "cuisine": "tex-mex",
+    "addr:housenumber": "1105",
+    "addr:street": "25th Street",
+    "outdoor_seating": "yes"
+   }
+  },
+  {
+   "id": "way/534122896",
+   "ll": [
+    39.2189484,
+    -85.8847121
+   ],
+   "tags": {
+    "name": "Target",
+    "brand": "Target",
+    "shop": "department_store",
+    "addr:housenumber": "1865",
+    "addr:street": "National Road",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "way/534122898",
+   "ll": [
+    39.2227878,
+    -85.8897038
+   ],
+   "tags": {
+    "name": "CVS Pharmacy",
+    "brand": "CVS Pharmacy",
+    "amenity": "pharmacy",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "way/534122900",
+   "ll": [
+    39.2221354,
+    -85.8892592
+   ],
+   "tags": {
+    "name": "Pizza Hut",
+    "brand": "Pizza Hut",
+    "amenity": "restaurant",
+    "cuisine": "pizza",
+    "addr:housenumber": "2343",
+    "addr:street": "National Road",
+    "wheelchair": "yes",
+    "outdoor_seating": "no"
+   }
+  },
+  {
+   "id": "way/534153412",
+   "ll": [
+    39.2170069,
+    -85.8833724
+   ],
+   "tags": {
+    "name": "Qdoba",
+    "brand": "Qdoba",
+    "amenity": "fast_food",
+    "cuisine": "mexican",
+    "addr:housenumber": "1665",
+    "addr:street": "North National Road",
+    "outdoor_seating": "yes"
+   }
+  },
+  {
+   "id": "way/534153429",
+   "ll": [
+    39.2111637,
+    -85.8789354
+   ],
+   "tags": {
+    "name": "Chick-fil-A",
+    "brand": "Chick-fil-A",
+    "amenity": "fast_food",
+    "cuisine": "chicken",
+    "addr:housenumber": "1250",
+    "addr:street": "North National Road",
+    "outdoor_seating": "no"
+   }
+  },
+  {
+   "id": "way/536095287",
+   "ll": [
+    39.2440787,
+    -85.9033805
+   ],
+   "tags": {
+    "name": "The Sanctuary",
+    "amenity": "place_of_worship",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "way/542312279",
+   "ll": [
+    39.1998607,
+    -85.9252565
+   ],
+   "tags": {
+    "name": "Upland Pump House",
+    "amenity": "restaurant",
+    "cuisine": "brewery",
+    "diet:vegetarian": "yes"
+   }
+  },
+  {
+   "id": "way/543118185",
+   "ll": [
+    39.2210246,
+    -85.8892259
+   ],
+   "tags": {
+    "name": "Chipotle",
+    "brand": "Chipotle",
+    "amenity": "fast_food",
+    "cuisine": "mexican",
+    "addr:housenumber": "2260",
+    "addr:street": "North National Road",
+    "diet:vegetarian": "yes",
+    "diet:vegan": "yes"
+   }
+  },
+  {
+   "id": "way/545272413",
+   "ll": [
+    39.1959231,
+    -85.9465147
+   ],
+   "tags": {
+    "name": "Walmart Supercenter",
+    "brand": "Walmart",
+    "shop": "supermarket",
+    "addr:housenumber": "2025",
+    "addr:street": "Merchants Mile",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "way/545277009",
+   "ll": [
+    39.199969,
+    -85.9507783
+   ],
+   "tags": {
+    "name": "Starbucks",
+    "brand": "Starbucks",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "wheelchair": "yes",
+    "outdoor_seating": "yes"
+   }
+  },
+  {
+   "id": "way/590171926",
+   "ll": [
+    39.201124,
+    -85.9178876
+   ],
+   "tags": {
+    "name": "McDonald's",
+    "brand": "McDonald's",
+    "amenity": "fast_food",
+    "cuisine": "burger",
+    "addr:housenumber": "611",
+    "addr:street": "3rd Street",
+    "outdoor_seating": "yes"
+   }
+  },
+  {
+   "id": "way/620763600",
+   "ll": [
+    39.2092601,
+    -85.9190981
+   ],
+   "tags": {
+    "name": "ZwanzigZ Pizza & Brewing",
+    "amenity": "restaurant",
+    "addr:housenumber": "1038",
+    "addr:street": "Lafayette Avenue",
+    "outdoor_seating": "yes"
+   }
+  },
+  {
+   "id": "way/643644131",
+   "ll": [
+    39.2298933,
+    -85.8976646
+   ],
+   "tags": {
+    "name": "Rural King",
+    "brand": "Rural King",
+    "shop": "country_store",
+    "addr:housenumber": "2985",
+    "addr:street": "North National Road",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "way/1021337910",
+   "ll": [
+    39.1988062,
+    -85.9554748
+   ],
+   "tags": {
+    "name": "Texas Roadhouse",
+    "brand": "Texas Roadhouse",
+    "amenity": "restaurant",
+    "cuisine": "steak_house",
+    "addr:housenumber": "2780",
+    "addr:street": "Merchants Mile",
+    "outdoor_seating": "no"
+   }
+  },
+  {
+   "id": "way/1033228796",
+   "ll": [
+    39.1997294,
+    -85.951927
+   ],
+   "tags": {
+    "name": "Circle K",
+    "brand": "Circle K",
+    "shop": "convenience",
+    "addr:housenumber": "2415",
+    "addr:street": "West Jonathan Moore Pike",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "way/1149646854",
+   "ll": [
+    39.2072643,
+    -85.9257157
+   ],
+   "tags": {
+    "name": "Mill Race Station",
+    "amenity": "bus_station",
+    "addr:housenumber": "850",
+    "addr:street": "Lindsey Street",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "way/1180018008",
+   "ll": [
+    39.2291714,
+    -85.8995868
+   ],
+   "tags": {
+    "name": "Dunkin'",
+    "brand": "Dunkin'",
+    "amenity": "fast_food",
+    "cuisine": "donut;coffee_shop",
+    "addr:housenumber": "3039",
+    "addr:street": "North National Road",
+    "outdoor_seating": "no"
+   }
+  },
+  {
+   "id": "relation/10972891",
+   "ll": [
+    39.2032727,
+    -85.9100117
+   ],
+   "tags": {
+    "name": "Cummins Columbus Engine Plant",
+    "wheelchair": "yes"
+   }
+  }
+ ]
+}

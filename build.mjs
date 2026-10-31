@@ -23,6 +23,7 @@ import { djPages } from './src/pages/dj-pages.mjs';
 import { agriculturePages } from './src/pages/agriculture-pages.mjs';
 import { tripPages } from './src/pages/trip-pages.mjs';
 import { trailPages } from './src/pages/trail-pages.mjs';
+import { accessPages } from './src/pages/access-pages.mjs';
 import { calendarPages } from './src/pages/calendar-pages.mjs';
 import { paperPages } from './src/pages/paper-pages.mjs';
 import { sportsPages } from './src/pages/sports-pages.mjs';
@@ -67,6 +68,7 @@ const pages = [
   ...landmarkPages({ assets }),
   ...tripPages({ assets }),
   ...trailPages({ assets }),
+  ...accessPages({ assets }),
   ...freePages({ assets }),
   ...djPages({ assets }),
   ...agriculturePages({ assets }),
