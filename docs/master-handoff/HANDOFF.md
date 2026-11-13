@@ -17,7 +17,7 @@ Heart of Columbus (`heartofcolumbus.netlify.app`, Netlify deploys `main`):
 - **Chamber pilot brief** for Jon Myers at `/preview/chamber-pilot/` (Jake has a coffee
   planned with him).
 - **Legal Leaf Market Cafe** listed as coming soon, with the owner tie disclosed.
-- **History sign-off:** 117 articles approved (`src/data/history/signoff.mjs`, two-person rule
+- **History sign-off:** 128 articles approved, no drafts left (`src/data/history/signoff.mjs`, two-person rule
   enforced by `tests/signoff.test.mjs`).
 - **Barbershop views and map art v2**, with close-zoom cutouts for all nine landmarks.
 - **"Columbus, building by building"** at `/history/buildings/`: eleven field guides,
@@ -27,7 +27,7 @@ Crossroads Wedding and Event Co. (`crossroadsweddingco.shop`, repo
 Legal-Leaf-Market/CrossroadsWeddingCo, Netlify deploys `main`):
 
 - **Back YOUR Blue** at `/back-your-blue` (PR #118): Jake's tribute to his father, Kevin Lee
-  Kennedy, turning 60 on November 16, with a moderated notes board for family, coworkers and
+  Kennedy, born November 16, 1966 (confirmed by Jake), turning 60 on November 16, with a moderated notes board for family, coworkers and
   church family. Notes are approved at `/admin/<key>/reviews` and show on that page only.
 
 ## Next, in order
@@ -54,7 +54,10 @@ Legal-Leaf-Market/CrossroadsWeddingCo, Netlify deploys `main`):
    featured cards: ask their owners or geocode them to retire `approx`), 66 with no pin.
    Not yet moved onto it: the map, list and trail code still read directory rows
    directly; switch them over one at a time, then build the downtown 3D pilot on it.
-5. **Backlog:** `planning/EXECUTION_BACKLOG.md` (shared place contract, downtown spatial
+5. **Nine landmark articles** (one per map landmark, plus an overview and a downtown
+   walking trail), drafts for Jake to sign: blocked until he allows the source hosts
+   visitcolumbusindiana.com, mybcpl.org and discovernewfields.org.
+6. **Backlog:** `planning/EXECUTION_BACKLOG.md` (shared place contract, downtown spatial
    pilot, passport and Landmark Trail, merchant pilot). `planning/TRAILS_PASSPORTS_AND_MERCHANTS.md`
    has the detail. Jake holds the full master handoff zip, including the internal product and
    partnership documents deliberately kept out of this public repo.
