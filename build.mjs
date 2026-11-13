@@ -2,6 +2,7 @@
 // Tailwind, copies public/. Run: npm run build
 import { readFile, writeFile, mkdir, cp, rm, readdir } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
+import { existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { renderHub } from './src/pages/hub.mjs';
 import { pages as storefronts } from './src/pages/storefronts.mjs';
@@ -142,5 +143,7 @@ for (const slug of DRAFTS) {
     if (hits.length) { console.error(`Visible dash in sites/${slug}/${f}: "${hits[0]}"`); process.exit(1); }
     await writeFile(new URL(f, dest), html);
   }
+  // Graphics the draft points at (img/hero.webp ...); a missing one leaves the design in place.
+  if (existsSync(new URL('img/', src))) await cp(new URL('img/', src), new URL('img/', dest), { recursive: true, filter: (f) => !f.endsWith('.gitkeep') });
 }
 console.log(`Built dist/: ${pages.length} pages`);
