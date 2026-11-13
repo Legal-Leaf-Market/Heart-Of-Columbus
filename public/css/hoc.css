@@ -1543,3 +1543,9 @@ a.tag-member:hover { background: #2f3f6b; }
 .hoc-map-cluster { display: grid; place-items: center; border-radius: 50%; background: #292923; color: #fff9ec; border: 2px solid #fff9ec; box-shadow: 0 0 0 1px #292923, 0 2px 5px rgba(41,41,35,.25); font: 700 14px/1 var(--body); font-variant-numeric: tabular-nums; }
 .hoc-map-cluster > b { display: grid; place-items: center; width: calc(100% - 6px); height: calc(100% - 6px); border: 1px solid #b99352; border-radius: 50%; }
 .hoc-map-cluster-lm { background: #4f5d47; }
+.hx-related { margin: 22px 0 6px; }
+.hx-related h2 { font-size: 15px; letter-spacing: .14em; text-transform: uppercase; margin: 0 0 8px; }
+.hx-related ul { margin: 0; padding-left: 20px; }
+.hx-related li { margin: 5px 0; }
+.hx-art { background: #f6f1e7; border-radius: 10px; padding: 10px 10px 4px; }
+.hx-art img { width: 100%; max-width: 420px; height: auto; margin: 0 auto; display: block; object-fit: contain; }

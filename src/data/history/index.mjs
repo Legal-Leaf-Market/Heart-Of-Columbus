@@ -27,6 +27,7 @@ import { A2020s } from './2020s.mjs';
 import { PAPERS } from './papers.mjs';
 import { PUBLISHER } from './publisher.mjs';
 import { BLAIR } from './blair.mjs';
+import { BUILDINGS, RELATED } from './buildings.mjs';
 
 // Sections work like a magazine's departments. `art` is existing artwork in
 // public/art used as the section's mark.
@@ -60,6 +61,7 @@ export const DECADES = [
 ].map((d) => ({ ...d, popSource: POP }));
 
 export const SERIES = [
+  { slug: 'buildings', title: 'Columbus, building by building', kicker: 'Field guides', lead: 'Nine landmarks from our map: what to look for, what each one does now, and how to see it. Written from the sources listed on each, with the date we checked.', items: BUILDINGS.map((a) => ({ ...a, related: RELATED[a.slug] || [] })) },
   { slug: 'papers', title: 'The Republican and the Democrats', kicker: 'Series', lead: 'Columbus has argued with itself in print since 1839. A short history of the town’s newspapers, from party papers to today.', items: PAPERS },
   { slug: 'blair', title: 'Brian Blair’s faith beat', kicker: 'From the archive', lead: 'For years Brian Blair covered faith in Columbus for The Republic. These are some of his best stories, retold in short with credit to him and links to the originals.', items: BLAIR },
   { slug: 'publisher', title: 'From the publisher', kicker: 'Opinion', lead: 'Notes from Jacob Kennedy, who started Heart of Columbus. These are his views, labeled as such.', items: PUBLISHER },
