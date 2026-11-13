@@ -224,6 +224,42 @@
     });
     return leaflet;
   }
+  // ---------- Map art (public/art/map-v2/, art-source/map-v2/README.md) ----------
+  // One badge per category; the five beauty types and nine landmarks each get
+  // their own. Keyed by canonical slugs, never by names. A selected marker
+  // swaps its icon (setIcon); nothing scales .leaflet-marker-icon, whose
+  // transform Leaflet owns.
+  var BADGE_SUB = { barbers: 1, salons: 1, nails: 1, spa: 1, tattoo: 1 };
+  var BADGE_CAT = { restaurants: 1, 'coffee-sweets': 1, bars: 1, beauty: 1, shopping: 1, health: 1, fitness: 1, pets: 1, 'home-services': 1, auto: 1, pros: 1, events: 1, kids: 1, 'things-to-do': 1, makers: 1 };
+  var LANDMARK_ART = { firstchristian: 'first-christian', northchristian: 'north-christian', irwin: 'irwin-bank', library: 'library-large-arch', courthouse: 'courthouse', cityhall: 'city-hall', miller: 'miller-house', firestation: 'fire-station-4', commons: 'chaos-i' };
+  var CUTOUT = { 'first-christian': 1, 'north-christian': 1, courthouse: 1 };
+  var CUTOUT_ZOOM = 15;
+  var badge = function (L, file, sel) {
+    return L.icon({ iconUrl: '/art/map-v2/' + file + '.svg', iconSize: [44, 52], iconAnchor: [22, 48.5], popupAnchor: [0, -45], className: 'hoc-map-badge' + (sel ? ' is-selected' : '') });
+  };
+  var bizIcon = function (L, b, sel) {
+    var k = BADGE_SUB[b.u] ? b.u : BADGE_CAT[b.c] ? b.c : '';
+    return k ? badge(L, 'category-' + k, sel) : pinIcon(L, '', b.e, (window.HoCCat[b.c] || [])[2]);
+  };
+  // Close in, three landmarks show a detailed cutout; the rest keep their badge.
+  var landmarkIcon = function (L, x, zoom, sel) {
+    var k = LANDMARK_ART[x.s];
+    if (!k) return L.divIcon({ className: '', html: '<div class="pin-art"><img src="/art/pin-' + x.art + '.webp" alt=""></div>', iconSize: [46, 46], iconAnchor: [23, 40], popupAnchor: [0, -34] });
+    if (zoom >= CUTOUT_ZOOM && CUTOUT[k]) return L.icon({ iconUrl: '/art/map-v2/landmark-' + k + '-cutout-256.webp', iconSize: [76, 90], iconAnchor: [38, 90], popupAnchor: [0, -83], className: 'hoc-map-cutout' + (sel ? ' is-selected' : '') });
+    return badge(L, 'landmark-' + k, sel);
+  };
+  var clusterIcon = function (L, cluster, what) {
+    var n = cluster.getChildCount(), size = n < 10 ? 38 : n < 100 ? 44 : 50;
+    return L.divIcon({ className: 'hoc-map-cluster' + (what === 'landmarks' ? ' hoc-map-cluster-lm' : ''), iconSize: [size, size], iconAnchor: [size / 2, size / 2],
+      html: '<b aria-hidden="true">' + n + '</b><span class="sr-only">' + n + ' ' + what + '; zoom to expand</span>' });
+  };
+  // Selected state: the open popup's marker wears the selected icon.
+  var selectable = function (m, make) {
+    m.on('popupopen', function () { m.setIcon(make(true)); });
+    m.on('popupclose', function () { m.setIcon(make(false)); });
+    return m;
+  };
+  var landmarkMarkers = [];
   var pinIcon = function (L, cls, inner, bg) { return L.divIcon({ className: '', html: '<div class="pin ' + cls + '"' + (bg ? ' style="background:' + bg + '"' : '') + '><span>' + inner + '</span></div>', iconSize: [28, 28], iconAnchor: [4, 28], popupAnchor: [10, -26] }); };
   var bizPopup = function (b) {
     var o = b.t ? window.HoCOpen(b.t) : null;
@@ -234,18 +270,30 @@
     loadLeaflet().then(function (L) {
       if (!map) {
         map = L.map('map', { scrollWheelZoom: false }).setView([39.21, -85.91], 13);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, className: 'map-tiles', attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
+        // Swap landmark badges and cutouts in place as the zoom crosses the line.
+        map.on('zoomend', function () {
+          var z = map.getZoom();
+          landmarkMarkers.forEach(function (o) {
+            var close = z >= CUTOUT_ZOOM && !!CUTOUT[LANDMARK_ART[o.x.s]];
+            if (close === o.close) return;
+            o.close = close;
+            o.m.setIcon(landmarkIcon(L, o.x, z, o.m.isPopupOpen()));
+          });
+        });
       }
       if (layer) layer.remove();
       var walk = st.sort === 'walk';
       var dora = layerOn('z') && !walk;
       layer = L.layerGroup().addTo(map);
-      var biz = (L.markerClusterGroup && !walk ? L.markerClusterGroup({ showCoverageOnHover: false, maxClusterRadius: 45 }) : L.layerGroup()).addTo(layer);
+      var biz = (L.markerClusterGroup && !walk ? L.markerClusterGroup({ showCoverageOnHover: false, maxClusterRadius: 45, iconCreateFunction: function (c) { return clusterIcon(L, c, 'places'); } }) : L.layerGroup()).addTo(layer);
       var pts = [];
       if (layerOn('b')) list.forEach(function (b) {
         if (!b.l || (dora && b.z)) return;
         pts.push(b.l);
-        L.marker(b.l, { icon: pinIcon(L, '', walk && b._i ? b._i : b.e, (window.HoCCat[b.c] || [])[2]), title: b.n }).bindPopup(bizPopup(b)).addTo(biz);
+        // A walk keeps its numbered stops; otherwise the category badge.
+        if (walk && b._i) L.marker(b.l, { icon: pinIcon(L, '', b._i, (window.HoCCat[b.c] || [])[2]), title: b.n }).bindPopup(bizPopup(b)).addTo(biz);
+        else selectable(L.marker(b.l, { icon: bizIcon(L, b, false), title: b.n, alt: b.n, riseOnHover: true }), function (sel) { return bizIcon(L, b, sel); }).bindPopup(bizPopup(b)).addTo(biz);
       });
       if (walk && pts.length > 1) L.polyline(pts, { color: '#c8232c', weight: 3, dashArray: '6 6' }).addTo(layer);
       // Social District businesses stand out, unclustered, whatever the filters say (except open now).
@@ -255,16 +303,21 @@
         pts.push(b.l);
         L.marker(b.l, { icon: pinIcon(L, 'pin-dora', '🥤'), title: b.n, zIndexOffset: 500 }).bindPopup(bizPopup(b)).addTo(layer);
       });
+      // Landmarks cluster among themselves (downtown's sit close together) and
+      // spread out when clicked at full zoom, so every one stays reachable.
+      landmarkMarkers = [];
+      var lms = (L.markerClusterGroup ? L.markerClusterGroup({ showCoverageOnHover: false, maxClusterRadius: 34, spiderfyOnMaxZoom: true, iconCreateFunction: function (c) { return clusterIcon(L, c, 'landmarks'); } }) : L.layerGroup()).addTo(layer);
       if (layerOn('l')) (data.landmarks || []).forEach(function (x) {
         if (!x.l || (ids && ids.indexOf('l:' + x.s) === -1)) return;
         pts.push(x.l);
-        var icon = L.divIcon({ className: '', html: '<div class="pin-art"><img src="/art/pin-' + x.art + '.webp" alt=""></div>', iconSize: [46, 46], iconAnchor: [23, 40], popupAnchor: [0, -34] });
-        L.marker(x.l, { icon: icon, title: x.n, zIndexOffset: 800 }).bindPopup('<span class="pop-kind">Landmark</span><a class="pop-name" href="/l/' + x.s + '/">' + esc(x.n) + '</a><small>' + esc(x.d) + '<br>' + esc(x.a) + (x.street ? '<br>Seen from the street, free' : '') + '</small>').addTo(layer);
+        var m = L.marker(x.l, { icon: landmarkIcon(L, x, map.getZoom(), false), title: x.n, alt: x.n, riseOnHover: true, zIndexOffset: 800 });
+        landmarkMarkers.push({ m: m, x: x, close: map.getZoom() >= CUTOUT_ZOOM && !!CUTOUT[LANDMARK_ART[x.s]] });
+        selectable(m, function (sel) { return landmarkIcon(L, x, map.getZoom(), sel); }).bindPopup('<span class="pop-kind">Landmark</span><a class="pop-name" href="/l/' + x.s + '/">' + esc(x.n) + '</a><small>' + esc(x.d) + '<br>' + esc(x.a) + (x.street ? '<br>Seen from the street, free' : '') + '</small>').addTo(lms);
       });
       if (layerOn('e')) (data.events || []).forEach(function (x) {
         if (!x.l || (ids ? ids.indexOf('e:' + x.s) === -1 || parseDay(x.end) < today : !thisWeekend(x))) return;
         pts.push(x.l);
-        L.marker(x.l, { icon: pinIcon(L, 'pin-ev', '🎉'), title: x.n, zIndexOffset: 900 }).bindPopup('<span class="pop-kind">This weekend</span><a class="pop-name" href="' + esc(x.u) + '" target="_blank" rel="noopener">' + esc(x.n) + '</a><small>' + esc(x.d) + '<br>' + esc(x.a) + '</small>').addTo(layer);
+        L.marker(x.l, { icon: badge(L, 'category-weekend', false), title: x.n, alt: x.n, riseOnHover: true, zIndexOffset: 900 }).bindPopup('<span class="pop-kind">This weekend</span><a class="pop-name" href="' + esc(x.u) + '" target="_blank" rel="noopener">' + esc(x.n) + '</a><small>' + esc(x.d) + '<br>' + esc(x.a) + '</small>').addTo(layer);
       });
       if (me) L.circleMarker(me, { radius: 8, color: '#fff', weight: 3, fillColor: '#3b5bdb', fillOpacity: 1 }).bindTooltip('You are here').addTo(layer);
       // Near me now frames you and the closest open places; otherwise frame

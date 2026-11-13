@@ -27,9 +27,11 @@
     list: '<svg viewBox="0 0 24 24" class="ic-sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg>',
     fit: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>',
     cal: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4M9 15l2 2 4-4"/></svg>',
-    cut: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="7" r="2.6"/><circle cx="6" cy="17" r="2.6"/><path d="M8.2 8.4 20 17M8.2 15.6 20 7"/></svg>',
   };
   var items = [];
+  // Badge art: the five beauty types have their own, everything else its category's.
+  var BADGE_SUB = { barbers: 1, salons: 1, nails: 1, spa: 1, tattoo: 1 };
+  var badgeKey = function (b) { return BADGE_SUB[b.u] ? b.u : b.c; };
 
   // ---------- Facts for one place ----------
   var openOf = function (i) { return i.b && i.b.t ? window.HoCOpen(i.b.t) : null; };
@@ -147,12 +149,14 @@
     keys.forEach(function (k) {
       var g = groups[k];
       var book = g.some(function (i) { return i.x.b; });
-      var open = g.some(function (i) { return (openOf(i) || {}).open; });
+      // The type's map badge (public/art/map-v2/, same art as Explore), ringed
+      // and flagged green when a shop there books online.
       var html = '<div class="vpin' + (book ? ' vpin-book' : '') + '">' +
-        '<span class="vpin-dot">' + (book ? ICON.cal : ICON.cut) + (g.length > 1 ? '<b class="vpin-n">' + g.length + '</b>' : '') + (open ? '<i class="vpin-live" title="Open now"></i>' : '') + '</span>' +
+        '<img class="vpin-art" src="/art/map-v2/category-' + badgeKey(g[0].b) + '.svg" width="44" height="52" alt="">' +
+        (book ? '<span class="vpin-flag">' + ICON.cal + '</span>' : '') + (g.length > 1 ? '<b class="vpin-n">' + g.length + '</b>' : '') +
         '<span class="vpin-name">' + esc(g.length > 1 ? g.length + ' shops here' : shortName(g[0].b.n)) + '</span></div>';
       var m = L.marker(g[0].b.l, {
-        icon: L.divIcon({ className: 'vpin-wrap', html: html, iconSize: [36, 44], iconAnchor: [18, 44], popupAnchor: [0, -42] }),
+        icon: L.divIcon({ className: 'vpin-wrap', html: html, iconSize: [44, 52], iconAnchor: [22, 48.5], popupAnchor: [0, -45] }),
         title: g.map(function (i) { return i.b.n; }).join(', '), riseOnHover: true, zIndexOffset: book ? 200 : 0,
       }).bindPopup(popup(g), { className: 'vpop', maxWidth: 300, minWidth: 250, autoPanPaddingTopLeft: [16, 60], autoPanPaddingBottomRight: [16, 16] }).addTo(layer);
       m.on('mouseover', function () { hotCards(g, true); });

@@ -1406,7 +1406,7 @@ a.tag-member:hover { background: #2f3f6b; }
 .vgroup select { border: 2px solid var(--ink); border-radius: 999px; padding: 7px 12px; background: var(--surface); font-weight: 700; }
 .vkey { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-left: auto; font-size: 13px; font-weight: 600; color: var(--muted); }
 .vkey span::before { content: ""; display: inline-block; width: 12px; height: 12px; margin-right: 6px; vertical-align: -1px; border-radius: 50%; border: 2px solid var(--ink); background: var(--surface); }
-.vkey .vkey-book::before { background: #1f7a3f; }
+.vkey .vkey-book::before { background: #1f7a3f; box-shadow: 0 0 0 2px #fff9ec, 0 0 0 3.5px #1f7a3f; border-color: #fff9ec; }
 @media (max-width: 899px) { .vkey { margin-left: 0; } }
 
 .views { padding-bottom: 56px; }
@@ -1431,7 +1431,6 @@ a.tag-member:hover { background: #2f3f6b; }
 .vmap-move input { width: 16px; height: 16px; accent-color: var(--ink); }
 .vmap-note { min-height: 1.4em; margin-top: 8px; font-size: 13px; color: var(--muted); }
 .vmap-fail { padding: 28px; font-weight: 700; }
-.vmap-tiles { filter: saturate(.55) sepia(.14) contrast(.95) brightness(1.04); }
 .vmap .leaflet-control-zoom, .vmap .vmap-fit { border: 2px solid var(--ink) !important; border-radius: 12px !important; box-shadow: 2px 2px 0 var(--ink) !important; overflow: hidden; }
 .vmap .leaflet-control-zoom a { width: 38px; height: 38px; line-height: 36px; font-size: 20px; color: var(--ink); }
 .vmap .leaflet-control-zoom a:hover { background: #f1ebe0; }
@@ -1439,22 +1438,23 @@ a.tag-member:hover { background: #2f3f6b; }
 .vmap-fit:hover { background: #f1ebe0; }
 .vmap .leaflet-control-attribution { font-size: 10px; background: rgba(251,247,240,.85); }
 
-/* Pins: a round marker with a tail; green books online, a red count when
-   several shops share an address, a small live dot when open now. The name
-   shows on hover, on the card's hover, and once zoomed in close. */
+/* Pins: the type's map badge (public/art/map-v2/). Books online: a green
+   ring and a green calendar flag. Several shops at one address: a red count.
+   The name shows on hover, on its card's hover, and once zoomed in close.
+   Motion stays on the inner image; Leaflet owns .leaflet-marker-icon's transform. */
 .vpin-wrap { background: none; border: 0; }
-.vpin { position: relative; width: 36px; height: 44px; }
-.vpin-dot { position: absolute; left: 0; top: 0; width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; background: var(--surface); color: var(--ink); border: 2.5px solid var(--ink); box-shadow: 2px 3px 0 rgba(27,26,23,.35); transition: transform .15s, background .15s; }
-.vpin-dot::after { content: ""; position: absolute; left: 50%; bottom: -10px; margin-left: -6px; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 9px solid var(--ink); }
-.vpin-book .vpin-dot { background: #1f7a3f; color: #fff; }
-.vpin-n { position: absolute; right: -9px; top: -9px; min-width: 21px; height: 21px; padding: 0 4px; display: grid; place-items: center; border-radius: 999px; background: var(--brand); color: #fff; border: 2px solid var(--ink); font-size: 11px; font-weight: 800; }
-.vpin-live { position: absolute; left: -3px; top: -3px; width: 12px; height: 12px; border-radius: 50%; background: #3ccf6e; border: 2px solid var(--ink); }
-.vpin-name { display: none; position: absolute; left: 26px; top: 5px; z-index: -1; padding: 3px 11px 3px 16px; white-space: nowrap; background: var(--surface); border: 2px solid var(--ink); border-radius: 999px; box-shadow: 2px 2px 0 rgba(27,26,23,.3); font-size: 12px; font-weight: 800; color: var(--ink); pointer-events: none; }
+.vpin { position: relative; width: 44px; height: 52px; }
+.vpin-art { display: block; width: 44px; height: 52px; transform-origin: 50% 94%; filter: drop-shadow(0 2px 2px rgba(41,41,35,.22)); transition: transform .15s, filter .15s; }
+.vpin-book .vpin-art { filter: drop-shadow(1.6px 0 0 #1f7a3f) drop-shadow(-1.6px 0 0 #1f7a3f) drop-shadow(0 1.6px 0 #1f7a3f) drop-shadow(0 -1.6px 0 #1f7a3f) drop-shadow(0 2px 2px rgba(41,41,35,.22)); }
+.vpin-flag { position: absolute; right: -7px; top: -5px; width: 22px; height: 22px; display: grid; place-items: center; border-radius: 50%; background: #1f7a3f; color: #fff; border: 2px solid #fff9ec; box-shadow: 0 0 0 1.5px #292923; }
+.vpin-flag svg { width: 12px; height: 12px; }
+.vpin-n { position: absolute; left: -7px; top: -5px; min-width: 21px; height: 21px; padding: 0 4px; display: grid; place-items: center; border-radius: 999px; background: #ad3d3c; color: #fff; border: 2px solid #fff9ec; box-shadow: 0 0 0 1.5px #292923; font-size: 11px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.vpin-name { display: none; position: absolute; left: 36px; top: 9px; z-index: -1; padding: 3px 11px 3px 14px; white-space: nowrap; background: #fff9ec; border: 2px solid #292923; border-radius: 999px; box-shadow: 0 2px 4px rgba(41,41,35,.2); font-size: 12px; font-weight: 800; color: #292923; pointer-events: none; }
 .vmap-near .vpin-name, .vpin-wrap:hover .vpin-name, .vpin-wrap.is-hot .vpin-name, .vpin-wrap:focus .vpin-name { display: block; }
-.vpin-wrap:hover .vpin-dot, .vpin-wrap.is-hot .vpin-dot, .vpin-wrap:focus .vpin-dot { transform: scale(1.18); background: var(--ink); color: #fff; }
+.vpin-wrap:hover .vpin-art, .vpin-wrap.is-hot .vpin-art, .vpin-wrap:focus .vpin-art { transform: translateY(-3px) scale(1.12); filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 5px #ad3d3c) drop-shadow(0 3px 3px rgba(41,41,35,.3)); }
 .vpin-wrap:focus { outline: none; }
-.vpin-wrap:focus-visible .vpin-dot { outline: 3px solid var(--brand); outline-offset: 2px; }
-@media (prefers-reduced-motion: reduce) { .vpin-dot, .bz.is-hot { transition: none; transform: none !important; } }
+.vpin-wrap:focus-visible .vpin-art { outline: 3px solid #ad3d3c; outline-offset: 2px; border-radius: 50%; }
+@media (prefers-reduced-motion: reduce) { .vpin-art, .bz.is-hot { transition: none; transform: none !important; } }
 
 /* Map popup: a small card. */
 .vpop .leaflet-popup-content-wrapper { padding: 0; overflow: hidden; border: 2px solid var(--ink); border-radius: 18px; box-shadow: 4px 4px 0 var(--ink); }
@@ -1530,3 +1530,16 @@ a.tag-member:hover { background: #2f3f6b; }
 .vfloat { position: fixed; left: 50%; bottom: max(18px, env(safe-area-inset-bottom)); z-index: 60; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; background: var(--ink); color: var(--paper); border: 2px solid var(--paper); border-radius: 999px; box-shadow: 0 10px 28px rgba(27,26,23,.35); font-weight: 800; font-size: 15px; cursor: pointer; }
 @media (min-width: 900px) { .vfloat { display: none !important; } }
 @media print { .vbar, .vfloat, .vmap { display: none !important; } }
+
+/* ---------- Map art v2 (public/art/map-v2/, art-source/map-v2/README.md) ----------
+   Category and landmark badges, close-zoom landmark cutouts and cluster counts
+   for Explore and the type-page map. Only the tile layer is toned down, never
+   the controls or the art; road names stay legible. */
+.map-tiles, .vmap-tiles { filter: saturate(.6) sepia(.1) contrast(.96) brightness(1.03); }
+.hoc-map-badge { filter: drop-shadow(0 2px 2px rgba(41,41,35,.19)); }
+.hoc-map-cutout { filter: drop-shadow(0 1px 1px #fff9ec) drop-shadow(0 2px 2px rgba(41,41,35,.33)); }
+.hoc-map-badge.is-selected, .hoc-map-cutout.is-selected { filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 4px #ad3d3c); }
+.hoc-map-badge:focus-visible, .hoc-map-cutout:focus-visible, .hoc-map-cluster:focus-visible { outline: 3px solid #ad3d3c; outline-offset: 3px; border-radius: 50%; }
+.hoc-map-cluster { display: grid; place-items: center; border-radius: 50%; background: #292923; color: #fff9ec; border: 2px solid #fff9ec; box-shadow: 0 0 0 1px #292923, 0 2px 5px rgba(41,41,35,.25); font: 700 14px/1 var(--body); font-variant-numeric: tabular-nums; }
+.hoc-map-cluster > b { display: grid; place-items: center; width: calc(100% - 6px); height: calc(100% - 6px); border: 1px solid #b99352; border-radius: 50%; }
+.hoc-map-cluster-lm { background: #4f5d47; }

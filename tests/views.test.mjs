@@ -52,3 +52,22 @@ test('views.js keeps state in the address, not in browser storage', () => {
   // The disclosure travels with the painted scene into every view.
   assert.match(js, /Category illustration/);
 });
+
+test('every map badge and landmark art file the scripts name exists', async () => {
+  const { existsSync } = await import('node:fs');
+  const { CATEGORIES } = await import('../src/data/directory.mjs');
+  const { LANDMARKS } = await import('../src/data/landmarks.mjs');
+  const art = (f) => existsSync(new URL(`public/art/map-v2/${f}`, root));
+  for (const c of CATEGORIES) assert.ok(art(`category-${c.slug}.svg`), c.slug);
+  for (const s of ['barbers', 'salons', 'nails', 'spa', 'tattoo', 'weekend']) assert.ok(art(`category-${s}.svg`), s);
+  const js = readFileSync(new URL('public/js/explore.js', root), 'utf8');
+  const map = JSON.parse(js.match(/var LANDMARK_ART = (\{[^}]+\})/)[1].replace(/(\w+):/g, '"$1":').replace(/'/g, '"'));
+  const slugs = new Set(LANDMARKS.map((l) => l.slug));
+  for (const [slug, name] of Object.entries(map)) {
+    assert.ok(slugs.has(slug), `${slug}: not a landmark slug`);
+    assert.ok(art(`landmark-${name}.svg`), name);
+  }
+  assert.notEqual(map.firstchristian, map.northchristian, 'the two churches look different');
+  for (const name of js.match(/var CUTOUT = \{([^}]+)\}/)[1].match(/'([a-z-]+)'/g).map((x) => x.slice(1, -1)))
+    assert.ok(art(`landmark-${name}-cutout-256.webp`), name);
+});
