@@ -128,6 +128,15 @@ Indiana. A pitch, not a live service. See README.md.
   `public/art/pin-*.png`, this weekend's events, Social District) and a
   "near me now" mode at `/explore/?view=map&now=1`.
   Directory pages use plain CSS in `public/css/hoc.css`, not Tailwind.
+- **One place record: `src/data/places.mjs`** (contract v1), an adapter over
+  directory.mjs and landmarks.mjs, never a second copy. Ids are `b:<slug>` and
+  `l:<slug>` and keep the public page address. `location.geo` says where a pin
+  came from (google, listing, census, wikipedia, approx, none) and every
+  business page prints it (`PIN_NOTE`); unpinned places stay in search and
+  lists. `relation` is `listed` unless partners.mjs or members.mjs says
+  otherwise. Several locations of one business share a `GROUPS` entry, each
+  keeping its own page; dated pop-ups go in `APPEARANCES` (owner-sent only),
+  never as an address edit. tests/places.test.mjs.
 - Spanish: `/es/visit/`, `/es/free/`, `/es/film/`, `/es/holidays/`, `/es/l/<slug>/` and `/es/trips/<slug>/` from
   the same templates, strings and fact translations
   in `src/i18n/es.mjs` (a test fails if any sourced line on them has no Spanish).

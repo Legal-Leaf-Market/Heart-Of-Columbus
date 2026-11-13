@@ -265,7 +265,7 @@
   var bizPopup = function (b) {
     var o = b.t ? window.HoCOpen(b.t) : null;
     return '<a class="pop-name" href="/b/' + b.s + '/">' + esc(b.n) + '</a><small>' + esc(b.y) + (b.a ? '<br>' + esc(b.a) : '') +
-      (o ? '<br><b class="' + (o.open ? 'pop-open' : 'pop-closed') + '">' + esc(o.label) + '</b>' : '') + (b.z ? '<br>Social District: drinks to go' : '') + '</small>';
+      (o ? '<br><b class="' + (o.open ? 'pop-open' : 'pop-closed') + '">' + esc(o.label) + '</b>' : '') + (b.z ? '<br>Social District: drinks to go' : '') + (b.q ? '<br><i>Approximate pin</i>' : '') + '</small>';
   };
   function drawMap(list) {
     loadLeaflet().then(function (L) {

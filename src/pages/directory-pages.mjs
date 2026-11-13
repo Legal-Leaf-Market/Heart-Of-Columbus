@@ -4,6 +4,7 @@ import { directory, CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, km } fr
 import { PRICE } from '../data/members.mjs';
 import { header, footer, card, rail, svg, PHOTOS, artIcon, coverArt, editorialImg, edTag, tel, mapsLink, breadcrumbs } from '../site.mjs';
 import { editorialFor, editorialHero, sectionHero, EXPLORE_ART, EDITORIAL_CAPTION } from '../editorial-art.mjs';
+import { placeFromBusiness, PIN_NOTE } from '../data/places.mjs';
 import { fmtRange, DAY_NAMES } from '../hours.mjs';
 import { MEDIA as MEDIA_ALL, mediaFor, mediaSrc } from '../data/media.mjs';
 import { LANDMARKS } from '../data/landmarks.mjs';
@@ -260,6 +261,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
       <iframe title="Map of ${esc(b.name)}" loading="lazy" src="https://www.google.com/maps?q=${q}&output=embed" referrerpolicy="no-referrer-when-downgrade"></iframe>
       <div class="side-body">
         ${b.address ? `<p class="side-addr">${svg('pin', 'ic-sm')} ${t(b.address)}<br><span>Columbus, Indiana</span></p>` : '<p class="side-addr">Columbus, Indiana. Address not listed publicly.</p>'}
+        <p class="fine pin-note" data-pin="${placeFromBusiness(b).location.geo}">${esc(PIN_NOTE[placeFromBusiness(b).location.geo])}</p>
         ${b.phone ? `<p>${svg('phone', 'ic-sm')} <a href="${tel(b.phone)}">${esc(b.phone)}</a></p>` : '<p class="muted">No public phone number in the listings we used. Try the map link for current contact details.</p>'}
         ${b.tempClosed ? '<p class="open-badge is-closed">Temporarily closed, per their Google listing</p>' : ''}
         ${b.hours ? `${hoursTable(b.hours)}<p class="fine">Hours from their Google listing, October 2026. Holidays can differ; call ahead.</p>` : ''}
