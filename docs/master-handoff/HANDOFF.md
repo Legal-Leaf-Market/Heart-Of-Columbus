@@ -55,8 +55,10 @@ Legal-Leaf-Market/CrossroadsWeddingCo, Netlify deploys `main`):
    Not yet moved onto it: the map, list and trail code still read directory rows
    directly; switch them over one at a time, then build the downtown 3D pilot on it.
 5. **Nine landmark articles** (one per map landmark, plus an overview and a downtown
-   walking trail), drafts for Jake to sign: blocked until he allows the source hosts
-   visitcolumbusindiana.com, mybcpl.org and discovernewfields.org.
+   walking trail), drafts for Jake to sign. UNBLOCKED: Jake allowed the source hosts
+   (visitcolumbusindiana.com, mybcpl.org, discovernewfields.org, bare and www) on the
+   "yxunglxve" cloud environment, 2026-11-13; all three load. Byline "Heart of Columbus",
+   every fact cited, drafts until Jake signs in `signoff.mjs`.
 6. **Backlog:** `planning/EXECUTION_BACKLOG.md` (shared place contract, downtown spatial
    pilot, passport and Landmark Trail, merchant pilot). `planning/TRAILS_PASSPORTS_AND_MERCHANTS.md`
    has the detail. Jake holds the full master handoff zip, including the internal product and
