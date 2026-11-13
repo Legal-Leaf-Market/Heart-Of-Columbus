@@ -101,3 +101,12 @@ test('the Founders Club promises every new tool at no additional cost', () => {
   assert.match(html, /an ERP for every industry/);
   assert.equal((html.match(/Every new tool we build, at no extra cost/g) || []).length, 2, 'both paid tiers list it');
 });
+
+test('the Founders Club is cancelable, portable, alongside the Chamber, and names the print paper', () => {
+  const html = dist('founders-club/index.html');
+  assert.match(html, /Cancel any time/);
+  assert.match(html, /move it to any host/);
+  assert.match(html, /id="chamber"/);
+  assert.match(html, /never against it/);
+  assert.match(html, /printed newspaper hand delivered to neighbors 55 and up/);
+});

@@ -24,7 +24,7 @@ function foundersPage({ assets }) {
   const direct = directory.filter((b) => b.order.length || b.book.length).length;
   const tiers = [
     ['Listed', 'Free, always', 'Local businesses from public listings, with hours, map, phone and Book or Order buttons that go straight to your own pages.', ['Your listing, fixed and claimed by you', 'Your own booking or ordering, linked direct', 'Your words, your deals, your photos'], ''],
-    ['Founding Member', `$${PRICE} a month`, `Your own website, built and kept current, and a featured, numbered place in the club. ${SPOTS} founding spots, price locked for as long as you stay.`, ['A website on a domain in your name', 'Updates within two business days of a text', 'First in your category, marked ★ Founding Member', `Your founder number on the wall, #1 to #${SPOTS}`, 'Every new tool we build, at no extra cost'], 'is-hot'],
+    ['Founding Member', `$${PRICE} a month`, `Your own website, built and kept current, and a featured, numbered place in the club. ${SPOTS} founding spots, price locked for as long as you stay. Cancel any time.`, ['A website on a domain in your name, yours to move to any host', 'Updates within two business days of a text', 'First in your category, marked ★ Founding Member', `Your founder number on the wall, #1 to #${SPOTS}`, 'Every new tool we build, at no extra cost'], 'is-hot'],
     ['Ambassador', 'One per section', 'The owner who knows everyone in their corner of town. Bring your neighbors on and we take care of you.', [`A welcome website, yours to keep, ${WELCOME_MONTHS} months of hosting free`, 'Your section up front at launch', 'A say in how your section works', 'Rewards for every business you bring on', 'Every new tool we build, at no extra cost'], ''],
   ];
   const body = `
@@ -34,7 +34,7 @@ ${header('')}
   <div class="wrap">
     <p class="kicker kicker-pill">Founders Club</p>
     <h1>The businesses building<br><span class="hl">Heart of Columbus.</span></h1>
-    <p class="lede">Heart of Columbus is the visitor center, the local directory, order pickup and online booking for our town, all in one place. We are starting in Columbus, Indiana, and building it for towns across America. The Founders Club is the local owners who launch it with us.</p>
+    <p class="lede">Heart of Columbus is the visitor center, the local directory, order pickup and online booking for our town, all in one place. We are starting in Columbus, Indiana, and building it for towns across America. It is not only a website: we are going old school too, with a printed newspaper hand delivered to neighbors 55 and up. The Founders Club is the local owners who launch it with us.</p>
     <div class="order-stats"><a href="/explore/"><b>${directory.length}</b> local businesses listed</a><a href="/order/"><b>${direct}</b> book or order direct</a><a href="#wall"><b>${open}</b> of ${SPOTS} founding spots open</a></div>
   </div>
 </section>
@@ -78,6 +78,12 @@ ${header('')}
   }).join('')}</div>
 </section>
 
+<section class="wrap ow-how fc-chamber" id="chamber">
+  <p class="kicker">Alongside the Chamber</p>
+  <h2>Built to work with the Columbus Area Chamber of Commerce, never against it</h2>
+  <p>The Chamber speaks for Columbus business: advocacy, events, connections, the network. Heart of Columbus is the shop window and the toolbox: the guide people use to find you, and the software you use to run. Being in one never takes the place of the other, and we hope you are in both.</p>
+</section>
+
 <section class="wrap list" id="wall">
   <div class="sec-head"><p class="kicker">The Founders Wall</p><h2>Founding Members, in the order they joined</h2></div>
   ${wall.length
@@ -92,6 +98,7 @@ ${header('')}
     <li><b>Search.</b> Results rank by what you searched for, never by who pays.</li>
     <li><b>What we write.</b> Members and ambassadors have no say in our coverage, and every member is labeled so readers know.</li>
     <li><b>Your money.</b> We never take a cut of your bookings, orders or sales.</li>
+    <li><b>Your site.</b> Cancel any time. Your website is yours: we hand over every file and help you move it to any host.</li>
     <li><b>Your price.</b> New tools and features come with your membership. No upgrade fees, no add on tiers.</li>
   </ul>
   <p><a class="btn" href="/owners/?want=founders#claim">Join the Founders Club ${svg('arrow', 'ic-sm')}</a></p>
