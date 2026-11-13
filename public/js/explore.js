@@ -232,7 +232,7 @@
   var BADGE_SUB = { barbers: 1, salons: 1, nails: 1, spa: 1, tattoo: 1 };
   var BADGE_CAT = { restaurants: 1, 'coffee-sweets': 1, bars: 1, beauty: 1, shopping: 1, health: 1, fitness: 1, pets: 1, 'home-services': 1, auto: 1, pros: 1, events: 1, kids: 1, 'things-to-do': 1, makers: 1 };
   var LANDMARK_ART = { firstchristian: 'first-christian', northchristian: 'north-christian', irwin: 'irwin-bank', library: 'library-large-arch', courthouse: 'courthouse', cityhall: 'city-hall', miller: 'miller-house', firestation: 'fire-station-4', commons: 'chaos-i' };
-  var CUTOUT = { 'first-christian': 1, 'north-christian': 1, courthouse: 1 };
+  var CUTOUT = { 'first-christian': 1, 'north-christian': 1, courthouse: 1, 'irwin-bank': 1, 'library-large-arch': 1, 'city-hall': 1, 'miller-house': 1, 'fire-station-4': 1, 'chaos-i': 1 };
   var CUTOUT_ZOOM = 15;
   var badge = function (L, file, sel) {
     return L.icon({ iconUrl: '/art/map-v2/' + file + '.svg', iconSize: [44, 52], iconAnchor: [22, 48.5], popupAnchor: [0, -45], className: 'hoc-map-badge' + (sel ? ' is-selected' : '') });
