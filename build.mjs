@@ -146,10 +146,11 @@ for (const slug of DRAFTS) {
     await writeFile(new URL(f, dest), html);
   }
   // Graphics the draft points at: img/ (owner photos), brand/ (logos, icons,
-  // artwork) and motion/ (a draft's own animation CSS and JS). Brand docs and
+  // artwork), motion/ (a draft's own animation CSS and JS) and audio/ (its
+  // soundtrack, loaded only on play). Brand docs and
   // any page inside these folders stay in the repo.
   const asset = (f) => !/\.(gitkeep|md|html)$/.test(f) && !/[\\/]docs([\\/]|$)/.test(f);
-  for (const dir of ['img/', 'brand/', 'motion/']) {
+  for (const dir of ['img/', 'brand/', 'motion/', 'audio/']) {
     if (existsSync(new URL(dir, src))) await cp(new URL(dir, src), new URL(dir, dest), { recursive: true, filter: asset });
   }
 }
