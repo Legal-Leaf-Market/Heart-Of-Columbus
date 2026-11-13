@@ -260,7 +260,7 @@ export function tidyUrl(raw) {
 
 // Provider links that are not a booking page: "powered by" badges, static
 // assets, app downloads, directory pages, other towns' locations.
-const DENY = /static\.glossgenius|vagaro\.com\/(?:pro\b|resources|websitebuilder|js\/|images|users\/|signup|login)|booksy\.com\/(?:biz|widget|static)|fareharbor\.com\/(?:embeds\/(?:script|api)|static|help)|momence\.com\/(?:plugin|_next|static)|fresha\.com\/(?:for-business|assets|partners)|squareup\.com\/appointments\/?(?:["'\s]|$)|calendly\.com\/(?:assets|login|signup)|myshopify\.com\/(?:admin|cdn)|(?:www\.)?setmore\.com\/(?:pricing|features)|vagaro\.com\/?$|petdesk\.com\/download|mindbodyonline\.com\/explore|opentable\.com\/(?![^?#]*columbus)|booksy\.com\/en-us\/?$|calendly\.com\/?$/i;
+const DENY = /static\.glossgenius|vagaro\.com\/(?:pro\b|resources|websitebuilder|js\/|images|users\/|signup|login)|booksy\.com\/(?:biz|widget|static)|(?:help|support|biz|trust|blog|www|dl|partners?)\.booksy\.com|fareharbor\.com\/(?:embeds\/(?:script|api)|static|help)|momence\.com\/(?:plugin|_next|static)|fresha\.com\/(?:for-business|assets|partners)|squareup\.com\/appointments\/?(?:["'\s]|$)|calendly\.com\/(?:assets|login|signup)|myshopify\.com\/(?:admin|cdn)|(?:www\.)?setmore\.com\/(?:pricing|features)|vagaro\.com\/?$|petdesk\.com\/download|mindbodyonline\.com\/explore|opentable\.com\/(?![^?#]*columbus)|booksy\.com\/en-us\/?$|calendly\.com\/?$/i;
 
 // Every ordering / booking link the site points at, de-duplicated by provider.
 export function findProviderLinks(html, extra = []) {

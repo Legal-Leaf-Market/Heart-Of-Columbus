@@ -78,6 +78,9 @@ for (const slug of new Set([...Object.keys(WEB), ...Object.keys(bySlug)])) {
     const i = order.findIndex((o) => o.label === 'Square Online');
     if (i !== -1) { if (RETAIL.has(cat)) squareShop = order[i].url; order.splice(i, 1); }
   }
+  // Booksy sends a deleted business's address to a search page with this flag:
+  // that listing no longer takes bookings there.
+  if (/[?&]do=showBusinessDeletedModal\b/.test(p.final || '')) book.splice(0, book.length, ...book.filter((b) => b.label !== 'Booksy'));
   // One booking link per provider is enough.
   for (let i = book.length - 1; i > 0; i--) if (book.slice(0, i).some((b) => b.label === book[i].label)) book.splice(i, 1);
   const feed = !!(p.ok && (p.platform === 'shopify' || p.platform === 'woocommerce') && p.products > 0 && !NO_FEED.has(cat));

@@ -84,3 +84,14 @@ test('deep probe providers: trades, fitness, pets, OpenTable widget, own-engine 
   assert.equal(findProviderLinks(text).find((x) => x.id === 'opentable').url, 'https://www.opentable.com/restref/client/?rid=12345');
   assert.deepEqual(detectStack('<script src="https://app.ecwid.com/script.js?123"></script><link href="https://static1.squarespace.com/x.css">'), ['squarespace', 'ecwid']);
 });
+
+test("Booksy's own help, trust and blog pages are never a business's booking link", async () => {
+  const { findProviderLinks } = await import('../src/commerce-core.mjs');
+  for (const u of ['https://help.booksy.com/', 'https://trust.booksy.com/', 'https://blog.booksy.com/us/hair/face-shape/', 'https://biz.booksy.com/en-us'])
+    assert.deepEqual(findProviderLinks(u), [], u);
+  assert.equal(findProviderLinks('https://help.booksy.com/ https://shantybarber.booksy.com/')[0].url, 'https://shantybarber.booksy.com/');
+  assert.equal(findProviderLinks('https://booksy.com/en-us/256160_ciscos-barber-tattoo_barber-shop_19373_columbus')[0].id, 'booksy');
+  const { COMMERCE } = await import('../src/data/commerce.mjs');
+  for (const [slug, c] of Object.entries(COMMERCE))
+    for (const l of [...c.book, ...c.order]) assert.doesNotMatch(l.url, /\/\/(?:help|support|biz|trust|blog|www|dl|partners?)\.booksy\.com/, slug);
+});
