@@ -127,3 +127,4 @@
   .kd img { filter: none; }
 }
 .kd .hx-signoff { color: var(--kd-gray, #555); }
+.hx-fig.hx-art img, .kd .hx-fig.hx-art img { height: auto; max-height: 360px; width: auto; max-width: 100%; aspect-ratio: auto; object-fit: contain; }

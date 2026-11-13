@@ -5,6 +5,8 @@ import { page, esc, t } from '../layout.mjs';
 import { header, footer, rail, svg, breadcrumbs } from '../site.mjs';
 import { directory, km } from '../data/directory.mjs';
 import { LANDMARKS } from '../data/landmarks.mjs';
+import { BUILDINGS } from '../data/history/buildings.mjs';
+const GUIDE = Object.fromEntries(BUILDINGS.filter((a) => a.landmark).map((a) => [a.landmark, `/history/buildings/${a.slug}/`]));
 import { landmarkLd, ORIGIN } from '../jsonld.mjs';
 import { filmBySlug } from '../data/film.mjs';
 import { PAGES as ES, FACTS, REVIEW_NOTE, esDate } from '../i18n/es.mjs';
@@ -84,7 +86,7 @@ ${es ? `<p class="wrap vs-note vs-review lm-review">${esc(REVIEW_NOTE)}</p>` : '
       <div><dt>${L.where}</dt><dd>${esc(l.address)}, Columbus</dd></div>
       <div><dt>${L.seeing}</dt><dd>${l.street ? L.street : l.tour ? L.tour : L.indoors}</dd></div>
     </dl>
-    <p class="btns">${l.tour ? `<a class="btn btn-sm" href="${l.tour}" target="_blank" rel="noopener">${L.officialTour} ${svg('arrow', 'ic-sm')}</a>` : ''}<a class="btn btn-sm btn-ghost" href="${pre}/visit/#tours">${L.tours}</a><button type="button" class="btn btn-sm btn-ghost" data-save="l:${l.slug}" aria-pressed="false">${svg('heart', 'ic-sm')} <span data-save-label>${L.save}</span></button></p>
+    <p class="btns">${GUIDE[l.slug] && !es ? `<a class="btn btn-sm" href="${GUIDE[l.slug]}">Read the field guide ${svg('arrow', 'ic-sm')}</a>` : ''}${l.tour ? `<a class="btn btn-sm" href="${l.tour}" target="_blank" rel="noopener">${L.officialTour} ${svg('arrow', 'ic-sm')}</a>` : ''}<a class="btn btn-sm btn-ghost" href="${pre}/visit/#tours">${L.tours}</a><button type="button" class="btn btn-sm btn-ghost" data-save="l:${l.slug}" aria-pressed="false">${svg('heart', 'ic-sm')} <span data-save-label>${L.save}</span></button></p>
     <p class="fine">${L.facts(`<a href="${esc(l.source)}" target="_blank" rel="noopener">${esc(host(l.source))}</a>`, l.ll ? esc(l.llSource) : '', esc(es ? esDate(l.checked) : l.checked))}</p>
   </div>
   ${map ? `<div class="side-card lm-map"><iframe title="${esc(L.mapTitle(l.name))}" loading="lazy" src="${map}" referrerpolicy="no-referrer-when-downgrade"></iframe></div>` : ''}
