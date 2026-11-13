@@ -7,7 +7,8 @@
 import { esc, t } from '../layout.mjs';
 import { directory, catBySlug, subBySlug, areaBySlug } from '../data/directory.mjs';
 import { SPOTLIGHT, PICK_SLOTS } from '../data/spotlight.mjs';
-import { svg, tel, coverArt } from '../site.mjs';
+import { svg, tel, coverArt, editorialImg, edTag } from '../site.mjs';
+import { editorialFor } from '../editorial-art.mjs';
 
 const bySlug = Object.fromEntries(directory.map((b) => [b.slug, b]));
 export const spotlit = () => SPOTLIGHT.map((s) => ({ ...s, b: bySlug[s.slug] })).filter((s) => s.b);
@@ -25,11 +26,12 @@ const mainAction = (b) =>
 
 export function spotCard({ b, picks }) {
   const cat = catBySlug[b.cat], sub = subBySlug[b.sub], area = areaBySlug[b.area];
+  const ed = editorialFor(b);
   return `
 <article class="sp-card" style="--c:${cat.color};--t:${cat.tint}">
-  <a class="sp-cover pat-arch" href="/b/${b.slug}/" tabindex="-1" aria-hidden="true">
-    ${coverArt(b.sub)}
-    <span class="sp-emoji">${sub.emoji}</span>
+  <a class="sp-cover ${ed ? 'bz-cover-ed' : 'pat-arch'}" href="/b/${b.slug}/" tabindex="-1" aria-hidden="true">
+    ${ed ? editorialImg(ed) + edTag : `${coverArt(b.sub)}
+    <span class="sp-emoji">${sub.emoji}</span>`}
     <span class="sp-flag">★ Spotlight</span>
   </a>
   <div class="sp-body">

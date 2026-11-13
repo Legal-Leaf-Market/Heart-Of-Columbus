@@ -2,7 +2,8 @@
 import { page, esc, t } from '../layout.mjs';
 import { directory, CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, km } from '../data/directory.mjs';
 import { PRICE } from '../data/members.mjs';
-import { header, footer, card, rail, svg, PHOTOS, artIcon, coverArt, tel, mapsLink, breadcrumbs } from '../site.mjs';
+import { header, footer, card, rail, svg, PHOTOS, artIcon, coverArt, editorialImg, edTag, tel, mapsLink, breadcrumbs } from '../site.mjs';
+import { editorialFor, editorialHero, EDITORIAL_CAPTION } from '../editorial-art.mjs';
 import { fmtRange, DAY_NAMES } from '../hours.mjs';
 import { MEDIA as MEDIA_ALL, mediaFor, mediaSrc } from '../data/media.mjs';
 import { LANDMARKS } from '../data/landmarks.mjs';
@@ -28,6 +29,41 @@ const hoursTable = (rows) => {
 const styles = ['hoc.css'];
 export const membersFirst = (list) => [...list.filter((b) => b.member), ...list.filter((b) => !b.member)];
 const listGrid = (items) => `<div class="grid" data-grid>${items.map((b) => card(b)).join('')}</div>`;
+
+// Types whose own list page can be seen as Cards, Map, Table or Board
+// (public/js/views.js). Barbershops first; add a type slug to give it the same.
+export const VIEW_TYPES = new Set(['barbers']);
+
+// The switcher, the empty view panes and the few facts views.js needs that the
+// search index leaves out: each place's own booking or ordering link, and the
+// neighborhood names. Everything else comes from /data/directory.json.
+const viewBar = (title) => `<div class="wrap vbar" data-v-bar hidden>
+  <div class="vswitch" role="group" aria-label="Show ${esc(title.toLowerCase())} as">
+    <button type="button" data-v="cards" aria-pressed="true">${svg('grid', 'ic-sm')}<span>Cards</span></button>
+    <button type="button" data-v="map" aria-pressed="false">${svg('map', 'ic-sm')}<span>Map</span></button>
+    <button type="button" data-v="table" aria-pressed="false">${svg('table', 'ic-sm')}<span>Table</span></button>
+    <button type="button" data-v="board" aria-pressed="false">${svg('board', 'ic-sm')}<span>Board</span></button>
+  </div>
+  <label class="vgroup" data-v-group-box hidden>Group by <select data-v-group>
+    <option value="area">Neighborhood</option><option value="book">Booking</option><option value="open">Open now</option>
+  </select></label>
+  <p class="vkey"><span class="vkey-book">Books online</span><span class="vkey-other">No online booking listed</span></p>
+</div>`;
+const viewPanes = (title) => `
+  <aside class="vmap" data-v-map hidden>
+    <div class="vmap-canvas" data-v-canvas role="region" aria-label="Map of these ${esc(title.toLowerCase())}"></div>
+    <label class="vmap-move"><input type="checkbox" data-v-move> Search as I move the map</label>
+    <p class="vmap-note" data-v-note aria-live="polite"></p>
+  </aside>
+  <div class="vtable" data-v-table hidden></div>
+  <div class="vboard" data-v-board hidden></div>`;
+const viewData = (items) => `<script type="application/json" data-v-data>${JSON.stringify({
+  areas: Object.fromEntries(AREAS.map((a) => [a.slug, a.label])),
+  links: Object.fromEntries(items.map((b) => [b.slug, {
+    ...(b.book[0] ? { b: [b.book[0].label, b.book[0].url] } : {}),
+    ...(b.order[0] ? { o: [b.order[0].label, b.order[0].url] } : {}),
+  }])),
+}).replace(/</g, '\\u003c')}</script>`;
 const countBy = (items, key) => items.reduce((m, b) => ((m[b[key]] = (m[b[key]] || 0) + 1), m), {});
 
 // Client-side refine bar on list pages: filter what's already on the page.
@@ -73,35 +109,57 @@ function categoryPage(cat, sub, { assets }) {
   const multi = cat.subs.length > 1;
   const title = sub && multi ? sub.label : cat.label;
   const others = CATEGORIES.filter((c) => c.slug !== cat.slug);
+  // A type with a painted hero (src/editorial-art.mjs) gets it on its own page
+  // only: copy on a cream panel, the scene beside it, no pattern behind.
+  const hero = sub && multi ? editorialHero(sub.slug) : null;
+  const mapHref = `/explore/?cat=${cat.slug}${sub && multi ? `&sub=${sub.slug}` : ''}&view=map`;
+  const views = Boolean(sub && multi && VIEW_TYPES.has(sub.slug));
   const body = `
 ${header(cat.slug)}
 <main id="main">
 ${breadcrumbs([['/', 'Home'], ['/explore/', 'Explore'], ...(sub && multi ? [[`/c/${cat.slug}/`, cat.label], ['', sub.label]] : [['', cat.label]])])}
-<section class="band" style="--c:${cat.color};--t:${cat.tint}">
-  <div class="wrap band-row">
+<section class="band${hero ? ' band-ed' : ''}" style="--c:${cat.color};--t:${cat.tint}">
+  ${hero ? `<div class="wrap"><div class="ed-hero">
+    <div class="ed-hero-copy">
+      <p class="kicker">${esc(cat.label)}</p>
+      <h1>${esc(title)} <span class="band-n">${items.length}</span></h1>
+      <p class="band-sub">${esc(cat.blurb)} Independent and in Columbus.</p>
+      <a class="btn btn-ghost" href="${mapHref}"${views ? ' data-v-go="map"' : ''}>${svg('map')} See them on the map</a>
+    </div>
+    <figure class="ed-hero-art">
+      <img width="${hero.width}" height="${hero.height}" decoding="async" fetchpriority="high" sizes="(max-width: 860px) calc(100vw - 32px), 700px" src="/art/${hero.file}" style="object-position:${hero.pos}" alt="">
+      <figcaption class="ed-tag">${EDITORIAL_CAPTION}</figcaption>
+    </figure>
+  </div></div>` : `<div class="wrap band-row">
     ${artIcon(cat.slug, sub && multi ? sub.emoji : cat.emoji, 'band-ic')}
     <div>
       <p class="kicker">${sub && multi ? esc(cat.label) : 'Category'}</p>
       <h1>${esc(title)} <span class="band-n">${items.length}</span></h1>
       <p class="band-sub">${esc(cat.blurb)} Independent and in Columbus.</p>
     </div>
-    <a class="btn btn-ghost" href="/explore/?cat=${cat.slug}${sub && multi ? `&sub=${sub.slug}` : ''}&view=map">${svg('map')} See them on the map</a>
+    <a class="btn btn-ghost" href="${mapHref}"${views ? ' data-v-go="map"' : ''}>${svg('map')} See them on the map</a>
     ${cat.slug === 'events' ? `<a class="btn" href="/djs/">🎧 Columbus DJs</a>` : ''}
-  </div>
+  </div>`}
   ${multi ? `<div class="wrap subnav">${[`<a href="/c/${cat.slug}/" class="${!sub ? 'on' : ''}">All ${esc(cat.label.toLowerCase())}</a>`, ...cat.subs.map((s) => `<a href="/c/${cat.slug}/${s.slug}/" class="${sub && sub.slug === s.slug ? 'on' : ''}">${s.emoji} ${esc(s.label)} <small>${directory.filter((b) => b.sub === s.slug).length}</small></a>`)].join('')}</div>` : ''}
 </section>
 ${spotlightSection({ title: `In the spotlight: ${title.toLowerCase()}`, only: (b) => b.cat === cat.slug && (!sub || b.sub === sub.slug) })}
 ${refine(items, { subs: multi && !sub ? cat.subs : null })}
-<section class="wrap list">${listGrid(items)}
+${views ? viewBar(title) : ''}
+${views ? '<div class="wrap views" data-v-root data-view="cards">' : ''}
+<section class="${views ? '' : 'wrap '}list${hero ? ' list-ed' : ''}"${views ? ' data-v-list' : ''}>${listGrid(items)}
   <p class="empty" data-f-empty hidden><img src="/art/empty-search.webp" alt="" width="160" height="160">Nothing matches. Try another neighborhood or clear the filter.</p>
 </section>
+${views ? `${viewPanes(title)}
+</div>
+<button type="button" class="vfloat" data-v-float hidden>${svg('map', 'ic-sm')}<span>Map</span></button>
+${viewData(items)}` : ''}
 <section class="wrap more-cats">
   <h2>Keep exploring</h2>
   <div class="mini-cats">${others.map((c) => `<a href="/c/${c.slug}/" style="--c:${c.color};--t:${c.tint}">${artIcon(c.slug, c.emoji, 'mc-ic')}${esc(c.label)}</a>`).join('')}</div>
 </section>
 </main>
 ${footer()}`;
-  return page({ title: `${title} in Columbus, Indiana | Heart of Columbus`, description: `${cat.blurb} ${items.length} independent ${title.toLowerCase()} in Columbus, Indiana, with phone numbers, maps and hours where listed.`, body, scripts: ['site.js', 'list.js'], styles, assets });
+  return page({ title: `${title} in Columbus, Indiana | Heart of Columbus`, description: `${cat.blurb} ${items.length} independent ${title.toLowerCase()} in Columbus, Indiana, with phone numbers, maps and hours where listed.`, body, scripts: ['site.js', 'list.js', ...(views ? ['views.js'] : [])], styles, assets });
 }
 
 function areaPage(area, { assets }) {
@@ -149,6 +207,8 @@ function bizPage(b, { assets }) {
   const sub = subBySlug[b.sub];
   const area = areaBySlug[b.area];
   const media = mediaFor(b.slug);
+  // No owner photo: the type's painted scene, if it has one (src/editorial-art.mjs).
+  const ed = media?.cover ? null : editorialFor(b);
   const near = b.ll
     ? directory.filter((x) => x.slug !== b.slug && x.ll).map((x) => [km(b.ll, x.ll), x]).sort((a, c) => a[0] - c[0]).slice(0, 12).map((x) => x[1])
     : [];
@@ -160,9 +220,9 @@ ${header(cat.slug)}
 ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.length > 1 ? [[`/c/${cat.slug}/${sub.slug}/`, sub.label]] : []), ['', b.name]])}
 <section class="wrap biz">
   <div class="biz-main">
-    <div class="biz-cover pat-arch" style="--c:${cat.color};--t:${cat.tint}">
-      ${coverArt(b.sub, false)}
-      <span class="biz-emoji" aria-hidden="true">${sub.emoji}</span>
+    <div class="biz-cover ${ed ? 'biz-cover-ed' : 'pat-arch'}" style="--c:${cat.color};--t:${cat.tint}">
+      ${ed ? editorialImg(ed, { lazy: false, sizes: '(max-width: 960px) 100vw, 780px' }) + edTag : `${coverArt(b.sub, false)}
+      <span class="biz-emoji" aria-hidden="true">${sub.emoji}</span>`}
       ${media?.cover ? `<img class="biz-photo" src="${mediaSrc(b.slug, media.cover)}" width="${media.cover.width}" height="${media.cover.height}" alt="${esc(media.cover.alt)}" loading="lazy" decoding="async" onerror="this.remove()">` : ''}
     </div>
     ${media ? `<p class="fine biz-credit">${esc(media.credit)}, shown with permission.</p>` : `<p class="fine biz-credit">Own ${t(b.name)}? <a href="/owners/?b=${b.slug}&amp;want=photos#claim">Send us photos</a> and we will show them here with your credit. We never copy them from your website.</p>`}

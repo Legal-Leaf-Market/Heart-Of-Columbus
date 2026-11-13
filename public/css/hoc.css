@@ -1357,3 +1357,189 @@ a.tag-member:hover { background: #2f3f6b; }
 .fc-tool-row span { font-size: 15px; color: #dfe4f0; }
 .hx-signoff { margin-top: 10px; font-size: 13px; font-variant: small-caps; letter-spacing: .03em; color: var(--muted); }
 .hx-signoff a { color: inherit; }
+/* ---------- Editorial category illustrations (src/editorial-art.mjs) ----------
+   Painted scenes of imaginary places, shown only where a listing has no photo
+   from its owner. The tag is the disclosure that the picture is not the shop:
+   keep it legible wherever the art shows. */
+.bz-cover-ed, .biz-cover-ed { background: #eee5d6; }
+.ed-art { object-fit: cover; }
+.ed-tag { position: absolute; left: 10px; top: 10px; z-index: 1; max-width: calc(100% - 64px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: #faf5eb; color: #443d32; border: 1.5px solid var(--ink); border-radius: 999px; font-size: 11px; font-weight: 700; line-height: 1.35; padding: 2px 8px; }
+.bz-cover-ed .bz-area, .bz-cover-ed .bz-open:not(.is-open) { background: #fff; }
+.sp-cover.bz-cover-ed .ed-tag { top: auto; bottom: 12px; left: 12px; }
+@media (prefers-reduced-motion: reduce) { .bz:hover .ed-art, .sp-card:hover .ed-art { transform: none; } }
+/* The type's own page gives the painting room; mixed rails and grids keep the
+   shared cover height so cards of every type line up. */
+.list-ed .bz-cover { height: auto; aspect-ratio: 16 / 10; }
+.biz-cover-ed { height: auto; min-width: 0; aspect-ratio: 5 / 2; }
+@media (max-width: 600px) { .biz-cover-ed { aspect-ratio: 16 / 10; } }
+.biz-cover-ed .ed-tag { left: 14px; top: 14px; font-size: 12px; padding: 3px 10px; }
+
+/* Type page header with a painted scene: copy on a solid cream panel, the
+   painting beside it (stacked on phones), no arch pattern behind. */
+.band.band-ed { background: #efe6d5; padding-top: 20px; }
+.band-ed::after { display: none; }
+.ed-hero { display: grid; grid-template-columns: minmax(20rem, 1fr) minmax(0, 1.4fr); background: #faf5eb; color: #26231f; border: 2px solid var(--ink); border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--pop); position: relative; z-index: 1; }
+.ed-hero-copy { padding: clamp(22px, 2.8vw, 40px); align-self: center; display: grid; gap: 12px; justify-items: start; }
+.ed-hero-copy .kicker { margin-bottom: 0; }
+.ed-hero-copy h1 { font-size: clamp(34px, 4vw, 52px); line-height: 1.05; }
+.ed-hero-copy .band-sub { margin-top: 0; color: #4a443b; }
+.ed-hero-copy .btn { margin-top: 6px; }
+.ed-hero-art { position: relative; margin: 0; min-height: 280px; border-left: 2px solid var(--ink); }
+.ed-hero-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ed-hero-art .ed-tag { left: auto; right: 12px; top: auto; bottom: 12px; font-size: 12px; padding: 3px 10px; }
+@media (max-width: 860px) {
+  .ed-hero { grid-template-columns: 1fr; }
+  .ed-hero-art { min-height: 0; aspect-ratio: 2 / 1; border-left: 0; border-top: 2px solid var(--ink); }
+}
+
+/* ---------- Views on a type page: Cards, Map, Table, Board (public/js/views.js) ----------
+   Green always means "books online": pins, table rows, board cards, buttons. */
+.vbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding-top: 4px; padding-bottom: 14px; }
+@media (min-width: 900px) { .vbar { position: sticky; top: var(--hdr-h, 116px); z-index: 30; background: var(--paper); padding-top: 12px; box-shadow: 0 1px 0 var(--line); } }
+.vswitch { display: inline-flex; gap: 2px; padding: 3px; background: var(--surface); border: 2px solid var(--ink); border-radius: 999px; box-shadow: 3px 3px 0 var(--ink); }
+.vswitch button { display: inline-flex; align-items: center; gap: 6px; padding: 8px 15px; border-radius: 999px; font-weight: 800; font-size: 14px; color: var(--ink); cursor: pointer; }
+.vswitch button:hover { background: #f1ebe0; }
+.vswitch button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.vswitch button:focus-visible, .vfloat:focus-visible, .vbtn:focus-visible, .vt button:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }
+@media (max-width: 520px) { .vswitch { display: flex; width: 100%; } .vswitch button { flex: 1; justify-content: center; padding: 8px 4px; font-size: 13px; gap: 5px; } }
+.vgroup { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; }
+.vgroup select { border: 2px solid var(--ink); border-radius: 999px; padding: 7px 12px; background: var(--surface); font-weight: 700; }
+.vkey { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-left: auto; font-size: 13px; font-weight: 600; color: var(--muted); }
+.vkey span::before { content: ""; display: inline-block; width: 12px; height: 12px; margin-right: 6px; vertical-align: -1px; border-radius: 50%; border: 2px solid var(--ink); background: var(--surface); }
+.vkey .vkey-book::before { background: #1f7a3f; box-shadow: 0 0 0 2px #fff9ec, 0 0 0 3.5px #1f7a3f; border-color: #fff9ec; }
+@media (max-width: 899px) { .vkey { margin-left: 0; } }
+
+.views { padding-bottom: 56px; }
+.views .list { padding-bottom: 0; }
+.bz.is-hot { transform: translateY(-3px); box-shadow: 0 0 0 3px var(--brand), var(--pop); }
+.views[data-view="map"] .bz[data-v-off] { display: none; }
+.vempty { padding: 36px 20px; text-align: center; font-weight: 700; color: var(--muted); border: 2px dashed #cfc6b6; border-radius: var(--r); }
+
+/* Map beside the list on wide screens, the map alone on phones (the floating
+   button brings the list back). */
+.vmap { position: relative; }
+.vmap-canvas { height: min(72svh, 640px); border: 2px solid var(--ink); border-radius: var(--r); overflow: hidden; background: #ece6da; box-shadow: var(--pop); z-index: 0; }
+@media (min-width: 900px) {
+  .views[data-view="map"] { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 22px; align-items: start; }
+  .views[data-view="map"] .grid { grid-template-columns: minmax(0, 1fr); }
+  .vmap { position: sticky; top: calc(var(--hdr-h, 116px) + var(--vbar-h, 64px) + 14px); }
+  .vmap-canvas { height: calc(100vh - var(--hdr-h, 116px) - var(--vbar-h, 64px) - 64px); min-height: 420px; }
+}
+@media (min-width: 1180px) { .views[data-view="map"] .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 899px) { .views[data-view="map"] .list { display: none; } }
+.vmap-move { position: absolute; left: 12px; top: 12px; z-index: 500; display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px; background: var(--surface); border: 2px solid var(--ink); border-radius: 999px; box-shadow: 2px 2px 0 var(--ink); font-size: 13px; font-weight: 800; cursor: pointer; }
+.vmap-move input { width: 16px; height: 16px; accent-color: var(--ink); }
+.vmap-note { min-height: 1.4em; margin-top: 8px; font-size: 13px; color: var(--muted); }
+.vmap-fail { padding: 28px; font-weight: 700; }
+.vmap .leaflet-control-zoom, .vmap .vmap-fit { border: 2px solid var(--ink) !important; border-radius: 12px !important; box-shadow: 2px 2px 0 var(--ink) !important; overflow: hidden; }
+.vmap .leaflet-control-zoom a { width: 38px; height: 38px; line-height: 36px; font-size: 20px; color: var(--ink); }
+.vmap .leaflet-control-zoom a:hover { background: #f1ebe0; }
+.vmap-fit { display: grid; place-items: center; width: 42px; height: 42px; background: var(--surface); color: var(--ink); cursor: pointer; }
+.vmap-fit:hover { background: #f1ebe0; }
+.vmap .leaflet-control-attribution { font-size: 10px; background: rgba(251,247,240,.85); }
+
+/* Pins: the type's map badge (public/art/map-v2/). Books online: a green
+   ring and a green calendar flag. Several shops at one address: a red count.
+   The name shows on hover, on its card's hover, and once zoomed in close.
+   Motion stays on the inner image; Leaflet owns .leaflet-marker-icon's transform. */
+.vpin-wrap { background: none; border: 0; }
+.vpin { position: relative; width: 44px; height: 52px; }
+.vpin-art { display: block; width: 44px; height: 52px; transform-origin: 50% 94%; filter: drop-shadow(0 2px 2px rgba(41,41,35,.22)); transition: transform .15s, filter .15s; }
+.vpin-book .vpin-art { filter: drop-shadow(1.6px 0 0 #1f7a3f) drop-shadow(-1.6px 0 0 #1f7a3f) drop-shadow(0 1.6px 0 #1f7a3f) drop-shadow(0 -1.6px 0 #1f7a3f) drop-shadow(0 2px 2px rgba(41,41,35,.22)); }
+.vpin-flag { position: absolute; right: -7px; top: -5px; width: 22px; height: 22px; display: grid; place-items: center; border-radius: 50%; background: #1f7a3f; color: #fff; border: 2px solid #fff9ec; box-shadow: 0 0 0 1.5px #292923; }
+.vpin-flag svg { width: 12px; height: 12px; }
+.vpin-n { position: absolute; left: -7px; top: -5px; min-width: 21px; height: 21px; padding: 0 4px; display: grid; place-items: center; border-radius: 999px; background: #ad3d3c; color: #fff; border: 2px solid #fff9ec; box-shadow: 0 0 0 1.5px #292923; font-size: 11px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.vpin-name { display: none; position: absolute; left: 36px; top: 9px; z-index: -1; padding: 3px 11px 3px 14px; white-space: nowrap; background: #fff9ec; border: 2px solid #292923; border-radius: 999px; box-shadow: 0 2px 4px rgba(41,41,35,.2); font-size: 12px; font-weight: 800; color: #292923; pointer-events: none; }
+.vmap-near .vpin-name, .vpin-wrap:hover .vpin-name, .vpin-wrap.is-hot .vpin-name, .vpin-wrap:focus .vpin-name { display: block; }
+.vpin-wrap:hover .vpin-art, .vpin-wrap.is-hot .vpin-art, .vpin-wrap:focus .vpin-art { transform: translateY(-3px) scale(1.12); filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 5px #ad3d3c) drop-shadow(0 3px 3px rgba(41,41,35,.3)); }
+.vpin-wrap:focus { outline: none; }
+.vpin-wrap:focus-visible .vpin-art { outline: 3px solid #ad3d3c; outline-offset: 2px; border-radius: 50%; }
+@media (prefers-reduced-motion: reduce) { .vpin-art, .bz.is-hot { transition: none; transform: none !important; } }
+
+/* Map popup: a small card. */
+.vpop .leaflet-popup-content-wrapper { padding: 0; overflow: hidden; border: 2px solid var(--ink); border-radius: 18px; box-shadow: 4px 4px 0 var(--ink); }
+.vpop .leaflet-popup-content { margin: 0; font-family: var(--body); font-size: 14px; line-height: 1.4; }
+.vpop .leaflet-popup-content p { margin: 0; }
+.vpop .leaflet-popup-tip { border: 2px solid var(--ink); box-shadow: none; }
+.leaflet-container .vpop a.leaflet-popup-close-button { top: 8px; right: 8px; z-index: 2; width: 28px; height: 28px; display: grid; place-items: center; padding: 0; background: var(--surface); border: 2px solid var(--ink); border-radius: 50%; color: var(--ink); font: 700 18px/1 var(--body); }
+.vpop-img { position: relative; display: block; aspect-ratio: 16 / 8; overflow: hidden; background: #eee5d6; border-bottom: 2px solid var(--ink); }
+.vpop-img img { width: 100%; height: 100%; object-fit: cover; }
+.vpop-body, .vpop-many { display: grid; gap: 3px; padding: 12px 14px 14px; }
+.vpop a.vpop-name { font-size: 16px; font-weight: 800; color: var(--ink); }
+.vpop a.vpop-name:hover { text-decoration: underline; }
+.vpop-meta { font-size: 13px; color: var(--muted); }
+.vpop-open, .vt-open, .vb-open { font-size: 13px; font-weight: 700; }
+.is-open { color: #1f7a3f; }
+.is-closed, .is-unknown { color: var(--muted); }
+.vpop-acts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.vpop-kicker { padding-right: 30px; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--brand); }
+.vpop-row { display: grid; gap: 2px; padding: 9px 0 2px; border-top: 1px solid var(--line); }
+.vpop-row:first-of-type { border-top: 0; }
+
+/* Buttons shared by the popup, table and board. */
+.vbtn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border: 2px solid var(--ink); border-radius: 999px; background: var(--surface); color: var(--ink); font-size: 13px; font-weight: 800; line-height: 1.2; white-space: nowrap; cursor: pointer; }
+.vbtn:hover { background: #f1ebe0; }
+.vbtn svg { flex: none; }
+.vbtn-sm { padding: 4px 10px; font-size: 12px; }
+.vbtn-book, .leaflet-container a.vbtn-book { background: #1f7a3f; color: #fff; }
+.vbtn-book:hover { background: #17612f; }
+.leaflet-container a.vbtn:not(.vbtn-book) { color: var(--ink); }
+
+/* Table */
+.vt-scroll { overflow-x: auto; background: var(--surface); border: 2px solid var(--ink); border-radius: var(--r); box-shadow: var(--pop); }
+.vt { width: 100%; min-width: 780px; border-collapse: collapse; font-size: 14px; }
+.vt th, .vt td { padding: 12px 14px; text-align: left; vertical-align: middle; border-bottom: 1px solid var(--line); }
+.vt thead th { background: #f6f1e7; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; border-bottom: 2px solid var(--ink); }
+.vt thead button { display: inline-flex; align-items: center; gap: 6px; font: inherit; letter-spacing: inherit; text-transform: inherit; color: inherit; cursor: pointer; }
+.vt-arrow { font-size: 10px; opacity: .45; }
+.vt [aria-sort] .vt-arrow { opacity: 1; }
+.vt tbody tr:last-child > * { border-bottom: 0; }
+.vt tbody tr:hover > * { background: #fbf7f0; }
+.vt tbody th { position: sticky; left: 0; z-index: 1; min-width: 190px; background: var(--surface); font-weight: 400; }
+.vt-book > th { box-shadow: inset 5px 0 0 #1f7a3f; }
+.vt-name { display: block; font-size: 15px; font-weight: 800; }
+.vt-name:hover { text-decoration: underline; }
+.vt tbody th small { color: var(--muted); font-size: 12px; }
+.vt-addr { text-align: left; text-decoration: underline dotted; text-underline-offset: 3px; cursor: pointer; }
+.vt-addr:hover { color: var(--brand); }
+.vt td a[href^="tel:"] { font-weight: 700; text-decoration: underline; }
+.vt-nowrap { white-space: nowrap; }
+.vt-none { font-size: 13px; color: var(--muted); }
+
+/* Board: one column per group, scrolling sideways like a kanban board. */
+.vb-scroll { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(258px, 1fr); gap: 16px; overflow-x: auto; padding: 4px 6px 18px 2px; scroll-snap-type: x proximity; }
+.vb-col { align-self: start; padding: 12px; background: #f3ede2; border: 2px solid var(--ink); border-radius: var(--r); scroll-snap-align: start; }
+.vb-h { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; padding: 2px 4px 10px; border-bottom: 4px solid var(--ink); font-family: var(--body); font-size: 15px; font-weight: 800; }
+.vb-book .vb-h { border-color: #1f7a3f; }
+.vb-open .vb-h { border-color: #3ccf6e; }
+.vb-muted .vb-h { border-color: #c9bfae; }
+.vb-count { padding: 1px 9px; border-radius: 999px; background: var(--ink); color: var(--paper); font-size: 12px; }
+.vb-list { display: grid; gap: 10px; list-style: none; margin: 0; padding: 0; }
+.vb-card { overflow: hidden; background: var(--surface); border: 2px solid var(--ink); border-radius: 14px; }
+.vb-is-book { border-left: 7px solid #1f7a3f; }
+.vb-img { position: relative; display: block; aspect-ratio: 16 / 7; overflow: hidden; background: #eee5d6; border-bottom: 2px solid var(--ink); }
+.vb-img img { width: 100%; height: 100%; object-fit: cover; }
+.vb-img .ed-tag { top: 6px; left: 6px; font-size: 10px; }
+.vb-body { display: grid; gap: 3px; padding: 10px 12px 12px; }
+.vb-name { font-size: 15px; font-weight: 800; }
+.vb-name:hover { text-decoration: underline; }
+.vb-meta { font-size: 13px; color: var(--muted); }
+.vb-acts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+
+/* Phones: one thumb-sized Map / List switch, like the travel apps. */
+.vfloat { position: fixed; left: 50%; bottom: max(18px, env(safe-area-inset-bottom)); z-index: 60; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; background: var(--ink); color: var(--paper); border: 2px solid var(--paper); border-radius: 999px; box-shadow: 0 10px 28px rgba(27,26,23,.35); font-weight: 800; font-size: 15px; cursor: pointer; }
+@media (min-width: 900px) { .vfloat { display: none !important; } }
+@media print { .vbar, .vfloat, .vmap { display: none !important; } }
+
+/* ---------- Map art v2 (public/art/map-v2/, art-source/map-v2/README.md) ----------
+   Category and landmark badges, close-zoom landmark cutouts and cluster counts
+   for Explore and the type-page map. Only the tile layer is toned down, never
+   the controls or the art; road names stay legible. */
+.map-tiles, .vmap-tiles { filter: saturate(.6) sepia(.1) contrast(.96) brightness(1.03); }
+.hoc-map-badge { filter: drop-shadow(0 2px 2px rgba(41,41,35,.19)); }
+.hoc-map-cutout { filter: drop-shadow(0 1px 1px #fff9ec) drop-shadow(0 2px 2px rgba(41,41,35,.33)); }
+.hoc-map-badge.is-selected, .hoc-map-cutout.is-selected { filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 4px #ad3d3c); }
+.hoc-map-badge:focus-visible, .hoc-map-cutout:focus-visible, .hoc-map-cluster:focus-visible { outline: 3px solid #ad3d3c; outline-offset: 3px; border-radius: 50%; }
+.hoc-map-cluster { display: grid; place-items: center; border-radius: 50%; background: #292923; color: #fff9ec; border: 2px solid #fff9ec; box-shadow: 0 0 0 1px #292923, 0 2px 5px rgba(41,41,35,.25); font: 700 14px/1 var(--body); font-variant-numeric: tabular-nums; }
+.hoc-map-cluster > b { display: grid; place-items: center; width: calc(100% - 6px); height: calc(100% - 6px); border: 1px solid #b99352; border-radius: 50%; }
+.hoc-map-cluster-lm { background: #4f5d47; }

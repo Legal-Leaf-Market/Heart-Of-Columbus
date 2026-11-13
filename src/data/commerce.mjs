@@ -301,7 +301,7 @@ export const COMMERCE = {
   "book": [
    {
     "label": "Booksy",
-    "url": "https://help.booksy.com/"
+    "url": "http://anokhairbraiding.booksy.com/"
    }
   ]
  },
@@ -1512,7 +1512,7 @@ export const COMMERCE = {
   "book": [
    {
     "label": "Booksy",
-    "url": "https://help.booksy.com/"
+    "url": "https://shantybarber.booksy.com/"
    }
   ]
  },
@@ -1662,7 +1662,7 @@ export const COMMERCE = {
   "book": [
    {
     "label": "Booksy",
-    "url": "https://help.booksy.com/"
+    "url": "https://divinehands990.booksy.com/"
    }
   ]
  },
@@ -3565,7 +3565,7 @@ export const COMMERCE = {
   "book": [
    {
     "label": "Booksy",
-    "url": "https://help.booksy.com/"
+    "url": "http://haircutsclauher.booksy.com/"
    }
   ]
  },
@@ -3882,7 +3882,7 @@ export const COMMERCE = {
   "book": [
    {
     "label": "Booksy",
-    "url": "https://help.booksy.com/"
+    "url": "https://raginghairbybrandie.booksy.com/"
    }
   ]
  },
@@ -4102,7 +4102,7 @@ export const COMMERCE = {
   "book": [
    {
     "label": "Booksy",
-    "url": "https://help.booksy.com/"
+    "url": "http://salonaura812.booksy.com/"
    },
    {
     "label": "visibook.com",
@@ -4138,7 +4138,7 @@ export const COMMERCE = {
   "book": [
    {
     "label": "Booksy",
-    "url": "https://help.booksy.com/"
+    "url": "https://daycutz14.booksy.com/"
    }
   ]
  },
@@ -4676,22 +4676,6 @@ export const COMMERCE = {
   "order": [],
   "book": []
  },
- "the-alley-mobile-salon": {
-  "platform": "",
-  "stack": [
-   "booksy"
-  ],
-  "origin": "https://booksy.com/",
-  "feed": false,
-  "store": "",
-  "order": [],
-  "book": [
-   {
-    "label": "Booksy",
-    "url": "https://blog.booksy.com/us/hair/thinking-of-getting-a-new-haircut-check-your-face-shape-first/"
-   }
-  ]
- },
  "the-artisan-salon": {
   "platform": "wix-stores",
   "stack": [
@@ -5014,7 +4998,7 @@ export const COMMERCE = {
   "book": [
    {
     "label": "Booksy",
-    "url": "https://help.booksy.com/"
+    "url": "http://fadedwithhonor.booksy.com/"
    }
   ]
  },

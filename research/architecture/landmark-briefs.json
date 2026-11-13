@@ -1,0 +1,399 @@
+{
+  "checked": "2026-11-13",
+  "briefs": [
+    {
+      "id": "first-christian",
+      "name": "First Christian Church",
+      "headline": "The church that helped Columbus see modern architecture differently",
+      "facts": [
+        [
+          "Eliel Saarinen designed the church, completed in 1942. Its restrained geometry uses buff brick and limestone, a prominent facade cross and a separate campanile.",
+          "https://visitcolumbusindiana.com/directory/first-christian-church/"
+        ],
+        [
+          "The visitor center identifies it as the city\u2019s first contemporary building. Treat that as the local source\u2019s historical characterization rather than an uncited global superlative.",
+          "https://visitcolumbusindiana.com/directory/first-christian-church/"
+        ]
+      ],
+      "outline": [
+        "How a place of worship became an architectural turning point",
+        "Eliel Saarinen and the commission: research the congregation and patrons",
+        "Buff masonry, cross, separate tower: what the street reveals",
+        "Interior, music and worship: verify with church and preservation records",
+        "Preservation and the building\u2019s relationship to the library plaza"
+      ],
+      "verify": [
+        "Exact landmark designation and restoration dates",
+        "Current worship/tour access and any active tower work",
+        "Interior collaborators, organ details and acoustics before describing them"
+      ],
+      "links": [
+        "library-large-arch",
+        "north-christian"
+      ],
+      "sources": [
+        {
+          "url": "https://visitcolumbusindiana.com/directory/first-christian-church/",
+          "accessed": "2026-11-13",
+          "status": "page_read"
+        }
+      ],
+      "image": "/art/map-v2/landmark-first-christian-cutout-512.webp",
+      "status": "research_brief_not_publish_ready"
+    },
+    {
+      "id": "north-christian",
+      "name": "The LEX / former North Christian Church",
+      "headline": "From sanctuary to shared space: the next life of North Christian",
+      "facts": [
+        [
+          "Eero Saarinen\u2019s church was completed in 1964 after his death; Roche Dinkeloo & Associates completed the project. Dan Kiley designed the landscape. The hexagonal sanctuary and contrasting low roof and tall spire are defining elements.",
+          "https://visitcolumbusindiana.com/directory/the-lex-formerly-north-christian-church/"
+        ],
+        [
+          "BCPL\u2019s August 19, 2024 board minutes record successful removal of the cross from the spire. This establishes cross removal, not removal of the full spire.",
+          "https://static.libnet.info/frontend-images/pdfs/mybcpl/Board_Minutes/2024/8minutes.pdf"
+        ],
+        [
+          "The current visitor-center listing uses The LEX and reports the property\u2019s 2024 transfer to BCPL.",
+          "https://visitcolumbusindiana.com/directory/the-lex-formerly-north-christian-church/"
+        ]
+      ],
+      "outline": [
+        "A familiar silhouette with a changing community purpose",
+        "Saarinen\u2019s final designs and the hexagonal sanctuary",
+        "Kiley\u2019s landscape as part of the arrival experience",
+        "Congregation, library transition and preservation decisions",
+        "What is open now: independently verify before publication"
+      ],
+      "verify": [
+        "Recent dated exterior photo: preserve spire, cross removal documented",
+        "Exact transfer chain and dates; distinguish gift acceptance from later naming",
+        "Opening timetable, present public access and construction status",
+        "Consult conservation plan and operator before asserting removed/retained interior features"
+      ],
+      "links": [
+        "first-christian",
+        "library-large-arch"
+      ],
+      "sources": [
+        {
+          "url": "https://visitcolumbusindiana.com/directory/the-lex-formerly-north-christian-church/",
+          "accessed": "2026-11-13",
+          "status": "page_read"
+        },
+        {
+          "url": "https://static.libnet.info/frontend-images/pdfs/mybcpl/Board_Minutes/2024/8minutes.pdf",
+          "accessed": "2026-11-13",
+          "status": "primary_source_search_excerpt_read"
+        }
+      ],
+      "image": "/art/map-v2/landmark-north-christian-cutout-512.webp",
+      "status": "research_brief_not_publish_ready"
+    },
+    {
+      "id": "courthouse",
+      "name": "Bartholomew County Courthouse",
+      "headline": "The courthouse Columbus still walks into",
+      "facts": [
+        [
+          "The Indiana Historical Bureau identifies Isaac Hodgson\u2019s Second Empire courthouse as the county\u2019s fourth, completed in 1874, with red brick and white limestone trim above a rusticated blue-limestone foundation.",
+          "https://secure.in.gov/history/state-historical-markers/find-a-marker/bartholomew-county-courthouse/"
+        ],
+        [
+          "The same state marker records replacement of the original slate roof with standing-seam copper in 1953, major remodeling in 1968, interior restoration completed in 1998, and National Register listing in 1979.",
+          "https://secure.in.gov/history/state-historical-markers/find-a-marker/bartholomew-county-courthouse/"
+        ]
+      ],
+      "outline": [
+        "An everyday civic building as well as a visual landmark",
+        "Why the county built its fourth courthouse",
+        "Reading Second Empire design from the street",
+        "Roof replacement, remodeling and restoration",
+        "Courthouse and city hall: separate governments, separate buildings"
+      ],
+      "verify": [
+        "Current access, security, office locations and photography restrictions",
+        "Clock/tower details from county preservation records",
+        "Do not turn the user\u2019s errand into a published anecdote without permission"
+      ],
+      "links": [
+        "city-hall",
+        "chaos-i"
+      ],
+      "sources": [
+        {
+          "url": "https://secure.in.gov/history/state-historical-markers/find-a-marker/bartholomew-county-courthouse/",
+          "accessed": "2026-11-13",
+          "status": "page_read"
+        }
+      ],
+      "image": "/art/map-v2/landmark-courthouse-cutout-512.webp",
+      "status": "research_brief_not_publish_ready"
+    },
+    {
+      "id": "library-large-arch",
+      "name": "Cleo Rogers Memorial Library and Large Arch",
+      "headline": "The plaza where brick meets bronze",
+      "facts": [
+        [
+          "The library is I. M. Pei\u2019s 1969 brick building. Its geometric massing relates to nearby First Christian; brick, concrete and limestone, with a coffered concrete ceiling, form the architectural vocabulary.",
+          "https://visitcolumbusindiana.com/directory/bartholomew-county-public-library/"
+        ],
+        [
+          "Henry Moore\u2019s Large Arch dates to 1971. The patinated-bronze sculpture on the plaza was a gift of J. Irwin and Xenia Miller. Its organic gateway contrasts with the surrounding rectilinear buildings.",
+          "https://visitcolumbusindiana.com/directory/large-arch/"
+        ]
+      ],
+      "outline": [
+        "Two distinct works in one civic space",
+        "Pei\u2019s library and its relationship to First Christian",
+        "Moore\u2019s organic arch and how people encounter sculpture",
+        "How the plaza serves public life: find specific dated local examples",
+        "A short looking exercise: hard edges, curves and open space"
+      ],
+      "verify": [
+        "Precise official building name and dedication history",
+        "Dimensions and weight only with stronger sculpture records",
+        "Current library entrance, hours, plaza access and events"
+      ],
+      "links": [
+        "first-christian",
+        "irwin-bank",
+        "chaos-i"
+      ],
+      "sources": [
+        {
+          "url": "https://visitcolumbusindiana.com/directory/bartholomew-county-public-library/",
+          "accessed": "2026-11-13",
+          "status": "page_read"
+        },
+        {
+          "url": "https://visitcolumbusindiana.com/directory/large-arch/",
+          "accessed": "2026-11-13",
+          "status": "page_read"
+        }
+      ],
+      "image": "/art/map-v2/landmark-library-large-arch-cutout-512.webp",
+      "status": "research_brief_not_publish_ready"
+    },
+    {
+      "id": "irwin-bank",
+      "name": "Irwin Union Bank / Cummins Irwin Conference Center",
+      "headline": "A bank designed to feel like a room in a garden",
+      "facts": [
+        [
+          "Eero Saarinen designed the 1954 bank with landscape architect Dan Kiley. Its low glass-walled pavilion replaced the idea of a bank as a forbidding masonry institution with an open, visible interior.",
+          "https://visitcolumbusindiana.com/directory/cummins-inc-irwin-conference-center/"
+        ],
+        [
+          "The visitor-center account describes Kevin Roche\u2019s 1973 glass arcade and additions, and explains the later transition to Cummins conference and hospitality use. It identifies nine opaque ceiling domes as light shades, not skylights.",
+          "https://visitcolumbusindiana.com/directory/cummins-inc-irwin-conference-center/"
+        ]
+      ],
+      "outline": [
+        "How a bank\u2019s image can change through architecture",
+        "J. Irwin Miller, Saarinen and the original commission",
+        "Glass, overhangs and Kiley\u2019s trees",
+        "Original pavilion versus later Roche additions",
+        "Adaptive reuse and what a passerby can still see"
+      ],
+      "verify": [
+        "Current name, owner/operator terminology and permitted access",
+        "Historic original configuration versus later furnishings",
+        "Do not describe interior domes as exterior skylights"
+      ],
+      "links": [
+        "miller-house",
+        "library-large-arch",
+        "city-hall"
+      ],
+      "sources": [
+        {
+          "url": "https://visitcolumbusindiana.com/directory/cummins-inc-irwin-conference-center/",
+          "accessed": "2026-11-13",
+          "status": "page_read"
+        }
+      ],
+      "image": "/art/map-v2/landmark-irwin-bank-cutout-512.webp",
+      "status": "research_brief_not_publish_ready"
+    },
+    {
+      "id": "city-hall",
+      "name": "Columbus City Hall",
+      "headline": "City government in the modern Columbus tradition",
+      "facts": [
+        [
+          "The visitor center credits Edward Bassett and dates the modern City Hall to 1981.",
+          "https://visitcolumbusindiana.com/directory/columbus-city-hall/"
+        ],
+        [
+          "The city\u2019s own website confirms City Hall at 123 Washington Street. This is distinct from the separately listed historic City Hall.",
+          "https://www.columbus.in.gov/city-hall/"
+        ]
+      ],
+      "outline": [
+        "A civic building within Columbus\u2019s modern collection",
+        "Bassett\u2019s commission: expand through project archives",
+        "Brick, cantilevers and entrance: verify geometry with real photographs",
+        "Everyday government work as part of the design story",
+        "How the modern building differs from historic City Hall"
+      ],
+      "verify": [
+        "SOM project credit and exact completion/dedication history",
+        "Cantilever span and structural claims require architectural sources",
+        "Current public entrance, meeting access and tours",
+        "Generated facade is interpretive: compare real geometry before publication"
+      ],
+      "links": [
+        "courthouse",
+        "irwin-bank",
+        "chaos-i"
+      ],
+      "sources": [
+        {
+          "url": "https://visitcolumbusindiana.com/directory/columbus-city-hall/",
+          "accessed": "2026-11-13",
+          "status": "page_read"
+        },
+        {
+          "url": "https://www.columbus.in.gov/city-hall/",
+          "accessed": "2026-11-13",
+          "status": "page_read"
+        }
+      ],
+      "image": "/art/map-v2/landmark-city-hall-cutout-512.webp",
+      "status": "research_brief_not_publish_ready"
+    },
+    {
+      "id": "miller-house",
+      "name": "Miller House and Garden",
+      "headline": "One home, three designers, a complete world",
+      "facts": [
+        [
+          "Newfields records the 1953 commission by J. Irwin and Xenia Simons Miller and credits Eero Saarinen, Alexander Girard and Dan Kiley. The design joins a flat-roofed stone-and-glass house, colorful textiles and geometric gardens.",
+          "https://discovernewfields.org/newfields/miller-house-and-garden"
+        ],
+        [
+          "The visitor center dates the completed design to 1957. Newfields describes the honey-locust all\u00e9e and confirms guided-tour-only access, with tours beginning at the visitor center rather than direct arrival at the house.",
+          "https://visitcolumbusindiana.com/directory/miller-house-and-garden/"
+        ]
+      ],
+      "outline": [
+        "Why architecture, interiors and landscape belong in one story",
+        "The Millers\u2019 commission and Saarinen\u2019s spatial framework",
+        "Girard\u2019s color and textiles: expand from Newfields archives",
+        "Kiley\u2019s garden rooms and honey-locust all\u00e9e",
+        "Preservation of a lived-in house and how to visit responsibly"
+      ],
+      "verify": [
+        "Commission versus construction versus completion dates",
+        "Ownership/gift chronology from Newfields",
+        "Current booking, access, photography and visitor rules",
+        "Physical house coordinates versus ticket/check-in address"
+      ],
+      "links": [
+        "irwin-bank",
+        "north-christian"
+      ],
+      "sources": [
+        {
+          "url": "https://discovernewfields.org/newfields/miller-house-and-garden",
+          "accessed": "2026-11-13",
+          "status": "page_read"
+        },
+        {
+          "url": "https://visitcolumbusindiana.com/directory/miller-house-and-garden/",
+          "accessed": "2026-11-13",
+          "status": "page_read"
+        }
+      ],
+      "image": "/art/map-v2/landmark-miller-house-cutout-512.webp",
+      "status": "research_brief_not_publish_ready"
+    },
+    {
+      "id": "fire-station-4",
+      "name": "Fire Station 4",
+      "headline": "A small fire station with a large architectural afterlife",
+      "facts": [
+        [
+          "The visitor-center record credits Robert Venturi and dates the station to 1967. It describes a trapezoidal building using cinderblock, red and white brick, and glass, with a hose-drying tower as a vertical counterpoint.",
+          "https://visitcolumbusindiana.com/directory/fire-station-4/"
+        ]
+      ],
+      "outline": [
+        "Architecture can be ambitious at the scale of a working fire station",
+        "Venturi\u2019s early work: place the commission in context",
+        "Trapezoid, masonry and tower: a close exterior reading",
+        "Design for a practical civic job",
+        "How to appreciate an operational building without disrupting it"
+      ],
+      "verify": [
+        "Full firm/collaborator credit from project archives",
+        "Original design versus subsequent apparatus-door and roof changes",
+        "Current operational status and tour arrangements with the fire department",
+        "Do not invent a public museum interior or assume unannounced access"
+      ],
+      "links": [
+        "city-hall",
+        "irwin-bank"
+      ],
+      "sources": [
+        {
+          "url": "https://visitcolumbusindiana.com/directory/fire-station-4/",
+          "accessed": "2026-11-13",
+          "status": "page_read"
+        }
+      ],
+      "image": "/art/map-v2/landmark-fire-station-4-cutout-512.webp",
+      "status": "research_brief_not_publish_ready"
+    },
+    {
+      "id": "chaos-i",
+      "name": "Chaos I at The Commons",
+      "headline": "The machine at the heart of The Commons",
+      "facts": [
+        [
+          "The official local directory identifies Chaos I as Jean Tinguely\u2019s steel-and-motor kinetic sculpture at The Commons, using wheels, gears and iron balls. It credits J. Irwin and Xenia Miller\u2019s gift.",
+          "https://visitcolumbusindiana.com/directory/chaos-i/"
+        ],
+        [
+          "There is a date conflict: the directory lists 1974; the visitor center\u2019s public-art feature describes completion in 1975. Treat these as unresolved event dates until fabrication, installation and dedication records are checked.",
+          "https://visitcolumbusindiana.com/blog/must-see-public-artwork/"
+        ]
+      ],
+      "outline": [
+        "An indoor artwork as a shared local reference point",
+        "Tinguely and the assembly of industrial materials",
+        "Motion, sound and deliberate mechanical irregularity",
+        "Commission, fabrication and installation: resolve chronology",
+        "Preserving a moving sculpture in a changing public building"
+      ],
+      "verify": [
+        "1974/1975 discrepancy and correct event attached to each year",
+        "Current operating schedule, restoration condition and public access",
+        "Exact dimensions, motor/action counts and materials before quoting",
+        "Distinguish historical operation from present capability"
+      ],
+      "links": [
+        "courthouse",
+        "city-hall",
+        "library-large-arch"
+      ],
+      "sources": [
+        {
+          "url": "https://visitcolumbusindiana.com/directory/chaos-i/",
+          "accessed": "2026-11-13",
+          "status": "page_read"
+        },
+        {
+          "url": "https://visitcolumbusindiana.com/blog/must-see-public-artwork/",
+          "accessed": "2026-11-13",
+          "status": "page_read"
+        }
+      ],
+      "image": "/art/map-v2/landmark-chaos-i-cutout-512.webp",
+      "status": "research_brief_not_publish_ready"
+    }
+  ]
+}
