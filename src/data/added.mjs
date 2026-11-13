@@ -11,6 +11,12 @@
 // weddings, school dances and proms, corporate events, karaoke, a 360 video
 // booth and staging, "Central & South Central Indiana"; phone from its Contact
 // Us page. No street address is published.
+//
+// TJ's ChopShop (booksy.com/en-us/1010454_tj-s-chopshop_barber-shop_19373_columbus,
+// checked 2026-11-13): barbershop at 1521 17th St, Columbus, IN 47201, with map
+// coordinates from the same page. New shop in a restored space (its Facebook
+// post, seen by the publisher). Booksy publishes no phone, hours or services, so
+// none are shown; booking goes to its own Booksy page.
 export const ADDED = [
   {
     name: 'Crossroads Wedding Co.',
@@ -35,5 +41,18 @@ export const ADDED = [
     book: [],
     source: 'https://www.mattyoentertainment.com/',
     checked: '2026-10-26',
+  },
+  {
+    name: "TJ's ChopShop",
+    cat: 'beauty',
+    sub: 'barbers',
+    type: 'Barber shop',
+    address: '1521 17th St',
+    phone: '',
+    website: '',
+    ll: [39.21565, -85.9075],
+    book: [{ label: 'Booksy', url: 'https://booksy.com/en-us/1010454_tj-s-chopshop_barber-shop_19373_columbus' }],
+    source: 'https://booksy.com/en-us/1010454_tj-s-chopshop_barber-shop_19373_columbus',
+    checked: '2026-11-13',
   },
 ];
