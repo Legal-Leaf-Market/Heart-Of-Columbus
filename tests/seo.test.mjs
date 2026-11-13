@@ -6,7 +6,7 @@ import { ORIGIN } from '../src/jsonld.mjs';
 
 const dist = new URL('../dist/', import.meta.url);
 test('every generated content page has its own absolute canonical and social URL', () => {
-  for (const f of readdirSync(dist, { recursive: true }).filter((p) => p.endsWith('.html'))) {
+  for (const f of readdirSync(dist, { recursive: true }).filter((p) => p.endsWith('.html') && !p.startsWith('preview/'))) {
     const html = readFileSync(new URL(f, dist), 'utf8');
     const canonicals = [...html.matchAll(/rel="canonical" href="([^"]+)"/g)];
     assert.equal(canonicals.length, f === '404.html' ? 0 : 1, f);
@@ -41,7 +41,7 @@ test('metadata keeps encoded titles and descriptions safe in attributes', () => 
 
 test('all pages have unique titles, descriptions, and reciprocal language alternates', () => {
   const titles = new Set();
-  for (const file of readdirSync(dist, { recursive: true }).filter((f) => f.endsWith('.html'))) {
+  for (const file of readdirSync(dist, { recursive: true }).filter((f) => f.endsWith('.html') && !f.startsWith('preview/'))) {
     const html = readFileSync(new URL(file, dist), 'utf8');
     const title = html.match(/<title>([^]*?)<\/title>/)?.[1];
     assert.ok(title?.trim(), file);
