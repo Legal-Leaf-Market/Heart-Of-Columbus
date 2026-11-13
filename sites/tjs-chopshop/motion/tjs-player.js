@@ -130,7 +130,7 @@
   // barber pole turns one stripe per bar. Off when effects are paused or the
   // device asks for reduced motion; the music still plays.
   const freq = new Uint8Array(512);
-  let level = 0;
+  let level = 0, prevLow = 0;
   function tick() {
     raf = requestAnimationFrame(tick);
     if (reduced.matches || body.classList.contains('tj-paused') || document.hidden) { reset(); return; }
@@ -138,6 +138,9 @@
     // Bins are ~43 Hz wide: 1..4 is the kick and bass.
     const low = (freq[1] + freq[2] + freq[3] + freq[4]) / (4 * 255);
     level += ((low > level ? 0.55 : 0.12)) * (low - level);
+    // A kick: the bass jumps well above its running level.
+    if (low > 0.82 && low - prevLow > 0.06) document.dispatchEvent(new Event('tj-beat'));
+    prevLow = low;
     root.style.setProperty('--tj-beat', Math.max(0, (level - 0.45) / 0.5).toFixed(3));
     const bands = [3, 8, 18, 40, 90];
     bars.forEach((el, i) => { el.style.transform = `scaleY(${(0.18 + 0.82 * freq[bands[i]] / 255).toFixed(3)})`; });

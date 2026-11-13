@@ -47,9 +47,10 @@
 .tj-upgrade.tj-playing .tj-neon strong { animation: none; transform: scale(calc(1 + .035 * var(--tj-beat))); text-shadow: 0 0 3px #fff1df, 0 0 calc(12px + 10px * var(--tj-beat)) #ff6b79, 0 0 calc(28px + 30px * var(--tj-beat)) #b72e43, 0 0 46px #831d2c; }
 .tj-upgrade.tj-playing .art { transform: rotate(calc(1.2deg - 1.2deg * var(--tj-beat))) scale(calc(1 + .018 * var(--tj-beat))); box-shadow: 16px 18px 0 #831d2c33, 0 25px 65px #000a, 0 0 calc(40px * var(--tj-beat)) #b72e4388; }
 .tj-upgrade.tj-playing .art img { filter: saturate(1.15) contrast(1.05) brightness(.92); }
-/* The pole turns once a bar; clippings fall twice as fast and glow. */
+/* The pole turns once a bar; falling tools glow, and kicks snip bursts (tjs-motion.js). */
 .tj-upgrade.tj-playing .tj-pole::before { animation-duration: var(--tj-bar); }
-.tj-upgrade.tj-playing .tj-fall-piece { color: #ff6b79; animation-duration: calc(var(--duration) / 2); }
+.tj-upgrade.tj-playing .tj-fall { --tj-ink: #e9dccb; }
+.tj-upgrade.tj-playing .tj-fall-sway svg, .tj-upgrade.tj-playing .tj-burst svg { filter: drop-shadow(0 0 1px #f4ebdd) drop-shadow(0 0 6px #ff6b79aa); }
 .tj-upgrade.tj-playing .stripe { animation-duration: calc(var(--tj-bar) * 2); }
 .tj-upgrade.tj-playing .tj-razor-rule svg { animation-duration: calc(var(--tj-bar) / 2); }
 .tj-upgrade.tj-playing .book-band::before, .tj-upgrade.tj-playing .book-band::after { animation-duration: var(--tj-bar); color: #f4ebdd30; }
