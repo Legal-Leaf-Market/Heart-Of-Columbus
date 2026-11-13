@@ -8,6 +8,7 @@ import { DECADES as ALL_DECADES, SERIES as ALL_SERIES, SECTIONS, ARTICLES, DECAD
 import { landmarkBySlug } from '../data/landmarks.mjs';
 import { ORIGIN } from '../jsonld.mjs';
 import { reader, nameplate } from '../kindle.mjs';
+import { person } from '../data/staff.mjs';
 
 const styles = ['hoc.css'];
 // Only decades and series that have landed get pages and links.
@@ -148,7 +149,7 @@ ${reader({ section: s.label, inner: `<article class="wrap hx-article">
     <p class="hx-adek">${t(a.dek)}</p>
     <p class="hx-byline">By ${esc(a.byline)} · ${a.readMin} min read · ${fmt(a.words)} words</p>
     ${a.original ? `<p class="hx-orig">Originally reported by ${esc(a.original.by.replace(', The Republic', ''))} in The Republic, ${esc(longDate(a.original.date))}. <a href="${esc(a.sources[0][1])}" target="_blank" rel="noopener">Read the original</a></p>` : ''}
-    ${a.status === 'draft' ? '<p class="hx-draft">Draft: awaiting editor approval</p>' : ''}
+    ${a.status === 'draft' ? '<p class="hx-draft">Draft: awaiting editor approval</p>' : person(a.editor) ? `<p class="hx-signoff">Approved by <a href="/staff/${a.editor}/">${esc(person(a.editor).name)}</a>, ${esc(person(a.editor).role)}${a.approved ? `, ${esc(longDate(a.approved))}` : ''}</p>` : ''}
     ${a.note ? `<p class="vs-note vs-review">${t(a.note)}</p>` : ''}
   </header>
   ${photo ? `<figure class="hx-fig"><img src="${photo.src}" alt="${esc(lm.name)}" style="object-position:${photo.pos}"><figcaption>${t(lm.name)}. Photo: ${esc(photo.credit)}, ${esc(photo.license)}. <a href="${photo.page}" target="_blank" rel="noopener">Source</a></figcaption></figure>` : `<div class="hx-band" style="--pat:url('/art/${g.art || 'pattern-arches.webp'}')">${mark(s, 'hx-band-art')}</div>`}

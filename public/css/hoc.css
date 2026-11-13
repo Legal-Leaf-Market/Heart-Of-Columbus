@@ -1355,3 +1355,5 @@ a.tag-member:hover { background: #2f3f6b; }
 .fc-tool-row div { background: #1e2a4a; color: #fff; border: 2px solid var(--ink); border-radius: var(--r-lg); box-shadow: var(--pop); padding: 16px 18px; }
 .fc-tool-row b { display: block; font-family: var(--display); font-size: 21px; color: #e8c37a; margin-bottom: 4px; }
 .fc-tool-row span { font-size: 15px; color: #dfe4f0; }
+.hx-signoff { margin-top: 10px; font-size: 13px; font-variant: small-caps; letter-spacing: .03em; color: var(--muted); }
+.hx-signoff a { color: inherit; }

@@ -14,6 +14,7 @@
 // the print magazine and newspaper, so each one carries its own section,
 // word count and print length (computed below, never typed by hand).
 import { A1930s } from './1930s.mjs';
+import { SIGNOFF, APPROVED_ON } from './signoff.mjs';
 import { A1940s } from './1940s.mjs';
 import { A1950s } from './1950s.mjs';
 import { A1960s } from './1960s.mjs';
@@ -86,7 +87,8 @@ const withMeta = (group) => (a) => {
   const kind = a.kind || 'history';
   return {
     byline: 'Heart of Columbus', label: LABEL[kind], methods: METHODS[kind], editor: null,
-    tags: [a.landmark].filter(Boolean), ...a, kind, group: group.slug, status: a.editor ? 'approved' : 'draft',
+    ...(SIGNOFF[`${group.slug}/${a.slug}`] ? { editor: SIGNOFF[`${group.slug}/${a.slug}`], approved: APPROVED_ON } : {}),
+    tags: [a.landmark].filter(Boolean), ...a, kind, group: group.slug, status: SIGNOFF[`${group.slug}/${a.slug}`] || a.editor ? 'approved' : 'draft',
     decade: DECADES.includes(group) ? group.slug : null,
     path: `/history/${group.slug}/${a.slug}/`,
     words: n, readMin: Math.max(1, Math.round(n / 200)),

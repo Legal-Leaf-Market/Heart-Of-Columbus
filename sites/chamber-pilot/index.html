@@ -1,0 +1,148 @@
+<!doctype html>
+<!--
+  Heart of Columbus: pilot brief for Jon Myers, President and CEO of the Columbus
+  Area Chamber of Commerce. Written for Jacob Kennedy to share in person or as a
+  link. Draft for discussion; nothing here claims an agreement with the Chamber.
+
+  Facts on this page and where they come from (checked 2026-11-13):
+  - 931 listings, 126 with direct order or booking: the Heart of Columbus build.
+  - 117 Columbus history articles: dist/history/articles.json, approved 2026-11-13
+    (src/data/history/signoff.mjs).
+  - Some listings come from the Chamber's public directory: README.md.
+  - Founders Club terms: src/data/members.mjs and /founders-club/.
+  - Print edition for readers 55 and up: Jacob Kennedy's plan, not yet launched.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pilot Brief for the Columbus Area Chamber | Heart of Columbus</title>
+<meta name="description" content="A pilot proposal from Heart of Columbus to the Columbus Area Chamber of Commerce.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#14181f">
+<style>
+  :root { --ink:#1b1d22; --paper:#faf6ee; --card:#fff; --line:#e4dccb; --muted:#5b5547; --red:#c0392b; --navy:#1e2a4a; --gold:#b8862b; --display:Georgia,'Times New Roman',serif; --sans:Arial,Helvetica,sans-serif; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:#ece5d6; color:var(--ink); font:17px/1.6 var(--sans); }
+  .sheet { max-width:880px; margin:28px auto; background:var(--paper); border-radius:18px; overflow:hidden; box-shadow:0 18px 44px rgba(0,0,0,.14); }
+  .band { background:var(--navy); color:#fff; padding:36px 44px 30px; }
+  .band .k { font-size:12px; letter-spacing:2.5px; text-transform:uppercase; color:#e8c37a; font-weight:700; }
+  h1 { font:700 clamp(30px,5.5vw,46px)/1.08 var(--display); margin:10px 0 12px; }
+  .band p { margin:0; color:#d7dcea; font-size:18px; max-width:60ch; }
+  .draft { display:inline-block; margin-top:16px; font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; border:1px solid #e8c37a; color:#e8c37a; border-radius:999px; padding:3px 10px; }
+  .in { padding:34px 44px 40px; }
+  h2 { font:700 26px/1.15 var(--display); margin:34px 0 12px; }
+  h2:first-child { margin-top:0; }
+  p { margin:0 0 12px; }
+  .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:6px 0 4px; }
+  .stats div { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; }
+  .stats b { display:block; font:700 30px var(--display); color:var(--red); line-height:1.1; }
+  .stats span { font-size:14px; color:var(--muted); }
+  .roles { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .roles div { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px; }
+  .roles h3 { margin:0 0 6px; font:700 19px var(--display); }
+  .roles ul, ul.plain { margin:0; padding-left:20px; }
+  .roles li, ul.plain li { margin:5px 0; }
+  .ask { border:2px solid var(--red); background:#fff; border-radius:14px; padding:20px 22px; }
+  .ask ol { margin:8px 0 0; padding-left:22px; }
+  .ask li { margin:8px 0; }
+  .club { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .club div { background:#fff3d6; border-radius:12px; padding:14px 16px; }
+  .club b { display:block; font:700 18px var(--display); }
+  .club span { font-size:15px; color:var(--muted); }
+  .print { background:var(--ink); color:#efe7d6; border-radius:14px; padding:20px 22px; }
+  .print h2 { color:#e8c37a; margin-top:0; }
+  .print p { color:#d8cfbf; }
+  .q li { margin:8px 0; }
+  .note { font-size:14px; color:var(--muted); }
+  .from { margin-top:30px; padding-top:16px; border-top:1px solid var(--line); }
+  .from b { font:700 22px var(--display); display:block; }
+  a { color:var(--navy); }
+  .links a { display:inline-block; margin:4px 10px 4px 0; font-weight:700; }
+  @media (max-width:700px) { .band, .in { padding-left:20px; padding-right:20px; } .stats { grid-template-columns:1fr 1fr; } .roles, .club { grid-template-columns:1fr; } .sheet { margin:0; border-radius:0; } }
+  @media print { body { background:#fff; } .sheet { margin:0; box-shadow:none; border-radius:0; max-width:none; } h2 { margin-top:20px; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="band">
+    <div class="k">Heart of Columbus &middot; For Jon Myers, Columbus Area Chamber of Commerce</div>
+    <h1>Help us pilot this in Columbus, so we can bring it to every town.</h1>
+    <p>Heart of Columbus is built to work alongside the Chamber, never against it. We want Columbus to be the first place it works, with the Chamber&rsquo;s help, so it can be offered to chambers and cities everywhere.</p>
+    <span class="draft">Draft for discussion</span>
+  </div>
+  <div class="in">
+
+    <h2>What Heart of Columbus is</h2>
+    <p>The visitor center, the local directory, order pickup and online booking for our town, in one place, plus a newspaper. Every Book and Order button goes straight to the business&rsquo;s own booking or ordering page, so the business keeps the customer and every dollar.</p>
+    <div class="stats">
+      <div><b>931</b><span>local businesses listed</span></div>
+      <div><b>126</b><span>book or order direct</span></div>
+      <div><b>117</b><span>Columbus history articles, sourced and editor approved</span></div>
+      <div><b>$0</b><span>taken from any sale</span></div>
+    </div>
+    <p class="links"><a href="https://heartofcolumbus.netlify.app/">The site</a><a href="https://heartofcolumbus.netlify.app/founders-club/">Founders Club</a><a href="https://heartofcolumbus.netlify.app/history/">Columbus history</a><a href="https://heartofcolumbus.netlify.app/preview/tjs-chopshop/">A member site in progress</a></p>
+    <p class="note">In the open: some listings were built from the Chamber&rsquo;s public member directory, along with Visit Columbus and Google Maps.</p>
+
+    <h2>Two roles that fit together</h2>
+    <div class="roles">
+      <div>
+        <h3>The Chamber</h3>
+        <ul>
+          <li>Speaks for Columbus business</li>
+          <li>Advocacy, events, connections, the network</li>
+          <li>Membership that opens doors</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Heart of Columbus</h3>
+        <ul>
+          <li>The shop window: where residents and visitors find local businesses</li>
+          <li>The toolbox: websites, booking and back office software for owners</li>
+          <li>The paper: local stories, online and in print</li>
+        </ul>
+      </div>
+    </div>
+    <p style="margin-top:12px">One never takes the place of the other. Our message to owners is to be in both.</p>
+
+    <h2>The Founders Club, for owners</h2>
+    <div class="club">
+      <div><b>$20 a month</b><span>Their own website, built and kept current, and a featured, labeled place on Heart of Columbus. Price locked.</span></div>
+      <div><b>Cancel any time</b><span>No contract. Their site is theirs: we hand over every file and help move it to any host.</span></div>
+      <div><b>Every new tool included</b><span>Booking, bookkeeping by industry, and in time a full back office, at no added cost.</span></div>
+    </div>
+    <p style="margin-top:12px">The basic listing is free and always will be. Paying members are always labeled, and never change how search ranks or what we write. One owner per section serves as its Ambassador.</p>
+
+    <h2>The ask</h2>
+    <div class="ask">
+      Help us run a pilot in Columbus:
+      <ol>
+        <li><b>Introductions.</b> Help us reach the first ten Founding Members among Chamber members, starting with the barbershops.</li>
+        <li><b>Honest feedback.</b> Tell us what Chamber members ask for that nobody gives them today, and where this falls short.</li>
+        <li><b>Your name on it, if you want it.</b> A pilot presented with the Columbus Area Chamber, on terms you are comfortable taking to your board.</li>
+      </ol>
+      <p style="margin:10px 0 0">What we bring back: the results, the numbers and the lessons, to the Chamber first. A pilot that works here is how we offer it to other chambers and cities.</p>
+    </div>
+
+    <div class="print" style="margin-top:30px">
+      <h2>Not only a website: a printed paper</h2>
+      <p>We are going old school too. Heart of Columbus will publish a physical newspaper, hand delivered to neighbors 55 and up, so the people who built this town are not left behind by the screen.</p>
+      <p style="margin:0">Local stories, events, the history of Columbus decade by decade, and the businesses that make it home. Every story is written and checked by people, with its sources listed.</p>
+    </div>
+
+    <h2>Things to decide together</h2>
+    <ul class="q plain">
+      <li>What would make this a clear benefit for Chamber members?</li>
+      <li>How should the Chamber be credited, if at all?</li>
+      <li>Member pricing, co-branding, and how the Chamber shares in it when the model goes to other towns.</li>
+      <li>Who else should be at the table: Visit Columbus, the city&rsquo;s downtown office, the SBDC?</li>
+    </ul>
+
+    <div class="from">
+      <b>Jake Kennedy</b>
+      Co-Founder of Heart of Columbus and Chief Editor &middot; Columbus, Indiana
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -3,7 +3,7 @@
 // needs to check. Facts about other people and papers link their sources.
 const CHECKED = '2026-10-26';
 const WP = 'https://en.wikipedia.org/wiki/';
-const BY = 'Jacob Kennedy';
+const BY = 'Jake Kennedy';
 
 export const PUBLISHER = [
   { slug: 'the-heart-of-columbus', when: '2026', section: 'media', kind: 'opinion', byline: BY, checked: CHECKED,
@@ -21,7 +21,6 @@ export const PUBLISHER = [
     sources: [['The Republic (Columbus, Indiana), Wikipedia', WP + 'The_Republic_(Columbus,_Indiana)'], ['HD Media to acquire 25 publications from AIM Media Management, Editor and Publisher (August 19, 2026)', 'https://www.editorandpublisher.com/stories/hd-media-to-acquire-25-publications-from-aim-media-management,263132']] },
 
   { slug: 'my-first-paper-route', when: '2026', section: 'media', kind: 'essay', byline: BY,
-    note: 'Draft for Jacob to check: we have written the Grand Forks Herald and Grand Forks Air Force Base. Correct anything we got wrong.',
     title: 'I’ve been making things work since I was 8',
     dek: 'My first job was a paper route on an Air Force base in North Dakota, from age 8 to 12. It is the reason I am doing this.',
     body: [
@@ -37,7 +36,7 @@ export const PUBLISHER = [
     sources: [] },
 
   { slug: 'bringing-faith-back', when: '2026', section: 'faith', kind: 'opinion', byline: BY,
-    note: 'Draft for Jacob to check: we have not found when The Republic stopped its faith section, so this piece gives no date. Jacob volunteers at Haven United Methodist Church and is joining its staff as music director.',
+    note: 'Disclosure: Jake Kennedy volunteers at Haven United Methodist Church and is joining its staff as music director.',
     title: 'We’re bringing the faith section back',
     dek: 'When The Republic stopped its faith coverage, nobody I know was happy about it. Heart of Columbus is giving it back to you.',
     body: [
