@@ -19,3 +19,20 @@ export const PRICE = 20; // dollars a month, locked for founding members
 export const SPOTS = 10; // size of the founding pilot group
 
 export const isMember = (slug, members = MEMBERS) => Object.hasOwn(members, slug);
+
+// Ambassadors: one owner per category who helps bring that section's
+// businesses on as we launch. Keyed by category slug (CATEGORIES in
+// directory.mjs). EMPTY until an owner says yes; /founders-club/ lists every
+// category as open until then.
+//
+//   beauty: { slug: 'tjs-chopshop', since: '2026-11-20' },
+export const AMBASSADORS = {};
+
+// Rewards shown on /founders-club/. The pitch sheets in sites/<slug>/pitch.html
+// state the same terms; change both together.
+export const WELCOME_MONTHS = 3; // hosting and updates free after the welcome site
+export const REFERRAL_TIERS = [
+  [1, 'One month free'],
+  [3, 'Three months free, plus a feature on our homepage'],
+  [5, 'Your site free for a full year'],
+];

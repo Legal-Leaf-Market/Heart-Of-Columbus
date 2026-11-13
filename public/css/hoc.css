@@ -1324,3 +1324,30 @@ a.tag-member:hover { background: #2f3f6b; }
 .member-note { border-left: 4px solid #1e2a4a; padding-left: 10px; }
 .ow-members ul { display: grid; gap: 8px; padding-left: 22px; font-size: 17px; }
 .member-note a { text-decoration: underline; font-weight: 700; }
+
+/* Founders Club (/founders-club/) */
+.fc-tiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; padding: 32px 16px 8px; }
+.fc-tier { background: var(--surface); border: 2px solid var(--ink); border-radius: var(--r-lg); box-shadow: var(--pop); padding: 22px; }
+.fc-tier.is-hot { background: #1e2a4a; color: #fff; }
+.fc-tier.is-hot .kicker { color: #e8c37a; }
+.fc-price { font-family: var(--display); font-size: 30px; margin: 4px 0 8px; }
+.fc-tier ul { padding-left: 20px; margin: 10px 0 0; display: grid; gap: 6px; }
+.fc-tier p { margin: 0 0 8px; }
+.fc-founder { position: relative; }
+.fc-n { font-family: var(--display); font-size: 28px; color: #b8862b; }
+.fc-founder .fc-n { position: absolute; z-index: 3; top: 10px; left: 12px; background: #1e2a4a; color: #e8c37a; border-radius: 999px; padding: 2px 12px; font-size: 20px; }
+.fc-empty { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; border: 2px dashed var(--ink); border-radius: var(--r-lg); padding: 22px; background: var(--surface); }
+.fc-empty .fc-n { font-size: 56px; line-height: 1; }
+.fc-empty p { margin: 0; flex: 1 1 240px; }
+.ow-tiers-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin: 6px 0 16px; }
+.ow-tiers-row div { background: #fff3d1; border: 1.5px solid var(--ink); border-radius: var(--r-lg); padding: 12px 14px; }
+.ow-tiers-row b { display: block; font-family: var(--display); font-size: 20px; }
+.ow-tiers-row span { color: var(--muted); font-size: 15px; }
+.ow-amb-cats { display: flex; flex-wrap: wrap; gap: 8px; }
+.ow-amb-cat { display: inline-flex; align-items: baseline; gap: 6px; border: 1.5px solid var(--ink); border-radius: 999px; padding: 6px 12px; background: var(--surface); font-weight: 700; text-decoration: none !important; }
+.ow-amb-cat small { font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: #0f7b6c; }
+.ow-amb-cat.is-taken { background: #1e2a4a; color: #fff; }
+.ow-amb-cat.is-taken small { color: #e8c37a; }
+#promises ul { display: grid; gap: 8px; padding-left: 22px; font-size: 17px; }
+.fc-page .ow-how { max-width: none; }
+.fc-page .ow-how > p, .fc-page .ow-how > ul { max-width: 760px; }

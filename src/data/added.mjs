@@ -17,6 +17,11 @@
 // coordinates from the same page. New shop in a restored space (its Facebook
 // post, seen by the publisher). Booksy publishes no phone, hours or services, so
 // none are shown; booking goes to its own Booksy page.
+//
+// Legal Leaf Market Cafe: from its owner, Jacob Kennedy, who also publishes
+// Heart of Columbus (2026-11-13): a cafe coming soon to Columbus, Indiana. No
+// address, hours or menu yet. Listed as coming soon, with the tie disclosed on
+// its page.
 export const ADDED = [
   {
     name: 'Crossroads Wedding Co.',
@@ -53,6 +58,20 @@ export const ADDED = [
     ll: [39.21565, -85.9075],
     book: [{ label: 'Booksy', url: 'https://booksy.com/en-us/1010454_tj-s-chopshop_barber-shop_19373_columbus' }],
     source: 'https://booksy.com/en-us/1010454_tj-s-chopshop_barber-shop_19373_columbus',
+    checked: '2026-11-13',
+  },
+  {
+    name: 'Legal Leaf Market Cafe',
+    cat: 'coffee-sweets',
+    sub: 'coffee-sweets',
+    type: 'Cafe',
+    address: '',
+    phone: '',
+    website: 'https://shop.legalleafmarket.shop/',
+    book: [],
+    soon: true,
+    tie: 'Legal Leaf Market is owned by Jacob Kennedy, who also runs Heart of Columbus.',
+    source: 'https://shop.legalleafmarket.shop/',
     checked: '2026-11-13',
   },
 ];

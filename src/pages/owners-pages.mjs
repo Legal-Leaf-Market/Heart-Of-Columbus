@@ -14,6 +14,7 @@ const TIERS = [
   ['storefront', '🏪', 'Get a full storefront', 'A site that looks like your place, with your real menu or services, like Jill’s Diner.'],
   ['story', '✍️', 'Tell it in your words', 'A few lines about your place, from you. We show it on your listing as yours, labeled with when you sent it, and never write or rewrite it.'],
   ['deal', '🏷️', 'Post a deal', 'A special or discount with an end date. It shows on your listing until the day it ends, then comes down by itself.'],
+  ['founders', '🏅', 'Join the Founders Club', 'A website of your own, kept current, and a numbered place on the Founders Wall. Or be the Ambassador for your section.'],
   ['photos', '📷', 'Send us your photos', 'Your storefront, your food, your team, your logo. We show them on your listing with your credit, and never copy them from your website without asking.'],
 ];
 
@@ -33,16 +34,10 @@ ${header('')}
   ${TIERS.map(([k, e, h, p]) => `<div class="ow-tier"><span class="ow-emoji" aria-hidden="true">${e}</span><h2>${h}</h2><p>${p}</p></div>`).join('')}
 </section>
 <section class="wrap ow-how ow-members" id="members">
-  <p class="kicker">Founding Members</p>
-  <h2>A real website, kept current, for $${PRICE} a month</h2>
-  <p>Your listing here is free and stays free. Founding Members pay for the extras:</p>
-  <ul>
-    <li><b>Your own website</b>, built for you and hosted, on a web address registered in your name.</li>
-    <li><b>Updates when you text us</b>: prices, hours, photos, closures, live within two business days.</li>
-    <li><b>A featured spot</b>: first in your category, marked <span class="tag tag-member">★ Founding Member</span> so readers know you pay us.</li>
-    <li><b>Bring a neighbor, skip a bill</b>: every business you refer that joins takes a month off yours.</li>
-  </ul>
-  <p class="muted">$${PRICE} a month, locked for as long as you stay. No contract, cancel any month, no cut of your sales. ${SPOTS} spots in the founding group, ${SPOTS - Object.keys(MEMBERS).length} open. Members never change how search ranks or what we write. <a href="#claim">Ask about joining</a></p>
+  <p class="kicker">Founders Club</p>
+  <h2>Launch Heart of Columbus with us</h2>
+  <p>Your listing here is free and stays free. Founding Members pay $${PRICE} a month for their own website, kept current, and a numbered place on the Founders Wall. One owner per section is its Ambassador. ${SPOTS - Object.keys(MEMBERS).length} of ${SPOTS} founding spots open.</p>
+  <p><a class="btn" href="/founders-club/">See the Founders Club ${svg('arrow', 'ic-sm')}</a></p>
 </section>
 <section class="wrap ow-how">
   <h2>How pickup orders work</h2>
