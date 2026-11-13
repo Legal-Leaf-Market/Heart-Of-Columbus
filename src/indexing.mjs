@@ -30,6 +30,7 @@ export const NEVER_INDEX = [
   ['/404.html', 'not found page'],
   ['/data/', 'raw data'],
   ['/api/', 'functions'],
+  ['/preview/', 'draft websites for owners to review, served from sites/'],
 ];
 
 // path is a URL path ("/b/jills-diner/") or a dist file path ("b/jills-diner/index.html").

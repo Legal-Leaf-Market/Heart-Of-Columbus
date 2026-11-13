@@ -9,6 +9,7 @@ import { execFileSync } from 'node:child_process';
 const dist = new URL('../dist/', import.meta.url).pathname;
 const htmlFiles = (dir) => readdirSync(dir).flatMap((f) => {
   const p = dir + f;
+  if (p === dist + 'preview') return []; // owner draft sites, see tests/preview.test.mjs
   return statSync(p).isDirectory() ? htmlFiles(p + '/') : f.endsWith('.html') ? [p] : [];
 });
 

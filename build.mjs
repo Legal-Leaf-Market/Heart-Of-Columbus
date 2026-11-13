@@ -36,6 +36,8 @@ import { dashes } from './src/visible.mjs';
 import { LAUNCH, indexable, ROBOTS_META, headersFile, robotsTxt, urlPath } from './src/indexing.mjs';
 
 const root = new URL('./', import.meta.url);
+// Owner draft sites served at /preview/<slug>/ (see the end of this file).
+const DRAFTS = ['tjs-chopshop'];
 const out = new URL('dist/', root);
 const hash = (buf) => createHash('sha256').update(buf).digest('hex').slice(0, 10);
 
@@ -125,4 +127,20 @@ const dashed = pages.flatMap((p) => {
   return hits.length ? [`${p.path}: "${hits[0]}"${hits.length > 1 ? ` (+${hits.length - 1} more)` : ''}`] : [];
 });
 if (dashed.length) { console.error(`Visible dash on ${dashed.length} page(s). Use a comma, colon, period or "to":\n  ` + dashed.slice(0, 40).join('\n  ')); process.exit(1); }
+// Draft websites for owners (sites/<slug>/) are served as they are at
+// /preview/<slug>/ so a link can be sent before the owner has a host. They are
+// standalone pages, never indexed: the policy above lists /preview/, and a draft
+// without its own noindex meta stops the build.
+for (const slug of DRAFTS) {
+  const src = new URL(`sites/${slug}/`, root);
+  const dest = new URL(`preview/${slug}/`, out);
+  await mkdir(dest, { recursive: true });
+  for (const f of (await readdir(src)).filter((f) => f.endsWith('.html'))) {
+    const html = await readFile(new URL(f, src), 'utf8');
+    if (!html.includes(ROBOTS_META)) { console.error(`Draft sites/${slug}/${f} has no noindex meta`); process.exit(1); }
+    const hits = dashes(html);
+    if (hits.length) { console.error(`Visible dash in sites/${slug}/${f}: "${hits[0]}"`); process.exit(1); }
+    await writeFile(new URL(f, dest), html);
+  }
+}
 console.log(`Built dist/: ${pages.length} pages`);
