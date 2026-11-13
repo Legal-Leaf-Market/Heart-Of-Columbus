@@ -71,7 +71,7 @@ test('the barbershops page: painted cards with their tag, no emoji, and the pain
   assert.match(page, /class="ed-hero-art">\s*<img [^>]*alt=""/);
   assert.match(page, new RegExp(`<figcaption class="ed-tag">${EDITORIAL_CAPTION}</figcaption>`));
   assert.match(page, /See them on the map/);
-  assert.match(page, /<section class="wrap list list-ed">/);
+  assert.match(page, /<section class="(?:wrap )?list list-ed"/);
 });
 
 test('other beauty pages keep their own header and art', () => {

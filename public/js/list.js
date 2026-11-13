@@ -20,6 +20,8 @@
       });
       $('[data-f-count]').textContent = n + (n === 1 ? ' place' : ' places');
       $('[data-f-empty]').hidden = n > 0;
+      // The map, table and board views (views.js) redraw from the same filter.
+      document.dispatchEvent(new CustomEvent('hoc:filtered'));
     }
     ['open', 'online'].forEach(function (k) {
       var b = $('[data-f-' + k + ']');
