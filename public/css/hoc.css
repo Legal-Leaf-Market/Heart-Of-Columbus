@@ -1387,6 +1387,17 @@ a.tag-member:hover { background: #2f3f6b; }
 .ed-hero-art { position: relative; margin: 0; min-height: 280px; border-left: 2px solid var(--ink); }
 .ed-hero-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .ed-hero-art .ed-tag { left: auto; right: 12px; top: auto; bottom: 12px; font-size: 12px; padding: 3px 10px; }
+/* Bars: the night painting gets a navy copy panel to match it. */
+.band-ed:has(.ed-hero-dark) { background: #1b2436; }
+.ed-hero-dark { background: #18223a; color: #f6efe2; }
+.ed-hero-dark .ed-hero-copy .kicker, .ed-hero-dark .ed-hero-copy .band-sub { color: #e2d6bf; }
+.ed-hero-dark .ed-hero-copy .btn-ghost { background: #faf5eb; color: #18223a; border-color: #faf5eb; }
+/* Explore: the downtown painting as a strip above the list (hidden on the map). */
+.ex-art { margin-top: 20px; margin-bottom: 0; }
+.ex-art[hidden] { display: none; }
+.ex-art-in { position: relative; height: clamp(120px, 16vw, 200px); }
+.ex-art img { width: 100%; height: 100%; object-fit: cover; border: 2px solid var(--ink); border-radius: var(--r-lg); box-shadow: var(--pop); }
+.ex-art .ed-tag { position: absolute; left: auto; right: 12px; top: auto; bottom: 12px; font-size: 12px; padding: 3px 10px; }
 @media (max-width: 860px) {
   .ed-hero { grid-template-columns: 1fr; }
   .ed-hero-art { min-height: 0; aspect-ratio: 2 / 1; border-left: 0; border-top: 2px solid var(--ink); }
