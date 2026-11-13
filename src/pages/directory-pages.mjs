@@ -1,6 +1,7 @@
 // Category, neighborhood, business, explore, saved and credits pages.
 import { page, esc, t } from '../layout.mjs';
 import { directory, CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, km } from '../data/directory.mjs';
+import { PRICE } from '../data/members.mjs';
 import { header, footer, card, rail, svg, PHOTOS, artIcon, coverArt, tel, mapsLink, breadcrumbs } from '../site.mjs';
 import { fmtRange, DAY_NAMES } from '../hours.mjs';
 import { MEDIA as MEDIA_ALL, mediaFor, mediaSrc } from '../data/media.mjs';
@@ -25,6 +26,7 @@ const hoursTable = (rows) => {
 };
 
 const styles = ['hoc.css'];
+export const membersFirst = (list) => [...list.filter((b) => b.member), ...list.filter((b) => !b.member)];
 const listGrid = (items) => `<div class="grid" data-grid>${items.map((b) => card(b)).join('')}</div>`;
 const countBy = (items, key) => items.reduce((m, b) => ((m[b[key]] = (m[b[key]] || 0) + 1), m), {});
 
@@ -66,7 +68,8 @@ const bizDescription = (b) => {
 };
 
 function categoryPage(cat, sub, { assets }) {
-  const items = directory.filter((b) => b.cat === cat.slug && (!sub || b.sub === sub.slug));
+  // Founding Members lead their category, labeled; everyone else keeps directory order.
+  const items = membersFirst(directory.filter((b) => b.cat === cat.slug && (!sub || b.sub === sub.slug)));
   const multi = cat.subs.length > 1;
   const title = sub && multi ? sub.label : cat.label;
   const others = CATEGORIES.filter((c) => c.slug !== cat.slug);
@@ -167,7 +170,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
       <p class="kicker"><a href="/c/${cat.slug}/${cat.subs.length > 1 ? sub.slug + '/' : ''}">${esc(sub.label)}</a>${area ? ` · <a href="/n/${area.slug}/">${esc(area.label)}</a>` : ''}</p>
       <h1>${t(b.name)}</h1>
       <p class="biz-type">${t(b.type)}</p>
-      <div class="bz-tags">${SPOTLIGHT_SLUGS.has(b.slug) ? (spotFor(b.slug)?.picks.length ? '<a class="tag tag-spot" href="#owners-picks">★ Spotlight</a>' : '<span class="tag tag-spot">★ Spotlight</span>') : ''}${b.demo ? '<span class="tag tag-hot">Order direct (demo)</span>' : ''}${b.heritage ? '<span class="tag">Columbus original</span>' : ''}${b.dora ? '<span class="tag tag-dora">Social District: drinks to go</span>' : ''}<span class="tag tag-plain">Independent</span></div>
+      <div class="bz-tags">${b.member ? '<a class="tag tag-member" href="#member-note">★ Founding Member</a>' : ''}${SPOTLIGHT_SLUGS.has(b.slug) ? (spotFor(b.slug)?.picks.length ? '<a class="tag tag-spot" href="#owners-picks">★ Spotlight</a>' : '<span class="tag tag-spot">★ Spotlight</span>') : ''}${b.demo ? '<span class="tag tag-hot">Order direct (demo)</span>' : ''}${b.heritage ? '<span class="tag">Columbus original</span>' : ''}${b.dora ? '<span class="tag tag-dora">Social District: drinks to go</span>' : ''}<span class="tag tag-plain">Independent</span></div>
       ${b.hours ? `<p class="open-badge biz-open" data-open-now='${JSON.stringify(b.hours)}' hidden></p>` : ''}
       <div class="biz-actions">
         ${b.order.map((o, i) => `<a class="btn${i ? ' btn-ghost' : ''}" href="${esc(o.url)}" target="_blank" rel="noopener">${svg('store')} Order online${b.order.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
@@ -183,6 +186,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
         <button type="button" class="btn btn-ghost" data-share="${esc(b.name)}">${svg('share')} Share</button>
       </div>
       ${b.dora ? `<p class="direct-note dora-note">🥤 <span>On the city’s list of Downtown Columbus Social District businesses (checked October 2026). If you are 21 or older you can leave with a drink in a Social District cup, 10 AM to midnight. <a href="/visit/#social-district">The rules</a></span></p>` : ''}
+      ${b.member ? `<p class="direct-note member-note" id="member-note">★ <span>${esc(b.name)} is a Founding Member. It pays Heart of Columbus $${PRICE} a month for a website we keep up to date and a featured spot in its category, and has no say in what we write. <a href="/owners/#members">How membership works</a></span></p>` : ''}
       ${b.order.length || b.book.length ? `<p class="direct-note">${svg('store', 'ic-sm')} ${b.order.length ? 'Ordering' : 'Booking'} opens ${esc(b.name)}’s own ${esc((b.order[0] || b.book[0]).label)} page, the one they chose and pay for themselves. Heart of Columbus takes no cut.</p>` : ''}
     </div>
   </div>

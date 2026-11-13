@@ -138,6 +138,7 @@ export function card(b, { compact = false, note = '' } = {}) {
   // The owner's own photo when they have sent one; the illustration otherwise.
   const photo = mediaFor(b.slug)?.cover;
   const tags = [];
+  if (b.member) tags.push('<span class="tag tag-member" title="Pays Heart of Columbus for a website and a featured spot">★ Founding Member</span>');
   if (SPOTLIGHT_SLUGS.has(b.slug)) tags.push('<span class="tag tag-spot">★ Spotlight</span>');
   if (b.order.length) tags.push('<span class="tag tag-go">Order online</span>');
   if (b.book.length) tags.push('<span class="tag tag-go">Book online</span>');
@@ -193,6 +194,7 @@ export const searchIndex = () =>
     o: b.order.length ? 1 : 0, k: b.book.length ? 1 : 0, f: b.feed || b.store ? 1 : 0,
     ...(b.hours ? { t: b.hours } : {}),
     ...(b.dora ? { z: 1 } : {}),
+    ...(b.member ? { m: 1 } : {}),
     ...(attrCodes(b) ? { x: attrCodes(b) } : {}),
     ...(hasCover(b.sub) ? { v: 1 } : {}),
   }));

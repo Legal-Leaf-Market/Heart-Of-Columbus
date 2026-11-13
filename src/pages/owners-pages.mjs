@@ -3,6 +3,7 @@
 import { page } from '../layout.mjs';
 import { header, footer, svg } from '../site.mjs';
 import { directory } from '../data/directory.mjs';
+import { MEMBERS, PRICE, SPOTS } from '../data/members.mjs';
 
 const styles = ['hoc.css'];
 
@@ -30,6 +31,18 @@ ${header('')}
 </section>
 <section class="wrap ow-tiers">
   ${TIERS.map(([k, e, h, p]) => `<div class="ow-tier"><span class="ow-emoji" aria-hidden="true">${e}</span><h2>${h}</h2><p>${p}</p></div>`).join('')}
+</section>
+<section class="wrap ow-how ow-members" id="members">
+  <p class="kicker">Founding Members</p>
+  <h2>A real website, kept current, for $${PRICE} a month</h2>
+  <p>Your listing here is free and stays free. Founding Members pay for the extras:</p>
+  <ul>
+    <li><b>Your own website</b>, built for you and hosted, on a web address registered in your name.</li>
+    <li><b>Updates when you text us</b>: prices, hours, photos, closures, live within two business days.</li>
+    <li><b>A featured spot</b>: first in your category, marked <span class="tag tag-member">★ Founding Member</span> so readers know you pay us.</li>
+    <li><b>Bring a neighbor, skip a bill</b>: every business you refer that joins takes a month off yours.</li>
+  </ul>
+  <p class="muted">$${PRICE} a month, locked for as long as you stay. No contract, cancel any month, no cut of your sales. ${SPOTS} spots in the founding group, ${SPOTS - Object.keys(MEMBERS).length} open. Members never change how search ranks or what we write. <a href="#claim">Ask about joining</a></p>
 </section>
 <section class="wrap ow-how">
   <h2>How pickup orders work</h2>
