@@ -93,3 +93,11 @@ test("a listing tied to the publisher says so and never claims we are not affili
   assert.doesNotMatch(html, /not affiliated with this business/);
   assert.match(html, /Coming soon/);
 });
+
+test('the Founders Club promises every new tool at no additional cost', () => {
+  const html = dist('founders-club/index.html');
+  assert.match(html, /id="tools"/);
+  assert.match(html, /at no additional cost/);
+  assert.match(html, /an ERP for every industry/);
+  assert.equal((html.match(/Every new tool we build, at no extra cost/g) || []).length, 2, 'both paid tiers list it');
+});

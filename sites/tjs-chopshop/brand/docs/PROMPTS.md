@@ -1,0 +1,3 @@
+# Generation prompts
+Logo: Professional primary logo for TJ’s ChopShop, neighborhood barbershop on 17th Street in Columbus Indiana restoring an old shop. Large bespoke sign painter TJ’S lettering, condensed CHOPSHOP, small COLUMBUS, INDIANA. Oxblood, charcoal and warm ivory. Straight razor underline. Crisp flat vector-like finish. No invented founding date, skulls or crowns.
+Hero: Wide editorial gouache and ink painting, vintage oxblood leather barber chair at right, chrome arms, warm ivory tiled wall, charcoal wainscot, afternoon light and worn floor. Quiet left space for HTML copy. No people, text or logos. Conceptual brand illustration, not a documentary image of the real premises.
