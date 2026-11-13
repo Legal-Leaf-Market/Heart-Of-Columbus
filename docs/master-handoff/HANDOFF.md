@@ -20,8 +20,8 @@ Heart of Columbus (`heartofcolumbus.netlify.app`, Netlify deploys `main`):
 - **History sign-off:** 117 articles approved (`src/data/history/signoff.mjs`, two-person rule
   enforced by `tests/signoff.test.mjs`).
 - **Barbershop views and map art v2**, with close-zoom cutouts for all nine landmarks.
-- **"Columbus, building by building"** at `/history/buildings/`: eleven field guides, still
-  DRAFTS. Jake approves by adding their keys to `signoff.mjs` (editor `jacob-kennedy`).
+- **"Columbus, building by building"** at `/history/buildings/`: eleven field guides,
+  approved by Jake (editor `jacob-kennedy`).
 
 Crossroads Wedding and Event Co. (`crossroadsweddingco.shop`, repo
 Legal-Leaf-Market/CrossroadsWeddingCo, Netlify deploys `main`):
@@ -39,7 +39,7 @@ Legal-Leaf-Market/CrossroadsWeddingCo, Netlify deploys `main`):
    shows `downtown-day` as a strip in list view, hidden on the map. `srcset` 768/1440,
    every use tagged "Category illustration", never a card fallback. The two background
    textures (`cream-botanical`, `midnight-architectural`) are unused so far.
-2. **Approve the field guides** when Jake says so.
+2. **Field guides: APPROVED** by Jake, 2026-11-13 (all eleven in `signoff.mjs`).
 3. **Passport v1: DONE** (second session). `/passport/` collects every trail's stamps
    (`public/js/passport.js`, tests in `tests/passport.test.mjs`): digital discoveries on
    the honor system, labeled "not a verified visit" and "can't be redeemed". Versioned
