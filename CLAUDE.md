@@ -37,6 +37,13 @@ Indiana. A pitch, not a live service. See README.md.
 - **Owner words and deals come only from owners** (`src/data/owner-words.mjs`):
   sent through the claim form, entered by hand with `sent` and `confirmed`,
   published as written; every deal has `ends` and comes down by itself.
+- **Founding Members pay us, so the badge is a disclosure.**
+  `src/data/members.mjs` is empty until an owner agrees and pays ($20 a month,
+  10 founding spots). A member gets the "★ Founding Member" tag on its card
+  and page, first place in its category list, and a disclosure line on its
+  page and on any story tagging it (`src/news/disclosure.mjs`). Search
+  ranking never reads membership, and the free listing never depends on it.
+  The offer is explained at `/owners/#members`. tests/members.test.mjs.
 - **Owner picks come only from owners.** With none sent, no picks box shows at
   all (no placeholder rows); the business's own page gets a one-line invitation.
 - **Public events only.** `access()` in `src/event-feeds.mjs` reads a listing's

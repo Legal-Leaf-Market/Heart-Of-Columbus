@@ -14,6 +14,7 @@ import { ATTRS } from './attrs.mjs';
 import { DORA_SLUGS } from './dora.mjs';
 import { GEO } from './geo.mjs';
 import { ADDED } from './added.mjs';
+import { MEMBERS } from './members.mjs';
 import { excludedForOwnership } from './ownership.mjs';
 
 // Top-level categories, in display order. `subs` map to the landscape's
@@ -192,7 +193,7 @@ for (const l of landscape) {
 for (const a of ADDED) {
   all.push({
     slug: uniq(slugify(a.name)), name: a.name, cat: a.cat, sub: a.sub, type: a.type, address: a.address,
-    area: '', phone: a.phone, website: a.website, demo: '', ll: null, featured: false, heritage: false, added: a,
+    area: '', phone: a.phone, website: a.website, demo: '', ll: a.ll || null, featured: false, heritage: false, added: a,
   });
 }
 
@@ -223,6 +224,7 @@ for (const b of all) {
   b.gift = c && c.gift ? c.gift : null;
   b.platform = c ? c.platform || '' : '';
   b.hours = HOURS[b.slug] || null;
+  b.member = MEMBERS[b.slug] ? { since: MEMBERS[b.slug].since } : null;
   b.attrs = ATTRS[b.slug] || null;
   const g = GEO[b.slug];
   if (g) {
