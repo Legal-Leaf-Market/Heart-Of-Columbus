@@ -65,14 +65,14 @@ function landmarkPage(l, { assets }, lang = 'en') {
 ${header('', { lang, alt: es ? `/l/${l.slug}/` : `/es/l/${l.slug}/` })}
 <main id="main">
 <section class="area-hero lm-hero">
-  <img src="${p.src}" alt="${esc(l.name)}" style="object-position:${p.pos}">
+  <img src="${p.src}" alt="${esc(p.shows || l.name)}" style="object-position:${p.pos}">
   <span class="area-shade"></span>
   <div class="wrap area-hero-txt">
     ${breadcrumbs([['/', es ? 'Inicio' : 'Home'], [es ? '/#architecture' : '/architecture/', L.crumb], ['', l.name]])}
     <p class="kicker kicker-light">${esc(L.kicker)}</p>
     <h1>${t(l.name)}</h1>
     <p>${esc(arch)}, ${l.year}</p>
-    <small class="credit">${L.photo}: ${esc(p.credit)}, ${esc(p.license)}. <a href="${p.page}" target="_blank" rel="noopener">${L.source}</a></small>
+    <small class="credit">${p.shows ? `${esc(es ? p.shows.replace(' in April ', ' en abril de ') : p.shows)}. ` : ''}${L.photo}: ${esc(p.credit)}, ${esc(p.license)}. <a href="${p.page}" target="_blank" rel="noopener">${L.source}</a></small>
   </div>
 </section>
 ${es ? `<p class="wrap vs-note vs-review lm-review">${esc(REVIEW_NOTE)}</p>` : ''}
