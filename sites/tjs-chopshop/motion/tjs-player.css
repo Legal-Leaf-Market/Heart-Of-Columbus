@@ -1,0 +1,63 @@
+/* TJ's ChopShop "After Hours" player and its after hours mode.
+   --tj-beat (0 to 1) follows the kick and bass; tjs-player.js sets it only
+   while music plays and effects are on. --tj-bar is one bar at 82 BPM. */
+:root { --tj-beat: 0; --tj-bar: 2.926s; }
+
+/* The dock: a record, the title, five level bars. */
+.tj-player { position: fixed; left: 20px; bottom: 20px; z-index: 40; display: flex; align-items: center; gap: 12px; padding: 7px 16px 7px 7px; max-width: calc(100vw - 40px);
+  background: #211f1cf2; color: var(--ivory); border: 1px solid #bc947166; border-radius: 40px; box-shadow: 0 12px 30px #0006; font: 13px/1.25 Arial, sans-serif;
+  transition: box-shadow .4s, border-color .4s; }
+.tj-player.tj-on { border-color: #ff6b79aa; box-shadow: 0 12px 30px #0006, 0 0 calc(8px + 26px * var(--tj-beat)) #b72e43aa; }
+.tj-rec { position: relative; flex: none; width: 52px; height: 52px; padding: 0; border: 0; border-radius: 50%; cursor: pointer; background: none; }
+.tj-disc { position: absolute; inset: 0; border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle, #831d2c 0 13px, #111 14px 15px, #1b1a18 16px 17px, #2a2724 18px 19px, #1b1a18 20px 21px, #2a2724 22px 23px, #141312 24px);
+  box-shadow: inset 0 0 0 2px #bc947155; animation: tj-spin 1.8s linear infinite; animation-play-state: paused; }
+.tj-disc img { width: 22px; height: 22px; border-radius: 50%; background: var(--ivory); padding: 2px; }
+.tj-on .tj-disc { animation-play-state: running; }
+.tj-glyph { position: absolute; right: -2px; bottom: -2px; width: 22px; height: 22px; border-radius: 50%; background: var(--ivory); box-shadow: 0 2px 6px #0007; }
+.tj-glyph::before { content: ''; position: absolute; left: 8px; top: 6px; border-style: solid; border-width: 5px 0 5px 8px; border-color: transparent transparent transparent var(--ox); }
+.tj-on .tj-glyph::before { left: 7px; top: 6px; width: 3px; height: 10px; border: 0; background: var(--ox); box-shadow: 5px 0 0 var(--ox); }
+.tj-loading .tj-glyph::before { left: 4px; top: 4px; width: 10px; height: 10px; border: 2px solid var(--ox); border-right-color: transparent; border-radius: 50%; background: none; box-shadow: none; animation: tj-spin .8s linear infinite; }
+@keyframes tj-spin { to { transform: rotate(360deg); } }
+.tj-meta { display: grid; min-width: 0; }
+.tj-meta b { font: italic 700 17px/1.1 Georgia, serif; color: #fff1df; letter-spacing: -.3px; }
+.tj-on .tj-meta b { text-shadow: 0 0 6px #ff6b79, 0 0 calc(4px + 18px * var(--tj-beat)) #b72e43; }
+.tj-meta small { color: #dfbfa1; font-size: 11px; letter-spacing: .4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tj-eq { display: flex; align-items: flex-end; gap: 3px; height: 22px; }
+.tj-eq i { width: 4px; height: 100%; border-radius: 2px; background: linear-gradient(#ff6b79, #bc9471); transform: scaleY(.18); transform-origin: bottom; transition: transform .08s linear; }
+.tj-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.tj-rec:focus-visible { outline: 3px solid #bc9471; outline-offset: 4px; }
+/* Phones: sit above the sticky Book bar, record and bars only. */
+@media (max-width: 820px) {
+  .tj-player { left: 16px; bottom: 84px; padding: 5px 12px 5px 5px; gap: 10px; }
+  .tj-meta small { display: none; }
+  .tj-meta b { font-size: 15px; }
+}
+
+/* After hours mode: the lights go down in the hero while the record spins. */
+.tj-upgrade .hero { transition: background-color 1.2s ease, color 1.2s ease; }
+.tj-upgrade.tj-playing .hero { background: radial-gradient(ellipse at 85% 10%, #831d2c55, transparent 60%), radial-gradient(ellipse at 10% 90%, #bc947122, transparent 55%), #171513; color: var(--ivory); }
+.tj-upgrade.tj-playing .hero h1 { color: #fff1df; }
+.tj-upgrade.tj-playing .hero h1 em { color: #ff8a96; text-shadow: 0 0 calc(10px + 30px * var(--tj-beat)) #b72e43; }
+.tj-upgrade.tj-playing .hero .lede, .tj-upgrade.tj-playing .tj-motion-controls small { color: #cbbfae; }
+.tj-upgrade.tj-playing .hero .eyebrow { color: var(--brass); }
+.tj-upgrade.tj-playing .hero .btn.ghost, .tj-upgrade.tj-playing .tj-motion-toggle { color: var(--ivory); border-color: var(--ivory); }
+.tj-upgrade.tj-playing .hero-logo { filter: drop-shadow(0 0 1px #f4ebdd) drop-shadow(0 0 calc(6px + 14px * var(--tj-beat)) #b72e43aa); }
+.tj-upgrade.tj-playing .tj-neon { box-shadow: inset 0 0 calc(45px + 50px * var(--tj-beat)) #831d2c66, 0 0 calc(20px + 40px * var(--tj-beat)) #b72e4366; border-color: #ff6b7966; }
+.tj-upgrade.tj-playing .tj-neon strong { animation: none; transform: scale(calc(1 + .035 * var(--tj-beat))); text-shadow: 0 0 3px #fff1df, 0 0 calc(12px + 10px * var(--tj-beat)) #ff6b79, 0 0 calc(28px + 30px * var(--tj-beat)) #b72e43, 0 0 46px #831d2c; }
+.tj-upgrade.tj-playing .art { transform: rotate(calc(1.2deg - 1.2deg * var(--tj-beat))) scale(calc(1 + .018 * var(--tj-beat))); box-shadow: 16px 18px 0 #831d2c33, 0 25px 65px #000a, 0 0 calc(40px * var(--tj-beat)) #b72e4388; }
+.tj-upgrade.tj-playing .art img { filter: saturate(1.15) contrast(1.05) brightness(.92); }
+/* The pole turns once a bar; clippings fall twice as fast and glow. */
+.tj-upgrade.tj-playing .tj-pole::before { animation-duration: var(--tj-bar); }
+.tj-upgrade.tj-playing .tj-fall-piece { color: #ff6b79; animation-duration: calc(var(--duration) / 2); }
+.tj-upgrade.tj-playing .stripe { animation-duration: calc(var(--tj-bar) * 2); }
+.tj-upgrade.tj-playing .tj-razor-rule svg { animation-duration: calc(var(--tj-bar) / 2); }
+.tj-upgrade.tj-playing .book-band::before, .tj-upgrade.tj-playing .book-band::after { animation-duration: var(--tj-bar); color: #f4ebdd30; }
+
+/* Pause effects or reduced motion: music keeps playing, the show stops. */
+.tj-upgrade.tj-paused .tj-disc, .tj-upgrade.tj-paused .tj-eq i { animation: none; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .tj-disc, .tj-loading .tj-glyph::before { animation: none; }
+  .tj-eq i { transform: scaleY(.5); }
+  .tj-upgrade .hero { transition: none; }
+}
