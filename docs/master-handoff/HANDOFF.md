@@ -59,9 +59,16 @@ Legal-Leaf-Market/CrossroadsWeddingCo, Netlify deploys `main`):
    has the detail. Jake holds the full master handoff zip, including the internal product and
    partnership documents deliberately kept out of this public repo.
 
+## Decided
+
+- **North Christian is now The LEX** (Jake, 2026-11-13): the landmark reads "The LEX
+  (formerly North Christian Church)" and says the congregation worshipped there until 2022.
+  The slug `/l/northchristian/` stays. History pieces, Brian Blair's retellings and the
+  film trail keep the church's name as written, and the 2008 photo is captioned as North
+  Christian Church.
+
 ## Open decisions for Jake
 
-- Rename North Christian to The LEX in the directory?
 - Three barbers whose Booksy names or addresses differ from the directory (see PR #57).
 - TJ's terms (three free months, rewards at 1, 3 and 5 referrals) were proposed by Claude; confirm.
 - Brian Blair byline confirmations on the faith retellings.
