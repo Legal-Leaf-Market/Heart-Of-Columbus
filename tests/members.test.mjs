@@ -4,7 +4,9 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { readFileSync } from 'node:fs';
-import { MEMBERS, PRICE, SPOTS } from '../src/data/members.mjs';
+import { MEMBERS, PRICE, SPOTS, AMBASSADORS, REFERRAL_TIERS } from '../src/data/members.mjs';
+import { CATEGORIES } from '../src/data/directory.mjs';
+import { founders } from '../src/pages/founders-pages.mjs';
 import { directory } from '../src/data/directory.mjs';
 import { card } from '../src/site.mjs';
 import { membersFirst } from '../src/pages/directory-pages.mjs';
@@ -50,12 +52,32 @@ test('search never ranks by membership', () => {
   assert.doesNotMatch(score, /\.m\b/, 'HoCScore must not read the member flag');
 });
 
-test('/owners/ explains membership and the price, and the free listing stays free', () => {
-  const html = dist('owners/index.html');
-  assert.match(html, /id="members"/);
+test('/founders-club/ states the price, the free listing, the rewards and every section', () => {
+  const html = dist('founders-club/index.html');
   assert.match(html, new RegExp(`\\$${PRICE} a month`));
   assert.match(html, /Free, always/);
-  assert.match(html, /stays free/);
+  for (const [, what] of REFERRAL_TIERS) assert.ok(html.includes(what), what);
+  const open = (html.match(/class="ow-amb-cat"/g) || []).length;
+  const taken = (html.match(/class="ow-amb-cat is-taken"/g) || []).length;
+  assert.equal(open + taken, CATEGORIES.length);
+  assert.equal(taken, Object.keys(AMBASSADORS).length);
+  assert.match(dist('owners/index.html'), /href="\/founders-club\/"/);
+});
+
+test('ambassadors name a real category and a real listing', () => {
+  const cats = new Set(CATEGORIES.map((c) => c.slug));
+  for (const [cat, a] of Object.entries(AMBASSADORS)) {
+    assert.ok(cats.has(cat), `${cat}: not a category`);
+    assert.ok(slugs.has(a.slug), `${cat}: ${a.slug} is not a directory slug`);
+    assert.match(a.since, /^\d{4}-\d{2}-\d{2}$/, `${cat}: since`);
+  }
+});
+
+test('founder numbers follow the order owners signed, starting at 1', () => {
+  const f = founders();
+  assert.deepEqual(f.map((x) => x.n), f.map((_, i) => i + 1));
+  for (let i = 1; i < f.length; i++) assert.ok(f[i - 1].since <= f[i].since);
+  if (!f.length) assert.match(dist('founders-club/index.html'), /Nobody on the wall yet/);
 });
 
 test('no built page shows a badge while nobody has signed', () => {
@@ -63,4 +85,11 @@ test('no built page shows a badge while nobody has signed', () => {
   for (const p of ['c/beauty/barbers/index.html', 'b/tjs-chopshop/index.html']) {
     assert.doesNotMatch(dist(p), /class="tag tag-member"/, p);
   }
+});
+
+test("a listing tied to the publisher says so and never claims we are not affiliated", () => {
+  const html = dist('b/legal-leaf-market-cafe/index.html');
+  assert.match(html, /owned by Jacob Kennedy, who also runs Heart of Columbus/);
+  assert.doesNotMatch(html, /not affiliated with this business/);
+  assert.match(html, /Coming soon/);
 });

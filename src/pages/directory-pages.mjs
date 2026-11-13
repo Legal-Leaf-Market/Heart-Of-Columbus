@@ -179,14 +179,16 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
         ${b.store ? `<a class="btn${b.order.length || b.book.length ? ' btn-ghost' : ''}" href="${esc(b.store)}" target="_blank" rel="noopener">${svg('store')} Shop their online store</a>` : ''}
         ${b.demo ? `<a class="btn btn-ghost" href="${b.demo}">${svg('store')} ${b.cat === 'beauty' ? 'Book' : 'Order'} (demo)</a>` : ''}
         ${b.phone ? `<a class="btn ${b.demo || b.order.length || b.book.length || b.feed || b.store ? 'btn-ghost' : ''}" href="${tel(b.phone)}">${svg('phone')} Call ${esc(b.phone)}</a>` : ''}
-        <a class="btn btn-ghost" href="${mapsLink(b)}" target="_blank" rel="noopener">${svg('pin')} Directions</a>
+        ${b.added?.soon && !b.address ? '' : `<a class="btn btn-ghost" href="${mapsLink(b)}" target="_blank" rel="noopener">${svg('pin')} Directions</a>`}
         ${b.website ? `<a class="btn btn-ghost" href="${esc(b.website)}" target="_blank" rel="noopener">${svg('globe')} Website</a>` : ''}
         ${b.gift ? `<a class="btn btn-ghost" href="${esc(b.gift.url)}" target="_blank" rel="noopener">${svg('heart')} Gift cards</a>` : ''}
         <button type="button" class="btn btn-ghost" data-save="${b.slug}" aria-pressed="false">${svg('heart')} <span data-save-label>Save</span></button>
         <button type="button" class="btn btn-ghost" data-share="${esc(b.name)}">${svg('share')} Share</button>
       </div>
       ${b.dora ? `<p class="direct-note dora-note">🥤 <span>On the city’s list of Downtown Columbus Social District businesses (checked October 2026). If you are 21 or older you can leave with a drink in a Social District cup, 10 AM to midnight. <a href="/visit/#social-district">The rules</a></span></p>` : ''}
-      ${b.member ? `<p class="direct-note member-note" id="member-note">★ <span>${esc(b.name)} is a Founding Member. It pays Heart of Columbus $${PRICE} a month for a website we keep up to date and a featured spot in its category, and has no say in what we write. <a href="/owners/#members">How membership works</a></span></p>` : ''}
+      ${b.added?.soon ? `<p class="direct-note">🚧 <span>Coming soon. Not open yet; we will add hours and an address when it opens.</span></p>` : ''}
+      ${b.added?.tie ? `<p class="direct-note member-note">★ <span>${esc(b.added.tie)}</span></p>` : ''}
+      ${b.member ? `<p class="direct-note member-note" id="member-note">★ <span>${esc(b.name)} is a Founding Member. It pays Heart of Columbus $${PRICE} a month for a website we keep up to date and a featured spot in its category, and has no say in what we write. <a href="/founders-club/">About the Founders Club</a></span></p>` : ''}
       ${b.order.length || b.book.length ? `<p class="direct-note">${svg('store', 'ic-sm')} ${b.order.length ? 'Ordering' : 'Booking'} opens ${esc(b.name)}’s own ${esc((b.order[0] || b.book[0]).label)} page, the one they chose and pay for themselves. Heart of Columbus takes no cut.</p>` : ''}
     </div>
   </div>
@@ -206,7 +208,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
       <p>Fix your hours and links, point customers at your own ordering, or take pickup orders here with no app fees. You can also post a deal or tell your story in your own words.</p>
       <a class="btn btn-sm" href="/owners/?b=${b.slug}#claim">Claim this listing ${svg('arrow', 'ic-sm')}</a>
     </div>
-    <p class="fine">Details come from public listings (Chamber directory, Visit Columbus, Google Maps) and may change. Call ahead. Heart of Columbus is not affiliated with this business.</p>
+    <p class="fine">Details come from public listings (Chamber directory, Visit Columbus, Google Maps) and may change. Call ahead. ${b.added?.tie ? esc(b.added.tie) : 'Heart of Columbus is not affiliated with this business.'}</p>
   </aside>
 </section>
 ${inTheNews(b)}
