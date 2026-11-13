@@ -1,0 +1,198 @@
+[
+  {
+    "key": "downtown-day",
+    "type": "section_scene",
+    "focalPoint": "75% 50%",
+    "master": "masters/downtown-day.png",
+    "exports": [
+      {
+        "path": "public/art/sections-v1/downtown-day-768.webp",
+        "width": 768,
+        "height": 256,
+        "bytes": 67618
+      },
+      {
+        "path": "public/art/sections-v1/downtown-day-1440.webp",
+        "width": 1440,
+        "height": 480,
+        "bytes": 233694
+      },
+      {
+        "path": "public/art/sections-v1/downtown-day-card-640.webp",
+        "width": 640,
+        "height": 400,
+        "bytes": 114874
+      }
+    ]
+  },
+  {
+    "key": "coffee-and-sweets",
+    "type": "section_scene",
+    "focalPoint": "75% 50%",
+    "master": "masters/coffee-and-sweets.png",
+    "exports": [
+      {
+        "path": "public/art/sections-v1/coffee-and-sweets-768.webp",
+        "width": 768,
+        "height": 256,
+        "bytes": 46420
+      },
+      {
+        "path": "public/art/sections-v1/coffee-and-sweets-1440.webp",
+        "width": 1440,
+        "height": 480,
+        "bytes": 166688
+      },
+      {
+        "path": "public/art/sections-v1/coffee-and-sweets-card-640.webp",
+        "width": 640,
+        "height": 400,
+        "bytes": 91724
+      }
+    ]
+  },
+  {
+    "key": "parks-and-trails",
+    "type": "section_scene",
+    "focalPoint": "75% 50%",
+    "master": "masters/parks-and-trails.png",
+    "exports": [
+      {
+        "path": "public/art/sections-v1/parks-and-trails-768.webp",
+        "width": 768,
+        "height": 256,
+        "bytes": 57456
+      },
+      {
+        "path": "public/art/sections-v1/parks-and-trails-1440.webp",
+        "width": 1440,
+        "height": 480,
+        "bytes": 203146
+      },
+      {
+        "path": "public/art/sections-v1/parks-and-trails-card-640.webp",
+        "width": 640,
+        "height": 400,
+        "bytes": 115458
+      }
+    ]
+  },
+  {
+    "key": "arts-and-music",
+    "type": "section_scene",
+    "focalPoint": "75% 50%",
+    "master": "masters/arts-and-music.png",
+    "exports": [
+      {
+        "path": "public/art/sections-v1/arts-and-music-768.webp",
+        "width": 768,
+        "height": 256,
+        "bytes": 44632
+      },
+      {
+        "path": "public/art/sections-v1/arts-and-music-1440.webp",
+        "width": 1440,
+        "height": 480,
+        "bytes": 151156
+      },
+      {
+        "path": "public/art/sections-v1/arts-and-music-card-640.webp",
+        "width": 640,
+        "height": 400,
+        "bytes": 82016
+      }
+    ]
+  },
+  {
+    "key": "makers-and-markets",
+    "type": "section_scene",
+    "focalPoint": "75% 50%",
+    "master": "masters/makers-and-markets.png",
+    "exports": [
+      {
+        "path": "public/art/sections-v1/makers-and-markets-768.webp",
+        "width": 768,
+        "height": 256,
+        "bytes": 54594
+      },
+      {
+        "path": "public/art/sections-v1/makers-and-markets-1440.webp",
+        "width": 1440,
+        "height": 480,
+        "bytes": 201614
+      },
+      {
+        "path": "public/art/sections-v1/makers-and-markets-card-640.webp",
+        "width": 640,
+        "height": 400,
+        "bytes": 106770
+      }
+    ]
+  },
+  {
+    "key": "downtown-after-dark",
+    "type": "section_scene",
+    "focalPoint": "75% 50%",
+    "master": "masters/downtown-after-dark.png",
+    "exports": [
+      {
+        "path": "public/art/sections-v1/downtown-after-dark-768.webp",
+        "width": 768,
+        "height": 256,
+        "bytes": 44896
+      },
+      {
+        "path": "public/art/sections-v1/downtown-after-dark-1440.webp",
+        "width": 1440,
+        "height": 480,
+        "bytes": 163234
+      },
+      {
+        "path": "public/art/sections-v1/downtown-after-dark-card-640.webp",
+        "width": 640,
+        "height": 400,
+        "bytes": 93644
+      }
+    ]
+  },
+  {
+    "key": "cream-botanical-background",
+    "type": "background",
+    "focalPoint": "75% 50%",
+    "master": "masters/cream-botanical-background.png",
+    "exports": [
+      {
+        "path": "public/art/sections-v1/cream-botanical-background-768.webp",
+        "width": 768,
+        "height": 256,
+        "bytes": 14772
+      },
+      {
+        "path": "public/art/sections-v1/cream-botanical-background-1440.webp",
+        "width": 1440,
+        "height": 480,
+        "bytes": 54802
+      }
+    ]
+  },
+  {
+    "key": "midnight-architectural-background",
+    "type": "background",
+    "focalPoint": "75% 50%",
+    "master": "masters/midnight-architectural-background.png",
+    "exports": [
+      {
+        "path": "public/art/sections-v1/midnight-architectural-background-768.webp",
+        "width": 768,
+        "height": 256,
+        "bytes": 14632
+      },
+      {
+        "path": "public/art/sections-v1/midnight-architectural-background-1440.webp",
+        "width": 1440,
+        "height": 480,
+        "bytes": 51846
+      }
+    ]
+  }
+]
