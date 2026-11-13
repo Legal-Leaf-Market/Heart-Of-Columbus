@@ -1351,3 +1351,7 @@ a.tag-member:hover { background: #2f3f6b; }
 #promises ul { display: grid; gap: 8px; padding-left: 22px; font-size: 17px; }
 .fc-page .ow-how { max-width: none; }
 .fc-page .ow-how > p, .fc-page .ow-how > ul { max-width: 760px; }
+.fc-tool-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin: 8px 0 14px; }
+.fc-tool-row div { background: #1e2a4a; color: #fff; border: 2px solid var(--ink); border-radius: var(--r-lg); box-shadow: var(--pop); padding: 16px 18px; }
+.fc-tool-row b { display: block; font-family: var(--display); font-size: 21px; color: #e8c37a; margin-bottom: 4px; }
+.fc-tool-row span { font-size: 15px; color: #dfe4f0; }

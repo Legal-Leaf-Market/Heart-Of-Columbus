@@ -4,167 +4,185 @@
   TJ to review. Nothing here is live until TJ approves it.
 
   Facts and where they came from (checked 2026-11-13):
-  - Name "TJ's ChopShop", barbershop, 1521 17th St, Columbus, IN 47201, map pin
-    39.21565, -85.90750: TJ's own Booksy page
-    https://booksy.com/en-us/1010454_tj-s-chopshop_barber-shop_19373_columbus
-  - 5.0 average across 1,591 Booksy reviews: the same page (its structured data).
+  - Name "TJ's ChopShop", barbershop, 1521 17th St, Columbus, IN 47201: TJ's own
+    Booksy page https://booksy.com/en-us/1010454_tj-s-chopshop_barber-shop_19373_columbus
   - New shop restoring an old space: TJ's Facebook post, seen by the publisher.
   - 1521 17th St was listed on Google Maps as Bob Condon's Barber Shop. Whether
     TJ's is that shop brought back is NOT confirmed, so the page only asks.
+  - Review figures are left out: Booksy's page data says 5.0 from 1,591 while the
+    same page shows "No reviews yet", so neither is shown.
   Booksy publishes no phone, hours, services, prices or barber names for the shop,
-  so every one of those is marked "placeholder" until TJ fills it in. No reviews,
-  quotes, history or names are invented. No photos are used until TJ sends some.
+  so every one of those is marked "placeholder" until TJ fills it in.
+
+  Brand: brand/ holds TJ's ChopShop identity v1 (logos, icons, patterns, the hero
+  illustration, social files and docs/BRAND_GUIDE.md). The hero chair is an
+  illustration, not a photo of the shop, and is captioned as one. Before and after
+  frames take TJ's own photos only (GRAPHICS.md).
 -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TJ's ChopShop | Barbershop on 17th Street, Columbus, Indiana</title>
+<title>TJ's ChopShop | Columbus, Indiana</title>
 <meta name="description" content="TJ's ChopShop, a barbershop at 1521 17th St in Columbus, Indiana. Book your cut online.">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#14181f">
-<meta property="og:title" content="TJ's ChopShop, Columbus, Indiana">
-<meta property="og:description" content="Barbershop at 1521 17th St. Book your cut online.">
+<meta name="theme-color" content="#831D2C">
+<meta property="og:title" content="TJ's ChopShop | Columbus, Indiana">
+<meta property="og:description" content="Your next cut. Your neighborhood shop. 1521 17th St, Columbus, Indiana.">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2314181f'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='30' font-weight='700' text-anchor='middle' fill='%23e8c37a'%3ETJ%3C/text%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<meta property="og:image" content="https://heartofcolumbus.netlify.app/preview/tjs-chopshop/brand/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" sizes="32x32" href="brand/logos/icon-32.png">
+<link rel="apple-touch-icon" href="brand/logos/icon-180.png">
 <style>
   :root {
-    --ink: #14181f;
-    --ink2: #1c222c;
-    --card: #232a36;
-    --line: #343d4d;
-    --cream: #f4ecdd;
-    --paper: #fbf6ec;
-    --muted: #b9b2a4;
-    --red: #c0392b;
-    --red2: #9e2a1f;
-    --blue: #2f5f9e;
-    --gold: #e8c37a;
-    --slab: 'Alfa Slab One', Georgia, serif;
-    --sans: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    --ox: #831D2C;
+    --ivory: #F4EBDD;
+    --paper: #E6DAC9;
+    --char: #211F1C;
+    --char2: #2c2925;
+    --brass: #BC9471;
+    --muted: #5d554c;
+    --display: Georgia, 'Times New Roman', serif;
+    --body: Arial, Helvetica, sans-serif;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body { margin: 0; background: var(--ink); color: var(--cream); font: 16px/1.6 var(--sans); }
+  body { margin: 0; background: var(--ivory); color: var(--char); font: 18px/1.55 var(--body); }
   a { color: inherit; }
   img { max-width: 100%; display: block; }
-  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 0 20px; }
+  .ic { width: 28px; height: 28px; flex: none; }
 
-  .draft { background: var(--gold); color: var(--ink); font-size: 14px; text-align: center; padding: 8px 16px; }
-  .draft b { font-weight: 700; }
+  .draft { background: var(--char); color: var(--ivory); font-size: 14px; text-align: center; padding: 8px 16px; }
+  .draft b { color: var(--brass); }
+  .tag { display: inline-block; font: 700 11px/1.4 var(--body); letter-spacing: 1px; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; background: #ffe7a8; color: #6b4b00; vertical-align: middle; }
 
-  /* Barber pole stripe, used as a rule between sections */
-  .pole { height: 10px; background: repeating-linear-gradient(135deg, var(--red) 0 18px, var(--paper) 18px 36px, var(--blue) 36px 54px, var(--paper) 54px 72px); background-size: 102px 10px; animation: spin 3s linear infinite; }
-  @keyframes spin { to { background-position: 102px 0; } }
-  @media (prefers-reduced-motion: reduce) { .pole { animation: none; } }
+  /* Razor stripe divider, from brand/patterns/diagonal-stripe.svg */
+  .stripe { height: 14px; background: repeating-linear-gradient(125deg, var(--ox) 0 12px, var(--ivory) 12px 24px, var(--char) 24px 28px, var(--ivory) 28px 48px); }
 
-  header.top { position: sticky; top: 0; z-index: 20; background: rgba(20,24,31,.94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
-  header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; height: 64px; }
-  .brand { font-family: var(--slab); font-size: 22px; letter-spacing: .5px; text-decoration: none; white-space: nowrap; }
-  .brand span { color: var(--gold); }
-  nav.links { display: flex; gap: 22px; font-size: 15px; }
-  nav.links a { text-decoration: none; color: var(--muted); }
-  nav.links a:hover { color: var(--cream); }
-  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: var(--red); color: #fff; text-decoration: none; font-weight: 700; padding: 12px 22px; border-radius: 999px; border: 2px solid var(--red); white-space: nowrap; transition: background .15s; }
-  .btn:hover { background: var(--red2); border-color: var(--red2); }
-  .btn.ghost { background: transparent; color: var(--cream); border-color: var(--line); }
-  .btn.ghost:hover { border-color: var(--gold); background: transparent; }
-  .btn.sm { padding: 9px 16px; font-size: 14px; }
-  @media (max-width: 760px) { nav.links { display: none; } }
+  header.top { position: sticky; top: 0; z-index: 20; background: var(--ivory); border-bottom: 1px solid var(--paper); }
+  header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 76px; }
+  .logo-link { display: flex; align-items: center; gap: 12px; text-decoration: none; font: 700 22px var(--display); color: var(--char); }
+  .logo-link img { height: 44px; width: 44px; border-radius: 9px; }
+  .hero-logo { width: 240px; height: auto; margin: 0 0 18px; }
+  @media (max-width: 900px) { .hero-logo { width: 200px; } }
+  nav.links { display: flex; gap: 26px; font-size: 16px; }
+  nav.links a { text-decoration: none; color: var(--muted); font-weight: 700; }
+  nav.links a:hover { color: var(--ox); }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: var(--ox); color: var(--ivory); text-decoration: none; font: 700 17px var(--body); padding: 14px 24px; border-radius: 4px; border: 2px solid var(--ox); white-space: nowrap; transition: background .15s, border-color .15s; }
+  .btn:hover { background: var(--char); border-color: var(--char); }
+  .btn:focus-visible, a:focus-visible { outline: 3px solid var(--char); outline-offset: 4px; }
+  .btn.ghost { background: transparent; color: var(--char); border-color: var(--char); }
+  .btn.ghost:hover { background: var(--char); color: var(--ivory); }
+  .btn.sm { padding: 10px 18px; font-size: 15px; }
+  .btn .ic { width: 20px; height: 20px; }
+  @media (max-width: 820px) { nav.links { display: none; } }
 
-  .hero { position: relative; overflow: hidden; padding: 84px 0 72px; background:
-      radial-gradient(900px 420px at 85% 10%, rgba(232,195,122,.13), transparent 60%),
-      radial-gradient(700px 380px at 0% 100%, rgba(192,57,43,.16), transparent 60%), var(--ink); }
-  .hero .wrap { display: grid; grid-template-columns: 1.25fr .75fr; gap: 48px; align-items: center; }
-  .eyebrow { display: inline-block; font-size: 13px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
-  h1 { font-family: var(--slab); font-weight: 400; font-size: clamp(44px, 8vw, 84px); line-height: .98; margin: 0 0 18px; }
-  h1 em { font-style: normal; color: var(--gold); }
-  .lede { font-size: 19px; color: var(--muted); max-width: 34ch; margin: 0 0 28px; }
+  .hero { background: var(--ivory); padding: 56px 0 64px; }
+  .hero .wrap { display: grid; grid-template-columns: .9fr 1.1fr; gap: 48px; align-items: center; }
+  .hero .wrap > * { min-width: 0; }
+  .eyebrow { display: inline-block; font: 700 13px var(--body); letter-spacing: 2.5px; text-transform: uppercase; color: var(--ox); margin-bottom: 14px; }
+  h1 { font: 700 clamp(40px, 6.5vw, 74px)/1.02 var(--display); margin: 0 0 18px; }
+  h1 em { font-style: normal; color: var(--ox); }
+  .lede { font-size: 20px; color: var(--muted); max-width: 34ch; margin: 0 0 28px; }
   .cta { display: flex; flex-wrap: wrap; gap: 12px; }
-  .rating { display: flex; align-items: center; gap: 10px; margin-top: 26px; font-size: 15px; color: var(--muted); }
-  .stars { color: var(--gold); letter-spacing: 2px; font-size: 18px; }
+  .art { position: relative; margin: 0; border-radius: 4px; overflow: hidden; box-shadow: 0 24px 50px rgba(33,31,28,.25); }
+  .art img { width: 100%; height: auto; aspect-ratio: 2 / 1; object-fit: cover; object-position: 70% 50%; }
+  .art figcaption { position: absolute; left: 12px; bottom: 10px; background: rgba(33,31,28,.75); color: var(--ivory); font-size: 12px; padding: 3px 9px; border-radius: 3px; }
+  @media (max-width: 900px) { .hero .wrap { grid-template-columns: 1fr; gap: 32px; } .art img { aspect-ratio: 4 / 3; } }
 
-  .sign { justify-self: center; width: min(320px, 100%); aspect-ratio: 3/4; border-radius: 22px; background: var(--ink2); border: 1px solid var(--line); display: grid; place-items: center; position: relative; box-shadow: 0 30px 60px rgba(0,0,0,.35); }
-  .sign::before { content: ''; position: absolute; inset: 14px; border: 2px solid var(--gold); border-radius: 14px; opacity: .55; }
-  .pole-big { width: 64px; height: 230px; border-radius: 32px; position: relative; overflow: hidden; border: 4px solid #d9d2c4; background: repeating-linear-gradient(160deg, var(--red) 0 22px, var(--paper) 22px 44px, var(--blue) 44px 66px, var(--paper) 66px 88px); background-size: 100% 176px; animation: rise 4s linear infinite; }
-  @keyframes rise { to { background-position: 0 -176px; } }
-  @media (prefers-reduced-motion: reduce) { .pole-big { animation: none; } }
-  .cap { width: 84px; height: 22px; border-radius: 11px; background: linear-gradient(#efe7d6, #b9b09e); margin: 0 auto; }
-  .sign small { position: absolute; bottom: 28px; left: 0; right: 0; text-align: center; font-family: var(--slab); color: var(--gold); letter-spacing: 1px; font-size: 15px; }
-  @media (max-width: 860px) { .hero .wrap { grid-template-columns: 1fr; } .sign { display: none; } .hero { padding: 56px 0 48px; } }
-
-  section { padding: 76px 0; }
-  section.light { background: var(--paper); color: var(--ink); }
-  section.light .muted { color: #5b5547; }
-  h2 { font-family: var(--slab); font-weight: 400; font-size: clamp(32px, 5vw, 46px); line-height: 1.05; margin: 0 0 14px; }
+  section { padding: 80px 0; }
+  .paper { background: var(--paper); }
+  .dark { background: var(--char); color: var(--ivory); }
+  h2 { font: 700 clamp(34px, 5vw, 50px)/1.05 var(--display); margin: 0 0 14px; }
   .sub { color: var(--muted); max-width: 60ch; margin: 0 0 36px; }
-  section.light .sub { color: #5b5547; }
-  .tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 8px; border-radius: 6px; background: #ffe7a8; color: #6b4b00; vertical-align: middle; }
+  .dark .eyebrow { color: var(--brass); }
+  .dark .sub { color: #cbbfae; }
 
   .story { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
-  .story p { margin: 0 0 16px; font-size: 17px; }
   .story > *, .then-now > * { min-width: 0; }
-  /* Image slots: a file in img/ shows; a missing one removes itself and the design underneath stays (see GRAPHICS.md). */
-  .slot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: inherit; z-index: 2; }
-  .frame { position: relative; overflow: hidden; }
+  .story p { margin: 0 0 16px; font-size: 18px; color: var(--muted); }
   .then-now { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .frame { position: relative; overflow: hidden; aspect-ratio: 4/5; border-radius: 4px; border: 2px dashed #bfae97; display: grid; place-items: center; text-align: center; padding: 18px; color: var(--muted); font-size: 14px; background: var(--ivory); }
+  .frame b { display: block; font: 700 24px var(--display); color: var(--char); margin-bottom: 6px; }
+  .frame .ic { margin: 0 auto 8px; color: var(--ox); width: 36px; height: 36px; display: block; }
+  .slot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2; }
+  @media (max-width: 900px) { .story { grid-template-columns: 1fr; } }
   @media (max-width: 480px) { .frame { aspect-ratio: 1; font-size: 13px; padding: 12px; } }
-  .frame { aspect-ratio: 4/5; border-radius: 16px; border: 2px dashed #cfc5b0; display: grid; place-items: center; text-align: center; padding: 18px; color: #7a7262; font-size: 14px; background: #f3ecdd; }
-  .frame b { display: block; font-family: var(--slab); font-weight: 400; font-size: 22px; color: var(--ink); margin-bottom: 6px; }
-  @media (max-width: 860px) { .story { grid-template-columns: 1fr; } }
 
   .menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
-  .svc { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 22px; display: flex; flex-direction: column; gap: 6px; }
-  .svc .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
-  .svc h3 { margin: 0; font-size: 19px; }
-  .svc .price { font-family: var(--slab); color: var(--gold); font-size: 20px; white-space: nowrap; }
-  .svc p { margin: 0; color: var(--muted); font-size: 15px; }
-  .menu-note { margin-top: 22px; color: var(--muted); font-size: 15px; }
+  .svc { background: var(--char2); border: 1px solid #3d3933; border-radius: 4px; padding: 22px; display: grid; grid-template-columns: auto 1fr auto; gap: 4px 14px; align-items: start; }
+  .svc .ic { color: var(--brass); grid-row: span 2; margin-top: 2px; }
+  .svc h3 { margin: 0; font: 700 20px var(--display); }
+  .svc .price { font: 700 20px var(--display); color: var(--brass); white-space: nowrap; }
+  .svc p { margin: 0; color: #cbbfae; font-size: 15px; grid-column: 2 / 4; }
+  .menu-note { margin-top: 22px; color: #cbbfae; font-size: 16px; }
 
   .visit { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
-  .panel { background: #fff; border: 1px solid #e6dcc7; border-radius: 18px; padding: 26px; }
-  .panel h3 { margin: 0 0 12px; font-size: 20px; }
+  .panel { background: #fbf6ee; border: 1px solid #d3c5b1; border-radius: 4px; padding: 26px; }
+  .row { display: flex; gap: 12px; align-items: flex-start; }
+  .row .ic { color: var(--ox); }
+  .addr { font: 700 24px var(--display); margin: 0; }
+  .panel h3 { margin: 22px 0 10px; font: 700 20px var(--display); display: flex; gap: 10px; align-items: center; }
+  .panel h3 .ic { color: var(--ox); width: 24px; height: 24px; }
   .hours { width: 100%; border-collapse: collapse; font-size: 16px; }
-  .hours td { padding: 8px 0; border-bottom: 1px solid #efe6d3; }
-  .hours td:last-child { text-align: right; color: #5b5547; }
-  .map { border-radius: 18px; overflow: hidden; border: 1px solid #e6dcc7; min-height: 320px; background: #e9e1cf; }
-  .map iframe { width: 100%; height: 100%; min-height: 320px; border: 0; display: block; }
-  .addr { font-size: 20px; font-weight: 700; margin: 0 0 4px; }
-  .panel .cta { margin-top: 18px; }
-  @media (max-width: 860px) { .visit { grid-template-columns: 1fr; } }
+  .hours td { padding: 8px 0; border-bottom: 1px solid #e0d4c2; }
+  .hours td:last-child { text-align: right; color: var(--muted); }
+  .map { border-radius: 4px; overflow: hidden; border: 1px solid #d3c5b1; min-height: 340px; background: #e9e1cf; }
+  .map iframe { width: 100%; height: 100%; min-height: 340px; border: 0; display: block; }
+  .panel .cta { margin-top: 20px; }
+  @media (max-width: 900px) { .visit { grid-template-columns: 1fr; } }
 
-  .book-band { text-align: center; }
+  .book-band { background: var(--ox); color: var(--ivory); text-align: center; }
   .book-band h2 { margin-bottom: 10px; }
-  .book-band .cta { justify-content: center; margin-top: 24px; }
+  .book-band p { color: #f0d9cf; max-width: 52ch; margin: 0 auto; }
+  .book-band .cta { justify-content: center; margin-top: 26px; }
+  .book-band .btn { background: var(--ivory); color: var(--ox); border-color: var(--ivory); }
+  .book-band .btn:hover { background: var(--char); color: var(--ivory); border-color: var(--char); }
 
-  .faq { max-width: 760px; }
-  details { border-bottom: 1px solid var(--line); padding: 16px 0; }
-  summary { cursor: pointer; font-weight: 700; font-size: 17px; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
-  summary::after { content: '+'; color: var(--gold); font-size: 22px; line-height: 1; }
+  .faq { max-width: 780px; }
+  details { border-bottom: 1px solid #c9b9a2; padding: 18px 0; }
+  summary { cursor: pointer; font: 700 19px var(--display); list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: '+'; color: var(--ox); font-size: 24px; line-height: 1; }
   details[open] summary::after { content: '\00d7'; }
   details p { color: var(--muted); margin: 10px 0 0; }
 
-  footer { background: #0e1116; padding: 40px 0 90px; color: var(--muted); font-size: 14px; }
-  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 18px; }
-  footer .brand { font-size: 20px; color: var(--cream); }
+  footer { background: var(--char); color: #cbbfae; padding: 48px 0 100px; font-size: 15px; }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px; }
+  footer img { height: 120px; width: auto; }
+  footer a { color: var(--ivory); }
 
   .sticky-book { display: none; }
-  @media (max-width: 760px) {
-    .sticky-book { display: flex; position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 30; box-shadow: 0 10px 30px rgba(0,0,0,.45); }
+  @media (max-width: 820px) {
+    .sticky-book { display: flex; position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 30; box-shadow: 0 10px 30px rgba(0,0,0,.35); }
     header.top .btn { display: none; }
   }
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-scissors" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="44" r="8"/><circle cx="45" cy="44" r="8"/><path d="M23 38L49 8 M40 38L14 8"/></g></symbol>
+    <symbol id="i-razor" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 38 Q15 18 40 19 L53 20 Q56 25 51 29 L23 32 Z"/><path d="M40 23L59 31"/><circle cx="56" cy="30" r="2"/></g></symbol>
+    <symbol id="i-comb" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M10 18H54V28H10Z M14 28V46 M20 28V46 M26 28V46 M32 28V46 M38 28V46 M44 28V46 M50 28V46"/></g></symbol>
+    <symbol id="i-chair" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12H45V35H20Z M15 29V42H50V29 M30 42V53 M20 55H43 M45 42L54 50H59"/></g></symbol>
+    <symbol id="i-clock" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="32" r="24"/><path d="M32 15V32L44 39"/></g></symbol>
+    <symbol id="i-calendar" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="10" y="15" width="44" height="41" rx="4"/><path d="M20 8V22 M44 8V22 M10 29H54 M22 40L29 47L43 35"/></g></symbol>
+    <symbol id="i-pin" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M32 58S12 38 12 24A20 20 0 0 1 52 24C52 38 32 58 32 58Z"/><circle cx="32" cy="24" r="7"/></g></symbol>
+    <symbol id="i-mirror" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="7" width="32" height="43" rx="16"/><path d="M32 50V58 M23 58H41 M23 19L34 12"/></g></symbol>
+    <symbol id="i-spark" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M32 5L38 26L59 32L38 38L32 59L26 38L5 32L26 26Z"/></g></symbol>
+  </defs>
+</svg>
 
 <div class="draft"><b>Draft website for TJ to review.</b> Built by Heart of Columbus. Anything tagged <span class="tag">placeholder</span> waits on TJ.</div>
 
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="#top">TJ&rsquo;s <span>ChopShop</span></a>
+    <a class="logo-link" href="#top"><img src="brand/logos/monogram.svg" width="44" height="44" alt=""><span>TJ&rsquo;s ChopShop</span></a>
     <nav class="links" aria-label="Sections">
       <a href="#story">The shop</a>
       <a href="#menu">Cuts</a>
@@ -179,70 +197,66 @@
   <section class="hero">
     <div class="wrap">
       <div>
+        <img class="hero-logo" src="brand/logos/logo-primary.svg" width="240" height="240" alt="TJ's ChopShop, Columbus, Indiana">
         <span class="eyebrow">17th Street &middot; Columbus, Indiana</span>
-        <h1>Fresh cuts.<br>An old shop,<br><em>brought back.</em></h1>
-        <p class="lede">TJ&rsquo;s ChopShop is a barbershop at 1521 17th Street, in a space being restored chair by chair.</p>
+        <h1>Your next cut.<br><em>Your neighborhood shop.</em></h1>
+        <p class="lede">A fresh chapter on 17th Street. TJ&rsquo;s ChopShop is a barbershop at 1521 17th St, in a space being restored chair by chair.</p>
         <div class="cta">
-          <a class="btn" href="https://booksy.com/en-us/1010454_tj-s-chopshop_barber-shop_19373_columbus" target="_blank" rel="noopener">Book on Booksy</a>
-          <a class="btn ghost" href="#visit">Find the shop</a>
+          <a class="btn" href="https://booksy.com/en-us/1010454_tj-s-chopshop_barber-shop_19373_columbus" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-calendar"/></svg>Book on Booksy</a>
+          <a class="btn ghost" href="#visit"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg>Find the shop</a>
         </div>
-        <div class="rating"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span>5.0 average from 1,591 reviews on Booksy</span></div>
       </div>
-      <div class="sign" aria-hidden="true">
-        <img class="slot" src="img/hero.webp" alt="" onerror="this.remove()">
-        <div><div class="cap"></div><div class="pole-big"></div><div class="cap"></div></div>
-        <small>EST. ON 17TH ST</small>
-      </div>
+      <figure class="art">
+        <img src="brand/artwork/hero-chair.webp" width="1774" height="887" alt="Painted illustration of a classic oxblood barber chair by a tiled wall" fetchpriority="high">
+        <figcaption>Illustration</figcaption>
+      </figure>
     </div>
   </section>
 
-  <div class="pole" aria-hidden="true"></div>
+  <div class="stripe" aria-hidden="true"></div>
 
-  <section class="light" id="story">
+  <section class="paper" id="story">
     <div class="wrap story">
       <div>
-        <span class="eyebrow" style="color:var(--red)">The shop</span>
-        <h2>Restoring a room built for haircuts.</h2>
-        <p class="muted"><span class="tag">placeholder</span> TJ, this is where your story goes, in your words: how you found the space, what it looked like when you got the keys, what you kept and what you rebuilt. Two or three short paragraphs is plenty.</p>
-        <p class="muted"><span class="tag">please confirm</span> Map listings show 1521 17th St as the old Bob Condon&rsquo;s Barber Shop. If that&rsquo;s the room you&rsquo;re bringing back, it&rsquo;s worth saying here: people remember their barber.</p>
-        <p class="muted">Follow the restoration as it happens on the shop&rsquo;s Facebook page. <span class="tag">placeholder</span> link goes here.</p>
+        <span class="eyebrow">The shop</span>
+        <h2>An old shop. A new chapter.</h2>
+        <p><span class="tag">placeholder</span> TJ, this is where your story goes, in your words: how you found the space, what it looked like when you got the keys, what you kept and what you rebuilt. Two or three short paragraphs is plenty.</p>
+        <p><span class="tag">please confirm</span> Map listings show 1521 17th St as the old Bob Condon&rsquo;s Barber Shop. If that&rsquo;s the room you&rsquo;re bringing back, it&rsquo;s worth saying here: people remember their barber.</p>
+        <p>Follow the restoration as it happens on the shop&rsquo;s Facebook page. <span class="tag">placeholder</span> link goes here.</p>
       </div>
       <div class="then-now">
-        <div class="frame"><img class="slot" src="img/before.webp" alt="The shop before the restoration" onerror="this.remove()"><div><b>Before</b>A photo of the space when you got the keys</div></div>
-        <div class="frame"><img class="slot" src="img/after.webp" alt="The shop after the restoration" onerror="this.remove()"><div><b>After</b>The chairs, the mirrors, the finished room</div></div>
+        <div class="frame"><img class="slot" src="img/before.webp" alt="The shop before the restoration" loading="lazy" onerror="this.remove()"><div><svg class="ic" aria-hidden="true"><use href="#i-mirror"/></svg><b>Before</b>Your photo of the space when you got the keys</div></div>
+        <div class="frame"><img class="slot" src="img/after.webp" alt="The shop after the restoration" loading="lazy" onerror="this.remove()"><div><svg class="ic" aria-hidden="true"><use href="#i-chair"/></svg><b>After</b>The chairs, the mirrors, the finished room</div></div>
       </div>
     </div>
   </section>
 
-  <section id="menu">
+  <section class="dark" id="menu">
     <div class="wrap">
       <span class="eyebrow">Cuts and prices</span>
       <h2>The menu</h2>
-      <p class="sub">Every cut is booked through Booksy, where you can see open times and pick yours. <span class="tag">placeholder</span> Booksy does not show this list publicly yet, so the names below are slots for TJ to fill with real services and prices.</p>
+      <p class="sub">Every cut is booked through Booksy, where you can see open times and pick yours. <span class="tag">placeholder</span> Booksy doesn&rsquo;t show this list publicly yet, so these are slots for TJ to fill with real services and prices.</p>
       <div class="menu">
-        <div class="svc"><div class="row"><h3>Haircut</h3><span class="price">$ ?</span></div><p>Placeholder. Length of appointment and what&rsquo;s included.</p></div>
-        <div class="svc"><div class="row"><h3>Skin fade</h3><span class="price">$ ?</span></div><p>Placeholder.</p></div>
-        <div class="svc"><div class="row"><h3>Cut and beard</h3><span class="price">$ ?</span></div><p>Placeholder.</p></div>
-        <div class="svc"><div class="row"><h3>Beard trim and line up</h3><span class="price">$ ?</span></div><p>Placeholder.</p></div>
-        <div class="svc"><div class="row"><h3>Kids cut</h3><span class="price">$ ?</span></div><p>Placeholder. Age range.</p></div>
-        <div class="svc"><div class="row"><h3>Hot towel shave</h3><span class="price">$ ?</span></div><p>Placeholder, only if the shop offers it.</p></div>
+        <div class="svc"><svg class="ic" aria-hidden="true"><use href="#i-scissors"/></svg><h3>Haircut</h3><span class="price">$ ?</span><p>Placeholder. Length of appointment and what&rsquo;s included.</p></div>
+        <div class="svc"><svg class="ic" aria-hidden="true"><use href="#i-comb"/></svg><h3>Skin fade</h3><span class="price">$ ?</span><p>Placeholder.</p></div>
+        <div class="svc"><svg class="ic" aria-hidden="true"><use href="#i-razor"/></svg><h3>Cut and beard</h3><span class="price">$ ?</span><p>Placeholder.</p></div>
+        <div class="svc"><svg class="ic" aria-hidden="true"><use href="#i-razor"/></svg><h3>Beard trim and line up</h3><span class="price">$ ?</span><p>Placeholder.</p></div>
+        <div class="svc"><svg class="ic" aria-hidden="true"><use href="#i-spark"/></svg><h3>Kids cut</h3><span class="price">$ ?</span><p>Placeholder. Age range.</p></div>
+        <div class="svc"><svg class="ic" aria-hidden="true"><use href="#i-chair"/></svg><h3>Hot towel shave</h3><span class="price">$ ?</span><p>Placeholder, only if the shop offers it.</p></div>
       </div>
-      <p class="menu-note">Walk ins? <span class="tag">placeholder</span> TJ to say. Payment: <span class="tag">please confirm</span> Booksy lists cash.</p>
-      <div class="cta" style="margin-top:22px"><a class="btn" href="https://booksy.com/en-us/1010454_tj-s-chopshop_barber-shop_19373_columbus" target="_blank" rel="noopener">See open times</a></div>
+      <p class="menu-note">Walk ins? <span class="tag">placeholder</span> TJ to say. Payment: <span class="tag">placeholder</span> TJ to say.</p>
+      <div class="cta" style="margin-top:22px"><a class="btn" href="https://booksy.com/en-us/1010454_tj-s-chopshop_barber-shop_19373_columbus" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-calendar"/></svg>See open times</a></div>
     </div>
   </section>
 
-  <div class="pole" aria-hidden="true"></div>
-
-  <section class="light" id="visit">
+  <section id="visit">
     <div class="wrap">
-      <span class="eyebrow" style="color:var(--red)">Visit</span>
+      <span class="eyebrow">Visit</span>
       <h2>Find the chair.</h2>
       <div class="visit">
         <div class="panel">
-          <p class="addr">1521 17th St</p>
-          <p class="muted" style="margin:0 0 18px">Columbus, IN 47201</p>
-          <h3>Hours <span class="tag">placeholder</span></h3>
+          <div class="row"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg><div><p class="addr">1521 17th St</p><p style="margin:0;color:var(--muted)">Columbus, IN 47201</p></div></div>
+          <h3><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>Hours <span class="tag">placeholder</span></h3>
           <table class="hours">
             <tr><td>Monday</td><td>TJ to fill in</td></tr>
             <tr><td>Tuesday</td><td>TJ to fill in</td></tr>
@@ -252,10 +266,10 @@
             <tr><td>Saturday</td><td>TJ to fill in</td></tr>
             <tr><td>Sunday</td><td>TJ to fill in</td></tr>
           </table>
-          <p class="muted" style="font-size:14px;margin:12px 0 0">Open times for booking are always current on Booksy.</p>
+          <p style="font-size:14px;margin:12px 0 0;color:var(--muted)">Open times for booking are always current on Booksy.</p>
           <div class="cta">
-            <a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=1521+17th+St+Columbus+IN+47201" target="_blank" rel="noopener">Directions</a>
-            <a class="btn ghost" style="color:var(--ink)" href="https://booksy.com/en-us/1010454_tj-s-chopshop_barber-shop_19373_columbus" target="_blank" rel="noopener">Book</a>
+            <a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=1521+17th+St+Columbus+IN+47201" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg>Directions</a>
+            <a class="btn ghost" href="https://booksy.com/en-us/1010454_tj-s-chopshop_barber-shop_19373_columbus" target="_blank" rel="noopener">Book</a>
           </div>
         </div>
         <div class="map">
@@ -267,32 +281,32 @@
 
   <section class="book-band">
     <div class="wrap">
-      <span class="eyebrow">Your next cut</span>
+      <span class="eyebrow" style="color:var(--paper)">Your next cut</span>
       <h2>Pick a time. Sit down. Look sharp.</h2>
-      <p class="sub" style="margin:0 auto">Booking runs through TJ&rsquo;s own Booksy page, so confirmations and reminders come straight from the shop.</p>
-      <div class="cta"><a class="btn" href="https://booksy.com/en-us/1010454_tj-s-chopshop_barber-shop_19373_columbus" target="_blank" rel="noopener">Book on Booksy</a></div>
+      <p>Booking runs through TJ&rsquo;s own Booksy page, so confirmations and reminders come straight from the shop.</p>
+      <div class="cta"><a class="btn" href="https://booksy.com/en-us/1010454_tj-s-chopshop_barber-shop_19373_columbus" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-calendar"/></svg>Book on Booksy</a></div>
     </div>
   </section>
 
-  <section id="faq" style="padding-top:20px">
+  <section class="paper" id="faq">
     <div class="wrap faq">
       <h2>Questions</h2>
       <details><summary>Do you take walk ins?</summary><p><span class="tag">placeholder</span> TJ to answer.</p></details>
-      <details><summary>How do I pay?</summary><p><span class="tag">please confirm</span> Booksy lists cash. TJ to confirm cards and tips.</p></details>
+      <details><summary>How do I pay?</summary><p><span class="tag">placeholder</span> TJ to answer: cash, cards, tips.</p></details>
       <details><summary>Where do I park?</summary><p><span class="tag">placeholder</span> TJ to answer.</p></details>
       <details><summary>What if I&rsquo;m running late?</summary><p><span class="tag">placeholder</span> TJ&rsquo;s late and cancellation policy.</p></details>
     </div>
   </section>
 </main>
 
-<div class="pole" aria-hidden="true"></div>
+<div class="stripe" aria-hidden="true"></div>
 <footer>
   <div class="wrap">
-    <div>
-      <div class="brand">TJ&rsquo;s <span style="color:var(--gold)">ChopShop</span></div>
-      <div>1521 17th St, Columbus, IN 47201</div>
+    <div style="display:flex;align-items:center;gap:22px;flex-wrap:wrap">
+      <img src="brand/logos/logo-ivory.svg" width="120" height="120" alt="TJ's ChopShop">
+      <div>1521 17th St<br>Columbus, IN 47201</div>
     </div>
-    <div style="max-width:420px">Also listed on <a href="https://heartofcolumbus.netlify.app/b/tjs-chopshop/">Heart of Columbus</a>, the guide to independent businesses in Columbus, Indiana.</div>
+    <div style="max-width:420px">Also listed on <a href="https://heartofcolumbus.netlify.app/b/tjs-chopshop/">Heart of Columbus</a>, the guide to local businesses in Columbus, Indiana.</div>
   </div>
 </footer>
 

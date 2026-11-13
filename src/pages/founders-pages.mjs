@@ -24,8 +24,8 @@ function foundersPage({ assets }) {
   const direct = directory.filter((b) => b.order.length || b.book.length).length;
   const tiers = [
     ['Listed', 'Free, always', 'Local businesses from public listings, with hours, map, phone and Book or Order buttons that go straight to your own pages.', ['Your listing, fixed and claimed by you', 'Your own booking or ordering, linked direct', 'Your words, your deals, your photos'], ''],
-    ['Founding Member', `$${PRICE} a month`, `Your own website, built and kept current, and a featured, numbered place in the club. ${SPOTS} founding spots, price locked for as long as you stay.`, ['A website on a domain in your name', 'Updates within two business days of a text', 'First in your category, marked ★ Founding Member', `Your founder number on the wall, #1 to #${SPOTS}`], 'is-hot'],
-    ['Ambassador', 'One per section', 'The owner who knows everyone in their corner of town. Bring your neighbors on and we take care of you.', [`A welcome website, yours to keep, ${WELCOME_MONTHS} months of hosting free`, 'Your section up front at launch', 'A say in how your section works', 'Rewards for every business you bring on'], ''],
+    ['Founding Member', `$${PRICE} a month`, `Your own website, built and kept current, and a featured, numbered place in the club. ${SPOTS} founding spots, price locked for as long as you stay.`, ['A website on a domain in your name', 'Updates within two business days of a text', 'First in your category, marked ★ Founding Member', `Your founder number on the wall, #1 to #${SPOTS}`, 'Every new tool we build, at no extra cost'], 'is-hot'],
+    ['Ambassador', 'One per section', 'The owner who knows everyone in their corner of town. Bring your neighbors on and we take care of you.', [`A welcome website, yours to keep, ${WELCOME_MONTHS} months of hosting free`, 'Your section up front at launch', 'A say in how your section works', 'Rewards for every business you bring on', 'Every new tool we build, at no extra cost'], ''],
   ];
   const body = `
 ${header('')}
@@ -46,6 +46,18 @@ ${header('')}
     <p>${blurb}</p>
     <ul>${perks.map((p) => `<li>${p}</li>`).join('')}</ul>
   </div>`).join('')}
+</section>
+
+<section class="wrap ow-how fc-tools" id="tools">
+  <p class="kicker">Every new tool, included</p>
+  <h2>Your membership grows as we build</h2>
+  <p>Heart of Columbus is a software shop as much as a guide. Founders Club members get <b>full access to every new feature as it becomes available, at no additional cost</b>. Not a trial, not a time window: everything we build, all the way to a complete system. On the way:</p>
+  <div class="fc-tool-row">
+    <div><b>Booking of our own</b><span>Appointments, reminders and your calendar, built in, so you can drop the outside booking app if you want to.</span></div>
+    <div><b>Bookkeeping for your trade</b><span>We are already building accounting software for the wedding industry. We will adapt it industry by industry, barbershops included.</span></div>
+    <div><b>A full back office</b><span>The goal: an ERP for every industry, software so complete you do not need any other software to run your business.</span></div>
+  </div>
+  <p class="muted">Your price stays where it is. Each new tool is yours the day it is ready.</p>
 </section>
 
 <section class="wrap ow-how" id="refer">
@@ -80,6 +92,7 @@ ${header('')}
     <li><b>Search.</b> Results rank by what you searched for, never by who pays.</li>
     <li><b>What we write.</b> Members and ambassadors have no say in our coverage, and every member is labeled so readers know.</li>
     <li><b>Your money.</b> We never take a cut of your bookings, orders or sales.</li>
+    <li><b>Your price.</b> New tools and features come with your membership. No upgrade fees, no add on tiers.</li>
   </ul>
   <p><a class="btn" href="/owners/?want=founders#claim">Join the Founders Club ${svg('arrow', 'ic-sm')}</a></p>
 </section>
