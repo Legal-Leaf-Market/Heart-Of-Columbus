@@ -1357,3 +1357,37 @@ a.tag-member:hover { background: #2f3f6b; }
 .fc-tool-row span { font-size: 15px; color: #dfe4f0; }
 .hx-signoff { margin-top: 10px; font-size: 13px; font-variant: small-caps; letter-spacing: .03em; color: var(--muted); }
 .hx-signoff a { color: inherit; }
+/* ---------- Editorial category illustrations (src/editorial-art.mjs) ----------
+   Painted scenes of imaginary places, shown only where a listing has no photo
+   from its owner. The tag is the disclosure that the picture is not the shop:
+   keep it legible wherever the art shows. */
+.bz-cover-ed, .biz-cover-ed { background: #eee5d6; }
+.ed-art { object-fit: cover; }
+.ed-tag { position: absolute; left: 10px; top: 10px; z-index: 1; max-width: calc(100% - 64px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: #faf5eb; color: #443d32; border: 1.5px solid var(--ink); border-radius: 999px; font-size: 11px; font-weight: 700; line-height: 1.35; padding: 2px 8px; }
+.bz-cover-ed .bz-area, .bz-cover-ed .bz-open:not(.is-open) { background: #fff; }
+.sp-cover.bz-cover-ed .ed-tag { top: auto; bottom: 12px; left: 12px; }
+@media (prefers-reduced-motion: reduce) { .bz:hover .ed-art, .sp-card:hover .ed-art { transform: none; } }
+/* The type's own page gives the painting room; mixed rails and grids keep the
+   shared cover height so cards of every type line up. */
+.list-ed .bz-cover { height: auto; aspect-ratio: 16 / 10; }
+.biz-cover-ed { height: auto; min-width: 0; aspect-ratio: 5 / 2; }
+@media (max-width: 600px) { .biz-cover-ed { aspect-ratio: 16 / 10; } }
+.biz-cover-ed .ed-tag { left: 14px; top: 14px; font-size: 12px; padding: 3px 10px; }
+
+/* Type page header with a painted scene: copy on a solid cream panel, the
+   painting beside it (stacked on phones), no arch pattern behind. */
+.band.band-ed { background: #efe6d5; padding-top: 20px; }
+.band-ed::after { display: none; }
+.ed-hero { display: grid; grid-template-columns: minmax(20rem, 1fr) minmax(0, 1.4fr); background: #faf5eb; color: #26231f; border: 2px solid var(--ink); border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--pop); position: relative; z-index: 1; }
+.ed-hero-copy { padding: clamp(22px, 2.8vw, 40px); align-self: center; display: grid; gap: 12px; justify-items: start; }
+.ed-hero-copy .kicker { margin-bottom: 0; }
+.ed-hero-copy h1 { font-size: clamp(34px, 4vw, 52px); line-height: 1.05; }
+.ed-hero-copy .band-sub { margin-top: 0; color: #4a443b; }
+.ed-hero-copy .btn { margin-top: 6px; }
+.ed-hero-art { position: relative; margin: 0; min-height: 280px; border-left: 2px solid var(--ink); }
+.ed-hero-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ed-hero-art .ed-tag { left: auto; right: 12px; top: auto; bottom: 12px; font-size: 12px; padding: 3px 10px; }
+@media (max-width: 860px) {
+  .ed-hero { grid-template-columns: 1fr; }
+  .ed-hero-art { min-height: 0; aspect-ratio: 2 / 1; border-left: 0; border-top: 2px solid var(--ink); }
+}

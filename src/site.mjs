@@ -9,6 +9,7 @@ import { SPOTLIGHT_SLUGS } from './data/spotlight.mjs';
 import { NEWS_LIVE } from './data/paper.mjs';
 import { mediaFor, mediaSrc } from './data/media.mjs';
 import { attrCodes } from './attrs.mjs';
+import { editorialFor, EDITORIAL_CAPTION } from './editorial-art.mjs';
 
 // Cover art for a business type, only when public/art has one for it;
 // otherwise the card shows its emoji on the pattern.
@@ -17,6 +18,12 @@ export const coverArt = (sub, lazy = true) =>
   hasCover(sub)
     ? `<img class="bz-art" width="1600" height="700" decoding="async" src="/art/cover-${sub}.webp" alt=""${lazy ? ' loading="lazy"' : ''}>`
     : '';
+
+// A type's painted scene (src/editorial-art.mjs) for a listing with no owner
+// photo, and the tag that says it is an illustration, not the shop.
+export const editorialImg = (ed, { lazy = true, sizes = '' } = {}) =>
+  `<img class="bz-art ed-art" width="${ed.width}" height="${ed.height}" decoding="async"${sizes ? ` sizes="${sizes}"` : ''} src="/art/${ed.file}" style="object-position:${ed.pos}" alt=""${lazy ? ' loading="lazy"' : ' fetchpriority="high"'}>`;
+export const edTag = `<span class="ed-tag">${EDITORIAL_CAPTION}</span>`;
 
 // Architecture photography from Wikimedia Commons, hotlinked with credit.
 // Every photo is public domain or Creative Commons; see /credits/. The
@@ -135,8 +142,10 @@ export function card(b, { compact = false, note = '' } = {}) {
   const sub = subBySlug[b.sub];
   const area = areaBySlug[b.area];
   const pat = PATTERNS[hash(b.slug) % PATTERNS.length];
-  // The owner's own photo when they have sent one; the illustration otherwise.
+  // The owner's own photo when they have sent one; the illustration otherwise:
+  // the type's painted scene where it has one, its clip art and emoji if not.
   const photo = mediaFor(b.slug)?.cover;
+  const ed = photo ? null : editorialFor(b);
   const tags = [];
   if (b.member) tags.push('<span class="tag tag-member" title="Pays Heart of Columbus for a website and a featured spot">★ Founding Member</span>');
   if (SPOTLIGHT_SLUGS.has(b.slug)) tags.push('<span class="tag tag-spot">★ Spotlight</span>');
@@ -150,9 +159,9 @@ export function card(b, { compact = false, note = '' } = {}) {
   if (b.tempClosed) tags.push('<span class="tag tag-warn">Temporarily closed</span>');
   return `
 <article class="bz${compact ? ' bz-compact' : ''}" data-slug="${b.slug}">
-  <a class="bz-cover ${pat}" href="/b/${b.slug}/" style="--c:${cat.color};--t:${cat.tint}" tabindex="-1" aria-hidden="true">
-    ${photo ? `<img class="bz-art" src="${mediaSrc(b.slug, photo)}" width="${photo.width}" height="${photo.height}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : coverArt(b.sub)}
-    <span class="bz-emoji">${sub.emoji}</span>
+  <a class="bz-cover ${ed ? 'bz-cover-ed' : pat}" href="/b/${b.slug}/" style="--c:${cat.color};--t:${cat.tint}" tabindex="-1" aria-hidden="true">
+    ${photo ? `<img class="bz-art" src="${mediaSrc(b.slug, photo)}" width="${photo.width}" height="${photo.height}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ed ? editorialImg(ed) : coverArt(b.sub)}
+    ${ed ? edTag : `<span class="bz-emoji">${sub.emoji}</span>`}
     ${area ? `<span class="bz-area">${svg('pin', 'ic-xs')}${esc(area.label)}</span>` : ''}
   </a>
   <button type="button" class="bz-save" data-save="${b.slug}" aria-pressed="false" aria-label="Save ${esc(b.name)}">${svg('heart')}</button>
@@ -198,6 +207,8 @@ export const searchIndex = () =>
     ...(b.member ? { m: 1 } : {}),
     ...(attrCodes(b) ? { x: attrCodes(b) } : {}),
     ...(hasCover(b.sub) ? { v: 1 } : {}),
+    // The same painted scene the server-rendered card shows (explore.js).
+    ...(!mediaFor(b.slug)?.cover && editorialFor(b) ? { w: { f: editorialFor(b).file, p: editorialFor(b).pos } } : {}),
   }));
 
 export const breadcrumbs = (items) =>

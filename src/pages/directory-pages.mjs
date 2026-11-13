@@ -2,7 +2,8 @@
 import { page, esc, t } from '../layout.mjs';
 import { directory, CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, km } from '../data/directory.mjs';
 import { PRICE } from '../data/members.mjs';
-import { header, footer, card, rail, svg, PHOTOS, artIcon, coverArt, tel, mapsLink, breadcrumbs } from '../site.mjs';
+import { header, footer, card, rail, svg, PHOTOS, artIcon, coverArt, editorialImg, edTag, tel, mapsLink, breadcrumbs } from '../site.mjs';
+import { editorialFor, editorialHero, EDITORIAL_CAPTION } from '../editorial-art.mjs';
 import { fmtRange, DAY_NAMES } from '../hours.mjs';
 import { MEDIA as MEDIA_ALL, mediaFor, mediaSrc } from '../data/media.mjs';
 import { LANDMARKS } from '../data/landmarks.mjs';
@@ -73,26 +74,41 @@ function categoryPage(cat, sub, { assets }) {
   const multi = cat.subs.length > 1;
   const title = sub && multi ? sub.label : cat.label;
   const others = CATEGORIES.filter((c) => c.slug !== cat.slug);
+  // A type with a painted hero (src/editorial-art.mjs) gets it on its own page
+  // only: copy on a cream panel, the scene beside it, no pattern behind.
+  const hero = sub && multi ? editorialHero(sub.slug) : null;
+  const mapHref = `/explore/?cat=${cat.slug}${sub && multi ? `&sub=${sub.slug}` : ''}&view=map`;
   const body = `
 ${header(cat.slug)}
 <main id="main">
 ${breadcrumbs([['/', 'Home'], ['/explore/', 'Explore'], ...(sub && multi ? [[`/c/${cat.slug}/`, cat.label], ['', sub.label]] : [['', cat.label]])])}
-<section class="band" style="--c:${cat.color};--t:${cat.tint}">
-  <div class="wrap band-row">
+<section class="band${hero ? ' band-ed' : ''}" style="--c:${cat.color};--t:${cat.tint}">
+  ${hero ? `<div class="wrap"><div class="ed-hero">
+    <div class="ed-hero-copy">
+      <p class="kicker">${esc(cat.label)}</p>
+      <h1>${esc(title)} <span class="band-n">${items.length}</span></h1>
+      <p class="band-sub">${esc(cat.blurb)} Independent and in Columbus.</p>
+      <a class="btn btn-ghost" href="${mapHref}">${svg('map')} See them on the map</a>
+    </div>
+    <figure class="ed-hero-art">
+      <img width="${hero.width}" height="${hero.height}" decoding="async" fetchpriority="high" sizes="(max-width: 860px) calc(100vw - 32px), 700px" src="/art/${hero.file}" style="object-position:${hero.pos}" alt="">
+      <figcaption class="ed-tag">${EDITORIAL_CAPTION}</figcaption>
+    </figure>
+  </div></div>` : `<div class="wrap band-row">
     ${artIcon(cat.slug, sub && multi ? sub.emoji : cat.emoji, 'band-ic')}
     <div>
       <p class="kicker">${sub && multi ? esc(cat.label) : 'Category'}</p>
       <h1>${esc(title)} <span class="band-n">${items.length}</span></h1>
       <p class="band-sub">${esc(cat.blurb)} Independent and in Columbus.</p>
     </div>
-    <a class="btn btn-ghost" href="/explore/?cat=${cat.slug}${sub && multi ? `&sub=${sub.slug}` : ''}&view=map">${svg('map')} See them on the map</a>
+    <a class="btn btn-ghost" href="${mapHref}">${svg('map')} See them on the map</a>
     ${cat.slug === 'events' ? `<a class="btn" href="/djs/">🎧 Columbus DJs</a>` : ''}
-  </div>
+  </div>`}
   ${multi ? `<div class="wrap subnav">${[`<a href="/c/${cat.slug}/" class="${!sub ? 'on' : ''}">All ${esc(cat.label.toLowerCase())}</a>`, ...cat.subs.map((s) => `<a href="/c/${cat.slug}/${s.slug}/" class="${sub && sub.slug === s.slug ? 'on' : ''}">${s.emoji} ${esc(s.label)} <small>${directory.filter((b) => b.sub === s.slug).length}</small></a>`)].join('')}</div>` : ''}
 </section>
 ${spotlightSection({ title: `In the spotlight: ${title.toLowerCase()}`, only: (b) => b.cat === cat.slug && (!sub || b.sub === sub.slug) })}
 ${refine(items, { subs: multi && !sub ? cat.subs : null })}
-<section class="wrap list">${listGrid(items)}
+<section class="wrap list${hero ? ' list-ed' : ''}">${listGrid(items)}
   <p class="empty" data-f-empty hidden><img src="/art/empty-search.webp" alt="" width="160" height="160">Nothing matches. Try another neighborhood or clear the filter.</p>
 </section>
 <section class="wrap more-cats">
@@ -149,6 +165,8 @@ function bizPage(b, { assets }) {
   const sub = subBySlug[b.sub];
   const area = areaBySlug[b.area];
   const media = mediaFor(b.slug);
+  // No owner photo: the type's painted scene, if it has one (src/editorial-art.mjs).
+  const ed = media?.cover ? null : editorialFor(b);
   const near = b.ll
     ? directory.filter((x) => x.slug !== b.slug && x.ll).map((x) => [km(b.ll, x.ll), x]).sort((a, c) => a[0] - c[0]).slice(0, 12).map((x) => x[1])
     : [];
@@ -160,9 +178,9 @@ ${header(cat.slug)}
 ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.length > 1 ? [[`/c/${cat.slug}/${sub.slug}/`, sub.label]] : []), ['', b.name]])}
 <section class="wrap biz">
   <div class="biz-main">
-    <div class="biz-cover pat-arch" style="--c:${cat.color};--t:${cat.tint}">
-      ${coverArt(b.sub, false)}
-      <span class="biz-emoji" aria-hidden="true">${sub.emoji}</span>
+    <div class="biz-cover ${ed ? 'biz-cover-ed' : 'pat-arch'}" style="--c:${cat.color};--t:${cat.tint}">
+      ${ed ? editorialImg(ed, { lazy: false, sizes: '(max-width: 960px) 100vw, 780px' }) + edTag : `${coverArt(b.sub, false)}
+      <span class="biz-emoji" aria-hidden="true">${sub.emoji}</span>`}
       ${media?.cover ? `<img class="biz-photo" src="${mediaSrc(b.slug, media.cover)}" width="${media.cover.width}" height="${media.cover.height}" alt="${esc(media.cover.alt)}" loading="lazy" decoding="async" onerror="this.remove()">` : ''}
     </div>
     ${media ? `<p class="fine biz-credit">${esc(media.credit)}, shown with permission.</p>` : `<p class="fine biz-credit">Own ${t(b.name)}? <a href="/owners/?b=${b.slug}&amp;want=photos#claim">Send us photos</a> and we will show them here with your credit. We never copy them from your website.</p>`}
