@@ -177,7 +177,7 @@ for (const b of businesses) {
   all.push({
     slug: uniq(slugify(b.name.replace(/ \(.*\)/, ''))), name: b.name, cat: cat.slug, sub: subSlug,
     type: b.focus, address: b.address, area: areaFromTags(b.area), phone: b.phone || '',
-    website: b.website || '', demo: b.demo || '', ll: FEATURED_LL[b.slug] || null, featured: true,
+    website: b.website || '', demo: b.demo || '', ll: FEATURED_LL[b.slug] || null, pin: FEATURED_LL[b.slug] ? 'approx' : null, featured: true,
     heritage: b.badges.includes('heritage'),
   });
 }
@@ -186,14 +186,14 @@ for (const l of landscape) {
   all.push({
     slug: uniq(slugify(l.name)), name: l.name, cat: hit.cat.slug, sub: hit.sub.slug, type: l.type,
     address: l.address, area: AREA_BY_LABEL[l.area] || '', phone: l.phone, website: '', demo: '',
-    ll: l.ll, featured: false, heritage: false,
+    ll: l.ll, pin: l.ll ? 'listing' : null, featured: false, heritage: false,
   });
 }
 
 for (const a of ADDED) {
   all.push({
     slug: uniq(slugify(a.name)), name: a.name, cat: a.cat, sub: a.sub, type: a.type, address: a.address,
-    area: '', phone: a.phone, website: a.website, demo: '', ll: a.ll || null, featured: false, heritage: false, added: a,
+    area: '', phone: a.phone, website: a.website, demo: '', ll: a.ll || null, pin: a.ll ? 'listing' : null, featured: false, heritage: false, added: a,
   });
 }
 
@@ -229,6 +229,7 @@ for (const b of all) {
   const g = GEO[b.slug];
   if (g) {
     b.ll = [g[0], g[1]];
+    b.pin = 'google';
     if (!b.address && g[2]) b.address = g[2];
   }
   b.tempClosed = !!(w && w.tempClosed);

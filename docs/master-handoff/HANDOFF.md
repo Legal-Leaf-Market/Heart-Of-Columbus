@@ -48,7 +48,13 @@ Legal-Leaf-Market/CrossroadsWeddingCo, Netlify deploys `main`):
    without counting them. Shows a plain warning when the browser blocks storage. Still
    to come from the plan: verified visits and redemption (need a server), a printed
    passport, and the Landmark Trail as its own verified collection.
-4. **Backlog:** `planning/EXECUTION_BACKLOG.md` (shared place contract, downtown spatial
+4. **Place contract v1: DONE** (second session). `src/data/places.mjs` gives all 931
+   businesses and 10 landmarks one validated record (see CLAUDE.md). Pin sources today:
+   499 from Google listings, 356 from public listings, 10 approximate (the hand-built
+   featured cards: ask their owners or geocode them to retire `approx`), 66 with no pin.
+   Not yet moved onto it: the map, list and trail code still read directory rows
+   directly; switch them over one at a time, then build the downtown 3D pilot on it.
+5. **Backlog:** `planning/EXECUTION_BACKLOG.md` (shared place contract, downtown spatial
    pilot, passport and Landmark Trail, merchant pilot). `planning/TRAILS_PASSPORTS_AND_MERCHANTS.md`
    has the detail. Jake holds the full master handoff zip, including the internal product and
    partnership documents deliberately kept out of this public repo.
