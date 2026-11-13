@@ -42,3 +42,23 @@ export function editorialFor(b) {
 }
 
 export const editorialHero = (sub) => EDITORIAL[sub]?.hero || null;
+
+// Section paintings (public/art/sections-v1/, 1440x480 with 768 copies):
+// imaginary scenes, one per browse category, used only as the page header of
+// /c/<cat>/ and of its type pages that have no hero of their own. Never a
+// card fallback: one painting behind every card in a category would read as
+// a photo of each shop. Each is painted with open space on its left for the
+// copy panel; pos keeps the subject in frame. dark: navy copy panel.
+const SEC = (name, pos, dark = false) => ({ file: `sections-v1/${name}-1440.webp`, small: `sections-v1/${name}-768.webp`, width: 1440, height: 480, pos, dark });
+export const SECTION_ART = {
+  'coffee-sweets': SEC('coffee-and-sweets', '74% 50%'),
+  bars: SEC('downtown-after-dark', '80% 50%', true),
+  shopping: SEC('makers-and-markets', '70% 50%'),
+  events: SEC('arts-and-music', '76% 50%'),
+  'things-to-do': SEC('parks-and-trails', '70% 50%'),
+};
+// The Explore page banner (list view only).
+export const EXPLORE_ART = SEC('downtown-day', '74% 50%');
+
+export const sectionHero = (cat) => SECTION_ART[cat] || null;
+

@@ -147,6 +147,7 @@
     if (!list.length) recover();
     var showMap = st.view === 'map';
     $('[data-ex-map]').hidden = !showMap;
+    var art = $('[data-ex-art]'); if (art) art.hidden = showMap;
     $('[data-ex-grid]').innerHTML = list.slice(0, shown).map(card).join('');
     $('[data-ex-more]').hidden = list.length <= shown;
     $('[data-ex-more]').textContent = 'Show ' + Math.min(PAGE, list.length - shown) + ' more';

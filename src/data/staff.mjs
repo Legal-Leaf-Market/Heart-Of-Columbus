@@ -14,10 +14,10 @@
 export const STAFF = {
   'terry-winchester-ii': {
     name: 'Terry Winchester II',
-    role: 'Co-Founder',
+    role: 'Co-Founder and Editor',
     beat: '',
     // Named by Jake Kennedy, 2026-11-13. TODO(owner): a bio in Terry's own words.
-    bio: 'Co-Founder of Heart of Columbus.',
+    bio: 'Co-Founder and editor of Heart of Columbus.',
     email: '',
     editor: true,
   },

@@ -3,7 +3,7 @@ import { page, esc, t } from '../layout.mjs';
 import { directory, CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, km } from '../data/directory.mjs';
 import { PRICE } from '../data/members.mjs';
 import { header, footer, card, rail, svg, PHOTOS, artIcon, coverArt, editorialImg, edTag, tel, mapsLink, breadcrumbs } from '../site.mjs';
-import { editorialFor, editorialHero, EDITORIAL_CAPTION } from '../editorial-art.mjs';
+import { editorialFor, editorialHero, sectionHero, EXPLORE_ART, EDITORIAL_CAPTION } from '../editorial-art.mjs';
 import { fmtRange, DAY_NAMES } from '../hours.mjs';
 import { MEDIA as MEDIA_ALL, mediaFor, mediaSrc } from '../data/media.mjs';
 import { LANDMARKS } from '../data/landmarks.mjs';
@@ -111,7 +111,9 @@ function categoryPage(cat, sub, { assets }) {
   const others = CATEGORIES.filter((c) => c.slug !== cat.slug);
   // A type with a painted hero (src/editorial-art.mjs) gets it on its own page
   // only: copy on a cream panel, the scene beside it, no pattern behind.
-  const hero = sub && multi ? editorialHero(sub.slug) : null;
+  // Otherwise the category's section painting, on the category page and on
+  // any of its type pages without a painting of their own.
+  const hero = (sub && multi ? editorialHero(sub.slug) : null) || sectionHero(cat.slug);
   const mapHref = `/explore/?cat=${cat.slug}${sub && multi ? `&sub=${sub.slug}` : ''}&view=map`;
   const views = Boolean(sub && multi && VIEW_TYPES.has(sub.slug));
   const body = `
@@ -119,15 +121,16 @@ ${header(cat.slug)}
 <main id="main">
 ${breadcrumbs([['/', 'Home'], ['/explore/', 'Explore'], ...(sub && multi ? [[`/c/${cat.slug}/`, cat.label], ['', sub.label]] : [['', cat.label]])])}
 <section class="band${hero ? ' band-ed' : ''}" style="--c:${cat.color};--t:${cat.tint}">
-  ${hero ? `<div class="wrap"><div class="ed-hero">
+  ${hero ? `<div class="wrap"><div class="ed-hero${hero.dark ? ' ed-hero-dark' : ''}">
     <div class="ed-hero-copy">
       <p class="kicker">${esc(cat.label)}</p>
       <h1>${esc(title)} <span class="band-n">${items.length}</span></h1>
       <p class="band-sub">${esc(cat.blurb)} Independent and in Columbus.</p>
       <a class="btn btn-ghost" href="${mapHref}"${views ? ' data-v-go="map"' : ''}>${svg('map')} See them on the map</a>
+      ${cat.slug === 'events' ? `<a class="btn" href="/djs/">🎧 Columbus DJs</a>` : ''}
     </div>
     <figure class="ed-hero-art">
-      <img width="${hero.width}" height="${hero.height}" decoding="async" fetchpriority="high" sizes="(max-width: 860px) calc(100vw - 32px), 700px" src="/art/${hero.file}" style="object-position:${hero.pos}" alt="">
+      <img width="${hero.width}" height="${hero.height}" decoding="async" fetchpriority="high" sizes="(max-width: 860px) calc(100vw - 32px), 700px"${hero.small ? ` srcset="/art/${hero.small} 768w, /art/${hero.file} ${hero.width}w"` : ''} src="/art/${hero.file}" style="object-position:${hero.pos}" alt="">
       <figcaption class="ed-tag">${EDITORIAL_CAPTION}</figcaption>
     </figure>
   </div></div>` : `<div class="wrap band-row">
@@ -319,6 +322,10 @@ function explorePage({ assets }, { saved = false } = {}) {
   const body = `
 ${header(saved ? 'saved' : 'explore')}
 <main id="main" class="explore" data-explore${saved ? ' data-saved-only' : ''}>
+  ${saved ? '' : `<figure class="wrap ex-art" data-ex-art><div class="ex-art-in">
+    <img width="${EXPLORE_ART.width}" height="${EXPLORE_ART.height}" decoding="async" sizes="(max-width: 1200px) calc(100vw - 32px), 1168px" srcset="/art/${EXPLORE_ART.small} 768w, /art/${EXPLORE_ART.file} ${EXPLORE_ART.width}w" src="/art/${EXPLORE_ART.file}" style="object-position:${EXPLORE_ART.pos}" alt="">
+    <figcaption class="ed-tag">${EDITORIAL_CAPTION}</figcaption>
+  </div></figure>`}
   <div class="ex-top wrap">
     <div>
       <p class="kicker">${saved ? 'Your list' : 'Explore'}</p>

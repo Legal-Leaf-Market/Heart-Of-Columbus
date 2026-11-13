@@ -1,7 +1,8 @@
 # Handoff for the next Claude session (2026-11-13)
 
 Read this first, then `CLAUDE.md`. Jacob Kennedy (Jake) is Co-Founder and Chief
-Editor of Heart of Columbus; Terry Winchester II is the other Co-Founder.
+Editor of Heart of Columbus; Terry Winchester II is the other Co-Founder and an editor (`terry-winchester-ii`,
+`editor: true`); he signs Jake's own pieces under the two-person rule.
 
 ## What shipped today (all live, all on `main`)
 
@@ -31,14 +32,13 @@ Legal-Leaf-Market/CrossroadsWeddingCo, Netlify deploys `main`):
 
 ## Next, in order
 
-1. **Section art** (task started, not finished). The eight WebP scenes are already in
-   `public/art/sections-v1/`; instructions in `section-art/CLAUDE_CODE_HANDOFF.md`. Plan
-   agreed: a category-level hero reusing the barbershop `ed-hero` pattern
-   (`src/editorial-art.mjs`, `categoryPage` in `src/pages/directory-pages.mjs`):
-   coffee-sweets = coffee-and-sweets, bars = downtown-after-dark (navy copy panel),
-   shopping = makers-and-markets, events = arts-and-music, things-to-do = parks-and-trails,
-   Explore = downtown-day. Use `srcset` 768/1440. Do NOT use one painting as every card's
-   fallback in a category. Tag each as an illustration.
+1. **Section art: DONE** (second session, 2026-11-13). `SECTION_ART` in
+   `src/editorial-art.mjs` gives `/c/coffee-sweets/`, `/c/bars/` (navy panel),
+   `/c/shopping/`, `/c/events/` and `/c/things-to-do/` a painted header, also used on
+   their type pages that have no painting of their own (barbers keeps its own). Explore
+   shows `downtown-day` as a strip in list view, hidden on the map. `srcset` 768/1440,
+   every use tagged "Category illustration", never a card fallback. The two background
+   textures (`cream-botanical`, `midnight-architectural`) are unused so far.
 2. **Approve the field guides** when Jake says so.
 3. **Backlog:** `planning/EXECUTION_BACKLOG.md` (shared place contract, downtown spatial
    pilot, passport and Landmark Trail, merchant pilot). `planning/TRAILS_PASSPORTS_AND_MERCHANTS.md`
