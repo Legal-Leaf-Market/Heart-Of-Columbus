@@ -146,12 +146,16 @@ for (const slug of DRAFTS) {
     await writeFile(new URL(f, dest), html);
   }
   // Graphics the draft points at: img/ (owner photos), brand/ (logos, icons,
-  // artwork), motion/ (a draft's own animation CSS and JS) and audio/ (its
-  // soundtrack, loaded only on play). Brand docs and
+  // artwork), motion/ (a draft's own animation CSS and JS), audio/ (its
+  // soundtrack, loaded only on play) and app/ (install icons). Brand docs and
   // any page inside these folders stay in the repo.
   const asset = (f) => !/\.(gitkeep|md|html)$/.test(f) && !/[\\/]docs([\\/]|$)/.test(f);
-  for (const dir of ['img/', 'brand/', 'motion/', 'audio/']) {
+  for (const dir of ['img/', 'brand/', 'motion/', 'audio/', 'app/']) {
     if (existsSync(new URL(dir, src))) await cp(new URL(dir, src), new URL(dir, dest), { recursive: true, filter: asset });
+  }
+  // An installable draft: its app manifest and service worker sit at its root.
+  for (const f of ['manifest.webmanifest', 'sw.js']) {
+    if (existsSync(new URL(f, src))) await cp(new URL(f, src), new URL(f, dest));
   }
 }
 console.log(`Built dist/: ${pages.length} pages`);

@@ -1,0 +1,31 @@
+/* "Get the app" pill and its instructions sheet. */
+.tj-install { position: fixed; right: 20px; bottom: 20px; z-index: 40; display: flex; align-items: center; background: var(--ivory); border: 1px solid #bc9471; border-radius: 40px; box-shadow: 0 12px 30px #211f1c40; }
+.tj-install-open { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 7px 6px 7px 8px; border: 0; background: none; color: var(--char); font: 700 15px Arial, sans-serif; cursor: pointer; }
+.tj-install-open img { width: 32px; height: 32px; border-radius: 8px; }
+.tj-install-x { width: 40px; height: 48px; border: 0; background: none; color: var(--muted); font: 22px/1 Arial, sans-serif; cursor: pointer; border-radius: 0 40px 40px 0; }
+.tj-install :is(button):focus-visible { outline: 3px solid #bc9471; outline-offset: 2px; border-radius: 40px; }
+@media (max-width: 820px) {
+  .tj-install { right: 16px; bottom: 84px; }
+  .tj-install-open { font-size: 14px; gap: 8px; padding-right: 2px; }
+  .tj-install-open img { width: 28px; height: 28px; }
+  .tj-install-x { width: 34px; }
+}
+@media (max-width: 380px) { .tj-install-open span { display: none; } }
+
+.tj-install-sheet { width: min(520px, calc(100vw - 32px)); max-height: calc(100dvh - 48px); overflow: auto; padding: 28px 26px 24px; border: 1px solid #bc9471; border-radius: 10px; background: var(--ivory); color: var(--char); box-shadow: 0 30px 80px #000a; font: 16px/1.5 Arial, sans-serif; }
+.tj-install-sheet::backdrop { background: #211f1cb3; backdrop-filter: blur(3px); }
+.tj-install-sheet h2 { font: 700 26px/1.15 Georgia, serif; margin: 12px 0 8px; }
+.tj-install-sheet h3 { font: 700 17px Georgia, serif; margin: 18px 0 6px; color: var(--ox); }
+.tj-install-lede { margin: 0 0 6px; color: var(--muted); }
+.tj-install-icon { width: 64px; height: 64px; border-radius: 14px; box-shadow: 0 6px 18px #831d2c40; }
+.tj-install-sheet ol { margin: 0; padding-left: 22px; }
+.tj-install-sheet li { margin: 6px 0; }
+.tj-install-now { margin: 14px 0 4px; width: 100%; }
+.tj-install-now[hidden] { display: none; }
+.tj-install-alt { opacity: .75; }
+.tj-install-close { position: absolute; top: 10px; right: 10px; margin: 0; }
+.tj-install-close button { width: 44px; height: 44px; border: 0; background: none; font: 28px/1 Arial, sans-serif; color: var(--muted); cursor: pointer; }
+.tj-install-other { margin-top: 20px; border-top: 1px solid #d3c5b1; padding-top: 12px; }
+.tj-install-other summary { cursor: pointer; font-weight: 700; color: var(--char); }
+.tj-install-other h3 { font-size: 15px; }
+.tj-install-other ol { font-size: 14px; color: var(--muted); }
