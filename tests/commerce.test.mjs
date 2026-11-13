@@ -95,3 +95,8 @@ test("Booksy's own help, trust and blog pages are never a business's booking lin
   for (const [slug, c] of Object.entries(COMMERCE))
     for (const l of [...c.book, ...c.order]) assert.doesNotMatch(l.url, /\/\/(?:help|support|biz|trust|blog|www|dl|partners?)\.booksy\.com/, slug);
 });
+
+test('a listing site that writes pages about other businesses is never their website', async () => {
+  const { WEB } = await import('../src/data/web.mjs');
+  for (const [slug, w] of Object.entries(WEB)) if (w.website) assert.doesNotMatch(new URL(w.website).hostname, /(?:^|\.)leanu\.pw$/, slug);
+});

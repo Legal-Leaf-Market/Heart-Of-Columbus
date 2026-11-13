@@ -11,11 +11,15 @@ const clean = (u) => {
     return x.toString();
   } catch { return ''; }
 };
+// Hosts that put up pages about other people's businesses. A listing that
+// names one as its website has no website we can vouch for.
+const NOT_THEIRS = /(?:^|\.)leanu\.pw$/i;
+const theirs = (u) => { try { return !NOT_THEIRS.test(new URL(u).hostname); } catch { return false; } };
 const out = {};
 for (const [slug, r] of Object.entries(raw).sort()) {
   if (r.miss || !r.h) continue;
   const row = {};
-  if (r.w) row.website = clean(r.w);
+  if (r.w && theirs(r.w)) row.website = clean(r.w);
   if (r.p) row.phone = r.p;
   if (r.o && r.o.length) row.actions = r.o.map(([l, u]) => [l, clean(u)]).filter(([, u]) => u);
   if (r.x) row.closed = true;

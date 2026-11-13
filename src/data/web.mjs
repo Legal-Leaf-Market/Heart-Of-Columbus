@@ -1296,7 +1296,6 @@ export const WEB = {
   "phone": "+18123716966"
  },
  "gills-barber-shop": {
-  "website": "https://leanu.pw/gill-s-barber-shop-3yngbg4",
   "phone": "+18123767128"
  },
  "ginger-ink-boutique": {
