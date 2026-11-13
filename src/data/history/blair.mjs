@@ -6,7 +6,7 @@
 const CHECKED = '2026-10-26';
 const R = 'https://www.therepublic.com/';
 const HAVEN = 'Disclosure: Jacob Kennedy, the publisher of Heart of Columbus, volunteers at this church, which he tells us now goes by Haven United Methodist Church, and is joining its staff as music director.';
-const UNSEEN = 'We are confirming with Brian Blair that this story is his before it runs. The original page we read did not show its byline.';
+const UNSEEN = 'We are confirming with Brian Blair that this story is his: the original page we read did not show its byline.';
 
 const x = ({ date, headline, path, seen, note, ...o }) => ({
   checked: CHECKED, section: 'faith', kind: 'tribute', when: date.slice(0, 4),

@@ -17,6 +17,6 @@ test('every owner preview is noindex, on the never-index list, and says it is a 
       assert.match(html, /<meta name="robots" content="noindex, nofollow">/, `${slug}/${f}`);
       assert.ok(neverIndexed(`preview/${slug}/${f}`), `${slug}/${f}`);
     }
-    assert.match(readFileSync(new URL(`${slug}/index.html`, dist), 'utf8'), /Draft website/, slug);
+    assert.match(readFileSync(new URL(`${slug}/index.html`, dist), 'utf8'), /Draft (website|for discussion)/, slug);
   }
 });

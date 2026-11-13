@@ -126,3 +126,4 @@
   .kd-screen { background: none; border: 0; box-shadow: none; }
   .kd img { filter: none; }
 }
+.kd .hx-signoff { color: var(--kd-gray, #555); }

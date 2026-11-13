@@ -164,7 +164,7 @@ const fake = { ...good, slug: 'wiring-check', href: '/news/2026/11/wiring-check/
 test('NewsArticle JSON-LD has authors with links, offset times and image crops', () => {
   const ld = newsArticleLd({ ...fake, bylines: ['jacob-kennedy'], sectionName: 'Local' }, { people: [person('jacob-kennedy')], paper: PAPER });
   assert.equal(ld['@type'], 'NewsArticle');
-  assert.deepEqual(ld.author, [{ '@type': 'Person', name: 'Jacob Kennedy', url: ld.author[0].url }]);
+  assert.deepEqual(ld.author, [{ '@type': 'Person', name: 'Jake Kennedy', url: ld.author[0].url }]);
   assert.match(ld.author[0].url, /\/staff\/jacob-kennedy\/$/);
   assert.match(ld.datePublished, /-05:00$/);
   assert.equal(ld.dateModified, ld.datePublished);

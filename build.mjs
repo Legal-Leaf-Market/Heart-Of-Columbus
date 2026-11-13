@@ -39,7 +39,7 @@ import { LAUNCH, indexable, ROBOTS_META, headersFile, robotsTxt, urlPath } from 
 
 const root = new URL('./', import.meta.url);
 // Owner draft sites served at /preview/<slug>/ (see the end of this file).
-const DRAFTS = ['tjs-chopshop'];
+const DRAFTS = ['tjs-chopshop', 'chamber-pilot'];
 const out = new URL('dist/', root);
 const hash = (buf) => createHash('sha256').update(buf).digest('hex').slice(0, 10);
 

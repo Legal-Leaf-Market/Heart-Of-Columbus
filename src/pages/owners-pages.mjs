@@ -36,7 +36,7 @@ ${header('')}
 <section class="wrap ow-how ow-members" id="members">
   <p class="kicker">Founders Club</p>
   <h2>Launch Heart of Columbus with us</h2>
-  <p>Your listing here is free and stays free. Founding Members pay $${PRICE} a month for their own website, kept current, and a numbered place on the Founders Wall. Every new tool we build comes with it at no extra cost. One owner per section is its Ambassador. ${SPOTS - Object.keys(MEMBERS).length} of ${SPOTS} founding spots open.</p>
+  <p>Your listing here is free and stays free. Founding Members pay $${PRICE} a month for their own website, kept current, and a numbered place on the Founders Wall. Every new tool we build comes with it at no extra cost. Cancel any time, and your site goes with you to any host. One owner per section is its Ambassador. ${SPOTS - Object.keys(MEMBERS).length} of ${SPOTS} founding spots open.</p>
   <p><a class="btn" href="/founders-club/">See the Founders Club ${svg('arrow', 'ic-sm')}</a></p>
 </section>
 <section class="wrap ow-how">

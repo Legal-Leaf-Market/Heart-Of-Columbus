@@ -12,12 +12,21 @@
 //   },
 
 export const STAFF = {
+  'terry-winchester-ii': {
+    name: 'Terry Winchester II',
+    role: 'Co-Founder',
+    beat: '',
+    // Named by Jake Kennedy, 2026-11-13. TODO(owner): a bio in Terry's own words.
+    bio: 'Co-Founder of Heart of Columbus.',
+    email: '',
+    editor: true,
+  },
   'jacob-kennedy': {
-    name: 'Jacob Kennedy',
-    role: 'Publisher',
+    name: 'Jake Kennedy',
+    role: 'Co-Founder and Chief Editor',
     beat: '',
     // TODO(owner): a bio in your own words, and the public newsroom email.
-    bio: 'Publisher of Heart of Columbus.',
+    bio: 'Co-Founder of Heart of Columbus and its Chief Editor.',
     email: '',
     // Acting editor until one is hired, so other people's stories can be
     // approved. The publisher's own pieces still need a second person.
