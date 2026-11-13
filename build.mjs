@@ -145,10 +145,11 @@ for (const slug of DRAFTS) {
     if (hits.length) { console.error(`Visible dash in sites/${slug}/${f}: "${hits[0]}"`); process.exit(1); }
     await writeFile(new URL(f, dest), html);
   }
-  // Graphics the draft points at: img/ (owner photos) and brand/ (logos, icons,
-  // artwork). Brand docs and any page inside these folders stay in the repo.
+  // Graphics the draft points at: img/ (owner photos), brand/ (logos, icons,
+  // artwork) and motion/ (a draft's own animation CSS and JS). Brand docs and
+  // any page inside these folders stay in the repo.
   const asset = (f) => !/\.(gitkeep|md|html)$/.test(f) && !/[\\/]docs([\\/]|$)/.test(f);
-  for (const dir of ['img/', 'brand/']) {
+  for (const dir of ['img/', 'brand/', 'motion/']) {
     if (existsSync(new URL(dir, src))) await cp(new URL(dir, src), new URL(dir, dest), { recursive: true, filter: asset });
   }
 }
