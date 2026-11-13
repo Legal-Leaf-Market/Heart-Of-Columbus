@@ -40,7 +40,15 @@ Legal-Leaf-Market/CrossroadsWeddingCo, Netlify deploys `main`):
    every use tagged "Category illustration", never a card fallback. The two background
    textures (`cream-botanical`, `midnight-architectural`) are unused so far.
 2. **Approve the field guides** when Jake says so.
-3. **Backlog:** `planning/EXECUTION_BACKLOG.md` (shared place contract, downtown spatial
+3. **Passport v1: DONE** (second session). `/passport/` collects every trail's stamps
+   (`public/js/passport.js`, tests in `tests/passport.test.mjs`): digital discoveries on
+   the honor system, labeled "not a verified visit" and "can't be redeemed". Versioned
+   save/load file (`heart-of-columbus-passport`, v1); loading only adds, refuses bad,
+   foreign, newer or oversized files, and keeps stamps for stops that left a trail
+   without counting them. Shows a plain warning when the browser blocks storage. Still
+   to come from the plan: verified visits and redemption (need a server), a printed
+   passport, and the Landmark Trail as its own verified collection.
+4. **Backlog:** `planning/EXECUTION_BACKLOG.md` (shared place contract, downtown spatial
    pilot, passport and Landmark Trail, merchant pilot). `planning/TRAILS_PASSPORTS_AND_MERCHANTS.md`
    has the detail. Jake holds the full master handoff zip, including the internal product and
    partnership documents deliberately kept out of this public repo.

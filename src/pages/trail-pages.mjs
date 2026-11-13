@@ -31,7 +31,7 @@ ${breadcrumbs([['/', 'Home'], ['/visit/', 'Plan your visit'], ['/trails/', 'Trai
   <p class="lede">${t(trail.line)}</p>
   <p class="vs-note">${svg('globe', 'ic-sm')}<span>${esc(NOT_A_PROGRAM)}</span></p>
   <p class="tl-count" data-trail-count aria-live="polite">${stops.length} stops</p>
-  <p class="btns"><a class="btn btn-sm" href="/saved/?ids=${stops.map((s) => encodeURIComponent(s.id)).join(',')}">${svg('map', 'ic-sm')} Open as a list and map</a><button type="button" class="btn btn-sm btn-ghost" data-save-all="${esc(stops.map((s) => s.id).join(','))}">${svg('heart', 'ic-sm')} <span>Save every stop</span></button><button type="button" class="btn btn-sm btn-ghost" data-trail-print>Print the stamp card</button></p>
+  <p class="btns"><a class="btn btn-sm" href="/saved/?ids=${stops.map((s) => encodeURIComponent(s.id)).join(',')}">${svg('map', 'ic-sm')} Open as a list and map</a><button type="button" class="btn btn-sm btn-ghost" data-save-all="${esc(stops.map((s) => s.id).join(','))}">${svg('heart', 'ic-sm')} <span>Save every stop</span></button><button type="button" class="btn btn-sm btn-ghost" data-trail-print>Print the stamp card</button><a class="btn btn-sm btn-ghost" href="/passport/">Your passport</a></p>
 </section>
 <ol class="wrap tp-stops" data-trail="${trail.slug}">
   ${stops.map((s, i) => `<li class="tp-stop">
@@ -79,6 +79,7 @@ ${breadcrumbs([['/', 'Home'], ['/visit/', 'Plan your visit'], ['', 'Trails']])}
   <h1>Columbus, one stop at a time</h1>
   <p class="lede">Tacos, coffee, local pours and the landmarks you can see from the street. Pick a trail, mark each place as you go, and print the card if you like paper.</p>
   <p class="vs-note">${svg('globe', 'ic-sm')}<span>${esc(NOT_A_PROGRAM)}</span></p>
+  <p class="btns"><a class="btn btn-sm" href="/passport/">See your passport</a></p>
 </section>
 ${trailCards({ title: 'Pick a trail' })}
 </main>
@@ -90,7 +91,57 @@ ${footer()}`;
   });
 }
 
+// The passport: every trail's stamp card in one place (public/js/passport.js).
+// Digital discoveries on the honor system, kept in this browser; a saved file
+// carries them to another device. Not a verified visit, not a reward.
+export const PASSPORT_NOTE = 'Every stamp here is a digital discovery on the honor system: you marked it yourself. It is not a verified visit, it can’t be redeemed for anything, and no business has joined a program. Your passport lives only in this browser until you save a copy.';
+
+function passportPage({ assets }) {
+  const data = TRAILS.map((x) => ({ slug: x.slug, ids: trailStops(x).map((s) => s.id) }));
+  const body = `
+${header('visit')}
+<main id="main">
+${breadcrumbs([['/', 'Home'], ['/visit/', 'Plan your visit'], ['/trails/', 'Trails'], ['', 'Your passport']])}
+<section class="wrap tp-head" data-passport>
+  <p class="kicker kicker-pill">Columbus passport</p>
+  <h1>Your Columbus passport</h1>
+  <p class="lede">All your trail stamps in one place. Mark stops on any trail page and they show up here.</p>
+  <p class="vs-note">${svg('globe', 'ic-sm')}<span>${esc(PASSPORT_NOTE)}</span></p>
+  <p class="vs-note pp-warn" data-pp-nostore hidden>This browser isn’t letting the site keep anything, so stamps can’t be saved here. Private browsing often does this. Open the site in a regular window to use your passport.</p>
+  <p class="tl-count" data-pp-total aria-live="polite">${data.reduce((n, x) => n + x.ids.length, 0)} stops on ${data.length} trails</p>
+</section>
+<section class="wrap pp-grid">
+  ${TRAILS.map((x) => `<a class="pp-card" href="/trails/${x.slug}/" data-pp-trail="${x.slug}">
+    <span class="yw-day">${esc(x.kicker)}</span>
+    <strong>${t(x.title)}</strong>
+    <span class="pp-meter" aria-hidden="true"><span data-pp-bar></span></span>
+    <span class="pp-n" data-pp-n>0 of ${trailStops(x).length}</span>
+    <span class="pp-older fine" data-pp-older hidden></span>
+  </a>`).join('')}
+</section>
+<section class="wrap tp-foot">
+  <h2>Keep a copy</h2>
+  <p>Your stamps stay in this browser. To move them to another phone or browser, or to keep them safe if you clear your history, save a copy and load it there. Loading a copy adds its stamps to the ones you already have; it never removes any.</p>
+  <p class="btns">
+    <button type="button" class="btn btn-sm" data-pp-save data-pp-needs-store disabled>Save a copy</button>
+    <label class="btn btn-sm btn-ghost pp-load">Load a copy<input type="file" accept="application/json,.json" data-pp-load data-pp-needs-store></label>
+    <button type="button" class="btn btn-sm btn-ghost" data-pp-clear hidden>Clear my passport</button>
+  </p>
+  <p class="pp-status" data-pp-status role="status" aria-live="polite"></p>
+  <p class="fine">The file holds only which stops you marked, by trail. No name, no location history, nothing sent to us. ${esc(FOOT)}</p>
+</section>
+<script type="application/json" id="passport-data">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>
+</main>
+${footer()}`;
+  return page({
+    title: 'Your Columbus passport | Heart of Columbus',
+    description: 'Every Columbus, Indiana trail stamp you have marked, in one place, with a copy you can save and carry to another device.',
+    body, scripts: ['site.js', 'passport.js'], styles, assets,
+  });
+}
+
 export const trailPages = (ctx) => [
+  { path: 'passport/index.html', html: passportPage(ctx) },
   { path: 'trails/index.html', html: indexPage(ctx) },
   ...TRAILS.map((x) => ({ path: `trails/${x.slug}/index.html`, html: trailPage(x, ctx) })),
 ];

@@ -1560,3 +1560,21 @@ a.tag-member:hover { background: #2f3f6b; }
 .hx-related li { margin: 5px 0; }
 .hx-art { background: #f6f1e7; border-radius: 10px; padding: 10px 10px 4px; }
 .hx-art img { width: 100%; max-width: 420px; height: auto; margin: 0 auto; display: block; object-fit: contain; }
+
+/* ---------- Columbus passport (/passport/) ---------- */
+.pp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; padding-bottom: 8px; }
+.pp-card { display: grid; gap: 8px; padding: 16px 18px; background: var(--surface); color: var(--ink); border: 2px solid var(--ink); border-radius: var(--r-lg); box-shadow: 3px 3px 0 var(--ink); text-decoration: none; }
+.pp-card strong { font-size: 19px; line-height: 1.2; }
+.pp-meter { display: block; height: 10px; border: 1.5px solid var(--ink); border-radius: 999px; background: var(--paper); overflow: hidden; }
+.pp-meter span { display: block; height: 100%; width: 0; background: var(--brand); transition: width .3s; }
+.pp-n { font-weight: 800; }
+.pp-done { background: #fbf3dc; }
+.pp-done .pp-n::after { content: ' · done'; color: var(--brand); }
+.pp-warn { border-color: var(--brand); }
+.pp-load { position: relative; cursor: pointer; }
+.pp-load input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
+.pp-load:focus-within { outline: 3px solid var(--brand); outline-offset: 2px; }
+.pp-status { min-height: 1.5em; font-weight: 700; }
+@media print { .pp-load, [data-pp-save], [data-pp-clear] { display: none; } }
+.pp-grid + .tp-foot { margin-top: 28px; }
+.pp-grid + .tp-foot h2 { font-size: clamp(22px, 3vw, 28px); margin-bottom: 6px; }
