@@ -179,7 +179,8 @@
     var pts = Object.keys(pins).map(function (s) { var p = pins[s].getLatLng(); return [p.lat, p.lng]; });
     var near = pts.filter(function (p) { return Math.abs(p[0] - 39.2014) < 0.06 && Math.abs(p[1] + 85.9214) < 0.08; });
     var use = near.length > 2 ? near : pts;
-    if (use.length) map.fitBounds(use, { padding: [44, 44], maxZoom: 16 });
+    // Room above the pins for the badges' height and the search toggle.
+    if (use.length) map.fitBounds(use, { paddingTopLeft: [44, 92], paddingBottomRight: [44, 28], maxZoom: 16 });
     framed = true;
   }
   function hotCards(g, on) {
@@ -311,6 +312,7 @@
     }
   });
   document.addEventListener('hoc:filtered', function () { if (items.length) render(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && map && st.view === 'map') map.closePopup(); });
   // Sticky offsets follow the real header height (it wraps on phones).
   var hdr = $('.hdr');
   var measure = function () {
