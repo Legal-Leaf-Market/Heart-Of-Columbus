@@ -16,6 +16,7 @@ import { GEO } from './geo.mjs';
 import { ADDED } from './added.mjs';
 import { MEMBERS } from './members.mjs';
 import { excludedForOwnership } from './ownership.mjs';
+import { OWN_SITE } from './own-site.mjs';
 
 // Top-level categories, in display order. `subs` map to the landscape's
 // vertical/filter pairs. Emoji are the fallback icon until /art/ assets land.
@@ -234,6 +235,14 @@ for (const b of all) {
   }
   b.tempClosed = !!(w && w.tempClosed);
   b.dora = DORA_SLUGS.has(b.slug);
+  // The business's own website, where it says more than the sweep (own-site.mjs).
+  const own = OWN_SITE[b.slug];
+  b.links = own?.links || [];
+  b.also = own?.also || [];
+  if (own) {
+    if (own.address) b.address = own.address;
+    if (own.hours) { b.hours = own.hours; b.hoursFrom = { url: own.source, checked: own.checked }; }
+  }
 }
 
 // Neighborhood for places the listings did not tag: the most common area
@@ -257,6 +266,16 @@ for (const b of all) {
 // Every record before filtering, so tests can check ownership entries name real rows.
 export const everyRecord = all;
 export const directory = all.filter((b) => (b.featured || !(WEB[b.slug] && WEB[b.slug].closed)) && !excludedForOwnership(b.slug)).sort((a, b) => a.name.replace(/^the /i, '').localeCompare(b.name.replace(/^the /i, '')));
+// In a section: its home section, or one its own website shows it also serves
+// (own-site.mjs `also`). Category pages, the hub tiles and explore all use this.
+export const inSection = (b, cat, sub = '') =>
+  (b.cat === cat && (!sub || b.sub === sub)) || (b.also || []).some((a) => a.cat === cat && (!sub || a.sub === sub));
+// How a cross-listed business shows on that section's page: its card in that
+// section's colors with the type its own page gives for that service.
+export const asListedIn = (b, cat) => {
+  const a = b.cat === cat ? null : (b.also || []).find((x) => x.cat === cat);
+  return a ? { ...b, cat: a.cat, sub: a.sub, type: a.type, alsoFrom: b.cat } : b;
+};
 export const catBySlug = Object.fromEntries(CATEGORIES.map((c) => [c.slug, c]));
 export const subBySlug = Object.fromEntries(CATEGORIES.flatMap((c) => c.subs.map((s) => [s.slug, { ...s, cat: c }])));
 export const areaBySlug = Object.fromEntries(AREAS.map((a) => [a.slug, a]));

@@ -13,7 +13,7 @@
 // never sent to the real business.
 export const PARTNERS = {};
 
-export const DEMO_SLUGS = ['gills', 'tacolumbus', 'big-cheese', 'tasty-express', 'rohdes'];
+export const DEMO_SLUGS = ['gills', 'tacolumbus', 'big-cheese', 'tasty-express', 'rohdes', 'cookie-paradise'];
 
 // Share of the counter total Heart of Columbus would charge a partner per
 // collected pickup. Zero while the site says "no commission"; Herbal Leaf
