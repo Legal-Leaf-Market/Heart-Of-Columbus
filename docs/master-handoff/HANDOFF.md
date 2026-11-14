@@ -72,6 +72,22 @@ Legal-Leaf-Market/CrossroadsWeddingCo, Netlify deploys `main`):
   film trail keep the church's name as written, and the 2008 photo is captioned as North
   Christian Church.
 
+## Cookie Paradise, Founding Member #1 (third session, 2026-11-13)
+
+- Jake confirmed the owner (Trung) joined and paid: `cookie-paradise-llc` is in
+  `members.mjs` (since 2026-11-13; correct the date if he signed earlier). Badge, first in
+  Coffee & Sweets, disclosure line, #1 on the Founders Wall.
+- `src/data/own-facts.mjs`: facts a business publishes on its own site beat the sweep. His
+  listing now shows the trailer at 3950 25th St (Holiday Center lot) and his own hours
+  (Tue to Fri 10 to 6, Sat 10 to 8) instead of the Chamber's 3346 Cox Ln and Google's hours.
+- Live shops (`cart.js`) show only items in stock AND photographed (two of his had no photo).
+- Draft site and member sheet: `sites/cookie-paradise/` at `/preview/cookie-paradise/` and
+  `/preview/cookie-paradise/pitch.html`. Menu reads `/api/shop` live; checkout is his own
+  Shopify cart; "Reserve for pickup" makes demo tickets (`cookie-paradise` in DEMO_SLUGS).
+- Crossroads Wedding Co. listing now carries its tie to Jake, and the cookie site discloses it.
+- Open with Trung: approve the draft, send photos, fix his Google hours, where the site lives,
+  and whether to turn on a real pickup counter (add him to `partners.mjs` plus a board key).
+
 ## Open decisions for Jake
 
 - Three barbers whose Booksy names or addresses differ from the directory (see PR #57).

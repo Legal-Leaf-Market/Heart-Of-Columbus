@@ -25,7 +25,7 @@ export const config = { path: '/api/pickup' };
 const TTL_DAYS = 30; // a ticket is a plan, not an archive
 const json = (body, status = 200) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
 const clean = (s, max) => String(s ?? '').replace(/[\u0000-\u001f\u007f]/g, ' ').trim().slice(0, max);
-const DEMO_NAMES = { gills: "Gill's Barber Shop", tacolumbus: 'TaColumbus', 'big-cheese': 'The Big Cheese', 'tasty-express': 'Tasty Express', rohdes: "Rohde's Family Diner" };
+const DEMO_NAMES = { gills: "Gill's Barber Shop", tacolumbus: 'TaColumbus', 'big-cheese': 'The Big Cheese', 'tasty-express': 'Tasty Express', rohdes: "Rohde's Family Diner", 'cookie-paradise': 'Cookie Paradise' };
 
 // A partner's counter board key lives in the HOC_BOARD_KEYS environment
 // variable on Netlify, as JSON: {"<slug>": "<long random key>"}. Never in git.

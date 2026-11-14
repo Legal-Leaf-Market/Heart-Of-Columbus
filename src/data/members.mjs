@@ -13,7 +13,15 @@
 // disclosure line on the business page and on any story that tags it. Search
 // ranking never changes (search ranks by relevance, never by who pays), and
 // the free listing never depends on joining.
-export const MEMBERS = {};
+export const MEMBERS = {
+  // Founder #1. Jacob Kennedy confirmed on 2026-11-13 that the owner agreed
+  // and paid. Facts on the listing come from the owner's own site (own-facts.mjs);
+  // the draft website for review is sites/cookie-paradise/.
+  'cookie-paradise-llc': {
+    since: '2026-11-13',
+    contact: 'Trung, owner (trung@cookieparadise.co, published on the contact page)',
+  },
+};
 
 export const PRICE = 20; // dollars a month, locked for founding members
 export const SPOTS = 10; // size of the founding pilot group
