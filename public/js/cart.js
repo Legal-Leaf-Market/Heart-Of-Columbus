@@ -110,13 +110,18 @@
     fetch('/api/shop?slug=' + encodeURIComponent(slug)).then(function (r) { return r.json(); }).then(function (d) {
       if (!d.ok) { box.innerHTML = '<p class="muted">' + esc(d.error || 'Their store did not answer.') + '</p>'; return; }
       var store = { slug: slug, name: name, platform: d.platform, origin: d.origin };
-      var items = d.items.filter(function (i) { return i.available; });
-      box.innerHTML = '<p class="shop-count">' + items.length + ' items in stock at ' + esc(name) + '’s own store</p><div class="prod-grid">' + items.slice(0, limit).map(function (it, idx) {
-        return '<article class="prod">' + (it.image ? '<img src="' + esc(it.image) + '" alt="" loading="lazy">' : '<div class="prod-ph">🛍️</div>') +
+      // Pristine and in stock only (owner's rule): a product that is sold out or
+      // has no photo in the shop's own catalog stays off the grid. The link
+      // below still reaches every item on the shop's own site.
+      var stock = d.items.filter(function (i) { return i.available; });
+      var items = stock.filter(function (i) { return i.image; });
+      var unseen = stock.length - items.length;
+      box.innerHTML = '<p class="shop-count">' + stock.length + ' items in stock at ' + esc(name) + '’s own store</p><div class="prod-grid">' + items.slice(0, limit).map(function (it, idx) {
+        return '<article class="prod"><img src="' + esc(it.image) + '" alt="" loading="lazy">' +
           '<div class="prod-b"><a href="' + esc(it.url) + '" target="_blank" rel="noopener" class="prod-t">' + esc(it.title) + '</a><p class="prod-p">' + money(it.price) + '</p>' +
           (it.variants.length > 1 ? '<select data-v="' + idx + '" aria-label="Option">' + it.variants.map(function (v, vi) { return '<option value="' + vi + '"' + (v.available ? '' : ' disabled') + '>' + esc(v.title) + (v.available ? '' : ' (sold out)') + ' · ' + money(v.price) + '</option>'; }).join('') + '</select>' : '') +
           '<button type="button" class="btn btn-sm" data-add="' + idx + '">Add to cart</button></div></article>';
-      }).join('') + '</div>' + (items.length > limit ? '<a class="btn btn-ghost" href="' + esc(d.origin) + '" target="_blank" rel="noopener">See all ' + items.length + ' on their site ↗</a>' : '');
+      }).join('') + '</div>' + (items.length > limit || unseen ? '<a class="btn btn-ghost" href="' + esc(d.origin) + '" target="_blank" rel="noopener">See all ' + stock.length + ' on their site ↗</a>' : '');
       box.addEventListener('click', function (e) {
         var b = e.target.closest('[data-add]');
         if (!b) return;
