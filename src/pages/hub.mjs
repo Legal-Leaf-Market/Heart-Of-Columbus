@@ -2,7 +2,7 @@ import { siteLd } from '../jsonld.mjs';
 // The home page: a front door to every independent business in Columbus.
 import { page, esc, t } from '../layout.mjs';
 import { businesses, prototypes } from '../data/businesses.mjs';
-import { directory, CATEGORIES, AREAS } from '../data/directory.mjs';
+import { directory, CATEGORIES, AREAS, inSection } from '../data/directory.mjs';
 import { header, footer, rail, svg, PHOTOS, artIcon, photoCredit } from '../site.mjs';
 import { eventsSection } from './events.mjs';
 import { yourWay } from './trip-pages.mjs';
@@ -98,7 +98,7 @@ ${spotlightSection()}
       (c) => `<a class="cat-tile" href="/c/${c.slug}/" style="--c:${c.color};--t:${c.tint}">
         ${artIcon(c.slug, c.emoji, 'cat-ic')}
         <span class="cat-name">${esc(c.label)}</span>
-        <span class="cat-n">${count((b) => b.cat === c.slug)} places</span>
+        <span class="cat-n">${count((b) => inSection(b, c.slug))} places</span>
       </a>`,
     ).join('')}
   </div>
