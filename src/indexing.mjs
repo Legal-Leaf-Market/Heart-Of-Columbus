@@ -19,6 +19,7 @@ export const NEVER_INDEX = [
   ['/big-cheese/', 'storefront demo'],
   ['/tasty-express/', 'storefront demo'],
   ['/rohdes/', 'storefront demo'],
+  ['/cookie-paradise/', 'storefront demo, a pitch for its owner'],
   ['/pickup/', 'pickup tickets and the counter board'],
   ['/owners/inbox/', 'private owner inbox'],
   ['/obituaries/review/', 'private review queue'],

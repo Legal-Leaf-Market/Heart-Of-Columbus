@@ -207,6 +207,7 @@ export const searchIndex = () =>
     o: b.order.length ? 1 : 0, k: b.book.length ? 1 : 0, f: b.feed || b.store ? 1 : 0,
     ...(b.hours ? { t: b.hours } : {}),
     ...(b.dora ? { z: 1 } : {}),
+    ...(b.also && b.also.length ? { xc: b.also.map((a) => [a.cat, a.sub]) } : {}),
     ...(b.pin === 'approx' ? { q: 1 } : {}),
     ...(b.member ? { m: 1 } : {}),
     ...(attrCodes(b) ? { x: attrCodes(b) } : {}),
