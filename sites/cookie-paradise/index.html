@@ -1,0 +1,151 @@
+<!doctype html>
+<!--
+  Heart of Columbus: what we built for Cookie Paradise, for Jacob Kennedy to
+  show Trung in person or send as a link. Draft for discussion. Trung asked to
+  cross promote, especially the wedding page (via Jacob, 2026-11-13). Pickup
+  orders and the Founders Club are offers: neither is switched on until he says
+  yes (src/data/partners.mjs, src/data/members.mjs).
+
+  Facts and where they come from (checked 2026-11-13):
+  - Menu, prices, stock and photos: cookieparadise.co/products.json, read live
+    by /api/shop. In stock that day: 9 of 15 products.
+  - Address, hours: cookieparadise.co/pages/contact. Wedding facts:
+    cookieparadise.co/pages/weddings-private-parties (src/data/own-site.mjs).
+  - Shopify notes: what products.json and the shipping policy page showed.
+  - Founders Club terms: src/data/members.mjs and /founders-club/.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cookie Paradise on Heart of Columbus</title>
+<meta name="description" content="What Heart of Columbus built for Cookie Paradise: the wedding listing, the live menu, pickup orders and the Founders Club.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#ffcc1a">
+<style>
+  :root { --ink:#1c140d; --paper:#fff7e3; --card:#fff; --line:#ecdcb5; --muted:#6b5a48; --yellow:#ffcc1a; --pink:#e8486b; --navy:#1e2a4a; --display:'Lilita One',Impact,sans-serif; --sans:Inter,system-ui,-apple-system,Segoe UI,sans-serif; }
+  @font-face { font-family:'Lilita One'; src:url('/fonts/lilita-one-latin-400-normal.woff2') format('woff2'); font-display:swap; }
+  @font-face { font-family:'Inter'; src:url('/fonts/inter-latin-wght-normal.woff2') format('woff2'); font-weight:100 900; font-display:swap; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:#f3e6c4; color:var(--ink); font:16px/1.55 var(--sans); }
+  .sheet { max-width:860px; margin:28px auto; background:var(--paper); border-radius:22px; overflow:hidden; box-shadow:0 18px 44px rgba(0,0,0,.14); border:2px solid var(--ink); }
+  .draft { background:var(--ink); color:#fff; font-size:13px; padding:8px 20px; display:flex; flex-wrap:wrap; gap:6px 14px; justify-content:space-between; }
+  .draft b { color:var(--yellow); }
+  .band { background:var(--yellow); padding:34px 40px 30px; border-bottom:2px solid var(--ink); }
+  .k { font-size:12px; letter-spacing:2.5px; text-transform:uppercase; font-weight:800; }
+  h1 { font:400 clamp(34px,6.5vw,56px)/1 var(--display); margin:10px 0 12px; }
+  .lede { font-size:18px; max-width:56ch; margin:0; }
+  .in { padding:10px 40px 36px; }
+  .step { display:grid; grid-template-columns:52px 1fr; gap:16px; padding:26px 0; border-bottom:1.5px dashed var(--line); }
+  .step:last-of-type { border-bottom:0; }
+  .n { width:52px; height:52px; border-radius:50%; border:2px solid var(--ink); background:var(--yellow); display:grid; place-items:center; font:400 26px/1 var(--display); box-shadow:3px 3px 0 var(--ink); }
+  h2 { font:400 27px/1.1 var(--display); margin:4px 0 8px; }
+  p { margin:0 0 10px; }
+  .muted { color:var(--muted); }
+  .btns { display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
+  .btn { display:inline-flex; align-items:center; gap:6px; padding:10px 16px; border-radius:14px; border:2px solid var(--ink); background:var(--yellow); color:var(--ink); font-weight:800; text-decoration:none; box-shadow:3px 3px 0 var(--ink); }
+  .btn.ghost { background:#fff; }
+  .btn:active { transform:translate(2px,2px); box-shadow:1px 1px 0 var(--ink); }
+  .pill { display:inline-flex; align-items:center; gap:6px; border:1.5px solid var(--ink); border-radius:999px; padding:3px 10px; font-size:12px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; background:#fff; margin:0 6px 6px 0; }
+  .pill.go { background:#dff7e6; }
+  .pill.star { background:var(--navy); color:#fff; border-color:var(--navy); }
+  .box { background:#fff; border:2px solid var(--ink); border-radius:16px; padding:16px 18px; margin-top:12px; }
+  .box ul { margin:6px 0 0; padding-left:20px; }
+  .box li { margin:4px 0; }
+  .fc { background:var(--navy); color:#efe9dc; border-radius:18px; padding:22px 24px; margin-top:6px; }
+  .fc h2 { color:var(--yellow); }
+  .fc ul { margin:8px 0 0; padding-left:20px; }
+  .fc .btn { background:var(--yellow); }
+  .yes { background:var(--ink); color:#fff; border-radius:18px; padding:22px 24px; margin-top:22px; }
+  .yes h2 { color:var(--yellow); }
+  .yes ol { margin:8px 0 0; padding-left:22px; }
+  .yes li { margin:6px 0; }
+  .foot { padding:16px 40px 26px; font-size:13px; color:var(--muted); }
+  a { color:inherit; }
+  @media (max-width:600px) { .band, .in, .foot { padding-left:20px; padding-right:20px; } .step { grid-template-columns:40px 1fr; gap:12px; } .n { width:40px; height:40px; font-size:20px; } .sheet { margin:0; border-radius:0; border-width:0 0 2px; } }
+  @media print { body { background:#fff; } .sheet { box-shadow:none; margin:0; } .draft { display:none; } }
+</style>
+</head>
+<body>
+<main class="sheet">
+  <div class="draft"><span><b>Draft for discussion.</b> Made for Trung at Cookie Paradise by Jacob Kennedy.</span><a href="/">heartofcolumbus.netlify.app</a></div>
+  <header class="band">
+    <p class="k">Heart of Columbus × Cookie Paradise</p>
+    <h1>Your cookies, all over town.</h1>
+    <p class="lede">Heart of Columbus is the local directory for Columbus, Indiana. Here is everything we set up for Cookie Paradise, plus two things we can switch on the day you say yes.</p>
+  </header>
+
+  <div class="in">
+    <section class="step">
+      <span class="n">1</span>
+      <div>
+        <h2>Your wedding page, front and center</h2>
+        <p>Cookie Paradise is now listed in <b>Events &amp; Weddings</b>, alongside the DJs, venues and Crossroads Wedding Co., not only under bakeries. Your listing has its own Weddings and parties section: dessert tables, favors, the yellow trailer, and a button straight to your quote form.</p>
+        <p><span class="pill">💍 Weddings and parties</span><span class="pill go">Shop online</span><span class="pill">Independent</span></p>
+        <div class="btns">
+          <a class="btn" href="/c/events/">See it in Events &amp; Weddings</a>
+          <a class="btn ghost" href="/b/cookie-paradise-llc/#also-events">Your listing</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="step">
+      <span class="n">2</span>
+      <div>
+        <h2>Your menu, live, with checkout on your own site</h2>
+        <p>Your listing reads your Shopify menu live: real prices, only what is in stock, only items with photos. Customers fill a cart on Heart of Columbus and check out on <b>cookieparadise.co</b> with everything already in the cart. You get paid the way you always do. We take no cut.</p>
+        <p>We also fixed your listing: the trailer address on 25th Street (not Cox Lane) and your hours from your own Contact &amp; Hours page, Saturday included.</p>
+        <div class="btns"><a class="btn ghost" href="/b/cookie-paradise-llc/#shop">See your live menu</a></div>
+      </div>
+    </section>
+
+    <section class="step">
+      <span class="n">3</span>
+      <div>
+        <h2>Pickup orders at the trailer, no app fees</h2>
+        <p>Try it yourself on your real menu: pick cookies, choose a pickup time, place the order. You get a pickup ticket, and its <b>counter view</b> shows your side, where you mark an order ready and collected.</p>
+        <p class="muted">This is a demo until you say yes: nothing is sent to you and no phone number is kept. When you are in, orders land on a private counter board only you have the link to.</p>
+        <div class="btns"><a class="btn" href="/cookie-paradise/">Try pickup ordering</a></div>
+      </div>
+    </section>
+
+    <section class="step">
+      <span class="n">4</span>
+      <div class="fc">
+        <h2>The Founders Club</h2>
+        <p>The first ten local businesses building Heart of Columbus with us. <b>$20 a month</b>, price locked for as long as you stay, cancel any time.</p>
+        <ul>
+          <li>First place in your category, marked <span class="pill star">★ Founding Member</span></li>
+          <li>Your founder number on the wall, #1 to #10</li>
+          <li>Updates within two business days of a text</li>
+          <li>Every new tool we build, at no extra cost</li>
+        </ul>
+        <p style="margin-top:10px">The badge is also a disclosure: your page says you are a member. Search never ranks by who pays.</p>
+        <div class="btns"><a class="btn" href="/founders-club/">See the Founders Club</a></div>
+      </div>
+    </section>
+
+    <section class="box">
+      <h2 style="margin-top:0">Quick wins in your Shopify</h2>
+      <p class="muted">Five minutes each. Every fix shows up on Heart of Columbus automatically.</p>
+      <ul>
+        <li><b>Photos:</b> Pretzel Perfect and Coconut Dream have none, so they stay off our menu until they do. (Flamingo Sugar too, when it is back.)</li>
+        <li><b>Ingredients and allergens:</b> Pretzel Perfect and Coconut Dream have no description. Peanut Butter Chocolate Chip lists ingredients but no allergen line; worth adding peanuts. Pandan, Pumpkin Spice and Oatmeal Raisin have no allergen line either.</li>
+        <li><b>Pickup details:</b> your shipping policy says pickup is Saturdays at 3346 Cox Ln; your home and contact pages say the trailer at 3950 25th St, Tuesday to Saturday. One place, one answer.</li>
+        <li><b>Tidy up:</b> older products list the vendor as “My Store”, and a few web addresses still use old names (black velvet, green eggs and ham, chocolate chunk).</li>
+      </ul>
+    </section>
+
+    <section class="yes">
+      <h2>What I need from you</h2>
+      <ol>
+        <li><b>Your favorite photos</b> by text: the trailer, S’mores, Birthday Cake, the Thanksgiving box. They go on your listing with your credit.</li>
+        <li><b>A yes on pickup orders</b>, and who should get the counter board link.</li>
+        <li><b>A yes on the Founders Club</b>, if you want a founding spot.</li>
+      </ol>
+    </section>
+  </div>
+  <p class="foot">Menu, prices and photos come from your own online store; address, hours and wedding details from your own pages, checked November 13, 2026. Nothing here is switched on without your yes.</p>
+</main>
+</body>
+</html>
