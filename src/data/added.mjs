@@ -32,6 +32,7 @@ export const ADDED = [
     phone: '',
     website: 'https://crossroadsweddingco.shop/',
     book: [{ label: 'booking', url: 'https://crossroadsweddingco.shop/book' }],
+    tie: 'Crossroads Wedding Co. is run by Jacob Kennedy, who also runs Heart of Columbus.',
     source: 'https://crossroadsweddingco.shop/',
     checked: '2026-10-26',
   },

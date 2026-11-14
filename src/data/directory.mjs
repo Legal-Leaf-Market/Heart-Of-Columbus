@@ -15,6 +15,7 @@ import { DORA_SLUGS } from './dora.mjs';
 import { GEO } from './geo.mjs';
 import { ADDED } from './added.mjs';
 import { MEMBERS } from './members.mjs';
+import { OWN_FACTS } from './own-facts.mjs';
 import { excludedForOwnership } from './ownership.mjs';
 
 // Top-level categories, in display order. `subs` map to the landscape's
@@ -234,6 +235,13 @@ for (const b of all) {
   }
   b.tempClosed = !!(w && w.tempClosed);
   b.dora = DORA_SLUGS.has(b.slug);
+  // What the business says on its own website beats the sweep (own-facts.mjs).
+  const own = OWN_FACTS[b.slug];
+  b.own = own ? { where: own.where || '', source: own.source, checked: own.checked } : null;
+  if (own) {
+    if (own.address) b.address = own.address;
+    if (own.hours) { b.hours = own.hours; b.hoursFrom = 'own'; }
+  }
 }
 
 // Neighborhood for places the listings did not tag: the most common area
