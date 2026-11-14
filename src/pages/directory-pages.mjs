@@ -28,6 +28,8 @@ const hoursTable = (rows) => {
 };
 
 const styles = ['hoc.css'];
+const monthYear = (d) => new Date(`${d}T12:00:00Z`).toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+
 export const membersFirst = (list) => [...list.filter((b) => b.member), ...list.filter((b) => !b.member)];
 const listGrid = (items) => `<div class="grid" data-grid>${items.map((b) => card(b)).join('')}</div>`;
 
@@ -260,11 +262,11 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
     <div class="side-card">
       <iframe title="Map of ${esc(b.name)}" loading="lazy" src="https://www.google.com/maps?q=${q}&output=embed" referrerpolicy="no-referrer-when-downgrade"></iframe>
       <div class="side-body">
-        ${b.address ? `<p class="side-addr">${svg('pin', 'ic-sm')} ${t(b.address)}<br><span>Columbus, Indiana</span></p>` : '<p class="side-addr">Columbus, Indiana. Address not listed publicly.</p>'}
+        ${b.address ? `<p class="side-addr">${svg('pin', 'ic-sm')} ${t(b.address)}${b.own?.where ? `<br><span>${esc(b.own.where)}</span>` : ''}<br><span>Columbus, Indiana</span></p>` : '<p class="side-addr">Columbus, Indiana. Address not listed publicly.</p>'}
         <p class="fine pin-note" data-pin="${placeFromBusiness(b).location.geo}">${esc(PIN_NOTE[placeFromBusiness(b).location.geo])}</p>
         ${b.phone ? `<p>${svg('phone', 'ic-sm')} <a href="${tel(b.phone)}">${esc(b.phone)}</a></p>` : '<p class="muted">No public phone number in the listings we used. Try the map link for current contact details.</p>'}
         ${b.tempClosed ? '<p class="open-badge is-closed">Temporarily closed, per their Google listing</p>' : ''}
-        ${b.hours ? `${hoursTable(b.hours)}<p class="fine">Hours from their Google listing, October 2026. Holidays can differ; call ahead.</p>` : ''}
+        ${b.hours ? `${hoursTable(b.hours)}<p class="fine"><span>${b.hoursFrom === 'own' ? `Hours and address from <a href="${esc(b.own.source)}" target="_blank" rel="noopener">their own website</a>, ${monthYear(b.own.checked)}` : 'Hours from their Google listing, October 2026'}. Holidays can differ; call ahead.</span></p>` : ''}
         ${attrBlock(b)}
       </div>
     </div>
@@ -273,7 +275,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
       <p>Fix your hours and links, point customers at your own ordering, or take pickup orders here with no app fees. You can also post a deal or tell your story in your own words.</p>
       <a class="btn btn-sm" href="/owners/?b=${b.slug}#claim">Claim this listing ${svg('arrow', 'ic-sm')}</a>
     </div>
-    <p class="fine">Details come from public listings (Chamber directory, Visit Columbus, Google Maps) and may change. Call ahead. ${b.added?.tie ? esc(b.added.tie) : 'Heart of Columbus is not affiliated with this business.'}</p>
+    <p class="fine">Details come from public listings (Chamber directory, Visit Columbus, Google Maps) and may change. Call ahead. ${b.added?.tie ? esc(b.added.tie) : b.member ? `${esc(b.name)} is a paying Founding Member of Heart of Columbus.` : 'Heart of Columbus is not affiliated with this business.'}</p>
   </aside>
 </section>
 ${inTheNews(b)}
