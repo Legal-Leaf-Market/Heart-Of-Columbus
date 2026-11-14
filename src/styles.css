@@ -52,6 +52,11 @@
   --ink: #0e0e0e; --paper: #0e0e0e; --surface: #ffffff; --muted: #5c5c5c;
   --display: "Archivo", Impact, sans-serif;
 }
+.theme-cookie {
+  --brand: #ffcc1a; --brand-ink: #1c140d; --accent: #e8486b;
+  --ink: #1c140d; --paper: #fff7e3; --surface: #ffffff; --muted: #6b5a48;
+  --display: "Lilita One", Impact, sans-serif;
+}
 .theme-rohdes {
   --brand: #d7263d; --brand-ink: #ffffff; --accent: #66c9c0;
   --ink: #1d2427; --paper: #f4fbfa; --surface: #ffffff; --muted: #55605f;
