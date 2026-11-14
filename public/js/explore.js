@@ -95,11 +95,15 @@
     history.replaceState(null, '', location.pathname + (p.toString() ? '?' + p : ''));
   }
 
+  // Home section, or one its own website says it also serves (xc: [[cat, sub]]).
+  function inCat(b, c, u) {
+    return (b.c === c && (!u || b.u === u)) || (b.xc || []).some(function (x) { return x[0] === c && (!u || x[1] === u); });
+  }
   function filtered() {
     // A shared trip link (/saved/?ids=) shows its own list instead of yours.
     var saved = savedOnly ? (window.HoCTripIds ? window.HoCTripIds() : window.HoCSaved()) : null;
     var out = all.filter(function (b) {
-      return (!saved || saved.indexOf(b.s) !== -1) && (!st.cat || b.c === st.cat) && (!st.sub || b.u === st.sub) &&
+      return (!saved || saved.indexOf(b.s) !== -1) && (!st.cat || inCat(b, st.cat, st.sub)) && (st.cat || !st.sub || b.u === st.sub) &&
         (!st.area || b.r === st.area) && (!st.phone || b.p) && (!st.demo || b.d) && (!st.online || b.o || b.k || b.f) && st.attr.every(function (a) { return (b.x || '').indexOf(a) !== -1; }) && (!st.open || ((window.HoCOpen(b.t) || {}).open)) && (!st.q || window.HoCMatch(b, st.q));
     });
     var name = function (b) { return b.n.replace(/^the /i, ''); };
@@ -136,7 +140,7 @@
     var base = all.filter(function (b) { return (!st.area || b.r === st.area) && (!st.q || window.HoCMatch(b, st.q)); });
     $$('[data-n-cat]').forEach(function (el) {
       var c = el.getAttribute('data-n-cat');
-      el.textContent = base.filter(function (b) { return !c || b.c === c; }).length;
+      el.textContent = base.filter(function (b) { return !c || inCat(b, c); }).length;
     });
   }
 
