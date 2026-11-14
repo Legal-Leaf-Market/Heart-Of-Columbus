@@ -1,6 +1,6 @@
 // Category, neighborhood, business, explore, saved and credits pages.
 import { page, esc, t } from '../layout.mjs';
-import { directory, CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, km } from '../data/directory.mjs';
+import { directory, CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, km, inSection, asListedIn } from '../data/directory.mjs';
 import { PRICE } from '../data/members.mjs';
 import { header, footer, card, rail, svg, PHOTOS, artIcon, coverArt, editorialImg, edTag, tel, mapsLink, breadcrumbs } from '../site.mjs';
 import { editorialFor, editorialHero, sectionHero, EXPLORE_ART, EDITORIAL_CAPTION } from '../editorial-art.mjs';
@@ -29,6 +29,7 @@ const hoursTable = (rows) => {
 
 const styles = ['hoc.css'];
 const monthYear = (d) => new Date(`${d}T12:00:00Z`).toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+const longDate = (d) => (d ? new Date(`${d}T12:00:00Z`).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : '');
 
 export const membersFirst = (list) => [...list.filter((b) => b.member), ...list.filter((b) => !b.member)];
 const listGrid = (items) => `<div class="grid" data-grid>${items.map((b) => card(b)).join('')}</div>`;
@@ -108,7 +109,8 @@ const bizDescription = (b) => {
 
 function categoryPage(cat, sub, { assets }) {
   // Founding Members lead their category, labeled; everyone else keeps directory order.
-  const items = membersFirst(directory.filter((b) => b.cat === cat.slug && (!sub || b.sub === sub.slug)));
+  // A business whose own site shows it also serves this section is listed here too (own-facts.mjs).
+  const items = membersFirst(directory.filter((b) => inSection(b, cat.slug, sub ? sub.slug : '')).map((b) => asListedIn(b, cat.slug)));
   const multi = cat.subs.length > 1;
   const title = sub && multi ? sub.label : cat.label;
   const others = CATEGORIES.filter((c) => c.slug !== cat.slug);
@@ -146,7 +148,7 @@ ${breadcrumbs([['/', 'Home'], ['/explore/', 'Explore'], ...(sub && multi ? [[`/c
     <a class="btn btn-ghost" href="${mapHref}"${views ? ' data-v-go="map"' : ''}>${svg('map')} See them on the map</a>
     ${cat.slug === 'events' ? `<a class="btn" href="/djs/">🎧 Columbus DJs</a>` : ''}
   </div>`}
-  ${multi ? `<div class="wrap subnav">${[`<a href="/c/${cat.slug}/" class="${!sub ? 'on' : ''}">All ${esc(cat.label.toLowerCase())}</a>`, ...cat.subs.map((s) => `<a href="/c/${cat.slug}/${s.slug}/" class="${sub && sub.slug === s.slug ? 'on' : ''}">${s.emoji} ${esc(s.label)} <small>${directory.filter((b) => b.sub === s.slug).length}</small></a>`)].join('')}</div>` : ''}
+  ${multi ? `<div class="wrap subnav">${[`<a href="/c/${cat.slug}/" class="${!sub ? 'on' : ''}">All ${esc(cat.label.toLowerCase())}</a>`, ...cat.subs.map((s) => `<a href="/c/${cat.slug}/${s.slug}/" class="${sub && sub.slug === s.slug ? 'on' : ''}">${s.emoji} ${esc(s.label)} <small>${directory.filter((b) => inSection(b, cat.slug, s.slug)).length}</small></a>`)].join('')}</div>` : ''}
 </section>
 ${spotlightSection({ title: `In the spotlight: ${title.toLowerCase()}`, only: (b) => b.cat === cat.slug && (!sub || b.sub === sub.slug) })}
 ${refine(items, { subs: multi && !sub ? cat.subs : null })}
@@ -236,13 +238,14 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
       <p class="kicker"><a href="/c/${cat.slug}/${cat.subs.length > 1 ? sub.slug + '/' : ''}">${esc(sub.label)}</a>${area ? ` · <a href="/n/${area.slug}/">${esc(area.label)}</a>` : ''}</p>
       <h1>${t(b.name)}</h1>
       <p class="biz-type">${t(b.type)}</p>
-      <div class="bz-tags">${b.member ? '<a class="tag tag-member" href="#member-note">★ Founding Member</a>' : ''}${SPOTLIGHT_SLUGS.has(b.slug) ? (spotFor(b.slug)?.picks.length ? '<a class="tag tag-spot" href="#owners-picks">★ Spotlight</a>' : '<span class="tag tag-spot">★ Spotlight</span>') : ''}${b.demo ? '<span class="tag tag-hot">Order direct (demo)</span>' : ''}${b.heritage ? '<span class="tag">Columbus original</span>' : ''}${b.dora ? '<span class="tag tag-dora">Social District: drinks to go</span>' : ''}<span class="tag tag-plain">Independent</span></div>
+      <div class="bz-tags">${b.member ? '<a class="tag tag-member" href="#member-note">★ Founding Member</a>' : ''}${SPOTLIGHT_SLUGS.has(b.slug) ? (spotFor(b.slug)?.picks.length ? '<a class="tag tag-spot" href="#owners-picks">★ Spotlight</a>' : '<span class="tag tag-spot">★ Spotlight</span>') : ''}${b.demo ? '<span class="tag tag-hot">Order direct (demo)</span>' : ''}${b.heritage ? '<span class="tag">Columbus original</span>' : ''}${b.dora ? '<span class="tag tag-dora">Social District: drinks to go</span>' : ''}${b.also.map((a) => `<a class="tag tag-go" href="#also-${a.cat}">${catBySlug[a.cat].emoji} ${esc(a.title)}</a>`).join('')}<span class="tag tag-plain">Independent</span></div>
       ${b.hours ? `<p class="open-badge biz-open" data-open-now='${JSON.stringify(b.hours)}' hidden></p>` : ''}
       <div class="biz-actions">
         ${b.order.map((o, i) => `<a class="btn${i ? ' btn-ghost' : ''}" href="${esc(o.url)}" target="_blank" rel="noopener">${svg('store')} Order online${b.order.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
         ${b.book.map((o, i) => `<a class="btn${b.order.length || i ? ' btn-ghost' : ''}" href="${esc(o.url)}" target="_blank" rel="noopener">${svg('store')} Book online${b.book.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
         ${b.feed ? `<a class="btn${b.order.length || b.book.length ? ' btn-ghost' : ''}" href="#shop">${svg('store')} Shop online</a>` : ''}
         ${b.store ? `<a class="btn${b.order.length || b.book.length ? ' btn-ghost' : ''}" href="${esc(b.store)}" target="_blank" rel="noopener">${svg('store')} Shop their online store</a>` : ''}
+        ${b.links.map((l) => `<a class="btn btn-ghost" href="${esc(l.url)}" target="_blank" rel="noopener">${svg('globe')} ${esc(l.label)} ↗</a>`).join('')}
         ${b.demo ? `<a class="btn btn-ghost" href="${b.demo}">${svg('store')} ${b.cat === 'beauty' ? 'Book' : 'Order'} (demo)</a>` : ''}
         ${b.phone ? `<a class="btn ${b.demo || b.order.length || b.book.length || b.feed || b.store ? 'btn-ghost' : ''}" href="${tel(b.phone)}">${svg('phone')} Call ${esc(b.phone)}</a>` : ''}
         ${b.added?.soon && !b.address ? '' : `<a class="btn btn-ghost" href="${mapsLink(b)}" target="_blank" rel="noopener">${svg('pin')} Directions</a>`}
@@ -275,7 +278,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
       <p>Fix your hours and links, point customers at your own ordering, or take pickup orders here with no app fees. You can also post a deal or tell your story in your own words.</p>
       <a class="btn btn-sm" href="/owners/?b=${b.slug}#claim">Claim this listing ${svg('arrow', 'ic-sm')}</a>
     </div>
-    <p class="fine">Details come from public listings (Chamber directory, Visit Columbus, Google Maps) and may change. Call ahead. ${b.added?.tie ? esc(b.added.tie) : b.member ? `${esc(b.name)} is a paying Founding Member of Heart of Columbus.` : 'Heart of Columbus is not affiliated with this business.'}</p>
+    <p class="fine">Details come from public listings (Chamber directory, Visit Columbus, Google Maps)${b.own ? ' and their own website' : ''} and may change. Call ahead. ${b.added?.tie ? esc(b.added.tie) : b.member ? `${esc(b.name)} is a paying Founding Member of Heart of Columbus.` : 'Heart of Columbus is not affiliated with this business.'}</p>
   </aside>
 </section>
 ${inTheNews(b)}
@@ -287,6 +290,13 @@ ${media && (media.logo || (media.gallery || []).length) ? `
 </section>` : ''}
 ${ownersPicks(b)}
 ${ownerWords(b)}
+${b.also.map((a) => `<section class="wrap also-wrap" id="also-${a.cat}"><div class="also-sec" style="--c:${catBySlug[a.cat].color};--t:${catBySlug[a.cat].tint}">
+  <p class="kicker">${catBySlug[a.cat].emoji} Also in <a href="/c/${a.cat}/">${esc(catBySlug[a.cat].label)}</a></p>
+  <h2>${esc(a.title)}</h2>
+  <ul class="also-list">${a.points.map((p) => `<li>${esc(p)}</li>`).join('')}</ul>
+  <p><a class="btn" href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.cta)} on their site ↗</a></p>
+  <p class="fine">From ${t(b.name)}’s own page, checked ${longDate(b.own?.checked || '')}. Quotes, dates and payment are handled by ${t(b.name)}, not Heart of Columbus.</p>
+</div></section>`).join('')}
 ${b.feed ? `<section class="wrap shop-sec" id="shop"><p class="kicker">Live from their store</p><h2>Shop ${t(b.name)} online</h2>
   <p class="sub">Their real products and prices, read from their own online store. Add to your cart here, then check out on their site with everything already in the cart. Choose pickup there if they offer it.</p>
   <div data-shop="${b.slug}" data-name="${esc(b.name)}"><p class="muted">Loading their store…</p></div></section>` : ''}
