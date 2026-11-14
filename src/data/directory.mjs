@@ -238,6 +238,9 @@ for (const b of all) {
   // What the business says on its own website beats the sweep (own-facts.mjs).
   const own = OWN_FACTS[b.slug];
   b.own = own ? { where: own.where || '', source: own.source, checked: own.checked } : null;
+  // Buttons to its own pages, and sections its own pages show it also serves.
+  b.links = own?.links || [];
+  b.also = own?.also || [];
   if (own) {
     if (own.address) b.address = own.address;
     if (own.hours) { b.hours = own.hours; b.hoursFrom = 'own'; }
@@ -265,6 +268,16 @@ for (const b of all) {
 // Every record before filtering, so tests can check ownership entries name real rows.
 export const everyRecord = all;
 export const directory = all.filter((b) => (b.featured || !(WEB[b.slug] && WEB[b.slug].closed)) && !excludedForOwnership(b.slug)).sort((a, b) => a.name.replace(/^the /i, '').localeCompare(b.name.replace(/^the /i, '')));
+// In a section: its home section, or one its own website shows it also serves
+// (own-facts.mjs `also`). Category pages, the hub tiles and explore all use this.
+export const inSection = (b, cat, sub = '') =>
+  (b.cat === cat && (!sub || b.sub === sub)) || (b.also || []).some((a) => a.cat === cat && (!sub || a.sub === sub));
+// How a cross-listed business shows on that section's page: its card in that
+// section's colors with the type its own page gives for that service.
+export const asListedIn = (b, cat) => {
+  const a = b.cat === cat ? null : (b.also || []).find((x) => x.cat === cat);
+  return a ? { ...b, cat: a.cat, sub: a.sub, type: a.type, alsoFrom: b.cat } : b;
+};
 export const catBySlug = Object.fromEntries(CATEGORIES.map((c) => [c.slug, c]));
 export const subBySlug = Object.fromEntries(CATEGORIES.flatMap((c) => c.subs.map((s) => [s.slug, { ...s, cat: c }])));
 export const areaBySlug = Object.fromEntries(AREAS.map((a) => [a.slug, a]));
