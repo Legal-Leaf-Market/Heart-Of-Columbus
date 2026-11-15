@@ -89,6 +89,46 @@ export const OWN_FACTS = {
       },
     ],
   },
+  // Stunna's (https://www.stunnas812.com/, checked 2026-11-15): "What started
+  // as a small meal prep service by a busy mom has grown into a full-circle
+  // food experience"; "Meal Pick-up Location, Events & Kitchen" at "1604
+  // Central Avenue"; event catering; event space and kitchen rentals; meal prep
+  // ordered online through GoPrep.
+  stunnas: {
+    source: 'https://www.stunnas812.com/',
+    checked: '2026-11-15',
+    links: [
+      { label: 'Ask about catering', url: 'https://www.stunnas812.com/contact' },
+      { label: 'Rent the event space', url: 'https://www.stunnas812.com/event-space' },
+      { label: 'Meal prep menu', url: 'https://stunnasmealprep.goprep.com/customer/menu' },
+    ],
+    also: [
+      {
+        cat: 'events',
+        sub: 'events',
+        type: 'Event catering and an event space to rent on Central Avenue',
+        title: 'Catering and event space',
+        points: [
+          'Event catering from its kitchen at 1604 Central Avenue.',
+          'An event space you can rent at the same address, and a kitchen to rent too.',
+          'It started as a meal prep service by a busy mom, and meal prep is still on the menu to order online.',
+        ],
+        cta: 'Ask about catering',
+        url: 'https://www.stunnas812.com/contact',
+      },
+    ],
+  },
+  // Bip's Bites (https://www.bipsbites.com/ and its shop and recipe pages,
+  // checked 2026-11-15); see added.mjs.
+  'bips-bites': {
+    source: 'https://www.bipsbites.com/',
+    checked: '2026-11-15',
+    links: [
+      { label: 'Shop the BBQ rub', url: 'https://www.bipsbites.com/product/smoky-sweet-heat-bbq-rub/' },
+      { label: 'Cooking videos', url: 'https://www.bipsbites.com/recipes/' },
+      { label: 'Shop', url: 'https://www.bipsbites.com/shop/' },
+    ],
+  },
   'rabbits-balloons': {
     source: 'https://heartofcolumbus.netlify.app/preview/rabbits-balloons/',
     checked: '2026-11-15',

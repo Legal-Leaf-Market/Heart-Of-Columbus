@@ -30,6 +30,31 @@
 // draft website Heart of Columbus built from what she told us for her to
 // review (sites/rabbits-balloons/). No address, phone or prices yet. She owns
 // a domain; put it in `website` when it goes live.
+//
+// Love Me Wildly Photography (facebook.com/lovemewildlyphotography, checked
+// 2026-11-15): page name "love.me.wildly", "Specializing in weddings and
+// elopement photography", Photographer, Columbus, IN, (812) 593-5541. No
+// website or street address. Its photos stay on Facebook: we show business
+// photos only when the owner sends them with permission (media.mjs).
+//
+// First Class Catering (firstclasscateringin.com, checked 2026-11-15): "We are
+// a Southern Indiana based catering company" serving "Indianapolis,
+// Bloomington, Jeffersonville, and beyond"; Weddings, Private Events and Bar
+// Services; 812-314-7849. Listed as a caterer on the Columbus visitors
+// bureau's planner page. No street address.
+//
+// Bonafide Bites (bonafidebites.com, checked 2026-11-15): "a 100% chef owned
+// and operated boutique catering company based in South Central Indiana
+// serving Nashville, Bloomington, Columbus, and surrounding areas"; full
+// service catering, drop-off deliveries, corporate and contract services. No
+// phone or street address. Also on the visitors bureau's caterer list.
+//
+// Bip's Bites (bipsbites.com, checked 2026-11-15): "Dark-fantasy BBQ rubs and
+// whole hog pitmaster content from Southern Indiana"; "Bip's Bites comes from
+// Southern Indiana"; the Smoky Sweet Heat BBQ Rub, "made for burgers, pork,
+// chicken and vegetables"; cooking videos; 812-764-8400. Its founder's own
+// LinkedIn profile lists "Private chef, Food and Beverage consultant, Bip's
+// Bites" in Columbus, Indiana. No street address.
 export const ADDED = [
   {
     name: 'Crossroads Wedding Co.',
@@ -93,6 +118,54 @@ export const ADDED = [
     website: '',
     book: [],
     source: 'https://heartofcolumbus.netlify.app/preview/rabbits-balloons/',
+    checked: '2026-11-15',
+  },
+  {
+    name: 'Love Me Wildly Photography',
+    cat: 'pros',
+    sub: 'creative',
+    type: 'Wedding and elopement photographer',
+    address: '',
+    phone: '(812) 593-5541',
+    website: 'https://www.facebook.com/lovemewildlyphotography/',
+    book: [],
+    source: 'https://www.facebook.com/lovemewildlyphotography/',
+    checked: '2026-11-15',
+  },
+  {
+    name: 'First Class Catering',
+    cat: 'restaurants',
+    sub: 'bbq-trucks',
+    type: 'Catering for weddings and private events, with bar service',
+    address: '',
+    phone: '(812) 314-7849',
+    website: 'https://www.firstclasscateringin.com/',
+    book: [],
+    source: 'https://firstclasscateringin.com/',
+    checked: '2026-11-15',
+  },
+  {
+    name: 'Bonafide Bites',
+    cat: 'restaurants',
+    sub: 'bbq-trucks',
+    type: 'Chef-owned catering: full service, drop-off and corporate',
+    address: '',
+    phone: '',
+    website: 'https://www.bonafidebites.com/',
+    book: [],
+    source: 'https://www.bonafidebites.com/',
+    checked: '2026-11-15',
+  },
+  {
+    name: "Bip's Bites",
+    cat: 'restaurants',
+    sub: 'bbq-trucks',
+    type: 'Fantasy-inspired BBQ rubs, whole hog barbecue and a private chef',
+    address: '',
+    phone: '(812) 764-8400',
+    website: 'https://www.bipsbites.com/',
+    book: [],
+    source: 'https://www.bipsbites.com/',
     checked: '2026-11-15',
   },
 ];

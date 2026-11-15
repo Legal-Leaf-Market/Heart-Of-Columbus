@@ -5,9 +5,10 @@
 // Google or its own page), the same words every card shows. Roles are rules
 // over the directory, so new listings land in the right place by themselves.
 //
-// Order inside a role: Founding Members first (they pay us, the card says so,
-// as on every category page), then businesses you can order, book or shop
-// with online, then everyone else by name. Search never reads membership.
+// Order inside a role: our picks first (the publisher's own recommendations,
+// labeled, never paid for), then Founding Members (they pay us, the card says
+// so, as on every category page), then businesses you can order, book or shop
+// with online, then everyone else by name. Search never reads either one.
 import { directory, inSection } from './directory.mjs';
 
 // A type that is only a section label ("Coffee, Bakeries & Sweets") says nothing
@@ -19,6 +20,21 @@ const inCat = (cat, sub) => (b) => inSection(b, cat, sub);
 const and = (...fs) => (b) => fs.every((f) => f(b));
 const or = (...fs) => (b) => fs.some((f) => f(b));
 const not = (f) => (b) => !f(b);
+
+// Listed as caterers on the Columbus visitors bureau's planner page, though
+// their own listings call them restaurants or venues
+// (https://visitcolumbusindiana.com/planners/meetings-events/event-planner-resources/,
+// checked 2026-11-15: "Hanger Five Catering" is Blackerby's Hangar 5).
+export const BUREAU_CATERERS = new Set(['blackerbys-hangar-5-restaurant', 'fresh-take-kitchen', 'bespoke-events-experiences']);
+
+// Our picks: businesses the publisher recommends for a job, by name and date.
+// Not paid and not the Founders Club; the page says so next to the badge. A
+// pick shows first in that job on every event type that has the job.
+export const OUR_PICKS = [
+  { role: 'catering', slug: 'bips-bites', by: 'Jacob Kennedy, publisher', since: '2026-11-15' },
+  { role: 'photo', slug: 'love-me-wildly-photography', by: 'Jacob Kennedy, publisher', since: '2026-11-15' },
+];
+export const isPick = (role, slug) => OUR_PICKS.some((p) => p.role === role && p.slug === slug);
 
 // One rule per job. `see` is where the full list lives.
 export const ROLES = {
@@ -55,7 +71,7 @@ export const ROLES = {
   catering: {
     label: 'Food and catering', emoji: '🍽️', see: '/c/restaurants/bbq-trucks/',
     blurb: 'Caterers, barbecue and food trucks. Ask about headcount, service style and travel.',
-    match: inCat('restaurants', 'bbq-trucks'),
+    match: or(inCat('restaurants', 'bbq-trucks'), has(/\bcater(er|ing)\b/i), (b) => BUREAU_CATERERS.has(b.slug)),
   },
   music: {
     label: 'DJs and music', emoji: '🎧', see: '/djs/',
@@ -131,7 +147,7 @@ export const TRACKS = [
 const direct = (b) => b.order.length || b.book.length || b.feed || b.store;
 export const vendorsFor = (role) => {
   const rows = directory.filter(ROLES[role].match);
-  const rank = (b) => (b.member ? 0 : direct(b) ? 1 : 2);
+  const rank = (b) => (isPick(role, b.slug) ? 0 : b.member ? 1 : direct(b) ? 2 : 3);
   return rows.map((b, i) => [rank(b), i, b]).sort((p, q) => p[0] - q[0] || p[1] - q[1]).map(([, , b]) => b);
 };
 export const isDirect = (b) => !!direct(b);

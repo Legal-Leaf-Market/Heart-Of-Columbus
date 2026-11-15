@@ -1609,10 +1609,13 @@ a.tag:not(.tag-member):hover { filter: brightness(.96); }
 .pl-role-head p { margin: 0; color: var(--muted); max-width: 62ch; }
 .pl-role-head .see-all { margin-left: auto; margin-top: 8px; }
 .pl-emoji { font-size: 28px; width: 54px; height: 54px; display: grid; place-items: center; background: var(--t, var(--surface)); border: 2px solid var(--ink); border-radius: 16px; flex: none; }
-.pl-row { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(232px, 256px); gap: 16px; overflow-x: auto; padding: 4px 6px 16px 4px; scroll-snap-type: x proximity; }
+.pl-row { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(232px, 256px); gap: 16px; overflow-x: auto; padding: 14px 6px 16px 4px; scroll-snap-type: x proximity; }
 .pl-item { display: flex; flex-direction: column; gap: 8px; scroll-snap-align: start; }
 .pl-item .bz { flex: 1; }
 .pl-pick { justify-content: center; }
+.pl-item { position: relative; }
+.pl-ourpick { position: absolute; z-index: 2; top: -8px; left: 12px; margin: 0; font-weight: 800; font-size: 13px; background: var(--brand); color: #fff; border: 2px solid var(--ink); border-radius: 999px; padding: 4px 12px; box-shadow: 2px 2px 0 var(--ink); }
+.pl-item.is-pick .bz { box-shadow: 5px 5px 0 var(--brand); }
 .pl-pick[aria-pressed="true"] { background: var(--ink); color: #fff; }
 .pl-direct-only .pl-item:not([data-direct]) { display: none; }
 .pl-empty { margin: 0; color: var(--muted); font-size: 14.5px; }

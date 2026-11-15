@@ -6,7 +6,7 @@
 // Columbus sends nothing and books nothing.
 import { page, esc, t } from '../layout.mjs';
 import { header, footer, card, svg, breadcrumbs } from '../site.mjs';
-import { ROLES, TRACKS, vendorsFor, isDirect } from '../data/plan.mjs';
+import { ROLES, TRACKS, vendorsFor, isDirect, isPick } from '../data/plan.mjs';
 import { PRICE } from '../data/members.mjs';
 
 const styles = ['hoc.css'];
@@ -14,13 +14,15 @@ const SHOW = 12; // cards per role before "See all"
 
 const notes = () => `
   <p class="vs-note">${svg('globe', 'ic-sm')}<span>Each business is placed by what its listing says it is, not by whether it has done an event like yours. Ask about your date, size and budget. Heart of Columbus books nothing and takes no cut: you reach each one directly.</span></p>
-  <p class="vs-note">★ <span>Founding Members come first in each list. They pay Heart of Columbus $${PRICE} a month and have no say in what we write. <a href="/founders-club/">About the Founders Club</a></span></p>`;
+  <p class="vs-note">♥ <span>Our picks come first: businesses our publisher recommends for that job. Nobody pays to be one.</span></p>
+  <p class="vs-note">★ <span>Founding Members come next. They pay Heart of Columbus $${PRICE} a month and have no say in what we write. <a href="/founders-club/">About the Founders Club</a></span></p>`;
 
 function roleSection(role, track) {
   const r = ROLES[role];
   const all = vendorsFor(role);
   const items = all.slice(0, SHOW).map((b) => `
-    <div class="pl-item" data-slug="${b.slug}" data-name="${esc(b.name)}"${isDirect(b) ? ' data-direct' : ''}>
+    <div class="pl-item${isPick(role, b.slug) ? ' is-pick' : ''}" data-slug="${b.slug}" data-name="${esc(b.name)}"${isDirect(b) ? ' data-direct' : ''}>
+      ${isPick(role, b.slug) ? '<p class="pl-ourpick">♥ Our pick</p>' : ''}
       ${card(b, { compact: true })}
       <button type="button" class="btn btn-sm btn-ghost pl-pick" data-pick aria-pressed="false" hidden>+ Pick for ${esc(r.label.toLowerCase())}</button>
     </div>`).join('');
