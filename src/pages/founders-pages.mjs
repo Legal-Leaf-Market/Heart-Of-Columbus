@@ -12,10 +12,11 @@ const styles = ['hoc.css'];
 const bySlug = Object.fromEntries(directory.map((b) => [b.slug, b]));
 
 // Founder numbers follow the order owners signed, so #1 is always the first.
+// Owners who signed the same day keep the order they are listed in members.mjs.
 export const founders = () =>
   Object.entries(MEMBERS)
     .filter(([slug]) => bySlug[slug])
-    .sort((a, b) => a[1].since.localeCompare(b[1].since) || a[0].localeCompare(b[0]))
+    .sort((a, b) => a[1].since.localeCompare(b[1].since)) // stable: same day keeps listed order
     .map(([slug, m], i) => ({ n: i + 1, since: m.since, b: bySlug[slug] }));
 
 function foundersPage({ assets }) {

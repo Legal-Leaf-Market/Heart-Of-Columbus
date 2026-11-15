@@ -5450,5 +5450,16 @@ export const COMMERCE = {
   "store": "",
   "order": [],
   "book": []
+ },
+ "bips-bites": {
+  "platform": "woocommerce",
+  "stack": [
+   "woocommerce"
+  ],
+  "origin": "https://www.bipsbites.com/",
+  "feed": true,
+  "store": "",
+  "order": [],
+  "book": []
  }
 };

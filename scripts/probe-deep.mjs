@@ -13,8 +13,13 @@
 // It never posts anything and only reads public pages, a handful per site.
 import { writeFileSync } from 'node:fs';
 import { WEB } from '../src/data/web.mjs';
+import { directory } from '../src/data/directory.mjs';
 import { detectPlatform, detectStack, findProviderLinks, findOwnPages, findGiftLinks, EMBEDS, tidyUrl } from '../src/commerce-core.mjs';
 
+// Hand-added listings (src/data/added.mjs) have no Google row in web.mjs, so
+// their own websites are probed from the directory record instead.
+const SITES = { ...WEB };
+for (const b of directory) if (b.added && b.website && !SITES[b.slug]) SITES[b.slug] = { website: b.website };
 const OUT = process.argv[2] || new URL('./data/probe-results.json', import.meta.url).pathname;
 const ONLY = new Set((process.argv[3] || '').split(',').filter(Boolean));
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36 HeartOfColumbusBot/1.1 (+https://heartofcolumbus.netlify.app)';
@@ -97,7 +102,7 @@ async function feedCount(platform, origin, shop) {
 }
 
 export async function probeDeep(slug) {
-  const w = WEB[slug];
+  const w = SITES[slug];
   if (!w || !w.website) return { slug, ok: false, reason: 'no website' };
   let home = await get(w.website);
   if (!home.body && /^https:\/\/(?!www\.)/.test(w.website)) home = await get(w.website.replace('https://', 'https://www.'));
@@ -140,7 +145,7 @@ export async function probeDeep(slug) {
 
 if (import.meta.url === `file://${process.argv[1]}`) await main();
 async function main() {
-const slugs = Object.keys(WEB).filter((s) => WEB[s].website && (!ONLY.size || ONLY.has(s))).sort();
+const slugs = Object.keys(SITES).filter((s) => SITES[s].website && (!ONLY.size || ONLY.has(s))).sort();
 const results = [];
 let next = 0, done = 0;
 async function worker() {
