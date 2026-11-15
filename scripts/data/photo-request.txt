@@ -1,0 +1,10 @@
+# Bip's Bites: the owner (Bip) said we may show his photos, via Jacob Kennedy, 2026-11-15.
+# From his own site, https://www.bipsbites.com/ (alt text from that page), and his own YouTube video.
+bips-bites pulled-pork https://www.bipsbites.com/wp-content/uploads/2025/07/Dust-of-Deliciousness-full-resolution-7.jpg https://www.bipsbites.com/wp-content/uploads/2025/07/Dust-of-Deliciousness-full-resolution-7-1024x768.jpg
+bips-bites potato-bites https://www.bipsbites.com/wp-content/uploads/2025/07/Dust-of-Deliciousness-web-resolution-3.jpg https://www.bipsbites.com/wp-content/uploads/2025/07/Dust-of-Deliciousness-web-resolution-3-1024x768.jpg
+bips-bites bbq-cooking https://www.bipsbites.com/wp-content/uploads/2025/07/Dust-of-Deliciousness-web-resolution-14.jpg https://www.bipsbites.com/wp-content/uploads/2025/07/Dust-of-Deliciousness-web-resolution-14-1024x768.jpg
+bips-bites cookout https://www.bipsbites.com/wp-content/uploads/2025/07/IMG_4421.jpg https://www.bipsbites.com/wp-content/uploads/2025/07/IMG_4421-1024x768.jpg
+bips-bites rub-jars https://www.bipsbites.com/wp-content/uploads/2025/07/Dust-of-Deliciousness-web-resolution-10.jpg https://www.bipsbites.com/wp-content/uploads/2025/07/Dust-of-Deliciousness-web-resolution-10-1024x768.jpg
+bips-bites rub-jar https://www.bipsbites.com/wp-content/uploads/2025/07/Dust-of-Deliciousness-web-resolution-8.jpg https://www.bipsbites.com/wp-content/uploads/2025/07/Dust-of-Deliciousness-web-resolution-8-300x300.jpg
+bips-bites logo https://www.bipsbites.com/wp-content/uploads/2025/07/ChatGPT-Image-Jul-16-2025-04_26_26-PM.png
+bips-bites chopped-cheese https://i.ytimg.com/vi/laaXJCTVD3M/maxresdefault.jpg https://i.ytimg.com/vi/laaXJCTVD3M/hqdefault.jpg

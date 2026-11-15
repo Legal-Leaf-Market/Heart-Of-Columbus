@@ -1,0 +1,43 @@
+# Downloads photos an owner has said we may show, from the owner's own pages,
+# into staging/<slug>/ (never public/) so a person can check them and add them
+# with scripts/add-photo.py and an entry in src/data/media.mjs. This sandbox
+# cannot reach business sites; GitHub's runners can.
+# Trigger: edit scripts/data/photo-request.txt on a claude/ branch. One line
+# per photo: "<slug> <name> <url> [fallback-url]". Lines starting with # skip.
+name: Fetch owner photos
+on:
+  workflow_dispatch:
+  push:
+    branches: ['claude/**']
+    paths: ['scripts/data/photo-request.txt']
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download
+        run: |
+          set -u
+          UA='Mozilla/5.0 (compatible; HeartOfColumbusBot/1.1; +https://heartofcolumbus.netlify.app)'
+          grep -v '^\s*#' scripts/data/photo-request.txt | while read -r slug name url alt; do
+            [ -z "${url:-}" ] && continue
+            case "$slug$name" in *[!a-z0-9-]*) echo "skip bad name $slug/$name"; continue;; esac
+            mkdir -p "staging/$slug"
+            ext="${url##*.}"; ext="${ext%%\?*}"
+            out="staging/$slug/$name.$ext"
+            if ! curl -fsSL -A "$UA" --max-time 60 -o "$out" "$url"; then
+              rm -f "$out"
+              if [ -n "${alt:-}" ]; then ext="${alt##*.}"; out="staging/$slug/$name.${ext%%\?*}"; curl -fsSL -A "$UA" --max-time 60 -o "$out" "$alt" || { rm -f "$out"; echo "FAILED $name"; }; else echo "FAILED $name"; fi
+            fi
+          done
+          ls -la staging/* || true
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add staging
+          git diff --cached --quiet || git commit -m "Owner photos fetched to staging by the Fetch owner photos workflow"
+          git push
