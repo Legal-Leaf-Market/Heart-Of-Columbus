@@ -132,7 +132,7 @@ ${breadcrumbs([['/', 'Home'], ['/explore/', 'Explore'], ...(sub && multi ? [[`/c
       <h1>${esc(title)} <span class="band-n">${items.length}</span></h1>
       <p class="band-sub">${esc(cat.blurb)} Independent and in Columbus.</p>
       <a class="btn btn-ghost" href="${mapHref}"${views ? ' data-v-go="map"' : ''}>${svg('map')} See them on the map</a>
-      ${cat.slug === 'events' ? `<a class="btn" href="/djs/">🎧 Columbus DJs</a>` : ''}
+      ${cat.slug === 'events' ? `<a class="btn" href="/plan/">🗓️ Plan a wedding, corporate event or party</a> <a class="btn btn-ghost" href="/djs/">🎧 Columbus DJs</a>` : ''}
     </div>
     <figure class="ed-hero-art">
       <img width="${hero.width}" height="${hero.height}" decoding="async" fetchpriority="high" sizes="(max-width: 860px) calc(100vw - 32px), 700px"${hero.small ? ` srcset="/art/${hero.small} 768w, /art/${hero.file} ${hero.width}w"` : ''} src="/art/${hero.file}" style="object-position:${hero.pos}" alt="">
@@ -315,7 +315,7 @@ ${b.also.map((a) => `<section class="wrap also-wrap" id="also-${a.cat}"><div cla
 ${b.feed ? `<section class="wrap shop-sec" id="shop"><p class="kicker">Live from their store</p><h2>Shop ${t(b.name)} online</h2>
   <p class="sub">Their real products and prices, read from their own online store. Add to your cart here, then check out on their site with everything already in the cart. Choose pickup there if they offer it.</p>
   <div data-shop="${b.slug}" data-name="${esc(b.name)}"><p class="muted">Loading their store…</p></div></section>` : ''}
-${inSection(b, 'events') ? rail('Plan the rest of the day', '/c/events/', planTheDay(b), { kicker: `${catBySlug.events.emoji} Events & Weddings`, id: 'plan-the-day' }) : ''}
+${inSection(b, 'events') ? rail('Plan the rest of the day', '/plan/', planTheDay(b), { kicker: `${catBySlug.events.emoji} Events & Weddings`, id: 'plan-the-day' }) : ''}
 ${b.cat === 'events' ? '' : rail(`More ${sub.label.toLowerCase()}`, `/c/${cat.slug}/${cat.subs.length > 1 ? sub.slug + '/' : ''}`, same.slice(0, 14))}
 ${rail('Close by', area ? `/n/${area.slug}/` : '', near)}
 </main>

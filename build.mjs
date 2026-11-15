@@ -22,6 +22,7 @@ import { skatePages } from './src/pages/skate-pages.mjs';
 import { freePages } from './src/pages/free-pages.mjs';
 import { guidePages } from './src/pages/guide-pages.mjs';
 import { djPages } from './src/pages/dj-pages.mjs';
+import { planPages } from './src/pages/plan-pages.mjs';
 import { agriculturePages } from './src/pages/agriculture-pages.mjs';
 import { tripPages } from './src/pages/trip-pages.mjs';
 import { trailPages } from './src/pages/trail-pages.mjs';
@@ -76,6 +77,7 @@ const pages = [
   ...accessPages({ assets }),
   ...freePages({ assets }),
   ...djPages({ assets }),
+  ...planPages({ assets }),
   ...agriculturePages({ assets }),
   ...filmPages({ assets }),
   ...guidePages({ assets }),
