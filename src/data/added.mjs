@@ -22,6 +22,14 @@
 // Heart of Columbus (2026-11-13): a cafe coming soon to Columbus, Indiana. No
 // address, hours or menu yet. Listed as coming soon, with the tie disclosed on
 // its page.
+//
+// Rabbit's Balloons: from its owner, Rachael Starr, in conversation with Jacob
+// Kennedy (2026-11-15): organic balloon arches, garlands and displays in all
+// natural latex (Sempertex) for corporate events, weddings, showers and
+// private parties in Columbus. She has no public page yet, so `source` is the
+// draft website Heart of Columbus built from what she told us for her to
+// review (sites/rabbits-balloons/). No address, phone or prices yet. She owns
+// a domain; put it in `website` when it goes live.
 export const ADDED = [
   {
     name: 'Crossroads Wedding Co.',
@@ -74,5 +82,17 @@ export const ADDED = [
     tie: 'Legal Leaf Market is owned by Jacob Kennedy, who also runs Heart of Columbus.',
     source: 'https://shop.legalleafmarket.shop/',
     checked: '2026-11-13',
+  },
+  {
+    name: "Rabbit's Balloons",
+    cat: 'events',
+    sub: 'events',
+    type: 'Organic balloon arches, garlands and installs in all natural latex',
+    address: '',
+    phone: '',
+    website: '',
+    book: [],
+    source: 'https://heartofcolumbus.netlify.app/preview/rabbits-balloons/',
+    checked: '2026-11-15',
   },
 ];

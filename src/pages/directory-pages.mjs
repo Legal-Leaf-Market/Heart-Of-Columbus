@@ -210,6 +210,20 @@ export const inTheNews = (b, items = storiesTagged(b.slug).slice(0, 6)) => {
   return items.length ? `<section class="wrap np-in-news" id="in-the-news"><p class="kicker">In the news</p><h2>Stories about ${t(b.name)}</h2>${storyList(items, { size: 'line' })}</section>` : '';
 };
 
+// Other event vendors for a business listed in Events & Weddings, mixed so a
+// planner sees different kinds of help first: its family business, then shops
+// whose own pages say they do events (flowers, cookies), then listings added by
+// hand, then the rest of the section in name order. No one pays for a place.
+const planTheDay = (b) => {
+  const rank = (x) => (b.kin.some((k) => k.slug === x.slug) ? 0 : x.cat !== 'events' ? 1 : x.added ? 2 : 3);
+  return directory
+    .filter((x) => x.slug !== b.slug && inSection(x, 'events'))
+    .map((x, i) => [rank(x), i, x])
+    .sort((p, q) => p[0] - q[0] || p[1] - q[1])
+    .slice(0, 14)
+    .map(([, , x]) => asListedIn(x, 'events'));
+};
+
 function bizPage(b, { assets }) {
   const cat = catBySlug[b.cat];
   const sub = subBySlug[b.sub];
@@ -248,7 +262,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
         ${b.links.map((l) => `<a class="btn btn-ghost" href="${esc(l.url)}" target="_blank" rel="noopener">${svg('globe')} ${esc(l.label)} ↗</a>`).join('')}
         ${b.demo ? `<a class="btn btn-ghost" href="${b.demo}">${svg('store')} ${b.cat === 'beauty' ? 'Book' : 'Order'} (demo)</a>` : ''}
         ${b.phone ? `<a class="btn ${b.demo || b.order.length || b.book.length || b.feed || b.store ? 'btn-ghost' : ''}" href="${tel(b.phone)}">${svg('phone')} Call ${esc(b.phone)}</a>` : ''}
-        ${b.added?.soon && !b.address ? '' : `<a class="btn btn-ghost" href="${mapsLink(b)}" target="_blank" rel="noopener">${svg('pin')} Directions</a>`}
+        ${b.added && !b.address ? '' : `<a class="btn btn-ghost" href="${mapsLink(b)}" target="_blank" rel="noopener">${svg('pin')} Directions</a>`}
         ${b.website ? `<a class="btn btn-ghost" href="${esc(b.website)}" target="_blank" rel="noopener">${svg('globe')} Website</a>` : ''}
         ${b.gift ? `<a class="btn btn-ghost" href="${esc(b.gift.url)}" target="_blank" rel="noopener">${svg('heart')} Gift cards</a>` : ''}
         <button type="button" class="btn btn-ghost" data-save="${b.slug}" aria-pressed="false">${svg('heart')} <span data-save-label>Save</span></button>
@@ -257,6 +271,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
       ${b.dora ? `<p class="direct-note dora-note">🥤 <span>On the city’s list of Downtown Columbus Social District businesses (checked October 2026). If you are 21 or older you can leave with a drink in a Social District cup, 10 AM to midnight. <a href="/visit/#social-district">The rules</a></span></p>` : ''}
       ${b.added?.soon ? `<p class="direct-note">🚧 <span>Coming soon. Not open yet; we will add hours and an address when it opens.</span></p>` : ''}
       ${b.added?.tie ? `<p class="direct-note member-note">★ <span>${esc(b.added.tie)}</span></p>` : ''}
+      ${b.kin.map((k) => { const o = directory.find((x) => x.slug === k.slug); return o ? `<p class="direct-note kin-note">🤝 <span>${esc(k.label)}: <a href="/b/${o.slug}/">${t(o.name)}</a>, ${esc(k.about || o.type.charAt(0).toLowerCase() + o.type.slice(1))}.</span></p>` : ''; }).join('')}
       ${b.member ? `<p class="direct-note member-note" id="member-note">★ <span>${esc(b.name)} is a Founding Member. It pays Heart of Columbus $${PRICE} a month for a website we keep up to date and a featured spot in its category, and has no say in what we write. <a href="/founders-club/">About the Founders Club</a></span></p>` : ''}
       ${b.order.length || b.book.length ? `<p class="direct-note">${svg('store', 'ic-sm')} ${b.order.length ? 'Ordering' : 'Booking'} opens ${esc(b.name)}’s own ${esc((b.order[0] || b.book[0]).label)} page, the one they chose and pay for themselves. Heart of Columbus takes no cut.</p>` : ''}
     </div>
@@ -300,7 +315,8 @@ ${b.also.map((a) => `<section class="wrap also-wrap" id="also-${a.cat}"><div cla
 ${b.feed ? `<section class="wrap shop-sec" id="shop"><p class="kicker">Live from their store</p><h2>Shop ${t(b.name)} online</h2>
   <p class="sub">Their real products and prices, read from their own online store. Add to your cart here, then check out on their site with everything already in the cart. Choose pickup there if they offer it.</p>
   <div data-shop="${b.slug}" data-name="${esc(b.name)}"><p class="muted">Loading their store…</p></div></section>` : ''}
-${rail(`More ${sub.label.toLowerCase()}`, `/c/${cat.slug}/${cat.subs.length > 1 ? sub.slug + '/' : ''}`, same.slice(0, 14))}
+${inSection(b, 'events') ? rail('Plan the rest of the day', '/c/events/', planTheDay(b), { kicker: `${catBySlug.events.emoji} Events & Weddings`, id: 'plan-the-day' }) : ''}
+${b.cat === 'events' ? '' : rail(`More ${sub.label.toLowerCase()}`, `/c/${cat.slug}/${cat.subs.length > 1 ? sub.slug + '/' : ''}`, same.slice(0, 14))}
 ${rail('Close by', area ? `/n/${area.slug}/` : '', near)}
 </main>
 ${footer()}`;

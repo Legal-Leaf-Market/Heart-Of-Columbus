@@ -241,6 +241,7 @@ for (const b of all) {
   // Buttons to its own pages, and sections its own pages show it also serves.
   b.links = own?.links || [];
   b.also = own?.also || [];
+  b.kin = own?.kin || [];
   if (own) {
     if (own.address) b.address = own.address;
     if (own.hours) { b.hours = own.hours; b.hoursFrom = 'own'; }

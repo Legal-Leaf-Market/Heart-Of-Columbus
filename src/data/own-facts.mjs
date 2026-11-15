@@ -11,6 +11,22 @@
 //            { cat, sub, type, title, points: [..], cta, url }. The business
 //            is listed there too and keeps its home section and page. `points`
 //            are plain facts from `url`, never our words about how good it is.
+//   kin      a family business it names, as [{ slug, label, about }]: a line on its
+//            page linking the other listing (and the other one back, if that
+//            business says so too). Only what the owners told us.
+//
+// Turtle's Flowers (checked 2026-11-15), https://www.turtlesflowers.com/ :
+//   page title "Premium Flower Delivery Columbus IN | Artisan Florist";
+//   description "Send luxury flowers in Columbus, IN. Artisan arrangements from
+//   thoughtful to unforgettable for anniversaries, birthdays & more."; share
+//   text "Florist in Columbus Indiana. Specializing in bouquets made from
+//   locally grown flowers. We welcome weddings of all budgets." The site runs
+//   on Square Online and renders its menu in the browser, so no section pages
+//   could be read; the buttons stay on the home page. Sister business: Rabbit's
+//   Balloons, per its owner Rachael Starr (2026-11-15).
+//
+// Rabbit's Balloons (checked 2026-11-15): from its owner, Rachael Starr; see
+// added.mjs. Its draft website is the page it has for now.
 //
 // Cookie Paradise (checked 2026-11-13):
 //   - https://cookieparadise.co/pages/contact : "Address: 3950 25th St,
@@ -52,5 +68,31 @@ export const OWN_FACTS = {
         url: 'https://cookieparadise.co/pages/weddings-private-parties',
       },
     ],
+  },
+  'turtles-flowers': {
+    source: 'https://www.turtlesflowers.com/',
+    checked: '2026-11-15',
+    kin: [{ slug: 'rabbits-balloons', label: 'Sister business', about: 'balloon arches and installs' }],
+    also: [
+      {
+        cat: 'events',
+        sub: 'events',
+        type: 'Wedding and event flowers from an artisan florist, made with locally grown flowers',
+        title: 'Wedding flowers',
+        points: [
+          'Specializes in bouquets made from locally grown flowers.',
+          'Welcomes weddings of all budgets.',
+          'Artisan arrangements for anniversaries, birthdays and more, with flower delivery in Columbus.',
+        ],
+        cta: 'Plan your flowers',
+        url: 'https://www.turtlesflowers.com/',
+      },
+    ],
+  },
+  'rabbits-balloons': {
+    source: 'https://heartofcolumbus.netlify.app/preview/rabbits-balloons/',
+    checked: '2026-11-15',
+    links: [{ label: 'Draft website and Color Studio', url: '/preview/rabbits-balloons/' }],
+    kin: [{ slug: 'turtles-flowers', label: 'Sister business', about: 'artisan florist' }],
   },
 };

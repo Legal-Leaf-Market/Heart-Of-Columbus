@@ -31,6 +31,18 @@ test('the business page shows the owner\'s address, hours and where they came fr
   }
 });
 
+test('a family business line links a real listing, both ways when both say so', () => {
+  for (const [slug, f] of Object.entries(OWN_FACTS)) {
+    for (const k of f.kin || []) {
+      assert.ok(bySlug[k.slug], `${slug}: kin ${k.slug} is not a directory slug`);
+      assert.ok(dist(`b/${slug}/index.html`).includes(`href="/b/${k.slug}/"`), `${slug}: links ${k.slug}`);
+    }
+  }
+  const t = dist('b/turtles-flowers/index.html');
+  assert.ok(t.includes('id="plan-the-day"'), 'a florist listed in Events gets the plan-the-day rail');
+  assert.ok(t.includes('href="/b/rabbits-balloons/"'));
+});
+
 test('Cookie Paradise shows the trailer on 25th St, not the old Chamber address', () => {
   const html = dist('b/cookie-paradise-llc/index.html');
   assert.ok(html.includes('3950 25th St'));
