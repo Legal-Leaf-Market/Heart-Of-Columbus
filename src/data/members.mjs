@@ -33,6 +33,9 @@ export const MEMBERS = {
   // Founder #8. Jacob Kennedy confirmed on 2026-11-15, after #2 to #7, that the
   // owner agreed and paid.
   'bips-bites': { since: '2026-11-15', contact: 'Bip, owner (bip@bipsbites.com, published on his site), via Jacob Kennedy' },
+  // Founder #9. Jacob Kennedy confirmed on 2026-11-15, after #8, that the owner
+  // joined as a Founding Member.
+  'tribal-blend-cat-cafe': { since: '2026-11-15', contact: 'the owner, via Jacob Kennedy' },
 };
 
 export const PRICE = 20; // dollars a month, locked for founding members
