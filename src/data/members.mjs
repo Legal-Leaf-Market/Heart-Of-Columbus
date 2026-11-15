@@ -21,6 +21,14 @@ export const MEMBERS = {
     since: '2026-11-13',
     contact: 'Trung, owner (trung@cookieparadise.co, published on the contact page)',
   },
+  // Founders #2 to #7. Jacob Kennedy confirmed on 2026-11-15 that each of these
+  // owners agreed and paid. Same date for all six, so they number by slug.
+  'amys-closet': { since: '2026-11-15', contact: 'the owner, via Jacob Kennedy' },
+  'jills-diner': { since: '2026-11-15', contact: 'the owner, via Jacob Kennedy' },
+  'rabbits-balloons': { since: '2026-11-15', contact: 'Rachael Starr, owner. Draft website: sites/rabbits-balloons/' },
+  'salon-aura-hair-color-studio': { since: '2026-11-15', contact: 'the owner, via Jacob Kennedy' },
+  'tjs-chopshop': { since: '2026-11-15', contact: 'TJ, owner, via Jacob Kennedy. Draft website: sites/tjs-chopshop/' },
+  'turtles-flowers': { since: '2026-11-15', contact: 'Tiffany, owner, via Jacob Kennedy' },
 };
 
 export const PRICE = 20; // dollars a month, locked for founding members
