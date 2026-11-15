@@ -13,6 +13,8 @@ import { dateRange } from './events.mjs';
 import { businessLd } from '../jsonld.mjs';
 import { spotlightSection, ownersPicks, spotFor } from './spotlight.mjs';
 import { ownerWords } from './owner-words.mjs';
+import { tierOf, founderNumber } from '../data/claims.mjs';
+import { paletteFor } from '../data/brands.mjs';
 import { attrBlock, ANY_ATTRS, ATTR_FILTERS } from '../attrs.mjs';
 import { SPOTLIGHT_SLUGS } from '../data/spotlight.mjs';
 import { storiesTagged } from '../news/content.mjs';
@@ -224,13 +226,30 @@ const planTheDay = (b) => {
     .map(([, , x]) => asListedIn(x, 'events'));
 };
 
+// Initials for a member page until the owner sends a logo: the first letters
+// of the first two words that are not "The" or a company suffix.
+const initials = (name) => name.replace(/['’]s\b/g, '').split(/[^A-Za-z0-9]+/).filter((w) => w && !/^(the|llc|inc|co)$/i.test(w)).slice(0, 2).map((w) => w[0].toUpperCase()).join('');
+
+// The ladder every owner sees on their page: where it is now, and what the
+// next step adds. Plain facts about what we do, no pressure copy.
+const ladder = (tier) => `<ol class="tiers">
+  <li${tier === 'listed' ? ' class="on"' : ''}><b>Outline</b><span>The public facts, plainly drawn</span></li>
+  <li${tier === 'claimed' ? ' class="on"' : ''}><b>✓ Claimed</b><span>Your photos and your words, the right hours and links, deals</span></li>
+  <li${tier === 'member' ? ' class="on"' : ''}><b>★ Founding Member</b><span>Your colors and logo, a website we keep up to date, first in your category</span></li>
+</ol>`;
+
 function bizPage(b, { assets }) {
   const cat = catBySlug[b.cat];
   const sub = subBySlug[b.sub];
   const area = areaBySlug[b.area];
   const media = mediaFor(b.slug);
+  const tier = tierOf(b.slug);
+  const pal = tier === 'member' ? paletteFor(b.slug, cat.color) : null;
+  const fnum = tier === 'member' ? founderNumber(b.slug, (s) => directory.some((x) => x.slug === s)) : 0;
+  const logo = media?.logo ? `<img src="${mediaSrc(b.slug, media.logo)}" width="${media.logo.width}" height="${media.logo.height}" alt="${esc(media.logo.alt)}" decoding="async">` : '';
   // No owner photo: the type's painted scene, if it has one (src/editorial-art.mjs).
-  const ed = media?.cover ? null : editorialFor(b);
+  // An outline listing gets no painting, and a member gets its own colors.
+  const ed = media?.cover || tier !== 'claimed' ? null : editorialFor(b);
   const near = b.ll
     ? directory.filter((x) => x.slug !== b.slug && x.ll).map((x) => [km(b.ll, x.ll), x]).sort((a, c) => a[0] - c[0]).slice(0, 12).map((x) => x[1])
     : [];
@@ -238,21 +257,24 @@ function bizPage(b, { assets }) {
   const q = encodeURIComponent(`${b.name}, ${b.address ? b.address + ', ' : ''}Columbus, IN`);
   const body = `
 ${header(cat.slug)}
-<main id="main">
+<main id="main" class="tier-${tier}"${pal ? ` style="--b:${pal.brand};--b-on:${pal.on};--b-deep:${pal.deep};--b-paper:${pal.paper};--b-acc:${pal.accent}${pal.font ? `;--b-font:'${pal.font}'` : ''}"` : ''}>
 ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.length > 1 ? [[`/c/${cat.slug}/${sub.slug}/`, sub.label]] : []), ['', b.name]])}
 <section class="wrap biz">
   <div class="biz-main">
-    <div class="biz-cover ${ed ? 'biz-cover-ed' : 'pat-arch'}" style="--c:${cat.color};--t:${cat.tint}">
-      ${ed ? editorialImg(ed, { lazy: false, sizes: '(max-width: 960px) 100vw, 780px' }) + edTag : `${coverArt(b.sub, false)}
+    <div class="biz-cover ${media?.cover ? 'pat-arch' : tier === 'listed' ? 'biz-outline' : tier === 'member' ? 'biz-brandcover' : ed ? 'biz-cover-ed' : 'pat-arch'}" style="--c:${cat.color};--t:${cat.tint}">
+      ${media?.cover ? '' : tier === 'listed' ? `<span class="outline-emoji" aria-hidden="true">${sub.emoji}</span><span class="outline-label">Outline listing</span>`
+        : tier === 'member' ? `<span class="brand-mono" aria-hidden="true">${logo || initials(b.name)}</span>`
+        : ed ? editorialImg(ed, { lazy: false, sizes: '(max-width: 960px) 100vw, 780px' }) + edTag : `${coverArt(b.sub, false)}
       <span class="biz-emoji" aria-hidden="true">${sub.emoji}</span>`}
       ${media?.cover ? `<img class="biz-photo" src="${mediaSrc(b.slug, media.cover)}" width="${media.cover.width}" height="${media.cover.height}" alt="${esc(media.cover.alt)}" loading="lazy" decoding="async" onerror="this.remove()">` : ''}
     </div>
     ${media ? `<p class="fine biz-credit">${esc(media.credit)}, shown with permission.</p>` : `<p class="fine biz-credit">Own ${t(b.name)}? <a href="/owners/?b=${b.slug}&amp;want=photos#claim">Send us photos</a> and we will show them here with your credit. We never copy them from your website.</p>`}
     <div class="biz-head">
       <p class="kicker"><a href="/c/${cat.slug}/${cat.subs.length > 1 ? sub.slug + '/' : ''}">${esc(sub.label)}</a>${area ? ` · <a href="/n/${area.slug}/">${esc(area.label)}</a>` : ''}</p>
+      ${tier === 'member' ? `<p class="brand-line"><span class="brand-badge" aria-hidden="true">${logo || initials(b.name)}</span><a class="brand-ribbon" href="/founders-club/">★ Founding Member #${fnum}</a></p>` : ''}
       <h1>${t(b.name)}</h1>
       <p class="biz-type">${t(b.type)}</p>
-      <div class="bz-tags">${b.member ? '<a class="tag tag-member" href="#member-note">★ Founding Member</a>' : ''}${SPOTLIGHT_SLUGS.has(b.slug) ? (spotFor(b.slug)?.picks.length ? '<a class="tag tag-spot" href="#owners-picks">★ Spotlight</a>' : '<span class="tag tag-spot">★ Spotlight</span>') : ''}${b.demo ? '<span class="tag tag-hot">Order direct (demo)</span>' : ''}${b.heritage ? '<span class="tag">Columbus original</span>' : ''}${b.dora ? '<span class="tag tag-dora">Social District: drinks to go</span>' : ''}${b.also.map((a) => `<a class="tag tag-go" href="#also-${a.cat}">${catBySlug[a.cat].emoji} ${esc(a.title)}</a>`).join('')}<span class="tag tag-plain">Independent</span></div>
+      <div class="bz-tags">${b.member ? '<a class="tag tag-member" href="#member-note">★ Founding Member</a>' : ''}${tier === 'claimed' ? '<span class="tag tag-claimed">✓ Claimed by the owner</span>' : ''}${tier === 'listed' ? '<a class="tag tag-outline" href="#claim-card">Outline listing</a>' : ''}${SPOTLIGHT_SLUGS.has(b.slug) ? (spotFor(b.slug)?.picks.length ? '<a class="tag tag-spot" href="#owners-picks">★ Spotlight</a>' : '<span class="tag tag-spot">★ Spotlight</span>') : ''}${b.demo ? '<span class="tag tag-hot">Order direct (demo)</span>' : ''}${b.heritage ? '<span class="tag">Columbus original</span>' : ''}${b.dora ? '<span class="tag tag-dora">Social District: drinks to go</span>' : ''}${b.also.map((a) => `<a class="tag tag-go" href="#also-${a.cat}">${catBySlug[a.cat].emoji} ${esc(a.title)}</a>`).join('')}<span class="tag tag-plain">Independent</span></div>
       ${b.hours ? `<p class="open-badge biz-open" data-open-now='${JSON.stringify(b.hours)}' hidden></p>` : ''}
       <div class="biz-actions">
         ${b.order.map((o, i) => `<a class="btn${i ? ' btn-ghost' : ''}" href="${esc(o.url)}" target="_blank" rel="noopener">${svg('store')} Order online${b.order.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
@@ -288,11 +310,23 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
         ${attrBlock(b)}
       </div>
     </div>
-    <div class="side-card claim">
-      <p class="kicker">Is this your business?</p>
-      <p>Fix your hours and links, point customers at your own ordering, or take pickup orders here with no app fees. You can also post a deal or tell your story in your own words.</p>
-      <a class="btn btn-sm" href="/owners/?b=${b.slug}#claim">Claim this listing ${svg('arrow', 'ic-sm')}</a>
-    </div>
+    ${tier === 'listed' ? `<div class="side-card claim" id="claim-card">
+      <p class="kicker">This page is an outline</p>
+      <p>Everything here comes from public listings. Is this your business? Claim it free and fill it in: your photos, your own words, the right hours and links, pickup orders with no app fees.</p>
+      ${ladder(tier)}
+      <a class="btn btn-sm" href="/owners/?b=${b.slug}#claim">Claim this page free ${svg('arrow', 'ic-sm')}</a>
+    </div>` : tier === 'claimed' ? `<div class="side-card claim" id="claim-card">
+      <p class="kicker">✓ Claimed by the owner</p>
+      <p>The owner has confirmed this page. Owners can send new photos, words, hours and deals any time.</p>
+      ${ladder(tier)}
+      <a class="btn btn-sm" href="/owners/?b=${b.slug}#claim">Update this page ${svg('arrow', 'ic-sm')}</a>
+      <a class="fine" href="/founders-club/">What Founding Members get</a>
+    </div>` : `<div class="side-card claim brand-card" id="claim-card">
+      <p class="kicker">★ Founding Member #${fnum}</p>
+      <p>${t(b.name)} was one of the first businesses to back Heart of Columbus.${media?.logo ? '' : ' Its logo goes here as soon as the owner sends it.'}</p>
+      ${ladder(tier)}
+      <a class="btn btn-sm" href="/owners/?b=${b.slug}#claim">Owner? Update this page ${svg('arrow', 'ic-sm')}</a>
+    </div>`}
     <p class="fine">Details come from public listings (Chamber directory, Visit Columbus, Google Maps)${b.own ? ' and their own website' : ''} and may change. Call ahead. ${b.added?.tie ? esc(b.added.tie) : b.member ? `${esc(b.name)} is a paying Founding Member of Heart of Columbus.` : 'Heart of Columbus is not affiliated with this business.'}</p>
   </aside>
 </section>

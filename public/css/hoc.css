@@ -4,6 +4,14 @@
 
 @font-face { font-family: "Fraunces"; src: url("/fonts/fraunces-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
 @font-face { font-family: "Inter"; src: url("/fonts/inter-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+/* Brand display faces for Founding Member pages (src/data/brands.mjs). A face
+   downloads only on a page that uses it. */
+@font-face { font-family: "Alfa Slab One"; src: url("/fonts/alfa-slab-one-latin-400-normal.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Lilita One"; src: url("/fonts/lilita-one-latin-400-normal.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Righteous"; src: url("/fonts/righteous-latin-400-normal.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Bungee"; src: url("/fonts/bungee-latin-400-normal.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Archivo"; src: url("/fonts/archivo-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Pacifico"; src: url("/fonts/pacifico-latin-400-normal.woff2") format("woff2"); font-display: swap; }
 
 :root {
   --brand: #c8232c; --brand-2: #e8454d; --accent: #f2b33d; --ink: #1b1a17; --paper: #fbf7f0;
@@ -1657,3 +1665,42 @@ a.tag:not(.tag-member):hover { filter: brightness(.96); }
   .pl-print .pl-x { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .pl-track { transition: none; } }
+
+
+/* Business page tiers (src/data/claims.mjs): outline, claimed, Founding Member. */
+/* Outline: an unclaimed listing, drawn like a plan nobody has filled in yet. */
+.biz-outline { background-color: var(--surface); background-image: linear-gradient(rgba(27,26,23,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(27,26,23,.07) 1px, transparent 1px); background-size: 22px 22px; border-style: dashed; box-shadow: none; }
+.outline-emoji { font-size: 96px; filter: grayscale(1); opacity: .28; }
+.outline-label { position: absolute; left: 14px; top: 12px; font: 800 11.5px/1 var(--body, "Inter", system-ui, sans-serif); letter-spacing: .14em; text-transform: uppercase; border: 1.5px dashed var(--ink); border-radius: 999px; padding: 6px 10px; background: var(--surface); color: var(--muted); }
+.tag-outline { background: transparent; border-style: dashed; color: var(--muted); text-decoration: none; }
+.tag-claimed { background: #e7f5ea; border-color: #1f7a3a; color: #1f5f2e; }
+.tier-listed .biz-head h1 { color: #2b2a27; }
+.tiers { list-style: none; margin: 4px 0 6px; padding: 0; display: grid; gap: 6px; width: 100%; counter-reset: tier; }
+.tiers li { position: relative; border: 1.5px dashed rgba(27,26,23,.35); border-radius: 12px; padding: 8px 10px 8px 34px; font-size: 13.5px; line-height: 1.35; counter-increment: tier; }
+.tiers li::before { content: counter(tier); position: absolute; left: 10px; top: 8px; width: 17px; height: 17px; border-radius: 50%; background: rgba(27,26,23,.12); font: 800 11px/17px var(--body, "Inter", system-ui, sans-serif); text-align: center; }
+.tiers li b { display: block; font-size: 14px; }
+.tiers li span { color: var(--muted); }
+.tiers li.on { border: 2px solid var(--ink); background: var(--surface); box-shadow: 3px 3px 0 var(--ink); }
+.tiers li.on::before { background: var(--ink); color: #fff; }
+
+/* Founding Member: the page wears the business's own colors and type. */
+.tier-member .biz { background: var(--b-paper); border: 2px solid var(--ink); border-radius: var(--r-lg); box-shadow: 8px 8px 0 var(--b); padding: 22px; margin-top: 10px; margin-bottom: 22px; }
+.tier-member .biz-cover { box-shadow: none; }
+.biz-brandcover { background: radial-gradient(520px 260px at 82% 0, var(--b-acc) 0, transparent 60%), radial-gradient(420px 260px at 0 100%, rgba(255,255,255,.18) 0, transparent 60%), linear-gradient(135deg, var(--b) 0%, var(--b-deep) 100%); }
+.brand-mono { font-family: var(--b-font, var(--display, "Fraunces")), Georgia, serif; font-size: clamp(84px, 14vw, 132px); line-height: 1; color: var(--b-paper); text-shadow: 5px 5px 0 rgba(0,0,0,.22); letter-spacing: .02em; }
+.brand-mono img { max-height: 170px; width: auto; filter: drop-shadow(4px 6px 0 rgba(0,0,0,.18)); }
+.brand-line { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin: 0 0 12px; }
+.brand-badge { width: 56px; height: 56px; border-radius: 50%; background: var(--b); color: var(--b-on); display: grid; place-items: center; font-family: var(--b-font, var(--display, "Fraunces")), Georgia, serif; font-size: 22px; border: 2px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); overflow: hidden; flex: none; }
+.brand-badge img { width: 100%; height: 100%; object-fit: contain; background: #fff; }
+.brand-ribbon { background: var(--b-deep); color: #fff; font-weight: 800; font-size: 14px; letter-spacing: .02em; text-decoration: none; border: 2px solid var(--ink); border-radius: 999px; padding: 7px 14px; }
+.brand-ribbon:hover { background: var(--b); color: var(--b-on); }
+.tier-member .biz-head h1 { font-family: var(--b-font, inherit), Georgia, serif; color: var(--b-deep); font-weight: 700; font-synthesis: none; }
+.tier-member .biz-head .kicker a, .tier-member .shop-sec .kicker, .tier-member .biz-gallery .kicker { color: var(--b); }
+.tier-member .biz-actions .btn:not(.btn-ghost) { background: var(--b); color: var(--b-on); }
+.tier-member .tag-member { background: var(--b-deep); border-color: var(--b-deep); }
+.tier-member .brand-card { background: var(--b-paper); border-color: var(--ink); box-shadow: 5px 5px 0 var(--b); }
+.tier-member .brand-card .kicker { color: var(--b); }
+.tier-member .tiers li.on { border-color: var(--b); box-shadow: 3px 3px 0 var(--b); }
+.tier-member .tiers li.on::before { background: var(--b); color: var(--b-on); }
+.tier-member .shop-sec h2, .tier-member .also-sec h2 { font-family: var(--b-font, inherit), Georgia, serif; font-weight: 700; font-synthesis: none; color: var(--b-deep); }
+@media (max-width: 700px) { .tier-member .biz { padding: 14px; box-shadow: 5px 5px 0 var(--b); } }
