@@ -7,6 +7,7 @@ import { header, footer, rail, svg, PHOTOS, sticker, catSticker } from '../site.
 import { eventsSection } from './events.mjs';
 import { yourWay } from './trip-pages.mjs';
 import { spotlightSection } from './spotlight.mjs';
+import { boostedRow } from '../promotions.mjs';
 
 // Each demo keeps its business's own colors; the sticker says what it sells.
 const featuredStyle = {
@@ -122,6 +123,8 @@ ${header()}
       </a></li>`).join('')}
   </ul>
 </section>
+
+${boostedRow('home', { title: 'Boosted local businesses', id: 'boosted' })}
 
 ${spotlightSection({ title: 'Meet your neighbors.' })}
 

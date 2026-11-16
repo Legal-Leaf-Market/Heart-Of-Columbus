@@ -316,18 +316,23 @@ export function findGiftLinks(html, base) {
 // ---------- Cart handoff ----------
 // Shopify: one permalink carries the whole cart. Sold-out lines must be left
 // out, because Shopify rejects the entire /cart/ URL if any variant is gone.
+// Stored origins end in '/', so links are joined without doubling it.
+const bare = (origin) => String(origin || '').replace(/\/+$/, '');
 export function shopifyCartUrl(origin, lines) {
+  origin = bare(origin);
   const parts = lines.filter((l) => l.available !== false && l.variantId).map((l) => `${encodeURIComponent(l.variantId)}:${l.qty}`);
   return parts.length ? `${origin}/cart/${parts.join(',')}` : `${origin}/cart`;
 }
 // WooCommerce: ?add-to-cart= adds ONE line per request. The first line rides
 // the redirect; the rest are listed so the shopper can tap them in.
 export function wooCartUrls(origin, lines) {
+  origin = bare(origin);
   return lines.filter((l) => l.available !== false && l.productId)
     .map((l) => `${origin}/?add-to-cart=${encodeURIComponent(l.variantId || l.productId)}&quantity=${l.qty}`);
 }
 // BigCommerce: cart.php adds one product per request, same shape as Woo.
 export function bigcommerceCartUrls(origin, lines) {
+  origin = bare(origin);
   return lines.filter((l) => l.available !== false && l.productId)
     .map((l) => `${origin}/cart.php?action=add&product_id=${encodeURIComponent(l.productId)}&qty=${l.qty}`);
 }
@@ -335,6 +340,7 @@ export function bigcommerceCartUrls(origin, lines) {
 // ---------- Catalog normalizing ----------
 const money = (v) => Math.round(Number(v || 0) * 100) / 100;
 export function mapShopify(origin, products) {
+  origin = bare(origin);
   return (products || []).filter((p) => p && p.variants && p.variants.length).map((p) => ({
     id: `s${p.id}`, title: p.title, type: (p.product_type || '').trim(), url: `${origin}/products/${p.handle}`,
     image: p.images && p.images[0] ? p.images[0].src : '',
@@ -344,6 +350,7 @@ export function mapShopify(origin, products) {
   }));
 }
 export function mapWoo(origin, products) {
+  origin = bare(origin);
   return (products || []).filter((p) => p && p.prices).map((p) => {
     const minor = Number(p.prices.currency_minor_unit || 2);
     const price = Number(p.prices.price || 0) / 10 ** minor;

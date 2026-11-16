@@ -49,6 +49,18 @@ ${header('')}
   </ol>
   <p class="muted">Try it from the customer side on any <a href="/tacolumbus/">storefront demo</a>; the ticket links to the counter view.</p>
 </section>
+<section class="wrap ow-how ow-promote" id="boost">
+  <p class="kicker">Boost your listing</p>
+  <h2>Get to the top, clearly labeled</h2>
+  <p>Any listed business can pay to boost its listing for a set run of weeks. A boosted listing:</p>
+  <ul>
+    <li><b>Sorts to the top</b> of its category and neighborhood lists.</li>
+    <li><b>Is featured</b> in the Boosted row on the home page and on the events calendar, up to three at a time, with a line in your own words and an offer if you want one.</li>
+    <li><b>Shows as a small side card</b> on other business pages in your category.</li>
+  </ul>
+  <p>The rules never bend: a boosted listing always says Boosted · paid, it stops on its end date, and it never changes search results or what we write. Your free listing never depends on it.</p>
+  <p><a class="btn" href="/owners/?want=boost#claim">Ask about rates ${svg('arrow', 'ic-sm')}</a></p>
+</section>
 <section class="wrap ow-form-sec" id="claim">
   <div class="pk-card">
     <h2 class="pk-h">Tell us about your business</h2>
