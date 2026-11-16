@@ -16,11 +16,14 @@
   try { STORES = JSON.parse(($('#commerce-data') || {}).textContent || '{}'); } catch (e) { STORES = {}; }
 
   // ---------- Handoff URLs (mirror src/commerce-core.mjs) ----------
+  var bare = function (o) { return String(o || '').replace(/\/+$/, ''); };
   function shopifyUrl(origin, lines) {
+    origin = bare(origin);
     var parts = lines.filter(function (l) { return l.available !== false && l.variantId; }).map(function (l) { return encodeURIComponent(l.variantId) + ':' + l.qty; });
     return parts.length ? origin + '/cart/' + parts.join(',') : origin + '/cart';
   }
   function wooUrls(origin, lines) {
+    origin = bare(origin);
     return lines.map(function (l) { return origin + '/?add-to-cart=' + encodeURIComponent(l.variantId || l.productId) + '&quantity=' + l.qty; });
   }
 

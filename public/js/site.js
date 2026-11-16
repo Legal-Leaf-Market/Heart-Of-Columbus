@@ -132,6 +132,7 @@
   (function () {
     var today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Indiana/Indianapolis' });
     $$('[data-ends]').forEach(function (el) { if (el.getAttribute('data-ends') < today) el.remove(); });
+    $$('.promo').forEach(function (sec) { if (!$('.promo-item', sec)) sec.parentNode.removeChild(sec); });
   })();
   // Paint "Open now" on every card that has hours, and fill [data-open-now].
   function paintOpen(all) {
