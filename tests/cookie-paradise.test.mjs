@@ -16,7 +16,9 @@ test('own-page buttons and cross-listed sections are well formed', () => {
     assert.ok(slugs.has(slug), `${slug}: not a directory slug`);
     assert.match(o.source, /^https:\/\//, slug);
     assert.match(o.checked, /^\d{4}-\d{2}-\d{2}$/, slug);
-    for (const l of o.links || []) assert.match(l.url, /^https:\/\//, `${slug}: ${l.label}`);
+    // Either the business's own page, or the draft website we host for it
+    // (build.mjs DRAFTS, served at /preview/<slug>/).
+    for (const l of o.links || []) assert.ok(/^https:\/\//.test(l.url) || l.url === `/preview/${slug}/`, `${slug}: ${l.label}`);
     for (const r of o.hours || []) assert.ok(r[0] >= 0 && r[0] <= 6 && r[1] < r[2], `${slug}: hours row ${r}`);
     for (const a of o.also || []) {
       const cat = CATEGORIES.find((c) => c.slug === a.cat);

@@ -23,12 +23,7 @@
         var pool = all.filter(function (b) { return !lane || b.c === lane; });
         var b = pool[Math.floor(Math.random() * pool.length)];
         var c = window.HoCCat[b.c];
-        $('[data-spin-out]').innerHTML =
-          '<article class="bz"><a class="bz-cover pat-ray" href="/b/' + b.s + '/" style="--c:#252722;--t:' + c[2] + '" tabindex="-1" aria-hidden="true">' + window.HoCSticker(b.c) + '</a>' +
-          '<button type="button" class="bz-save" data-save="' + b.s + '" aria-pressed="false" aria-label="Save">' +
-          '<svg viewBox="0 0 24 24" class="ic" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.2-9.4C1.6 7.6 3.9 4.5 7.3 4.5c2 0 3.5 1.1 4.7 2.7 1.2-1.6 2.7-2.7 4.7-2.7 3.4 0 5.7 3.1 4.5 6.6-1.7 4.8-9.2 9.4-9.2 9.4z"/></svg></button>' +
-          '<div class="bz-body"><h3 class="bz-name"><a href="/b/' + b.s + '/">' + esc(b.n) + '</a></h3><p class="bz-type">' + esc(b.y) + '</p>' +
-          (b.a ? '<p class="bz-addr">' + esc(b.a) + '</p>' : '') + '</div></article>';
+        $('[data-spin-out]').innerHTML = window.HoCCard(b);
         if (window.HoCPaintSaved) window.HoCPaintSaved();
       });
     });

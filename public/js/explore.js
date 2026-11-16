@@ -10,33 +10,16 @@
   if (!root) return;
   var savedOnly = root.hasAttribute('data-saved-only');
   var esc = function (s) { return String(s || '').replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
-  var COLOR = {
-    restaurants: '#c8232c', 'coffee-sweets': '#8a4b2a', bars: '#b86b00', beauty: '#1e2a4a', shopping: '#ff2e88', health: '#0f7b6c',
-    fitness: '#2f6b3b', pets: '#7a4fd6', 'home-services': '#e8590c', auto: '#36454f', pros: '#3b5bdb', events: '#d6336c',
-    kids: '#f08c00', 'things-to-do': '#0b7285', makers: '#5c5f66',
-  };
   var AREA = {};
   $$('[data-ex-area] option').forEach(function (o) { if (o.value) AREA[o.value] = o.textContent; });
-  var PATS = ['pat-dots', 'pat-arch', 'pat-grid', 'pat-wave', 'pat-ray'];
-  var hash = function (s) { var h = 7; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0; return h; };
-  var HEART = '<svg viewBox="0 0 24 24" class="ic" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.2-9.4C1.6 7.6 3.9 4.5 7.3 4.5c2 0 3.5 1.1 4.7 2.7 1.2-1.6 2.7-2.7 4.7-2.7 3.4 0 5.7 3.1 4.5 6.6-1.7 4.8-9.2 9.4-9.2 9.4z"/></svg>';
-  var PIN = '<svg viewBox="0 0 24 24" class="ic-xs" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
 
   function card(b) {
-    var t = window.HoCCat[b.c];
-    return '<article class="bz" data-slug="' + b.s + '">' +
-      // b.w: the painted scene the build picked for this listing (src/editorial-art.mjs), with its tag.
-      '<a class="bz-cover ' + (!b.i && b.w ? 'bz-cover-ed' : PATS[hash(b.s) % 5]) + '" href="/b/' + b.s + '/" style="--c:' + COLOR[b.c] + ';--t:' + t[2] + '" tabindex="-1" aria-hidden="true">' +
-      (b.i ? '<img class="bz-art" src="' + esc(b.i) + '" alt="" loading="lazy" decoding="async" onerror="this.remove()">'
-        : b.w ? '<img class="bz-art ed-art" src="/art/' + esc(b.w.f) + '" style="object-position:' + esc(b.w.p) + '" alt="" loading="lazy" decoding="async"><span class="ed-tag">Category illustration</span>'
-        : (b.v ? '<img class="bz-art" src="/art/cover-' + b.u + '.webp" alt="" loading="lazy">' : '') + window.HoCSticker(b.c)) +
-      (b.r ? '<span class="bz-area">' + PIN + esc(AREA[b.r]) + '</span>' : '') + '</a>' +
-      '<button type="button" class="bz-save" data-save="' + b.s + '" aria-pressed="false" aria-label="Save ' + esc(b.n) + '">' + HEART + '</button>' +
-      '<div class="bz-body"><h3 class="bz-name"><a href="/b/' + b.s + '/">' + (st.sort === 'walk' && b._i ? '<span class="walk-n">' + b._i + '</span>' : '') + esc(b.n) + '</a></h3><p class="bz-type">' + esc(b.y) + (st.sort === 'near' && me && b._d < Infinity ? ' · <b>' + (b._d < 0.1 ? 'right here' : b._d.toFixed(1) + ' mi') + '</b>' : '') + '</p>' +
-      (b.a ? '<p class="bz-addr">' + esc(b.a) + '</p>' : '') +
-      (b.m || b.d || b.h || b.o || b.k || b.f ? '<div class="bz-tags">' + (b.m ? '<span class="tag tag-member">★ Founding Member</span>' : '') + (b.o ? '<span class="tag tag-go">Order online</span>' : '') + (b.k ? '<span class="tag tag-go">Book online</span>' : '') + (b.f ? '<span class="tag tag-go">Shop online</span>' : '') + (b.d ? '<span class="tag tag-hot">Storefront demo</span>' : '') + (b.h ? '<span class="tag">Columbus original</span>' : '') + '</div>' : '') +
-      '</div></article>';
+    var name = (st.sort === 'walk' && b._i ? '<span class="walk-n">' + b._i + '</span>' : '') + esc(b.n);
+    var extra = st.sort === 'near' && me && b._d < Infinity ? ' · <b>' + (b._d < 0.1 ? 'right here' : b._d.toFixed(1) + ' mi') + '</b>' : '';
+    var tags = b.m || b.d || b.h || b.o || b.k || b.f ? '<div class="bz-tags">' + (b.m ? '<span class="tag tag-member">★ Founding Member</span>' : '') + (b.o ? '<span class="tag tag-go">Order online</span>' : '') + (b.k ? '<span class="tag tag-go">Book online</span>' : '') + (b.f ? '<span class="tag tag-go">Shop online</span>' : '') + (b.d ? '<span class="tag tag-hot">Storefront demo</span>' : '') + (b.h ? '<span class="tag">Columbus original</span>' : '') + '</div>' : '';
+    return window.HoCCard(b, { area: AREA[b.r], name: name, typeExtra: extra, tags: tags });
   }
+
 
   var params = new URLSearchParams(location.search);
   var st = {

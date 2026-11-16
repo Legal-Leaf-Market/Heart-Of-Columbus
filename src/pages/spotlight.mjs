@@ -7,8 +7,8 @@
 import { esc, t } from '../layout.mjs';
 import { directory, catBySlug, subBySlug, areaBySlug } from '../data/directory.mjs';
 import { SPOTLIGHT, PICK_SLOTS } from '../data/spotlight.mjs';
-import { svg, tel, coverArt, editorialImg, edTag, catSticker } from '../site.mjs';
-import { editorialFor } from '../editorial-art.mjs';
+import { svg, tel, MEDIA_FAIL } from '../site.mjs';
+import { businessMedia } from '../data/media.mjs';
 
 const bySlug = Object.fromEntries(directory.map((b) => [b.slug, b]));
 export const spotlit = () => SPOTLIGHT.map((s) => ({ ...s, b: bySlug[s.slug] })).filter((s) => s.b);
@@ -26,16 +26,12 @@ const mainAction = (b) =>
 
 export function spotCard({ b, picks }) {
   const cat = catBySlug[b.cat], sub = subBySlug[b.sub], area = areaBySlug[b.area];
-  const ed = editorialFor(b);
+  const m = businessMedia(b.slug);
   return `
-<article class="sp-card" style="--c:${cat.color};--t:${cat.tint}">
-  <a class="sp-cover ${ed ? 'bz-cover-ed' : 'pat-arch'}" href="/b/${b.slug}/" tabindex="-1" aria-hidden="true">
-    ${ed ? editorialImg(ed) + edTag : `${coverArt(b.sub)}
-    ${catSticker(b.cat, { size: 120, cls: 'sp-stk' })}`}
-    <span class="sp-flag">★ Spotlight</span>
-  </a>
+<article class="sp-card" data-media="${m.state === 'photo' ? 'photo' : 'none'}" style="--c:${cat.color};--t:${cat.tint}">
+  ${m.state === 'photo' ? `<a class="sp-cover" href="/b/${b.slug}/" tabindex="-1" aria-hidden="true"><img class="bz-photo" src="${m.src}" width="${m.width}" height="${m.height}" alt="" loading="lazy" decoding="async" onerror="${MEDIA_FAIL}"></a>` : ''}
   <div class="sp-body">
-    <p class="kicker">${esc(sub.label)}${area ? ` · ${esc(area.label)}` : ''}</p>
+    <p class="kicker"><span class="sp-flag">★ Spotlight</span> ${esc(sub.label)}${area ? ` · ${esc(area.label)}` : ''}</p>
     <h3><a href="/b/${b.slug}/">${t(b.name)}</a></h3>
     <p class="sp-type">${t(b.type)}</p>
     <p class="sp-addr">${svg('pin', 'ic-xs')} ${b.address ? t(b.address) + ', ' : ''}Columbus, Indiana</p>

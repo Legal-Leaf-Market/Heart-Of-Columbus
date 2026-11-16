@@ -18,10 +18,30 @@
     kids: ['Kids & Learning', '🎨', '#f7ecd1', 'kids-art'], 'things-to-do': ['Things to Do', '🎳', '#e1edf3', 'things-to-do'], makers: ['Makers & Industry', '🏭', '#e5ecdf', 'makers'],
   };
   window.HoCCat = CAT;
-  // A category's field-guide sticker, for cards with no photo (src/site.mjs sticker()).
-  window.HoCSticker = function (c, cls) {
-    var id = (CAT[c] || [])[3] || 'storefront';
-    return '<img class="stk ' + (cls || 'bz-stk') + '" src="/art/sticker-' + id + '.webp" width="88" height="88" alt="" aria-hidden="true" loading="lazy" decoding="async">';
+  // The business card, built the same way as src/site.mjs card(): text first,
+  // and a photo only when the index carries an approved one (b.i, from
+  // businessMedia()). No category art, painted scene or sticker, ever.
+  var escH = function (x) { return String(x || '').replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var HEART_SVG = '<svg viewBox="0 0 24 24" class="ic" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.2-9.4C1.6 7.6 3.9 4.5 7.3 4.5c2 0 3.5 1.1 4.7 2.7 1.2-1.6 2.7-2.7 4.7-2.7 3.4 0 5.7 3.1 4.5 6.6-1.7 4.8-9.2 9.4-9.2 9.4z"/></svg>';
+  var PIN_SVG = '<svg viewBox="0 0 24 24" class="ic-xs" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
+  window.HoCMediaFail = function (img) {
+    var c = img.closest('[data-media]');
+    if (c) c.setAttribute('data-media', 'none');
+    var box = img.parentNode; if (box && box.parentNode) box.parentNode.removeChild(box);
+  };
+  // opts: { area: label, name: inner HTML for the name, typeExtra: HTML after the type, tags: HTML }
+  window.HoCCard = function (b, opts) {
+    opts = opts || {};
+    var c = CAT[b.c] || ['', '', '#f4eee2'];
+    var photo = typeof b.i === 'string' && b.i.indexOf('/business-media/' + b.s + '/') === 0;
+    return '<article class="bz" data-slug="' + escH(b.s) + '" data-media="' + (photo ? 'photo' : 'none') + '" style="--t:' + c[2] + '">' +
+      (photo ? '<a class="bz-media" href="/b/' + b.s + '/" tabindex="-1" aria-hidden="true"><img class="bz-photo" src="' + escH(b.i) + '" alt="" loading="lazy" decoding="async" onerror="HoCMediaFail(this)"></a>' : '') +
+      '<div class="bz-body"><div class="bz-top"><p class="bz-meta">' + escH(c[0]) + (opts.area ? '<span class="bz-area">' + PIN_SVG + escH(opts.area) + '</span>' : '') + '</p>' +
+      '<button type="button" class="bz-save" data-save="' + escH(b.s) + '" aria-pressed="false" aria-label="Save ' + escH(b.n) + '">' + HEART_SVG + '</button></div>' +
+      '<h3 class="bz-name"><a href="/b/' + b.s + '/">' + (opts.name || escH(b.n)) + '</a></h3>' +
+      '<p class="bz-type">' + escH(b.y) + (opts.typeExtra || '') + '</p>' +
+      (b.a ? '<p class="bz-addr">' + escH(b.a) + '</p>' : '') +
+      '<p class="bz-status" data-open-slot></p>' + (opts.tags || '') + '</div></article>';
   };
 
   var norm = function (s) {
@@ -121,7 +141,7 @@
       var st = window.HoCOpen(by[card.getAttribute('data-slug')]);
       var el = $('.bz-open', card);
       if (!st) { if (el) el.remove(); return; }
-      if (!el) { el = document.createElement('span'); el.className = 'bz-open'; var cover = $('.bz-cover', card); if (cover) cover.appendChild(el); }
+      if (!el) { el = document.createElement('span'); el.className = 'bz-open'; var slot = $('[data-open-slot]', card) || $('.bz-body', card); if (slot) slot.appendChild(el); }
       el.className = 'bz-open ' + (st.open ? 'is-open' : 'is-closed');
       el.textContent = st.open ? 'Open now' : 'Closed';
       card.setAttribute('data-is-open', st.open ? '1' : '0');

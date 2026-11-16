@@ -37,7 +37,7 @@ test('an expired or unconfirmed deal never shows, and nothing shows with nothing
   if (!WORDS.length && !DEALS.length) {
     const html = readFileSync(new URL(`../dist/b/${b.slug}/index.html`, import.meta.url), 'utf8');
     assert.ok(!html.includes('ow-words'), 'no placeholder section');
-    assert.ok(html.includes('post a deal or tell your story'), 'the claim card invites the owner');
+    assert.ok(html.includes('your own words and deals') && html.includes('Claim this page free'), 'the claim card invites the owner');
   }
 });
 

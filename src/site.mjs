@@ -1,5 +1,4 @@
 // Shared pieces for the directory pages: header, footer, cards, photos.
-import { existsSync } from 'node:fs';
 import { esc, t, json } from './layout.mjs';
 import { breadcrumbLd } from './jsonld.mjs';
 import { UI as ES, CATEGORY as ES_CAT } from './i18n/es.mjs';
@@ -7,9 +6,8 @@ import { CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, directory } from '
 import { LANDMARKS } from './data/landmarks.mjs';
 import { SPOTLIGHT_SLUGS } from './data/spotlight.mjs';
 import { NEWS_LIVE } from './data/paper.mjs';
-import { mediaFor, mediaSrc } from './data/media.mjs';
+import { businessMedia } from './data/media.mjs';
 import { attrCodes } from './attrs.mjs';
-import { editorialFor, EDITORIAL_CAPTION } from './editorial-art.mjs';
 
 // The field-guide sticker family (art-source/stickers/, cut by
 // scripts/cut-stickers.py into public/art/sticker-<id>.webp, 320 px square).
@@ -33,20 +31,6 @@ export const STICKERS = [
 export const sticker = (id, { size = 96, cls = '', alt = '', lazy = true } = {}) =>
   `<img class="stk${cls ? ' ' + cls : ''}" src="/art/sticker-${id}.webp" width="${size}" height="${size}" alt="${esc(alt)}"${alt ? '' : ' aria-hidden="true"'} decoding="async"${lazy ? ' loading="lazy"' : ''}>`;
 export const catSticker = (slug, opts) => sticker(CAT_STICKER[slug] || 'storefront', opts);
-
-// Cover art for a business type, only when public/art has one for it;
-// otherwise the card shows its emoji on the pattern.
-export const hasCover = (sub) => existsSync(new URL(`../public/art/cover-${sub}.webp`, import.meta.url));
-export const coverArt = (sub, lazy = true) =>
-  hasCover(sub)
-    ? `<img class="bz-art" width="1600" height="700" decoding="async" src="/art/cover-${sub}.webp" alt=""${lazy ? ' loading="lazy"' : ''}>`
-    : '';
-
-// A type's painted scene (src/editorial-art.mjs) for a listing with no owner
-// photo, and the tag that says it is an illustration, not the shop.
-export const editorialImg = (ed, { lazy = true, sizes = '' } = {}) =>
-  `<img class="bz-art ed-art" width="${ed.width}" height="${ed.height}" decoding="async"${sizes ? ` sizes="${sizes}"` : ''} src="/art/${ed.file}" style="object-position:${ed.pos}" alt=""${lazy ? ' loading="lazy"' : ' fetchpriority="high"'}>`;
-export const edTag = `<span class="ed-tag">${EDITORIAL_CAPTION}</span>`;
 
 // Architecture photography from Wikimedia Commons, hotlinked with credit.
 // Every photo is public domain or Creative Commons; see /credits/. The
@@ -161,18 +145,19 @@ export function footer({ lang = 'en' } = {}) {
 </footer>`;
 }
 
-const hash = (s) => [...s].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) >>> 0, 7);
-const PATTERNS = ['pat-dots', 'pat-arch', 'pat-grid', 'pat-wave', 'pat-ray'];
 
+// A photo that fails to load turns its card text-only once; no placeholder.
+export const MEDIA_FAIL = "var c=this.closest('[data-media]');if(c){c.setAttribute('data-media','none')}this.parentNode.removeChild(this)";
+
+// A business card. Text first: the category and neighborhood, the name, what
+// it is, the address, the open-now status and the tags. A real photo of that
+// business appears only when businessMedia() approves one; otherwise the
+// card has no image region at all (docs/redesign/CLAUDE_DEEP_REDESIGN.md).
 export function card(b, { compact = false, note = '' } = {}) {
   const cat = catBySlug[b.cat];
   const sub = subBySlug[b.sub];
   const area = areaBySlug[b.area];
-  const pat = PATTERNS[hash(b.slug) % PATTERNS.length];
-  // The owner's own photo when they have sent one; the illustration otherwise:
-  // the type's painted scene where it has one, its clip art and emoji if not.
-  const photo = mediaFor(b.slug)?.cover;
-  const ed = photo ? null : editorialFor(b);
+  const m = businessMedia(b.slug);
   const tags = [];
   if (b.member) tags.push('<span class="tag tag-member" title="Pays Heart of Columbus for a website and a featured spot">★ Founding Member</span>');
   if (SPOTLIGHT_SLUGS.has(b.slug)) tags.push('<span class="tag tag-spot">★ Spotlight</span>');
@@ -185,17 +170,17 @@ export function card(b, { compact = false, note = '' } = {}) {
   if (b.added?.soon) tags.push('<span class="tag tag-hot">Coming soon</span>');
   if (b.tempClosed) tags.push('<span class="tag tag-warn">Temporarily closed</span>');
   return `
-<article class="bz${compact ? ' bz-compact' : ''}" data-slug="${b.slug}">
-  <a class="bz-cover ${ed ? 'bz-cover-ed' : pat}" href="/b/${b.slug}/" style="--c:${cat.color};--t:${cat.tint}" tabindex="-1" aria-hidden="true">
-    ${photo ? `<img class="bz-art" src="${mediaSrc(b.slug, photo)}" width="${photo.width}" height="${photo.height}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ed ? editorialImg(ed) : coverArt(b.sub)}
-    ${ed ? edTag : photo ? '' : catSticker(b.cat, { size: 88, cls: 'bz-stk' })}
-    ${area ? `<span class="bz-area">${svg('pin', 'ic-xs')}${esc(area.label)}</span>` : ''}
-  </a>
-  <button type="button" class="bz-save" data-save="${b.slug}" aria-pressed="false" aria-label="Save ${esc(b.name)}">${svg('heart')}</button>
+<article class="bz${compact ? ' bz-compact' : ''}" data-slug="${b.slug}" data-media="${m.state === 'photo' ? 'photo' : 'none'}" style="--t:${cat.tint}">
+  ${m.state === 'photo' ? `<a class="bz-media" href="/b/${b.slug}/" tabindex="-1" aria-hidden="true"><img class="bz-photo" src="${m.src}" width="${m.width}" height="${m.height}" alt="" loading="lazy" decoding="async" onerror="${MEDIA_FAIL}"></a>` : ''}
   <div class="bz-body">
+    <div class="bz-top">
+      <p class="bz-meta">${esc(cat.label)}${area ? `<span class="bz-area">${svg('pin', 'ic-xs')}${esc(area.label)}</span>` : ''}</p>
+      <button type="button" class="bz-save" data-save="${b.slug}" aria-pressed="false" aria-label="Save ${esc(b.name)}">${svg('heart')}</button>
+    </div>
     <h3 class="bz-name"><a href="/b/${b.slug}/">${t(b.name)}</a></h3>
     <p class="bz-type">${t(b.featured ? sub.label : b.type)}</p>
     ${b.address ? `<p class="bz-addr">${t(b.address)}</p>` : ''}
+    <p class="bz-status" data-open-slot></p>
     ${note ? `<p class="bz-note">${esc(note)}</p>` : ''}
     ${tags.length ? `<div class="bz-tags">${tags.join('')}</div>` : ''}
   </div>
@@ -225,7 +210,7 @@ const genericType = (b) => b.featured || /, [^,]+ & /.test(b.type);
 export const searchIndex = () =>
   directory.map((b) => ({
     ...(genericType(b) ? { g: 1 } : {}),
-    ...(mediaFor(b.slug)?.cover ? { i: mediaSrc(b.slug, mediaFor(b.slug).cover) } : {}),
+    ...(businessMedia(b.slug).state === 'photo' ? { i: businessMedia(b.slug).src } : {}),
     s: b.slug, n: b.name, c: b.cat, u: b.sub, y: b.featured ? subBySlug[b.sub].label : b.type, a: b.address,
     r: b.area, p: b.phone, l: b.ll, d: b.demo ? 1 : 0, h: b.heritage ? 1 : 0, e: subBySlug[b.sub].emoji,
     o: b.order.length ? 1 : 0, k: b.book.length ? 1 : 0, f: b.feed || b.store ? 1 : 0,
@@ -235,9 +220,6 @@ export const searchIndex = () =>
     ...(b.pin === 'approx' ? { q: 1 } : {}),
     ...(b.member ? { m: 1 } : {}),
     ...(attrCodes(b) ? { x: attrCodes(b) } : {}),
-    ...(hasCover(b.sub) ? { v: 1 } : {}),
-    // The same painted scene the server-rendered card shows (explore.js).
-    ...(!mediaFor(b.slug)?.cover && editorialFor(b) ? { w: { f: editorialFor(b).file, p: editorialFor(b).pos } } : {}),
   }));
 
 export const breadcrumbs = (items) =>
