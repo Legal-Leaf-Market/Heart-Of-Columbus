@@ -30,11 +30,28 @@
 
   $$('[data-events]').forEach(function (sec) {
     var weekend = sec.getAttribute('data-events') === 'weekend';
+    var cards = $$('[data-event]', sec);
+    var inWeekend = function (card) {
+      var s = parse(card.getAttribute('data-start')), e = parse(card.getAttribute('data-end'));
+      return e >= today && Math.max(s, today, fri) <= Math.min(e, sun);
+    };
+    // Nothing on this weekend: say so, and show the next three events instead
+    // of hiding the section or putting other dates under a weekend label.
+    if (weekend && !cards.some(inWeekend)) {
+      weekend = false;
+      var later = cards.filter(function (c) { return parse(c.getAttribute('data-end')) >= today; })
+        .sort(function (a, b) { return parse(a.getAttribute('data-start')) - parse(b.getAttribute('data-start')); })
+        .slice(0, 3);
+      cards.forEach(function (c) { if (later.indexOf(c) < 0) c.parentNode.removeChild(c); });
+      var k = $$('[data-ev-kicker]', sec)[0], h = $$('[data-ev-title]', sec)[0];
+      if (k) k.textContent = 'Nothing listed this weekend';
+      if (h) h.textContent = 'Coming up in Columbus';
+    }
     var shown = 0;
     $$('[data-event]', sec).forEach(function (card) {
       var s = parse(card.getAttribute('data-start')), e = parse(card.getAttribute('data-end'));
       var from = Math.max(s, today, weekend ? fri : today);
-      var to = weekend ? Math.min(e, sun) : Math.min(e, from + 2 * DAY);
+      var to = weekend ? Math.min(e, sun) : Math.max(from, Math.min(e, from + 2 * DAY));
       if (e < today || from > to) { card.remove(); return; }
       shown++;
       var times = (card.getAttribute('data-times') || '0,1440').split(',').map(Number);

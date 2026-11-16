@@ -1,0 +1,218 @@
+[
+  {
+    "id": "heart-storefront",
+    "row": 1,
+    "column": 1,
+    "use": "Heart / brand motif"
+  },
+  {
+    "id": "modernist-skyline",
+    "row": 1,
+    "column": 2,
+    "use": "Architecture / visit"
+  },
+  {
+    "id": "coffee-pastry",
+    "row": 1,
+    "column": 3,
+    "use": "Coffee & Sweets"
+  },
+  {
+    "id": "restaurants",
+    "row": 1,
+    "column": 4,
+    "use": "Restaurants"
+  },
+  {
+    "id": "beer-hops",
+    "row": 1,
+    "column": 5,
+    "use": "Bars & Breweries"
+  },
+  {
+    "id": "barber",
+    "row": 1,
+    "column": 6,
+    "use": "Beauty & Grooming"
+  },
+  {
+    "id": "shopping",
+    "row": 2,
+    "column": 1,
+    "use": "Shopping"
+  },
+  {
+    "id": "health",
+    "row": 2,
+    "column": 2,
+    "use": "Health & Wellness"
+  },
+  {
+    "id": "fitness",
+    "row": 2,
+    "column": 3,
+    "use": "Fitness"
+  },
+  {
+    "id": "pets",
+    "row": 2,
+    "column": 4,
+    "use": "Pets"
+  },
+  {
+    "id": "home-services",
+    "row": 2,
+    "column": 5,
+    "use": "Home Services"
+  },
+  {
+    "id": "auto",
+    "row": 2,
+    "column": 6,
+    "use": "Auto"
+  },
+  {
+    "id": "professional-services",
+    "row": 3,
+    "column": 1,
+    "use": "Professional Services"
+  },
+  {
+    "id": "weddings",
+    "row": 3,
+    "column": 2,
+    "use": "Events & Weddings"
+  },
+  {
+    "id": "kids-art",
+    "row": 3,
+    "column": 3,
+    "use": "Kids & Learning"
+  },
+  {
+    "id": "things-to-do",
+    "row": 3,
+    "column": 4,
+    "use": "Things to Do"
+  },
+  {
+    "id": "makers",
+    "row": 3,
+    "column": 5,
+    "use": "Makers & Industry"
+  },
+  {
+    "id": "map-heart",
+    "row": 3,
+    "column": 6,
+    "use": "Map / neighborhoods"
+  },
+  {
+    "id": "taco",
+    "row": 4,
+    "column": 1,
+    "use": "Taco collection"
+  },
+  {
+    "id": "donut",
+    "row": 4,
+    "column": 2,
+    "use": "Sweets collection"
+  },
+  {
+    "id": "sandwich",
+    "row": 4,
+    "column": 3,
+    "use": "Lunch collection"
+  },
+  {
+    "id": "takeaway",
+    "row": 4,
+    "column": 4,
+    "use": "Pickup orders"
+  },
+  {
+    "id": "breakfast",
+    "row": 4,
+    "column": 5,
+    "use": "Breakfast collection"
+  },
+  {
+    "id": "ice-cream",
+    "row": 4,
+    "column": 6,
+    "use": "Desserts"
+  },
+  {
+    "id": "indiana-heart",
+    "row": 5,
+    "column": 1,
+    "use": "Indiana identity"
+  },
+  {
+    "id": "modernist-tower",
+    "row": 5,
+    "column": 2,
+    "use": "Architecture editorial"
+  },
+  {
+    "id": "glass-pavilion",
+    "row": 5,
+    "column": 3,
+    "use": "Architecture editorial"
+  },
+  {
+    "id": "arch-books",
+    "row": 5,
+    "column": 4,
+    "use": "Arts / library editorial"
+  },
+  {
+    "id": "covered-bridge",
+    "row": 5,
+    "column": 5,
+    "use": "Parks / trails editorial"
+  },
+  {
+    "id": "storefront",
+    "row": 5,
+    "column": 6,
+    "use": "Business placeholder"
+  },
+  {
+    "id": "music",
+    "row": 6,
+    "column": 1,
+    "use": "Music events"
+  },
+  {
+    "id": "calendar",
+    "row": 6,
+    "column": 2,
+    "use": "Event calendar"
+  },
+  {
+    "id": "bicycle",
+    "row": 6,
+    "column": 3,
+    "use": "Trails / cycling"
+  },
+  {
+    "id": "park",
+    "row": 6,
+    "column": 4,
+    "use": "Parks"
+  },
+  {
+    "id": "community-heart",
+    "row": 6,
+    "column": 5,
+    "use": "Community / owners"
+  },
+  {
+    "id": "sun-heart",
+    "row": 6,
+    "column": 6,
+    "use": "Day trips"
+  }
+]

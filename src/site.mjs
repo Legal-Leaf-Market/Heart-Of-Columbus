@@ -11,6 +11,29 @@ import { mediaFor, mediaSrc } from './data/media.mjs';
 import { attrCodes } from './attrs.mjs';
 import { editorialFor, EDITORIAL_CAPTION } from './editorial-art.mjs';
 
+// The field-guide sticker family (art-source/stickers/, cut by
+// scripts/cut-stickers.py into public/art/sticker-<id>.webp, 320 px square).
+// Decorative: alt is empty unless the caller says what it shows. They are
+// drawings, never a business's or the city's logo, and never stand in for a
+// photo of a real place.
+export const CAT_STICKER = {
+  restaurants: 'restaurants', 'coffee-sweets': 'coffee-pastry', bars: 'beer-hops', beauty: 'barber',
+  shopping: 'shopping', health: 'health', fitness: 'fitness', pets: 'pets', 'home-services': 'home-services',
+  auto: 'auto', pros: 'professional-services', events: 'weddings', kids: 'kids-art',
+  'things-to-do': 'things-to-do', makers: 'makers',
+};
+export const STICKERS = [
+  'heart-storefront', 'modernist-skyline', 'coffee-pastry', 'restaurants', 'beer-hops', 'barber',
+  'shopping', 'health', 'fitness', 'pets', 'home-services', 'auto',
+  'professional-services', 'weddings', 'kids-art', 'things-to-do', 'makers', 'map-heart',
+  'taco', 'donut', 'sandwich', 'takeaway', 'breakfast', 'ice-cream',
+  'indiana-heart', 'modernist-tower', 'glass-pavilion', 'arch-books', 'covered-bridge', 'storefront',
+  'music', 'calendar', 'bicycle', 'park', 'community-heart', 'sun-heart',
+];
+export const sticker = (id, { size = 96, cls = '', alt = '', lazy = true } = {}) =>
+  `<img class="stk${cls ? ' ' + cls : ''}" src="/art/sticker-${id}.webp" width="${size}" height="${size}" alt="${esc(alt)}"${alt ? '' : ' aria-hidden="true"'} decoding="async"${lazy ? ' loading="lazy"' : ''}>`;
+export const catSticker = (slug, opts) => sticker(CAT_STICKER[slug] || 'storefront', opts);
+
 // Cover art for a business type, only when public/art has one for it;
 // otherwise the card shows its emoji on the pattern.
 export const hasCover = (sub) => existsSync(new URL(`../public/art/cover-${sub}.webp`, import.meta.url));
@@ -74,9 +97,9 @@ export function header(active = '', { lang = 'en', alt = '' } = {}) {
   const es = lang === 'es';
   const L = es ? ES.nav : { visit: 'Visit', events: 'Events', explore: 'Explore', order: 'Order & book', map: 'Map', areas: 'Neighborhoods', saved: 'Saved' };
   const nav = [
+    ['explore', '/explore/', L.explore],
     ['visit', es ? '/es/visit/' : '/visit/', L.visit],
     ['events', '/events/', L.events],
-    ['explore', '/explore/', L.explore],
     ['order', '/order/', L.order],
     ['map', '/explore/?view=map', L.map],
     ['areas', '/#neighborhoods', L.areas],
@@ -125,13 +148,14 @@ export function footer({ lang = 'en' } = {}) {
 <footer class="ftr">
   <div class="wrap ftr-grid">
     <div>
+      <img class="ftr-stk" src="/art/sticker-community-heart.webp" width="72" height="72" alt="" aria-hidden="true" loading="lazy" decoding="async">
       <a href="/" class="logo logo-light">${heartLogo}<span>Heart of <em>Columbus</em></span></a>
       <p class="ftr-tag">${es ? ES.footerTag : 'Independent businesses of Columbus, Indiana. Owner-run and local. Spot a chain? Tell us and it comes off.'}</p>
       <p class="ftr-small">${es ? ES.footerSmall : 'A concept preview. Details come from public listings and may change; call ahead. Not affiliated with the businesses listed.'}</p>
     </div>
     <div><h3>${es ? ES.browse : 'Browse'}</h3>${CATEGORIES.slice(0, 8).map((c) => `<a href="/c/${c.slug}/">${cat(c)}</a>`).join('')}</div>
     <div><h3>${es ? ES.more : 'More'}</h3>${CATEGORIES.slice(8).map((c) => `<a href="/c/${c.slug}/">${cat(c)}</a>`).join('')}<a href="/djs/">${k.djs}</a><a href="/plan/">${k.plan}</a></div>
-    <div><h3>${es ? ES.aroundTown : 'Around town'}</h3>${AREAS.slice(0, 7).map((a) => `<a href="/n/${a.slug}/">${esc(a.label)}</a>`).join('')}<a href="${es ? '/es/visit/' : '/visit/'}">${k.visit}</a><a href="/events/">${k.events}</a><a href="${es ? '/es/free/' : '/free/'}">${k.free}</a><a href="${es ? '/es/film/' : '/film/'}">${k.film}</a><a href="/trails/">${es ? 'Rutas con sellos (en inglés)' : 'Stamp trails'}</a><a href="${es ? '/es/skate/' : '/skate/'}">${k.skate}</a><a href="/architecture/">${k.architecture}</a><a href="/arts/">${k.arts}</a><a href="/cummins/">${k.cummins}</a><a href="${es ? '/es/holidays/' : '/holidays/'}">${k.holidays}</a><a href="/markets/">${k.markets}</a><a href="/agriculture/">${k.ag}</a><a href="/obituaries/">${k.obituaries}</a><a href="/sports/">${k.sports}</a><a href="/history/">${k.history}</a><a href="/help/">${es ? 'Ayuda en Columbus (en inglés)' : 'Get help in Columbus'}</a><a href="/credits/">${k.credits}</a></div>
+    <div><h3>${es ? ES.aroundTown : 'Around town'}</h3>${AREAS.slice(0, 7).map((a) => `<a href="/n/${a.slug}/">${esc(a.label)}</a>`).join('')}<a href="${es ? '/es/visit/' : '/visit/'}">${k.visit}</a><a href="/events/">${k.events}</a><a href="${es ? '/es/free/' : '/free/'}">${k.free}</a><a href="${es ? '/es/film/' : '/film/'}">${k.film}</a><a href="/trails/">${es ? 'Rutas con sellos (en inglés)' : 'Stamp trails'}</a><a href="${es ? '/es/skate/' : '/skate/'}">${k.skate}</a><a href="/architecture/">${k.architecture}</a><a href="/arts/">${k.arts}</a><a href="/cummins/">${k.cummins}</a><a href="${es ? '/es/holidays/' : '/holidays/'}">${k.holidays}</a><a href="/markets/">${k.markets}</a><a href="/agriculture/">${k.ag}</a><a href="/obituaries/">${k.obituaries}</a><a href="/sports/">${k.sports}</a><a href="/history/">${k.history}</a><a href="/help/">${es ? 'Ayuda en Columbus (en inglés)' : 'Get help in Columbus'}</a><a href="/credits/">${k.credits}</a><a href="/stickers/">${es ? 'Las calcomanías' : 'The sticker set'}</a></div>
     <div><h3>${es ? ES.owners : 'Owners'}</h3><a href="/owners/">${k.claim}</a><a href="/owners/#claim">${k.pickup}</a><a href="/founders-club/">${k.founders}</a><a href="/order/">${k.direct}</a></div>
   </div>
 </footer>`;
@@ -164,7 +188,7 @@ export function card(b, { compact = false, note = '' } = {}) {
 <article class="bz${compact ? ' bz-compact' : ''}" data-slug="${b.slug}">
   <a class="bz-cover ${ed ? 'bz-cover-ed' : pat}" href="/b/${b.slug}/" style="--c:${cat.color};--t:${cat.tint}" tabindex="-1" aria-hidden="true">
     ${photo ? `<img class="bz-art" src="${mediaSrc(b.slug, photo)}" width="${photo.width}" height="${photo.height}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ed ? editorialImg(ed) : coverArt(b.sub)}
-    ${ed ? edTag : `<span class="bz-emoji">${sub.emoji}</span>`}
+    ${ed ? edTag : photo ? '' : catSticker(b.cat, { size: 88, cls: 'bz-stk' })}
     ${area ? `<span class="bz-area">${svg('pin', 'ic-xs')}${esc(area.label)}</span>` : ''}
   </a>
   <button type="button" class="bz-save" data-save="${b.slug}" aria-pressed="false" aria-label="Save ${esc(b.name)}">${svg('heart')}</button>

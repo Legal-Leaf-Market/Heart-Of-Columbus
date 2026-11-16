@@ -3,17 +3,18 @@ import { siteLd } from '../jsonld.mjs';
 import { page, esc, t } from '../layout.mjs';
 import { businesses, prototypes } from '../data/businesses.mjs';
 import { directory, CATEGORIES, AREAS, inSection } from '../data/directory.mjs';
-import { header, footer, rail, svg, PHOTOS, artIcon, photoCredit } from '../site.mjs';
+import { header, footer, rail, svg, PHOTOS, sticker, catSticker } from '../site.mjs';
 import { eventsSection } from './events.mjs';
 import { yourWay } from './trip-pages.mjs';
 import { spotlightSection } from './spotlight.mjs';
 
+// Each demo keeps its business's own colors; the sticker says what it sells.
 const featuredStyle = {
-  'gills-barber-shop': ['#1e2a4a', '#fff', 'Live chair queue, save your spot, book a cut.', '💈'],
-  tacolumbus: ['#2b1055', '#fff', 'Build birria plates and taco packs, pick a pickup time.', '🌮'],
-  'big-cheese': ['#ffc93c', '#2a2118', 'Build your sub, add a combo, beat the daily countdown.', '🥪'],
-  'tasty-express': ['#0e0e0e', '#fff', 'Lunch or dinner combos in three taps, text confirmation.', '🥡'],
-  rohdes: ['#d7263d', '#fff', 'Build a breakfast: eggs your way, meat, potatoes, biscuit.', '🍳'],
+  'gills-barber-shop': ['#1e2a4a', '#fff', 'Live chair queue, save your spot, book a cut.', 'barber'],
+  tacolumbus: ['#2b1055', '#fff', 'Build birria plates and taco packs, pick a pickup time.', 'taco'],
+  'big-cheese': ['#ffc93c', '#2a2118', 'Build your sub, add a combo, beat the daily countdown.', 'sandwich'],
+  'tasty-express': ['#0e0e0e', '#fff', 'Lunch or dinner combos in three taps, text confirmation.', 'takeaway'],
+  rohdes: ['#d7263d', '#fff', 'Build a breakfast: eggs your way, meat, potatoes, biscuit.', 'breakfast'],
 };
 
 // A rail is a taste with a "See all" link, not the whole category: n places
@@ -41,101 +42,115 @@ export function renderHub({ assets }) {
   const total = directory.length;
   const direct = count((b) => b.order.length || b.book.length || b.store || b.feed);
 
+  // Popular shortcuts under the search: real routes, plain words.
   const quick = [
-    ['🌮 Tacos', '/c/restaurants/mexican/'], ['☕ Coffee', '/c/coffee-sweets/'], ['💈 Barbers', '/c/beauty/barbers/'],
-    ['💅 Nails', '/c/beauty/nails/'], ['🔧 Plumbers', '/c/home-services/hvac-plumbing/'], ['🔩 Mechanics', '/c/auto/auto-repair/'],
-    ['🍺 Breweries', '/c/bars/'], ['💍 Weddings', '/c/events/'],
+    ['Tacos', '/c/restaurants/mexican/'], ['Coffee', '/c/coffee-sweets/'], ['Barbers', '/c/beauty/barbers/'], ['Plumbers', '/c/home-services/hvac-plumbing/'],
   ];
 
   const archOrder = ['firstchristian', 'northchristian', 'irwin', 'library', 'miller', 'firestation', 'cityhall', 'bridge', 'courthouse', 'commons'];
+
+  // Rails stay for the collections people scroll; the rest are compact rows
+  // with a count and a See all link, so the page is not thirteen carousels.
+  const railsShown = [
+    ['The taco trail', '/c/restaurants/mexican/', inSub('mexican'), 'Restaurants'],
+    ['Coffee, donuts & boba', '/c/coffee-sweets/', inSub('coffee-sweets'), 'Coffee & sweets'],
+    ['Downtown, block by block', '/n/downtown/', (b) => b.area === 'downtown' && ['restaurants', 'coffee-sweets', 'bars', 'shopping', 'beauty'].includes(b.cat), 'Neighborhood'],
+    ['Shop small on purpose', '/c/shopping/', inSub('boutiques', 'gifts', 'antiques'), 'Shopping'],
+  ];
+  const trails = [
+    ['Up with the sun', '/explore/?cat=restaurants', earlyBird, 'Open by 7 AM', 'breakfast'],
+    ['Late-night eats', '/explore/?cat=restaurants', lateNight, 'Open past 10:30 PM', 'takeaway'],
+    ['Pints & pours', '/c/bars/', inSub('bars'), 'Bars & breweries', 'beer-hops'],
+    ['Fresh cuts', '/c/beauty/barbers/', inSub('barbers'), 'Barbershops', 'barber'],
+    ['Nails, lashes & a spa day', '/c/beauty/', inSub('nails', 'spa'), 'Beauty', 'community-heart'],
+    ['Call before it leaks', '/c/home-services/hvac-plumbing/', inSub('hvac-plumbing', 'electric'), 'Home services', 'home-services'],
+    ['Your wedding team', '/c/events/', (b) => b.sub === 'events' || /bridal|tux|flower|florist|bloom|photograph/i.test(b.name + ' ' + b.type), 'Events & weddings', 'weddings'],
+    ['When the check engine light comes on', '/c/auto/auto-repair/', inSub('auto-repair'), 'Auto', 'auto'],
+    ['Good dogs welcome', '/c/pets/', inSub('pets'), 'Pets', 'pets'],
+  ].map(([title, href, fn, kicker, stk]) => ({ title, href, kicker, stk, n: count(fn) })).filter((x) => x.n);
+
+  const o = count((b) => b.order.length), k = count((b) => b.book.length), f = count((b) => b.feed || b.store);
 
   const body = `
 ${header()}
 <main id="main">
 
-<section class="hero">
-  <div class="hero-float" aria-hidden="true">
-    ${[['spire', 2], ['courthouse', 6]]
-      .map(([n, i]) => `<img class="fl fl-${i}" src="/art/float-${n}.webp" alt="" onerror="this.remove()">`).join('')}
-  </div>
-  <div class="wrap hero-grid">
-    <div class="hero-copy">
-      <p class="kicker kicker-pill">Columbus, Indiana · The Athens of the Prairie</p>
-      <h1>Built by legends.<br><span class="hl">Run by neighbors.</span></h1>
-      <p class="lede">${total} independent businesses, owner-run and local. Find the taqueria, the barber, the plumber and the bookshop that make this town home.</p>
+<section class="fg-hero" aria-labelledby="hero-h">
+  <div class="wrap fg-hero-grid">
+    <div class="fg-hero-copy">
+      <p class="kicker kicker-pill">Columbus, Indiana</p>
+      <h1 id="hero-h">Find your next local favorite.</h1>
+      <p class="lede">Built by legends, run by neighbors. ${total} independent businesses, owner-run and local: the taqueria, the barber, the plumber and the bookshop, in one field guide to the Athens of the Prairie.</p>
       <form class="big-search" action="/explore/" role="search" data-typeahead>
-        ${svg('search')}
-        <input name="q" type="search" autocomplete="off" placeholder="Search ${total} local businesses" aria-label="Search local businesses" data-rotate='["Search birria, boba, biscuits…","Search barbers, nails, lashes…","Search plumbers, roofers, mechanics…","Search 25th St, downtown, West Hill…"]'>
-        <button type="submit">Search</button>
+        <label for="hero-q" class="big-search-label">Search local businesses</label>
+        <div class="big-search-row">
+          ${svg('search')}
+          <input id="hero-q" name="q" type="search" autocomplete="off" placeholder="Birria, barbers, plumbers, 25th St" data-rotate='["Birria, boba, biscuits","Barbers, nails, lashes","Plumbers, roofers, mechanics","25th St, downtown, West Hill"]'>
+          <button type="submit">Search</button>
+        </div>
         <div class="ta-list" data-ta-list hidden></div>
       </form>
-      <div class="quick">${quick.map(([l, h]) => `<a href="${h}">${l}</a>`).join('')}</div>
+      <p class="quick"><span>Popular:</span>${quick.map(([l, h]) => `<a href="${h}">${l}</a>`).join('')}</p>
     </div>
-    <div class="hero-art" aria-label="Columbus landmarks">
-      ${['firstchristian', 'irwin', 'library']
-        .map((k, i) => {
-          const p = PHOTOS[k];
-          return `<figure class="polaroid pol-${i + 1}"><img src="${p.src}" alt="${esc(p.title)}" style="object-position:${p.pos}" ${i ? 'loading="lazy"' : 'fetchpriority="high"'}><figcaption>${esc(p.title)}<small>${esc(p.note)}</small></figcaption></figure>`;
-        })
-        .join('')}
+    <div class="fg-collage" aria-hidden="true">
+      <span class="fg-shape fg-arch"></span><span class="fg-shape fg-sun"></span><span class="fg-shape fg-bar"></span>
+      ${sticker('heart-storefront', { size: 300, cls: 'fg-s fg-s1', lazy: false })}
+      ${sticker('modernist-tower', { size: 200, cls: 'fg-s fg-s2', lazy: false })}
+      ${sticker('coffee-pastry', { size: 170, cls: 'fg-s fg-s3', lazy: false })}
+      ${sticker('park', { size: 180, cls: 'fg-s fg-s4', lazy: false })}
+      ${sticker('bicycle', { size: 140, cls: 'fg-s fg-s5', lazy: false })}
     </div>
   </div>
-  <img class="skyline" src="/art/hero-skyline.webp" alt="" aria-hidden="true" onerror="this.remove()">
-  <div class="wrap stats">
-    <div><b>${total}</b><span>independent businesses</span></div>
-    <div><b>${CATEGORIES.length}</b><span>ways to browse</span></div>
-    <div><b>${AREAS.length}</b><span>neighborhoods</span></div>
-    <div><b>${direct}</b><span>to order, book or shop direct</span></div>
+  <div class="wrap">
+    <dl class="fg-stats">
+      <div><dt>Independent businesses</dt><dd>${total}</dd></div>
+      <div><dt>Ways to browse</dt><dd>${CATEGORIES.length}</dd></div>
+      <div><dt>Neighborhoods</dt><dd>${AREAS.length}</dd></div>
+      <div><dt>Order, book or shop direct</dt><dd>${direct}</dd></div>
+    </dl>
   </div>
 </section>
-
-${spotlightSection()}
 
 <section class="cats wrap" aria-labelledby="cats-h">
-  <div class="sec-head"><p class="kicker">Browse by category</p><h2 id="cats-h">What are you hungry for? Or fixing? Or booking?</h2></div>
-  <div class="cat-grid">
-    ${CATEGORIES.map(
-      (c) => `<a class="cat-tile" href="/c/${c.slug}/" style="--c:${c.color};--t:${c.tint}">
-        ${artIcon(c.slug, c.emoji, 'cat-ic')}
+  <div class="fg-head"><div><p class="kicker">Browse by category</p><h2 id="cats-h">What are you after today?</h2></div>
+    <p class="fg-head-note">Every category, every count, straight from the directory. Hungry, fixing something, or booking a cut.</p></div>
+  <ul class="cat-grid" role="list">
+    ${CATEGORIES.map((c) => `<li><a class="cat-tile" href="/c/${c.slug}/" style="--t:${c.tint}">
+        <span class="cat-stk">${catSticker(c.slug, { size: 88 })}</span>
         <span class="cat-name">${esc(c.label)}</span>
         <span class="cat-n">${count((b) => inSection(b, c.slug))} places</span>
-      </a>`,
-    ).join('')}
-  </div>
+      </a></li>`).join('')}
+  </ul>
 </section>
 
-${(() => {
-  const o = count((b) => b.order.length), k = count((b) => b.book.length), f = count((b) => b.feed || b.store);
-  if (!o && !k && !f) return '';
-  return `<section class="wrap go-band" aria-labelledby="go-h">
-    <div class="go-box">
-      <div><p class="kicker">No app in the middle</p><h2 id="go-h">Order, book and shop straight from the source</h2>
-      <p>These places already run their own online ordering, booking or store. We send you to theirs, so they keep the whole ticket.</p></div>
-      <div class="go-tiles">
-        ${o ? `<a href="/order/#order"><span>🥡</span><b>${o}</b> order pickup online</a>` : ''}
-        ${k ? `<a href="/order/#book"><span>📅</span><b>${k}</b> book appointments online</a>` : ''}
-        ${f ? `<a href="/order/#shop"><span>🛍️</span><b>${f}</b> shop their store online</a>` : ''}
-      </div>
-    </div>
-  </section>`;
-})()}
+${spotlightSection({ title: 'Meet your neighbors.' })}
+
+${o || k || f ? `<section class="wrap go-band" aria-labelledby="go-h">
+  <div class="go-box">
+    <div class="go-copy"><p class="kicker">No app in the middle</p><h2 id="go-h">Go straight to the source.</h2>
+    <p>These places already run their own online ordering, booking or store. We send you to theirs, so they keep the whole ticket. We never take payment.</p></div>
+    <ul class="go-tiles" role="list">
+      ${o ? `<li><a href="/order/#order">${sticker('takeaway', { size: 72 })}<span><b>${o}</b> order pickup online</span>${svg('arrow', 'ic-sm')}</a></li>` : ''}
+      ${k ? `<li><a href="/order/#book">${sticker('calendar', { size: 72 })}<span><b>${k}</b> book appointments online</span>${svg('arrow', 'ic-sm')}</a></li>` : ''}
+      ${f ? `<li><a href="/order/#shop">${sticker('shopping', { size: 72 })}<span><b>${f}</b> shop their store online</span>${svg('arrow', 'ic-sm')}</a></li>` : ''}
+    </ul>
+  </div>
+</section>` : ''}
 
 <section class="direct" aria-labelledby="direct-h">
   <div class="wrap">
-    <div class="sec-head sec-head-row">
-      <div><p class="kicker">Skip the app fees</p><h2 id="direct-h">Order straight from the counter</h2>
-      <p class="sub">Five working storefront demos for Columbus originals. Nothing is sent to the businesses; it's a preview of what direct ordering could look like.</p></div>
-    </div>
+    <div class="fg-head"><div><p class="kicker">Storefront demos</p><h2 id="direct-h">What direct ordering could look like</h2></div>
+      <p class="fg-head-note"><strong>Demos only.</strong> Five working concept storefronts for Columbus originals. Not affiliated with the businesses; nothing you order or book is sent to them.</p></div>
     <div class="direct-row">
       ${prototypes
         .map((slug) => {
           const b = bySlug[slug];
-          const [bg, fg, line, emo] = featuredStyle[slug];
+          const [bg, fg, line, stk] = featuredStyle[slug];
           return `<a href="${b.demo}" class="demo-card" style="--bg:${bg};--fg:${fg}">
-            <span class="demo-top"><span class="demo-badge">Demo</span><span class="demo-emoji" aria-hidden="true">${emo}</span></span>
+            <span class="demo-top"><span class="demo-badge">Demo</span>${sticker(stk, { size: 84, cls: 'demo-stk' })}</span>
             <strong>${t(b.name.replace(/ \(.*\)/, ''))}</strong>
             <span class="demo-line">${esc(line)}</span>
-            <span class="demo-go">Open the storefront ${svg('arrow', 'ic-sm')}</span>
+            <span class="demo-go">Open the demo ${svg('arrow', 'ic-sm')}</span>
           </a>`;
         })
         .join('')}
@@ -148,26 +163,26 @@ ${eventsSection({ mode: 'weekend', id: 'this-weekend', title: 'This weekend in C
 ${rail('Open right now', '/explore/?open=1', directory.filter((b) => b.hours && !b.tempClosed && FOOD.includes(b.cat)).sort((a, b) => weeklyMinutes(b) - weeklyMinutes(a)).slice(0, OPEN_CANDIDATES), { kicker: 'Hungry? These are open', openOnly: true })}
 
 <div class="rails" data-shuffle-rails>
-${rail('The taco trail', '/c/restaurants/mexican/', pick(inSub('mexican')), { kicker: 'Restaurants' })}
-${rail('Coffee, donuts & boba', '/c/coffee-sweets/', pick(inSub('coffee-sweets')), { kicker: 'Coffee & sweets' })}
-${rail('Up with the sun', '/explore/?cat=restaurants', pick(earlyBird), { kicker: 'Open by 7 AM' })}
-${rail('Late-night eats', '/explore/?cat=restaurants', pick(lateNight), { kicker: 'Open past 10:30 PM' })}
-${rail('Downtown, block by block', '/n/downtown/', pick((b) => b.area === 'downtown' && ['restaurants', 'coffee-sweets', 'bars', 'shopping', 'beauty'].includes(b.cat)), { kicker: 'Neighborhood' })}
-${rail('Pints & pours', '/c/bars/', pick(inSub('bars')), { kicker: 'Bars & breweries' })}
-${rail('Fresh cuts', '/c/beauty/barbers/', pick(inSub('barbers')), { kicker: 'Barbershops' })}
-${rail('Nails, lashes & a spa day', '/c/beauty/', pick(inSub('nails', 'spa')), { kicker: 'Beauty' })}
-${rail('Shop small on purpose', '/c/shopping/', pick(inSub('boutiques', 'gifts', 'antiques')), { kicker: 'Shopping' })}
-${rail('Call before it leaks', '/c/home-services/hvac-plumbing/', pick(inSub('hvac-plumbing', 'electric')), { kicker: 'Home services' })}
-${rail('Your wedding team', '/c/events/', pick((b) => b.sub === 'events' || /bridal|tux|flower|florist|bloom|photograph/i.test(b.name + ' ' + b.type)), { kicker: 'Events & weddings' })}
-${rail('When the check engine light comes on', '/c/auto/auto-repair/', pick(inSub('auto-repair')), { kicker: 'Auto' })}
-${rail('Good dogs welcome', '/c/pets/', pick(inSub('pets')), { kicker: 'Pets' })}
+${railsShown.map(([title, href, fn, kicker]) => rail(title, href, pick(fn), { kicker })).join('')}
 </div>
+
+<section class="wrap fg-trails" aria-labelledby="trails-h">
+  <div class="fg-head"><div><p class="kicker">Local trails</p><h2 id="trails-h">More ways in</h2></div>
+    <p class="fg-head-note">Short lists drawn from the directory: hours, types and neighborhoods as each place lists them.</p></div>
+  <ul class="trail-rows" role="list">
+    ${trails.map((x) => `<li><a class="trail-row" href="${x.href}">${sticker(x.stk, { size: 64 })}<span class="trail-txt"><span class="trail-k">${esc(x.kicker)}</span><strong>${esc(x.title)}</strong></span><span class="trail-n">${x.n} places</span><span class="trail-go">See all ${svg('arrow', 'ic-sm')}</span></a></li>`).join('')}
+  </ul>
+</section>
 
 <section class="athens" id="architecture" aria-labelledby="athens-h">
   <div class="wrap athens-head">
-    <p class="kicker kicker-light">The Athens of the Prairie</p>
-    <h2 id="athens-h">The buildings are famous.<br>The people inside them make it home.</h2>
-    <p>Saarinen, Pei, Venturi, Kiley, Moore. Columbus commissioned modern masters for churches, banks, schools and firehouses, and the American Institute of Architects once ranked it sixth in the nation for architectural innovation. Walk past the landmarks and you'll find the independents keeping the lights on.</p>
+    <div>
+      <p class="kicker">The Athens of the Prairie</p>
+      <h2 id="athens-h">The buildings are famous. The people inside them make it home.</h2>
+      <p>Saarinen, Pei, Venturi, Kiley, Moore. Columbus commissioned modern masters for churches, banks, schools and firehouses, and the American Institute of Architects once ranked it sixth in the nation for architectural innovation. Walk past the landmarks and you’ll find the independents keeping the lights on.</p>
+      <p class="athens-links"><a class="btn btn-ghost btn-sm" href="/architecture/">Architecture guide ${svg('arrow', 'ic-sm')}</a><a class="btn btn-ghost btn-sm" href="/visit/">Plan a visit ${svg('arrow', 'ic-sm')}</a></p>
+    </div>
+    <div class="athens-art" aria-hidden="true">${sticker('glass-pavilion', { size: 180 })}${sticker('arch-books', { size: 150 })}</div>
   </div>
   <div class="arch-track" data-rail tabindex="0" role="region" aria-label="Columbus architecture landmarks">
     ${archOrder
@@ -177,25 +192,22 @@ ${rail('Good dogs welcome', '/c/pets/', pick(inSub('pets')), { kicker: 'Pets' })
       })
       .join('')}
   </div>
+  <p class="wrap photo-note">Stickers are illustrations inspired by Columbus, not drawings of exact buildings. Photographs are of Columbus landmarks; <a href="/credits/">photo credits</a>.</p>
 </section>
 
 ${yourWay({ id: 'trip-ideas' })}
 
 <section class="areas wrap" id="neighborhoods" aria-labelledby="areas-h">
-  <div class="sec-head"><p class="kicker">Around town</p><h2 id="areas-h">Pick a neighborhood and wander</h2></div>
-  <div class="area-grid">
-    ${AREAS.map((a, i) => {
-      const p = PHOTOS[a.photo];
-      const n = count((b) => b.area === a.slug);
-      return `<a class="area-tile${i < 2 ? ' area-big' : ''}" href="/n/${a.slug}/">
-        <img src="${p.src}" alt="" loading="lazy" style="object-position:${p.pos}">
-        <span class="area-shade"></span>
-        <img class="area-badge" src="/art/area-${a.slug === 'business-parks' ? 'business-parks' : a.slug}.webp" alt="" loading="lazy" onerror="this.remove()">
-        <span class="area-txt"><strong>${esc(a.label)}</strong><span>${n} places</span></span>
-      </a>`;
-    }).join('')}
+  <div class="fg-map">
+    <div class="fg-map-head">
+      <div><p class="kicker">Around town</p><h2 id="areas-h">Discover Columbus by neighborhood.</h2>
+      <p>${AREAS.length} parts of town, each with its own rail of places. The drawing is decoration; for real pins use the <a href="/explore/?view=map">map</a>.</p></div>
+      <div class="fg-map-art" aria-hidden="true">${sticker('map-heart', { size: 150 })}${sticker('covered-bridge', { size: 120 })}</div>
+    </div>
+    <ul class="area-list" role="list">
+      ${AREAS.map((a) => `<li><a class="area-link" href="/n/${a.slug}/"><strong>${esc(a.label)}</strong><span class="area-blurb">${esc(a.blurb)}</span><span class="area-n">${count((b) => b.area === a.slug)} places ${svg('arrow', 'ic-sm')}</span></a></li>`).join('')}
+    </ul>
   </div>
-  <p class="photo-note">Landmark photos are of Columbus, not of the businesses. <a href="/credits/">Photo credits</a>.</p>
 </section>
 
 <section class="spin wrap" aria-labelledby="spin-h">
@@ -220,7 +232,7 @@ ${yourWay({ id: 'trip-ideas' })}
 <section id="keep-it-local" class="keep" aria-labelledby="keep-h">
   <div class="wrap keep-grid">
     <div>
-      <p class="kicker kicker-light">The math</p>
+      <p class="kicker">The math</p>
       <h2 id="keep-h">Keep it in Columbus</h2>
       <p class="keep-sub">Delivery apps commonly charge restaurants 15 to 30 percent of each order. Move the sliders to see what direct ordering could keep in local pockets.</p>
       <div class="sliders">
@@ -254,8 +266,8 @@ ${yourWay({ id: 'trip-ideas' })}
       <li><strong>Orders straight to you</strong> Customers order or book directly. They pay you at pickup.</li>
       <li><strong>No app in the middle</strong> No per-order commission. Keep the money, the customer and their number.</li>
     </ul>
-    <img class="owners-art" src="/art/owners-storefront.webp" alt="" loading="lazy">
-    <div class="owners-cta"><a class="btn" href="/owners/">Claim your listing ${svg('arrow', 'ic-sm')}</a><a class="btn btn-ghost" href="https://jills-diner.netlify.app">See Jill's Diner, the first one live ${svg('arrow', 'ic-sm')}</a></div>
+    ${sticker('community-heart', { size: 160, cls: 'owners-art' })}
+    <div class="owners-cta"><a class="btn" href="/owners/">Claim your listing ${svg('arrow', 'ic-sm')}</a><a class="btn btn-ghost" href="https://jills-diner.netlify.app">See Jill’s Diner, the first one live ${svg('arrow', 'ic-sm')}</a></div>
   </div>
 </section>
 

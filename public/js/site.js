@@ -11,13 +11,18 @@
     return dataPromise;
   };
   var CAT = {
-    restaurants: ['Restaurants', '🍽️', '#fde7e4'], 'coffee-sweets': ['Coffee & Sweets', '☕', '#f7ebe1'], bars: ['Bars & Breweries', '🍺', '#fdf0d6'],
-    beauty: ['Beauty & Grooming', '💈', '#e5e9f4'], shopping: ['Shopping', '🛍️', '#ffe3f0'], health: ['Health & Wellness', '🩺', '#dff4ef'],
-    fitness: ['Fitness', '🏋️', '#e2f1e4'], pets: ['Pets', '🐾', '#ede6fb'], 'home-services': ['Home Services', '🛠️', '#ffe8d9'],
-    auto: ['Auto', '🚗', '#e6eaed'], pros: ['Professional Services', '💼', '#e5ebff'], events: ['Events & Weddings', '💍', '#ffe3ec'],
-    kids: ['Kids & Learning', '🎨', '#fff1d6'], 'things-to-do': ['Things to Do', '🎳', '#dcf3f6'], makers: ['Makers & Industry', '🏭', '#ebecee'],
+    restaurants: ['Restaurants', '🍽️', '#f5e4dd', 'restaurants'], 'coffee-sweets': ['Coffee & Sweets', '☕', '#f7ecd1', 'coffee-pastry'], bars: ['Bars & Breweries', '🍺', '#f7ecd1', 'beer-hops'],
+    beauty: ['Beauty & Grooming', '💈', '#e1edf3', 'barber'], shopping: ['Shopping', '🛍️', '#f5e4dd', 'shopping'], health: ['Health & Wellness', '🩺', '#e5ecdf', 'health'],
+    fitness: ['Fitness', '🏋️', '#e5ecdf', 'fitness'], pets: ['Pets', '🐾', '#f7ecd1', 'pets'], 'home-services': ['Home Services', '🛠️', '#e1edf3', 'home-services'],
+    auto: ['Auto', '🚗', '#e1edf3', 'auto'], pros: ['Professional Services', '💼', '#e5ecdf', 'professional-services'], events: ['Events & Weddings', '💍', '#f5e4dd', 'weddings'],
+    kids: ['Kids & Learning', '🎨', '#f7ecd1', 'kids-art'], 'things-to-do': ['Things to Do', '🎳', '#e1edf3', 'things-to-do'], makers: ['Makers & Industry', '🏭', '#e5ecdf', 'makers'],
   };
   window.HoCCat = CAT;
+  // A category's field-guide sticker, for cards with no photo (src/site.mjs sticker()).
+  window.HoCSticker = function (c, cls) {
+    var id = (CAT[c] || [])[3] || 'storefront';
+    return '<img class="stk ' + (cls || 'bz-stk') + '" src="/art/sticker-' + id + '.webp" width="88" height="88" alt="" aria-hidden="true" loading="lazy" decoding="async">';
+  };
 
   var norm = function (s) {
     return String(s || '').toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '')
@@ -160,15 +165,15 @@
         var hits = window.HoCRank(all, q);
         var cats = Object.keys(CAT).filter(function (k) { return norm(CAT[k][0]).indexOf(norm(q)) !== -1; }).slice(0, 2);
         var html = cats.map(function (k) {
-          return '<a href="/c/' + k + '/"><span class="ta-e" style="--t:' + CAT[k][2] + '">' + CAT[k][1] + '</span><span><strong>' + esc(CAT[k][0]) + '</strong><small>Browse the category</small></span></a>';
+          return '<a href="/c/' + k + '/"><span class="ta-e" style="--t:' + CAT[k][2] + '"><img src="/art/icon-' + k + '.svg" width="22" height="22" alt=""></span><span><strong>' + esc(CAT[k][0]) + '</strong><small>Browse the category</small></span></a>';
         }).join('');
         html += hits.slice(0, 7).map(function (b) {
           var c = CAT[b.c] || ['', '📍', '#eee'];
           var st = b.t ? window.HoCOpen(b.t) : null;
           var extra = (st ? ' · <em class="' + (st.open ? 'ta-open' : 'ta-closed') + '">' + (st.open ? 'Open now' : 'Closed') + '</em>' : '') + (b.o ? ' · Order online' : b.k ? ' · Book online' : b.f ? ' · Shop online' : '');
-          return '<a href="/b/' + b.s + '/"><span class="ta-e" style="--t:' + c[2] + '">' + c[1] + '</span><span><strong>' + esc(b.n) + '</strong><small>' + esc(b.y) + (b.a ? ' · ' + esc(b.a) : '') + extra + '</small></span></a>';
+          return '<a href="/b/' + b.s + '/"><span class="ta-e" style="--t:' + c[2] + '"><img src="/art/icon-' + b.c + '.svg" width="22" height="22" alt=""></span><span><strong>' + esc(b.n) + '</strong><small>' + esc(b.y) + (b.a ? ' · ' + esc(b.a) : '') + extra + '</small></span></a>';
         }).join('');
-        html += '<a href="/explore/?q=' + encodeURIComponent(q) + '" class="ta-all"><span class="ta-e">🔎</span><span><strong>See all ' + hits.length + ' results</strong><small>for “' + esc(q) + '”</small></span></a>';
+        html += '<a href="/explore/?q=' + encodeURIComponent(q) + '" class="ta-all"><span class="ta-e"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span><span><strong>See all ' + hits.length + ' results</strong><small>for “' + esc(q) + '”</small></span></a>';
         list.innerHTML = html;
         list.hidden = false;
         sel = -1;
