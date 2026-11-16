@@ -9,6 +9,7 @@ import { EDITORIAL, EDITORIAL_CAPTION, editorialFor, editorialHero } from '../sr
 import { directory, subBySlug } from '../src/data/directory.mjs';
 import { MEDIA } from '../src/data/media.mjs';
 import { card, searchIndex } from '../src/site.mjs';
+import { tierOf } from '../src/data/claims.mjs';
 
 const root = new URL('../', import.meta.url);
 const html = (p) => readFileSync(new URL(`dist/${p}index.html`, root), 'utf8');
@@ -84,14 +85,24 @@ test('other beauty pages keep their own header and art', () => {
   assert.doesNotMatch(salons, /ed-tag|editorial-barbers/);
 });
 
-test('a barbershop page shows the same scene as its card, tagged, with the photo invitation', () => {
-  for (const b of barbers.slice(0, 5)) {
-    const page = html(`b/${b.slug}/`);
-    const cover = page.slice(page.indexOf('<div class="biz-cover'), page.indexOf('biz-credit'));
-    assert.match(cover, /biz-cover biz-cover-ed/, b.slug);
-    assert.match(cover, new RegExp(`art-${editorialFor(b).file.replace('.webp', '')}-\\d+\\.webp`), b.slug);
-    assert.match(cover, /class="ed-tag">Category illustration</, b.slug);
-    assert.doesNotMatch(cover, /biz-emoji/, b.slug);
+// Business pages come in tiers (src/data/claims.mjs): an unclaimed outline
+// page shows no painting, a claimed page without photos shows the scene.
+test('a claimed barbershop page shows the same scene as its card; an outline page shows none', () => {
+  const cover = (page) => page.slice(page.indexOf('<div class="biz-cover'), page.indexOf('biz-credit'));
+  const plain = barbers.filter((b) => !MEDIA[b.slug]?.cover);
+  for (const b of plain.filter((x) => tierOf(x.slug) === 'claimed').slice(0, 5)) {
+    const page = html(`b/${b.slug}/`), c = cover(page);
+    assert.match(c, /biz-cover biz-cover-ed/, b.slug);
+    assert.match(c, new RegExp(`art-${editorialFor(b).file.replace('.webp', '')}-\\d+\\.webp`), b.slug);
+    assert.match(c, /class="ed-tag">Category illustration</, b.slug);
+    assert.match(page, /want=photos#claim/, b.slug);
+  }
+  const outline = plain.filter((x) => tierOf(x.slug) === 'listed').slice(0, 5);
+  assert.ok(outline.length);
+  for (const b of outline) {
+    const page = html(`b/${b.slug}/`), c = cover(page);
+    assert.match(c, /biz-cover biz-outline/, b.slug);
+    assert.doesNotMatch(c, /ed-tag|ed-art|biz-emoji/, b.slug);
     assert.match(page, /want=photos#claim/, b.slug);
   }
 });

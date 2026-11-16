@@ -312,7 +312,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
     </div>
     ${tier === 'listed' ? `<div class="side-card claim" id="claim-card">
       <p class="kicker">This page is an outline</p>
-      <p>Everything here comes from public listings. Is this your business? Claim it free and fill it in: your photos, your own words, the right hours and links, pickup orders with no app fees.</p>
+      <p>Everything here comes from public listings. Is this your business? Claim it free and fill it in: your photos, your own words and deals, the right hours and links, pickup orders with no app fees.</p>
       ${ladder(tier)}
       <a class="btn btn-sm" href="/owners/?b=${b.slug}#claim">Claim this page free ${svg('arrow', 'ic-sm')}</a>
     </div>` : tier === 'claimed' ? `<div class="side-card claim" id="claim-card">
