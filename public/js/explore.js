@@ -27,9 +27,9 @@
     return '<article class="bz" data-slug="' + b.s + '">' +
       // b.w: the painted scene the build picked for this listing (src/editorial-art.mjs), with its tag.
       '<a class="bz-cover ' + (!b.i && b.w ? 'bz-cover-ed' : PATS[hash(b.s) % 5]) + '" href="/b/' + b.s + '/" style="--c:' + COLOR[b.c] + ';--t:' + t[2] + '" tabindex="-1" aria-hidden="true">' +
-      (b.i ? '<img class="bz-art" src="' + esc(b.i) + '" alt="" loading="lazy" decoding="async" onerror="this.remove()"><span class="bz-emoji">' + b.e + '</span>'
+      (b.i ? '<img class="bz-art" src="' + esc(b.i) + '" alt="" loading="lazy" decoding="async" onerror="this.remove()">'
         : b.w ? '<img class="bz-art ed-art" src="/art/' + esc(b.w.f) + '" style="object-position:' + esc(b.w.p) + '" alt="" loading="lazy" decoding="async"><span class="ed-tag">Category illustration</span>'
-        : (b.v ? '<img class="bz-art" src="/art/cover-' + b.u + '.webp" alt="" loading="lazy">' : '') + '<span class="bz-emoji">' + b.e + '</span>') +
+        : (b.v ? '<img class="bz-art" src="/art/cover-' + b.u + '.webp" alt="" loading="lazy">' : '') + window.HoCSticker(b.c)) +
       (b.r ? '<span class="bz-area">' + PIN + esc(AREA[b.r]) + '</span>' : '') + '</a>' +
       '<button type="button" class="bz-save" data-save="' + b.s + '" aria-pressed="false" aria-label="Save ' + esc(b.n) + '">' + HEART + '</button>' +
       '<div class="bz-body"><h3 class="bz-name"><a href="/b/' + b.s + '/">' + (st.sort === 'walk' && b._i ? '<span class="walk-n">' + b._i + '</span>' : '') + esc(b.n) + '</a></h3><p class="bz-type">' + esc(b.y) + (st.sort === 'near' && me && b._d < Infinity ? ' · <b>' + (b._d < 0.1 ? 'right here' : b._d.toFixed(1) + ' mi') + '</b>' : '') + '</p>' +

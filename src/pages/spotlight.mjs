@@ -7,7 +7,7 @@
 import { esc, t } from '../layout.mjs';
 import { directory, catBySlug, subBySlug, areaBySlug } from '../data/directory.mjs';
 import { SPOTLIGHT, PICK_SLOTS } from '../data/spotlight.mjs';
-import { svg, tel, coverArt, editorialImg, edTag } from '../site.mjs';
+import { svg, tel, coverArt, editorialImg, edTag, catSticker } from '../site.mjs';
 import { editorialFor } from '../editorial-art.mjs';
 
 const bySlug = Object.fromEntries(directory.map((b) => [b.slug, b]));
@@ -31,7 +31,7 @@ export function spotCard({ b, picks }) {
 <article class="sp-card" style="--c:${cat.color};--t:${cat.tint}">
   <a class="sp-cover ${ed ? 'bz-cover-ed' : 'pat-arch'}" href="/b/${b.slug}/" tabindex="-1" aria-hidden="true">
     ${ed ? editorialImg(ed) + edTag : `${coverArt(b.sub)}
-    <span class="sp-emoji">${sub.emoji}</span>`}
+    ${catSticker(b.cat, { size: 120, cls: 'sp-stk' })}`}
     <span class="sp-flag">★ Spotlight</span>
   </a>
   <div class="sp-body">

@@ -1,0 +1,9 @@
+/* Reference tokens; integrate into the existing source styles. */
+:root {
+ --hoc-paper:#FFF9EF; --hoc-surface:#fff; --hoc-ink:#252722;
+ --hoc-muted:#60645B; --hoc-red:#B92E2B; --hoc-sage:#B9C9AD;
+ --hoc-sky:#BED8E5; --hoc-blush:#EBC9BF; --hoc-gold:#E9B949;
+ --hoc-line:#D8D8CC; --hoc-display:Fraunces,Georgia,serif;
+ --hoc-body:Inter,system-ui,sans-serif; --hoc-radius:16px;
+ --hoc-content:1240px;
+}

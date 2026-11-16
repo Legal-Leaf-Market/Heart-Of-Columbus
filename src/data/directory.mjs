@@ -21,7 +21,7 @@ import { excludedForOwnership } from './ownership.mjs';
 // Top-level categories, in display order. `subs` map to the landscape's
 // vertical/filter pairs. Emoji are the fallback icon until /art/ assets land.
 export const CATEGORIES = [
-  { slug: 'restaurants', label: 'Restaurants', emoji: '🍽️', color: '#c8232c', tint: '#fde7e4',
+  { slug: 'restaurants', label: 'Restaurants', emoji: '🍽️', color: '#c8232c', tint: '#f5e4dd',
     blurb: 'Taquerias, diners, pizza, pho and everything in between.',
     subs: [
       { slug: 'mexican', label: 'Mexican & Latin', emoji: '🌮', from: ['eat', 'mexican'] },
@@ -30,13 +30,13 @@ export const CATEGORIES = [
       { slug: 'asian', label: 'Asian & Indian', emoji: '🍜', from: ['eat', 'asian'] },
       { slug: 'bbq-trucks', label: 'BBQ, Trucks & Catering', emoji: '🚚', from: ['eat', 'trucks'] },
     ] },
-  { slug: 'coffee-sweets', label: 'Coffee & Sweets', emoji: '☕', color: '#8a4b2a', tint: '#f7ebe1',
+  { slug: 'coffee-sweets', label: 'Coffee & Sweets', emoji: '☕', color: '#8a4b2a', tint: '#f7ecd1',
     blurb: 'Roasters, bakeries, donuts, boba and the ice cream counter.',
     subs: [{ slug: 'coffee-sweets', label: 'Coffee, Bakeries & Treats', emoji: '🍩', from: ['eat', 'coffee'] }] },
-  { slug: 'bars', label: 'Bars & Breweries', emoji: '🍺', color: '#b86b00', tint: '#fdf0d6',
+  { slug: 'bars', label: 'Bars & Breweries', emoji: '🍺', color: '#b86b00', tint: '#f7ecd1',
     blurb: 'Taprooms, pubs, a distillery and a winery.',
     subs: [{ slug: 'bars', label: 'Bars, Breweries & Wine', emoji: '🍻', from: ['eat', 'bars'] }] },
-  { slug: 'beauty', label: 'Beauty & Grooming', emoji: '💈', color: '#1e2a4a', tint: '#e5e9f4',
+  { slug: 'beauty', label: 'Beauty & Grooming', emoji: '💈', color: '#1e2a4a', tint: '#e1edf3',
     blurb: 'Barbers, stylists, nails, spa days and fresh ink.',
     subs: [
       { slug: 'barbers', label: 'Barbershops', emoji: '💈', from: ['service', 'barbershops'] },
@@ -45,7 +45,7 @@ export const CATEGORIES = [
       { slug: 'spa', label: 'Spa, Skin & Massage', emoji: '🧖', from: ['service', 'personal-care'] },
       { slug: 'tattoo', label: 'Tattoo & Piercing', emoji: '🖋️', from: ['service', 'tattoo'] },
     ] },
-  { slug: 'shopping', label: 'Shopping', emoji: '🛍️', color: '#ff2e88', tint: '#ffe3f0',
+  { slug: 'shopping', label: 'Shopping', emoji: '🛍️', color: '#ff2e88', tint: '#f5e4dd',
     blurb: 'Boutiques, bookshops, antiques, markets and hobby shops.',
     subs: [
       { slug: 'boutiques', label: 'Boutiques & Bridal', emoji: '👗', from: ['shop', 'boutiques'] },
@@ -56,7 +56,7 @@ export const CATEGORIES = [
       { slug: 'hobbies', label: 'Sports, Games & Hobbies', emoji: '🎲', from: ['shop', 'outdoors'] },
       { slug: 'smoke', label: 'Smoke & Vape', emoji: '💨', from: ['shop', 'smoke'] },
     ] },
-  { slug: 'health', label: 'Health & Wellness', emoji: '🩺', color: '#0f7b6c', tint: '#dff4ef',
+  { slug: 'health', label: 'Health & Wellness', emoji: '🩺', color: '#0f7b6c', tint: '#e5ecdf',
     blurb: 'Dentists, chiropractors, eye care, counselors and clinics.',
     subs: [
       { slug: 'dental', label: 'Dentists', emoji: '🦷', from: ['health', 'dental'] },
@@ -65,13 +65,13 @@ export const CATEGORIES = [
       { slug: 'counseling', label: 'Counseling', emoji: '🧠', from: ['health', 'counseling'] },
       { slug: 'clinics', label: 'Clinics & Care', emoji: '🏥', from: ['health', 'medical'] },
     ] },
-  { slug: 'fitness', label: 'Fitness', emoji: '🏋️', color: '#2f6b3b', tint: '#e2f1e4',
+  { slug: 'fitness', label: 'Fitness', emoji: '🏋️', color: '#2f6b3b', tint: '#e5ecdf',
     blurb: 'Gyms, martial arts, gymnastics, pilates and yoga.',
     subs: [{ slug: 'fitness', label: 'Gyms, Studios & Martial Arts', emoji: '🥋', from: ['health', 'fitness'] }] },
-  { slug: 'pets', label: 'Pets', emoji: '🐾', color: '#7a4fd6', tint: '#ede6fb',
+  { slug: 'pets', label: 'Pets', emoji: '🐾', color: '#7a4fd6', tint: '#f7ecd1',
     blurb: 'Vets, groomers, boarding and dog training.',
     subs: [{ slug: 'pets', label: 'Vets, Groomers & Boarding', emoji: '🐶', from: ['service', 'pets'] }] },
-  { slug: 'home-services', label: 'Home Services', emoji: '🛠️', color: '#e8590c', tint: '#ffe8d9',
+  { slug: 'home-services', label: 'Home Services', emoji: '🛠️', color: '#e8590c', tint: '#e1edf3',
     blurb: 'Plumbers, electricians, roofers, lawn crews and handymen.',
     subs: [
       { slug: 'hvac-plumbing', label: 'HVAC & Plumbing', emoji: '🔧', from: ['home', 'hvac'] },
@@ -81,7 +81,7 @@ export const CATEGORIES = [
       { slug: 'home-help', label: 'Cleaning, Storage & More', emoji: '🧹', from: ['home', 'supply'] },
       { slug: 'laundry', label: 'Cleaners & Laundry', emoji: '🧺', from: ['service', 'laundry'] },
     ] },
-  { slug: 'auto', label: 'Auto', emoji: '🚗', color: '#36454f', tint: '#e6eaed',
+  { slug: 'auto', label: 'Auto', emoji: '🚗', color: '#36454f', tint: '#e1edf3',
     blurb: 'Mechanics, tires, body shops, detailers and used lots.',
     subs: [
       { slug: 'auto-repair', label: 'Auto Repair', emoji: '🔩', from: ['auto', 'repair'] },
@@ -89,7 +89,7 @@ export const CATEGORIES = [
       { slug: 'used-cars', label: 'Used Cars & Powersports', emoji: '🏍️', from: ['auto', 'dealers'] },
       { slug: 'detail-tow', label: 'Detailing, Tint & Towing', emoji: '🧽', from: ['auto', 'detail'] },
     ] },
-  { slug: 'pros', label: 'Professional Services', emoji: '💼', color: '#3b5bdb', tint: '#e5ebff',
+  { slug: 'pros', label: 'Professional Services', emoji: '💼', color: '#3b5bdb', tint: '#e5ecdf',
     blurb: 'Lawyers, accountants, agents, designers and IT.',
     subs: [
       { slug: 'legal', label: 'Lawyers', emoji: '⚖️', from: ['pro', 'legal'] },
@@ -101,19 +101,19 @@ export const CATEGORIES = [
       { slug: 'tech', label: 'Tech & IT', emoji: '💻', from: ['pro', 'tech'] },
       { slug: 'business', label: 'Consulting & Business', emoji: '🤝', from: ['pro', 'staffing'] },
     ] },
-  { slug: 'events', label: 'Events & Weddings', emoji: '💍', color: '#d6336c', tint: '#ffe3ec',
+  { slug: 'events', label: 'Events & Weddings', emoji: '💍', color: '#d6336c', tint: '#f5e4dd',
     blurb: 'Venues, DJs, rentals, planners and the people behind the big day.',
     subs: [{ slug: 'events', label: 'Venues, DJs & Rentals', emoji: '🎉', from: ['fun', 'venues'] }] },
-  { slug: 'kids', label: 'Kids & Learning', emoji: '🎨', color: '#f08c00', tint: '#fff1d6',
+  { slug: 'kids', label: 'Kids & Learning', emoji: '🎨', color: '#f08c00', tint: '#f7ecd1',
     blurb: 'Childcare, preschools, dance, music and tutoring.',
     subs: [
       { slug: 'childcare', label: 'Childcare & Schools', emoji: '🧸', from: ['fun', 'kids'] },
       { slug: 'lessons', label: 'Dance & Music Lessons', emoji: '🎵', from: ['fun', 'lessons'] },
     ] },
-  { slug: 'things-to-do', label: 'Things to Do', emoji: '🎳', color: '#0b7285', tint: '#dcf3f6',
+  { slug: 'things-to-do', label: 'Things to Do', emoji: '🎳', color: '#0b7285', tint: '#e1edf3',
     blurb: 'Bowling, golf, an indie cinema, hockey and a night away.',
     subs: [{ slug: 'things-to-do', label: 'Entertainment, Golf & Stays', emoji: '⛳', from: ['fun', 'entertainment'] }] },
-  { slug: 'makers', label: 'Makers & Industry', emoji: '🏭', color: '#5c5f66', tint: '#ebecee',
+  { slug: 'makers', label: 'Makers & Industry', emoji: '🏭', color: '#5c5f66', tint: '#e5ecdf',
     blurb: 'Machine shops, builders, engineers and suppliers.',
     subs: [
       { slug: 'machining', label: 'Machining & Fabrication', emoji: '⚙️', from: ['makers', 'machining'] },

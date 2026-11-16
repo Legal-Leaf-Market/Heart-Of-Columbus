@@ -2,7 +2,7 @@
 import { page, esc, t } from '../layout.mjs';
 import { directory, CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, km, inSection, asListedIn } from '../data/directory.mjs';
 import { PRICE } from '../data/members.mjs';
-import { header, footer, card, rail, svg, PHOTOS, artIcon, coverArt, editorialImg, edTag, tel, mapsLink, breadcrumbs } from '../site.mjs';
+import { header, footer, card, rail, svg, PHOTOS, artIcon, catSticker, sticker, STICKERS, CAT_STICKER, coverArt, editorialImg, edTag, tel, mapsLink, breadcrumbs } from '../site.mjs';
 import { editorialFor, editorialHero, sectionHero, EXPLORE_ART, EDITORIAL_CAPTION } from '../editorial-art.mjs';
 import { placeFromBusiness, PIN_NOTE } from '../data/places.mjs';
 import { fmtRange, DAY_NAMES } from '../hours.mjs';
@@ -141,7 +141,7 @@ ${breadcrumbs([['/', 'Home'], ['/explore/', 'Explore'], ...(sub && multi ? [[`/c
       <figcaption class="ed-tag">${EDITORIAL_CAPTION}</figcaption>
     </figure>
   </div></div>` : `<div class="wrap band-row">
-    ${artIcon(cat.slug, sub && multi ? sub.emoji : cat.emoji, 'band-ic')}
+    <span class="band-ic band-stk">${catSticker(cat.slug, { size: 120, lazy: false })}</span>
     <div>
       <p class="kicker">${sub && multi ? esc(cat.label) : 'Category'}</p>
       <h1>${esc(title)} <span class="band-n">${items.length}</span></h1>
@@ -262,10 +262,10 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
 <section class="wrap biz">
   <div class="biz-main">
     <div class="biz-cover ${media?.cover ? 'pat-arch' : tier === 'listed' ? 'biz-outline' : tier === 'member' ? 'biz-brandcover' : ed ? 'biz-cover-ed' : 'pat-arch'}" style="--c:${cat.color};--t:${cat.tint}">
-      ${media?.cover ? '' : tier === 'listed' ? `<span class="outline-emoji" aria-hidden="true">${sub.emoji}</span><span class="outline-label">Outline listing</span>`
+      ${media?.cover ? '' : tier === 'listed' ? `${catSticker(cat.slug, { size: 120, cls: 'outline-stk', lazy: false })}<span class="outline-label">Outline listing</span>`
         : tier === 'member' ? `<span class="brand-mono" aria-hidden="true">${logo || initials(b.name)}</span>`
         : ed ? editorialImg(ed, { lazy: false, sizes: '(max-width: 960px) 100vw, 780px' }) + edTag : `${coverArt(b.sub, false)}
-      <span class="biz-emoji" aria-hidden="true">${sub.emoji}</span>`}
+      ${catSticker(cat.slug, { size: 150, cls: 'biz-stk', lazy: false })}`}
       ${media?.cover ? `<img class="biz-photo" src="${mediaSrc(b.slug, media.cover)}" width="${media.cover.width}" height="${media.cover.height}" alt="${esc(media.cover.alt)}" loading="lazy" decoding="async" onerror="this.remove()">` : ''}
     </div>
     ${media ? `<p class="fine biz-credit">${esc(media.credit)}, shown with permission.</p>` : `<p class="fine biz-credit">Own ${t(b.name)}? <a href="/owners/?b=${b.slug}&amp;want=photos#claim">Send us photos</a> and we will show them here with your credit. We never copy them from your website.</p>`}
@@ -507,6 +507,25 @@ ${footer()}`;
   return page({ title: 'Order, book and shop direct | Heart of Columbus', description: 'Columbus, Indiana businesses you can order from, book or shop online directly, with no app in the middle.', body, scripts: ['site.js', 'cart.js'], styles, assets });
 }
 
+// The sticker set: the whole illustration family in one place, with what
+// each one is for. Drawings inspired by Columbus, never business logos.
+function stickersPage({ assets }) {
+  const forCat = Object.fromEntries(Object.entries(CAT_STICKER).map(([c, id]) => [id, catBySlug[c].label]));
+  const body = `
+${header()}
+<main id="main" class="wrap prose">
+  ${breadcrumbs([['/', 'Home'], ['', 'The sticker set']])}
+  <p class="kicker">Field guide</p>
+  <h1>The Heart of Columbus sticker set</h1>
+  <p>${STICKERS.length} hand-drawn stickers made for this guide: one for every category, plus the town, its trails and its weekends. They are illustrations. The landmark drawings are inspired by Columbus and are not exact records of any building, and none of them is the logo of a business or of the city.</p>
+  <ul class="stk-gallery" role="list">
+    ${STICKERS.map((id) => `<li>${sticker(id, { size: 128, alt: id.replace(/-/g, ' ') + ' sticker' })}<code>${id}</code>${forCat[id] ? `<span class="fine">${esc(forCat[id])}</span>` : ''}</li>`).join('')}
+  </ul>
+</main>
+${footer()}`;
+  return page({ title: 'The sticker set | Heart of Columbus', description: 'The illustrated sticker family of Heart of Columbus, the field guide to independent businesses in Columbus, Indiana.', body, scripts: ['site.js'], styles: ['hoc.css'], assets });
+}
+
 export function directoryPages(ctx) {
   const out = [];
   for (const c of CATEGORIES) {
@@ -518,6 +537,7 @@ export function directoryPages(ctx) {
   out.push({ path: 'explore/index.html', html: explorePage(ctx) });
   out.push({ path: 'saved/index.html', html: explorePage(ctx, { saved: true }) });
   out.push({ path: 'credits/index.html', html: creditsPage(ctx) });
+  out.push({ path: 'stickers/index.html', html: stickersPage(ctx) });
   out.push({ path: 'order/index.html', html: orderPage(ctx) });
   out.push({ path: '404.html', html: notFoundPage(ctx) });
   return out;

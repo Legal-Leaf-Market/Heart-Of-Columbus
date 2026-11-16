@@ -26,6 +26,7 @@ const nearVenue = (e) =>
 
 const eventCard = (e) => `
 <article class="ev" data-event data-start="${e.start}" data-end="${e.end}"${e.times ? ` data-times="${e.times.join(',')}"` : ''}>
+  <p class="ev-cal" aria-hidden="true"><span>${MONTHS[ymd(e.start)[1] - 1]}</span><b>${ymd(e.start)[2]}</b></p>
   <p class="ev-date">${svg('list', 'ic-sm')}${esc(dateRange(e))}${e.times ? `, ${fmtMin(e.times[0])} to ${fmtMin(e.times[1])}` : ''}</p>
   <h3><a href="${esc(e.url)}" target="_blank" rel="noopener">${t(e.name)}</a></h3>
   <p class="ev-venue">${svg('pin', 'ic-sm')}${esc(e.venue)}</p>
@@ -40,7 +41,7 @@ const eventCard = (e) => `
 export function eventsSection({ mode, id = 'events', title, kicker }) {
   return `
 <section class="wrap ev-sec" id="${id}" data-events="${mode}" hidden>
-  <div class="rail-head"><div><p class="kicker">${esc(kicker)}</p><h2>${esc(title)}</h2></div>
+  <div class="rail-head"><div><p class="kicker" data-ev-kicker>${esc(kicker)}</p><h2 data-ev-title>${esc(title)}</h2></div>
     <a class="see-all" href="/events/">All local events ${svg('arrow', 'ic-sm')}</a></div>
   <div class="ev-grid">${EVENTS.map(eventCard).join('')}</div>
   <p class="fine">Signature events only, from each organizer’s own page (<a href="/events.ics">add them to your calendar</a>). Library, parks and Arts Council listings are on <a href="/events/">Local events</a>. Also: ${CALENDARS.map(([l, u]) => `<a href="${u}" target="_blank" rel="noopener">${esc(l)}</a>`).join(' · ')}. Hours for nearby places come from their Google listings; call ahead.</p>
