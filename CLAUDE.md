@@ -75,6 +75,15 @@ Indiana. A pitch, not a live service. See README.md.
   `python3 scripts/art-webp.py`; pages point at the `.webp`. The Sentinels app
   icons stay PNG. JS and CSS are cached for a year because every reference
   carries `?v=<hash>`; a test fails on one that doesn't.
+- **No art stands in for a business.** Cards, business pages, spotlight,
+  explore, saved, map/table views and Spin show a real approved photo or no
+  image region at all: `businessMedia()` in `src/data/media.mjs` is the one
+  resolver (photo, logo, none), and `HoCCard` in `public/js/site.js` is its
+  client twin. No category sticker, painted scene, cover art, emoji or
+  initials, and a failed photo drops to text-only once. Stickers and painted
+  scenes belong to category and editorial modules only. tests/business-media.test.mjs
+  scans every built page; `python3 scripts/audit-business-art.py dist` is the
+  redesign package's own scanner (docs/redesign/CLAUDE_DEEP_REDESIGN.md).
 - **Business photos come only from the business.** `src/data/media.mjs` is
   the manifest; pages read it through `mediaFor()`, which shows nothing for an
   entry missing `permission`, `checked` or `credit`. Files live in

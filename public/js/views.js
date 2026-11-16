@@ -53,7 +53,7 @@
   // A painted category scene is never shown without its tag.
   var thumb = function (i, cls) {
     if (!i.img) return '';
-    return '<span class="' + cls + '"><img src="' + esc(i.img) + '" alt="" loading="lazy" decoding="async">' + (i.ed ? '<span class="ed-tag">Category illustration</span>' : '') + '</span>';
+    return '<span class="' + cls + '"><img src="' + esc(i.img) + '" alt="" loading="lazy" decoding="async" onerror="this.parentNode.parentNode.removeChild(this.parentNode)"></span>';
   };
 
   // ---------- Switching ----------
@@ -326,8 +326,9 @@
     all.forEach(function (b) { by[b.s] = b; });
     items = $$('[data-grid] .bz', list).map(function (el) {
       var s = el.getAttribute('data-slug');
-      var img = $('.bz-cover img', el);
-      var i = { s: s, el: el, b: by[s], x: data.links[s] || {}, img: img ? img.getAttribute('src') : '', ed: !!$('.ed-tag', el) };
+      var b = by[s] || {};
+      // Only an approved photo (b.i, from businessMedia() at build time).
+      var i = { s: s, el: el, b: by[s], x: data.links[s] || {}, img: typeof b.i === 'string' && b.i.indexOf('/business-media/' + s + '/') === 0 ? b.i : '' };
       el.addEventListener('mouseenter', function () { if (st.view === 'map') hotPin(i, true); });
       el.addEventListener('mouseleave', function () { if (st.view === 'map') hotPin(i, false); });
       return i;

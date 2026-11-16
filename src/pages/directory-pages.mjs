@@ -2,11 +2,11 @@
 import { page, esc, t } from '../layout.mjs';
 import { directory, CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, km, inSection, asListedIn } from '../data/directory.mjs';
 import { PRICE } from '../data/members.mjs';
-import { header, footer, card, rail, svg, PHOTOS, artIcon, catSticker, sticker, STICKERS, CAT_STICKER, coverArt, editorialImg, edTag, tel, mapsLink, breadcrumbs } from '../site.mjs';
+import { header, footer, card, rail, svg, PHOTOS, artIcon, catSticker, sticker, STICKERS, CAT_STICKER, MEDIA_FAIL, tel, mapsLink, breadcrumbs } from '../site.mjs';
 import { editorialFor, editorialHero, sectionHero, EXPLORE_ART, EDITORIAL_CAPTION } from '../editorial-art.mjs';
 import { placeFromBusiness, PIN_NOTE } from '../data/places.mjs';
 import { fmtRange, DAY_NAMES } from '../hours.mjs';
-import { MEDIA as MEDIA_ALL, mediaFor, mediaSrc } from '../data/media.mjs';
+import { MEDIA as MEDIA_ALL, mediaFor, mediaSrc, businessMedia } from '../data/media.mjs';
 import { LANDMARKS } from '../data/landmarks.mjs';
 import { EVENTS } from '../data/events.mjs';
 import { dateRange } from './events.mjs';
@@ -226,10 +226,6 @@ const planTheDay = (b) => {
     .map(([, , x]) => asListedIn(x, 'events'));
 };
 
-// Initials for a member page until the owner sends a logo: the first letters
-// of the first two words that are not "The" or a company suffix.
-const initials = (name) => name.replace(/['’]s\b/g, '').split(/[^A-Za-z0-9]+/).filter((w) => w && !/^(the|llc|inc|co)$/i.test(w)).slice(0, 2).map((w) => w[0].toUpperCase()).join('');
-
 // The ladder every owner sees on their page: where it is now, and what the
 // next step adds. Plain facts about what we do, no pressure copy.
 const ladder = (tier) => `<ol class="tiers">
@@ -246,10 +242,10 @@ function bizPage(b, { assets }) {
   const tier = tierOf(b.slug);
   const pal = tier === 'member' ? paletteFor(b.slug, cat.color) : null;
   const fnum = tier === 'member' ? founderNumber(b.slug, (s) => directory.some((x) => x.slug === s)) : 0;
-  const logo = media?.logo ? `<img src="${mediaSrc(b.slug, media.logo)}" width="${media.logo.width}" height="${media.logo.height}" alt="${esc(media.logo.alt)}" decoding="async">` : '';
-  // No owner photo: the type's painted scene, if it has one (src/editorial-art.mjs).
-  // An outline listing gets no painting, and a member gets its own colors.
-  const ed = media?.cover || tier !== 'claimed' ? null : editorialFor(b);
+  // Media follows businessMedia() only: a real approved photo, an approved
+  // logo in a small identity slot, or nothing. No art stands in for a business.
+  const bm = businessMedia(b.slug);
+  const logo = media?.logo ? `<img class="biz-logo-mark" src="${mediaSrc(b.slug, media.logo)}" width="${media.logo.width}" height="${media.logo.height}" alt="${esc(media.logo.alt)}" decoding="async">` : '';
   const near = b.ll
     ? directory.filter((x) => x.slug !== b.slug && x.ll).map((x) => [km(b.ll, x.ll), x]).sort((a, c) => a[0] - c[0]).slice(0, 12).map((x) => x[1])
     : [];
@@ -261,18 +257,10 @@ ${header(cat.slug)}
 ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.length > 1 ? [[`/c/${cat.slug}/${sub.slug}/`, sub.label]] : []), ['', b.name]])}
 <section class="wrap biz">
   <div class="biz-main">
-    <div class="biz-cover ${media?.cover ? 'pat-arch' : tier === 'listed' ? 'biz-outline' : tier === 'member' ? 'biz-brandcover' : ed ? 'biz-cover-ed' : 'pat-arch'}" style="--c:${cat.color};--t:${cat.tint}">
-      ${media?.cover ? '' : tier === 'listed' ? `${catSticker(cat.slug, { size: 120, cls: 'outline-stk', lazy: false })}<span class="outline-label">Outline listing</span>`
-        : tier === 'member' ? `<span class="brand-mono" aria-hidden="true">${logo || initials(b.name)}</span>`
-        : ed ? editorialImg(ed, { lazy: false, sizes: '(max-width: 960px) 100vw, 780px' }) + edTag : `${coverArt(b.sub, false)}
-      ${catSticker(cat.slug, { size: 150, cls: 'biz-stk', lazy: false })}`}
-      ${media?.cover ? `<img class="biz-photo" src="${mediaSrc(b.slug, media.cover)}" width="${media.cover.width}" height="${media.cover.height}" alt="${esc(media.cover.alt)}" loading="lazy" decoding="async" onerror="this.remove()">` : ''}
-    </div>
-    ${media ? `<p class="fine biz-credit">${esc(media.credit)}, shown with permission.</p>` : `<p class="fine biz-credit">Own ${t(b.name)}? <a href="/owners/?b=${b.slug}&amp;want=photos#claim">Send us photos</a> and we will show them here with your credit. We never copy them from your website.</p>`}
     <div class="biz-head">
       <p class="kicker"><a href="/c/${cat.slug}/${cat.subs.length > 1 ? sub.slug + '/' : ''}">${esc(sub.label)}</a>${area ? ` · <a href="/n/${area.slug}/">${esc(area.label)}</a>` : ''}</p>
-      ${tier === 'member' ? `<p class="brand-line"><span class="brand-badge" aria-hidden="true">${logo || initials(b.name)}</span><a class="brand-ribbon" href="/founders-club/">★ Founding Member #${fnum}</a></p>` : ''}
-      <h1>${t(b.name)}</h1>
+      ${tier === 'member' ? `<p class="brand-line"><a class="brand-ribbon" href="/founders-club/">★ Founding Member #${fnum}</a></p>` : ''}
+      <div class="biz-id">${logo}<h1>${t(b.name)}</h1></div>
       <p class="biz-type">${t(b.type)}</p>
       <div class="bz-tags">${b.member ? '<a class="tag tag-member" href="#member-note">★ Founding Member</a>' : ''}${tier === 'claimed' ? '<span class="tag tag-claimed">✓ Claimed by the owner</span>' : ''}${tier === 'listed' ? '<a class="tag tag-outline" href="#claim-card">Outline listing</a>' : ''}${SPOTLIGHT_SLUGS.has(b.slug) ? (spotFor(b.slug)?.picks.length ? '<a class="tag tag-spot" href="#owners-picks">★ Spotlight</a>' : '<span class="tag tag-spot">★ Spotlight</span>') : ''}${b.demo ? '<span class="tag tag-hot">Order direct (demo)</span>' : ''}${b.heritage ? '<span class="tag">Columbus original</span>' : ''}${b.dora ? '<span class="tag tag-dora">Social District: drinks to go</span>' : ''}${b.also.map((a) => `<a class="tag tag-go" href="#also-${a.cat}">${catBySlug[a.cat].emoji} ${esc(a.title)}</a>`).join('')}<span class="tag tag-plain">Independent</span></div>
       ${b.hours ? `<p class="open-badge biz-open" data-open-now='${JSON.stringify(b.hours)}' hidden></p>` : ''}
@@ -297,6 +285,10 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
       ${b.member ? `<p class="direct-note member-note" id="member-note">★ <span>${esc(b.name)} is a Founding Member. It pays Heart of Columbus $${PRICE} a month for a website we keep up to date and a featured spot in its category, and has no say in what we write. <a href="/founders-club/">About the Founders Club</a></span></p>` : ''}
       ${b.order.length || b.book.length ? `<p class="direct-note">${svg('store', 'ic-sm')} ${b.order.length ? 'Ordering' : 'Booking'} opens ${esc(b.name)}’s own ${esc((b.order[0] || b.book[0]).label)} page, the one they chose and pay for themselves. Heart of Columbus takes no cut.</p>` : ''}
     </div>
+    ${bm.state === 'photo' ? `<figure class="biz-figure" data-media="photo">
+      <img class="biz-photo" src="${bm.src}" width="${bm.width}" height="${bm.height}" alt="${esc(bm.alt)}" fetchpriority="high" decoding="async" onerror="${MEDIA_FAIL}">
+      <figcaption class="fine biz-credit">${esc(bm.credit)}, shown with permission.</figcaption>
+    </figure>` : ''}
   </div>
   <aside class="biz-side">
     <div class="side-card">
@@ -331,6 +323,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
   </aside>
 </section>
 ${inTheNews(b)}
+${bm.state === 'photo' ? '' : `<section class="wrap biz-photo-ask" aria-label="Photos"><p class="fine">No photos of ${t(b.name)} yet. Own it? <a href="/owners/?b=${b.slug}&amp;want=photos#claim">Send us photos</a> and we will show them here with your credit. We never copy them from your website.</p></section>`}
 ${media && (media.logo || (media.gallery || []).length) ? `
 <section class="wrap biz-gallery" aria-label="Photos from ${t(b.name)}">
   ${media.logo ? `<img class="biz-logo" src="${mediaSrc(b.slug, media.logo)}" width="${media.logo.width}" height="${media.logo.height}" alt="${esc(media.logo.alt)}" loading="lazy" decoding="async">` : ''}

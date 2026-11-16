@@ -49,8 +49,8 @@ test('views.js keeps state in the address, not in browser storage', () => {
   const js = readFileSync(new URL('public/js/views.js', root), 'utf8');
   assert.doesNotMatch(js, /localStorage|sessionStorage|document\.cookie/);
   assert.match(js, /history\.replaceState/);
-  // The disclosure travels with the painted scene into every view.
-  assert.match(js, /Category illustration/);
+  // Views show only an approved photo from the index, never a painted scene.
+  assert.doesNotMatch(js, /Category illustration|ed-tag|\.bz-cover img/);
 });
 
 test('every map badge and landmark art file the scripts name exists', async () => {
