@@ -45,7 +45,23 @@ for (const [slug, c] of Object.entries(COMMERCE)) {
     row.inStock = d.ok ? d.items.filter((i) => i.available).length : 0;
     row.variable = d.ok ? d.items.filter((i) => i.variants.length > 1).length : 0;
     row.pick = d.ok ? d.items.filter((i) => i.pick).length : 0;
-    if (!d.ok) { row.error = d.error; continue; }
+    if (!d.ok) {
+      row.error = d.error;
+      // Why did it not answer? Ask the shop directly from here, with and
+      // without the query our function sends.
+      if (c.platform === 'woocommerce') {
+        const o = c.origin.replace(/\/+$/, '');
+        row.direct = {};
+        for (const q of ['per_page=100&page=1', 'per_page=100&orderby=id&order=asc&page=1']) {
+          try {
+            const x = await fetch(`${o}/wp-json/wc/store/v1/products?${q}`, { headers: { 'User-Agent': UA, Accept: 'application/json' }, signal: AbortSignal.timeout(15000) });
+            const t = await x.text();
+            row.direct[q] = `${x.status} ${x.headers.get('content-type') || ''} ${t.slice(0, 140).replace(/\s+/g, ' ')}`;
+          } catch (e) { row.direct[q] = 'error ' + String(e && e.message || e); }
+        }
+      }
+      continue;
+    }
     if (c.platform !== 'woocommerce') continue;
     const live = d.items.filter((i) => i.available && !i.pick);
     const picks = [live.find((i) => i.variants.length > 1), live.find((i) => i.variants.length === 1)].filter(Boolean);
@@ -61,7 +77,8 @@ for (const [slug, c] of Object.entries(COMMERCE)) {
       const want = String(v.id);
       row.adds.push({
         item: it.title, option: v.title, link, status: step.status,
-        refused: /choose product options|please choose|is not a valid|cannot be purchased/i.test(step.text),
+        landed: step.url, notice: (step.text.match(/<div[^>]*class="[^"]*woocommerce-(?:message|error|info)[^"]*"[^>]*>([\s\S]{0,300}?)<\/(?:div|ul)>/i) || [])[1]?.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim() || '',
+        cookies: [...jar.keys()].filter((k) => /woocommerce|wp_woo|cart/i.test(k)),
         cart: inCart, pass: !!(inCart && inCart.some((x) => String(x.id) === want)),
       });
     }
