@@ -3,6 +3,8 @@
 // src/indexing.mjs's decision, not this file's. tests/jsonld.test.mjs checks that every block
 // parses and that its name, phone and address appear on the page itself.
 
+import { websiteAction } from './website.mjs';
+
 const origin = new URL(process.env.HOC_ORIGIN || 'https://heartofcolumbus.netlify.app');
 if (!['http:', 'https:'].includes(origin.protocol) || origin.username || origin.password || origin.pathname !== '/' || origin.search || origin.hash) {
   throw new Error('HOC_ORIGIN must be an HTTP(S) origin without a path, query, credentials or fragment');
@@ -42,7 +44,7 @@ export function businessLd(b) {
     ...(b.address ? { address: address(b.address) } : {}),
     ...(b.ll ? { geo: geo(b.ll) } : {}),
     ...(b.phone ? { telephone: b.phone } : {}),
-    ...(b.website ? { url: b.website, sameAs: [b.website] } : {}),
+    ...(b.website ? { url: websiteAction(b) || b.website, sameAs: [websiteAction(b) || b.website] } : {}),
     ...(b.hours && !b.tempClosed ? { openingHoursSpecification: hoursSpec(b.hours) } : {}),
   };
 }

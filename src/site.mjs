@@ -226,3 +226,5 @@ export const breadcrumbs = (items) =>
   `<nav class="crumbs wrap" aria-label="Breadcrumb">${items
     .map(([href, label], i) => (i < items.length - 1 ? `<a href="${href}">${esc(label)}</a><span>/</span>` : `<span aria-current="page">${esc(label)}</span>`))
     .join('')}</nav><script type="application/ld+json">${json(breadcrumbLd(items))}</script>`;
+
+export { websiteAction } from './website.mjs';
