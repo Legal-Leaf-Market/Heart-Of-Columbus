@@ -2,7 +2,7 @@
 import { page, esc, t } from '../layout.mjs';
 import { directory, CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, km, inSection, asListedIn } from '../data/directory.mjs';
 import { PRICE } from '../data/members.mjs';
-import { header, footer, card, rail, svg, PHOTOS, artIcon, catSticker, sticker, STICKERS, CAT_STICKER, MEDIA_FAIL, tel, mapsLink, breadcrumbs } from '../site.mjs';
+import { header, footer, card, rail, svg, PHOTOS, artIcon, catSticker, sticker, STICKERS, CAT_STICKER, MEDIA_FAIL, tel, mapsLink, breadcrumbs, websiteAction } from '../site.mjs';
 import { editorialFor, editorialHero, sectionHero, EXPLORE_ART, EDITORIAL_CAPTION } from '../editorial-art.mjs';
 import { placeFromBusiness, PIN_NOTE } from '../data/places.mjs';
 import { fmtRange, DAY_NAMES } from '../hours.mjs';
@@ -273,7 +273,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
         ${b.demo ? `<a class="btn btn-ghost" href="${b.demo}">${svg('store')} ${b.cat === 'beauty' ? 'Book' : 'Order'} (demo)</a>` : ''}
         ${b.phone ? `<a class="btn ${b.demo || b.order.length || b.book.length || b.feed || b.store ? 'btn-ghost' : ''}" href="${tel(b.phone)}">${svg('phone')} Call ${esc(b.phone)}</a>` : ''}
         ${b.added && !b.address ? '' : `<a class="btn btn-ghost" href="${mapsLink(b)}" target="_blank" rel="noopener">${svg('pin')} Directions</a>`}
-        ${b.website ? `<a class="btn btn-ghost" href="${esc(b.website)}" target="_blank" rel="noopener">${svg('globe')} Website</a>` : ''}
+        ${b.website && !websiteAction(b) ? `<a class="btn btn-ghost" href="${esc(b.website)}" target="_blank" rel="noopener">${svg('globe')} Website</a>` : ''}
         ${b.gift ? `<a class="btn btn-ghost" href="${esc(b.gift.url)}" target="_blank" rel="noopener">${svg('heart')} Gift cards</a>` : ''}
         <button type="button" class="btn btn-ghost" data-save="${b.slug}" aria-pressed="false">${svg('heart')} <span data-save-label>Save</span></button>
         <button type="button" class="btn btn-ghost" data-share="${esc(b.name)}">${svg('share')} Share</button>

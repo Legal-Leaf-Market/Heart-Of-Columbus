@@ -6,6 +6,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { WEB } from '../src/data/web.mjs';
 import { PROVIDERS, findProviderLinks } from '../src/commerce-core.mjs';
 import { directory } from '../src/data/directory.mjs';
+import { COMMERCE as BEFORE } from '../src/data/commerce.mjs';
 
 const bySlug = {};
 for (const file of process.argv.slice(2)) {
@@ -81,8 +82,19 @@ for (const slug of new Set([...Object.keys(WEB), ...Object.keys(bySlug)])) {
   // Booksy sends a deleted business's address to a search page with this flag:
   // that listing no longer takes bookings there.
   if (/[?&]do=showBusinessDeletedModal\b/.test(p.final || '')) book.splice(0, book.length, ...book.filter((b) => b.label !== 'Booksy'));
-  // One booking link per provider is enough.
-  for (let i = book.length - 1; i > 0; i--) if (book.slice(0, i).some((b) => b.label === book[i].label)) book.splice(i, 1);
+  // A Square Online site's own page carries other merchants' square.site
+  // addresses in Square's shared assets (Gramz Bakery's page named
+  // olympio-restaurant.square.site, a different restaurant). When the
+  // business's own site is a square.site, only its own subdomain is its store.
+  const ownSquare = [w.website, p.origin, p.final].map(host).find((h) => /\.square\.site$/.test(h));
+  if (ownSquare) for (let i = order.length - 1; i >= 0; i--) {
+    const h = host(order[i].url);
+    if (/\.square\.site$/.test(h) && h !== ownSquare) order.splice(i, 1);
+    else if (h === ownSquare) order[i].url = order[i].url.replace(/^http:/, 'https:');
+  }
+  // One ordering and one booking link per provider is enough: two buttons
+  // that both say "Square Online" are one store listed twice.
+  for (const list of [order, book]) for (let i = list.length - 1; i > 0; i--) if (list.slice(0, i).some((b) => b.label === list[i].label)) list.splice(i, 1);
   const feed = !!(p.ok && (p.platform === 'shopify' || p.platform === 'woocommerce') && p.products > 0 && !NO_FEED.has(cat));
   // A storefront we can't read item by item still gets a "Shop online" link
   // when the site really sells: a Shopify/BigCommerce/Square Online site, or
@@ -107,6 +119,9 @@ for (const slug of new Set([...Object.keys(WEB), ...Object.keys(bySlug)])) {
   if (!order.length && !book.length && !feed && !store && !p.platform && !gift) continue;
   out[slug] = { platform: p.platform || '', ...(p.stack && p.stack.length ? { stack: p.stack } : {}), origin: p.origin || '', feed, store, order: order.slice(0, 2), book: book.slice(0, 2), ...(gift ? { gift } : {}) };
 }
+// An entry entered by hand (no probe, no listing website) is not this
+// script's to delete: keep it as it was. bips-bites is one.
+for (const [slug, c] of Object.entries(BEFORE)) if (!out[slug] && !bySlug[slug] && !WEB[slug]) out[slug] = c;
 const head = `// What each business's own website can do: its cart engine and the ordering
 // or booking pages it chose. Built by scripts/import-commerce.mjs from the
 // /api/probe results and owner-set Google action links. \`feed: true\` means
