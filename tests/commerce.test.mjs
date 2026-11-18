@@ -100,3 +100,60 @@ test('a listing site that writes pages about other businesses is never their web
   const { WEB } = await import('../src/data/web.mjs');
   for (const [slug, w] of Object.entries(WEB)) if (w.website) assert.doesNotMatch(new URL(w.website).hostname, /(?:^|\.)leanu\.pw$/, slug);
 });
+
+// Sojourn Coffee's coffees are variable products (size, grind). Woo's handler
+// refuses a bare variation id, so each option carries the query its own form posts.
+test('Woo variable products: every option with its own price, stock and add query', async () => {
+  const { mapWoo, wooCartUrls } = await import('../src/commerce-core.mjs');
+  const parent = {
+    id: 10, type: 'variable', name: 'Organic Signature Blend', permalink: 'https://w.example/product/sig/', prices: { price: '1400', currency_minor_unit: 2 },
+    is_in_stock: true, images: [{ src: 'b.jpg' }],
+    attributes: [{ name: 'Grind', taxonomy: 'pa_grind', terms: [{ slug: 'whole-bean', name: 'Whole Bean' }, { slug: 'drip', name: 'Drip' }] }, { name: 'Size', taxonomy: null, terms: [] }],
+  };
+  const vars = [
+    { id: 11, parent: 10, prices: { price: '1400', currency_minor_unit: 2 }, is_in_stock: false, attributes: [{ name: 'Grind', value: 'whole-bean' }, { name: 'Size', value: '12 oz' }] },
+    { id: 12, parent: 10, prices: { price: '1500', currency_minor_unit: 2 }, is_in_stock: true, attributes: [{ name: 'Grind', value: 'Drip' }, { name: 'Size', value: '12 oz' }] },
+    { id: 99, parent: 77, prices: { price: '100' }, attributes: [] },
+  ];
+  const [it] = mapWoo('https://w.example', [parent], vars);
+  assert.equal(it.variants.length, 2);
+  assert.equal(it.variants[0].title, 'Whole Bean / 12 oz');
+  assert.equal(it.variants[0].available, false);
+  assert.equal(it.price, 15, 'the price shown is the cheapest option you can buy');
+  assert.equal(it.available, true);
+  assert.equal(it.variants[1].add, 'add-to-cart=10&variation_id=12&attribute_pa_grind=drip&attribute_size=12%20oz');
+  assert.deepEqual(wooCartUrls('https://w.example', [{ productId: '10', variantId: '12', add: it.variants[1].add, qty: 2 }]),
+    ['https://w.example/?add-to-cart=10&variation_id=12&attribute_pa_grind=drip&attribute_size=12%20oz&quantity=2']);
+  // A value that matches no declared term, or an "any" option, gets no link.
+  const [odd] = mapWoo('https://w.example', [parent], [{ id: 13, parent: 10, prices: { price: '900' }, is_in_stock: true, attributes: [{ name: 'Grind', value: 'espresso' }] }]);
+  assert.equal(odd.variants[0].add, undefined);
+  assert.equal(odd.available, false);
+  // No variations read at all: shown, but chosen on their site.
+  const [blind] = mapWoo('https://w.example', [parent], []);
+  assert.equal(blind.pick, true);
+  assert.deepEqual(wooCartUrls('https://w.example', [{ productId: '10', pick: true, qty: 1 }]), []);
+});
+
+test('the Woo sweep dedupes a store that ignores page, and fans out the rest', async () => {
+  const { wooCollection } = await import('../netlify/functions/shop.mjs');
+  const page = (from) => Array.from({ length: 100 }, (_, i) => ({ id: from + i }));
+  const asked = [];
+  const stuck = async (url) => { asked.push(url); return { body: page(1), pages: 3 }; };
+  assert.equal((await wooCollection('https://w.example', '', 4, stuck)).length, 100);
+  assert.equal(asked.length, 3);
+  assert.ok(asked.every((u) => /orderby=id&order=asc/.test(u)));
+  const good = async (url) => { const p = Number(url.match(/&page=(\d+)/)[1]); return { body: p < 3 ? page(p * 100) : [{ id: 999 }], pages: 3 }; };
+  assert.equal((await wooCollection('https://w.example', 'type=variation', 6, good)).length, 201);
+});
+
+// Square's shared assets on Gramz Bakery's own square.site page named a
+// different restaurant's store; the import kept it as a second "Square
+// Online" button that went to someone else.
+test('a Square Online business links only its own store, once', async () => {
+  const { COMMERCE } = await import('../src/data/commerce.mjs');
+  assert.deepEqual(COMMERCE['gramz-bakery-and-cafe'].order, [{ label: 'Square Online', url: 'https://gramz-bakery.square.site/' }]);
+  for (const [slug, c] of Object.entries(COMMERCE)) {
+    const labels = c.order.map((o) => o.label);
+    assert.equal(new Set(labels).size, labels.length, `${slug} lists one provider twice`);
+  }
+});

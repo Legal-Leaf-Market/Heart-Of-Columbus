@@ -20,6 +20,12 @@ import { SPOTLIGHT_SLUGS } from '../data/spotlight.mjs';
 import { storiesTagged } from '../news/content.mjs';
 import { storyList } from '../news/render.mjs';
 
+// A website that IS the ordering or shop page (a Square Online site) is one
+// place, not two buttons: Gramz Bakery showed "Order online" and "Website"
+// side by side, both opening gramz-bakery.square.site.
+const bare = (u) => String(u || '').replace(/^https?:\/\/(?:www\.)?/i, '').replace(/[/?#]+$/, '').toLowerCase();
+const sameAsAction = (b) => [...b.order, ...b.book].map((o) => o.url).concat(b.store || []).some((u) => bare(u) === bare(b.website));
+
 // Weekly hours table, Monday first, with today highlighted by site.js.
 const hoursTable = (rows) => {
   const order = [1, 2, 3, 4, 5, 6, 0];
@@ -273,7 +279,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
         ${b.demo ? `<a class="btn btn-ghost" href="${b.demo}">${svg('store')} ${b.cat === 'beauty' ? 'Book' : 'Order'} (demo)</a>` : ''}
         ${b.phone ? `<a class="btn ${b.demo || b.order.length || b.book.length || b.feed || b.store ? 'btn-ghost' : ''}" href="${tel(b.phone)}">${svg('phone')} Call ${esc(b.phone)}</a>` : ''}
         ${b.added && !b.address ? '' : `<a class="btn btn-ghost" href="${mapsLink(b)}" target="_blank" rel="noopener">${svg('pin')} Directions</a>`}
-        ${b.website ? `<a class="btn btn-ghost" href="${esc(b.website)}" target="_blank" rel="noopener">${svg('globe')} Website</a>` : ''}
+        ${b.website && !sameAsAction(b) ? `<a class="btn btn-ghost" href="${esc(b.website)}" target="_blank" rel="noopener">${svg('globe')} Website</a>` : ''}
         ${b.gift ? `<a class="btn btn-ghost" href="${esc(b.gift.url)}" target="_blank" rel="noopener">${svg('heart')} Gift cards</a>` : ''}
         <button type="button" class="btn btn-ghost" data-save="${b.slug}" aria-pressed="false">${svg('heart')} <span data-save-label>Save</span></button>
         <button type="button" class="btn btn-ghost" data-share="${esc(b.name)}">${svg('share')} Share</button>

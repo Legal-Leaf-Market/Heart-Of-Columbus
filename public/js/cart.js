@@ -21,7 +21,9 @@
     return parts.length ? origin + '/cart/' + parts.join(',') : origin + '/cart';
   }
   function wooUrls(origin, lines) {
-    return lines.map(function (l) { return origin + '/?add-to-cart=' + encodeURIComponent(l.variantId || l.productId) + '&quantity=' + l.qty; });
+    return lines.filter(function (l) { return l.available !== false && l.productId && !l.pick; }).map(function (l) {
+      return l.add ? origin + '/?' + l.add + '&quantity=' + l.qty : origin + '/?add-to-cart=' + encodeURIComponent(l.variantId || l.productId) + '&quantity=' + l.qty;
+    });
   }
 
   // ---------- Drawer ----------
@@ -96,13 +98,16 @@
   paint();
 
   // ---------- Live catalog on a business page / shop page ----------
+  // The first option a shopper can actually buy (Woo variations are sorted
+  // by price, and the cheapest size is often the sold-out one).
+  function firstLive(item) { return Math.max(0, item.variants.findIndex(function (v) { return v.available; })); }
   function add(store, item, vi) {
     var v = item.variants[vi] || item.variants[0];
     var cart = read();
     var key = store.slug + '|' + v.id;
     var hit = cart.find(function (l) { return l.key === key; });
     if (hit) hit.qty++;
-    else cart.push({ key: key, slug: store.slug, store: store.name, platform: store.platform, origin: store.origin, productId: item.id.slice(1), variantId: v.id, title: item.title, variant: v.title, price: v.price, image: item.image, available: v.available, qty: 1 });
+    else cart.push({ key: key, slug: store.slug, store: store.name, platform: store.platform, origin: store.origin, productId: item.id.slice(1), variantId: v.id, add: v.add || '', title: item.title, variant: v.title, price: v.price, image: item.image, available: v.available, qty: 1 });
     write(cart);
   }
   $$('[data-shop]').forEach(function (box) {
@@ -119,14 +124,16 @@
       box.innerHTML = '<p class="shop-count">' + stock.length + ' items in stock at ' + esc(name) + '’s own store</p><div class="prod-grid">' + items.slice(0, limit).map(function (it, idx) {
         return '<article class="prod"><img src="' + esc(it.image) + '" alt="" loading="lazy">' +
           '<div class="prod-b"><a href="' + esc(it.url) + '" target="_blank" rel="noopener" class="prod-t">' + esc(it.title) + '</a><p class="prod-p">' + money(it.price) + '</p>' +
-          (it.variants.length > 1 ? '<select data-v="' + idx + '" aria-label="Option">' + it.variants.map(function (v, vi) { return '<option value="' + vi + '"' + (v.available ? '' : ' disabled') + '>' + esc(v.title) + (v.available ? '' : ' (sold out)') + ' · ' + money(v.price) + '</option>'; }).join('') + '</select>' : '') +
-          '<button type="button" class="btn btn-sm" data-add="' + idx + '">Add to cart</button></div></article>';
+          (it.variants.length > 1 ? '<select data-v="' + idx + '" aria-label="Option">' + it.variants.map(function (v, vi) { return '<option value="' + vi + '"' + (v.available ? (vi === firstLive(it) ? ' selected' : '') : ' disabled') + '>' + esc(v.title) + (v.available ? '' : ' (sold out)') + ' · ' + money(v.price) + '</option>'; }).join('') + '</select>' : '') +
+          // A variable product whose options we could not read is chosen on
+          // their site: an add link without the options adds nothing there.
+          (it.pick ? '<a class="btn btn-sm btn-ghost" href="' + esc(it.url) + '" target="_blank" rel="noopener">Choose options ↗</a>' : '<button type="button" class="btn btn-sm" data-add="' + idx + '">Add to cart</button>') + '</div></article>';
       }).join('') + '</div>' + (items.length > limit || unseen ? '<a class="btn btn-ghost" href="' + esc(d.origin) + '" target="_blank" rel="noopener">See all ' + stock.length + ' on their site ↗</a>' : '');
       box.addEventListener('click', function (e) {
         var b = e.target.closest('[data-add]');
         if (!b) return;
         var i = Number(b.dataset.add), sel = $('[data-v="' + i + '"]', box);
-        add(store, items[i], sel ? Number(sel.value) : 0);
+        add(store, items[i], sel ? Number(sel.value) : firstLive(items[i]));
         b.textContent = 'Added ✓';
         setTimeout(function () { b.textContent = 'Add to cart'; }, 1400);
       });

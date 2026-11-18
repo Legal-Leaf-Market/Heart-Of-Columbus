@@ -2288,11 +2288,7 @@ export const COMMERCE = {
   "order": [
    {
     "label": "Square Online",
-    "url": "https://olympio-restaurant.square.site/s"
-   },
-   {
-    "label": "Square Online",
-    "url": "http://gramz-bakery.square.site/"
+    "url": "https://gramz-bakery.square.site/"
    }
   ],
   "book": []
@@ -3066,7 +3062,7 @@ export const COMMERCE = {
   "order": [
    {
     "label": "Square Online",
-    "url": "http://lucasbrothersshop.square.site/"
+    "url": "https://lucasbrothersshop.square.site/"
    }
   ],
   "book": []

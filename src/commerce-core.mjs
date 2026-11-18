@@ -322,9 +322,13 @@ export function shopifyCartUrl(origin, lines) {
 }
 // WooCommerce: ?add-to-cart= adds ONE line per request. The first line rides
 // the redirect; the rest are listed so the shopper can tap them in.
+// A variation rides its own `add` query (parent id, variation id and every
+// attribute, built by wooAddQuery); a bare variation id is refused by Woo's
+// handler with "please choose product options". A line that needs choosing
+// on their site (`pick`) never gets a link.
 export function wooCartUrls(origin, lines) {
-  return lines.filter((l) => l.available !== false && l.productId)
-    .map((l) => `${origin}/?add-to-cart=${encodeURIComponent(l.variantId || l.productId)}&quantity=${l.qty}`);
+  return lines.filter((l) => l.available !== false && l.productId && !l.pick)
+    .map((l) => l.add ? `${origin}/?${l.add}&quantity=${l.qty}` : `${origin}/?add-to-cart=${encodeURIComponent(l.variantId || l.productId)}&quantity=${l.qty}`);
 }
 // BigCommerce: cart.php adds one product per request, same shape as Woo.
 export function bigcommerceCartUrls(origin, lines) {
@@ -343,15 +347,70 @@ export function mapShopify(origin, products) {
     variants: p.variants.map((v) => ({ id: String(v.id), title: v.title === 'Default Title' ? '' : v.title, price: money(v.price), available: v.available !== false })),
   }));
 }
-export function mapWoo(origin, products) {
+const wooText = (t) => String(t || '').replace(/&amp;/g, '&').replace(/&#8217;/g, '’').replace(/&#8211;/g, '-').replace(/&#038;/g, '&');
+const wooPrice = (pr) => {
+  if (!pr || pr.price == null || pr.price === '') return null;
+  return money(Number(pr.price) / 10 ** Number(pr.currency_minor_unit != null ? pr.currency_minor_unit : 2));
+};
+const wooSlug = (t) => String(t || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+// The query Woo's add-to-cart handler accepts for one variation: what its
+// own product form posts. The parent declares each attribute's real taxonomy
+// (pa_grind, not a slug of the label) and its terms; a value that matches no
+// declared term, or an "any" attribute, returns '' so the shopper chooses on
+// their site instead of getting a link that adds nothing. Ported from
+// Legal-Leaf Market's api/products.js, where the bare form failed live.
+export function wooAddQuery(parent, v) {
+  const attrs = (v && Array.isArray(v.attributes)) ? v.attributes : [];
+  const declared = (parent && Array.isArray(parent.attributes)) ? parent.attributes : [];
+  const parts = [`add-to-cart=${encodeURIComponent(parent.id)}`, `variation_id=${encodeURIComponent(v.id)}`];
+  for (const a of attrs) {
+    const name = String((a && a.name) || ''), raw = String((a && a.value) || '');
+    if (!name || !raw) return '';
+    const d = declared.find((x) => String((x && x.name) || '').toLowerCase() === name.toLowerCase());
+    const key = 'attribute_' + (d && d.taxonomy ? d.taxonomy : wooSlug(name));
+    let val = raw;
+    if (d && Array.isArray(d.terms) && d.terms.length) {
+      const t = d.terms.find((x) => x && x.slug === raw) || d.terms.find((x) => String((x && x.name) || '').toLowerCase() === raw.toLowerCase());
+      if (!t) return '';
+      val = t.slug;
+    }
+    parts.push(`${encodeURIComponent(key)}=${encodeURIComponent(val)}`);
+  }
+  return parts.join('&');
+}
+// `variations` is the store's own type=variation collection. Without it a
+// variable product would publish its cheapest option as the only one, at a
+// price that may belong to a sold-out size, behind an add link Woo refuses.
+// So a variable product with no readable variations is marked `pick`: it
+// shows, and its button sends the shopper to choose on their site.
+export function mapWoo(origin, products, variations = []) {
+  const byParent = {};
+  for (const v of variations || []) if (v && v.parent != null) (byParent[v.parent] = byParent[v.parent] || []).push(v);
   return (products || []).filter((p) => p && p.prices).map((p) => {
-    const minor = Number(p.prices.currency_minor_unit || 2);
-    const price = Number(p.prices.price || 0) / 10 ** minor;
-    return {
-      id: `w${p.id}`, title: (p.name || '').replace(/&amp;/g, '&').replace(/&#8217;/g, '’'), type: (p.categories && p.categories[0] && p.categories[0].name) || '',
+    const base = {
+      id: `w${p.id}`, title: wooText(p.name), type: (p.categories && p.categories[0] && wooText(p.categories[0].name)) || '',
       url: p.permalink || origin, image: p.images && p.images[0] ? p.images[0].thumbnail || p.images[0].src : '',
-      price: money(price), available: p.is_purchasable !== false && p.is_in_stock !== false,
-      variants: [{ id: String(p.id), title: '', price: money(price), available: p.is_in_stock !== false, simple: p.type === 'simple' }],
+    };
+    const own = wooPrice(p.prices) || 0;
+    if (p.type === 'variable') {
+      const variants = (byParent[p.id] || []).map((v) => {
+        const label = (v.attributes || []).map((a) => {
+          const d = (p.attributes || []).find((x) => String((x && x.name) || '').toLowerCase() === String((a && a.name) || '').toLowerCase());
+          const t = d && (d.terms || []).find((x) => x && x.slug === (a && a.value));
+          return wooText(t ? t.name : a && a.value);
+        }).filter(Boolean).join(' / ') || wooText(v.variation);
+        const add = wooAddQuery(p, v);
+        return { id: String(v.id), title: label, price: wooPrice(v.prices), available: v.is_in_stock !== false && v.is_purchasable !== false && !!add, ...(add ? { add } : {}) };
+      }).filter((v) => v.price != null && v.price > 0).sort((a, b) => a.price - b.price);
+      if (variants.length) {
+        const live = variants.filter((v) => v.available);
+        return { ...base, price: (live[0] || variants[0]).price, available: p.is_purchasable !== false && p.is_in_stock !== false && live.length > 0, variants };
+      }
+      return { ...base, price: own, available: p.is_in_stock !== false, pick: true, variants: [{ id: String(p.id), title: '', price: own, available: p.is_in_stock !== false, pick: true }] };
+    }
+    return {
+      ...base, price: own, available: p.is_purchasable !== false && p.is_in_stock !== false,
+      variants: [{ id: String(p.id), title: '', price: own, available: p.is_in_stock !== false, simple: p.type === 'simple' }],
     };
   });
 }
