@@ -96,6 +96,9 @@ for (const slug of new Set([...Object.keys(WEB), ...Object.keys(bySlug)])) {
   // that both say "Square Online" are one store listed twice.
   for (const list of [order, book]) for (let i = list.length - 1; i > 0; i--) if (list.slice(0, i).some((b) => b.label === list[i].label)) list.splice(i, 1);
   const feed = !!(p.ok && (p.platform === 'shopify' || p.platform === 'woocommerce') && p.products > 0 && !NO_FEED.has(cat));
+  // Squarespace: browse here from ?format=json on its own store page, buy on
+  // its site (no cart link exists). `catalog` is that store page.
+  const sqCatalog = p.ok && p.platform === 'squarespace-commerce' && p.products > 0 && p.own && p.own.shop && !NO_FEED.has(cat) ? p.own.shop : '';
   // A storefront we can't read item by item still gets a "Shop online" link
   // when the site really sells: a Shopify/BigCommerce/Square Online site, or
   // a site-builder store whose own nav has a Shop page.
@@ -117,7 +120,7 @@ for (const slug of new Set([...Object.keys(WEB), ...Object.keys(bySlug)])) {
   // Gift cards: the business's own page or its provider's, never a marketplace.
   const gift = p.ok && p.gift && p.gift.url && !MARKET.test(host(p.gift.url)) ? { label: p.gift.label, url: p.gift.url } : null;
   if (!order.length && !book.length && !feed && !store && !p.platform && !gift) continue;
-  out[slug] = { platform: p.platform || '', ...(p.stack && p.stack.length ? { stack: p.stack } : {}), origin: p.origin || '', feed, store, order: order.slice(0, 2), book: book.slice(0, 2), ...(gift ? { gift } : {}) };
+  out[slug] = { platform: p.platform || '', ...(p.stack && p.stack.length ? { stack: p.stack } : {}), origin: p.origin || '', feed: feed || !!sqCatalog, ...(sqCatalog ? { catalog: sqCatalog } : {}), store: sqCatalog ? '' : store, order: order.slice(0, 2), book: book.slice(0, 2), ...(gift ? { gift } : {}) };
 }
 // An entry entered by hand (no probe, no listing website) is not this
 // script's to delete: keep it as it was. bips-bites is one.

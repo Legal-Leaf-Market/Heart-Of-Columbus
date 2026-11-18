@@ -353,30 +353,53 @@ const wooPrice = (pr) => {
   return money(Number(pr.price) / 10 ** Number(pr.currency_minor_unit != null ? pr.currency_minor_unit : 2));
 };
 const wooSlug = (t) => String(t || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+// The attribute pairs of one variation, from wherever the store states them.
+// The parent's own `variations` list is the most reliable (Woo fills it for
+// every variable product); a variation row's `attributes` next; last, the
+// "Name: Value, Name: Value" string, which is all Sojourn Coffee's store
+// returns (measured live 2026-11-18: attributes empty, variation
+// "Attribute: Whole Bean").
+export function wooVariationPairs(parent, v) {
+  const fromParent = (parent && Array.isArray(parent.variations) ? parent.variations : []).find((x) => x && String(x.id) === String(v.id));
+  const list = (fromParent && fromParent.attributes && fromParent.attributes.length) ? fromParent.attributes
+    : (v && Array.isArray(v.attributes) && v.attributes.length) ? v.attributes
+      : String((v && v.variation) || '').split(/,\s*(?=[^,:]+:)/).map((part) => {
+        const i = part.indexOf(':');
+        return i > 0 ? { name: part.slice(0, i).trim(), value: part.slice(i + 1).trim() } : null;
+      }).filter(Boolean);
+  return list.map((a) => ({ name: wooText(a && a.name), value: wooText(a && a.value) }));
+}
 // The query Woo's add-to-cart handler accepts for one variation: what its
-// own product form posts. The parent declares each attribute's real taxonomy
-// (pa_grind, not a slug of the label) and its terms; a value that matches no
-// declared term, or an "any" attribute, returns '' so the shopper chooses on
-// their site instead of getting a link that adds nothing. Ported from
-// Legal-Leaf Market's api/products.js, where the bare form failed live.
+// own product form posts (parent id, variation id, one attribute_<key> per
+// attribute). A taxonomy attribute (pa_grind) posts its term slug; a custom
+// attribute posts its option text under attribute_<sanitized name>. A value
+// that matches no declared term, or an "any" option, returns '' so the
+// shopper chooses on their site. Ported from Legal-Leaf Market.
 export function wooAddQuery(parent, v) {
-  const attrs = (v && Array.isArray(v.attributes)) ? v.attributes : [];
   const declared = (parent && Array.isArray(parent.attributes)) ? parent.attributes : [];
   const parts = [`add-to-cart=${encodeURIComponent(parent.id)}`, `variation_id=${encodeURIComponent(v.id)}`];
-  for (const a of attrs) {
-    const name = String((a && a.name) || ''), raw = String((a && a.value) || '');
-    if (!name || !raw) return '';
-    const d = declared.find((x) => String((x && x.name) || '').toLowerCase() === name.toLowerCase());
-    const key = 'attribute_' + (d && d.taxonomy ? d.taxonomy : wooSlug(name));
-    let val = raw;
-    if (d && Array.isArray(d.terms) && d.terms.length) {
-      const t = d.terms.find((x) => x && x.slug === raw) || d.terms.find((x) => String((x && x.name) || '').toLowerCase() === raw.toLowerCase());
+  for (const a of wooVariationPairs(parent, v)) {
+    if (!a.name || !a.value) return '';
+    const d = declared.find((x) => wooText(x && x.name).toLowerCase() === a.name.toLowerCase());
+    const terms = (d && Array.isArray(d.terms)) ? d.terms : [];
+    const t = terms.find((x) => x && x.slug === a.value) || terms.find((x) => wooText(x && x.name).toLowerCase() === a.value.toLowerCase());
+    if (d && d.taxonomy) {
       if (!t) return '';
-      val = t.slug;
+      parts.push(`${encodeURIComponent('attribute_' + d.taxonomy)}=${encodeURIComponent(t.slug)}`);
+    } else {
+      parts.push(`${encodeURIComponent('attribute_' + wooSlug(a.name))}=${encodeURIComponent(t ? wooText(t.name) : a.value)}`);
     }
-    parts.push(`${encodeURIComponent(key)}=${encodeURIComponent(val)}`);
   }
   return parts.join('&');
+}
+// What a shopper reads in the option list: the values, as the store names them.
+export function wooVariationLabel(parent, v) {
+  const declared = (parent && Array.isArray(parent.attributes)) ? parent.attributes : [];
+  return wooVariationPairs(parent, v).map((a) => {
+    const d = declared.find((x) => wooText(x && x.name).toLowerCase() === a.name.toLowerCase());
+    const t = d && (d.terms || []).find((x) => x && x.slug === a.value);
+    return t ? wooText(t.name) : a.value;
+  }).filter(Boolean).join(' / ');
 }
 // `variations` is the store's own type=variation collection. Without it a
 // variable product would publish its cheapest option as the only one, at a
@@ -394,11 +417,7 @@ export function mapWoo(origin, products, variations = []) {
     const own = wooPrice(p.prices) || 0;
     if (p.type === 'variable') {
       const variants = (byParent[p.id] || []).map((v) => {
-        const label = (v.attributes || []).map((a) => {
-          const d = (p.attributes || []).find((x) => String((x && x.name) || '').toLowerCase() === String((a && a.name) || '').toLowerCase());
-          const t = d && (d.terms || []).find((x) => x && x.slug === (a && a.value));
-          return wooText(t ? t.name : a && a.value);
-        }).filter(Boolean).join(' / ') || wooText(v.variation);
+        const label = wooVariationLabel(p, v);
         const add = wooAddQuery(p, v);
         return { id: String(v.id), title: label, price: wooPrice(v.prices), available: v.is_in_stock !== false && v.is_purchasable !== false && !!add, ...(add ? { add } : {}) };
       }).filter((v) => v.price != null && v.price > 0).sort((a, b) => a.price - b.price);
@@ -413,4 +432,61 @@ export function mapWoo(origin, products, variations = []) {
       variants: [{ id: String(p.id), title: '', price: own, available: p.is_in_stock !== false, simple: p.type === 'simple' }],
     };
   });
+}
+
+// Squarespace Commerce: a store page answers ?format=json with its items.
+// Squarespace documents the format but says it "is not static", so every
+// field is read defensively and two shapes are accepted: older sites keep
+// variants under structuredContent with prices in cents, 7.1 sites put
+// variants on the item with priceMoney { value: "25.00" }. There is no cart
+// link on Squarespace, so items carry `buyOnSite`: the cart keeps them as a
+// shopping list and checkout opens each product page on their site.
+const sqMoney = (v) => {
+  if (!v) return null;
+  if (v.priceMoney && v.priceMoney.value != null) return money(v.priceMoney.value);
+  if (v.price != null && isFinite(Number(v.price))) return money(Number(v.price) / 100);
+  return null;
+};
+const sqSale = (v) => {
+  if (!v || !v.onSale) return null;
+  if (v.salePriceMoney && v.salePriceMoney.value != null) return money(v.salePriceMoney.value);
+  if (v.salePrice != null && isFinite(Number(v.salePrice))) return money(Number(v.salePrice) / 100);
+  return null;
+};
+const sqStock = (v) => {
+  if (!v) return false;
+  const st = v.stock || {};
+  if (v.unlimited || st.unlimited) return true;
+  const q = v.qtyInStock != null ? v.qtyInStock : st.quantity;
+  return q == null ? true : Number(q) > 0;
+};
+export function mapSquarespace(origin, items) {
+  const base = String(origin || '').replace(/\/+$/, '');
+  return (items || []).map((it) => {
+    const variants = (it && (it.variants || (it.structuredContent && it.structuredContent.variants))) || [];
+    if (!it || !it.title || !variants.length) return null;
+    const vs = variants.map((v, i) => {
+      const price = sqSale(v) ?? sqMoney(v);
+      const attrs = v.attributes && typeof v.attributes === 'object' ? Object.values(v.attributes).filter(Boolean).join(' / ') : '';
+      return { id: String(v.id || v.sku || i), title: attrs, price, available: sqStock(v) };
+    }).filter((v) => v.price != null && v.price > 0);
+    if (!vs.length) return null;
+    const live = vs.filter((v) => v.available);
+    const url = it.fullUrl ? (/^https?:/.test(it.fullUrl) ? it.fullUrl : base + it.fullUrl) : base;
+    return {
+      id: `q${it.id || it.urlId || it.fullUrl}`, title: String(it.title), type: (it.categories && it.categories[0]) || '',
+      url, image: it.assetUrl ? `${it.assetUrl}${/\?/.test(it.assetUrl) ? '&' : '?'}format=500w` : '',
+      price: (live[0] || vs[0]).price, available: live.length > 0, buyOnSite: true, variants: vs,
+    };
+  }).filter(Boolean);
+}
+
+// Shopify's cart permalink also takes `note` (it becomes the order note) and
+// `ref` (their conversion tracking); both are listed in Shopify's docs.
+export function shopifyCartUrlWith(origin, lines, opts = {}) {
+  const url = shopifyCartUrl(origin, lines);
+  const q = [];
+  if (opts.note) q.push(`note=${encodeURIComponent(opts.note)}`);
+  if (opts.ref) q.push(`ref=${encodeURIComponent(opts.ref)}`);
+  return q.length ? `${url}?${q.join('&')}` : url;
 }

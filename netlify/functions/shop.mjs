@@ -2,7 +2,7 @@
 // Shopify: /products.json. WooCommerce: the public Store API. Cached at the
 // CDN for six hours so we don't lean on the shop's server.
 import { COMMERCE } from '../../src/data/commerce.mjs';
-import { mapShopify, mapWoo } from '../../src/commerce-core.mjs';
+import { mapShopify, mapWoo, mapSquarespace } from '../../src/commerce-core.mjs';
 
 export const config = { path: '/api/shop' };
 const UA = 'Mozilla/5.0 (compatible; HeartOfColumbusBot/1.0; +https://heartofcolumbus.netlify.app)';
@@ -60,6 +60,17 @@ export default async (req) => {
     const products = await wooCollection(origin, '', 4);
     const variations = products.some((p) => p.type === 'variable') ? await wooCollection(origin, 'type=variation', 6) : [];
     items = mapWoo(origin, products, variations);
+  }
+  else if (c.platform === 'squarespace-commerce' && c.catalog) {
+    // ?format=json on their store page; later pages by the offset it gives.
+    let url = `${c.catalog.replace(/[?#].*$/, '')}?format=json`;
+    for (let page = 0; page < 4 && url; page++) {
+      const d = await getJson(url);
+      const body = d && d.body;
+      items = items.concat(mapSquarespace(origin, (body && body.items) || []));
+      const next = body && body.pagination && body.pagination.nextPage && body.pagination.nextPageOffset;
+      url = next ? `${c.catalog.replace(/[?#].*$/, '')}?format=json&offset=${encodeURIComponent(next)}` : '';
+    }
   }
   if (!items.length) return json(502, { ok: false, error: 'Their store did not answer. Try their website directly.', origin });
   return json(200, { ok: true, slug, platform: c.platform, origin, items }, true);

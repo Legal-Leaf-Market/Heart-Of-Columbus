@@ -186,9 +186,22 @@ Indiana. A pitch, not a live service. See README.md.
   unknown. `/visit/accessibility/` and the /explore/ `attr=` filter read them.
 - **We never take payment or orders for a business that hasn't signed on.**
   "Order online" and "Book online" link to the business's own provider page
-  (Toast, Square, Vagaro...). "Shop online" reads a public Shopify or
-  WooCommerce catalog through `/api/shop` and hands the cart to the shop's own
-  checkout (`src/commerce-core.mjs`). Marketplaces that take a cut (DoorDash
+  (Toast, Square, Vagaro...). "Shop online" reads a public Shopify,
+  WooCommerce or Squarespace catalog through `/api/shop` and hands the cart to
+  the shop's own checkout (`src/commerce-core.mjs`, `public/js/cart.js`):
+  Shopify by one cart permalink (with `note` asking for pickup and `ref`),
+  WooCommerce by walking one tab of their store through each `?add-to-cart=`
+  link (Woo takes one item per visit; variations carry parent id, variation id
+  and every attribute, read from the parent's `variations`, the variation, or
+  its "Name: Value" text), Squarespace as a list that opens each product page
+  (no cart link exists). The cart groups lines by shop with each shop's
+  address, open-now status and a pickup choice, and routes every pickup stop
+  in one Google Maps link. Square and Wix catalogs need the owner's OAuth, so
+  they stay links until an owner connects. `scripts/check-handoff.mjs` (the
+  "Check cart handoff" workflow, triggered by editing
+  `scripts/data/handoff-request.txt` on a claude branch) proves it on the real
+  shops: it reads each catalog from the deployed site, follows our Woo add
+  links in a fresh session and reads that cart back from the shop. Marketplaces that take a cut (DoorDash
   marketplace, Grubhub, Uber Eats) are never linked as "direct".
 - **Pickup tickets** (`/api/pickup`, `netlify/functions/pickup.mjs`, adapted
   from Herbal Leaf Market's local-order route). A ticket is a record, never a

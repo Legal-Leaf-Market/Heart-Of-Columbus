@@ -5297,8 +5297,9 @@ export const COMMERCE = {
    "squarespace-commerce"
   ],
   "origin": "https://www.wildwisdomstore.com/",
-  "feed": false,
-  "store": "https://www.wildwisdomstore.com/shop",
+  "feed": true,
+  "catalog": "https://www.wildwisdomstore.com/shop",
+  "store": "",
   "order": [],
   "book": []
  },
