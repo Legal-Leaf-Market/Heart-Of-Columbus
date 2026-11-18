@@ -213,3 +213,12 @@ test('Shopify permalink carries the pickup note and Shopify ref tracking', async
     'https://s.example/cart/7:2?note=Pickup%2C%20please.&ref=heartofcolumbus');
   assert.equal(shopifyCartUrlWith('https://s.example', [{ variantId: '7', qty: 1 }]), 'https://s.example/cart/7:1');
 });
+
+test('a store that refuses the sorted query is read without it', async () => {
+  const { wooCollection } = await import('../netlify/functions/shop.mjs');
+  const asked = [];
+  const picky = async (url) => { asked.push(url); return /orderby=/.test(url) ? null : { body: [{ id: 1 }, { id: 2 }], pages: 1 }; };
+  assert.equal((await wooCollection('https://w.example', '', 4, picky)).length, 2);
+  assert.equal(asked.length, 2);
+  assert.ok(!/orderby/.test(asked[1]));
+});
