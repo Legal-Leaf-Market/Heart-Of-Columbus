@@ -27,8 +27,13 @@ async function getJson(url) {
 // says how many there are (X-WP-TotalPages), so the rest go out together
 // and a function with a 10 second budget is not spent waiting in line.
 export async function wooCollection(origin, query, maxPages, get = getJson) {
-  const url = (page) => `${origin}/wp-json/wc/store/v1/products?${query ? query + '&' : ''}per_page=100&orderby=id&order=asc&page=${page}`;
-  const first = await get(url(1));
+  // Some stores refuse the sort (Divine Family BBQ answers orderby=id with a
+  // 410 from a security plugin, measured 2026-11-18), so a refused first page
+  // is asked again without it: an unsorted catalog beats none.
+  let sort = '&orderby=id&order=asc';
+  const url = (page) => `${origin}/wp-json/wc/store/v1/products?${query ? query + '&' : ''}per_page=100${sort}&page=${page}`;
+  let first = await get(url(1));
+  if (!first || !Array.isArray(first.body)) { sort = ''; first = await get(url(1)); }
   const rows = [], seen = new Set();
   const take = (d) => { for (const r of (d && Array.isArray(d.body) ? d.body : [])) if (r && r.id != null && !seen.has(r.id)) { seen.add(r.id); rows.push(r); } };
   take(first);
