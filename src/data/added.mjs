@@ -55,6 +55,56 @@
 // chicken and vegetables"; cooking videos; 812-764-8400. Its founder's own
 // LinkedIn profile lists "Private chef, Food and Beverage consultant, Bip's
 // Bites" in Columbus, Indiana. No street address.
+//
+// Added 2026-11-23 from the Crossroads Wedding and Event Co. lead list (Jacob
+// Kennedy, who runs both: "if there's any that you find here that you don't
+// see on Heart of Columbus, go ahead and add them"). Same rule: only what a
+// public listing says. Big employers, chain hotels, events, city offices and
+// nonprofits without a business listing were left off on purpose.
+//
+// Clarity of Central Indiana (claritycares.org/locations, checked 2026-11-23):
+// the Columbus Clarity Care Hub "houses Pregnancy Services, a Testing Clinic,
+// and Administrative Offices" at 3203 Middle Road, Columbus, IN 47203; office
+// 812-378-4114, center 812-378-4730, clinic 812-418-3230. Its ECFA member
+// profile (ecfa.org/MemberProfile.aspx?ID=35721) lists pregnancy tests,
+// ultrasounds, client advocates, community referrals, material help and
+// spiritual guidance, and STI testing and treatment at the clinic.
+//
+// Centra Credit Union (centra.org/about/who-we-are, checked 2026-11-23):
+// headquarters 3801 Tupelo Drive, Columbus; 800-232-3642; started in Columbus
+// by eight Cummins Engine Company employees, chartered October 31, 1940; more
+// than 180,000 members.
+//
+// Gypsy Rose Events (its The Knot listing, checked 2026-11-23): "a premier event
+// planning and coordination company based in South Central Indiana"; Columbus,
+// IN; wedding planning, day-of coordination and design. No phone, website or
+// street address is shown, so none is listed.
+//
+// JCBank, Central Avenue (jcbank.com location page, checked 2026-11-23): 2761
+// Central Avenue, Columbus, IN 47201, in the Kroger Marketplace at Central Avenue
+// and National Road; (812) 378-0850. "Founded and headquartered in Seymour,
+// JCBank is proud to have served south-central Indiana since 1900." Its other
+// Columbus branches (400 Washington Street, 3880 West Jonathan Moore Pike) are
+// not listed yet.
+//
+// SIHO Insurance Services (The Republic, therepublic.com/?p=812300, checked
+// 2026-11-23): "Columbus-based", headquartered in the building it owns at 417
+// Washington St.; owned by Columbus Regional Health, Schneck Memorial Hospital
+// and Innovative Healthcare Collaboration of Indiana. A health plan
+// administrator for employers. (812) 378-7070 and siho.org from the City of
+// Columbus benefit guide and its BBB listing.
+//
+// QMIX 107.3 (mojo1029.com/about-us/about, a sister station's page, checked
+// 2026-11-23): one of four stations of Reising Radio Partners, Inc., established
+// 1984, serving South Central Indiana; "QMIX, KORN Country, MOJO: 812-379-1077".
+// Studios at Reising Radio's headquarters, 825 Washington Street (the FCC public
+// file and a 2020 studio tour on fybush.com). Website qmix.com.
+//
+// Bartholomew County 4-H Fairgrounds (Visit Columbus directory,
+// comeseecolumbus.com/directory/bartholomew-county-fairgrounds, checked
+// 2026-11-23): 750 West 200 South, Columbus. Home of the 4-H Fair; the fair's own
+// site (already credited in events.mjs) lists building rentals through the year.
+// No current phone found on a public listing, so none is shown.
 export const ADDED = [
   {
     name: 'Crossroads Wedding Co.',
@@ -167,5 +217,88 @@ export const ADDED = [
     book: [],
     source: 'https://www.bipsbites.com/',
     checked: '2026-11-15',
+  },  {
+    name: 'Clarity of Central Indiana',
+    cat: 'health',
+    sub: 'clinics',
+    type: 'Faith-based nonprofit: pregnancy tests, ultrasounds, material help and an STI testing clinic',
+    address: '3203 Middle Road',
+    phone: '(812) 378-4114',
+    website: 'https://www.claritycares.org/',
+    book: [],
+    source: 'https://claritycares.org/locations/',
+    checked: '2026-11-23',
+  },
+  {
+    name: 'Centra Credit Union',
+    cat: 'pros',
+    sub: 'finance',
+    type: 'Credit union, headquarters',
+    address: '3801 Tupelo Drive',
+    phone: '(800) 232-3642',
+    website: 'https://www.centra.org/',
+    book: [],
+    source: 'https://www.centra.org/about/who-we-are/',
+    checked: '2026-11-23',
+  },
+  {
+    name: 'Gypsy Rose Events',
+    cat: 'events',
+    sub: 'events',
+    type: 'Wedding and event planning, day-of coordination and design',
+    address: '',
+    phone: '',
+    website: '',
+    book: [],
+    source: 'https://www.theknot.com/marketplace/gypsy-rose-events-columbus-in-2047928',
+    checked: '2026-11-23',
+  },
+  {
+    name: 'JCBank (Central Avenue)',
+    cat: 'pros',
+    sub: 'finance',
+    type: 'Community bank branch, in the Kroger Marketplace',
+    address: '2761 Central Avenue',
+    phone: '(812) 378-0850',
+    website: 'https://www.jcbank.com/',
+    book: [],
+    source: 'https://jcbank.com/Resources/Locations/Details/Welcome-to-Community-Banking-on-Central-Avenue-in-Columbus',
+    checked: '2026-11-23',
+  },
+  {
+    name: 'SIHO Insurance Services',
+    cat: 'pros',
+    sub: 'insurance',
+    type: 'Health plan administrator for employers',
+    address: '417 Washington Street',
+    phone: '(812) 378-7070',
+    website: 'https://www.siho.org/',
+    book: [],
+    source: 'https://www.therepublic.com/?p=812300',
+    checked: '2026-11-23',
+  },
+  {
+    name: 'QMIX 107.3',
+    cat: 'pros',
+    sub: 'creative',
+    type: 'Radio station (Reising Radio Partners)',
+    address: '825 Washington Street',
+    phone: '(812) 379-1077',
+    website: 'https://www.qmix.com/',
+    book: [],
+    source: 'https://www.mojo1029.com/about-us/about/',
+    checked: '2026-11-23',
+  },
+  {
+    name: 'Bartholomew County 4-H Fairgrounds',
+    cat: 'events',
+    sub: 'events',
+    type: 'County fairgrounds, home of the 4-H Fair, with building rentals',
+    address: '750 West 200 South',
+    phone: '',
+    website: 'https://bartholomewcountyfair.com/',
+    book: [],
+    source: 'https://comeseecolumbus.com/directory/bartholomew-county-fairgrounds/',
+    checked: '2026-11-23',
   },
 ];
