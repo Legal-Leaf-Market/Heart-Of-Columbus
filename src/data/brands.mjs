@@ -40,7 +40,7 @@ export const BRANDS = {
   },
   'rabbits-balloons': {
     brand: '#bf4f3a', deep: '#1f2d52', accent: '#e98ea3', paper: '#fffaf4', font: 'Fraunces',
-    from: 'draft', source: 'sites/rabbits-balloons/index.html', checked: '2026-11-15',
+    from: 'draft', source: 'https://rabbits-balloons.netlify.app/', checked: '2026-11-15',
     note: 'Coral, rose, navy and ivory with Fraunces, from its draft website.',
   },
 };
