@@ -45,6 +45,13 @@
 //         result: Passed
 //         tally: 6 to 1
 //     followUps: [What happens to the parks line next year?]
+//   game:                          # optional scoreboard box for a game story
+//     home: Columbus North         # team names as the teams write them
+//     away: Columbus East
+//     venue: Where it was played
+//     date: 2026-11-03             # the game's date, YYYY-MM-DD
+//     final: { home: 3, away: 2 }  # whole numbers, from the official score
+//     note: Overtime               # optional
 //   draft: true                    # optional: built for preview, listed nowhere
 //
 // Anything wrong in a story stops the build with the file and the reason.
@@ -111,6 +118,14 @@ export function checkStory(s) {
     else if (!s.sample && !bodyBySlug[m.body]) p.push(`meeting body "${m.body}" is not in src/data/civic.mjs`);
     for (const v of m?.votes || []) if (!v?.motion || !v?.result) p.push('each vote needs a motion and a result');
   }
+  if (s.game) {
+    const g = s.game;
+    if (s.section !== 'sports') p.push('a game box belongs on a story in the sports section');
+    for (const k of ['home', 'away', 'venue']) if (!g[k] || typeof g[k] !== 'string') p.push(`game needs ${k}`);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(String(g.date))) p.push('game date must be YYYY-MM-DD');
+    const f = g.final;
+    if (!f || ![f.home, f.away].every((n) => Number.isInteger(n) && n >= 0)) p.push('game final needs whole number scores for home and away');
+  }
   if (s.developing && !(Array.isArray(s.developing.know) && Array.isArray(s.developing.dontKnow))) p.push('developing needs know and dontKnow lists');
   if (!s.sample && /\bSampleton\b|\bSample (Reporter|Editor)\b/.test(JSON.stringify(s) + s.body)) p.push('sample content in a real story');
   const text = JSON.stringify({ ...s, file: '' }) + s.body;
@@ -132,6 +147,7 @@ function load(file, { sample }) {
   s.bylines = [].concat(s.bylines || []);
   s.tags = [].concat(s.tags || []);
   s.corrections = [].concat(s.corrections || []).map((c) => ({ ...c, date: String(c.date) }));
+  if (s.game) s.game = { ...s.game, date: String(s.game.date) };
   if (s.meeting) s.meeting = { attended: [], decisions: [], votes: [], followUps: [], ...s.meeting, date: String(s.meeting.date) };
   s.href = sample ? `/news/samples/${slug}/` : `/news/${String(s.published).slice(0, 4)}/${String(s.published).slice(5, 7)}/${slug}/`;
   if (!sample) {

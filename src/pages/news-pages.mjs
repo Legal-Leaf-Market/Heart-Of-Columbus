@@ -105,6 +105,15 @@ const meetingBox = (m, sample) => {
   ${body?.url ? `<p class="np-wx-src"><a href="${esc(body.url)}" target="_blank" rel="noopener">Official agendas and minutes</a></p>` : ''}</aside>`;
 };
 
+// A game story's box score: final, both teams, where and when. Every value
+// comes from the writer's front matter; nothing here looks a score up.
+const gameBox = (g) => {
+  const row = (side) => `<tr${g.final[side] > g.final[side === 'home' ? 'away' : 'home'] ? ' class="np-win"' : ''}><th scope="row">${t(g[side])}</th><td>${g.final[side]}</td></tr>`;
+  return `<aside class="np-dev np-game" aria-label="Final score"><p class="kicker">Final${g.note ? `, ${t(g.note)}` : ''}</p>
+  <table class="np-score"><tbody>${row('away')}${row('home')}</tbody></table>
+  <p class="np-game-where">${t(g.venue)}, ${fmtDate(g.date)}</p></aside>`;
+};
+
 export function storyBody(s) {
   const major = s.corrections.filter((c) => c.major);
   const minor = s.corrections.filter((c) => !c.major);
@@ -124,6 +133,7 @@ export function storyBody(s) {
   ${img ? `<figure class="np-fig"><img src="${esc(img.file)}" alt="${esc(img.alt)}"><figcaption>${img.caption ? `${t(img.caption)} ` : ''}<span class="np-credit">${esc(img.credit)}, ${esc(img.license)}</span></figcaption></figure>` : ''}
   ${s.developing ? `<aside class="np-dev" aria-label="Developing story"><p class="kicker">Developing story</p><div><h2>What we know</h2><ul>${s.developing.know.map((x) => `<li>${t(x)}</li>`).join('')}</ul></div><div><h2>What we don’t know yet</h2><ul>${s.developing.dontKnow.map((x) => `<li>${t(x)}</li>`).join('')}</ul></div></aside>` : ''}
   ${s.meeting ? meetingBox(s.meeting, s.sample) : ''}
+  ${s.game ? gameBox(s.game) : ''}
   <div class="np-prose">${s.html}</div>
   ${s.images.slice(1).map((im) => `<figure class="np-fig"><img src="${esc(im.file)}" alt="${esc(im.alt)}" loading="lazy"><figcaption>${im.caption ? `${t(im.caption)} ` : ''}<span class="np-credit">${esc(im.credit)}, ${esc(im.license)}</span></figcaption></figure>`).join('')}
   <footer class="np-trust">

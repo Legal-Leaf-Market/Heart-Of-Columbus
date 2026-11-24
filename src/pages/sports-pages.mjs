@@ -23,7 +23,10 @@ export const fmtDay = (s) => { const [y, m, d] = ymd(s); return `${DAYS[new Date
 // (src/news/content.mjs enforces both); nothing here writes one.
 const names = (slugs) => slugs.map((b) => STAFF[b]?.name).filter(Boolean).join(' and ');
 export const localStories = () => [
-  ...storiesIn('sports').map((s) => ({ title: s.headline, byline: `By ${names(s.bylines)}`, date: String(s.published).slice(0, 10), url: s.href })),
+  ...storiesIn('sports').map((s) => ({
+    title: s.headline, byline: `By ${names(s.bylines)}`, date: String(s.published).slice(0, 10), url: s.href,
+    score: s.game ? `${s.game.away} ${s.game.final.away}, ${s.game.home} ${s.game.final.home}${s.game.note ? ` (${s.game.note})` : ''}` : '',
+  })),
   ...STORIES,
 ].sort((a, b) => String(b.date).localeCompare(String(a.date)));
 export const fmtTime = (hm) => { const [h, m] = hm.split(':').map(Number); return `${h % 12 || 12}:${String(m).padStart(2, '0')} ${h < 12 ? 'AM' : 'PM'}`; };
@@ -211,7 +214,7 @@ ${breadcrumbs([['/', 'Home'], ['', 'Sports']])}
   <section class="sn-sec" id="stories" aria-labelledby="stories-h">
     <h2 id="stories-h">Local stories</h2>
     ${localStories().length
-      ? `<ul class="sn-news">${localStories().map((x) => `<li><a href="${esc(x.url)}"><strong>${t(x.title)}</strong><small>${esc(x.byline)}, ${esc(fmtDay(x.date))}</small></a></li>`).join('')}</ul>`
+      ? `<ul class="sn-news">${localStories().map((x) => `<li><a href="${esc(x.url)}"><strong>${t(x.title)}</strong>${x.score ? `<small>Final: ${t(x.score)}</small>` : ''}<small>${esc(x.byline)}, ${esc(fmtDay(x.date))}</small></a></li>`).join('')}</ul>`
       : '<p>This space is for game stories written by people who were in the stands: Friday night football, a Sentinels win, a Crimson Pride tip off. None are published yet. We link to scores; we don’t have a computer write the story.</p>'}
     <p class="fine">For scores from every local team, read the sports pages of <a href="https://www.therepublic.com/" target="_blank" rel="noopener">The Republic</a>.</p>
   </section>

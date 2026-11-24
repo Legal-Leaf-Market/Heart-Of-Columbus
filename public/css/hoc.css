@@ -1000,6 +1000,13 @@ section { scroll-margin-top: 130px; }
 .np-dev h2 { font-family: var(--body); font-size: 15px; font-weight: 600; }
 .np-dev ul { padding-left: 18px; margin: 6px 0 0; font-size: 15px; }
 @media (max-width: 560px) { .np-dev { grid-template-columns: 1fr; } }
+.np-game { grid-template-columns: 1fr; }
+.np-score { width: 100%; border-collapse: collapse; font-size: 17px; }
+.np-score th { text-align: left; font-weight: 500; padding: 4px 0; }
+.np-score td { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; padding: 4px 0; }
+.np-score tr + tr { border-top: 1px solid var(--edge); }
+.np-score .np-win th, .np-score .np-win td { font-weight: 700; }
+.np-game-where { margin: 4px 0 0; font-size: 14px; color: var(--muted); }
 .np-prose { font-family: Georgia, "Times New Roman", serif; font-size: 19px; line-height: 1.7; }
 .np-prose p, .np-prose ul, .np-prose ol, .np-prose blockquote { margin: 0 0 18px; }
 .np-prose h2 { font-size: 26px; margin: 30px 0 10px; }

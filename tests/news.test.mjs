@@ -255,6 +255,22 @@ test('meeting notes need the Documenters format and render it', () => {
   for (const want of ['np-label-meeting-notes', 'Who was there', 'What was decided', '<th scope="col">Tally</th>', 'Questions to follow up']) assert.ok(html.includes(want), want);
 });
 
+test('a game story carries a checked box score, typed by the writer', () => {
+  const game = { home: 'Sample Sharks', away: 'Pretend Pumpkins', venue: 'Sampleton Arena', date: '2026-11-03', final: { home: 4, away: 3 } };
+  assert.deepEqual(checkStory({ ...good, section: 'sports', game }), []);
+  const bad = (patch, re) => assert.ok(checkStory({ ...good, section: 'sports', game: { ...game, ...patch } }).some((p) => re.test(p)), JSON.stringify(patch));
+  bad({ home: '' }, /game needs home/);
+  bad({ venue: undefined }, /game needs venue/);
+  bad({ date: 'Nov 3' }, /YYYY-MM-DD/);
+  bad({ final: { home: 4 } }, /whole number/);
+  bad({ final: { home: 4.5, away: 3 } }, /whole number/);
+  bad({ note: 'Over time \u2014 late' }, /dash/);
+  assert.ok(checkStory({ ...good, game }).some((p) => /sports section/.test(p)), 'game box only on sports stories');
+  const html = read('news/samples/sampleton-game-story/index.html');
+  for (const want of ['np-game', 'Final, Overtime', 'Sample Sharks', '<td>4</td>', 'Sampleton Arena']) assert.ok(html.includes(want), want);
+  assert.ok(!read('sports/index.html').includes('Sampleton'), 'samples stay off /sports/');
+});
+
 // ---------- Newsletter, games, membership and sponsors (items 8, 11, 12) ----------
 import { morningEdition } from '../src/news/morning.mjs';
 import { sponsorSlot, sponsorsFor } from '../src/news/sponsor-slot.mjs';
