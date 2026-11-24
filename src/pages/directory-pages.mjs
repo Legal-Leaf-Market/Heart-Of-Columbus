@@ -1,5 +1,6 @@
 // Category, neighborhood, business, explore, saved and credits pages.
 import { socialProfile } from '../social-profiles.mjs';
+import { reviewSnapshot, reviewsPage } from './reviews.mjs';
 import { tagUrl, hocAttr } from '../ref.mjs';
 import { page, esc, t } from '../layout.mjs';
 import { directory, CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, km, inSection, asListedIn } from '../data/directory.mjs';
@@ -268,6 +269,7 @@ function bizPage(b, { assets }) {
   const ageRestricted = b.cat === 'smoke';
   const cat = catBySlug[b.cat];
   const sub = subBySlug[b.sub];
+  const reviews = reviewSnapshot(b);
   const area = areaBySlug[b.area];
   const media = mediaFor(b.slug);
   const tier = tierOf(b.slug);
@@ -295,6 +297,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
       <p class="biz-type">${t(b.type)}</p>
       <div class="bz-tags">${b.member ? '<a class="tag tag-member" href="#member-note">★ Founding Member</a>' : ''}${tier === 'claimed' ? '<span class="tag tag-claimed">✓ Claimed by the owner</span>' : ''}${tier === 'listed' ? '<a class="tag tag-outline" href="#claim-card">Outline listing</a>' : ''}${SPOTLIGHT_SLUGS.has(b.slug) ? (spotFor(b.slug)?.picks.length ? '<a class="tag tag-spot" href="#owners-picks">★ Spotlight</a>' : '<span class="tag tag-spot">★ Spotlight</span>') : ''}${b.demo ? '<span class="tag tag-hot">Order direct (demo)</span>' : ''}${b.heritage ? '<span class="tag">Columbus original</span>' : ''}${b.dora ? '<span class="tag tag-dora">Social District: drinks to go</span>' : ''}${b.building ? `<a class="tag tag-history" href="#building">🏛 ${esc(b.building.name)}, ${esc(b.building.built)}</a>` : ''}${b.before ? `<a class="tag tag-history" href="#building">Before: ${esc(b.before.was)}</a>` : ''}${b.also.map((a) => `<a class="tag tag-go" href="#also-${a.cat}">${catBySlug[a.cat].emoji} ${esc(a.title)}</a>`).join('')}<span class="tag tag-plain">Independent</span></div>
       ${b.hours ? `<p class="open-badge biz-open" data-open-now='${JSON.stringify(b.hours)}' hidden></p>` : ''}
+      ${reviews ? `<div class="biz-reviews">${reviews}<a href="/reviews/#${b.slug}">Review links</a></div>` : ''}
       <div class="biz-actions">
         ${b.order.map((o, i) => `<a class="btn${i ? ' btn-ghost' : ''}" href="${esc(tagFor(b, o.url, 'order'))}"${hocAttr(b.slug, 'order')} target="_blank" rel="noopener">${svg('store')} Order online${b.order.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
         ${b.book.map((o, i) => `<a class="btn${b.order.length || i ? ' btn-ghost' : ''}" href="${esc(tagFor(b, o.url, 'book'))}"${hocAttr(b.slug, 'book')} target="_blank" rel="noopener">${svg('store')} Book online${b.book.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
@@ -600,6 +603,7 @@ export function directoryPages(ctx) {
   for (const b of directory) out.push({ path: `b/${b.slug}/index.html`, html: bizPage(b, ctx) });
   out.push({ path: 'explore/index.html', html: explorePage(ctx) });
   out.push({ path: 'saved/index.html', html: explorePage(ctx, { saved: true }) });
+  out.push({ path: 'reviews/index.html', html: reviewsPage(ctx) });
   out.push({ path: 'credits/index.html', html: creditsPage(ctx) });
   out.push({ path: 'stickers/index.html', html: stickersPage(ctx) });
   out.push({ path: 'order/index.html', html: orderPage(ctx) });
