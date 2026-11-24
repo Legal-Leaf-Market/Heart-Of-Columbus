@@ -9,6 +9,7 @@ import { header, footer, card, rail, svg, PHOTOS, artIcon, catSticker, sticker, 
 import { editorialFor, editorialHero, sectionHero, EXPLORE_ART, EDITORIAL_CAPTION } from '../editorial-art.mjs';
 import { placeFromBusiness, PIN_NOTE } from '../data/places.mjs';
 import { fmtRange, DAY_NAMES } from '../hours.mjs';
+import { boostFirst, boostedSide, boostNote } from '../promotions.mjs';
 import { MEDIA as MEDIA_ALL, mediaFor, mediaSrc, businessMedia } from '../data/media.mjs';
 import { LANDMARKS } from '../data/landmarks.mjs';
 import { EVENTS } from '../data/events.mjs';
@@ -130,7 +131,8 @@ function categoryPage(cat, sub, { assets }) {
   const ageRestricted = cat.slug === 'smoke';
   // Founding Members lead their category, labeled; everyone else keeps directory order.
   // A business whose own site shows it also serves this section is listed here too (own-facts.mjs).
-  const items = membersFirst(directory.filter((b) => inSection(b, cat.slug, sub ? sub.slug : '')).map((b) => asListedIn(b, cat.slug)));
+  // Boosted listings (paid, labeled) sort to the top, then Founding Members.
+  const items = boostFirst(membersFirst(directory.filter((b) => inSection(b, cat.slug, sub ? sub.slug : '')).map((b) => asListedIn(b, cat.slug))));
   const multi = cat.subs.length > 1;
   const title = sub && multi ? sub.label : cat.label;
   const others = CATEGORIES.filter((c) => c.slug !== cat.slug);
@@ -191,7 +193,7 @@ ${footer()}`;
 }
 
 function areaPage(area, { assets }) {
-  const items = directory.filter((b) => b.area === area.slug);
+  const items = boostFirst(directory.filter((b) => b.area === area.slug));
   const p = PHOTOS[area.photo];
   const cats = countBy(items, 'cat');
   const body = `
@@ -320,6 +322,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
       ${b.added?.soon ? `<p class="direct-note">🚧 <span>Coming soon. Not open yet; we will add hours and an address when it opens.</span></p>` : ''}
       ${b.added?.tie ? `<p class="direct-note member-note">★ <span>${esc(b.added.tie)}</span></p>` : ''}
       ${b.kin.map((k) => { const o = directory.find((x) => x.slug === k.slug); return o ? `<p class="direct-note kin-note">🤝 <span>${esc(k.label)}: <a href="/b/${o.slug}/">${t(o.name)}</a>, ${esc(k.about || o.type.charAt(0).toLowerCase() + o.type.slice(1))}.</span></p>` : ''; }).join('')}
+      ${boostNote(b)}
       ${b.member ? `<p class="direct-note member-note" id="member-note">★ <span>${esc(b.name)} is a Founding Member. It pays Heart of Columbus $${PRICE} a month for a website we keep up to date and a featured spot in its category, and has no say in what we write. <a href="/founders-club/">About the Founders Club</a></span></p>` : ''}
       ${b.order.length || b.book.length ? `<p class="direct-note">${svg('store', 'ic-sm')} ${b.order.length ? 'Ordering' : 'Booking'} opens ${esc(b.name)}’s own ${esc((b.order[0] || b.book[0]).label)} page, the one they chose and pay for themselves. Heart of Columbus takes no cut.</p>` : ''}
     </div>
@@ -357,6 +360,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
       ${ladder(tier)}
       <a class="btn btn-sm" href="/owners/?b=${b.slug}#claim">Owner? Update this page ${svg('arrow', 'ic-sm')}</a>
     </div>`}
+    ${boostedSide(b)}
     <p class="fine">Details come from public listings (Chamber directory, Visit Columbus, Google Maps)${b.own ? ' and their own website' : ''} and may change. Call ahead. ${b.added?.tie ? esc(b.added.tie) : b.member ? `${esc(b.name)} is a paying Founding Member of Heart of Columbus.` : 'Heart of Columbus is not affiliated with this business.'}</p>
   </aside>
 </section>

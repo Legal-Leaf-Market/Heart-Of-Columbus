@@ -316,7 +316,10 @@ export function findGiftLinks(html, base) {
 // ---------- Cart handoff ----------
 // Shopify: one permalink carries the whole cart. Sold-out lines must be left
 // out, because Shopify rejects the entire /cart/ URL if any variant is gone.
+// Stored origins end in '/', so links are joined without doubling it.
+const bare = (origin) => String(origin || '').replace(/\/+$/, '');
 export function shopifyCartUrl(origin, lines) {
+  origin = bare(origin);
   const parts = lines.filter((l) => l.available !== false && l.variantId).map((l) => `${encodeURIComponent(l.variantId)}:${l.qty}`);
   return parts.length ? `${origin}/cart/${parts.join(',')}` : `${origin}/cart`;
 }
@@ -327,11 +330,13 @@ export function shopifyCartUrl(origin, lines) {
 // handler with "please choose product options". A line that needs choosing
 // on their site (`pick`) never gets a link.
 export function wooCartUrls(origin, lines) {
+  origin = bare(origin);
   return lines.filter((l) => l.available !== false && l.productId && !l.pick)
     .map((l) => l.add ? `${origin}/?${l.add}&quantity=${l.qty}` : `${origin}/?add-to-cart=${encodeURIComponent(l.variantId || l.productId)}&quantity=${l.qty}`);
 }
 // BigCommerce: cart.php adds one product per request, same shape as Woo.
 export function bigcommerceCartUrls(origin, lines) {
+  origin = bare(origin);
   return lines.filter((l) => l.available !== false && l.productId)
     .map((l) => `${origin}/cart.php?action=add&product_id=${encodeURIComponent(l.productId)}&qty=${l.qty}`);
 }
@@ -346,6 +351,7 @@ export function shopifyImage(src, width = 480) {
   return `${src}${src.includes('?') ? '&' : '?'}width=${width}`;
 }
 export function mapShopify(origin, products) {
+  origin = bare(origin);
   return (products || []).filter((p) => p && p.variants && p.variants.length).map((p) => ({
     id: `s${p.id}`, title: p.title, type: (p.product_type || '').trim(), url: `${origin}/products/${p.handle}`,
     image: p.images && p.images[0] ? shopifyImage(p.images[0].src) : '',
@@ -414,6 +420,7 @@ export function wooVariationLabel(parent, v) {
 // So a variable product with no readable variations is marked `pick`: it
 // shows, and its button sends the shopper to choose on their site.
 export function mapWoo(origin, products, variations = []) {
+  origin = bare(origin);
   const byParent = {};
   for (const v of variations || []) if (v && v.parent != null) (byParent[v.parent] = byParent[v.parent] || []).push(v);
   return (products || []).filter((p) => p && p.prices).map((p) => {

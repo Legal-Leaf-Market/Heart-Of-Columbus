@@ -636,11 +636,12 @@ export const MEDIA_FAIL = "var c=this.closest('[data-media]');if(c){c.setAttribu
 // it is, the address, the open-now status and the tags. A real photo of that
 // business appears only when businessMedia() approves one; otherwise the
 // card has no image region at all (docs/redesign/CLAUDE_DEEP_REDESIGN.md).
-export function card(b, { compact = false, note = '' } = {}) {
+export function card(b, { compact = false, note = '', boosted = false } = {}) {
   const cat = catBySlug[b.cat];
   const sub = subBySlug[b.sub];
   const area = areaBySlug[b.area];
   const tags = [];
+  if (boosted || b.boosted) tags.push('<span class="tag tag-boost">Boosted · paid</span>');
   if (b.member) tags.push('<span class="tag tag-member" title="Pays Heart of Columbus for a website and a featured spot">★ Founding Member</span>');
   if (SPOTLIGHT_SLUGS.has(b.slug)) tags.push('<span class="tag tag-spot">★ Spotlight</span>');
   if (b.order.length) tags.push('<span class="tag tag-go">Order online</span>');

@@ -28,6 +28,7 @@
   var REF = 'heartofcolumbus';
   var WOO_STEP_MS = 4000;
 
+  var bare = function (o) { return String(o || '').replace(/\/+$/, ''); };
   // ---------- Handoff URLs ----------
   // Order tracking (docs/order-tracking.md): every handoff carries our UTM
   // tag and a visit id. Shopify also keeps the id on the order as a cart
@@ -39,11 +40,13 @@
     try { if (navigator.sendBeacon) navigator.sendBeacon('/api/handoff', JSON.stringify(Object.assign({ slug: slug, kind: kind }, extra || {}))); } catch (x) { /* best effort */ }
   }
   function shopifyUrl(origin, lines, pickup, click) {
+    origin = bare(origin);
     var parts = lines.filter(function (l) { return l.available !== false && l.variantId; }).map(function (l) { return encodeURIComponent(l.variantId) + ':' + l.qty; });
     var q = (pickup ? 'note=' + encodeURIComponent('Pickup, please. Sent from Heart of Columbus.') + '&' : '') + 'ref=' + REF + (click ? '&attributes%5Bhoc_click%5D=' + click + '&' + utm('cart', click) : '');
     return (parts.length ? origin + '/cart/' + parts.join(',') : origin + '/cart') + '?' + q;
   }
   function wooUrls(origin, lines) {
+    origin = bare(origin);
     return lines.filter(function (l) { return l.available !== false && l.productId && !l.pick; }).map(function (l) {
       return l.add ? origin + '/?' + l.add + '&quantity=' + l.qty : origin + '/?add-to-cart=' + encodeURIComponent(l.variantId || l.productId) + '&quantity=' + l.qty;
     });

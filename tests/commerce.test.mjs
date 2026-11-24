@@ -101,6 +101,13 @@ test('a listing site that writes pages about other businesses is never their web
   for (const [slug, w] of Object.entries(WEB)) if (w.website) assert.doesNotMatch(new URL(w.website).hostname, /(?:^|\.)leanu\.pw$/, slug);
 });
 
+test('a stored origin ending in a slash never doubles it in product or cart links', () => {
+  assert.equal(shopifyCartUrl('https://shop.example/', [{ variantId: '9', qty: 2 }]), 'https://shop.example/cart/9:2');
+  assert.equal(shopifyCartUrl('https://shop.example/', []), 'https://shop.example/cart');
+  assert.equal(mapShopify('https://shop.example/', [{ id: 1, title: 'Mug', handle: 'mug', variants: [{ id: 9, price: '1', available: true }] }])[0].url, 'https://shop.example/products/mug');
+  assert.match(wooCartUrls('https://shop.example/', [{ productId: 3, qty: 1 }])[0], /^https:\/\/shop\.example\/\?add-to-cart=3/);
+});
+
 // Sojourn Coffee's coffees are variable products (size, grind). Woo's handler
 // refuses a bare variation id, so each option carries the query its own form posts.
 test('Woo variable products: every option with its own price, stock and add query', async () => {
