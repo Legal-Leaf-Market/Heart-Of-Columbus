@@ -34,7 +34,7 @@ Jake's note so far: pleased with the seat view.
 
 We were in section 219.
 
-[What you could see from 219, and why you liked it.]
+Had a great view of the court and action.
 
 **Rating: 5 out of 5**
 
