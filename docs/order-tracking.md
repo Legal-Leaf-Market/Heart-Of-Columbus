@@ -19,7 +19,26 @@ store keeps the tag on the order, and something reports the order back.
   total. Nothing about the shopper.
 
 **2. The store reports the order back (needs the owner, once).**
-The owner picks one of three ways, all on `/owners/tracking/`:
+The best way needs no code, only a click:
+- **WooCommerce, one click (built):** send the owner
+  `https://heartofcolumbus.netlify.app/api/woo-connect?b=<slug>` (the report
+  shows it under "Key for a business"). It opens WooCommerce's own approval
+  screen on their store (`/wc-auth/v1/authorize`) asking for a read-only key.
+  They press Approve; WooCommerce posts the key to `/api/woo-connect`, which
+  checks the signature in `user_id` (`<slug>.<hmac>`), encrypts the key
+  (`src/vault.mjs`, AES-256-GCM from `HOC_ADMIN_KEY`) and stores it as
+  `woo/<slug>`. Each morning `netlify/functions/woo-sync.mjs` reads their last
+  30 days of orders (`/wp-json/wc/v3/orders`) and keeps only ours: orders whose
+  attribution meta says heartofcolumbus, or that hold exactly the products of
+  a cart we sent in the 48 hours before (`src/woo-orders.mjs`). It keeps the
+  order's status, so "Fulfilled" (completed) shows on the report. The report's
+  "Read their orders now" button runs it on demand. Owners revoke it in
+  WooCommerce, Settings, Advanced, REST API.
+- **Shopify, one click (not built):** a Shopify app with read_orders. Needs a
+  free Shopify Partner account (the owner's to create), one custom-distribution
+  install link per store at first, and app review later for one link for all.
+
+Or one of three ways that need the owner to paste or report, all on `/owners/tracking/`:
 - **Shopify:** paste our custom pixel into Settings, Customer events. When a
   checkout completes it posts the order number, total, currency, item count
   and the visit id to `/api/conversion`, only if the order came from us.
@@ -39,7 +58,7 @@ means certain: that exact cart became that order.
 
 ## What it can and can't prove
 
-- **Placed, not fulfilled.** The snippet fires when the order is placed. A
+- **Placed, not fulfilled, for snippets.** A snippet fires when the order is placed (one-click WooCommerce stores also report status). A
   cancelled or refunded order still counts until the owner tells us. Proving
   fulfillment would need access to the store's admin (a Shopify app or a
   WooCommerce webhook with the owner's permission); not built.

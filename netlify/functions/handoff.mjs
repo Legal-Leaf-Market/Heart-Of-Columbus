@@ -12,6 +12,9 @@
 // to /api/conversion (step 2), and its tracking key to hand to the owner.
 import { blobStore } from '../../src/blobs.mjs';
 import { pixelKey, sameKey } from '../../src/pixel-key.mjs';
+import { COMMERCE } from '../../src/data/commerce.mjs';
+const SITE = (process.env.HOC_ORIGIN || 'https://heartofcolumbus.netlify.app').replace(/\/+$/, '');
+const connectLink = (slug) => (COMMERCE[slug] && COMMERCE[slug].platform === 'woocommerce' ? `${SITE}/api/woo-connect?b=${slug}` : '');
 
 export const config = { path: '/api/handoff' };
 const KINDS = new Set(['cart', 'product', 'order', 'book', 'shop', 'website', 'gift']);
@@ -33,7 +36,8 @@ export async function count(store, b, now = new Date()) {
     // The cart's visit id, so a confirmed order can be matched to the exact
     // cart we sent (reconciliation). The last 300 carts a month are kept.
     const click = String(b.click || '').replace(/[^a-z0-9]/gi, '').slice(0, 24);
-    if (click) rec.carts = [...(rec.carts || []), { click, items: num(b.items, 200), total: Math.round(num(b.total, 20000) * 100) / 100, at: now.toISOString() }].slice(-300);
+    const ids = (Array.isArray(b.ids) ? b.ids : []).map((x) => String(x).replace(/\D/g, '')).filter(Boolean).slice(0, 30);
+    if (click) rec.carts = [...(rec.carts || []), { click, ids, items: num(b.items, 200), total: Math.round(num(b.total, 20000) * 100) / 100, at: now.toISOString() }].slice(-300);
   }
   rec.last = now.toISOString();
   await store.setJSON(key, rec);
@@ -50,7 +54,7 @@ export async function report(store, m) {
     const orders = c.orders || [];
     const sent = new Set((h.carts || []).map((x) => x.click));
     const matched = orders.filter((o) => o.click && sent.has(o.click)).length;
-    return { slug, handoffs: { ...h, carts: undefined }, matched, orders: orders.length, orderValue: Math.round(orders.reduce((a, o) => a + (Number(o.total) || 0), 0) * 100) / 100, recent: orders.slice(-5) };
+    return { slug, handoffs: { ...h, carts: undefined }, matched, fulfilled: orders.filter((o) => o.fulfilled).length, orders: orders.length, orderValue: Math.round(orders.reduce((a, o) => a + (Number(o.total) || 0), 0) * 100) / 100, recent: orders.slice(-5) };
   }));
   return rows.sort((a, b) => (b.orderValue - a.orderValue) || ((b.handoffs.cartValue || 0) - (a.handoffs.cartValue || 0)));
 }
@@ -65,7 +69,8 @@ export default async (req) => {
       const m = /^\d{4}-\d\d$/.test(u.searchParams.get('month') || '') ? u.searchParams.get('month') : month();
       const rows = await report(store, m);
       const keyFor = u.searchParams.get('key');
-      return json({ ok: true, month: m, rows: rows.map((r) => ({ ...r, key: pixelKey(r.slug) })), ...(keyFor && /^[a-z0-9-]{2,80}$/.test(keyFor) ? { lookup: { slug: keyFor, key: pixelKey(keyFor) } } : {}) });
+      const woo = await Promise.all(((await store.getJSON('woo/index')) || []).map(async (slug) => { const r = (await store.getJSON(`woo/${slug}`)) || {}; return { slug, connected: r.connected || '', lastSync: r.lastSync || '', lastResult: r.lastResult || null }; }));
+      return json({ ok: true, month: m, woo, rows: rows.map((r) => ({ ...r, key: pixelKey(r.slug), connect: connectLink(r.slug) })), ...(keyFor && /^[a-z0-9-]{2,80}$/.test(keyFor) ? { lookup: { slug: keyFor, key: pixelKey(keyFor), connect: connectLink(keyFor) } } : {}) });
     }
     if (req.method !== 'POST') return json({ ok: false, error: 'method' }, 405);
     let b = {};

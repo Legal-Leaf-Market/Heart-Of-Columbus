@@ -93,6 +93,14 @@ ${header('')}
   <p>You can also see our orders yourself, with no code: open an order and look at its <b>Conversion summary</b> or landing page, which shows <code>heartofcolumbus</code> for orders we sent.</p>
 
   <h2 id="woocommerce">WooCommerce</h2>
+  <h3>One click (easiest)</h3>
+  <ol>
+    <li>Open the link we send you. It looks like <code>heartofcolumbus.netlify.app/api/woo-connect?b=your-shop</code>.</li>
+    <li>Log in to your WordPress admin if it asks. WooCommerce shows <b>Heart of Columbus would like to connect to your store</b>, with <b>Read</b> access only.</li>
+    <li>Press <b>Approve</b>. That’s it. Once a day we read your recent orders and keep only the ones we sent you: the order number, total, status and whether it’s completed. We can’t change anything in your store.</li>
+    <li>To disconnect any time: WooCommerce, Settings, Advanced, REST API, and revoke the Heart of Columbus key.</li>
+  </ol>
+  <h3>Or paste a snippet instead</h3>
   <ol>
     <li>Make sure WooCommerce is version 8.5 or newer and <b>Order attribution</b> is on (WooCommerce, Settings, Advanced, Features). It is on by default.</li>
     <li>Install the free <b>Code Snippets</b> plugin, or use your theme’s <code>functions.php</code>.</li>
@@ -143,7 +151,23 @@ ${header('')}
   return page({ title: 'Tracking report | Heart of Columbus', description: 'Private.', body, scripts: ['tracking.js'], styles, assets, head: '<meta name="referrer" content="no-referrer">', path: '/owners/report/' });
 }
 
+function connectedPage({ assets }) {
+  const body = `
+${header('')}
+<main id="main" class="wrap prose tk">
+  <p class="kicker kicker-pill">For business owners</p>
+  <h1 data-connected-h>You’re connected</h1>
+  <p data-connected-p>Thank you. Heart of Columbus can now count the orders it sends your store. Once a day we read your recent orders and keep only ours: the order number, total, status and whether it’s completed. Nothing about your customers.</p>
+  <p>You can disconnect any time in WooCommerce, Settings, Advanced, REST API.</p>
+  <p class="btns"><a class="btn" href="/owners/">Back to Heart of Columbus for owners</a></p>
+  <script>(function(){var q=new URLSearchParams(location.search);if(q.get('success')==='0'){document.querySelector('[data-connected-h]').textContent='Not connected';document.querySelector('[data-connected-p]').textContent='The connection was not approved, so nothing was shared. You can open the link again any time.';}})();</script>
+</main>
+${footer()}`;
+  return page({ title: 'Connected | Heart of Columbus', description: 'Your store is connected to Heart of Columbus order tracking.', body, styles, assets, head: '<meta name="referrer" content="no-referrer">', path: '/owners/connected/' });
+}
+
 export const trackingPages = (ctx) => [
   { path: 'owners/tracking/index.html', html: setupPage(ctx) },
   { path: 'owners/report/index.html', html: reportPage(ctx) },
+  { path: 'owners/connected/index.html', html: connectedPage(ctx) },
 ];
