@@ -104,11 +104,11 @@ byline, `drafted:` and `sources:` on each; CLAUDE.md third exception).
       Love Chapel, coupon end date); Crossroads coupon terms; phone-confirm
       every Christmas service time
 - [ ] Election: fill `votes` in `election.md` once the canvass is certified
-- [ ] Photos: page 14's Chaos photo is hotlinked and fails. It is "2015
-      Chaotic Tuesday" by RichardMcCoy, CC BY-SA 4.0 (Wikimedia Commons), so a
-      local copy in `public/print-media/` with that credit is fine; this
-      sandbox can't reach Wikimedia, so save it by hand or through a workflow.
-      Front aerial prints at 180 ppi: swap in Eli Wire's riverfront photo.
+- [x] Page 14's Chaos photo saved to `public/print-media/commons.jpg` by the
+      new "Fetch print media" workflow (`scripts/fetch-print-media.mjs`; edit
+      `scripts/data/print-media-request.txt` to fetch others). 1280 x 1024,
+      so about 4.3 inches wide at 300 ppi
+- [ ] Photos:      Front aerial prints at 180 ppi: swap in Eli Wire's riverfront photo.
       Kevin's photo for page 8
 - [ ] Printing quotes for a true 11 x 17 newsprint run (brief Task 6): target
       under $2 a copy, $5 fine for the first run

@@ -2289,6 +2289,15 @@ a.tag:not(.tag-member):hover { filter: brightness(.96); }
 .evw-none, .evw-more { margin: 10px 0; font-size: 15px; }
 .evw-foot { margin-top: 8px; }
 .evw-pop { width: min(460px, calc(100vw - 32px)); border: 2px solid var(--ink); border-radius: 18px; padding: 22px; box-shadow: 6px 6px 0 var(--ink); }
+/* The page's resets zero the margin a modal dialog centers itself with, which
+   pinned this to the top left. Center it on a desktop; on a phone it fills the
+   screen like a sheet. */
+.evw-pop[open] { position: fixed; inset: 0; margin: auto; max-height: calc(100dvh - 48px); overflow: auto; }
+@media (max-width: 640px) {
+  .evw-pop[open] { width: 100vw; max-width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0; border: 0; border-radius: 0; box-shadow: none; padding: 60px 20px 28px; }
+  .evw-pop h3 { font-size: 26px; }
+  .evw-pop-cta .btn { flex: 1 1 100%; justify-content: center; }
+}
 .evw-pop::backdrop { background: rgba(27,26,23,.45); }
 .evw-pop form { position: absolute; top: 10px; right: 10px; margin: 0; }
 .evw-x { width: 40px; height: 40px; border: 0; border-radius: 50%; background: var(--wash); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
