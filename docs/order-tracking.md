@@ -34,9 +34,18 @@ The best way needs no code, only a click:
   order's status, so "Fulfilled" (completed) shows on the report. The report's
   "Read their orders now" button runs it on demand. Owners revoke it in
   WooCommerce, Settings, Advanced, REST API.
-- **Shopify, one click (not built):** a Shopify app with read_orders. Needs a
-  free Shopify Partner account (the owner's to create), one custom-distribution
-  install link per store at first, and app review later for one link for all.
+- **Shopify app pilot (backend implemented):** the app can post signed
+  order webhooks to `/api/shopify-orders`. The pilot accepts one configured
+  Shopify store and only stores orders with the `hoc_click` cart attribute.
+  Set `HOC_SHOPIFY_CLIENT_SECRET`, `HOC_SHOPIFY_SHOP` (the store's
+  `.myshopify.com` domain), and `HOC_SHOPIFY_SLUG` (the report's business slug)
+  in the Netlify Functions environment. Configure `read_orders` and subscribe
+  to `orders/create`, `orders/updated`, `orders/fulfilled`, and
+  `orders/partially_fulfilled` at the HTTPS endpoint. Test the checkout and
+  fulfillment lifecycle in the dev store before using live shop data.
+  Independent merchants share a link after Shopify approves public
+  distribution. A custom-distribution app is limited to its designated
+  merchant or Plus organization and cannot switch to public distribution.
 
 Or one of three ways that need the owner to paste or report, all on `/owners/tracking/`:
 - **Shopify:** paste our custom pixel into Settings, Customer events. When a
@@ -61,7 +70,9 @@ means certain: that exact cart became that order.
 - **Placed, not fulfilled, for snippets.** A snippet fires when the order is placed (one-click WooCommerce stores also report status). A
   cancelled or refunded order still counts until the owner tells us. Proving
   fulfillment would need access to the store's admin (a Shopify app or a
-  WooCommerce webhook with the owner's permission); not built.
+  WooCommerce webhook with the owner's permission). Shopify pilot webhooks report
+  Shopify's fulfillment status once connected. A fulfilled status alone does
+  not prove the customer received the package.
 - **No install, no automatic count.** Without step 2 we still know what we
   sent (visits, carts, cart value). The owner can also see our orders in
   their own store with no code: Shopify shows the landing page and
