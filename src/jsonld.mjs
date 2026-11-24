@@ -6,7 +6,7 @@
 import { websiteAction } from './website.mjs';
 import { socialProfile } from './social-profiles.mjs';
 
-const origin = new URL(process.env.HOC_ORIGIN || 'https://heartofcolumbus.netlify.app');
+const origin = new URL(process.env.HOC_ORIGIN || 'https://heartofcolumbus.shop');
 if (!['http:', 'https:'].includes(origin.protocol) || origin.username || origin.password || origin.pathname !== '/' || origin.search || origin.hash) {
   throw new Error('HOC_ORIGIN must be an HTTP(S) origin without a path, query, credentials or fragment');
 }

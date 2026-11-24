@@ -71,7 +71,7 @@ export async function deskEdition(deskStore, date, origin) {
 
 export default async () => {
   const env = (k) => ((globalThis.Netlify?.env?.get(k)) ?? process.env[k] ?? '').trim();
-  const origin = env('URL') || 'https://heartofcolumbus.netlify.app';
+  const origin = env('URL') || 'https://heartofcolumbus.shop';
   const date = columbusDate(new Date());
   const desk = await deskEdition(blobStore('desk'), date, origin);
   if (desk && desk.skip) { console.log(`[newsletter] the publisher skipped ${date}`); return; }

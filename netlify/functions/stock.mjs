@@ -17,7 +17,7 @@ import { COMMERCE } from '../../src/data/commerce.mjs';
 import { SHOP_RULES } from '../../src/data/shop-rules.mjs';
 
 export const config = { path: '/api/stock' };
-const UA = 'Mozilla/5.0 (compatible; HeartOfColumbusBot/1.2; +https://heartofcolumbus.netlify.app)';
+const UA = 'Mozilla/5.0 (compatible; HeartOfColumbusBot/1.2; +https://heartofcolumbus.shop)';
 const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
 
 async function getJson(url, ms = 5000) {

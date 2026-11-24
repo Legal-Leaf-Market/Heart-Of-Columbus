@@ -23,7 +23,7 @@ import { readCatalog } from '../netlify/functions/shop.mjs';
 const ROOT = new URL('../', import.meta.url);
 const OUT = new URL('public/catalogs/', ROOT);
 const ONLY = new Set((process.argv[2] || '').split(',').filter(Boolean));
-const UA = 'Mozilla/5.0 (compatible; HeartOfColumbusBot/1.2; +https://heartofcolumbus.netlify.app)';
+const UA = 'Mozilla/5.0 (compatible; HeartOfColumbusBot/1.2; +https://heartofcolumbus.shop)';
 const TODAY = new Date().toISOString().slice(0, 10);
 // What a shop grid or a menu can use: shops, food and drink, and the other
 // places that sell things over the counter. Services (plumbers, dentists)

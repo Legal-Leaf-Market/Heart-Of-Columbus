@@ -64,5 +64,5 @@ export async function handle(req, { store, fetchFn = fetch, cfg }) {
 
 export default async (req) => handle(req, {
   store: blobStore('newsletter'),
-  cfg: { key: env('RESEND_API_KEY'), audience: env('RESEND_AUDIENCE_ID'), from: env('HOC_NEWSLETTER_FROM'), origin: env('URL') || 'https://heartofcolumbus.netlify.app' },
+  cfg: { key: env('RESEND_API_KEY'), audience: env('RESEND_AUDIENCE_ID'), from: env('HOC_NEWSLETTER_FROM'), origin: env('URL') || 'https://heartofcolumbus.shop' },
 });

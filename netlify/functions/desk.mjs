@@ -123,7 +123,7 @@ export default async (req) => {
   }
   if (b.action === 'preview' || b.action === 'draft') {
     const pieces = approved(day);
-    const html = editionHtml({ name: PAPER.name, date, intro: day.plan.intro, pieces, origin: env('URL') || 'https://heartofcolumbus.netlify.app' });
+    const html = editionHtml({ name: PAPER.name, date, intro: day.plan.intro, pieces, origin: env('URL') || 'https://heartofcolumbus.shop' });
     if (b.action === 'preview') return json({ ok: true, html, count: pieces.length });
     if (!pieces.length) return json({ ok: false, error: 'Approve at least one piece first.' }, 422);
     if (!day.plan.subject.trim()) return json({ ok: false, error: 'Write a subject line first.' }, 422);

@@ -9,7 +9,7 @@
 import { writeFileSync } from 'node:fs';
 import { ARTICLES } from '../src/data/history/index.mjs';
 
-const SITE = 'https://heartofcolumbus.netlify.app';
+const SITE = 'https://heartofcolumbus.shop';
 const N = 24;
 
 // What each article still needs, written after reading it and its sources on

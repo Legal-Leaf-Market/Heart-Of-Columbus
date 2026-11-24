@@ -13,7 +13,7 @@ import { existsSync } from 'node:fs';
 import { PHOTOS } from '../src/site.mjs';
 import { EDITION } from '../src/print/edition-2026-12.mjs';
 
-const UA = 'HeartOfColumbusBot/1.0 (print edition photos; https://heartofcolumbus.netlify.app)';
+const UA = 'HeartOfColumbusBot/1.0 (print edition photos; https://heartofcolumbus.shop)';
 const dir = new URL('../public/print-media/', import.meta.url);
 await mkdir(dir, { recursive: true });
 const keys = [...new Set(['aerial', 'library', ...EDITION.gathers.map((g) => g[2]).filter(Boolean),

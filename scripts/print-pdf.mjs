@@ -1,7 +1,7 @@
 // Makes the print edition's PDF and checks it, page by page.
 //
 //   node scripts/print-pdf.mjs                      builds nothing; serves dist/
-//   node scripts/print-pdf.mjs --url https://heartofcolumbus.netlify.app/print/2026-12/
+//   node scripts/print-pdf.mjs --url https://heartofcolumbus.shop/print/2026-12/
 //   options: --out file.pdf   --shots dir   (a PNG of every page)
 //
 // Locally the calendar reads the library and parks feeds directly; on a

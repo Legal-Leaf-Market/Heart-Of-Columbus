@@ -485,7 +485,7 @@ export const TODO = [
   ['Back YOUR Blue', 'The story quotes Jake saying “you never gave me shit for it, Dad.” Decide whether the friends and family edition prints it as written. Page 8 also has room for a photo of Kevin Lee Kennedy, from the family.'],
   ['Photos', 'The front page lead uses a Wikimedia aerial as a stand in. Eli Wire shoots the riverfront this month; the river story’s file takes it as photo.'],
   ['Photo permissions', 'Ask the Bartholomew County Public Library archives for an old dam photo (page 7) and a 2008 flood photo (page 7).'],
-  ['Domain', `QR codes point to ${ORIGIN}. If the new domain is live before printing, set HOC_ORIGIN and rebuild so every code uses it.`],
+  ['Domain', `Every QR code points to ${ORIGIN}. Scan a few from the proof with a phone before ordering the run.`],
   ['Calendar', 'Open the edition on the live site so page 11 fills from the library and parks calendars, then read every listing against its source.'],
   ['Election', 'Fill results: in content/print/2026-12/election.md from the clerk’s certified canvass only.'],
   ['Meals', 'Page 14’s meal list comes from United Way’s guide. Call each church for Christmas week hours.'],
