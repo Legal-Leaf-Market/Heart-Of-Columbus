@@ -77,6 +77,23 @@ and no apartment buildings.
       business (a business name, website or listing) and ask them
 - [ ] A `/housing/` page: buildings by area, managers, and links to tenant
       help already in `/help/`
+- Leads found 2026-11-24 (web search, unverified; confirm each on its own
+  page or listing before it goes in):
+  - **Best source:** the city's residential rental registration ordinance,
+    https://www.columbus.in.gov/community-development/residential-rental-registration-ordinance
+    If landlords must register, ask Community Development for the registry
+    (public records request if needed): the most complete landlord list
+  - Property managers: Grayson Property Management (BBB lists 3129 25th St
+    PMB 202, (812) 376-3500); Bullet Property Management (already listed);
+    Nicodi Management (3221 17th St, Suite 1)
+  - Apartment communities named by listing sites: Columbus Crossing /
+    Parkview Townhomes, River Stone, St. Barts, Monarch Crossing,
+    Williamsburg Way
+  - Directories to cross-check: BBB rental listings and property management
+    (bbb.org/us/in/columbus), Zillow property manager pages for 47201, 47202,
+    47203 and 47246, BiggerPockets Columbus property managers
+  - "Columbus Rental Property" did not turn up under that name; get its
+    website or phone from the publisher
 
 ## Bugs found along the way
 - [x] `/newsroom/inbox/` sent the admin key as `?k=` in the address, against
