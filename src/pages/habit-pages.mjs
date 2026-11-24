@@ -64,6 +64,7 @@ function gamesIndex(ctx) {
   const body = doc('Games', 'Play', 'A little Columbus every day. Scores stay in your browser.', `
 <div class="np-games">
   <a class="np-game" href="/games/where/"><strong>Where in Columbus?</strong><span>A close-up of a Columbus landmark. Name it in one guess. New every day.</span></a>
+  <a class="np-game" href="/games/shootaround/"><strong>Hoosier shootaround</strong><span>Thirty seconds, one ball. Pull back, let it fly, see how many you can sink.</span></a>
   <a class="np-game" href="/games/quiz/"><strong>The weekly news quiz</strong><span>How closely were you reading this week?</span></a>
 </div>
 <p class="fine">A crossword is coming when a local constructor makes one for us.</p>`);
@@ -79,6 +80,34 @@ function wherePage(ctx) {
   <p class="fine">Photos from Wikimedia Commons, credited when you finish. <a href="/credits/">All photo credits</a></p>
 </section>`);
   return newsPage({ ...ctx, path: '/games/where/', title: 'Where in Columbus?', description: 'A daily guessing game: name the Columbus landmark from a close-up.', crumbs: [['/games/', 'Games'], ['', 'Where in Columbus?']], body, scripts: ['games.js'], data: { where: WHERE } });
+}
+
+// The 30-second shootaround, from the Pacers design pack (2026-11-24). The
+// game lives in public/js/shootaround.js; without it the page says so.
+function shootaroundPage(ctx) {
+  const body = doc('Quick game', 'Hoosier shootaround', 'Thirty seconds, one ball. Pull the ball back away from the hoop and let go. On a keyboard, aim with the arrow keys and press Space.', `
+<section class="sa" data-sa aria-label="Basketball shootaround game">
+  <div class="sa-shell">
+    <div class="sa-hud" aria-live="polite">
+      <div class="sa-scores">
+        <div class="sa-stat"><span>Score</span><strong data-sa-score>0</strong></div>
+        <div class="sa-stat"><span>Time</span><strong><span data-sa-time>30</span><span aria-hidden="true">s</span></strong></div>
+      </div>
+      <span class="sa-tag" data-sa-tag>READY?</span>
+    </div>
+    <canvas width="960" height="540" tabindex="0" role="img" aria-label="Basketball court. Drag the ball down and away from the hoop, then let go to shoot. Or use the left and right arrows to aim, up and down for power, and Space to shoot."></canvas>
+    <div class="sa-controls">
+      <button type="button" class="sa-btn sa-go" data-sa-start>Start shootaround</button>
+      <button type="button" class="sa-btn sa-alt" data-sa-shoot disabled>Shoot (Space)</button>
+      <button type="button" class="sa-btn sa-alt" data-sa-again hidden>Play again</button>
+      <p class="sa-status" data-sa-status role="status">Ready when you are.</p>
+    </div>
+  </div>
+  <p class="sa-how"><strong>Touch or mouse:</strong> press on the ball, pull down and away from the hoop, then let go. <strong>Keyboard:</strong> focus the court, aim with the left and right arrows, set power with up and down, and shoot with Space or Enter. Scores aren't saved anywhere.</p>
+  <noscript><p class="sa-how">The shootaround needs JavaScript turned on.</p></noscript>
+  <p class="fine"><a href="/games/">More local games</a></p>
+</section>`);
+  return newsPage({ ...ctx, path: '/games/shootaround/', title: 'Hoosier shootaround', description: 'A 30-second basketball shootaround game from Heart of Columbus.', crumbs: [['/games/', 'Games'], ['', 'Hoosier shootaround']], body, scripts: ['shootaround.js'], styles: ['shootaround.css'] });
 }
 
 function quizPage(ctx, quiz, { sample = false } = {}) {
@@ -97,6 +126,7 @@ export const habitPages = (ctx) => [
   { path: 'members/index.html', html: membersPage(ctx) },
   { path: 'games/index.html', html: gamesIndex(ctx) },
   { path: 'games/where/index.html', html: wherePage(ctx) },
+  { path: 'games/shootaround/index.html', html: shootaroundPage(ctx) },
   { path: 'games/quiz/index.html', html: quizPage(ctx, QUIZZES.at(-1)) },
   ...(SAMPLE_QUIZZES.length ? [{ path: 'games/quiz/sample/index.html', html: quizPage(ctx, SAMPLE_QUIZZES.at(-1), { sample: true }) }] : []),
 ];

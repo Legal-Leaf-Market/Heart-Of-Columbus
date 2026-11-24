@@ -172,6 +172,9 @@ const newsPlate = (s, sec) => {
 </div>`;
 };
 
+// The shootaround card: on the front page and at the end of sports stories.
+const playCta = (small = false) => `<a class="np-play-cta${small ? ' np-play-cta-sm' : ''}" href="/games/shootaround/">${stickerImg('basketball', 'np-sticker')}<span><strong>Take a 30-second shootaround</strong><span>A quick basketball game. Pull back, let it fly.</span></span></a>`;
+
 function storyPage(ctx, s) {
   const sec = sectionBySlug[s.section];
   const banner = s.sample
@@ -181,7 +184,7 @@ function storyPage(ctx, s) {
     ...ctx, path: s.href, title: s.headline, description: s.dek || s.headline, banner,
     crumbs: [['/news/', 'News'], [sectionHref(sec), sec.name], ['', s.headline]],
     styles: ['kindle.css', 'newsprint.css'],
-    body: reader({ section: sec.name, variant: 'news', inner: newsPlate(s, sec) + storyBody(s) }) + inThisStory(s) + `<div class="wrap np-story-end">${storyAsk()}</div>`,
+    body: reader({ section: sec.name, variant: 'news', inner: newsPlate(s, sec) + storyBody(s) }) + inThisStory(s) + `<div class="wrap np-story-end">${s.section === 'sports' ? playCta(true) : ''}${storyAsk()}</div>`,
     ld: s.sample || s.draft ? [] : [newsArticleLd({ ...s, sectionName: sec.name }, { people: s.bylines.map((b) => person(b)), paper: PAPER })],
   });
 }
@@ -242,6 +245,7 @@ function frontPage(ctx) {
   </div>
   <aside class="np-front-side">
     ${weatherBox()}
+    ${playCta()}
     ${sponsorSlot('front')}
     ${changes.length ? `<section class="np-box"><h2>Openings and closings</h2>${changes.map((s) => storyCard(s, { size: 'line', showSection: false })).join('')}<a class="np-more" href="/news/business/">More business news</a></section>` : ''}
     <figure class="np-box np-photo"><img src="${esc(photo.src)}" alt="${esc(photo.title)}" loading="lazy"><figcaption>${esc(photo.title)}. Photo: ${esc(photo.credit)}, ${esc(photo.license)}. <a href="/credits/">Credits</a></figcaption></figure>
