@@ -2061,3 +2061,11 @@ a.tag:not(.tag-member):hover { filter: brightness(.96); }
   .np-lead-sticker { width: 64px; }
   .np-sticker { width: 52px; }
 }
+
+/* On a phone, news pages drop the directory's category shortcuts: the paper's
+   own section bar is the navigation there, and three stacked bars pushed the
+   headline below the fold. The directory pages keep them. */
+@media (max-width: 640px) {
+  body:has(.np-bar) .catbar { display: none; }
+  .np-bar-row a { min-height: 44px; display: inline-flex; align-items: center; }
+}
