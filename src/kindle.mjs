@@ -14,8 +14,8 @@ export const nameplate = (parts = []) => `
   <p class="kd-mast-line">${['Columbus, Indiana', ...parts].filter(Boolean).map((p) => `<span>${esc(p)}</span>`).join('')}</p>
 </div>`;
 
-export const reader = ({ section = '', inner }) => `
-<div class="kd" data-kd>
+export const reader = ({ section = '', inner, variant = '' }) => `
+<div class="kd${variant ? ` kd-${variant}` : ''}" data-kd>
   <div class="kd-device">
     <div class="kd-screen" data-kd-screen>
       <div class="kd-top" data-kd-chrome hidden>

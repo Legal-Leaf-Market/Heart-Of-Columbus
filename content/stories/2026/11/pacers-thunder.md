@@ -23,7 +23,7 @@ stickers:
 bylines: [jacob-kennedy]
 editor: eli-wire
 published: 2026-11-23T20:16:00-05:00
-updated: 2026-11-23T20:44:00-05:00
+updated: 2026-11-23T20:48:00-05:00
 images:
   - file: /news-media/2026/11/pacers-thunder-jake-and-eli.jpg
     alt: Eli Wire and Jake Kennedy smiling together in their seats at the Pacers game.
@@ -57,8 +57,6 @@ Easy drive from Columbus, and parking was not hard to figure out and inexpensive
 
 ## The view from my seat
 
-Jake's note so far: pleased with the seat view.
-
 We were in section 219.
 
 Had a great view of the court and action.
@@ -67,8 +65,6 @@ Had a great view of the court and action.
 
 ## Food and drink
 
-Jake's note so far: pleased with the concession prices.
-
 We got chicken fingers, fries, and cotton candy.
 
 Prices were reasonable.
@@ -76,8 +72,6 @@ Prices were reasonable.
 **Rating: 5 out of 5**
 
 ## The people working the building
-
-Jake's note so far: staff were friendly.
 
 Staff pointed us the wrong direction first for Chick-fil-A, but then two lovely ladies corrected us on where the new location was.
 
