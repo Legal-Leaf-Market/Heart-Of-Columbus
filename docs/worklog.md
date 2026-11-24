@@ -6,7 +6,7 @@ each list.
 
 ## In progress
 
-### Places of worship and nonprofits (`claude/worship-and-nonprofits`)
+### Places of worship and nonprofits (`claude/worship-addresses`)
 Visitors ask hotels for a Mass schedule; the site should list every
 congregation in town, of every faith, by area and by faith, plus nonprofits.
 - [x] Check what exists: no section; only 4 false matches in the directory
@@ -18,13 +18,17 @@ congregation in town, of every faith, by area and by faith, plus nonprofits.
     Columbus and Great Wind Zendo (`scripts/data/irs-eo.json`). Many
     addresses are PO boxes, and some religious rows are trusts or
     associations, not congregations
-- [ ] Owner question open: how to fill in addresses (Google Places key, publish
-      what we have and invite corrections, or a person checks the list)
-- [ ] A third source with street addresses and websites: the Google Maps
-      lookup that made `maps-lookup.json` was run outside this repo, so the
-      same pass is needed for congregations (or a person checks the list)
-- [ ] Merge the two by name and address into `src/data/worship.mjs` and
-      `src/data/nonprofits.mjs`, each row with `source` and `checked`
+- [x] Owner decision: Google Maps is the address source
+- [x] `scripts/pull-worship-places.mjs`: Google Places API (the official route;
+      scraping Google pages breaks its terms), run by the same workflow
+- [ ] **Owner: add the `GOOGLE_PLACES_API_KEY` repository secret**, then edit
+      `scripts/data/worship-request.txt` on a claude branch to run the pull
+- [x] `scripts/import-worship.mjs` merges Google, OSM and IRS into
+      `src/data/worship.mjs` (one row per congregation, faith family, sources).
+      Today, without Google: 112 rows, 5 with a street address
+- [ ] Rerun the import once Google data lands; mark rows Google did not
+      confirm as "not yet confirmed" (many OSM-only rows are old rural chapels)
+- [ ] `src/data/nonprofits.mjs` from the IRS list (505 rows pulled)
 - [ ] Pages: `/worship/` by faith and by area, one page per congregation;
       `/nonprofits/` by kind. Service times only as a link to the
       congregation's own schedule page, never typed by us (house rule: never
@@ -45,8 +49,14 @@ congregation in town, of every faith, by area and by faith, plus nonprofits.
 - [x] Tests (7) and a Chromium run at 390 and 1280
 - [ ] Owner: set `ANTHROPIC_API_KEY` (and `RESEND_*` or `BUTTONDOWN_API_KEY`)
       in Netlify, then fill in **Your voice** at the desk
-- [ ] Study writewithpaige.ai: the host is now allowed, but the name has no
-      public DNS record from here. Need the exact link or screenshots
+- [x] Studied writewithpaige.com (fiction tool, 100,000+ users claimed)
+- [ ] Paige ideas to build next: a **beat book** the desk reads before every
+      draft (people, places, businesses, running stories, spellings; lockable;
+      "desk noticed" suggestions), **banned phrases**, several **voices** to
+      switch between, an **edit pass** as tracked changes you accept one by one
+      with prose numbers (sentence length, adverbs, passive, reading grade),
+      **select a passage to Tighten / Smooth / Fix grammar**, and
+      **paste notes to split them into ideas**
 - [ ] Later: overnight lead gathering into the idea bank (council agendas,
       directory changes, events), and "publish to the site" for a piece
 
@@ -54,12 +64,10 @@ congregation in town, of every faith, by area and by faith, plus nonprofits.
 - [x] `/newsroom/inbox/` sent the admin key as `?k=` in the address, against
       the house rule. Fixed in #129: #k=, session storage, `x-hoc-key` header
 
-## Waiting on a merge
-- [ ] Nightly cart check, [#127](https://github.com/Legal-Leaf-Market/Heart-Of-Columbus/pull/127)
-- [ ] The desk, [#129](https://github.com/Legal-Leaf-Market/Heart-Of-Columbus/pull/129)
-- [ ] This worklog and the worship source data, [#128](https://github.com/Legal-Leaf-Market/Heart-Of-Columbus/pull/128)
-
 ## Done
+- [x] Nightly cart check, [#127](https://github.com/Legal-Leaf-Market/Heart-Of-Columbus/pull/127)
+- [x] The desk, [#129](https://github.com/Legal-Leaf-Market/Heart-Of-Columbus/pull/129)
+- [x] This worklog and the worship source data, [#128](https://github.com/Legal-Leaf-Market/Heart-Of-Columbus/pull/128)
 - [x] Forge order link kept through re-imports, [#126](https://github.com/Legal-Leaf-Market/Heart-Of-Columbus/pull/126)
 - [x] Forge order button opens its Square order page, [#125](https://github.com/Legal-Leaf-Market/Heart-Of-Columbus/pull/125)
 
