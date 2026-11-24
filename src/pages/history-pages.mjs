@@ -55,6 +55,7 @@ ${breadcrumbs([['/', 'Home'], ['', 'History']])}
 <section class="hx-banner" aria-labelledby="hx-h">
   <div class="wrap">
     <p class="hx-banner-k">Columbus history</p>
+    <img src="/img/field-guide-stickers/fire-station.webp" width="96" height="96" style="object-fit:contain" alt="" loading="lazy" decoding="async">
     <h1 id="hx-h">Columbus, Indiana, <span>decade by decade.</span></h1>
     <p class="hx-banner-lede">${esc(intro)}</p>
     <nav class="hx-banner-decades" aria-label="Decades">${DECADES.map((d) => `<a href="#d${d.slug}">${d.slug}</a>`).join('')}</nav>
