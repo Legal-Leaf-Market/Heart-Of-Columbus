@@ -31,6 +31,7 @@
 //       caption: Optional caption
 //       credit: Photographer's name
 //       license: Staff photo
+//       creditUrl: https://www.instagram.com/handle/   # optional: links the credit
 //   sponsor: Name                  # required when label is Sponsored
 //   developing:                    # optional box for a developing story
 //     know: [Fact we confirmed]
@@ -45,6 +46,7 @@
 //         result: Passed
 //         tally: 6 to 1
 //     followUps: [What happens to the parks line next year?]
+//   series: jake-takes-the-town    # optional: src/news/series.mjs; its writer must be on the byline
 //   game:                          # optional scoreboard box for a game story
 //     home: Columbus North         # team names as the teams write them
 //     away: Columbus East
@@ -60,6 +62,7 @@ import { splitFrontMatter, markdown } from './markdown.mjs';
 import { LABELS } from './labels.mjs';
 import { sectionBySlug, TOPICS } from './sections.mjs';
 import { STAFF, SAMPLE_STAFF } from '../data/staff.mjs';
+import { seriesBySlug } from './series.mjs';
 import { directory, areaBySlug } from '../data/directory.mjs';
 import { landmarkBySlug } from '../data/landmarks.mjs';
 import { BODIES } from '../data/civic.mjs';
@@ -109,6 +112,7 @@ export function checkStory(s) {
     if (!im?.file) p.push('each image needs a file');
     if (!im?.alt) p.push(`image ${im?.file}: alt text is required`);
     if (!im?.credit) p.push(`image ${im?.file}: credit is required`);
+    if (im?.creditUrl && !/^https:\/\//.test(im.creditUrl)) p.push(`image ${im?.file}: creditUrl must be an https address`);
     if (!im?.license) p.push(`image ${im?.file}: license is required (Staff photo, CC BY 4.0, used with permission...)`);
     if (im?.file?.startsWith('/') && !existsSync(new URL(`../../public${im.file}`, import.meta.url))) p.push(`image ${im.file} is not in public/`);
   }
@@ -117,6 +121,12 @@ export function checkStory(s) {
     if (!m || !m.body || !/^\d{4}-\d{2}-\d{2}$/.test(String(m.date)) || !Array.isArray(m.decisions)) p.push('Meeting notes need meeting: body, date (YYYY-MM-DD) and a decisions list');
     else if (!s.sample && !bodyBySlug[m.body]) p.push(`meeting body "${m.body}" is not in src/data/civic.mjs`);
     for (const v of m?.votes || []) if (!v?.motion || !v?.result) p.push('each vote needs a motion and a result');
+  }
+  if (!s.draft && /\[(YOUR|WHO TOOK|ONE LINE)\b|__ out of 5/.test(JSON.stringify({ ...s, file: '' }) + s.body)) p.push('fill in every [BRACKET] blank before taking a story out of draft');
+  if (s.series) {
+    const sr = seriesBySlug[s.series];
+    if (!sr) p.push(`series "${s.series}" is not in src/news/series.mjs`);
+    else if (!s.sample && !(s.bylines || []).includes(sr.writer)) p.push(`a ${sr.name} story must carry ${sr.writer} on the byline`);
   }
   if (s.game) {
     const g = s.game;
@@ -178,6 +188,7 @@ for (const s of [...ALL_STORIES, ...SAMPLES]) {
 export const stories = ALL_STORIES.filter((s) => !s.draft);
 export const storiesIn = (section) => stories.filter((s) => s.section === section);
 export const storiesTagged = (tag) => stories.filter((s) => s.tags.includes(tag));
+export const storiesInSeries = (slug) => stories.filter((s) => s.series === slug);
 export const storiesBy = (staffSlug) => stories.filter((s) => s.bylines.includes(staffSlug) || s.editor === staffSlug);
 
 // Every correction on every published story, newest first, for the log.

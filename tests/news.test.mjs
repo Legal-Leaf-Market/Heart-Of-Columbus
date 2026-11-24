@@ -94,6 +94,7 @@ test('checkStory catches each broken rule', () => {
   bad({ images: [{ file: 'https://example.org/a.jpg', alt: 'A' }] }, /credit/);
   bad({ images: [{ file: 'https://example.org/a.jpg', credit: 'C', license: 'L' }] }, /alt/);
   bad({ sources: [{ name: 'No link' }] }, /source/);
+  bad({ images: [{ file: 'https://example.org/a.jpg', alt: 'A', credit: 'C', license: 'L', creditUrl: 'javascript:alert(1)' }] }, /creditUrl/);
   bad({ body: 'One — two' }, /dash/);
   bad({ sample: false, bylines: ['jacob-kennedy'], editor: 'jacob-kennedy' }, /own story/);
   bad({ sample: false, bylines: ['sample-reporter'] }, /byline/);
@@ -269,6 +270,18 @@ test('a game story carries a checked box score, typed by the writer', () => {
   const html = read('news/samples/sampleton-game-story/index.html');
   for (const want of ['np-game', 'Final, Overtime', 'Sample Sharks', '<td>4</td>', 'Sampleton Arena']) assert.ok(html.includes(want), want);
   assert.ok(!read('sports/index.html').includes('Sampleton'), 'samples stay off /sports/');
+});
+
+test('a series story names a real series and carries its writer', () => {
+  assert.deepEqual(checkStory({ ...good, series: 'jake-takes-the-town' }), []);
+  assert.ok(checkStory({ ...good, headline: '[YOUR HEADLINE]' }).some((p) => /BRACKET/.test(p)), 'blanks block publishing');
+  assert.ok(checkStory({ ...good, body: 'Seats. Your rating: __ out of 5' }).some((p) => /BRACKET/.test(p)));
+  assert.deepEqual(checkStory({ ...good, headline: '[YOUR HEADLINE]', draft: true }), [], 'drafts may hold blanks');
+  assert.ok(checkStory({ ...good, series: 'made-up-series' }).some((p) => /series\.mjs/.test(p)));
+  assert.ok(checkStory({ ...good, sample: false, bylines: ['terry-winchester-ii'], editor: 'jacob-kennedy', series: 'jake-takes-the-town' }).some((p) => /must carry jacob-kennedy/.test(p)));
+  const html = read('news/series/jake-takes-the-town/index.html');
+  assert.ok(html.includes('Jake Takes the Town'));
+  assert.ok(!/\[YOUR /.test(html), 'drafts stay off the series page');
 });
 
 // ---------- Newsletter, games, membership and sponsors (items 8, 11, 12) ----------

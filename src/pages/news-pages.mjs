@@ -9,7 +9,8 @@ import { civicPages } from './civic-pages.mjs';
 import { habitPages, storyAsk } from './habit-pages.mjs';
 import { sponsorSlot } from '../news/sponsor-slot.mjs';
 import { cmsPage } from '../news/cms.mjs';
-import { ALL_STORIES, SAMPLES, stories, storiesIn, storiesBy, correctionsLog } from '../news/content.mjs';
+import { ALL_STORIES, SAMPLES, stories, storiesIn, storiesInSeries, storiesBy, correctionsLog } from '../news/content.mjs';
+import { SERIES, seriesBySlug, seriesHref } from '../news/series.mjs';
 import { SECTIONS, sectionBySlug, sectionHref } from '../news/sections.mjs';
 import { disclosures } from '../news/disclosure.mjs';
 import { storyList, storyCard, label, byline, editorLine, fmtWhen, fmtDate } from '../news/render.mjs';
@@ -114,6 +115,9 @@ const gameBox = (g) => {
   <p class="np-game-where">${t(g.venue)}, ${fmtDate(g.date)}</p></aside>`;
 };
 
+// A photo credit, linked to the photographer's own page when the story gives one.
+const credit = (im) => `${im.creditUrl ? `<a href="${esc(im.creditUrl)}" target="_blank" rel="noopener">${esc(im.credit)}</a>` : esc(im.credit)}, ${esc(im.license)}`;
+
 export function storyBody(s) {
   const major = s.corrections.filter((c) => c.major);
   const minor = s.corrections.filter((c) => !c.major);
@@ -122,7 +126,7 @@ export function storyBody(s) {
   return `
 <article class="wrap np-story">
   <header class="np-story-head">
-    <p class="np-story-kick">${label(s)} <a href="${sectionHref(sectionBySlug[s.section])}">${esc(sectionBySlug[s.section].name)}</a></p>
+    <p class="np-story-kick">${label(s)} <a href="${sectionHref(sectionBySlug[s.section])}">${esc(sectionBySlug[s.section].name)}</a>${s.series && seriesBySlug[s.series] ? ` <a class="np-series" href="${seriesHref(seriesBySlug[s.series])}">${esc(seriesBySlug[s.series].name)}</a>` : ''}</p>
     <h1>${t(s.headline)}</h1>
     ${s.dek ? `<p class="np-dek">${t(s.dek)}</p>` : ''}
     <p class="np-byline">${byline(s)}</p>
@@ -130,12 +134,12 @@ export function storyBody(s) {
   </header>
   ${disc.map((d) => `<p class="np-disclose" data-kind="${d.kind}"><strong>Disclosure:</strong> ${esc(d.text)}</p>`).join('')}
   ${major.length ? `<aside class="np-corr np-corr-top" aria-label="Corrections"><h2>Correction</h2><ul>${major.map(correction).join('')}</ul></aside>` : ''}
-  ${img ? `<figure class="np-fig"><img src="${esc(img.file)}" alt="${esc(img.alt)}"><figcaption>${img.caption ? `${t(img.caption)} ` : ''}<span class="np-credit">${esc(img.credit)}, ${esc(img.license)}</span></figcaption></figure>` : ''}
+  ${img ? `<figure class="np-fig"><img src="${esc(img.file)}" alt="${esc(img.alt)}"><figcaption>${img.caption ? `${t(img.caption)} ` : ''}<span class="np-credit">${credit(img)}</span></figcaption></figure>` : ''}
   ${s.developing ? `<aside class="np-dev" aria-label="Developing story"><p class="kicker">Developing story</p><div><h2>What we know</h2><ul>${s.developing.know.map((x) => `<li>${t(x)}</li>`).join('')}</ul></div><div><h2>What we don’t know yet</h2><ul>${s.developing.dontKnow.map((x) => `<li>${t(x)}</li>`).join('')}</ul></div></aside>` : ''}
   ${s.meeting ? meetingBox(s.meeting, s.sample) : ''}
   ${s.game ? gameBox(s.game) : ''}
   <div class="np-prose">${s.html}</div>
-  ${s.images.slice(1).map((im) => `<figure class="np-fig"><img src="${esc(im.file)}" alt="${esc(im.alt)}" loading="lazy"><figcaption>${im.caption ? `${t(im.caption)} ` : ''}<span class="np-credit">${esc(im.credit)}, ${esc(im.license)}</span></figcaption></figure>`).join('')}
+  ${s.images.slice(1).map((im) => `<figure class="np-fig"><img src="${esc(im.file)}" alt="${esc(im.alt)}" loading="lazy"><figcaption>${im.caption ? `${t(im.caption)} ` : ''}<span class="np-credit">${credit(im)}</span></figcaption></figure>`).join('')}
   <footer class="np-trust">
     ${s.sources.length ? `<section id="references"><h2>References</h2><ul>${s.sources.map((x) => `<li>${x.url ? `<a href="${esc(x.url)}" target="_blank" rel="noopener">${t(x.name)}</a> <span class="np-host">${esc(host(x.url))}</span>` : t(x.name)}${x.note ? `, ${t(x.note)}` : ''}</li>`).join('')}</ul></section>` : ''}
     ${s.methods ? `<section id="methods"><h2>How we reported this</h2><p>${t(s.methods)}</p></section>` : ''}
@@ -170,6 +174,16 @@ function sectionPage(ctx, sec) {
 </section>
 ${sec.events ? eventsSection({ mode: 'upcoming', id: 'whats-on', title: 'What’s on', kicker: 'Signature events' }) : ''}`;
   return newsPage({ ...ctx, path: sectionHref(sec), title: sec.name, description: sec.blurb, crumbs: [['/news/', 'News'], ['', sec.name]], body, scripts: sec.events ? ['hub.js', 'events.js'] : [] });
+}
+
+function seriesPage(ctx, sr) {
+  const items = storiesInSeries(sr.slug);
+  const body = `
+<section class="wrap np-section">
+  <header class="np-doc-head"><p class="kicker">A series</p><h1>${esc(sr.name)}</h1><p class="np-dek">${esc(sr.blurb)}</p></header>
+  ${storyList(items, { empty: `The first ${sr.name} story is on its way.` })}
+</section>`;
+  return newsPage({ ...ctx, path: seriesHref(sr), title: sr.name, description: sr.blurb, crumbs: [['/news/', 'News'], ['', sr.name]], body });
 }
 
 function samplesPage(ctx) {
@@ -222,6 +236,7 @@ export function newsPages(ctx) {
     ...SECTIONS.filter((s) => !s.href).map((s) => ({ path: `news/${s.slug}/index.html`, html: sectionPage(ctx, s) })),
     ...ALL_STORIES.map((s) => ({ path: `${s.href.slice(1)}index.html`, html: storyPage(ctx, s) })),
     { path: 'news/samples/index.html', html: samplesPage(ctx) },
+    ...SERIES.map((sr) => ({ path: `${seriesHref(sr).slice(1)}index.html`, html: seriesPage(ctx, sr) })),
     { path: 'news/alert/index.html', html: alertPage(ctx) },
     { path: 'admin/index.html', html: cmsPage() },
     ...SAMPLES.map((s) => ({ path: `${s.href.slice(1)}index.html`, html: storyPage(ctx, s) })),
