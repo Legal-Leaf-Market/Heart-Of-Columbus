@@ -365,3 +365,30 @@ test('news stories print as a newspaper page; history keeps the e-reader', () =>
   const front = read('news/index.html');
   if (stories[0] === s) assert.ok(front.includes('np-lead-sticker'), 'the lead carries its first sticker');
 });
+
+// ---------- The newsletter morning job (netlify/functions/newsletter.mjs) ----------
+import { makeDraft } from '../netlify/functions/newsletter.mjs';
+
+test('the morning job makes one Buttondown draft per day, never sends, and fails closed', async () => {
+  const calls = [];
+  const kv = new Map();
+  const store = { getJSON: async (k) => kv.get(k) ?? null, setJSON: async (k, v) => { kv.set(k, v); } };
+  const fake = (edition) => async (url, init) => {
+    calls.push({ url, init });
+    if (url.includes('/newsletter/editions/')) return edition ? new Response(JSON.stringify(edition)) : new Response('', { status: 404 });
+    return new Response(JSON.stringify({ id: 'em_1' }), { status: 201 });
+  };
+  const ed = { date: '2026-11-24', subject: 'Heart of Columbus, Tuesday, November 24', html: '<p>Hi</p>', fresh: 2 };
+  const quiet = () => {};
+  assert.equal((await makeDraft({ key: '', origin: 'https://x', date: ed.date, store, fetchFn: fake(ed), log: quiet })).reason, 'no-key');
+  assert.equal(calls.length, 0, 'no key, no requests');
+  const r = await makeDraft({ key: 'k', origin: 'https://x', date: ed.date, store, fetchFn: fake(ed), log: quiet });
+  assert.equal(r.reason, 'drafted');
+  const post = calls.find((c) => c.init?.method === 'POST');
+  assert.equal(JSON.parse(post.init.body).status, 'draft', 'drafts only, never sends');
+  assert.equal(post.init.headers.authorization, 'Token k');
+  assert.equal((await makeDraft({ key: 'k', origin: 'https://x', date: ed.date, store, fetchFn: fake(ed), log: quiet })).reason, 'already', 'a retry makes no second draft');
+  assert.equal((await makeDraft({ key: 'k', origin: 'https://x', date: '2026-11-25', store, fetchFn: fake({ ...ed, date: '2026-11-25', fresh: 0 }), log: quiet })).reason, 'nothing-new');
+  assert.equal((await makeDraft({ key: 'k', origin: 'https://x', date: '2026-11-26', store, fetchFn: fake(null), log: quiet })).reason, 'no-edition');
+  assert.ok(existsSync(new URL('newsletter/editions/', dist)), 'the build writes editions');
+});

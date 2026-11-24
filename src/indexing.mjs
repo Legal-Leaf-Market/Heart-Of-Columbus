@@ -24,6 +24,7 @@ export const NEVER_INDEX = [
   ['/owners/inbox/', 'private owner inbox'],
   ['/obituaries/review/', 'private review queue'],
   ['/admin/', 'newsroom CMS'],
+  ['/newsletter/editions/', 'newsletter drafts for the morning job, read before they are sent'],
   ['/saved/', "a visitor's own list"],
   ['/explore/', 'search and map tool; categories and neighborhoods carry the same listings'],
   ['/events/print/', 'printable copy of /events/'],

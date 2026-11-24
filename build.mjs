@@ -15,6 +15,7 @@ import { landmarkPages } from './src/pages/landmark-pages.mjs';
 import { icsFeed } from './src/pages/events.mjs';
 import { finalizeSeo } from './src/seo.mjs';
 import { ORIGIN } from './src/jsonld.mjs';
+import { upcomingEditions } from './src/news/editions.mjs';
 import { prepareImages, responsiveImages } from './scripts/images.mjs';
 import { holidayPages } from './src/pages/holiday-pages.mjs';
 import { filmPages } from './src/pages/film-pages.mjs';
@@ -97,6 +98,9 @@ await mkdir(new URL('admin/', out), { recursive: true });
 await writeFile(new URL('admin/config.yml', out), cmsConfig());
 await mkdir(new URL('history/', out), { recursive: true });
 await writeFile(new URL('history/articles.json', out), articlesJson());
+// The newsletter's next seven editions, for the morning job (src/news/editions.mjs).
+await mkdir(new URL('newsletter/editions/', out), { recursive: true });
+for (const ed of upcomingEditions()) await writeFile(new URL(`newsletter/editions/${ed.date}.json`, out), JSON.stringify(ed));
 // The robots meta is decided here, per path, by the one policy in
 // src/indexing.mjs. The layout leaves a marker so no page can opt itself in.
 for (const p of pages) {

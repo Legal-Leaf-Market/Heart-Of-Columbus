@@ -42,7 +42,16 @@ export const AI_POLICY = [
 // service (Buttondown, beehiiv, Ghost...) handles double opt-in, sending
 // and one-click unsubscribe. TODO(owner): pick the service, then set its
 // public signup form address here; until then /newsletter/ says it's coming.
-export const NEWSLETTER = { provider: '', signupAction: '', archive: '' };
+// The newsletter runs on Buttondown. Set HOC_BUTTONDOWN_USER (the newsletter's
+// Buttondown username) in Netlify and the signup form turns on at the next
+// build; BUTTONDOWN_API_KEY turns on the morning draft job
+// (netlify/functions/newsletter.mjs). Both unset: the page says signup opens soon.
+const BD_USER = (process.env.HOC_BUTTONDOWN_USER || '').trim().replace(/[^a-z0-9_-]/gi, '');
+export const NEWSLETTER = {
+  provider: BD_USER ? 'buttondown' : '',
+  signupAction: BD_USER ? `https://buttondown.com/api/emails/embed-subscribe/${BD_USER}` : '',
+  archive: BD_USER ? `https://buttondown.com/${BD_USER}/archive/` : '',
+};
 
 // TODO(owner): memberships mean taking payment, which CLAUDE.md rules out
 // for business orders but doesn't decide for the paper itself. Until you
