@@ -37,7 +37,11 @@ congregation in town, of every faith, by area and by faith, plus nonprofits.
 - [ ] Known gap until Google runs: only St. Bartholomew under Catholic
       (St. Columba and others are not in OSM or the IRS list)
 - [ ] Later: one page per congregation, a map layer, search entries
-- [ ] `/nonprofits/` by kind
+- [x] `/nonprofits/` (live): 332 charities, clubs and civic groups from the
+      IRS list, grouped by what they do, with a search box and each group's
+      public filings (ProPublica). Town only, never a street. Congregations
+      (on /worship/), private foundations, benefit trusts and credit unions
+      left out. Linked from /help/. Tests in tests/nonprofits.test.mjs
 
 ### The desk: morning newsletter writing (`claude/newsroom-desk`, [#129](https://github.com/Legal-Leaf-Market/Heart-Of-Columbus/pull/129))
 - [x] Owner decision: AI drafts newsletter pieces from the publisher's angle,
