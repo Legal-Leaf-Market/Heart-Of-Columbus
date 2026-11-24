@@ -60,6 +60,24 @@ congregation in town, of every faith, by area and by faith, plus nonprofits.
 - [ ] Later: overnight lead gathering into the idea bank (council agendas,
       directory changes, events), and "publish to the site" for a piece
 
+### Apartments and landlords (not started; owner request 2026-11-24)
+Today the directory has one property manager (Bullet Property Management)
+and no apartment buildings.
+- [ ] Apartment buildings and complexes: pull from Google Maps (Places API,
+      same key as worship: types `apartment_building`, `apartment_complex`)
+      plus OpenStreetMap `building=apartments` with a name; address, website,
+      phone, leasing office hours from the listing only. No rents or reviews
+      unless the building publishes them
+- [ ] Property managers and landlords that operate as a business (Google
+      Maps "property management" and "real estate rental agency" around Columbus)
+- [ ] The publisher's picks: Columbus Rental Property and Travis Mauser,
+      recommended by the publisher as inexpensive. Show as the publisher's
+      own recommendation, labeled as such, not as a fact or a rating. Before
+      listing a private person by name, confirm they rent publicly as a
+      business (a business name, website or listing) and ask them
+- [ ] A `/housing/` page: buildings by area, managers, and links to tenant
+      help already in `/help/`
+
 ## Bugs found along the way
 - [x] `/newsroom/inbox/` sent the admin key as `?k=` in the address, against
       the house rule. Fixed in #129: #k=, session storage, `x-hoc-key` header
