@@ -26,7 +26,7 @@ Eli and I made up as friends recently. I greeted her with a, "life's short" and 
 
 ## Getting there
 
-[Drive time from Columbus, where you parked, what it cost, how long it took to get in.]
+Easy drive from Columbus, and parking was not hard to figure out and inexpensive.
 
 ## The view from my seat
 
@@ -52,7 +52,9 @@ Jake's note so far: staff were friendly.
 
 ## The show
 
-[Intros, lights, music, the video board, timeouts, halftime. What landed and what didn't. Your rating: __ out of 5]
+They had an elementary choir sing the national anthem and a middle school aged dance group. Both were phenomenal.
+
+[Anything else: the flame cannons, intros, music, video board. Your rating: __ out of 5]
 
 ## The game
 
