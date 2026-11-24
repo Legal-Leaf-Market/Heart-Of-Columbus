@@ -10,15 +10,10 @@ export const COMMERCE = {
    "wix-stores",
    "wordpress"
   ],
-  "origin": "https://www.artsincolumbus.org/",
+  "origin": "https://www.artsincolumbus.org",
   "feed": false,
   "store": "",
-  "order": [
-   {
-    "label": "Square",
-    "url": "https://square.link/u/NIsc97ej"
-   }
-  ],
+  "order": [],
   "book": []
  },
  "4th-street-bar-and-grill": {
@@ -26,7 +21,7 @@ export const COMMERCE = {
   "stack": [
    "godaddy"
   ],
-  "origin": "https://4thstreetbar.com/",
+  "origin": "https://4thstreetbar.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -38,7 +33,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.astepaheadpediatrictherapy.org/",
+  "origin": "https://www.astepaheadpediatrictherapy.org",
   "feed": false,
   "store": "",
   "order": [],
@@ -62,7 +57,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.accuratein.com/",
+  "origin": "https://www.accuratein.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -73,7 +68,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://adaptiveindiana.com/",
+  "origin": "https://adaptiveindiana.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -85,7 +80,7 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://www.aracities.org/",
+  "origin": "https://www.aracities.org",
   "feed": false,
   "store": "",
   "order": [],
@@ -98,7 +93,7 @@ export const COMMERCE = {
    "duda",
    "webflow"
   ],
-  "origin": "https://www.advancedautocare.co/",
+  "origin": "https://www.advancedautocare.co",
   "feed": false,
   "store": "",
   "order": [],
@@ -115,7 +110,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://eazyasabc.com/",
+  "origin": "https://eazyasabc.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -134,7 +129,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://advantageone.biz/",
+  "origin": "https://advantageone.biz",
   "feed": false,
   "store": "",
   "order": [],
@@ -153,7 +148,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://skinsolutionsaci.com/",
+  "origin": "https://skinsolutionsaci.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -164,7 +159,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.asocpa.com/",
+  "origin": "https://www.asocpa.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -176,20 +171,20 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://alivollmerdesign.com/",
+  "origin": "https://alivollmerdesign.com",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "align-columbus-chiropractic": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "health-booking",
    "wix",
    "wordpress"
   ],
-  "origin": "https://www.inmanchiro.com/",
+  "origin": "https://www.inmanchiro.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -205,7 +200,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://aliviohealth.com/",
+  "origin": "https://aliviohealth.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -216,18 +211,18 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.jandjdriving.com/",
+  "origin": "https://www.jandjdriving.com",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "am-home-inspection-services": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix"
   ],
-  "origin": "https://www.amhomeservices.net/",
+  "origin": "https://www.amhomeservices.net",
   "feed": false,
   "store": "",
   "order": [],
@@ -239,13 +234,13 @@ export const COMMERCE = {
    "square-online",
    "weebly"
   ],
-  "origin": "https://www.amazingjoes.com/",
+  "origin": "https://www.amazingjoes.com",
   "feed": false,
   "store": "",
   "order": [
    {
     "label": "Square Online",
-    "url": "https://www.amazingjoes.com/"
+    "url": "https://www.amazingjoes.com"
    }
   ],
   "book": [],
@@ -260,7 +255,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://www.aei-tech.com/",
+  "origin": "https://www.aei-tech.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -272,7 +267,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.andersontherapygroup.org/",
+  "origin": "https://www.andersontherapygroup.org",
   "feed": false,
   "store": "",
   "order": [],
@@ -283,7 +278,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://anncoridenlaw.com/",
+  "origin": "https://anncoridenlaw.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -294,7 +289,7 @@ export const COMMERCE = {
   "stack": [
    "booksy"
   ],
-  "origin": "https://booksy.com/",
+  "origin": "https://booksy.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -312,7 +307,7 @@ export const COMMERCE = {
    "wix-stores",
    "wordpress"
   ],
-  "origin": "https://www.appliancemartss.com/",
+  "origin": "https://www.appliancemartss.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -324,29 +319,29 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://arshem.com/",
+  "origin": "https://arshem.com",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "artisan-roofing-llc": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix"
   ],
-  "origin": "https://www.artisanroofingllc.com/",
+  "origin": "https://www.artisanroofingllc.com",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "arts-cleaners": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix"
   ],
-  "origin": "https://www.arts-cleaners.com/",
+  "origin": "https://www.arts-cleaners.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -359,7 +354,7 @@ export const COMMERCE = {
    "wix-stores",
    "wordpress"
   ],
-  "origin": "https://www.ascend-counseling.com/",
+  "origin": "https://www.ascend-counseling.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -370,7 +365,7 @@ export const COMMERCE = {
   "stack": [
    "shopify"
   ],
-  "origin": "https://ahwheartland.com/",
+  "origin": "https://ahwheartland.com",
   "feed": true,
   "store": "",
   "order": [],
@@ -383,7 +378,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://athensanimalclinic.com/",
+  "origin": "https://athensanimalclinic.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -400,7 +395,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://selfstorageofcolumbus.com/",
+  "origin": "https://selfstorageofcolumbus.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -411,7 +406,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://audiomagicentertainment.com/",
+  "origin": "https://audiomagicentertainment.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -424,7 +419,7 @@ export const COMMERCE = {
    "wix-stores",
    "wordpress"
   ],
-  "origin": "https://www.audiosourceinc.com/",
+  "origin": "https://www.audiosourceinc.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -436,7 +431,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://helpingpeoplewithcars.com/",
+  "origin": "https://helpingpeoplewithcars.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -449,7 +444,7 @@ export const COMMERCE = {
    "wix-stores",
    "wordpress"
   ],
-  "origin": "https://angelcapales.wixsite.com/",
+  "origin": "https://angelcapales.wixsite.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -465,7 +460,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://automotivecolor.us/",
+  "origin": "https://automotivecolor.us",
   "feed": false,
   "store": "",
   "order": [],
@@ -476,7 +471,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "http://axsomfrankeplumbing.com/",
+  "origin": "http://axsomfrankeplumbing.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -488,7 +483,7 @@ export const COMMERCE = {
    "home-services-booking",
    "wordpress"
   ],
-  "origin": "https://www.bbplumbingservice.com/",
+  "origin": "https://www.bbplumbingservice.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -506,7 +501,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://balancecolumbus.com/",
+  "origin": "https://balancecolumbus.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -522,7 +517,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://zucklaw.com/",
+  "origin": "https://zucklaw.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -530,7 +525,7 @@ export const COMMERCE = {
  },
  "bardonner-dentistry": {
   "platform": "",
-  "origin": "https://www.bardonnerdentistry.com/",
+  "origin": "https://www.bardonnerdentistry.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -547,7 +542,7 @@ export const COMMERCE = {
    "pet-booking",
    "wordpress"
   ],
-  "origin": "https://barkavenuecolumbus.com/",
+  "origin": "https://barkavenuecolumbus.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -559,22 +554,22 @@ export const COMMERCE = {
   ]
  },
  "beckemeyer-insurance-inc": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix"
   ],
-  "origin": "https://www.beckemeyerinsuranceagency.com/",
+  "origin": "https://www.beckemeyerinsuranceagency.com",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "bei-bambini": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix"
   ],
-  "origin": "https://www.beibambini.com/",
+  "origin": "https://www.beibambini.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -586,18 +581,18 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://www.benchmarkhomesllc.com/",
+  "origin": "https://www.benchmarkhomesllc.com",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "bespoke-events-experiences": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix"
   ],
-  "origin": "https://www.experiencebespoke.co/",
+  "origin": "https://www.experiencebespoke.co",
   "feed": false,
   "store": "",
   "order": [],
@@ -609,24 +604,11 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://bfanimal.com/",
+  "origin": "https://bfanimal.com",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
- },
- "best-in-sight-eye-care": {
-  "platform": "",
-  "origin": "https://www.bestinsighteyecare.com/",
-  "feed": false,
-  "store": "",
-  "order": [],
-  "book": [
-   {
-    "label": "appointment request",
-    "url": "https://www.bestinsighteyecare.com/request-an-appointment.html"
-   }
-  ]
  },
  "best-one-tire-and-service": {
   "platform": "wordpress",
@@ -643,7 +625,7 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://www.bethsdancenter.com/",
+  "origin": "https://www.bethsdancenter.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -659,7 +641,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://bettner.com/",
+  "origin": "https://bettner.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -671,7 +653,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://blackjewell.com/",
+  "origin": "https://blackjewell.com",
   "feed": true,
   "store": "",
   "order": [],
@@ -685,7 +667,7 @@ export const COMMERCE = {
    "squarespace-commerce",
    "toast"
   ],
-  "origin": "https://www.blksheeppizza.com/",
+  "origin": "https://www.blksheeppizza.com",
   "feed": false,
   "store": "",
   "order": [
@@ -712,7 +694,7 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://www.blackerbyshangar5.com/",
+  "origin": "https://www.blackerbyshangar5.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -724,7 +706,7 @@ export const COMMERCE = {
    "booking-other",
    "wordpress"
   ],
-  "origin": "https://blondiescolumbus.com/",
+  "origin": "https://blondiescolumbus.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -744,7 +726,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.blueandco.com/",
+  "origin": "https://www.blueandco.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -757,9 +739,10 @@ export const COMMERCE = {
    "square-online",
    "webflow",
    "weebly",
+   "woocommerce",
    "wordpress"
   ],
-  "origin": "https://www.boudoirbynaomi.com/",
+  "origin": "https://www.boudoirbynaomi.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -775,7 +758,7 @@ export const COMMERCE = {
   "stack": [
    "shopify"
   ],
-  "origin": "https://www.boutiqueelise.com/",
+  "origin": "https://www.boutiqueelise.com",
   "feed": true,
   "store": "",
   "order": [],
@@ -786,7 +769,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://boyermachine.com/",
+  "origin": "https://boyermachine.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -798,7 +781,7 @@ export const COMMERCE = {
    "square-appointments",
    "square-online"
   ],
-  "origin": "https://breathesaltair.com/",
+  "origin": "https://breathesaltair.com",
   "feed": false,
   "store": "https://breathe-halotherapy-wellness-center.square.site/",
   "order": [],
@@ -814,12 +797,12 @@ export const COMMERCE = {
   }
  },
  "breeden-commercial": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix",
    "wordpress"
   ],
-  "origin": "https://www.breedencommercial.com/",
+  "origin": "https://www.breedencommercial.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -831,7 +814,7 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://www.britbobbins.com/",
+  "origin": "https://www.britbobbins.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -842,7 +825,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.broadwinglegal.com/",
+  "origin": "https://www.broadwinglegal.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -854,7 +837,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.brownhillnursery.org/",
+  "origin": "https://www.brownhillnursery.org",
   "feed": false,
   "store": "",
   "order": [],
@@ -866,7 +849,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.brownsbrazilianjiujitsu.com/",
+  "origin": "https://www.brownsbrazilianjiujitsu.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -877,7 +860,7 @@ export const COMMERCE = {
   "stack": [
    "godaddy"
   ],
-  "origin": "https://bulletpropertymanagement.com/",
+  "origin": "https://bulletpropertymanagement.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -890,7 +873,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.bunsandbeardsbeauty.com/",
+  "origin": "https://www.bunsandbeardsbeauty.com",
   "feed": false,
   "store": "https://buns-and-beards-salonspa.square.site/",
   "order": [],
@@ -902,7 +885,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.burtspestcontrol.com/",
+  "origin": "https://www.burtspestcontrol.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -913,7 +896,7 @@ export const COMMERCE = {
   "stack": [
    "godaddy"
   ],
-  "origin": "https://bky4less.info/",
+  "origin": "https://bky4less.info",
   "feed": false,
   "store": "",
   "order": [],
@@ -925,7 +908,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.carpetmaniafloors.com/",
+  "origin": "https://www.carpetmaniafloors.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -942,7 +925,7 @@ export const COMMERCE = {
    "doordash-storefront",
    "wordpress"
   ],
-  "origin": "https://chicagospizza.com/",
+  "origin": "https://chicagospizza.com",
   "feed": false,
   "store": "",
   "order": [
@@ -959,7 +942,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.chumleysdoghouse.com/",
+  "origin": "https://www.chumleysdoghouse.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -971,19 +954,19 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://cinleecleaning.com/",
+  "origin": "https://cinleecleaning.com",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "circle-city-signings": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "calendly",
    "wix"
   ],
-  "origin": "https://www.circlecitysignings.com/",
+  "origin": "https://www.circlecitysignings.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -997,21 +980,15 @@ export const COMMERCE = {
  "ciscos-barber-shop": {
   "platform": "wix-stores",
   "stack": [
-   "booksy",
    "wix",
    "wix-stores",
    "wordpress"
   ],
-  "origin": "https://www.ciscos.site/",
+  "origin": "https://www.ciscos.site",
   "feed": false,
   "store": "",
   "order": [],
-  "book": [
-   {
-    "label": "Booksy",
-    "url": "https://booksy.com/en-us/256160_ciscos-barber-tattoo_barber-shop_19373_columbus/staffer/1609761#ba_s=dl_1"
-   }
-  ]
+  "book": []
  },
  "clarke-electrical-services-llc": {
   "platform": "wix-stores",
@@ -1019,7 +996,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.cespowerpros.com/",
+  "origin": "https://www.cespowerpros.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1031,7 +1008,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.clearchoicechiroportland.com/",
+  "origin": "https://www.clearchoicechiroportland.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1042,7 +1019,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.cmrelectric.net/",
+  "origin": "https://www.cmrelectric.net",
   "feed": false,
   "store": "",
   "order": [],
@@ -1053,7 +1030,7 @@ export const COMMERCE = {
   "stack": [
    "health-booking"
   ],
-  "origin": "https://www.coersfamilyeyecare.com/",
+  "origin": "https://www.coersfamilyeyecare.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1071,18 +1048,18 @@ export const COMMERCE = {
    "wix-stores",
    "wordpress"
   ],
-  "origin": "https://www.collegemoversandhauling.com/",
+  "origin": "https://www.collegemoversandhauling.com",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "columbus-advanced-family-dentistry": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix"
   ],
-  "origin": "https://www.columbusdentalgroup.com/",
+  "origin": "https://www.columbusdentalgroup.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1093,7 +1070,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://columbusaudiology.com/",
+  "origin": "https://columbusaudiology.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1105,7 +1082,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://thecolumbusbar.com/",
+  "origin": "https://thecolumbusbar.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1116,7 +1093,7 @@ export const COMMERCE = {
   "stack": [
    "godaddy"
   ],
-  "origin": "https://columbusbowlingcenter.com/",
+  "origin": "https://columbusbowlingcenter.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1127,7 +1104,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.columbuscarpetinc.com/",
+  "origin": "https://www.columbuscarpetinc.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1138,7 +1115,7 @@ export const COMMERCE = {
   "stack": [
    "home-services-booking"
   ],
-  "origin": "https://columbuschemdry.com/",
+  "origin": "https://columbuschemdry.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1155,18 +1132,18 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.columbuscounselingpartners.com/",
+  "origin": "https://www.columbuscounselingpartners.com",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "columbus-dental-group": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix"
   ],
-  "origin": "https://www.columbusdentalgroup.com/",
+  "origin": "https://www.columbusdentalgroup.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1179,18 +1156,18 @@ export const COMMERCE = {
    "wix-stores",
    "wordpress"
   ],
-  "origin": "https://www.columbusdentalsmile.com/",
+  "origin": "https://www.columbusdentalsmile.com",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "columbus-endodontics": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix"
   ],
-  "origin": "https://www.columbusendo.net/",
+  "origin": "https://www.columbusendo.net",
   "feed": false,
   "store": "",
   "order": [],
@@ -1201,7 +1178,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://cbusfit.com/",
+  "origin": "https://cbusfit.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1209,7 +1186,7 @@ export const COMMERCE = {
  },
  "columbus-greeks-pizzeria": {
   "platform": "",
-  "origin": "https://www.greekspizzeria.com/",
+  "origin": "https://www.greekspizzeria.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1224,7 +1201,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://columbusparksandrec.com/",
+  "origin": "https://columbusparksandrec.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1236,7 +1213,7 @@ export const COMMERCE = {
    "vagaro",
    "wordpress"
   ],
-  "origin": "https://www.columbusmassagecenter.com/",
+  "origin": "https://www.columbusmassagecenter.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1253,18 +1230,18 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://columbusoutdoorpower.com/",
+  "origin": "https://columbusoutdoorpower.com",
   "feed": true,
   "store": "",
   "order": [],
   "book": []
  },
  "columbus-pediatric-dentistry": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix"
   ],
-  "origin": "https://www.columbusdentalgroup.com/",
+  "origin": "https://www.columbusdentalgroup.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1276,7 +1253,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://www.columbusperioandimplants.com/",
+  "origin": "https://www.columbusperioandimplants.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1287,7 +1264,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://towingservicecolumbusindiana.com/",
+  "origin": "https://towingservicecolumbusindiana.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1299,7 +1276,7 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://www.columbusuppercuts.com/",
+  "origin": "https://www.columbusuppercuts.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1311,7 +1288,7 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://columbusveterinaryservices.com/",
+  "origin": "https://columbusveterinaryservices.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1323,7 +1300,7 @@ export const COMMERCE = {
    "drupal",
    "tours-tickets"
   ],
-  "origin": "https://visitcolumbusindiana.com/",
+  "origin": "https://visitcolumbusindiana.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1335,11 +1312,11 @@ export const COMMERCE = {
   ]
  },
  "columbus-warehouse-and-cartage": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix"
   ],
-  "origin": "https://www.columbuswarehouse.com/",
+  "origin": "https://www.columbuswarehouse.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1352,7 +1329,7 @@ export const COMMERCE = {
    "godaddy",
    "wordpress"
   ],
-  "origin": "https://columbuswealthinc.com/",
+  "origin": "https://columbuswealthinc.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1368,7 +1345,7 @@ export const COMMERCE = {
   "stack": [
    "shopify"
   ],
-  "origin": "https://cookieparadise.co/",
+  "origin": "https://cookieparadise.co",
   "feed": true,
   "store": "",
   "order": [],
@@ -1381,7 +1358,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://cooperelectricin.com/",
+  "origin": "https://cooperelectricin.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1397,7 +1374,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.corkliquor.com/",
+  "origin": "https://www.corkliquor.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1405,7 +1382,7 @@ export const COMMERCE = {
  },
  "cove-direct-primary-care-llc": {
   "platform": "",
-  "origin": "https://www.covedpc.com/",
+  "origin": "https://www.covedpc.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1422,7 +1399,7 @@ export const COMMERCE = {
    "square-online",
    "weebly"
   ],
-  "origin": "https://www.cozycauldronhairstudio.com/",
+  "origin": "https://www.cozycauldronhairstudio.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1435,7 +1412,18 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://www.craftandbounce.com/",
+  "origin": "https://www.craftandbounce.com",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": []
+ },
+ "creative-eyes-eyebrow-threading": {
+  "platform": "godaddy",
+  "stack": [
+   "godaddy"
+  ],
+  "origin": "https://threadedeyebrow.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1447,7 +1435,7 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://www.crossfitripcord.com/",
+  "origin": "https://www.crossfitripcord.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1459,7 +1447,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://daileyscnc.com/",
+  "origin": "https://daileyscnc.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1472,7 +1460,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://dance-by-design.com/",
+  "origin": "https://dance-by-design.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1483,18 +1471,18 @@ export const COMMERCE = {
   "stack": [
    "godaddy"
   ],
-  "origin": "https://dancestreetcolumbus.com/",
+  "origin": "https://dancestreetcolumbus.com",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "dancers-studio-inc": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix"
   ],
-  "origin": "https://www.dancers-studio.org/",
+  "origin": "https://www.dancers-studio.org",
   "feed": false,
   "store": "",
   "order": [],
@@ -1505,7 +1493,7 @@ export const COMMERCE = {
   "stack": [
    "booksy"
   ],
-  "origin": "https://booksy.com/",
+  "origin": "https://booksy.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1522,7 +1510,7 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://www.drdarrellday.com/",
+  "origin": "https://www.drdarrellday.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1534,7 +1522,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://daysofold.store/",
+  "origin": "https://daysofold.store",
   "feed": false,
   "store": "",
   "order": [],
@@ -1546,7 +1534,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://dcrellc.com/",
+  "origin": "https://dcrellc.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1563,7 +1551,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://www.deefamilydental.com/",
+  "origin": "https://www.deefamilydental.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1571,7 +1559,7 @@ export const COMMERCE = {
  },
  "dental-care-at-columbus-crossing": {
   "platform": "",
-  "origin": "https://dentalcareatcolumbuscrossing.com/",
+  "origin": "https://dentalcareatcolumbuscrossing.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1587,7 +1575,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://columbusdentalsolutions.com/",
+  "origin": "https://columbusdentalsolutions.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1595,10 +1583,7 @@ export const COMMERCE = {
  },
  "digitalaim-media": {
   "platform": "wordpress",
-  "stack": [
-   "wordpress"
-  ],
-  "origin": "https://www.digitalaimmedia.com/",
+  "origin": "https://www.digitalaimmedia.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1610,7 +1595,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.districtsixcolumbus.com/",
+  "origin": "https://www.districtsixcolumbus.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1627,7 +1612,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://divinefamilybbq.com/",
+  "origin": "https://divinefamilybbq.com",
   "feed": true,
   "store": "",
   "order": [
@@ -1644,7 +1629,7 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://divinehairstudio.squarespace.com/",
+  "origin": "https://divinehairstudio.squarespace.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1655,7 +1640,7 @@ export const COMMERCE = {
   "stack": [
    "booksy"
   ],
-  "origin": "https://booksy.com/",
+  "origin": "https://booksy.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1671,7 +1656,7 @@ export const COMMERCE = {
   "stack": [
    "godaddy"
   ],
-  "origin": "https://dogworlddaycare.net/",
+  "origin": "https://dogworlddaycare.net",
   "feed": false,
   "store": "",
   "order": [],
@@ -1683,7 +1668,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.donutcentralcolumbus.com/",
+  "origin": "https://www.donutcentralcolumbus.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1696,7 +1681,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.dorothysplayhouse.com/",
+  "origin": "https://www.dorothysplayhouse.com",
   "feed": false,
   "store": "https://dorothys-playhouse.square.site/s/order#7D5D35Y2STR2YVKZDKM54VFM",
   "order": [],
@@ -1711,7 +1696,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://emergencydental.com/",
+  "origin": "https://emergencydental.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1722,28 +1707,12 @@ export const COMMERCE = {
    }
   ]
  },
- "dr-tavel-family-eyecare": {
-  "platform": "woocommerce",
-  "stack": [
-   "woocommerce",
-   "wordpress"
-  ],
-  "origin": "https://www.drtavel.com/",
-  "feed": false,
-  "store": "",
-  "order": [],
-  "book": [],
-  "gift": {
-   "label": "their website",
-   "url": "https://www.drtavel.com/?page_id=9426"
-  }
- },
  "driftwood-builders-inc": {
   "platform": "wordpress",
   "stack": [
    "wordpress"
   ],
-  "origin": "https://driftwoodbuildersinc.com/",
+  "origin": "https://driftwoodbuildersinc.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1754,7 +1723,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://goduganair.com/",
+  "origin": "https://goduganair.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1765,7 +1734,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://dunlapinc.com/",
+  "origin": "https://dunlapinc.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1777,7 +1746,7 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://www.dunnbenefit.com/",
+  "origin": "https://www.dunnbenefit.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1789,7 +1758,7 @@ export const COMMERCE = {
    "doordash-storefront",
    "wordpress"
   ],
-  "origin": "https://www.elnopalmex.com/",
+  "origin": "https://www.elnopalmex.com",
   "feed": false,
   "store": "",
   "order": [
@@ -1822,18 +1791,18 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://eldersjourney.org/",
+  "origin": "https://eldersjourney.org",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "elevated-eye-care": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix"
   ],
-  "origin": "https://www.myeyedoctornearme.com/",
+  "origin": "https://www.myeyedoctornearme.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1845,7 +1814,7 @@ export const COMMERCE = {
    "mindbody",
    "wordpress"
   ],
-  "origin": "https://www.elitewellnesscolumbus.com/",
+  "origin": "https://www.elitewellnesscolumbus.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1861,7 +1830,7 @@ export const COMMERCE = {
   "stack": [
    "shopify"
   ],
-  "origin": "https://empiretea.com/",
+  "origin": "https://empiretea.com",
   "feed": true,
   "store": "",
   "order": [],
@@ -1872,7 +1841,7 @@ export const COMMERCE = {
   "stack": [
    "health-booking"
   ],
-  "origin": "https://empoweringkidspediatrictherapy.com/",
+  "origin": "https://empoweringkidspediatrictherapy.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1888,7 +1857,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://columbusrootcanal.com/",
+  "origin": "https://columbusrootcanal.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1900,12 +1869,12 @@ export const COMMERCE = {
   ]
  },
  "energy-balancing-holistic-wellness-center": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix",
    "wordpress"
   ],
-  "origin": "https://www.energybalancing444.com/",
+  "origin": "https://www.energybalancing444.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1916,7 +1885,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://erswireless.com/",
+  "origin": "https://erswireless.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1927,7 +1896,7 @@ export const COMMERCE = {
   "stack": [
    "godaddy"
   ],
-  "origin": "https://extremecleanlaundromat.com/",
+  "origin": "https://extremecleanlaundromat.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1938,7 +1907,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://familyallergy.com/",
+  "origin": "https://familyallergy.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1954,7 +1923,7 @@ export const COMMERCE = {
   "stack": [
    "godaddy"
   ],
-  "origin": "https://favoritebakery.net/",
+  "origin": "https://favoritebakery.net",
   "feed": false,
   "store": "",
   "order": [],
@@ -1965,7 +1934,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://jwinsurance.com/",
+  "origin": "https://jwinsurance.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1976,7 +1945,7 @@ export const COMMERCE = {
   "stack": [
    "godaddy"
   ],
-  "origin": "https://mfindleylaw.com/",
+  "origin": "https://mfindleylaw.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -1989,7 +1958,7 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://www.fireflyshirtcompany.com/",
+  "origin": "https://www.fireflyshirtcompany.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2005,7 +1974,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://firstcallinc.com/",
+  "origin": "https://firstcallinc.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2013,9 +1982,9 @@ export const COMMERCE = {
  },
  "flora-and-fauna-flowers": {
   "platform": "",
-  "origin": "https://modernfloristcolumbusindiana.com/",
+  "origin": "https://modernfloristcolumbusindiana.com",
   "feed": false,
-  "store": "https://modernfloristcolumbusindiana.com/",
+  "store": "https://modernfloristcolumbusindiana.com",
   "order": [],
   "book": []
  },
@@ -2025,7 +1994,7 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://flourishcolumbus.com/",
+  "origin": "https://flourishcolumbus.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2037,7 +2006,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.flowersfromthewoods.com/",
+  "origin": "https://www.flowersfromthewoods.com",
   "feed": false,
   "store": "https://www.flowersfromthewoods.com/shop",
   "order": [],
@@ -2049,7 +2018,7 @@ export const COMMERCE = {
    "shopify",
    "wordpress"
   ],
-  "origin": "https://safetyshoedistributors.com/",
+  "origin": "https://safetyshoedistributors.com",
   "feed": true,
   "store": "",
   "order": [],
@@ -2066,7 +2035,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.fortheloveofbrunch.com/",
+  "origin": "https://www.fortheloveofbrunch.com",
   "feed": false,
   "store": "",
   "order": [
@@ -2086,7 +2055,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://formanis.com/",
+  "origin": "https://formanis.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2098,11 +2067,12 @@ export const COMMERCE = {
   ]
  },
  "four-seasons-retirement-center": {
-  "platform": "wordpress",
+  "platform": "woocommerce",
   "stack": [
+   "woocommerce",
    "wordpress"
   ],
-  "origin": "https://www.fourseasonsretirement.com/",
+  "origin": "https://www.fourseasonsretirement.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2113,19 +2083,18 @@ export const COMMERCE = {
   "stack": [
    "godaddy"
   ],
-  "origin": "https://freshtakekitchen.com/",
+  "origin": "https://freshtakekitchen.com",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "gamso-law": {
-  "platform": "woocommerce",
+  "platform": "wordpress",
   "stack": [
-   "woocommerce",
    "wordpress"
   ],
-  "origin": "http://www.gamsolaw.com/",
+  "origin": "http://www.gamsolaw.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2137,7 +2106,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.garb2art.com/",
+  "origin": "https://www.garb2art.com",
   "feed": false,
   "store": "https://www.garb2art.com/shop",
   "order": [],
@@ -2149,7 +2118,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://garlandbrookcemetery.com/",
+  "origin": "https://garlandbrookcemetery.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2161,18 +2130,19 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://www.drgausmann.com/",
+  "origin": "https://www.drgausmann.com",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "gaylor-inc": {
-  "platform": "wordpress",
+  "platform": "woocommerce",
   "stack": [
+   "woocommerce",
    "wordpress"
   ],
-  "origin": "https://www.gaylor.com/",
+  "origin": "https://www.gaylor.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2184,7 +2154,7 @@ export const COMMERCE = {
    "godaddy",
    "wordpress"
   ],
-  "origin": "https://gehringunderground.com/",
+  "origin": "https://gehringunderground.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2195,7 +2165,7 @@ export const COMMERCE = {
   "stack": [
    "godaddy"
   ],
-  "origin": "https://gingerinkboutique.com/",
+  "origin": "https://gingerinkboutique.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2213,18 +2183,18 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.theriothaus.com/",
+  "origin": "https://www.theriothaus.com",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "glover-deweese-llc": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix"
   ],
-  "origin": "https://www.gloverdeweeselaw.com/",
+  "origin": "https://www.gloverdeweeselaw.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2235,7 +2205,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://gossipnailscolumbus.com/",
+  "origin": "https://gossipnailscolumbus.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2252,7 +2222,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://graciemaeevents.com/",
+  "origin": "https://graciemaeevents.com",
   "feed": true,
   "store": "",
   "order": [],
@@ -2270,7 +2240,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://grammerlogistics.com/",
+  "origin": "https://grammerlogistics.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2282,7 +2252,7 @@ export const COMMERCE = {
    "square-online",
    "weebly"
   ],
-  "origin": "https://gramz-bakery.square.site/",
+  "origin": "https://gramz-bakery.square.site",
   "feed": false,
   "store": "",
   "order": [
@@ -2295,7 +2265,7 @@ export const COMMERCE = {
  },
  "greenes-truck-auto-service": {
   "platform": "",
-  "origin": "https://www.greenestruckautoservice.com/",
+  "origin": "https://www.greenestruckautoservice.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2307,13 +2277,12 @@ export const COMMERCE = {
   ]
  },
  "greenwell-plumbing-heating-and-air": {
-  "platform": "woocommerce",
+  "platform": "wordpress",
   "stack": [
    "home-services-booking",
-   "woocommerce",
    "wordpress"
   ],
-  "origin": "https://greenwellservice.com/",
+  "origin": "https://greenwellservice.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2329,7 +2298,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://griegerstintandrestoration.com/",
+  "origin": "https://griegerstintandrestoration.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2342,9 +2311,9 @@ export const COMMERCE = {
    "square-online",
    "weebly"
   ],
-  "origin": "http://www.guardiank9columbus.com/",
+  "origin": "http://www.guardiank9columbus.com",
   "feed": false,
-  "store": "http://www.guardiank9columbus.com/",
+  "store": "http://www.guardiank9columbus.com",
   "order": [],
   "book": [
    {
@@ -2358,7 +2327,7 @@ export const COMMERCE = {
   "stack": [
    "glossgenius"
   ],
-  "origin": "https://alexdavis.glossgenius.com/",
+  "origin": "https://alexdavis.glossgenius.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2374,7 +2343,7 @@ export const COMMERCE = {
   "stack": [
    "glossgenius"
   ],
-  "origin": "https://chelisyfoster.glossgenius.com/",
+  "origin": "https://chelisyfoster.glossgenius.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2390,7 +2359,7 @@ export const COMMERCE = {
   "stack": [
    "glossgenius"
   ],
-  "origin": "https://savannaperry.glossgenius.com/",
+  "origin": "https://savannaperry.glossgenius.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2406,7 +2375,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://hawcreeklandscaping.com/",
+  "origin": "https://hawcreeklandscaping.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2417,7 +2386,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.helpuhear.net/",
+  "origin": "https://www.helpuhear.net",
   "feed": false,
   "store": "",
   "order": [],
@@ -2434,7 +2403,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://www.henrychiropracticcenter.com/",
+  "origin": "https://www.henrychiropracticcenter.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2446,7 +2415,7 @@ export const COMMERCE = {
    "glossgenius",
    "webflow"
   ],
-  "origin": "https://glossgenius.com/",
+  "origin": "https://glossgenius.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2467,7 +2436,7 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://www.hiddentreasuresfinderskeepers.com/",
+  "origin": "https://www.hiddentreasuresfinderskeepers.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2479,8 +2448,8 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://hikertrailers.com/",
-  "feed": false,
+  "origin": "https://hikertrailers.com",
+  "feed": true,
   "store": "",
   "order": [],
   "book": [
@@ -2495,7 +2464,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://hkautocolumbus.com/",
+  "origin": "https://hkautocolumbus.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2506,7 +2475,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://hnfelectric.com/",
+  "origin": "https://hnfelectric.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2517,7 +2486,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://hogmollybrewing.com/",
+  "origin": "https://hogmollybrewing.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2533,7 +2502,7 @@ export const COMMERCE = {
    "square-online",
    "weebly"
   ],
-  "origin": "https://www.honcura.net/",
+  "origin": "https://www.honcura.net",
   "feed": false,
   "store": "",
   "order": [],
@@ -2545,7 +2514,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.hoosierbrokers.com/",
+  "origin": "https://www.hoosierbrokers.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2561,7 +2530,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://hoosiersportinggoods.com/",
+  "origin": "https://hoosiersportinggoods.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2580,18 +2549,18 @@ export const COMMERCE = {
   "stack": [
    "shopify"
   ],
-  "origin": "https://hushaestheticswellness.com/",
+  "origin": "https://hushaestheticswellness.com",
   "feed": false,
   "store": "https://hushaw.myshopify.com/",
   "order": [],
   "book": []
  },
  "icing-on-the-cake-by-kristina": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix"
   ],
-  "origin": "https://www.icingonthecakebykristina.com/",
+  "origin": "https://www.icingonthecakebykristina.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2604,7 +2573,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://www.imprintpediatrictherapy.com/",
+  "origin": "https://www.imprintpediatrictherapy.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2615,7 +2584,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.instylekitchenandbaths.com/",
+  "origin": "https://www.instylekitchenandbaths.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2627,29 +2596,18 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://www.indianaconservatory.com/",
-  "feed": false,
-  "store": "",
-  "order": [],
-  "book": []
- },
- "indiana-insurance-solutions-inc": {
-  "platform": "wordpress",
-  "stack": [
-   "wordpress"
-  ],
-  "origin": "http://www.indianainsurancesolutions.com/",
+  "origin": "https://www.indianaconservatory.com",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "indiana-precast": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix"
   ],
-  "origin": "https://www.indianaprecastinc.com/",
+  "origin": "https://www.indianaprecastinc.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2662,7 +2620,7 @@ export const COMMERCE = {
    "wix-stores",
    "wordpress"
   ],
-  "origin": "https://www.indianaroadready.com/",
+  "origin": "https://www.indianaroadready.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2674,7 +2632,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.irwingardens.com/",
+  "origin": "https://www.irwingardens.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2686,7 +2644,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://innovacompany.co/",
+  "origin": "https://innovacompany.co",
   "feed": false,
   "store": "",
   "order": [],
@@ -2698,7 +2656,7 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://www.inspiremotives.com/",
+  "origin": "https://www.inspiremotives.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2710,7 +2668,7 @@ export const COMMERCE = {
    "godaddy",
    "wordpress"
   ],
-  "origin": "https://iifs.company/",
+  "origin": "https://iifs.company",
   "feed": false,
   "store": "",
   "order": [],
@@ -2721,7 +2679,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://integritywealthmanagement.org/",
+  "origin": "https://integritywealthmanagement.org",
   "feed": false,
   "store": "",
   "order": [],
@@ -2732,18 +2690,18 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://jnsoutfitters.com/",
+  "origin": "https://jnsoutfitters.com",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "j-clayton-callaway-dds": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix"
   ],
-  "origin": "https://www.callaway-dental.com/",
+  "origin": "https://www.callaway-dental.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2756,7 +2714,7 @@ export const COMMERCE = {
    "wix-stores",
    "wordpress"
   ],
-  "origin": "https://www.jacksonfamilytaxservice.com/",
+  "origin": "https://www.jacksonfamilytaxservice.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2767,7 +2725,7 @@ export const COMMERCE = {
   "stack": [
    "drupal"
   ],
-  "origin": "https://www.eatjaggers.com/",
+  "origin": "https://www.eatjaggers.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2783,7 +2741,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://jeffslawncareservices.com/",
+  "origin": "https://jeffslawncareservices.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2795,7 +2753,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://www.jerryrinehartdds.com/",
+  "origin": "https://www.jerryrinehartdds.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2812,7 +2770,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://jewellrittman.com/",
+  "origin": "https://jewellrittman.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2828,7 +2786,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://jwinsurance.com/",
+  "origin": "https://jwinsurance.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2840,22 +2798,27 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "http://columbusdentalcare.net/",
+  "origin": "http://columbusdentalcare.net",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "kamp-technologies-llc": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix"
   ],
-  "origin": "https://www.kamptechnologies.com/",
+  "origin": "https://www.kamptechnologies.com",
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "Google Calendar",
+    "url": "https://calendar.app.google/GuJGagoPvztAEJwy8"
+   }
+  ]
  },
  "kat-dunn-photography": {
   "platform": "woocommerce",
@@ -2863,7 +2826,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://katdunn.photos/",
+  "origin": "https://katdunn.photos",
   "feed": false,
   "store": "",
   "order": [],
@@ -2875,7 +2838,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://www.gardant.com/",
+  "origin": "https://www.gardant.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2886,7 +2849,7 @@ export const COMMERCE = {
   "stack": [
    "webflow"
   ],
-  "origin": "https://www.kesslerorthodontics.com/",
+  "origin": "https://www.kesslerorthodontics.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2904,7 +2867,7 @@ export const COMMERCE = {
    "wix-stores",
    "wordpress"
   ],
-  "origin": "https://www.kidzfirstdaycare.org/",
+  "origin": "https://www.kidzfirstdaycare.org",
   "feed": false,
   "store": "",
   "order": [],
@@ -2916,7 +2879,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://www.kindcarwash.com/",
+  "origin": "https://www.kindcarwash.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2928,7 +2891,7 @@ export const COMMERCE = {
    "godaddy",
    "wordpress"
   ],
-  "origin": "https://kirrmar.com/",
+  "origin": "https://kirrmar.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2939,7 +2902,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://grandmasterko.com/",
+  "origin": "https://grandmasterko.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2951,19 +2914,19 @@ export const COMMERCE = {
    "square-online",
    "weebly"
   ],
-  "origin": "https://www.laurelshairstudio.org/",
+  "origin": "https://www.laurelshairstudio.org",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "learning-tree-preschool": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix",
    "wordpress"
   ],
-  "origin": "https://www.fumccolumbus.org/",
+  "origin": "https://www.fumccolumbus.org",
   "feed": false,
   "store": "",
   "order": [],
@@ -2975,7 +2938,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.theriothaus.com/",
+  "origin": "https://www.theriothaus.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -2986,7 +2949,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.efficientsystems.net/",
+  "origin": "https://www.efficientsystems.net",
   "feed": false,
   "store": "",
   "order": [],
@@ -2997,7 +2960,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.lohmeyerplumbing.com/",
+  "origin": "https://www.lohmeyerplumbing.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3008,7 +2971,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://lovinsselectpoolandspa.com/",
+  "origin": "https://lovinsselectpoolandspa.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3021,7 +2984,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.lucabecoffeeco.com/",
+  "origin": "https://www.lucabecoffeeco.com",
   "feed": false,
   "store": "",
   "order": [
@@ -3039,7 +3002,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.lucabecoffeeco.com/",
+  "origin": "https://www.lucabecoffeeco.com",
   "feed": false,
   "store": "",
   "order": [
@@ -3056,7 +3019,7 @@ export const COMMERCE = {
    "square-online",
    "weebly"
   ],
-  "origin": "https://lucasbrothersshop.square.site/",
+  "origin": "https://lucasbrothersshop.square.site",
   "feed": false,
   "store": "",
   "order": [
@@ -3072,7 +3035,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://lucianasmexicanrestaurant.com/",
+  "origin": "https://lucianasmexicanrestaurant.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3083,7 +3046,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.luxedesignsllc.com/",
+  "origin": "https://www.luxedesignsllc.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3099,7 +3062,7 @@ export const COMMERCE = {
   "stack": [
    "godaddy"
   ],
-  "origin": "https://expireddomains.com/",
+  "origin": "https://expireddomains.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3111,7 +3074,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://mymassagein.net/",
+  "origin": "https://mymassagein.net",
   "feed": false,
   "store": "",
   "order": [],
@@ -3122,18 +3085,18 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://macpropertygroup.com/",
+  "origin": "https://macpropertygroup.com",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "made-rite-fence": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix"
   ],
-  "origin": "https://www.fencemaderite.com/",
+  "origin": "https://www.fencemaderite.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3145,7 +3108,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://www.malonesolutions.com/",
+  "origin": "https://www.malonesolutions.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3156,7 +3119,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.markbarrdds.com/",
+  "origin": "https://www.markbarrdds.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3167,7 +3130,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.mjai.com/",
+  "origin": "https://www.mjai.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3175,7 +3138,7 @@ export const COMMERCE = {
  },
  "masala-magic": {
   "platform": "",
-  "origin": "https://masalamagic.shop/",
+  "origin": "https://masalamagic.shop",
   "feed": false,
   "store": "",
   "order": [
@@ -3192,7 +3155,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://master-pt.com/",
+  "origin": "https://master-pt.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3200,10 +3163,7 @@ export const COMMERCE = {
  },
  "matlock-plumbing-inc": {
   "platform": "wordpress",
-  "stack": [
-   "wordpress"
-  ],
-  "origin": "https://www.matlockplumbing.com/",
+  "origin": "https://www.matlockplumbing.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3214,7 +3174,7 @@ export const COMMERCE = {
   "stack": [
    "godaddy"
   ],
-  "origin": "https://mcbridecosaintinsurance.com/",
+  "origin": "https://mcbridecosaintinsurance.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3226,7 +3186,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://drmccabeortho.com/",
+  "origin": "https://drmccabeortho.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3238,7 +3198,7 @@ export const COMMERCE = {
    "square-online",
    "weebly"
   ],
-  "origin": "https://meekscompany.com/",
+  "origin": "https://meekscompany.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3250,9 +3210,9 @@ export const COMMERCE = {
    "square-online",
    "weebly"
   ],
-  "origin": "https://www.melimarket.co/",
+  "origin": "https://www.melimarket.co",
   "feed": false,
-  "store": "https://www.melimarket.co/",
+  "store": "https://www.melimarket.co",
   "order": [],
   "book": []
  },
@@ -3262,7 +3222,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://caraccidentlawyerscolumbus.com/",
+  "origin": "https://caraccidentlawyerscolumbus.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3274,7 +3234,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://www.mwcomputersolutions.com/",
+  "origin": "https://www.mwcomputersolutions.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3285,7 +3245,7 @@ export const COMMERCE = {
   "stack": [
    "shopify"
   ],
-  "origin": "https://www.minashboutique.com/",
+  "origin": "https://www.minashboutique.com",
   "feed": true,
   "store": "",
   "order": [],
@@ -3296,12 +3256,12 @@ export const COMMERCE = {
   }
  },
  "misora": {
-  "platform": "woocommerce",
+  "platform": "wordpress",
   "stack": [
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://www.eatmisora.com/",
+  "origin": "https://www.eatmisora.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3312,7 +3272,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://neat-treats.com/",
+  "origin": "https://neat-treats.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3323,7 +3283,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.mltinnovations.com/",
+  "origin": "https://www.mltinnovations.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3334,18 +3294,18 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://mooresroofing.com/",
+  "origin": "https://mooresroofing.com",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "mother-bears-pizza": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix"
   ],
-  "origin": "https://www.motherbearspizza.com/",
+  "origin": "https://www.motherbearspizza.com",
   "feed": false,
   "store": "",
   "order": [
@@ -3366,7 +3326,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://mymobilitydesign.com/",
+  "origin": "https://mymobilitydesign.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3378,7 +3338,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://myridercourse.com/",
+  "origin": "https://myridercourse.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3391,7 +3351,7 @@ export const COMMERCE = {
    "wix-stores",
    "wordpress"
   ],
-  "origin": "https://www.mywholekitchen.com/",
+  "origin": "https://www.mywholekitchen.com",
   "feed": false,
   "store": "",
   "order": [
@@ -3411,7 +3371,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://nailsstationandspa.com/",
+  "origin": "https://nailsstationandspa.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3422,7 +3382,7 @@ export const COMMERCE = {
   "stack": [
    "godaddy"
   ],
-  "origin": "https://nanoscardetailingandcleaning.com/",
+  "origin": "https://nanoscardetailingandcleaning.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3430,7 +3390,7 @@ export const COMMERCE = {
  },
  "neal-tire-and-auto-service": {
   "platform": "",
-  "origin": "https://nealtire.com/",
+  "origin": "https://nealtire.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3446,7 +3406,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://nntg.com/",
+  "origin": "https://nntg.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3459,7 +3419,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://www.imprintpediatrictherapy.com/",
+  "origin": "https://www.imprintpediatrictherapy.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3470,7 +3430,7 @@ export const COMMERCE = {
   "stack": [
    "vagaro"
   ],
-  "origin": "https://mysite.vagaro.com/",
+  "origin": "https://mysite.vagaro.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3486,7 +3446,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://nicholsbody.com/",
+  "origin": "https://nicholsbody.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3497,7 +3457,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://noblittfab.com/",
+  "origin": "https://noblittfab.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3509,7 +3469,7 @@ export const COMMERCE = {
    "booking-other",
    "godaddy"
   ],
-  "origin": "https://nomadbarbershop.com/",
+  "origin": "https://nomadbarbershop.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3521,7 +3481,7 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://www.northside-pediatrics.org/",
+  "origin": "https://www.northside-pediatrics.org",
   "feed": false,
   "store": "",
   "order": [],
@@ -3538,13 +3498,13 @@ export const COMMERCE = {
    "square-online",
    "weebly"
   ],
-  "origin": "https://www.nutri-bee.org/",
+  "origin": "https://www.nutri-bee.org",
   "feed": false,
   "store": "",
   "order": [
    {
     "label": "Square Online",
-    "url": "https://www.nutri-bee.org/"
+    "url": "https://www.nutri-bee.org"
    }
   ],
   "book": []
@@ -3554,7 +3514,7 @@ export const COMMERCE = {
   "stack": [
    "booksy"
   ],
-  "origin": "https://booksy.com/",
+  "origin": "https://booksy.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3571,7 +3531,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://oglesrentals.com/",
+  "origin": "https://oglesrentals.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3582,7 +3542,7 @@ export const COMMERCE = {
   "stack": [
    "marketplace-delivery"
   ],
-  "origin": "https://olesyaskitchen.com/",
+  "origin": "https://olesyaskitchen.com",
   "feed": false,
   "store": "",
   "order": [
@@ -3598,7 +3558,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://olivebranchdentalcolumbus.com/",
+  "origin": "https://olivebranchdentalcolumbus.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3615,7 +3575,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.oneofakindhr.com/",
+  "origin": "https://www.oneofakindhr.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3631,7 +3591,7 @@ export const COMMERCE = {
   "stack": [
    "godaddy"
   ],
-  "origin": "https://onobrothers.com/",
+  "origin": "https://onobrothers.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3642,7 +3602,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "http://ozolsconstruction.com/",
+  "origin": "http://ozolsconstruction.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3654,7 +3614,7 @@ export const COMMERCE = {
    "webflow",
    "wordpress"
   ],
-  "origin": "https://pankratzvision.com/",
+  "origin": "https://pankratzvision.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3665,7 +3625,7 @@ export const COMMERCE = {
   "stack": [
    "godaddy"
   ],
-  "origin": "https://papasgrill.net/",
+  "origin": "https://papasgrill.net",
   "feed": false,
   "store": "",
   "order": [],
@@ -3678,7 +3638,7 @@ export const COMMERCE = {
    "wix-stores",
    "woocommerce"
   ],
-  "origin": "https://www.party-on-rentals.com/",
+  "origin": "https://www.party-on-rentals.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3695,7 +3655,7 @@ export const COMMERCE = {
    "godaddy",
    "wordpress"
   ],
-  "origin": "https://partyrentalvazquez.com/",
+  "origin": "https://partyrentalvazquez.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3706,12 +3666,23 @@ export const COMMERCE = {
    }
   ]
  },
+ "payton-place-powersports": {
+  "platform": "shopify",
+  "stack": [
+   "shopify"
+  ],
+  "origin": "https://www.paytonplacepowersports.com",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": []
+ },
  "peter-king-law": {
   "platform": "wordpress",
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.peterkinglaw.com/",
+  "origin": "https://www.peterkinglaw.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3722,7 +3693,7 @@ export const COMMERCE = {
   "stack": [
    "godaddy"
   ],
-  "origin": "http://www.phegleysmotorsports.com/",
+  "origin": "http://www.phegleysmotorsports.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3733,7 +3704,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://pollertdesign.com/",
+  "origin": "https://pollertdesign.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3745,7 +3716,7 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://www.pompandbloom.com/",
+  "origin": "https://www.pompandbloom.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3753,7 +3724,7 @@ export const COMMERCE = {
  },
  "posh-sloth-massage": {
   "platform": "",
-  "origin": "https://poshsloth.massagetherapy.com/",
+  "origin": "https://poshsloth.massagetherapy.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3769,7 +3740,7 @@ export const COMMERCE = {
    "auto-booking",
    "wordpress"
   ],
-  "origin": "https://positiveperformance1.com/",
+  "origin": "https://positiveperformance1.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3786,7 +3757,7 @@ export const COMMERCE = {
    "health-booking",
    "wordpress"
   ],
-  "origin": "https://precisioneye.com/",
+  "origin": "https://precisioneye.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3794,7 +3765,7 @@ export const COMMERCE = {
  },
  "prestige-printing-inc": {
   "platform": "",
-  "origin": "https://www.prestigeteam.biz/",
+  "origin": "https://www.prestigeteam.biz",
   "feed": false,
   "store": "",
   "order": [
@@ -3810,7 +3781,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://primefinancialmidwest.com/",
+  "origin": "https://primefinancialmidwest.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3822,7 +3793,7 @@ export const COMMERCE = {
    "calendly",
    "wordpress"
   ],
-  "origin": "https://www.priorityrisk.com/",
+  "origin": "https://www.priorityrisk.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3835,7 +3806,7 @@ export const COMMERCE = {
  },
  "pro-nails": {
   "platform": "",
-  "origin": "https://manage2.mangoforsalon.com/",
+  "origin": "https://manage2.mangoforsalon.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3851,7 +3822,7 @@ export const COMMERCE = {
   "stack": [
    "vagaro"
   ],
-  "origin": "https://mysite.vagaro.com/",
+  "origin": "https://mysite.vagaro.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3871,7 +3842,7 @@ export const COMMERCE = {
   "stack": [
    "booksy"
   ],
-  "origin": "https://booksy.com/",
+  "origin": "https://booksy.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3888,13 +3859,13 @@ export const COMMERCE = {
    "square-online",
    "weebly"
   ],
-  "origin": "https://www.ramen-alley.com/",
+  "origin": "https://www.ramen-alley.com",
   "feed": false,
   "store": "",
   "order": [
    {
     "label": "Square Online",
-    "url": "https://www.ramen-alley.com/"
+    "url": "https://www.ramen-alley.com"
    }
   ],
   "book": []
@@ -3905,7 +3876,7 @@ export const COMMERCE = {
    "auto-booking",
    "wordpress"
   ],
-  "origin": "https://raysautomotivecenter.com/",
+  "origin": "https://raysautomotivecenter.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3922,7 +3893,7 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://rdc-commercial.com/",
+  "origin": "https://rdc-commercial.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3934,7 +3905,7 @@ export const COMMERCE = {
    "square-online",
    "weebly"
   ],
-  "origin": "https://really-the-barber.square.site/",
+  "origin": "https://really-the-barber.square.site",
   "feed": false,
   "store": "https://really-the-barber.square.site/",
   "order": [],
@@ -3945,7 +3916,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.rsindy.com/",
+  "origin": "https://www.rsindy.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3957,7 +3928,7 @@ export const COMMERCE = {
    "home-services-booking",
    "wordpress"
   ],
-  "origin": "https://www.reliablecomfort.com/",
+  "origin": "https://www.reliablecomfort.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3973,7 +3944,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.hawesinsurance.com/",
+  "origin": "https://www.hawesinsurance.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -3984,7 +3955,7 @@ export const COMMERCE = {
   "stack": [
    "clover"
   ],
-  "origin": "https://www.clover.com/",
+  "origin": "https://www.clover.com",
   "feed": false,
   "store": "",
   "order": [
@@ -4001,7 +3972,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://rhinolinings.com/",
+  "origin": "https://rhinolinings.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4012,7 +3983,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://rnrtires.com/",
+  "origin": "https://rnrtires.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4023,7 +3994,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://roadrescuemobilemechaniccolumbus.com/",
+  "origin": "https://roadrescuemobilemechaniccolumbus.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4034,18 +4005,18 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://hendershotinsurance.com/",
+  "origin": "https://hendershotinsurance.com",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "rohdes-family-diner": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix"
   ],
-  "origin": "https://www.rohdesfamilydiner.com/",
+  "origin": "https://www.rohdesfamilydiner.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4057,7 +4028,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://rswarren.construction/",
+  "origin": "https://rswarren.construction",
   "feed": false,
   "store": "",
   "order": [],
@@ -4069,7 +4040,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.ryanfurr.com/",
+  "origin": "https://www.ryanfurr.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4080,7 +4051,7 @@ export const COMMERCE = {
   "stack": [
    "godaddy"
   ],
-  "origin": "https://ryoshikarate.com/",
+  "origin": "https://ryoshikarate.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4091,7 +4062,7 @@ export const COMMERCE = {
   "stack": [
    "booksy"
   ],
-  "origin": "https://booksy.com/",
+  "origin": "https://booksy.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4111,7 +4082,7 @@ export const COMMERCE = {
   "stack": [
    "health-booking"
   ],
-  "origin": "https://www.sandcrestdental.com/",
+  "origin": "https://www.sandcrestdental.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4127,7 +4098,7 @@ export const COMMERCE = {
   "stack": [
    "booksy"
   ],
-  "origin": "https://booksy.com/",
+  "origin": "https://booksy.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4145,7 +4116,7 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://www.sassafras-salon.com/",
+  "origin": "https://www.sassafras-salon.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4161,7 +4132,7 @@ export const COMMERCE = {
   "stack": [
    "godaddy"
   ],
-  "origin": "https://savagedistillingllc.godaddysites.com/",
+  "origin": "https://savagedistillingllc.godaddysites.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4172,7 +4143,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://stindy.com/",
+  "origin": "https://stindy.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4183,7 +4154,7 @@ export const COMMERCE = {
   "stack": [
    "shopify"
   ],
-  "origin": "https://sewvividdesigns.com/",
+  "origin": "https://sewvividdesigns.com",
   "feed": true,
   "store": "",
   "order": [],
@@ -4195,18 +4166,18 @@ export const COMMERCE = {
    "square-online",
    "weebly"
   ],
-  "origin": "https://my-site-102122-109801.square.site/",
+  "origin": "https://my-site-102122-109801.square.site",
   "feed": false,
   "store": "https://my-site-102122-109801.square.site/",
   "order": [],
   "book": []
  },
  "sharpnack-bigley": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix"
   ],
-  "origin": "https://www.sharpnacklaw.com/",
+  "origin": "https://www.sharpnacklaw.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4218,7 +4189,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://www.shepherdins.com/",
+  "origin": "https://www.shepherdins.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4231,7 +4202,7 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://www.shieldsmithchiropractic.com/",
+  "origin": "https://www.shieldsmithchiropractic.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4249,7 +4220,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://silent3partners.com/",
+  "origin": "https://silent3partners.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4265,7 +4236,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.450northbrewing.com/",
+  "origin": "https://www.450northbrewing.com",
   "feed": false,
   "store": "",
   "order": [
@@ -4277,35 +4248,44 @@ export const COMMERCE = {
   "book": []
  },
  "simply-you-photo-booth-co": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix"
   ],
-  "origin": "https://www.simplyyouphotoboothco.com/",
+  "origin": "https://www.simplyyouphotoboothco.com",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": []
+ },
+ "skin-solutions-dermatology-and-aesthetics": {
+  "platform": "wordpress",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://skinsolutions1.com",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "skin-trendz-day-spa": {
-  "platform": "",
+  "platform": "wix-stores",
   "stack": [
-   "vagaro"
+   "vagaro",
+   "wix",
+   "wix-stores"
   ],
-  "origin": "https://skintrendz.skincaretherapy.net/",
+  "origin": "https://www.ascpmembers.com",
   "feed": false,
   "store": "",
   "order": [],
   "book": [
    {
     "label": "Vagaro",
-    "url": "https://vagaro.com/skintrendzdayspa1"
+    "url": "https://www.vagaro.com/skintrendzdayspa1"
    }
-  ],
-  "gift": {
-   "label": "their website",
-   "url": "https://skintrendz.skincaretherapy.net/gift-certificates"
-  }
+  ]
  },
  "sky-sport-fitness": {
   "platform": "squarespace-commerce",
@@ -4314,7 +4294,7 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://www.skysportfitness.com/",
+  "origin": "https://www.skysportfitness.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4331,7 +4311,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://soilsplusllc.com/",
+  "origin": "https://soilsplusllc.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4343,7 +4323,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://www.sojourncoffeecompany.com/",
+  "origin": "https://www.sojourncoffeecompany.com",
   "feed": true,
   "store": "",
   "order": [],
@@ -4358,7 +4338,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://sonrisasfamilydental.com/",
+  "origin": "https://sonrisasfamilydental.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4366,7 +4346,7 @@ export const COMMERCE = {
  },
  "sophea-nails": {
   "platform": "",
-  "origin": "https://sophea-nails-columbus.nailsites.com/",
+  "origin": "https://sophea-nails-columbus.nailsites.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4383,7 +4363,7 @@ export const COMMERCE = {
    "godaddy",
    "webflow"
   ],
-  "origin": "https://www.scroof.com/",
+  "origin": "https://www.scroof.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4394,7 +4374,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://indianaaesthetics.com/",
+  "origin": "https://indianaaesthetics.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4407,7 +4387,7 @@ export const COMMERCE = {
    "webflow",
    "wordpress"
   ],
-  "origin": "https://www.southernindianaent.com/",
+  "origin": "https://www.southernindianaent.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4429,7 +4409,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://southernindianaepoxy.com/",
+  "origin": "https://southernindianaepoxy.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4440,7 +4420,7 @@ export const COMMERCE = {
   "stack": [
    "drupal"
   ],
-  "origin": "https://www.southerninortho.com/",
+  "origin": "https://www.southerninortho.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4452,11 +4432,12 @@ export const COMMERCE = {
   ]
  },
  "southern-roofing-inc": {
-  "platform": "wordpress",
+  "platform": "woocommerce",
   "stack": [
+   "woocommerce",
    "wordpress"
   ],
-  "origin": "https://www.southernroofinginc.com/",
+  "origin": "https://www.southernroofinginc.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4467,7 +4448,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.spoonrealestate.com/",
+  "origin": "https://www.spoonrealestate.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4479,19 +4460,19 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.stpaulcolumbus.org/",
+  "origin": "https://www.stpaulcolumbus.org",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "star-heating-and-air": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "home-services-booking",
    "wix"
   ],
-  "origin": "https://www.starhvac247.com/",
+  "origin": "https://www.starhvac247.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4507,7 +4488,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://schaworthcpa.com/",
+  "origin": "https://schaworthcpa.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4519,7 +4500,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "http://stithbrokers.com/",
+  "origin": "http://stithbrokers.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4530,7 +4511,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.strand.com/",
+  "origin": "https://www.strand.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4544,7 +4525,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://studioshagsalon.com/",
+  "origin": "https://studioshagsalon.com",
   "feed": false,
   "store": "https://hair-by-brittnay.square.site/",
   "order": [],
@@ -4561,7 +4542,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.stunnas812.com/",
+  "origin": "https://www.stunnas812.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4572,7 +4553,7 @@ export const COMMERCE = {
   "stack": [
    "glossgenius"
   ],
-  "origin": "https://annetteprescott.glossgenius.com/",
+  "origin": "https://annetteprescott.glossgenius.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4589,7 +4570,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.sugarbayerscookie.com/",
+  "origin": "https://www.sugarbayerscookie.com",
   "feed": false,
   "store": "https://www.sugarbayerscookie.com/shop",
   "order": [],
@@ -4600,7 +4581,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://summersphc.com/",
+  "origin": "https://summersphc.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4617,7 +4598,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.summitseymour.com/",
+  "origin": "https://www.summitseymour.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4631,7 +4612,7 @@ export const COMMERCE = {
    "weebly",
    "wordpress"
   ],
-  "origin": "https://www.superiordrywallandpainting.com/",
+  "origin": "https://www.superiordrywallandpainting.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4639,7 +4620,7 @@ export const COMMERCE = {
  },
  "taulman-chiropractic": {
   "platform": "",
-  "origin": "https://www.taulchiro.com/",
+  "origin": "https://www.taulchiro.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4655,7 +4636,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://tdadvertising.com/",
+  "origin": "https://tdadvertising.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4666,7 +4647,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://tshc.com/",
+  "origin": "https://tshc.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4680,7 +4661,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://www.theartisancolumbus.com/",
+  "origin": "https://www.theartisancolumbus.com",
   "feed": false,
   "store": "http://nails-by-liane.square.site/",
   "order": [],
@@ -4694,20 +4675,26 @@ export const COMMERCE = {
  "the-bicycle-station": {
   "platform": "shopify",
   "stack": [
+   "calendly",
    "shopify"
   ],
-  "origin": "https://thebicyclestation.com/",
+  "origin": "https://thebicyclestation.com",
   "feed": true,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "Calendly",
+    "url": "https://calendly.com/jesse-thebicyclestation"
+   }
+  ]
  },
  "the-castle-games": {
   "platform": "shopify",
   "stack": [
    "shopify"
   ],
-  "origin": "https://castlegameshoppe.com/",
+  "origin": "https://castlegameshoppe.com",
   "feed": true,
   "store": "",
   "order": [],
@@ -4718,7 +4705,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://forgeon4th.com/",
+  "origin": "https://forgeon4th.com",
   "feed": false,
   "store": "",
   "order": [
@@ -4731,7 +4718,7 @@ export const COMMERCE = {
  },
  "the-garage-pub-and-grill": {
   "platform": "",
-  "origin": "https://thegaragepubandgrill.com/",
+  "origin": "https://thegaragepubandgrill.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4747,18 +4734,19 @@ export const COMMERCE = {
   "stack": [
    "godaddy"
   ],
-  "origin": "https://thegardenerslandscaping.com/",
+  "origin": "https://thegardenerslandscaping.com",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "the-phillips-company-inc": {
-  "platform": "wordpress",
+  "platform": "woocommerce",
   "stack": [
+   "woocommerce",
    "wordpress"
   ],
-  "origin": "https://thephillipscompany.com/",
+  "origin": "https://thephillipscompany.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4771,7 +4759,7 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://www.thezenwellnessco.com/",
+  "origin": "https://www.thezenwellnessco.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4787,7 +4775,7 @@ export const COMMERCE = {
   "stack": [
    "godaddy"
   ],
-  "origin": "https://therapyonwheelsinc.com/",
+  "origin": "https://therapyonwheelsinc.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4798,7 +4786,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.thomassonlaw.com/",
+  "origin": "https://www.thomassonlaw.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4806,7 +4794,7 @@ export const COMMERCE = {
  },
  "tinas-nails": {
   "platform": "",
-  "origin": "https://tinanailscolumbus.com/",
+  "origin": "https://tinanailscolumbus.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4823,7 +4811,7 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://www.tiptonhomeservices.com/",
+  "origin": "https://www.tiptonhomeservices.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4836,7 +4824,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://tlaclub.com/",
+  "origin": "https://tlaclub.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4847,7 +4835,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://dentist-columbus.com/",
+  "origin": "https://dentist-columbus.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4859,18 +4847,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://www.tobar.com/",
-  "feed": false,
-  "store": "",
-  "order": [],
-  "book": []
- },
- "tom-picketts-music-center": {
-  "platform": "godaddy",
-  "stack": [
-   "godaddy"
-  ],
-  "origin": "https://www.hugedomains.com/",
+  "origin": "https://www.tobar.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4881,7 +4858,7 @@ export const COMMERCE = {
   "stack": [
    "godaddy"
   ],
-  "origin": "https://eventshirts.com/",
+  "origin": "https://eventshirts.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4892,7 +4869,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "http://topnailspacolumbus.com/",
+  "origin": "http://topnailspacolumbus.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4908,7 +4885,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.totalfitnessofcolumbus.net/",
+  "origin": "https://www.totalfitnessofcolumbus.net",
   "feed": false,
   "store": "",
   "order": [],
@@ -4919,7 +4896,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://totaltkdcolumbus.com/",
+  "origin": "https://totaltkdcolumbus.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4931,7 +4908,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://columbuscat.cafe/",
+  "origin": "https://columbuscat.cafe",
   "feed": true,
   "store": "",
   "order": [],
@@ -4947,7 +4924,7 @@ export const COMMERCE = {
   "stack": [
    "acuity"
   ],
-  "origin": "https://triflix.com/",
+  "origin": "https://triflix.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4959,12 +4936,12 @@ export const COMMERCE = {
   ]
  },
  "turnkey-home-solutions-inc": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix",
    "wordpress"
   ],
-  "origin": "https://www.turnkeyhomesolutions.com/",
+  "origin": "https://www.turnkeyhomesolutions.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -4976,9 +4953,9 @@ export const COMMERCE = {
    "square-online",
    "weebly"
   ],
-  "origin": "https://www.turtlesflowers.com/",
+  "origin": "https://www.turtlesflowers.com",
   "feed": false,
-  "store": "https://www.turtlesflowers.com/",
+  "store": "https://www.turtlesflowers.com",
   "order": [],
   "book": []
  },
@@ -4987,7 +4964,7 @@ export const COMMERCE = {
   "stack": [
    "booksy"
   ],
-  "origin": "https://booksy.com/",
+  "origin": "https://booksy.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -5004,7 +4981,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "http://uagllc.com/",
+  "origin": "http://uagllc.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -5012,12 +4989,7 @@ export const COMMERCE = {
  },
  "upland-columbus-pump-house": {
   "platform": "wordpress",
-  "stack": [
-   "opentable",
-   "toast",
-   "wordpress"
-  ],
-  "origin": "https://uplandbeer.com/",
+  "origin": "https://uplandbeer.com",
   "feed": false,
   "store": "",
   "order": [
@@ -5031,11 +5003,7 @@ export const COMMERCE = {
     "label": "OpenTable",
     "url": "https://www.opentable.com/r/upland-brewing-co-columbus-reservations-columbus?restref=1278787&lang=en-US&ot_source=Restaurant%20website"
    }
-  ],
-  "gift": {
-   "label": "Toast",
-   "url": "https://www.toasttab.com/upland-brewing-brewpub-woodshop-350-west-11th-street/giftcards"
-  }
+  ]
  },
  "uwba-design-llc": {
   "platform": "woocommerce",
@@ -5043,7 +5011,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://uwbadesign.com/",
+  "origin": "https://uwbadesign.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -5054,7 +5022,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.tonyvasquez.net/",
+  "origin": "https://www.tonyvasquez.net",
   "feed": false,
   "store": "",
   "order": [],
@@ -5067,7 +5035,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://veteranhauling.com/",
+  "origin": "https://veteranhauling.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -5079,12 +5047,13 @@ export const COMMERCE = {
   ]
  },
  "victory-gymnastics-academy": {
-  "platform": "wordpress",
+  "platform": "woocommerce",
   "stack": [
    "class-registration",
+   "woocommerce",
    "wordpress"
   ],
-  "origin": "https://victorygymacademy.net/",
+  "origin": "https://victorygymacademy.net",
   "feed": false,
   "store": "",
   "order": [],
@@ -5096,11 +5065,11 @@ export const COMMERCE = {
   ]
  },
  "vivian-lou-paul-mitchell-focus-salon": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix"
   ],
-  "origin": "https://www.vivianloupmsalon.com/",
+  "origin": "https://www.vivianloupmsalon.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -5111,7 +5080,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://voelzlaw.com/",
+  "origin": "https://voelzlaw.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -5122,18 +5091,18 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://voelzlaw.com/",
+  "origin": "https://voelzlaw.com",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "walls-excavating-llc": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "wix"
   ],
-  "origin": "https://www.wallsexcavating.net/",
+  "origin": "https://www.wallsexcavating.net",
   "feed": false,
   "store": "",
   "order": [],
@@ -5144,7 +5113,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://waltonlegal.net/",
+  "origin": "https://waltonlegal.net",
   "feed": false,
   "store": "",
   "order": [],
@@ -5156,7 +5125,7 @@ export const COMMERCE = {
    "booksy",
    "godaddy"
   ],
-  "origin": "https://waxthatcat.com/",
+  "origin": "https://waxthatcat.com",
   "feed": false,
   "store": "",
   "order": [
@@ -5178,7 +5147,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://waynemeyerelectric.com/",
+  "origin": "https://waynemeyerelectric.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -5189,7 +5158,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.webbsautorepair.com/",
+  "origin": "https://www.webbsautorepair.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -5201,7 +5170,7 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://www.westtowingservice.com/",
+  "origin": "https://www.westtowingservice.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -5212,7 +5181,7 @@ export const COMMERCE = {
   "stack": [
    "godaddy"
   ],
-  "origin": "http://whipkersmarket.com/",
+  "origin": "http://whipkersmarket.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -5223,7 +5192,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.whiteriverchiro.com/",
+  "origin": "https://www.whiteriverchiro.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -5248,7 +5217,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://whiteriverrunningcompany.com/",
+  "origin": "https://whiteriverrunningcompany.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -5259,20 +5228,20 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://whitestarmeatmarket.com/",
+  "origin": "https://whitestarmeatmarket.com",
   "feed": false,
   "store": "",
   "order": [],
   "book": []
  },
  "whitted-law": {
-  "platform": "wix",
+  "platform": "wix-stores",
   "stack": [
    "thryv",
    "wix",
    "wordpress"
   ],
-  "origin": "https://www.whittedlaw.com/",
+  "origin": "https://www.whittedlaw.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -5284,7 +5253,7 @@ export const COMMERCE = {
    "wix",
    "wix-stores"
   ],
-  "origin": "https://theredneckgarage20.wixsite.com/",
+  "origin": "https://theredneckgarage20.wixsite.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -5296,7 +5265,7 @@ export const COMMERCE = {
    "squarespace",
    "squarespace-commerce"
   ],
-  "origin": "https://www.wildwisdomstore.com/",
+  "origin": "https://www.wildwisdomstore.com",
   "feed": true,
   "catalog": "https://www.wildwisdomstore.com/shop",
   "store": "",
@@ -5309,7 +5278,7 @@ export const COMMERCE = {
    "godaddy",
    "wordpress"
   ],
-  "origin": "https://williamselectronics.com/",
+  "origin": "https://williamselectronics.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -5321,7 +5290,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://www.winniemochi-columbus.com/",
+  "origin": "https://www.winniemochi-columbus.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -5329,11 +5298,7 @@ export const COMMERCE = {
  },
  "wolf-creek-nursery-and-landscaping": {
   "platform": "square-online",
-  "stack": [
-   "square-online",
-   "weebly"
-  ],
-  "origin": "https://www.wolfcreeknursery.com/",
+  "origin": "https://www.wolfcreeknursery.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -5344,7 +5309,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://wonderwrks.com/",
+  "origin": "https://wonderwrks.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -5356,7 +5321,7 @@ export const COMMERCE = {
    "acuity",
    "drupal"
   ],
-  "origin": "https://www.wwafp.com/",
+  "origin": "https://www.wwafp.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -5376,7 +5341,7 @@ export const COMMERCE = {
   "stack": [
    "shopify"
   ],
-  "origin": "https://www.xobysophias.com/",
+  "origin": "https://www.xobysophias.com",
   "feed": true,
   "store": "",
   "order": [],
@@ -5388,7 +5353,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "http://ysmassage.com/",
+  "origin": "http://ysmassage.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -5401,7 +5366,7 @@ export const COMMERCE = {
    "woocommerce",
    "wordpress"
   ],
-  "origin": "https://yatscajuncreole.online/",
+  "origin": "https://yatscajuncreole.online",
   "feed": false,
   "store": "",
   "order": [],
@@ -5409,7 +5374,7 @@ export const COMMERCE = {
  },
  "yummy-bowl": {
   "platform": "",
-  "origin": "https://www.yummybow1455.com/",
+  "origin": "https://www.yummybow1455.com",
   "feed": false,
   "store": "",
   "order": [
@@ -5422,7 +5387,7 @@ export const COMMERCE = {
  },
  "zaharakos-ice-cream-parlor": {
   "platform": "",
-  "origin": "https://www.zaharakos.com/",
+  "origin": "https://www.zaharakos.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -5442,7 +5407,7 @@ export const COMMERCE = {
   "stack": [
    "wordpress"
   ],
-  "origin": "https://www.zellerinsurance.com/",
+  "origin": "https://www.zellerinsurance.com",
   "feed": false,
   "store": "",
   "order": [],
@@ -5451,10 +5416,58 @@ export const COMMERCE = {
  "bips-bites": {
   "platform": "woocommerce",
   "stack": [
-   "woocommerce"
+   "woocommerce",
+   "wordpress"
   ],
-  "origin": "https://www.bipsbites.com/",
+  "origin": "https://www.bipsbites.com",
   "feed": true,
+  "store": "",
+  "order": [],
+  "book": []
+ },
+ "bonafide-bites": {
+  "platform": "squarespace-commerce",
+  "stack": [
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://www.bonafidebites.com",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": []
+ },
+ "first-class-catering": {
+  "platform": "squarespace-commerce",
+  "stack": [
+   "squarespace",
+   "squarespace-commerce"
+  ],
+  "origin": "https://www.firstclasscateringin.com",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": []
+ },
+ "legal-leaf-market-cafe": {
+  "platform": "shopify",
+  "stack": [
+   "shopify"
+  ],
+  "origin": "https://shop.legalleafmarket.shop",
+  "feed": true,
+  "store": "",
+  "order": [],
+  "book": []
+ },
+ "matty-o-entertainment": {
+  "platform": "wix-stores",
+  "stack": [
+   "wix",
+   "wix-stores"
+  ],
+  "origin": "https://www.mattyoentertainment.com",
+  "feed": false,
   "store": "",
   "order": [],
   "book": []
