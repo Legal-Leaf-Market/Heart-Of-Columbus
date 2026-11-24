@@ -215,7 +215,7 @@
   function handOff(slug, ls, first, tab, co, status, more) {
     var go = function (u) { if (tab) tab.location.href = u; else window.open(u, '_blank', 'noopener'); };
     var click = visitId();
-    beacon(slug, 'cart', { click: click, items: ls.reduce(function (a, l) { return a + l.qty; }, 0), total: ls.reduce(function (a, l) { return a + l.price * l.qty; }, 0) });
+    beacon(slug, 'cart', { click: click, ids: ls.map(function (l) { return String(l.variantId || l.productId); }), items: ls.reduce(function (a, l) { return a + l.qty; }, 0), total: ls.reduce(function (a, l) { return a + l.price * l.qty; }, 0) });
     if (first.platform === 'shopify') { go(shopifyUrl(first.origin, ls, pickupOn(slug, first), click)); return; }
     var urls = wooUrls(first.origin, ls);
     // WooCommerce's order attribution reads the UTM fields from the first page

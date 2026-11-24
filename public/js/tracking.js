@@ -24,15 +24,22 @@
       if (!j.ok) { $('[data-track-status]').textContent = j.error || 'Could not load.'; return; }
       var lk = $('[data-track-lookup]');
       lk.hidden = !j.lookup;
-      if (j.lookup) lk.innerHTML = 'Shop ID <code>' + esc(j.lookup.slug) + '</code> · key <code>' + esc(j.lookup.key) + '</code>';
+      if (j.lookup) lk.innerHTML = 'Shop ID <code>' + esc(j.lookup.slug) + '</code> · key <code>' + esc(j.lookup.key) + '</code>' + (j.lookup.connect ? '<br>WooCommerce one-click link to send them: <code>' + esc(j.lookup.connect) + '</code>' : '');
       $('[data-track-status]').textContent = j.rows.length + ' business' + (j.rows.length === 1 ? '' : 'es') + ' in ' + j.month + '.';
       var visits = function (h) { return ['order', 'book', 'shop', 'website', 'gift', 'product'].reduce(function (a, k) { return a + (h[k] || 0); }, 0); };
-      $('[data-track-out]').innerHTML = j.rows.length ? '<div class="tk-table-wrap"><table class="tk-table"><thead><tr><th>Business</th><th>Visits sent</th><th>Carts sent</th><th>Cart value</th><th>Orders placed</th><th>Matched to our cart</th><th>Order value</th><th>Key</th></tr></thead><tbody>' +
+      $('[data-track-out]').innerHTML = j.rows.length ? '<div class="tk-table-wrap"><table class="tk-table"><thead><tr><th>Business</th><th>Visits sent</th><th>Carts sent</th><th>Cart value</th><th>Orders placed</th><th>Matched to our cart</th><th>Fulfilled</th><th>Order value</th><th>Key</th></tr></thead><tbody>' +
         j.rows.map(function (r) {
-          return '<tr><td><a href="/b/' + esc(r.slug) + '/">' + esc(r.slug) + '</a></td><td>' + visits(r.handoffs) + '</td><td>' + (r.handoffs.cart || 0) + '</td><td>' + money(r.handoffs.cartValue) + '</td><td>' + r.orders + '</td><td>' + (r.matched || 0) + '</td><td>' + money(r.orderValue) + '</td><td><code>' + esc(r.key) + '</code></td></tr>';
+          return '<tr><td><a href="/b/' + esc(r.slug) + '/">' + esc(r.slug) + '</a></td><td>' + visits(r.handoffs) + '</td><td>' + (r.handoffs.cart || 0) + '</td><td>' + money(r.handoffs.cartValue) + '</td><td>' + r.orders + '</td><td>' + (r.matched || 0) + '</td><td>' + (r.fulfilled || 0) + '</td><td>' + money(r.orderValue) + '</td><td><code>' + esc(r.key) + '</code></td></tr>';
         }).join('') + '</tbody></table></div>' : '<p class="muted">Nothing counted yet this month.</p>';
+      $('[data-track-out]').innerHTML += (j.woo && j.woo.length ? '<h2>Connected WooCommerce stores</h2><ul>' + j.woo.map(function (w) { return '<li><b>' + esc(w.slug) + '</b>: connected ' + esc(String(w.connected).slice(0, 10)) + (w.lastSync ? ', last read ' + esc(String(w.lastSync).slice(0, 16).replace('T', ' ')) + (w.lastResult ? ' (' + (w.lastResult.ok ? w.lastResult.read + ' orders read, ' + w.lastResult.kept + ' ours' : esc(w.lastResult.error || 'failed')) + ')' : '') : ', not read yet') + '</li>'; }).join('') + '</ul><p><button type="button" class="btn btn-sm" data-track-sync>Read their orders now</button></p>' : '');
     }).catch(function () { $('[data-track-status]').textContent = 'Could not load.'; });
   }
   $('[data-track-form]').addEventListener('submit', function (e) { e.preventDefault(); load(); });
+  root.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-track-sync]');
+    if (!b) return;
+    b.disabled = true; b.textContent = 'Reading…';
+    fetch('/api/woo-connect?sync=1', { cache: 'no-store', headers: { 'x-hoc-key': key } }).then(function () { load(); }).catch(function () { b.disabled = false; b.textContent = 'Try again'; });
+  });
   load();
 })();
