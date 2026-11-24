@@ -344,6 +344,7 @@ ${b.feed || (b.snap && b.snap.kind === 'shop') ? `<section class="wrap shop-sec"
     : b.platform === 'squarespace-commerce'
     ? 'Their real products and prices, read from their own online store. Add what you want to your list here, then buy each one on their site: their store has no way to take a whole cart from another site.'
     : 'Their real products and prices, read from their own online store. Add to your cart here, then check out on their site with everything already in the cart. Choose pickup there if they offer it.'}</p>
+  ${tieNote(b)}
   <div ${shopAttrs(b)}><p class="muted">Loading their store…</p></div></section>` : ''}
 ${b.snap && b.snap.kind === 'menu' ? `<section class="wrap shop-sec" id="menu"><p class="kicker">From their website</p><h2>${t(b.name)}’s menu</h2>
   <p class="sub">Dishes and prices as their own website lists them, saved ${longDate(b.snap.checked)}. Prices can change; their menu is the final word.</p>
@@ -478,6 +479,10 @@ ${footer()}`;
   return page({ title: 'Page not found | Heart of Columbus', description: 'That page is not on Heart of Columbus.', body, scripts: ['site.js'], styles, assets });
 }
 
+// A business tied to the people who run Heart of Columbus (added.mjs `tie`)
+// says so wherever its products are shown, not only at the top of its page.
+const tieNote = (b) => (b.added?.tie ? `<p class="direct-note member-note shop-tie">★ <span><strong>Disclosure:</strong> ${esc(b.added.tie)}</span></p>` : '');
+
 // Pickup details for the cart: the address and hours the page already shows.
 const shopAttrs = (b) => `data-shop="${b.slug}" data-name="${esc(b.name)}"${b.snap ? ` data-snap="${b.snap.checked}"` : ''}${b.feed ? ' data-live' : ''}${b.address ? ` data-address="${esc(b.address)}"` : ''}${b.hours ? ` data-hours='${JSON.stringify(b.hours)}'` : ''}`;
 
@@ -500,7 +505,7 @@ ${header('order')}
 </section>
 ${shops.length ? `<section class="wrap shop-sec" id="shop"><p class="kicker">One cart, many local shops</p><h2>Shop Columbus stores online</h2>
   <p class="sub">Live products from local shops that sell on their own websites. Fill one cart across all of them, then each shop checks you out on its own site. Picking up? Your cart lists every stop and routes them in one map.</p>
-  ${shops.map((b) => `<div class="shop-block"><div class="shop-block-h"><h3><a href="/b/${b.slug}/">${t(b.name)}</a></h3><a class="see-all" href="/b/${b.slug}/#shop">Their whole store ${svg('arrow', 'ic-sm')}</a></div><div ${shopAttrs(b)} data-limit="8"><p class="muted">Loading…</p></div></div>`).join('')}
+  ${shops.map((b) => `<div class="shop-block"><div class="shop-block-h"><h3><a href="/b/${b.slug}/">${t(b.name)}</a></h3><a class="see-all" href="/b/${b.slug}/#shop">Their whole store ${svg('arrow', 'ic-sm')}</a></div>${tieNote(b)}<div ${shopAttrs(b)} data-limit="8"><p class="muted">Loading…</p></div></div>`).join('')}
 </section>` : ''}
 ${menus.length ? `<section class="wrap list" id="menus"><div class="sec-head"><p class="kicker">From their own websites</p><h2>Look at the menu before you go</h2><p class="sub">Menus and prices as each restaurant’s own website lists them, saved by our daily check. Order or call them directly.</p></div>
   <div class="menu-links">${menus.map((b) => `<a class="menu-link" href="/b/${b.slug}/#menu"><strong>${t(b.name)}</strong><span>${b.snap.items} items</span></a>`).join('')}</div></section>` : ''}
