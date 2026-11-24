@@ -31,6 +31,20 @@ const hoursTable = (rows) => {
 };
 
 const styles = ['hoc.css'];
+const smokeAgeGate = (body) => body.replace(/(<main\b[^>]*>)([\s\S]*?)(<\/main>)/, (_, open, content, close) => `
+${open}
+<section class="wrap prose py-12" data-age-gate aria-labelledby="smoke-age-title">
+  <h1 id="smoke-age-title">Smoke &amp; Vape is for ages 21 and up</h1>
+  <p>Confirm that you’re at least 21 to view these listings.</p>
+  <div class="flex flex-wrap gap-3">
+    <button type="button" class="btn" data-age-confirm hidden>I’m 21 or older</button>
+    <a class="btn btn-ghost" href="/explore/">Back to Explore</a>
+  </div>
+  <noscript><p>Enable JavaScript to confirm your age.</p></noscript>
+</section>
+<div data-age-content hidden>${content}</div>
+${close}`);
+
 const monthYear = (d) => new Date(`${d}T12:00:00Z`).toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
 const longDate = (d) => (d ? new Date(`${d}T12:00:00Z`).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : '');
 
@@ -111,6 +125,7 @@ const bizDescription = (b) => {
 };
 
 function categoryPage(cat, sub, { assets }) {
+  const ageRestricted = cat.slug === 'smoke';
   // Founding Members lead their category, labeled; everyone else keeps directory order.
   // A business whose own site shows it also serves this section is listed here too (own-facts.mjs).
   const items = membersFirst(directory.filter((b) => inSection(b, cat.slug, sub ? sub.slug : '')).map((b) => asListedIn(b, cat.slug)));
@@ -170,7 +185,7 @@ ${viewData(items)}` : ''}
 </section>
 </main>
 ${footer()}`;
-  return page({ title: `${title} in Columbus, Indiana | Heart of Columbus`, description: `${cat.blurb} ${items.length} independent ${title.toLowerCase()} in Columbus, Indiana, with phone numbers, maps and hours where listed.`, body, scripts: ['site.js', 'list.js', ...(views ? ['views.js'] : [])], styles, assets });
+  return page({ title: `${title} in Columbus, Indiana | Heart of Columbus`, description: `${cat.blurb} ${items.length} independent ${title.toLowerCase()} in Columbus, Indiana, with phone numbers, maps and hours where listed.`, body: ageRestricted ? smokeAgeGate(body) : body, scripts: ['site.js', 'list.js', ...(views ? ['views.js'] : []), ...(ageRestricted ? ['smoke-age-gate.js'] : [])], styles, assets });
 }
 
 function areaPage(area, { assets }) {
@@ -249,6 +264,7 @@ function buildingNote(b) {
 }
 
 function bizPage(b, { assets }) {
+  const ageRestricted = b.cat === 'smoke';
   const cat = catBySlug[b.cat];
   const sub = subBySlug[b.sub];
   const area = areaBySlug[b.area];
@@ -369,7 +385,7 @@ ${b.cat === 'events' ? '' : rail(`More ${sub.label.toLowerCase()}`, `/c/${cat.sl
 ${rail('Close by', area ? `/n/${area.slug}/` : '', near)}
 </main>
 ${footer()}`;
-  return page({ title: `${b.name} | ${sub.label} in Columbus, Indiana`, description: bizDescription(b), body, scripts: ['site.js', 'hub.js', 'cart.js'], styles, assets, ld: [businessLd(b)] });
+  return page({ title: `${b.name} | ${sub.label} in Columbus, Indiana`, description: bizDescription(b), body: ageRestricted ? smokeAgeGate(body) : body, scripts: ['site.js', 'hub.js', 'cart.js', ...(ageRestricted ? ['smoke-age-gate.js'] : [])], styles, assets, ld: [businessLd(b)] });
 }
 
 // Saved page extras: share a list, pick a day, print it. Landmarks and events
