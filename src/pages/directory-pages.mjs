@@ -1,3 +1,4 @@
+import { socialProfile } from '../social-profiles.mjs';
 // Category, neighborhood, business, explore, saved and credits pages.
 import { tagUrl, hocAttr } from '../ref.mjs';
 import { page, esc, t } from '../layout.mjs';
@@ -299,11 +300,12 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
         ${b.book.map((o, i) => `<a class="btn${b.order.length || i ? ' btn-ghost' : ''}" href="${esc(tagFor(b, o.url, 'book'))}"${hocAttr(b.slug, 'book')} target="_blank" rel="noopener">${svg('store')} Book online${b.book.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
         ${b.feed ? `<a class="btn${b.order.length || b.book.length ? ' btn-ghost' : ''}" href="#shop">${svg('store')} Shop online</a>` : ''}
         ${b.store ? `<a class="btn${b.order.length || b.book.length ? ' btn-ghost' : ''}" href="${esc(tagFor(b, b.store, 'shop'))}"${hocAttr(b.slug, 'shop')} target="_blank" rel="noopener">${svg('store')} Shop their online store</a>` : ''}
-        ${b.links.map((l) => `<a class="btn btn-ghost" href="${esc(l.url)}" target="_blank" rel="noopener">${svg('globe')} ${esc(l.label)} ↗</a>`).join('')}
+        ${b.links.filter((l) => !b.socials.some((profile) => profile.url === socialProfile(l.url)?.url)).map((l) => `<a class="btn btn-ghost" href="${esc(l.url)}" target="_blank" rel="noopener">${svg('globe')} ${esc(l.label)} ↗</a>`).join('')}
         ${b.demo ? `<a class="btn btn-ghost" href="${b.demo}">${svg('store')} ${b.cat === 'beauty' ? 'Book' : 'Order'} (demo)</a>` : ''}
         ${b.phone ? `<a class="btn ${b.demo || b.order.length || b.book.length || b.feed || b.store ? 'btn-ghost' : ''}" href="${tel(b.phone)}">${svg('phone')} Call ${esc(b.phone)}</a>` : ''}
         ${b.added && !b.address ? '' : `<a class="btn btn-ghost" href="${mapsLink(b)}" target="_blank" rel="noopener">${svg('pin')} Directions</a>`}
-        ${b.website && !websiteAction(b) ? `<a class="btn btn-ghost" href="${esc(b.website)}"${hocAttr(b.slug, 'website')} target="_blank" rel="noopener">${svg('globe')} Website</a>` : ''}
+        ${b.website && !websiteAction(b) && !b.socials.some((profile) => profile.url === socialProfile(b.website)?.url) ? `<a class="btn btn-ghost" href="${esc(b.website)}"${hocAttr(b.slug, 'website')} target="_blank" rel="noopener">${svg('globe')} Website</a>` : ''}
+        ${b.socials.map(({ label, url }) => `<a class="btn btn-ghost" href="${esc(url)}" target="_blank" rel="noopener">${label}</a>`).join('')}
         ${b.gift ? `<a class="btn btn-ghost" href="${esc(tagFor(b, b.gift.url, 'gift'))}"${hocAttr(b.slug, 'gift')} target="_blank" rel="noopener">${svg('heart')} Gift cards</a>` : ''}
         <button type="button" class="btn btn-ghost" data-save="${b.slug}" aria-pressed="false">${svg('heart')} <span data-save-label>Save</span></button>
         <button type="button" class="btn btn-ghost" data-share="${esc(b.name)}">${svg('share')} Share</button>

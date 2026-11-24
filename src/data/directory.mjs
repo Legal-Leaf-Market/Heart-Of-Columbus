@@ -8,6 +8,8 @@
 import { businesses } from './businesses.mjs';
 import { landscape } from './landscape.mjs';
 import { WEB } from './web.mjs';
+import { BUSINESS_SOCIALS } from './business-socials.mjs';
+import { socialProfile } from '../social-profiles.mjs';
 import { COMMERCE } from './commerce.mjs';
 import { HOURS } from './hours.mjs';
 import { ATTRS } from './attrs.mjs';
@@ -251,6 +253,11 @@ for (const b of all) {
   b.own = own ? { where: own.where || '', source: own.source, checked: own.checked } : null;
   // Buttons to its own pages, and sections its own pages show it also serves.
   b.links = own?.links || [];
+  const profiles = [
+    ...b.links.map(({ url }) => url), ...(BUSINESS_SOCIALS[b.slug] || []), b.website, w?.website,
+  ].map(socialProfile).filter(Boolean);
+  b.socials = [...new Set(profiles.map(({ label }) => label))]
+    .map((label) => profiles.find((profile) => profile.label === label));
   b.also = own?.also || [];
   b.kin = own?.kin || [];
   if (own) {
