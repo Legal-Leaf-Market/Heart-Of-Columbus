@@ -15,6 +15,7 @@ import { DORA_SLUGS } from './dora.mjs';
 import { GEO } from './geo.mjs';
 import { ADDED } from './added.mjs';
 import { MEMBERS } from './members.mjs';
+import { CATALOGS } from './catalogs.mjs';
 import { OWN_FACTS } from './own-facts.mjs';
 import { excludedForOwnership } from './ownership.mjs';
 
@@ -54,6 +55,12 @@ export const CATEGORIES = [
       { slug: 'home-garden', label: 'Flowers, Home & Garden', emoji: '💐', from: ['shop', 'home'] },
       { slug: 'markets', label: 'Markets & Specialty Food', emoji: '🧺', from: ['shop', 'market'] },
       { slug: 'hobbies', label: 'Sports, Games & Hobbies', emoji: '🎲', from: ['shop', 'outdoors'] },
+    ] },
+  // Its own section in the header (owner's call, 2026-11-24), not a corner of
+  // Shopping. Old /c/shopping/smoke/ links redirect here (netlify.toml).
+  { slug: 'smoke', label: 'Smoke & Vape', emoji: '💨', color: '#6b4fa0', tint: '#ece6f3',
+    blurb: 'Smoke shops, vape shops and tobacco shops. 21 and up.',
+    subs: [
       { slug: 'smoke', label: 'Smoke & Vape', emoji: '💨', from: ['shop', 'smoke'] },
     ] },
   { slug: 'health', label: 'Health & Wellness', emoji: '🩺', color: '#0f7b6c', tint: '#e5ecdf',
@@ -221,6 +228,8 @@ for (const b of all) {
   b.order = c ? c.order || [] : [];
   b.book = c ? c.book || [] : b.added ? b.added.book || [] : [];
   b.feed = !!(c && c.feed);
+  // A saved catalog or menu from the daily store crawl (public/catalogs/).
+  b.snap = CATALOGS[b.slug] || null;
   b.store = c && c.store ? c.store : '';
   b.gift = c && c.gift ? c.gift : null;
   b.platform = c ? c.platform || '' : '';

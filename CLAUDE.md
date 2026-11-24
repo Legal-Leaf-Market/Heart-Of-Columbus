@@ -233,13 +233,12 @@ Indiana. A pitch, not a live service. See README.md.
 - **Claude never writes news.** No stories, quotes, headlines, obituaries,
   letters or newsletters about real people, businesses or events. Build the
   templates, tools and tests; a named person writes and the editor approves.
-  **Exception, by the owner's explicit permission (Jake Kennedy, 2026-11-24):**
-  Claude may expand and write history articles and guide-page copy. The rules
-  do not loosen: every added fact comes from a source listed with the article
-  and actually read in this session (never from memory), no invented quotes,
-  people or numbers, and an article whose sources could not be fetched is left
-  as it is. An expanded piece is a change to approved text, so the editor
-  rereads it; news stories about current events stay with named reporters.
+  Exception, granted by the owner on 2026-11-24: Claude may write and expand
+  history articles (`src/data/history/`) and guide-page copy, but only from
+  sources it has actually read in that session, cited with the article. Never
+  from memory; a source it cannot reach stays out. The editor's sign-off
+  still applies, and news, obituaries and quotes not printed in a source are
+  still off limits.
 - **Sample content must look fake** (Sampleton, "Sample Reporter") and carry
   `sample: true`; it never appears in a published section.
 - **Automation makes leads, not stories.** Directory diffs and public-record

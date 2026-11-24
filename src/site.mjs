@@ -8,6 +8,7 @@ import { SPOTLIGHT_SLUGS } from './data/spotlight.mjs';
 import { NEWS_LIVE } from './data/paper.mjs';
 import { businessMedia } from './data/media.mjs';
 import { attrCodes } from './attrs.mjs';
+import { helpDock } from './help-dock.mjs';
 
 // The field-guide sticker family (art-source/stickers/, cut by
 // scripts/cut-stickers.py into public/art/sticker-<id>.webp, 320 px square).
@@ -16,7 +17,7 @@ import { attrCodes } from './attrs.mjs';
 // photo of a real place.
 export const CAT_STICKER = {
   restaurants: 'restaurants', 'coffee-sweets': 'coffee-pastry', bars: 'beer-hops', beauty: 'barber',
-  shopping: 'shopping', health: 'health', fitness: 'fitness', pets: 'pets', 'home-services': 'home-services',
+  shopping: 'shopping', smoke: 'storefront', health: 'health', fitness: 'fitness', pets: 'pets', 'home-services': 'home-services',
   auto: 'auto', pros: 'professional-services', events: 'weddings', kids: 'kids-art',
   'things-to-do': 'things-to-do', makers: 'makers',
 };
@@ -125,6 +126,27 @@ export function header(active = '', { lang = 'en', alt = '' } = {}) {
 export const artIcon = (slug, emoji, cls) =>
   `<span class="${cls}" aria-hidden="true"><img width="24" height="24" decoding="async" src="/art/icon-${slug}.svg" alt="" loading="lazy" onerror="this.remove()"><i>${emoji}</i></span>`;
 
+// "Heart of Columbus: Newspaper" in the footer: every page made of articles
+// (news and its sections, history, obituaries, letters, notices, meetings,
+// markets, the newsletter). Guides and places stay under "Around town".
+const PAPER_LINKS = [
+  ['/news/', 'Latest news', 'Noticias (en inglés)'],
+  ['/news/local/', 'Local', 'Local (en inglés)'],
+  ['/news/business/', 'Business', 'Negocios (en inglés)'],
+  ['/news/food/', 'Food', 'Comida (en inglés)'],
+  ['/news/faith/', 'Faith', 'Fe (en inglés)'],
+  ['/news/sports/', 'Sports', 'Deportes (en inglés)'],
+  ['/news/opinion/', 'Opinion', 'Opinión (en inglés)'],
+  ['/history/', 'Columbus history', 'Historia de Columbus (en inglés)'],
+  ['/obituaries/', 'Obituaries', 'Obituarios (en inglés)'],
+  ['/letters/', 'Letters to the editor', 'Cartas al editor (en inglés)'],
+  ['/notices/', 'Public notices', 'Avisos públicos (en inglés)'],
+  ['/meetings/', 'Public meetings', 'Reuniones públicas (en inglés)'],
+  ['/markets/', 'Markets', 'Mercados (en inglés)'],
+  ['/newsletter/', 'The newsletter', 'El boletín (en inglés)'],
+  ['/tips/', 'Send a tip', 'Envíe un dato (en inglés)'],
+];
+
 export function footer({ lang = 'en' } = {}) {
   const es = lang === 'es';
   const cat = (c) => esc(es ? ES_CAT[c.slug] : c.label);
@@ -140,10 +162,11 @@ export function footer({ lang = 'en' } = {}) {
     </div>
     <div><h3>${es ? ES.browse : 'Browse'}</h3>${CATEGORIES.slice(0, 8).map((c) => `<a href="/c/${c.slug}/">${cat(c)}</a>`).join('')}</div>
     <div><h3>${es ? ES.more : 'More'}</h3>${CATEGORIES.slice(8).map((c) => `<a href="/c/${c.slug}/">${cat(c)}</a>`).join('')}<a href="/djs/">${k.djs}</a><a href="/plan/">${k.plan}</a></div>
-    <div><h3>${es ? ES.aroundTown : 'Around town'}</h3>${AREAS.slice(0, 7).map((a) => `<a href="/n/${a.slug}/">${esc(a.label)}</a>`).join('')}<a href="${es ? '/es/visit/' : '/visit/'}">${k.visit}</a><a href="/events/">${k.events}</a><a href="${es ? '/es/free/' : '/free/'}">${k.free}</a><a href="${es ? '/es/film/' : '/film/'}">${k.film}</a><a href="/trails/">${es ? 'Rutas con sellos (en inglés)' : 'Stamp trails'}</a><a href="${es ? '/es/skate/' : '/skate/'}">${k.skate}</a><a href="/architecture/">${k.architecture}</a><a href="/arts/">${k.arts}</a><a href="/cummins/">${k.cummins}</a><a href="${es ? '/es/holidays/' : '/holidays/'}">${k.holidays}</a><a href="/markets/">${k.markets}</a><a href="/agriculture/">${k.ag}</a><a href="/obituaries/">${k.obituaries}</a><a href="/sports/">${k.sports}</a><a href="/history/">${k.history}</a><a href="/help/">${es ? 'Ayuda en Columbus (en inglés)' : 'Get help in Columbus'}</a><a href="/credits/">${k.credits}</a><a href="/stickers/">${es ? 'Las calcomanías' : 'The sticker set'}</a></div>
+    <div><h3>${es ? ES.aroundTown : 'Around town'}</h3>${AREAS.slice(0, 7).map((a) => `<a href="/n/${a.slug}/">${esc(a.label)}</a>`).join('')}<a href="${es ? '/es/visit/' : '/visit/'}">${k.visit}</a><a href="/events/">${k.events}</a><a href="${es ? '/es/free/' : '/free/'}">${k.free}</a><a href="${es ? '/es/film/' : '/film/'}">${k.film}</a><a href="/trails/">${es ? 'Rutas con sellos (en inglés)' : 'Stamp trails'}</a><a href="${es ? '/es/skate/' : '/skate/'}">${k.skate}</a><a href="/architecture/">${k.architecture}</a><a href="/arts/">${k.arts}</a><a href="/cummins/">${k.cummins}</a><a href="${es ? '/es/holidays/' : '/holidays/'}">${k.holidays}</a><a href="/agriculture/">${k.ag}</a><a href="/sports/">${k.sports}</a><a href="/help/">${es ? 'Ayuda en Columbus (en inglés)' : 'Get help in Columbus'}</a><a href="/credits/">${k.credits}</a><a href="/stickers/">${es ? 'Las calcomanías' : 'The sticker set'}</a></div>
+    <div class="ftr-paper"><h3>Heart of Columbus: Newspaper</h3>${PAPER_LINKS.map(([href, en, sp]) => `<a href="${href}">${es ? sp : en}</a>`).join('')}</div>
     <div><h3>${es ? ES.owners : 'Owners'}</h3><a href="/owners/">${k.claim}</a><a href="/owners/#claim">${k.pickup}</a><a href="/founders-club/">${k.founders}</a><a href="/order/">${k.direct}</a></div>
   </div>
-</footer>`;
+</footer>${helpDock({ lang })}`;
 }
 
 

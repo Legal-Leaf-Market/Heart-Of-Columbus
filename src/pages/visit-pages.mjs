@@ -5,7 +5,7 @@
 import { page, esc, t } from '../layout.mjs';
 import { header, footer, svg, tel, rail, breadcrumbs } from '../site.mjs';
 import { directory } from '../data/directory.mjs';
-import { eventsSection } from './events.mjs';
+import { eventsSection, homeEvents } from './events.mjs';
 import { yourWay } from './trip-pages.mjs';
 import { trailCards } from './trail-pages.mjs';
 import { spotlightSection } from './spotlight.mjs';
@@ -92,14 +92,15 @@ ${section('call-ahead', '📞', L.ahead.kicker, L.ahead.title, `
 ${es ? yourWay({ lang: 'es' }) : `${spotlightSection({ kicker: 'While you’re in town', title: 'Three local places we’d send a friend' })}
 ${yourWay()}
 ${trailCards({ title: 'Trails with a stamp card' })}
-${eventsSection({ mode: 'upcoming', id: 'whats-on', title: 'What’s on', kicker: 'Signature events' })}
+${homeEvents({ id: 'whats-on', title: 'What’s on while you’re here', kicker: 'Library, parks, arts and live music' })}
+${eventsSection({ mode: 'upcoming', id: 'big-events', title: 'Big events to plan around', kicker: 'Signature events, save them to your trip' })}
 ${rail('Social District businesses on our list', '/n/downtown/#social-district', directory.filter((b) => b.dora), { kicker: 'Drinks to go downtown, 21 and up' })}`}
 </main>
 ${footer({ lang })}`;
   return page({
     title: L.title, description: L.description, lang,
     alternates: [['en', ORIGIN + '/visit/'], ['es', ORIGIN + '/es/visit/']],
-    body, scripts: es ? ['site.js'] : ['site.js', 'hub.js', 'events.js'], styles, assets,
+    body, scripts: es ? ['site.js'] : ['site.js', 'hub.js', 'events.js', 'events-week.js'], styles, assets,
   });
 }
 

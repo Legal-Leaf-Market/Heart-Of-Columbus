@@ -1,4 +1,5 @@
 // Category, neighborhood, business, explore, saved and credits pages.
+import { tagUrl, hocAttr } from '../ref.mjs';
 import { page, esc, t } from '../layout.mjs';
 import { directory, CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, km, inSection, asListedIn } from '../data/directory.mjs';
 import { PRICE } from '../data/members.mjs';
@@ -265,16 +266,16 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
       <div class="bz-tags">${b.member ? '<a class="tag tag-member" href="#member-note">★ Founding Member</a>' : ''}${tier === 'claimed' ? '<span class="tag tag-claimed">✓ Claimed by the owner</span>' : ''}${tier === 'listed' ? '<a class="tag tag-outline" href="#claim-card">Outline listing</a>' : ''}${SPOTLIGHT_SLUGS.has(b.slug) ? (spotFor(b.slug)?.picks.length ? '<a class="tag tag-spot" href="#owners-picks">★ Spotlight</a>' : '<span class="tag tag-spot">★ Spotlight</span>') : ''}${b.demo ? '<span class="tag tag-hot">Order direct (demo)</span>' : ''}${b.heritage ? '<span class="tag">Columbus original</span>' : ''}${b.dora ? '<span class="tag tag-dora">Social District: drinks to go</span>' : ''}${b.also.map((a) => `<a class="tag tag-go" href="#also-${a.cat}">${catBySlug[a.cat].emoji} ${esc(a.title)}</a>`).join('')}<span class="tag tag-plain">Independent</span></div>
       ${b.hours ? `<p class="open-badge biz-open" data-open-now='${JSON.stringify(b.hours)}' hidden></p>` : ''}
       <div class="biz-actions">
-        ${b.order.map((o, i) => `<a class="btn${i ? ' btn-ghost' : ''}" href="${esc(o.url)}" target="_blank" rel="noopener">${svg('store')} Order online${b.order.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
-        ${b.book.map((o, i) => `<a class="btn${b.order.length || i ? ' btn-ghost' : ''}" href="${esc(o.url)}" target="_blank" rel="noopener">${svg('store')} Book online${b.book.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
+        ${b.order.map((o, i) => `<a class="btn${i ? ' btn-ghost' : ''}" href="${esc(tagFor(b, o.url, 'order'))}"${hocAttr(b.slug, 'order')} target="_blank" rel="noopener">${svg('store')} Order online${b.order.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
+        ${b.book.map((o, i) => `<a class="btn${b.order.length || i ? ' btn-ghost' : ''}" href="${esc(tagFor(b, o.url, 'book'))}"${hocAttr(b.slug, 'book')} target="_blank" rel="noopener">${svg('store')} Book online${b.book.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
         ${b.feed ? `<a class="btn${b.order.length || b.book.length ? ' btn-ghost' : ''}" href="#shop">${svg('store')} Shop online</a>` : ''}
-        ${b.store ? `<a class="btn${b.order.length || b.book.length ? ' btn-ghost' : ''}" href="${esc(b.store)}" target="_blank" rel="noopener">${svg('store')} Shop their online store</a>` : ''}
+        ${b.store ? `<a class="btn${b.order.length || b.book.length ? ' btn-ghost' : ''}" href="${esc(tagFor(b, b.store, 'shop'))}"${hocAttr(b.slug, 'shop')} target="_blank" rel="noopener">${svg('store')} Shop their online store</a>` : ''}
         ${b.links.map((l) => `<a class="btn btn-ghost" href="${esc(l.url)}" target="_blank" rel="noopener">${svg('globe')} ${esc(l.label)} ↗</a>`).join('')}
         ${b.demo ? `<a class="btn btn-ghost" href="${b.demo}">${svg('store')} ${b.cat === 'beauty' ? 'Book' : 'Order'} (demo)</a>` : ''}
         ${b.phone ? `<a class="btn ${b.demo || b.order.length || b.book.length || b.feed || b.store ? 'btn-ghost' : ''}" href="${tel(b.phone)}">${svg('phone')} Call ${esc(b.phone)}</a>` : ''}
         ${b.added && !b.address ? '' : `<a class="btn btn-ghost" href="${mapsLink(b)}" target="_blank" rel="noopener">${svg('pin')} Directions</a>`}
-        ${b.website && !websiteAction(b) ? `<a class="btn btn-ghost" href="${esc(b.website)}" target="_blank" rel="noopener">${svg('globe')} Website</a>` : ''}
-        ${b.gift ? `<a class="btn btn-ghost" href="${esc(b.gift.url)}" target="_blank" rel="noopener">${svg('heart')} Gift cards</a>` : ''}
+        ${b.website && !websiteAction(b) ? `<a class="btn btn-ghost" href="${esc(b.website)}"${hocAttr(b.slug, 'website')} target="_blank" rel="noopener">${svg('globe')} Website</a>` : ''}
+        ${b.gift ? `<a class="btn btn-ghost" href="${esc(tagFor(b, b.gift.url, 'gift'))}"${hocAttr(b.slug, 'gift')} target="_blank" rel="noopener">${svg('heart')} Gift cards</a>` : ''}
         <button type="button" class="btn btn-ghost" data-save="${b.slug}" aria-pressed="false">${svg('heart')} <span data-save-label>Save</span></button>
         <button type="button" class="btn btn-ghost" data-share="${esc(b.name)}">${svg('share')} Share</button>
       </div>
@@ -339,11 +340,16 @@ ${b.also.map((a) => `<section class="wrap also-wrap" id="also-${a.cat}"><div cla
   <p><a class="btn" href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.cta)} on their site ↗</a></p>
   <p class="fine">From ${t(b.name)}’s own page, checked ${longDate(b.own?.checked || '')}. Quotes, dates and payment are handled by ${t(b.name)}, not Heart of Columbus.</p>
 </div></section>`).join('')}
-${b.feed ? `<section class="wrap shop-sec" id="shop"><p class="kicker">Live from their store</p><h2>Shop ${t(b.name)} online</h2>
-  <p class="sub">${b.platform === 'squarespace-commerce'
+${b.feed || (b.snap && b.snap.kind === 'shop') ? `<section class="wrap shop-sec" id="shop"><p class="kicker">${b.feed ? 'Live from their store' : 'From their website'}</p><h2>Shop ${t(b.name)} online</h2>
+  <p class="sub">${!b.feed ? `Their products and prices as their own website lists them, saved ${longDate(b.snap.checked)}. Add what you want to your list here, then buy each one on their site; prices and stock there are the final word.`
+    : b.platform === 'squarespace-commerce'
     ? 'Their real products and prices, read from their own online store. Add what you want to your list here, then buy each one on their site: their store has no way to take a whole cart from another site.'
     : 'Their real products and prices, read from their own online store. Add to your cart here, then check out on their site with everything already in the cart. Choose pickup there if they offer it.'}</p>
+  ${tieNote(b)}
   <div ${shopAttrs(b)}><p class="muted">Loading their store…</p></div></section>` : ''}
+${b.snap && b.snap.kind === 'menu' ? `<section class="wrap shop-sec" id="menu"><p class="kicker">From their website</p><h2>${t(b.name)}’s menu</h2>
+  <p class="sub">Dishes and prices as their own website lists them, saved ${longDate(b.snap.checked)}. Prices can change; their menu is the final word.</p>
+  <div data-menu="${b.slug}" data-order="${esc((b.order[0] && b.order[0].url) || b.website || '')}" data-order-label="${esc(b.order[0] ? 'Order on their site' : 'Their website')}"><p class="muted">Loading their menu…</p></div></section>` : ''}
 ${inSection(b, 'events') ? rail('Plan the rest of the day', '/plan/', planTheDay(b), { kicker: `${catBySlug.events.emoji} Events & Weddings`, id: 'plan-the-day' }) : ''}
 ${b.cat === 'events' ? '' : rail(`More ${sub.label.toLowerCase()}`, `/c/${cat.slug}/${cat.subs.length > 1 ? sub.slug + '/' : ''}`, same.slice(0, 14))}
 ${rail('Close by', area ? `/n/${area.slug}/` : '', near)}
@@ -374,7 +380,7 @@ const mapData = () => ({
   events: EVENTS.map((e) => ({ s: e.slug, n: e.name, d: dateRange(e), a: e.venue, u: e.url, start: e.start, end: e.end, l: e.ll })),
 });
 
-const NOW_CATS = ['restaurants', 'coffee-sweets', 'bars', 'shopping', 'things-to-do'];
+const NOW_CATS = ['restaurants', 'coffee-sweets', 'bars', 'shopping', 'smoke', 'things-to-do'];
 const LAYERS = [['b', 'Businesses'], ['l', 'Landmarks'], ['e', 'This weekend'], ['z', 'Social District']];
 
 function explorePage({ assets }, { saved = false } = {}) {
@@ -474,13 +480,23 @@ ${footer()}`;
   return page({ title: 'Page not found | Heart of Columbus', description: 'That page is not on Heart of Columbus.', body, scripts: ['site.js'], styles, assets });
 }
 
+// A business tied to the people who run Heart of Columbus (added.mjs `tie`)
+// says so wherever its products are shown, not only at the top of its page.
+const tieNote = (b) => (b.added?.tie ? `<p class="direct-note member-note shop-tie">★ <span><strong>Disclosure:</strong> ${esc(b.added.tie)}</span></p>` : '');
+
+// Order tracking: our UTM tag on handoff links, except a link that is the
+// business's own listed website, which the page (and its JSON-LD) shows as is.
+const bare = (u) => String(u || '').toLowerCase().replace(/^https?:\/\/(www\.)?/, '').replace(/\/+$/, '');
+const tagFor = (b, url, campaign) => (b.website && bare(url) === bare(b.website) ? url : tagUrl(url, campaign));
+
 // Pickup details for the cart: the address and hours the page already shows.
-const shopAttrs = (b) => `data-shop="${b.slug}" data-name="${esc(b.name)}"${b.address ? ` data-address="${esc(b.address)}"` : ''}${b.hours ? ` data-hours='${JSON.stringify(b.hours)}'` : ''}`;
+const shopAttrs = (b) => `data-shop="${b.slug}" data-name="${esc(b.name)}"${b.snap ? ` data-snap="${b.snap.checked}"` : ''}${b.feed ? ' data-live' : ''}${b.address ? ` data-address="${esc(b.address)}"` : ''}${b.hours ? ` data-hours='${JSON.stringify(b.hours)}'` : ''}`;
 
 function orderPage({ assets }) {
   const order = directory.filter((b) => b.order.length);
   const book = directory.filter((b) => b.book.length);
-  const shops = directory.filter((b) => b.feed);
+  const shops = directory.filter((b) => b.feed || (b.snap && b.snap.kind === 'shop'));
+  const menus = directory.filter((b) => b.snap && b.snap.kind === 'menu');
   const stores = directory.filter((b) => b.store);
   const body = `
 ${header('order')}
@@ -495,8 +511,10 @@ ${header('order')}
 </section>
 ${shops.length ? `<section class="wrap shop-sec" id="shop"><p class="kicker">One cart, many local shops</p><h2>Shop Columbus stores online</h2>
   <p class="sub">Live products from local shops that sell on their own websites. Fill one cart across all of them, then each shop checks you out on its own site. Picking up? Your cart lists every stop and routes them in one map.</p>
-  ${shops.map((b) => `<div class="shop-block"><div class="shop-block-h"><h3><a href="/b/${b.slug}/">${t(b.name)}</a></h3><a class="see-all" href="/b/${b.slug}/#shop">Their whole store ${svg('arrow', 'ic-sm')}</a></div><div ${shopAttrs(b)} data-limit="8"><p class="muted">Loading…</p></div></div>`).join('')}
+  ${shops.map((b) => `<div class="shop-block"><div class="shop-block-h"><h3><a href="/b/${b.slug}/">${t(b.name)}</a></h3><a class="see-all" href="/b/${b.slug}/#shop">Their whole store ${svg('arrow', 'ic-sm')}</a></div>${tieNote(b)}<div ${shopAttrs(b)} data-limit="8"><p class="muted">Loading…</p></div></div>`).join('')}
 </section>` : ''}
+${menus.length ? `<section class="wrap list" id="menus"><div class="sec-head"><p class="kicker">From their own websites</p><h2>Look at the menu before you go</h2><p class="sub">Menus and prices as each restaurant’s own website lists them, saved by our daily check. Order or call them directly.</p></div>
+  <div class="menu-links">${menus.map((b) => `<a class="menu-link" href="/b/${b.slug}/#menu"><strong>${t(b.name)}</strong><span>${b.snap.items} items</span></a>`).join('')}</div></section>` : ''}
 ${stores.length ? `<section class="wrap list" id="stores"><div class="sec-head"><p class="kicker">Their own web shops</p><h2>More local stores that sell online</h2><p class="sub">These shops sell on their own websites. Tap through to buy from them directly.</p></div>${listGrid(stores)}</section>` : ''}
 <section class="wrap list" id="order"><div class="sec-head"><p class="kicker">Food and drink</p><h2>Order pickup direct</h2></div>${listGrid(order)}</section>
 <section class="wrap list" id="book"><div class="sec-head"><p class="kicker">Appointments</p><h2>Book online</h2></div>${listGrid(book)}</section>

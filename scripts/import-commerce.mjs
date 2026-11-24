@@ -21,7 +21,7 @@ for (const file of process.argv.slice(2)) {
 const probes = Object.values(bySlug);
 const catOf = Object.fromEntries(directory.map((b) => [b.slug, b.cat]));
 const FOOD = new Set(['restaurants', 'coffee-sweets', 'bars']);
-const RETAIL = new Set(['shopping', 'coffee-sweets', 'pets', 'kids', 'things-to-do', 'beauty']);
+const RETAIL = new Set(['shopping', 'smoke', 'coffee-sweets', 'pets', 'kids', 'things-to-do', 'beauty']);
 const NO_FEED = new Set(['pros', 'home-services', 'auto', 'health']);
 const STOREFRONT = new Set(['shopify', 'woocommerce', 'bigcommerce', 'squarespace-commerce', 'wix-stores', 'square-online']);
 // Marketplaces take a cut, so they are not "direct" and are never linked.
@@ -108,10 +108,10 @@ for (const slug of new Set([...Object.keys(WEB), ...Object.keys(bySlug)])) {
     if (p.platform === 'square-online' && FOOD.has(cat)) { if (!order.some((o) => o.label === 'Square Online')) push(order, 'Square Online', p.origin); }
     else if (RETAIL.has(cat) && p.own && p.own.shop && shopPath !== '/' && !/^\/products?\/[^/]+\/?$/.test(shopPath)) store = store || p.own.shop;
     else if (RETAIL.has(cat) && ['shopify', 'bigcommerce'].includes(p.platform)) store = store || p.origin;
-    else if (['shopping', 'pets', 'kids'].includes(cat) && p.platform === 'square-online') store = store || p.origin;
+    else if (['shopping', 'smoke', 'pets', 'kids'].includes(cat) && p.platform === 'square-online') store = store || p.origin;
   }
   // A shop whose own site has a working cart page sells on it.
-  if (!feed && !store && p.ok && ['shopping', 'pets', 'kids'].includes(cat) && (p.pages || []).some((x) => /^\/(?:checkout\/)?cart\/?$/.test(x))) store = p.origin;
+  if (!feed && !store && p.ok && ['shopping', 'smoke', 'pets', 'kids'].includes(cat) && (p.pages || []).some((x) => /^\/(?:checkout\/)?cart\/?$/.test(x))) store = p.origin;
   // A shop that runs its cart on a separate own-engine store (Big Cartel,
   // Ecwid, a Shopify store on another address) gets that store as its link.
   // A store address carrying a preview key is a password page, not a shop.

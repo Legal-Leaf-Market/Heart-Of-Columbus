@@ -21,7 +21,7 @@
 // Legal Leaf Market Cafe: from its owner, Jacob Kennedy, who also publishes
 // Heart of Columbus (2026-11-13): a cafe coming soon to Columbus, Indiana. No
 // address, hours or menu yet. Listed as coming soon, with the tie disclosed on
-// its page.
+// its page. Moved to Shopping, Smoke & Vape on 2026-11-24 (see the entry).
 //
 // Rabbit's Balloons: from its owner, Rachael Starr, in conversation with Jacob
 // Kennedy (2026-11-15): organic balloon arches, garlands and displays in all
@@ -96,9 +96,13 @@ export const ADDED = [
   },
   {
     name: 'Legal Leaf Market Cafe',
-    cat: 'coffee-sweets',
-    sub: 'coffee-sweets',
-    type: 'Cafe',
+    // Filed under Smoke & Vape for now (owner's call, 2026-11-24): its online
+    // store sells vapes and smoke goods today. Its coffee and tea shop isn't
+    // open yet; move it back to Coffee & Sweets (or list it in both, `also`
+    // in own-facts.mjs) once coffee and tea are on sale.
+    cat: 'smoke',
+    sub: 'smoke',
+    type: 'Vape shop',
     address: '',
     phone: '',
     website: 'https://shop.legalleafmarket.shop/',
@@ -167,5 +171,17 @@ export const ADDED = [
     book: [],
     source: 'https://www.bipsbites.com/',
     checked: '2026-11-15',
+  },
+  {
+    name: 'Wild Bramble Catering',
+    cat: 'restaurants',
+    sub: 'bbq-trucks',
+    type: 'Seasonal catering for weddings, private events and corporate gatherings',
+    address: '',
+    phone: '(463) 202-6046',
+    website: 'https://www.wildbramblecatering.com/',
+    book: [],
+    source: 'https://www.wildbramblecatering.com/',
+    checked: '2026-11-24',
   },
 ];
