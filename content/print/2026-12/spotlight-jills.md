@@ -10,12 +10,14 @@ drafted: First draft by Claude on 2026-11-24 for Jake Kennedy to rewrite, from t
 sources:
   - name: Jill's Diner listing, Heart of Columbus
     url: https://heartofcolumbus.shop/b/jills-diner/
-  - name: Jill's Diner website (preview), facts and printed menu
+  - name: The Republic, 2025 Year in Review
+    url: https://fliphtml5.com/kgxhr/122725REPE00/2025_Year_in_Review/3/
+  - name: Jill's Diner website, posted hours and diner history
     url: https://jills-diner.netlify.app
 ---
 The names over the door have changed a few times since 1952. The diner has not: eggs on the flattop, coffee in the pot and regulars who know each other by name.
 
-Jill's Diner traces its counter back to 1952, when Gerald I. Davis, a Marine and World War II veteran, opened his grill at 421 Seventh Street downtown. Bennie and Carolyn Stott bought it 20 years later. Sadie Cress took over in 2004, followed by Joe and Debbie Kramer, and in February 2008 Jill bought the diner. It has been a family place ever since. [CHECK: confirm the history and Jill's last name with Jill.]
+The diner’s website traces its counter back to 1952, when Gerald I. Davis, a Marine and World War II veteran, opened his grill at 421 Seventh Street downtown. Bennie and Carolyn Stott bought it 20 years later. Sadie Cress took over in 2004, followed by Joe and Debbie Kramer, and in February 2008 Jill England bought the diner.
 
 After 73 years downtown, the diner moved in 2025 to 3005 N. National Road, between Rural King and Disc Replay, in the old RadioShack spot. Same diner, new address.
 
@@ -29,4 +31,4 @@ Everybody, the diner says: first responders, construction crews, plumbers, retir
 
 ## When to go
 
-Tuesday through Friday, 6 AM to 2 PM; Saturday, 7 AM to 12:45 PM; Sunday, 8 AM to 12:45 PM. Closed Mondays. Call (812) 799-0016. [CHECK: Sunday closing time; the printed menu says 1 PM.]
+The diner’s website lists hours of 6 AM to 2 PM Tuesday through Friday, 7 AM to 12:45 PM Saturday and 8 AM to 12:45 PM Sunday. Closed Mondays. Call (812) 799-0016.

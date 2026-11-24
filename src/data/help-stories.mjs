@@ -29,7 +29,7 @@ export const SOURCE_NAMES = {
   [S.guide]: 'United Way of Bartholomew County, “United We Help” local services guide (updated May 2026)',
   [S.housingList]: 'United Way of Bartholomew County, 2024 Bartholomew County Housing List',
   [S.cha]: 'Columbus Housing Authority',
-  [S.in211]: 'Indiana FSSA, Indiana 211 info card',
+  [S.in211Hours]: 'Indiana 211 annual report, phone and text hours',
   [S.dfr]: 'Indiana FSSA Division of Family Resources, Contact DFR',
   [S.eap]: 'Indiana Housing and Community Development Authority, Energy Assistance Program',
   [S.bmvId]: 'Indiana BMV, Identification cards',
@@ -85,7 +85,7 @@ export const STORIES = [
     byline: 'Heart of Columbus',
     date: '2026-10-26',
     body: [
-      p('If you only remember one number, make it 211. Indiana 211 is free, confidential and open 24/7, and it connects you to food, housing and utility help, health care, mental health and more. You can also text your ZIP code to 898-211.', S.in211),
+      p('If you only remember one number, make it 211. Indiana 211 is free and confidential. Call 211 or text your ZIP code to 898-211 on weekdays from 7 AM to 7 PM for referrals. You can search the resource directory at in211.org anytime.', S.in211Hours),
       p('If you are thinking about suicide or are in a crisis, call 988, any hour. In Columbus, the Stride Crisis Center at 1075 Second Street is open 24 hours for adults in a mental health or substance use crisis; call 877-463-6512. If someone is in danger, call 911.', S.guide, S.stride),
       h('A bed tonight'),
       p('Shelters here start with a phone call. Single adults call Brighter Days Housing at 812-344-4512. Families with children call Horizon House at 812-799-1062. If you are leaving someone who hurts you, Turning Point’s 24 hour helpline is 800-221-6311, and they run a 40 bed emergency shelter.', S.guide, S.turningPoint),

@@ -11,8 +11,16 @@ sources:
     url: https://www.bcscschools.org/referendum-2026
   - name: Indiana Department of Local Government Finance, final determination on the ballot question, June 17, 2026
     url: https://www.in.gov/dlgf/files/referendum-documentation2/2026-november-referendum-documents/26-013-Bartholomew-Consolidated-School-Corporation-Operating-Determination.pdf
-  - name: White River Broadcasting, November 4, 2026
-    url: https://updates.whiteriverbroadcasting.com/2026/11/04/voters-approve-bcsc-referendum/
+  - name: Bartholomew County Voter Registration, official Election Summary Report dated November 12, 2026
+    url: https://www.bartholomew.in.gov/index.php/government/voting-elections/voter-registration-office
+  - name: BCSC operating referendum resolution and adopted spending plan, Exhibit A-1
+    url: https://www.in.gov/dlgf/files/referendum-documentation2/2026-november-referendum-documents/26-013-Bartholomew-Consolidated-School-Corporation-Operating-Resolution.pdf
+  - name: Indiana Department of Education, 2026 IREAD corporation and school results
+    url: https://www.in.gov/doe/it/data-center-and-reports/Data-Files/2026-iread-corporation-and-school-results.xlsx
+  - name: Indiana Department of Education, Data Center and Reports
+    url: https://www.in.gov/doe/it/data-center-and-reports/
+  - name: Local News Digital, BCSC’s election-night statement
+    url: https://www.localnewsdigital.com/news/top-story/bcsc-operating-referendum-passes-with-local-voters/
 box:
   title: What it costs, what it pays for
   items:
@@ -25,7 +33,7 @@ box:
 ---
 If you drove anywhere in Columbus this fall, you saw the signs: Vote yes. They were about one question on the November 3 ballot, and it passed.
 
-Voters in the Bartholomew Consolidated School Corporation renewed the district's operating referendum, a property tax that pays for teacher and staff pay and school safety. White River Broadcasting reported the next morning that it passed with 63 percent of the vote. [CHECK: the county's certified percentage.]
+Voters in the Bartholomew Consolidated School Corporation renewed the district's operating referendum, a property tax that pays for teacher and staff pay and school safety. The county's official election summary records 12,915 yes votes and 8,228 no votes, or 61.08 percent in favor.
 
 ## It was a renewal, not a new tax
 
@@ -43,7 +51,7 @@ For the owner of a median $250,000 home, the district estimates the referendum's
 
 Referendum money can pay only for day to day costs, the district says: staff pay, programs and student safety. It is not used for construction, bond payments, administrator salaries or capital projects.
 
-The district credits the 2020 referendum with results it reported this spring: staff retention of 94 percent, IREAD reading scores rising from 80 percent in 2021 to a projected 91 percent this year, a graduation rate up from 81 percent to a projected 98 percent, a STEM lab in every elementary school and 11 new school safety staff. Those are the district's own figures. [CHECK: final 2026 IREAD and graduation numbers once the state posts them.]
+The district credits the 2020 referendum with 94 percent staff retention, a STEM lab in every elementary school and 11 new school safety staff. The Indiana Department of Education’s 2026 IREAD results show that 736 of 806 students in the district’s third-grade cohort passed, or 91.3 percent. BCSC projected a 98 percent graduation rate for 2026. [CHECK: verify the final 2026 graduation rate when the state releases it.]
 
 Had the renewal failed, the district says, it would have lost about $9.5 million to $10.5 million a year once the old referendum ran out, and would have had to cut teacher and staff pay and eliminate its School Safety Officers.
 
@@ -51,4 +59,4 @@ Had the renewal failed, the district says, it would have lost about $9.5 million
 
 Superintendent Chad Phillips thanked voters in a statement the district released on election night. "Strong public schools are an anchor for our community and this result reflects a shared understanding that the success of our schools and community are connected," he said. He added that the district remains "committed to transparency and accountability in how these funds support our staff and schools."
 
-[CHECK: ask BCSC's finance office for the year by year spending plan, and whether anything changes for families in 2027.]
+The board's adopted spending plan estimates $9.28 million for teacher and staff compensation and $820,000 for student safety in 2027. The district says it expects to revise the plan in future years as revenue and needs change. [CHECK: ask BCSC’s finance office whether families should expect any changes in 2027.]

@@ -15,8 +15,8 @@ export const HELP_SRC = {
   unitedWeHelp: 'https://www.unitedwehelp.org/',
   housingList: 'https://www.columbus.in.gov/wp-content/uploads/2024/03/2024-Bartholomew-Housing-List-English.pdf',
   housingListBoth: 'https://static.libnet.info/frontend-images/pdfs/mybcpl/Housing_List_2024_Eng-Span.pdf',
-  in211: 'https://secure.in.gov/fssa/files/In211InfoCard_En.pdf',
   in211Site: 'https://in211.org/',
+  in211Hours: 'https://iga.in.gov/publications/agency_report/2024-Annual-Report---Indiana-211.pdf',
   dfr: 'https://www.in.gov/fssa/dfr/4727.htm',
   benefits: 'https://fssabenefits.in.gov/bp/#/',
   dfrOffice: 'https://www.in.gov/fssa/dfr/ebt-hoosier-works-card/find-my-local-dfr-office',
@@ -49,7 +49,7 @@ const x = (o) => ({ checked: CHECKED, ...o });
 // numbers a person can call from any phone, tonight.
 export const FIRST = [
   { label: 'Emergency', number: '911', note: 'Police, fire, ambulance' },
-  { label: 'Any kind of help', number: '211', note: 'Indiana 211, free, 24/7. Or text your ZIP code to 898-211', source: S.in211 },
+  { label: 'Any kind of help', number: '211', note: 'Indiana 211, weekday phone and text support. Search in211.org anytime.', source: S.in211Hours },
   { label: 'Crisis or thoughts of suicide', number: '988', note: 'Free, 24/7', source: S.guide },
   { label: 'Shelter, single adults', number: '812-344-4512', note: 'Brighter Days Housing', source: S.guide },
   { label: 'Shelter, families with kids', number: '812-799-1062', note: 'Horizon House', source: S.guide },
@@ -59,8 +59,8 @@ export const FIRST = [
 export const HELP = [
   { id: 'right-now', emoji: '🆘', title: 'Help right now', lead: 'If someone is in danger, call 911. These lines answer day and night.', items: [
     x({ slug: 'indiana-211', name: 'Indiana 211', what: 'Free, confidential help finding food, housing, utility help, health care, mental health and more, from the state.',
-      phones: [['Call', '211'], ['Or', '866-211-9966']], text: ['Text your ZIP code to', '898-211'], hours: 'Open 24/7',
-      links: [['Search in211.org', S.in211Site]], source: S.in211 }),
+      phones: [['Call', '211'], ['Or', '866-211-9966']], text: ['Text your ZIP code to', '898-211'], hours: 'Phone and text weekdays 7 AM to 7 PM. Online search available anytime.',
+      links: [['Search in211.org', S.in211Site]], source: S.in211Hours }),
     x({ slug: '988', name: '988 Suicide and Crisis Lifeline', what: 'Confidential support, any hour, for anyone in emotional distress or a mental health or substance use crisis.',
       phones: [['Call', '988']], hours: 'Open 24/7', source: S.guide }),
     x({ slug: 'stride', name: 'Stride Crisis Center (Centerstone)', what: 'A crisis center for adults 18 and older in a mental health or substance use crisis. First responders, social workers and neighbors can call for someone too.',

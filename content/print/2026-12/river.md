@@ -1,7 +1,7 @@
 ---
 headline: The river gets its riverfront back
 kicker: Riverfront
-dek: After years of delays, the century old low head dam downtown is coming out, and a trail and a gathering place are taking shape along the East Fork of the White River.
+dek: After years of delays, the century old low head dam downtown is gone, and a trail and a gathering place are taking shape along the East Fork of the White River.
 bylines: []
 editor: terry-winchester-ii
 status: draft
@@ -9,6 +9,12 @@ drafted: First draft by Claude on 2026-11-24 for Jake Kennedy to rewrite, from t
 sources:
   - name: City of Columbus Redevelopment, Riverfront Reimagined project page
     url: https://www.columbus.in.gov/redevelopment/riverfront-reimagine-project/
+  - name: City of Columbus, Dam Removal Finished Ahead of Schedule on East Fork White River
+    url: https://www.columbus.in.gov/dam-removal-finished-ahead-of-schedule-on-east-fork-white-river/
+  - name: November 16 Columbus Redevelopment Commission project update, via Open Publica
+    url: https://www.openpublica.com/meetings/columbus-indiana-meeting-portal-2026-11-16-6afc43f49ae107d1630ccffa
+  - name: Local News Digital, September 24 riverfront and ribbon-cutting update
+    url: https://www.localnewsdigital.com/news/top-story/columbus-riverfront-dam-removal-underway-ribbon-cutting-moves-to-spring-2027/
   - name: Indiana READI, Columbus Riverfront Project
     url: https://www.indianareadi.com/project/00130
   - name: Dirt Americana, July 2026, on the riverfront guidebook article
@@ -18,15 +24,17 @@ box:
   items:
     - "100 plus years: the age of the low head dam (city)"
     - "September 2026: dam removal began (city)"
+    - "Under 10 days: time crews took to dismantle the dam (city)"
     - "$5.6 million: state READI money (READI)"
     - "About $11.58 million: tax increment financing (READI)"
     - "$1.72 million: Next Level Trails (READI)"
     - "$105,000: private money (READI)"
-    - "End of 2026: the city's goal for substantial completion"
+    - "Late November 2026: completion target reported November 16"
+    - "April through June 2027: anticipated ribbon-cutting window"
 ---
 For decades, the stretch of the East Fork of the White River between the Second Street and Third Street bridges has been on the city's list of places that needed fixing. This fall, the work finally reached the water.
 
-In September, crews began taking out the low head dam there, a structure more than 100 years old, according to Columbus Redevelopment. The city calls the dam's removal a priority for decades and says it will greatly improve both the health and the safety of that part of the river. [CHECK: Is the dam fully out? When did the in river work finish?]
+Crews began removing the low head dam in September. The city confirmed that the 1903 structure is gone and that dismantling took less than the projected 10 days. The city says the removal will improve safety and help protect the west bank from erosion.
 
 ## A project that changed shape
 
@@ -40,11 +48,11 @@ The state's summary of the project adds native plants, accessible overlooks, mor
 
 Work began on the west bank in early 2025, clearing the tree line for a staging area and access point while the redesign was finished and permits were amended. By the middle of 2025 the city had picked a contractor for the east bank, where the work includes armoring the bank, the trail connection and an amphitheater.
 
-The city says it aims to have the project substantially complete by the end of 2026. [CHECK with Columbus Redevelopment: what is finished, what waits for spring, and the date of the ribbon cutting.]
+At the November 16 Redevelopment Commission meeting, the update listed landscaping, fencing, bike racks and railing as work in progress and put expected completion at the end of November. The ribbon cutting is planned for April through June 2027. [CHECK: confirm the completion date and the exact ribbon-cutting date with Columbus Redevelopment.]
 
 ## Who is paying for it
 
-The state's READI program lists the project at about $17.3 million: $5.6 million in READI funds, about $11.58 million in tax increment financing and $105,000 from private sources. Its project summary also names $1.72 million from the state's Next Level Trails program. The South Central Indiana region, which includes Bartholomew, Jackson and Jennings counties, received $30 million in READI money in all. [CHECK: the final cost with the city, and whether the Next Level Trails money is inside or on top of the READI total.]
+The state’s READI project page lists a $17.29 million funding total, including $5.6 million in READI funds. Its written overview separately mentions a $1.72 million Next Level Trails award, but the funding table does not say whether the award is included in its public funding subtotal. [CHECK: confirm that accounting and the final cost with Columbus Redevelopment.]
 
 ## What it is for
 
