@@ -32,6 +32,14 @@ export const STICKERS = [
 export const sticker = (id, { size = 96, cls = '', alt = '', lazy = true } = {}) =>
   `<img class="stk${cls ? ' ' + cls : ''}" src="/art/sticker-${id}.webp" width="${size}" height="${size}" alt="${esc(alt)}"${alt ? '' : ' aria-hidden="true"'} decoding="async"${lazy ? ' loading="lazy"' : ''}>`;
 export const catSticker = (slug, opts) => sticker(CAT_STICKER[slug] || 'storefront', opts);
+import { BUSINESS_ART_SHARDS } from './data/business-art.mjs';
+export const businessIllustration = (slug, { size = 82 } = {}) => {
+  const shard = BUSINESS_ART_SHARDS[slug];
+  if (!shard) return '';
+  const file = String(shard).padStart(2, '0');
+  return `<svg class="business-illustration" viewBox="0 0 280 360" width="${size}" height="${Math.round(size * 1.286)}" role="img" aria-label="Heart of Columbus field guide illustration"><use href="/art/business-stickers-${file}.svg#biz-${esc(slug)}"></use></svg>`;
+};
+
 
 // Architecture photography from Wikimedia Commons, hotlinked with credit.
 // Every photo is public domain or Creative Commons; see /credits/. The
@@ -181,7 +189,6 @@ export function card(b, { compact = false, note = '' } = {}) {
   const cat = catBySlug[b.cat];
   const sub = subBySlug[b.sub];
   const area = areaBySlug[b.area];
-  const m = businessMedia(b.slug);
   const tags = [];
   if (b.member) tags.push('<span class="tag tag-member" title="Pays Heart of Columbus for a website and a featured spot">★ Founding Member</span>');
   if (SPOTLIGHT_SLUGS.has(b.slug)) tags.push('<span class="tag tag-spot">★ Spotlight</span>');
@@ -194,8 +201,8 @@ export function card(b, { compact = false, note = '' } = {}) {
   if (b.added?.soon) tags.push('<span class="tag tag-hot">Coming soon</span>');
   if (b.tempClosed) tags.push('<span class="tag tag-warn">Temporarily closed</span>');
   return `
-<article class="bz${compact ? ' bz-compact' : ''}" data-slug="${b.slug}" data-media="${m.state === 'photo' ? 'photo' : 'none'}" style="--t:${cat.tint}">
-  ${m.state === 'photo' ? `<a class="bz-media" href="/b/${b.slug}/" tabindex="-1" aria-hidden="true"><img class="bz-photo" src="${m.src}" width="${m.width}" height="${m.height}" alt="" loading="lazy" decoding="async" onerror="${MEDIA_FAIL}"></a>` : ''}
+<article class="bz${compact ? ' bz-compact' : ''}" data-slug="${b.slug}" data-media="art" style="--t:${cat.tint}">
+  <a class="bz-artwork" href="/b/${b.slug}/" tabindex="-1" aria-hidden="true" style="display:flex;align-items:center;justify-content:center;overflow:hidden;height:${compact ? 148 : 188}px;background:var(--t);border-radius:14px 14px 0 0">${businessIllustration(b.slug, { size: compact ? 112 : 146 })}</a>
   <div class="bz-body">
     <div class="bz-top">
       <p class="bz-meta">${esc(cat.label)}${area ? `<span class="bz-area">${svg('pin', 'ic-xs')}${esc(area.label)}</span>` : ''}</p>

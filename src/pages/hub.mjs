@@ -133,6 +133,12 @@ ${smartCarousel(slides({ news: stories[0] }))}
 ${newsletterBanner()}
 
 ${spotlightSection({ title: 'Meet your neighbors.' })}
+<section class="wrap" data-counter-activity hidden aria-labelledby="counter-title">
+  <img src="/img/field-guide-stickers/clinking-mugs.webp" width="96" height="96" style="object-fit:contain" alt="" loading="lazy" decoding="async">
+  <h2 id="counter-title">Around the Counter</h2>
+  <p data-counter-count></p>
+  <a href="/explore/">Visit the business</a>
+</section>
 
 ${o ? orderDirectBanner({ n: o }) : ''}
 
@@ -213,7 +219,7 @@ ${yourWay({ id: 'trip-ideas' })}
 <section class="areas wrap" id="neighborhoods" aria-labelledby="areas-h">
   <div class="fg-map">
     <div class="fg-map-head">
-      <div><p class="kicker">Around town</p><h2 id="areas-h">Discover Columbus by neighborhood.</h2>
+      <div><p class="kicker">Around town</p><img src="/img/field-guide-stickers/neighborhood-map.webp" width="80" height="80" style="object-fit:contain" alt="" loading="lazy" decoding="async"><h2 id="areas-h">Discover Columbus by neighborhood.</h2>
       <p>${AREAS.length} parts of town, each with its own rail of places. The drawing is decoration; for real pins use the <a href="/explore/?view=map">map</a>.</p></div>
       <div class="fg-map-art" aria-hidden="true">${sticker('map-heart', { size: 150 })}${sticker('covered-bridge', { size: 120 })}</div>
     </div>
@@ -292,7 +298,7 @@ ${footer()}`;
     title: 'Heart of Columbus | Local Businesses in Columbus, Indiana',
     description: `${total} independent restaurants, shops, salons and trades in Columbus, Indiana. Browse by category or neighborhood, and order direct.`,
     body,
-    scripts: ['site.js', 'hub.js', 'events-week.js', 'banners.js', 'subscribe.js'],
+    scripts: ['site.js', 'hub.js', 'events-week.js', 'banners.js', 'subscribe.js', 'counter-activity.js'],
     styles: ['hoc.css'],
     assets,
     ld: [siteLd()],

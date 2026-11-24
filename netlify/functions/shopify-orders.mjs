@@ -18,7 +18,7 @@ export async function receiveOrder(req, { secret, shop, slug, save }) {
   }
 
   const topic = req.headers.get('x-shopify-topic');
-  if (!['orders/create', 'orders/updated', 'orders/fulfilled', 'orders/partially_fulfilled'].includes(topic)) {
+  if (!['orders/create', 'orders/updated', 'orders/cancelled', 'orders/fulfilled', 'orders/partially_fulfilled'].includes(topic)) {
     return new Response(null, { status: 204 });
   }
   let payload;
@@ -41,6 +41,7 @@ export async function receiveOrder(req, { secret, shop, slug, save }) {
   const date = new Date(at).toISOString();
   const row = {
     slug, order, click, at: date, updated,
+    test: payload.test !== false,
     triggered: Date.parse(req.headers.get('x-shopify-triggered-at')) || updated,
     total: Math.max(0, Number(payload.current_total_price ?? payload.total_price) || 0),
     currency: /^[A-Z]{3}$/.test(payload.currency) ? payload.currency : 'USD',
