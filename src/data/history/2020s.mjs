@@ -7,7 +7,7 @@ const HS = 'https://indianasentinels.hockeyshift.com/news/';
 const x = (o) => ({ checked: CHECKED, ...o });
 
 export const A2020s = [
-  x({ slug: 'columbus-passes-fifty-thousand', when: '2020', section: 'civic',
+  x({ checked: '2026-11-24', slug: 'columbus-passes-fifty-thousand', when: '2020', section: 'civic',
     title: 'A city of fifty thousand',
     dek: 'The 2020 census counted 50,474 people in Columbus, five times the town of 1930. It also showed a city more connected to the rest of the world than ever.',
     body: [
@@ -15,7 +15,9 @@ export const A2020s = [
       'The long view is even more striking. At the 1930 census, where this history begins, Columbus had 9,935 people. The town grew in every census after that: past 18,000 by 1950, past 30,000 by 1980, and past 39,000 by 2000. In ninety years it multiplied about five times over.',
       '## Who lives here',
       'The 2020 count also showed how the town is changing. Wikipedia’s summary of the census records that the share of residents who are Asian rose from 5.6 percent in 2010 to 10.4 percent in 2020, and the share who are Hispanic or Latino rose from 5.8 percent to 9.6 percent.',
-      'Those numbers have a history. As earlier articles in this series tell, Columbus began courting companies from Japan in the 1980s, and Site Selection magazine later counted 28 Japanese firms in Columbus employing more than 5,800 people, along with engineering firms from India and others from Europe and China. Cummins, headquartered downtown, does business around the world. Ethnic Expo, which began in 1984, now celebrates the traditions of more than 30 countries represented by Columbus residents, The Republic says.',
+      'Those numbers have a history, and Site Selection magazine laid much of it out in a profile written after NTN Driveshaft announced a $90 million Columbus investment in October 2018. Jason Hester, president of the Greater Columbus Indiana Economic Development Corporation, told the magazine the group was formed in 1976 to diversify the local economy and made its first foreign investment deal in 1978. By then Columbus had been sending a delegation to Japan every year for more than 35 years, and to China for more than a decade.',
+      'The magazine counted 28 Japanese firms in Columbus employing more than 5,800 people, most of them in the auto industry, along with French, Chinese and Indian companies; one Indian engineering firm, KPIT, employed 170 people here. Hester said about 38 percent of all jobs in Columbus were in manufacturing, putting the county in the top 2 percent nationwide, and that the city had averaged 365 new international residents a year over the previous three years, many of them engineers. Cummins, headquartered downtown, employed 8,000 people in southern Indiana, most of them in Columbus.',
+      'Ethnic Expo, which began in 1984, now celebrates the traditions of more than 30 countries represented by Columbus residents, The Republic says.',
       'The town of 1930 was a county seat with a young diesel engine company. The city of 2020 was still a county seat, still home to that company, and now home to families from around the world.',
     ],
     sources: [['Columbus, Indiana, Wikipedia', WP + 'Columbus,_Indiana'], ['Around the world in 59 counties, Site Selection', 'https://siteselection.com/around-the-world-in-59-counties/'], ['Story on the 33rd Ethnic Expo, The Republic', 'https://www.therepublic.com/?p=351137']] }),
