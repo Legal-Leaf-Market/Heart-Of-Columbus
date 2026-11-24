@@ -1,5 +1,3 @@
-
-
 ---
 headline: Old Friends Make New Memories
 dek: "A second chance at friendship, an underdog homecoming, and a Pacers finish worth the drive."
@@ -39,7 +37,18 @@ images:
     credit: Jake Kennedy
     license: Staff photo
   - file: /news-media/2026/11/pacers-thunder-intros.jpg
-    alt: Flame cannons
+    alt: Flame cannons fire on the court during player introductions, with a player in an Indiana number 32 jersey shouting on the center video board and the scoreboard still at 0 to 0.
+    caption: Off with a bang!
+    credit: Eli Wire
+    creditUrl: https://www.instagram.com/eliwire/
+    license: Staff photo
+  - file: /news-media/2026/11/pacers-thunder-halftime.jpg
+    alt: At center court, a performer in a red Tyler's Amazing Balancing Act shirt balances a tall stepladder on his face while a camera operator films.
+    credit: Eli Wire
+    creditUrl: https://www.instagram.com/eliwire/
+    license: Staff photo
+methods: Tickets were a gift from Eli's cousins, who have half season tickets.
+---
 
 dek: "A second chance at friendship, an underdog homecoming, and a Pacers finish worth the drive."
 
