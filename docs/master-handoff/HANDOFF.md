@@ -1,7 +1,11 @@
 # Handoff for the next Claude session (2026-11-24)
 
-Read this first, then `CLAUDE.md`. The previous handoff (2026-11-13) is
-`HANDOFF-2026-11-13.md`; its open items still stand unless marked below.
+Two sessions worked on 2026-11-24 and each left a handoff. This one covers the
+site, order direct, the daily store crawl and order tracking.
+`HANDOFF-2026-11-24.md` covers the history workflow (sources, the Chrome pass
+for The Republic, which articles were rechecked), staff and the AI policy.
+Read both, then `CLAUDE.md`. The 2026-11-13 handoff is `HANDOFF-2026-11-13.md`;
+its open items still stand unless marked below.
 Jacob Kennedy (Jake) is Co-Founder and Chief Editor; he owns Legal Leaf Market
 and Crossroads Wedding Co. Everything below is on `main` and live at
 `heartofcolumbus.netlify.app` (Netlify deploys `main`, about a minute).
@@ -77,12 +81,15 @@ and Crossroads Wedding Co. Everything below is on `main` and live at
 
 ## Next, in order
 
-1. **Shopify one-click tracking** (Jake said yes after WooCommerce): a Shopify
-   app with `read_orders`. Blocked on Jake creating a free Shopify Partner
-   account. Start with custom-distribution install links (one per store),
-   apply for review later for one link for all. Webhooks orders/create and
-   orders/fulfilled; the mandatory privacy webhooks; store tokens with
-   `src/vault.mjs`. Match on the `hoc_click` cart attribute.
+1. **Shopify tracking:** a pilot backend shipped in #107 (another session):
+   `/api/shopify-orders` takes signed order webhooks (`orders/create`,
+   `updated`, `fulfilled`, `partially_fulfilled`) for ONE store set by
+   `HOC_SHOPIFY_CLIENT_SECRET`, `HOC_SHOPIFY_SHOP` and `HOC_SHOPIFY_SLUG`, and
+   keeps only orders carrying our `hoc_click` cart attribute. Still to do: Jake
+   creates a free Shopify Partner account and an app with `read_orders`, sets
+   those variables, tests in a dev store. One link for every store needs
+   Shopify to approve public distribution (a custom-distribution app is tied
+   to one merchant). See `docs/order-tracking.md`.
 2. **First real tests of tracking:** Jake's own Shopify (paste the pixel from
    `/owners/tracking/`, keys from the report) and one WooCommerce store's
    one-click connect. The Woo order-attribution meta may not show in the REST

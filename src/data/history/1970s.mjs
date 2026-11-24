@@ -89,7 +89,7 @@ export const A1970s = [
       'History stayed on the grounds. In 1995 the local aviation board began restoring parts of the base. A former base building was turned into a chapel and, on May 29, 1998, dedicated to Jean Lewellen Norbeck, a Women Airforce Service Pilot killed testing aircraft in 1944. The Atterbury Bakalar Air Museum sits near the control tower.',
       'In 1972 the Air Force was gone. What it left behind became one of the city’s front doors.',
     ],
-    sources: [['Airport history, City of Columbus', 'https://www.columbus.in.gov/airport/about/history'], ['Atterbury Army Air Field historical marker, Indiana Historical Bureau', 'https://www.in.gov/history/markers/528.htm'], ['Columbus Municipal Airport (Indiana), Wikipedia', WP + 'Columbus_Municipal_Airport_(Indiana)'], ['IU Columbus history, Indiana University Columbus', 'https://columbus.iu.edu/about/history/index.html']] }),
+    sources: [['Airport history, City of Columbus', 'https://www.columbus.in.gov/airport/about/history'], ['Atterbury Army Air Field historical marker, Indiana Historical Bureau', 'https://www.in.gov/history/state-historical-markers/find-a-marker/atterbury-army-air-field/'], ['Columbus Municipal Airport (Indiana), Wikipedia', WP + 'Columbus_Municipal_Airport_(Indiana)'], ['IU Columbus history, Indiana University Columbus', 'https://columbus.iu.edu/about/history/index.html']] }),
 
   x({ slug: 'arts-council-begins', when: '1972', section: 'culture',
     title: 'An arts council for the Driftwood Valley',
