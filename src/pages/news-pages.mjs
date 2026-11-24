@@ -4,7 +4,7 @@
 import { esc, t } from '../layout.mjs';
 import { newsPage, setBarLinks } from '../news/frame.mjs';
 import { aboutPages } from './about-pages.mjs';
-import { readerPages } from './reader-pages.mjs';
+import { readerPages, field, form } from './reader-pages.mjs';
 import { civicPages } from './civic-pages.mjs';
 import { habitPages, storyAsk } from './habit-pages.mjs';
 import { sponsorSlot } from '../news/sponsor-slot.mjs';
@@ -19,7 +19,7 @@ import { disclosures } from '../news/disclosure.mjs';
 import { storyList, storyCard, label, byline, editorLine, fmtWhen, fmtDate } from '../news/render.mjs';
 import { card, svg, rail, PHOTOS } from '../site.mjs';
 import { directory, areaBySlug, AREAS } from '../data/directory.mjs';
-import { eventsSection } from './events.mjs';
+import { eventsSection, homeEvents } from './events.mjs';
 import { ALERT, activeAlert, LEVELS } from '../news/alert.mjs';
 import { BODIES } from '../data/civic.mjs';
 import { reader, nameplate } from '../kindle.mjs';
@@ -91,7 +91,13 @@ export function inThisStory(s) {
 </section>`;
 }
 
-setBarLinks(() => SECTIONS.filter((s) => s.bar !== false).map((s) => [sectionHref(s), s.name]));
+setBarLinks(() => {
+  const inBar = SECTIONS.filter((s) => s.bar !== false);
+  return {
+    features: inBar.filter((s) => s.feature).map((s) => [sectionHref(s), s.name, `np-feat np-feat-${s.slug}`]),
+    sections: inBar.filter((s) => !s.feature).map((s) => [sectionHref(s), s.name]),
+  };
+});
 
 const host = (u) => new URL(u).hostname.replace(/^www\./, '');
 
@@ -213,21 +219,68 @@ function sectionPage(ctx, sec) {
   ${storyList(items, { showSection: false, empty: 'No stories in this section yet.' })}
   ${followStrip({ feeds: [[`/news/${sec.slug}/feed.xml`, sec.name]] })}
 </section>
-${sec.events ? eventsSection({ mode: 'upcoming', id: 'whats-on', title: 'What’s on', kicker: 'Signature events' }) : ''}`;
-  return newsPage({ ...ctx, path: sectionHref(sec), title: sec.name, description: sec.blurb, crumbs: [['/news/', 'News'], ['', sec.name]], body, scripts: sec.events ? ['hub.js', 'events.js'] : [], feeds: [[`/news/${sec.slug}/feed.xml`, sec.name]] });
+${sec.events ? homeEvents({ id: 'whats-on', title: 'What’s on', kicker: 'Library, parks, arts and live music' }) : ''}`;
+  return newsPage({ ...ctx, path: sectionHref(sec), title: sec.name, description: sec.blurb, crumbs: [['/news/', 'News'], ['', sec.name]], body, scripts: sec.events ? ['hub.js', 'events.js', 'events-week.js'] : [], feeds: [[`/news/${sec.slug}/feed.xml`, sec.name]] });
 }
+
+// A series that takes reader stories (`invite` in src/news/series.mjs) leads
+// with its newest story as a big feature, then asks for yours: the form goes
+// to /api/newsroom for the editor, who talks with every writer before a
+// story runs.
+const seriesLead = (sr, s) => `
+<article class="sr-lead">
+  <a class="sr-lead-art" href="${s.href}" aria-hidden="true" tabindex="-1">
+    <span class="sr-lead-name">${seriesName(sr)}</span>
+    ${(s.stickers || []).slice(0, 2).map((x, i) => stickerImg(x.sticker, `sr-lead-stk sr-lead-stk-${i}`)).join('')}
+    <span class="sr-lead-line"></span>
+  </a>
+  <div class="sr-lead-copy">
+    <p class="kicker">The newest story</p>
+    <h2><a href="${s.href}">${esc(s.headline)}</a></h2>
+    ${s.dek ? `<p class="sr-lead-dek">${esc(s.dek)}</p>` : ''}
+    <p class="sr-lead-by">${byline(s)} · ${esc(fmtDate(s.published))}</p>
+    <a class="btn" href="${s.href}">Read the story ${svg('arrow', 'ic-sm')}</a>
+  </div>
+</article>`;
+
+const seriesInvite = (sr) => `
+<section class="sr-invite" id="tell-us" aria-labelledby="tell-us-h">
+  <div class="sr-invite-head">
+    <p class="kicker">Your turn</p>
+    <h2 id="tell-us-h">Tell us about your person</h2>
+    <p>${esc(sr.invite)}</p>
+    <ul class="sr-steps">
+      <li><b>1</b><span>Write it the way you would say it. A few lines is plenty; a few pages is fine too.</span></li>
+      <li><b>2</b><span>The editor reads every story and calls or emails you before anything runs. Add an email or a phone so we can.</span></li>
+      <li><b>3</b><span>It runs in ${seriesName(sr)} with your name, and you get the link to share.</span></li>
+    </ul>
+  </div>
+  <div class="pk-card">${form('blue', 'Send my story', [
+    `<div class="ow-two">${field('Who is this about?', 'person', { req: true, hint: 'Their name, the way you want it printed.' })}<label>How did they serve?<select name="role"><option value="">Choose one</option><option>Police officer</option><option>Sheriff’s deputy</option><option>Firefighter</option><option>EMT or paramedic</option><option>Dispatcher</option><option>Veteran or service member</option><option>Corrections officer</option><option>Something else</option></select></label></div>`,
+    field('Where they served', 'agency', { hint: 'A department, a station, a branch of the military. Optional.' }),
+    field('Your story', 'story', { area: true, req: true, rows: 10, max: 6000, hint: 'What did they do? What do you want them, and Columbus, to know?' }),
+    `<div class="ow-two">${field('Your name', 'name', { auto: 'name', req: true })}${field('You are their…', 'relation', { hint: 'Son, neighbor, partner, coworker…' })}</div>`,
+    `<div class="ow-two">${field('Email', 'email', { type: 'email', auto: 'email' })}${field('Phone', 'phone', { type: 'tel', auto: 'tel' })}</div>`,
+    field('Your town', 'town', { auto: 'address-level2' }),
+    '<label class="sr-check"><input type="checkbox" name="photo"> I have a photo of them I could share. The editor will ask for it.</label>',
+    '<label class="sr-check"><input type="checkbox" name="ok" required> Heart of Columbus may publish my story with my name, after the editor talks with me. We never publish your email or phone.</label>',
+  ])}</div>
+</section>`;
 
 function seriesPage(ctx, sr) {
   const items = storiesInSeries(sr.slug);
+  const [lead, ...rest] = sr.invite ? items : [];
   const body = `
-<section class="wrap np-section">
-  <header class="np-doc-head"><p class="kicker">A series</p><h1>${esc(sr.name)}</h1><p class="np-dek">${esc(sr.blurb)}</p></header>
-  ${storyList(items, { empty: `The first ${sr.name} story is on its way.` })}
+<section class="wrap np-section${sr.invite ? ` sr-page sr-${sr.slug}` : ''}">
+  <header class="np-doc-head"><p class="kicker">A series</p><h1>${sr.invite ? seriesName(sr) : esc(sr.name)}</h1><p class="np-dek">${esc(sr.blurb)}</p>${sr.invite ? `<p><a class="btn sr-cta" href="#tell-us">Tell us about your person ${svg('arrow', 'ic-sm')}</a></p>` : ''}</header>
+  ${lead ? seriesLead(sr, lead) : ''}
+  ${sr.invite ? (rest.length ? `<h2 class="sr-more-h">More stories</h2>${storyList(rest)}` : '') : storyList(items, { empty: `The first ${sr.name} story is on its way.` })}
+  ${sr.invite ? seriesInvite(sr) : ''}
   ${shareBar({ path: seriesHref(sr), title: `${sr.name}, from ${PAPER.name}`, text: sr.blurb, label: 'Share this series' })}
   ${signupBox({ compact: true })}
   ${followStrip({ feeds: [[`${seriesHref(sr)}feed.xml`, sr.name]] })}
 </section>`;
-  return newsPage({ ...ctx, path: seriesHref(sr), title: sr.name, description: sr.blurb, crumbs: [['/news/', 'News'], ['', sr.name]], body, feeds: [[`${seriesHref(sr)}feed.xml`, sr.name]] });
+  return newsPage({ ...ctx, path: seriesHref(sr), title: sr.name, description: sr.blurb, crumbs: [['/news/', 'News'], ['', sr.name]], body, scripts: sr.invite ? ['newsroom.js'] : [], styles: sr.invite ? ['newsprint.css'] : [], feeds: [[`${seriesHref(sr)}feed.xml`, sr.name]] });
 }
 
 function samplesPage(ctx) {
@@ -271,10 +324,10 @@ function frontPage(ctx) {
   </aside>
 </div>
 ${rail('Open right now', '/explore/?open=1', directory.filter((b) => b.hours && !b.tempClosed && ['restaurants', 'coffee-sweets', 'bars'].includes(b.cat)).slice(0, 150), { kicker: 'From the directory', openOnly: true, id: 'open-now' })}
-${eventsSection({ mode: 'weekend', id: 'this-weekend', title: 'This weekend in Columbus', kicker: 'Happening Friday to Sunday' })}
+${homeEvents({ id: 'this-weekend', title: 'This weekend in Columbus', kicker: 'Swipe through what’s on', start: 'weekend' })}
 ${historyBanner()}
 ${bySection.length ? `<div class="wrap np-sections">${bySection.map(([sec, xs]) => `<section class="np-sec-block"><h2><a href="${sectionHref(sec)}">${esc(sec.name)}</a></h2>${xs.map((s) => storyCard(s, { size: 'line', showSection: false })).join('')}</section>`).join('')}</div>` : ''}`;
-  return newsPage({ ...ctx, path: '/news/', title: 'News', description: 'Local news for Columbus, Indiana: the city, the county, schools, business, food, architecture, sports and things to do.', body, scripts: ['hub.js', 'events.js', 'news.js'] });
+  return newsPage({ ...ctx, path: '/news/', title: 'News', description: 'Local news for Columbus, Indiana: the city, the county, schools, business, food, architecture, sports and things to do.', body, scripts: ['hub.js', 'events.js', 'events-week.js', 'news.js'] });
 }
 
 export function newsPages(ctx) {

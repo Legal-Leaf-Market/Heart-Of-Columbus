@@ -4,7 +4,7 @@
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
-  var THANKS = { ask: 'Thanks for asking. A reporter will read your question.', letter: 'Thanks for writing. The editor reads every letter and will contact you before yours runs.', tip: 'Thanks. A reporter will read your tip.' };
+  var THANKS = { blue: 'Thank you for telling us about them. The editor reads every story and will reach out before yours runs.', ask: 'Thanks for asking. A reporter will read your question.', letter: 'Thanks for writing. The editor reads every letter and will contact you before yours runs.', tip: 'Thanks. A reporter will read your tip.' };
 
   $$('[data-newsroom]').forEach(function (form) {
     var kind = form.getAttribute('data-newsroom');
@@ -12,7 +12,7 @@
       e.preventDefault();
       var err = $('[data-err]', form), btn = $('button.btn', form);
       var data = { kind: kind };
-      $$('input, textarea', form).forEach(function (el) { if (el.name) data[el.name] = el.value; });
+      $$('input, textarea, select', form).forEach(function (el) { if (el.name) data[el.name] = el.type === 'checkbox' ? (el.checked ? 'yes' : '') : el.value; });
       err.hidden = true;
       btn.disabled = true;
       fetch('/api/newsroom', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(data) })
@@ -29,7 +29,7 @@
   if (!inbox) return;
   var status = $('[data-inbox-status]'), out = $('[data-inbox-out]');
   var k = new URLSearchParams(location.search).get('k') || '';
-  var SHOW = { ask: ['question', 'name', 'email', 'neighborhood'], letter: ['body', 'about', 'name', 'town', 'email', 'phone'], tip: ['tip', 'contact'] };
+  var SHOW = { blue: ['person', 'role', 'agency', 'story', 'name', 'relation', 'town', 'email', 'phone', 'photo', 'ok'], ask: ['question', 'name', 'email', 'neighborhood'], letter: ['body', 'about', 'name', 'town', 'email', 'phone'], tip: ['tip', 'contact'] };
   function load(kind) {
     $$('[data-kind]', inbox).forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-kind') === kind ? 'true' : 'false'); });
     status.textContent = 'Loading…';

@@ -24,6 +24,9 @@ export const SERIES = [
     // Open to more writers later (community thank you stories), so no fixed
     // writer. Named by Jake Kennedy; first published on Crossroads, 2026-11-13.
     blurb: 'A place to say thank you to a specific person who served: an officer, an EMT, a firefighter, a dispatcher, a veteran. It starts with Jake Kennedy’s tribute to his father.',
+    // Readers send their own stories from the series page (/api/newsroom,
+    // kind 'blue'); the editor talks with every writer before one runs.
+    invite: 'Someone who wore the uniform for you: a parent, a neighbor, the officer who stopped, the dispatcher who stayed on the line. Tell Columbus about them, in your own words.',
   },
 ];
 

@@ -35,7 +35,7 @@ import { accessPages } from './src/pages/access-pages.mjs';
 import { calendarPages } from './src/pages/calendar-pages.mjs';
 import { paperPages } from './src/pages/paper-pages.mjs';
 import { sportsPages } from './src/pages/sports-pages.mjs';
-import { helpPages } from './src/pages/help-pages.mjs';
+import { helpPages, helpDockJson } from './src/pages/help-pages.mjs';
 import { historyPages, articlesJson } from './src/pages/history-pages.mjs';
 import { searchIndex } from './src/site.mjs';
 import { newsPages } from './src/pages/news-pages.mjs';
@@ -102,6 +102,9 @@ await mkdir(new URL('admin/', out), { recursive: true });
 await writeFile(new URL('admin/config.yml', out), cmsConfig());
 await mkdir(new URL('history/', out), { recursive: true });
 await writeFile(new URL('history/articles.json', out), articlesJson());
+// The floating help dock's search (public/js/help-dock.js) reads this.
+await mkdir(new URL('help/', out), { recursive: true });
+await writeFile(new URL('help/index.json', out), helpDockJson());
 // The newsletter's next seven editions, for the morning job (src/news/editions.mjs).
 await mkdir(new URL('newsletter/editions/', out), { recursive: true });
 for (const ed of upcomingEditions()) await writeFile(new URL(`newsletter/editions/${ed.date}.json`, out), JSON.stringify(ed));

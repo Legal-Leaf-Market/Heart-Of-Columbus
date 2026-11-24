@@ -7,13 +7,13 @@ import { PAPER } from '../data/paper.mjs';
 import { storyList } from '../news/render.mjs';
 import { stories } from '../news/content.mjs';
 
-const field = (label, name, { type = 'text', area = false, req = false, auto = '', hint = '', rows = 6, max = '' } = {}) => `
+export const field = (label, name, { type = 'text', area = false, req = false, auto = '', hint = '', rows = 6, max = '' } = {}) => `
 <label>${esc(label)}${req ? '' : ' <span class="muted np-opt">(optional)</span>'}
   ${area ? `<textarea name="${name}" rows="${rows}"${req ? ' required' : ''}${max ? ` maxlength="${max}"` : ''}></textarea>` : `<input name="${name}" type="${type}"${auto ? ` autocomplete="${auto}"` : ''}${req ? ' required' : ''}>`}
   ${hint ? `<small class="muted">${esc(hint)}</small>` : ''}
 </label>`;
 
-const form = (kind, button, fields) => `
+export const form = (kind, button, fields) => `
 <form class="ow-form np-form" data-newsroom="${kind}" novalidate>
   ${fields.join('')}
   <label class="sr-only" aria-hidden="true">Leave this empty<input name="website" tabindex="-1" autocomplete="off"></label>
@@ -73,7 +73,7 @@ function inboxPage(ctx) {
   const body = `
 <section class="wrap np-section" data-newsroom-inbox>
   <header class="np-doc-head"><p class="kicker">Private</p><h1>Newsroom inbox</h1></header>
-  <nav class="chips np-sec-links" aria-label="Kind"><button type="button" class="pill" data-kind="ask" aria-pressed="true">Questions</button><button type="button" class="pill" data-kind="letter" aria-pressed="false">Letters</button><button type="button" class="pill" data-kind="tip" aria-pressed="false">Tips</button></nav>
+  <nav class="chips np-sec-links" aria-label="Kind"><button type="button" class="pill" data-kind="ask" aria-pressed="true">Questions</button><button type="button" class="pill" data-kind="letter" aria-pressed="false">Letters</button><button type="button" class="pill" data-kind="tip" aria-pressed="false">Tips</button><button type="button" class="pill" data-kind="blue" aria-pressed="false">Back YOUR Blue</button></nav>
   <p class="muted" data-inbox-status>Loading…</p>
   <div data-inbox-out></div>
 </section>`;
