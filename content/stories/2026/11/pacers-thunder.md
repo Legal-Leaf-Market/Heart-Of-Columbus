@@ -1,5 +1,4 @@
 ---
-draft: true
 headline: Old Friends Make New Memories
 dek: "Life's short, extend an olive branch."
 label: Opinion
@@ -7,7 +6,7 @@ section: sports
 series: jake-takes-the-town
 bylines: [jacob-kennedy]
 editor: eli-wire
-published: 2026-11-24T12:00:00-05:00
+published: 2026-11-23T20:16:00-05:00
 images:
   - file: /news-media/2026/11/pacers-thunder-jake-and-eli.jpg
     alt: Eli Wire and Jake Kennedy smiling together in their seats at the Pacers game.
@@ -67,10 +66,6 @@ Staff pointed us the wrong direction first for Chick-fil-A, but then two lovely 
 They had an elementary choir sing the national anthem and a middle school aged dance group. Both were phenomenal.
 
 **Rating: 5 out of 5**
-
-## The game
-
-[The play you'll still talk about tomorrow, and the final score from the official box score.]
 
 ## Worth the drive?
 
