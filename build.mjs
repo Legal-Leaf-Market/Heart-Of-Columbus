@@ -27,6 +27,7 @@ import { filmPages } from './src/pages/film-pages.mjs';
 import { skatePages } from './src/pages/skate-pages.mjs';
 import { freePages } from './src/pages/free-pages.mjs';
 import { worshipPages } from './src/pages/worship-pages.mjs';
+import { housingPages } from './src/pages/housing-pages.mjs';
 import { guidePages } from './src/pages/guide-pages.mjs';
 import { djPages } from './src/pages/dj-pages.mjs';
 import { planPages } from './src/pages/plan-pages.mjs';
@@ -86,6 +87,7 @@ const pages = [
   ...accessPages({ assets }),
   ...freePages({ assets }),
   ...worshipPages({ assets }),
+  ...housingPages({ assets }),
   ...djPages({ assets }),
   ...planPages({ assets }),
   ...agriculturePages({ assets }),
