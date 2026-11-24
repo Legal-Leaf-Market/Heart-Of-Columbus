@@ -2,7 +2,7 @@
 // listed with it; see src/data/history/index.mjs for the rules.
 const CHECKED = '2026-10-26';
 const WP = 'https://en.wikipedia.org/wiki/';
-const CRH_100 = ['Tracing 100 years of history for Columbus Regional Hospital, The Republic', 'https://www.therepublic.com/?p=366731'];
+const CRH_100 = ['Tracing 100 years of history for Columbus Regional Hospital, The Republic (February 3, 2017)', 'https://www.therepublic.com/2017/02/03/tracing_100_years_of_history_for_columbus_regional_hospital/'];
 const PHIL = ['How 70 years of design philanthropy transformed a Midwestern city, The Chronicle of Philanthropy', 'https://www.philanthropy.com/news/how-70-years-of-design-philanthropy-transformed-a-midwestern-city/'];
 
 const x = (o) => ({ checked: CHECKED, ...o });
@@ -56,12 +56,12 @@ export const A1950s = [
     title: 'The county hospital keeps adding wings',
     dek: 'Bartholomew County Hospital opened with 32 beds in 1917. As Columbus grew after the war, the county kept building on.',
     body: [
-      'Bartholomew County Hospital opened in 1917 as a three story building with 32 beds and 25 employees. The first patients were admitted on February 6, according to a 100 year history published by The Republic. In 1930 the Hattie S. Kirkpatrick Memorial Nurses Home was set up on the northwest side to house the nursing staff.',
+      'The county borrowed $100,000 in 1915 to build a hospital north of 17th Street and east of Haw Creek, The Republic’s timeline records. Bartholomew County Hospital opened in 1917 as a three story building with 32 beds and 25 employees. The first patients were admitted on February 6, according to a 100 year history published by The Republic. In 1930 the Hattie S. Kirkpatrick Memorial Nurses Home was set up on the northwest side to house the nursing staff.',
       'Then the town started to grow. Columbus counted 11,738 people in the 1940 census and 18,370 in 1950, an increase of more than half in ten years. The hospital grew with it.',
       'A south wing in 1945 raised capacity to 75 beds. In 1949 the county commissioners approved a $780,000 expansion that brought the hospital to 129 beds. In 1953 a $1.7 million project added two three story wings and raised the count to 142. In 1959 another 39 beds were added, along with remodeling of the second floor and the emergency room, at a cost of $911,000.',
       'Wikipedia notes one birth in that era that later made national news: Mike Pence, who would become governor of Indiana and vice president of the United States, was born at Bartholomew County Hospital on June 7, 1959.',
       '## The building since',
-      'The building kept changing. In 1968, $3.7 million in bonds paid for the five story, 108 bed Murphy Pavilion, named for administrator Olive Murphy. The hospital was renamed Columbus Regional Hospital in 1992.',
+      'The building kept changing. In 1968, $3.7 million in bonds paid for the five story, 108 bed Murphy Pavilion, named for Olive Murphy, who had run the hospital for 28 years until 1967. The hospital was renamed Columbus Regional Hospital in 1992.',
       'Its hardest day came on June 7, 2008, when a record flood swamped the campus. Wikipedia reports that 157 patients were evacuated and the hospital shut down, with damage of more than $180 million; the laboratory, pharmacy, kitchens and the mechanical and electrical systems were wrecked. An interim emergency department opened that August, and the rebuilt hospital reopened on October 27, 2008.',
       'In 2011 the system that runs it took the name Columbus Regional Health. In 2012, with backing from the Federal Emergency Management Agency, 15 flood gates were installed around the campus to keep the water out next time. Wikipedia describes it today as a 225 bed not for profit hospital serving a ten county region, with about 1,650 employees.',
       'In the 1950s, though, the story was simpler. A growing factory town needed more hospital beds, and the county kept pouring concrete to provide them.',
