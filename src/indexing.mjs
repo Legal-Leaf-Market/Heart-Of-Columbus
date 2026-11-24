@@ -26,6 +26,7 @@ export const NEVER_INDEX = [
   ['/owners/connected/', 'where an owner lands after connecting their store'],
   ['/obituaries/review/', 'private review queue'],
   ['/admin/', 'newsroom CMS'],
+  ['/print/', 'the print edition, laid out for paper; every story in it is online on its own page'],
   ['/newsletter/editions/', 'newsletter drafts for the morning job, read before they are sent'],
   ['/newsletter/next/', 'the editor’s preview of the next drafts'],
   ['/saved/', "a visitor's own list"],
