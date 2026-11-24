@@ -33,7 +33,7 @@ export const EDITION = {
   pages: [
     { n: 1, section: 'Front page', topics: ['civic', 'river'], rows: [
       { mods: [{ span: 5, type: 'box', box: 'masthead' }] },
-      { fill: true, mods: [{ span: 5, type: 'writer', id: 'river', layout: 'lead', brief: 'A', writer: 'jacob-kennedy', editor: 'terry-winchester-ii', words: 600, flow: 'river-jump',
+      { fill: true, mods: [{ span: 5, type: 'writer', id: 'river', layout: 'lead', brief: 'A', writer: 'jacob-kennedy', editor: 'terry-winchester-ii', words: 600, flow: 'river-jump', architecture: 'cityhall',
         photo: { key: 'aerial', note: 'Stand in from Wikimedia Commons until Eli Wire shoots the riverfront this month.' } }] },
       { mods: [
         { span: 2, type: 'box', box: 'teaser-referendum' },
@@ -70,14 +70,17 @@ export const EDITION = {
       { mods: [{ span: 5, type: 'box', box: 'civic' }] },
       { fill: true, mods: [
         { span: 3, type: 'history', path: '2020s/columbus-passes-fifty-thousand', fit: 'trim', cols: 3 },
-        { span: 2, type: 'box', box: 'coupon', coupon: 'crossroads', shape: 'burst' },
+        { span: 2, type: 'box', box: 'architecture', landmark: 'courthouse' },
       ] },
     ] },
 
     { n: 5, section: 'Community', topics: ['civic', 'river'], rows: [
       { mods: [
         { span: 3, type: 'writer', id: 'camping', brief: 'D', writer: null, editor: 'jacob-kennedy', words: 750 },
-        { span: 2, type: 'box', box: 'help' },
+        { span: 2, type: 'stack', mods: [
+          { type: 'box', box: 'help' },
+          { type: 'box', box: 'architecture', landmark: 'firestation' },
+        ] },
       ] },
       { fill: true, mods: [
         { span: 3, type: 'flow', id: 'river-jump', label: 'Continued from page 1' },
@@ -98,22 +101,19 @@ export const EDITION = {
     ] },
 
     // December's spotlights: the site's own list (src/data/spotlight.mjs),
-    // each with its disclosure, and the two coupons.
+    // each with its disclosure. Crossroads also has a separate ad.
     { n: 7, section: 'Spotlight', topics: ['industry', 'culture'], rows: [
       { mods: [{ span: 5, type: 'box', box: 'spot-head' }] },
       { mods: [
         { span: 3, type: 'writer', id: 'spotlight-jills', writer: null, editor: 'jacob-kennedy', words: 400, cols: 2, media: 'jills-diner', kicker: 'Spotlight',
           working: 'Jill\u2019s Diner', guide: 'A spotlight on Jill\u2019s Diner from its listing and its own website.' },
-        { span: 2, type: 'stack', mods: [
-          { type: 'writer', id: 'spotlight-amys', writer: null, editor: 'jacob-kennedy', words: 350, kicker: 'Spotlight',
-            working: 'Amy\u2019s Closet', guide: 'A spotlight on Amy\u2019s Closet from its listing and its own website.' },
-          { type: 'box', box: 'coupon', coupon: 'amys', shape: 'tag' },
-        ] },
+        { span: 2, type: 'writer', id: 'spotlight-amys', writer: null, editor: 'jacob-kennedy', words: 350, kicker: 'Spotlight',
+          working: 'Amy\u2019s Closet', guide: 'A spotlight on Amy\u2019s Closet from its listing and its own website.' },
       ] },
       { fill: true, mods: [
         { span: 3, type: 'writer', id: 'spotlight-crossroads', writer: null, editor: 'eli-wire', words: 350, cols: 2, kicker: 'Spotlight',
           working: 'Crossroads Wedding and Event Co.', guide: 'A spotlight on Crossroads Wedding and Event Co. from its own website.' },
-        { span: 2, type: 'box', box: 'coupon', coupon: 'crossroads', shape: 'ticket' },
+        { span: 2, type: 'box', box: 'business-ad', business: 'crossroads' },
       ] },
     ] },
 
@@ -203,7 +203,10 @@ export const EDITION = {
       ] },
       { fill: true, mods: [
         { span: 3, type: 'box', box: 'survey' },
-        { span: 2, type: 'box', box: 'colophon' },
+        { span: 2, type: 'stack', mods: [
+          { type: 'box', box: 'business-ad', business: 'amys' },
+          { type: 'box', box: 'colophon' },
+        ] },
       ] },
     ] },
   ],
