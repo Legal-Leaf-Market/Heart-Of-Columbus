@@ -2,23 +2,22 @@
 // listed with it; see src/data/history/index.mjs for the rules.
 const CHECKED = '2026-10-26';
 const WP = 'https://en.wikipedia.org/wiki/';
-const IPM = 'https://indianapublicmedia.org/columbus/';
 
 const x = (o) => ({ checked: CHECKED, ...o });
 
 export const A1970s = [
   x({ checked: '2026-11-24', slug: 'kevin-roche-post-office', when: '1970', section: 'architecture',
     title: 'A post office with a private architect',
-    dek: 'Columbus needed a new post office by the mid 1960s. When it opened in 1970, Indiana Public Media says, it made Columbus the first American city with a post office designed by a privately paid architect.',
+    dek: 'When it opened in 1970, Visit Columbus says, it was the first post office in the United States commissioned with privately funded architect’s fees. The architect was Kevin Roche.',
     body: [
-      'According to Indiana Public Media’s history of the town’s architecture, the city needed a new post office by the middle of the 1960s, and the design went to Kevin Roche, with his fee paid privately rather than by the government.',
+      'When Columbus got a new post office, the design went to Kevin Roche, and his fee was paid privately rather than by the government. Visit Columbus, the town’s tourism office, calls it the first post office in the United States commissioned with privately funded architect’s fees.',
       'Roche had come a long way to get here. Wikipedia’s biography says he was born in Dublin on June 14, 1922, grew up working beside his father at a dairy cooperative in Mitchelstown, graduated from University College Dublin in 1945 and crossed the Atlantic to study under Ludwig Mies van der Rohe in Chicago. Out of money after less than a year, he worked on the United Nations headquarters in New York until the job was cut. An architect there sent him to Eero Saarinen’s firm in Michigan, and by Roche’s own account he dozed off during his interview with Saarinen and was hired anyway.',
-      'Roche knew Columbus well. He became Saarinen’s principal design associate in 1954 and worked on all of Saarinen’s projects until Saarinen died in 1961. With his partner John Dinkeloo he then finished Saarinen’s unfinished work, among it the Gateway Arch and North Christian Church, and in 1966 the two formed Kevin Roche John Dinkeloo and Associates. Wikipedia’s list of his works dates the Columbus post office to 1969.',
-      'Construction took about three years. The building, at Fourth and Jackson streets, was dedicated on July 19, 1970. Indiana Public Media writes that with it, Columbus became the first American city with a post office designed by a privately paid architect.',
+      'Roche knew Columbus well. The Republic notes that he began in town as Saarinen’s design associate on the Miller House. He became Saarinen’s principal design associate in 1954 and worked on all of Saarinen’s projects until Saarinen died in 1961. With his partner John Dinkeloo he then finished Saarinen’s unfinished work, among it the Gateway Arch and North Christian Church, and in 1966 the two formed Kevin Roche John Dinkeloo and Associates. Wikipedia’s list of his works dates the Columbus post office to 1969.',
+      'The building opened in 1970 at Fourth and Jackson streets, 450 Jackson Street. Visit Columbus describes it as salt glazed tile, mirrored glass and Cor-Ten steel, a building that throws back reflections from outside while staying open to the light from within, with tall ceilings inside.',
       'It was the start of a long run of Roche buildings in town. Wikipedia’s list adds the Irwin Office Building arcade for Cummins in 1972, the Cummins Midrange Engine Plant in 1973, the Cummins Corporate Office Building in 1983, the corporate headquarters in 1985 and an expansion of the Columbus Engine Plant in 1996. The Republic summed it up this way: “Although Roche didn’t live here, he had a significant impact on the city’s built environment.” In 1982 Roche won the Pritzker Prize, architecture’s highest honor. He died on March 1, 2019.',
       'Columbus counted 26,457 people at the 1970 census, more than two and a half times its population in 1930. A first class stamp cost six cents. The post office Roche designed still handles the town’s mail.',
     ],
-    sources: [['Columbus, Indiana: Different by Design, 1970, Indiana Public Media', IPM + 'text1970.html'], ['Kevin Roche, Wikipedia', WP + 'Kevin_Roche'], ['Roche’s spirit endures in Columbus with designs, The Republic', 'https://www.therepublic.com/?p=394138']] }),
+    sources: [['Columbus Post Office, Visit Columbus Indiana', 'https://visitcolumbusindiana.com/directory/columbus-post-office/'], ['Kevin Roche, Wikipedia', WP + 'Kevin_Roche'], ['Roche’s spirit endures in Columbus with designs, The Republic (March 19, 2019)', 'https://www.therepublic.com/2019/03/19/roches_spirit_endures_in_columbus_with_designs/']] }),
 
   x({ checked: '2026-11-24', slug: 'iupuc-opens', when: '1970', section: 'schools',
     title: 'College comes to Columbus',
@@ -74,7 +73,7 @@ export const A1970s = [
       'The church buried a time capsule in 1992 to be opened 25 years later. At its 125th anniversary in 2017, Brian Blair talked with longtime members. Patty Nichalson, then 86, told him, “I am so glad to have been a part of this.” Clarice Joslin, then 80, had attended since she was 2 and described the members as her family.',
       'Whatever the reasons for the move, the way they made it says something. They went together.',
     ],
-    sources: [['One church, many friends: Congregation members look forward to 125th anniversary, by Brian Blair, The Republic (2017)', 'https://www.therepublic.com/2017/09/23/one_church_many_friends/'], ['Religion news, September 16, The Republic', 'https://www.therepublic.com/?p=374291']] }),
+    sources: [['One church, many friends: Congregation members look forward to 125th anniversary, by Brian Blair, The Republic (2017)', 'https://www.therepublic.com/2017/09/23/one_church_many_friends/'], ['Religion news, The Republic (September 16, 2017)', 'https://www.therepublic.com/2017/09/16/religion_news-8/']] }),
 
   x({ checked: '2026-11-24', slug: 'air-base-becomes-airport', when: '1972', section: 'civic',
     title: 'The Air Force leaves and the city gets an airport',

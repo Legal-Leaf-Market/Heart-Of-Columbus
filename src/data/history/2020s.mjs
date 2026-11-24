@@ -20,7 +20,7 @@ export const A2020s = [
       'Ethnic Expo, which began in 1984, now celebrates the traditions of more than 30 countries represented by Columbus residents, The Republic says.',
       'The town of 1930 was a county seat with a young diesel engine company. The city of 2020 was still a county seat, still home to that company, and now home to families from around the world.',
     ],
-    sources: [['Columbus, Indiana, Wikipedia', WP + 'Columbus,_Indiana'], ['Around the world in 59 counties, Site Selection', 'https://siteselection.com/around-the-world-in-59-counties/'], ['Story on the 33rd Ethnic Expo, The Republic', 'https://www.therepublic.com/?p=351137']] }),
+    sources: [['Columbus, Indiana, Wikipedia', WP + 'Columbus,_Indiana'], ['Around the world in 59 counties, Site Selection', 'https://siteselection.com/around-the-world-in-59-counties/'], ['China, Taiwan Ethnic Expo co hosts, The Republic (April 22, 2016)', 'https://www.therepublic.com/2016/04/22/china_taiwan_ethnic_expo_cohosts/']] }),
 
   x({ slug: 'atterbury-welcomes-afghans', when: '2021', section: 'service',
     title: 'Camp Atterbury takes in Afghan families',
@@ -46,7 +46,7 @@ export const A2020s = [
       '“This is indeed a big day,” said Algy Ramasamy, vice president of the society. Mayor Jim Lienhoop called it a “once in a lifetime opportunity” and compared it to the faith that had brought his own ancestors to start St. Peter’s Lutheran Church. At the groundbreaking he had called it a very American thing: people who came from far away for work, bringing their faith with them. Representative Greg Pence closed with a blessing for unity and harmony.',
       'Columbus has spent a century building beautiful places to worship. Now one more congregation has its own.',
     ],
-    sources: [['New Hindu temple dedication brings together community to celebrate, The Republic (August 2022)', 'https://www.therepublic.com/?p=543919'], ['That dream is finally coming true, The Republic', 'https://www.therepublic.com/?p=399735']] }),
+    sources: [['New Hindu temple dedication brings together community to celebrate, The Republic (August 29, 2022)', 'https://www.therepublic.com/2022/08/29/new-hindu-temple-dedication-brings-together-community-to-celebrate/'], ['That dream is finally coming true, The Republic (August 17, 2019)', 'https://www.therepublic.com/2019/08/17/that_dream_is_finally_coming_true/']] }),
 
   x({ slug: 'north-christian-becomes-the-lex', when: '2022', section: 'architecture', landmark: 'northchristian',
     title: 'North Christian’s last service, and a new life',
@@ -85,7 +85,7 @@ export const A2020s = [
       '“It is something that people want to come and be part of,” Gina Pleak, the district’s assistant superintendent of human resources, told the paper. “And we’ll be welcoming many guests to our community on that day.”',
       'Weather is part of many Columbus stories, from the flood of 2008 on. This was a gentler one: a few minutes of darkness in the middle of an April afternoon, in a town known for looking at its buildings, with everyone looking up instead.',
     ],
-    sources: [['2024 total solar eclipse in Indiana, NationalEclipse.com', 'https://nationaleclipse.com/states/2024-total-solar-eclipse-indiana.html'], ['BCSC approves calendar change for solar eclipse, The Republic', 'https://www.therepublic.com/?p=567638']] }),
+    sources: [['2024 total solar eclipse in Indiana, NationalEclipse.com', 'https://nationaleclipse.com/states/2024-total-solar-eclipse-indiana.html'], ['BCSC approves calendar change for solar eclipse, The Republic (April 26, 2023)', 'https://www.therepublic.com/2023/04/26/bcsc-approves-calendar-change-for-solar-eclipse/']] }),
 
   x({ slug: 'iu-columbus', when: '2024', section: 'schools',
     title: 'IUPUC becomes IU Columbus',
@@ -137,5 +137,5 @@ export const A2020s = [
       'For 154 years The Republic has covered the school boards, city councils, high school games and church anniversaries of Columbus, and many of the articles in this history lean on its reporting.',
       'Its new owners have said they believe in that work. That is good news for anyone who cares about local news in Bartholomew County, and we wish the paper and its staff well in the new chapter.',
     ],
-    sources: [['HD Media to acquire 25 publications from AIM Media Management, Editor and Publisher (August 19, 2026)', 'https://www.editorandpublisher.com/stories/hd-media-to-acquire-25-publications-from-aim-media-management,263132'], ['The Republic (Columbus, Indiana), Wikipedia', WP + 'The_Republic_(Columbus,_Indiana)'], ['Sale of Home News publications closes six generation ownership by Brown family, The Republic', 'https://www.therepublic.com/?p=350633']] }),
+    sources: [['HD Media to acquire 25 publications from AIM Media Management, Editor and Publisher (August 19, 2026)', 'https://www.editorandpublisher.com/stories/hd-media-to-acquire-25-publications-from-aim-media-management,263132'], ['The Republic (Columbus, Indiana), Wikipedia', WP + 'The_Republic_(Columbus,_Indiana)'], ['Sale of Home News publications closes six generation ownership by Brown family, The Republic (November 5, 2015)', 'https://www.therepublic.com/2015/11/05/sale_of_home_news_publications_closes_sixgeneration_ownership_by_brown_family-2/']] }),
 ];

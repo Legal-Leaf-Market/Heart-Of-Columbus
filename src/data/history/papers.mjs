@@ -37,7 +37,7 @@ export const PAPERS = [
       'The name was Republican, but The Republic’s own statement of mission, quoted in its history of itself, says the paper advocates for the good of the community “irrespective of political considerations.”',
       'In November 2015 the family sold to AIM Media Indiana, ending six generations and more than 140 years of Brown ownership. In August 2026 HD Media agreed to buy the paper. Through 154 years and three owners, the Republican has outlasted every rival on this series’ list.',
     ],
-    sources: [['The Republic (Columbus, Indiana), Wikipedia', WP + 'The_Republic_(Columbus,_Indiana)'], ['A history of The Republic: 1872 to today, The Republic', 'https://www.therepublic.com/?p=482537'], ['The Crump Theatre, Wikipedia', WP + 'The_Crump_Theatre'], HSC, LDS] }),
+    sources: [['The Republic (Columbus, Indiana), Wikipedia', WP + 'The_Republic_(Columbus,_Indiana)'], ['A history of The Republic: 1872 to today, The Republic (April 4, 2022)', 'https://www.therepublic.com/2022/04/04/a-history-of-the-republic-1872-to-today/'], ['The Crump Theatre, Wikipedia', WP + 'The_Crump_Theatre'], HSC, LDS] }),
 
   x({ slug: 'the-democrats', when: '1870',
     title: 'The Democrats answer',

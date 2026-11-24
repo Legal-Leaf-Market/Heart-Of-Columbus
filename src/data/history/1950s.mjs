@@ -2,7 +2,7 @@
 // listed with it; see src/data/history/index.mjs for the rules.
 const CHECKED = '2026-10-26';
 const WP = 'https://en.wikipedia.org/wiki/';
-const CRH_100 = ['Tracing 100 years of history for Columbus Regional Hospital, The Republic', 'https://www.therepublic.com/?p=366731'];
+const CRH_100 = ['Tracing 100 years of history for Columbus Regional Hospital, The Republic (February 3, 2017)', 'https://www.therepublic.com/2017/02/03/tracing_100_years_of_history_for_columbus_regional_hospital/'];
 const PHIL = ['How 70 years of design philanthropy transformed a Midwestern city, The Chronicle of Philanthropy', 'https://www.philanthropy.com/news/how-70-years-of-design-philanthropy-transformed-a-midwestern-city/'];
 
 const x = (o) => ({ checked: CHECKED, ...o });

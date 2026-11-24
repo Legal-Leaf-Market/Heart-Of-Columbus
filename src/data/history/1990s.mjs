@@ -47,7 +47,7 @@ export const A1990s = [
       'Wikipedia describes the system that grew from the 1992 hospital: it serves a 10 county region of southeastern Indiana with about 1,650 employees, more than 225 physicians and 225 beds, and it is not for profit. It also notes one famous birth there from before the new name: Mike Pence, later the 48th vice president, was born at Bartholomew County Hospital on June 7, 1959.',
       'The hospital’s hardest day was still ahead. On June 7, 2008, Wikipedia records, a flood of “historic magnitude” forced the evacuation of 157 patients and caused more than $180 million in damage. That story belongs to another decade in this series, but the recovery is part of this one’s legacy: an interim emergency department opened that August, the hospital reopened on October 27, 2008, and in 2012, with backing from the Federal Emergency Management Agency, 15 flood gates were installed around the campus. The name chosen in 1992 lasted until 2011, when the system became Columbus Regional Health.',
     ],
-    sources: [['Tracing 100 years of history for Columbus Regional Hospital, The Republic', 'https://www.therepublic.com/?p=366731'], ['Columbus Regional Health, Wikipedia', WP + 'Columbus_Regional_Health'], ['The landscape architects of Columbus, Indiana, Visit Columbus', VC + 'art-architecture/columbus/art-architecture/landscape-architect-dan-kiley']] }),
+    sources: [['Tracing 100 years of history for Columbus Regional Hospital, The Republic (February 3, 2017)', 'https://www.therepublic.com/2017/02/03/tracing_100_years_of_history_for_columbus_regional_hospital/'], ['Columbus Regional Health, Wikipedia', WP + 'Columbus_Regional_Health'], ['The landscape architects of Columbus, Indiana, Visit Columbus', VC + 'art-architecture/columbus/art-architecture/landscape-architect-dan-kiley']] }),
 
   x({ slug: 'first-christian-turns-fifty', when: '1992', section: 'faith', landmark: 'firstchristian',
     title: 'Saarinen’s church turns fifty',
@@ -86,7 +86,7 @@ export const A1990s = [
       'Miller was born in Morgantown, Indiana, in 1917, graduated from high school in Columbus in 1934 and married J. Irwin Miller in 1943. She died in 2008.',
       'In 2025 the center marked its 30th anniversary on the same west steps, with a new plaque and a video of the 1995 dedication. “It’s really just a celebration of 30 years of welcoming people into our building,” Hawkins said. A second Chihuly work, Sun Garden Panels in Suspended Circle, was installed at the Columbus Learning Center in 2007.',
     ],
-    sources: [['Columbus Visitors Center to celebrate 30th anniversary, The Republic', 'https://www.therepublic.com/?p=833009'], ['Xenia Miller, Wikipedia', WP + 'Xenia_Miller'], ['List of works by Dale Chihuly, Wikipedia', WP + 'List_of_works_by_Dale_Chihuly']] }),
+    sources: [['Columbus Visitors Center to celebrate 30th anniversary, The Republic (October 16, 2025)', 'https://www.therepublic.com/2025/10/16/columbus-visitors-center-to-celebrate-30th-anniversary/'], ['Xenia Miller, Wikipedia', WP + 'Xenia_Miller'], ['List of works by Dale Chihuly, Wikipedia', WP + 'List_of_works_by_Dale_Chihuly']] }),
 
   x({ slug: 'memorial-for-veterans', when: '1997', section: 'service',
     title: 'Twenty five pillars and the letters home',
@@ -116,7 +116,7 @@ export const A1990s = [
       'The Republic later reported plans for a party marking 20 years in the downtown building.',
       'A generation of Columbus kids has now learned about bubbles, robots and buildings there.',
     ],
-    sources: [['Mission and history, kidscommons', 'https://www.kidscommons.org/about-us/mission-and-history/'], ['kidscommons, Kid at Art', 'https://www.kid-at-art.com/htdoc/kidscomm.html'], ['kidscommons to celebrate 20 years of fun with anniversary party, The Republic', 'https://www.therepublic.com/?p=829248']] }),
+    sources: [['Mission and history, kidscommons', 'https://www.kidscommons.org/about-us/mission-and-history/'], ['kidscommons, Kid at Art', 'https://www.kid-at-art.com/htdoc/kidscomm.html'], ['kidscommons to celebrate 20 years of fun with anniversary party, The Republic (October 1, 2025)', 'https://www.therepublic.com/2025/10/01/kidscommons-to-celebrate-20-years-of-fun-with-anniversary-party/']] }),
 
   x({ slug: 'north-swimming-three-straight', when: '1999', section: 'sports',
     title: 'A swimming town',

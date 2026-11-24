@@ -44,7 +44,7 @@ export const A2000s = [
       'It built more than concerts. A Philharmonic Chorus began in 1987, Adventure Concerts for third and fourth graders in 1988, the Music for Youth Strings program in 1989 and a youth orchestra in 1993. In 1996 it recorded a CD for the Naxos label with the Aeolian Skinner organ at First Christian Church. In 2003 its office moved from The Commons to a 5,000 square foot building at 315 Franklin Street.',
       '“Mr. Miller had a profound influence on me,” Bowden said. Much of what the orchestra built, from the youth strings to the children’s choir, began in the ten years Bowden promised.',
     ],
-    sources: [['Columbus Indiana Philharmonic, Bach Cantatas Website', 'https://bach-cantatas.com/Bio/CIP.htm'], ['Conductor embarks on 30th season with the Philharmonic, The Republic', 'https://www.therepublic.com/?p=360985']] }),
+    sources: [['Columbus Indiana Philharmonic, Bach Cantatas Website', 'https://bach-cantatas.com/Bio/CIP.htm'], ['Conductor embarks on 30th season with the Philharmonic, The Republic (September 1, 2016)', 'https://www.therepublic.com/2016/09/01/conductor-embarks-on-30th-season-with-the-philharmonic/']] }),
 
   x({ slug: 'st-bartholomew-new-church', when: '2002', section: 'faith',
     title: 'Two parishes, one new church',
@@ -57,7 +57,7 @@ export const A2000s = [
       'Other pieces came too. The marble altar, built in the 1970s from older side altars, was moved from Eighth Street, along with the Good Shepherd stained glass window. The Rev. Clem Davis locked the doors of the old church at its final service in 2002, The Republic recalled.',
       'The Republic later described St. Bartholomew as the county’s largest house of worship, with about 2,000 people at four weekly services and a Hispanic ministry of about 450 people at a weekly Spanish service. The old downtown church stood empty until it was torn down around 2020 for apartments, with some of its stained glass saved for display.',
     ],
-    sources: [['Week 41: St. Bartholomew Catholic Church, 52 Weeks of Columbus, Indiana', 'https://52weeks.rickyberkey.org/2011/11/26/week-41/'], ['Story on the demolition of the old St. Bartholomew church, The Republic', 'https://www.therepublic.com/?p=417838'], ['Story on St. Bartholomew’s 175th anniversary, The Republic', 'https://www.therepublic.com/?p=360597']] }),
+    sources: [['Week 41: St. Bartholomew Catholic Church, 52 Weeks of Columbus, Indiana', 'https://52weeks.rickyberkey.org/2011/11/26/week-41/'], ['A service concluded: Vacant former Catholic church ends lengthy life of faith, The Republic (December 13, 2020)', 'https://www.therepublic.com/2020/12/13/a_service_concluded_vacant_former_catholic_church_ends_lengthy_life_of_faith/'], ['Church’s 175th anniversary highlights contributions to community, The Republic (August 24, 2016)', 'https://www.therepublic.com/2016/08/24/churchs_175th_anniversary_highlights_contributions/']] }),
 
   x({ slug: 'north-cross-country', when: '2002', section: 'sports',
     title: 'The Bull Dogs learn to run',
@@ -70,7 +70,7 @@ export const A2000s = [
       'The program kept going after Weinheimer. In 2020, The Republic reported, North won its sixth boys title under coach Danny Fisher, after a summer in which the spring track season had been canceled and the runners trained on their own. Senior Austin Pulkowski, who has autism, finished 16th. “Honestly, whenever I joined cross-country, I didn’t think we’d ever win the state championship,” Pulkowski said. The girls won again in 2021, and the boys in 2025, according to the IHSAA.',
       'Cross country is a quiet sport. There are no scoreboards on a 5,000 meter course. But by the IHSAA’s count, Columbus North teams have won the state title nine times since 2002.',
     ],
-    sources: [['2002 Boys Cross Country State Finals yearbook, IHSAA', 'https://ihsaa.org/sites/default/files/documents/02BCCYearbook.pdf'], ['Columbus North, North Central sophomore win boys cross country titles, IHSAA (2009)', 'https://www.ihsaa.org/media/news/columbus-north-north-central-sophomore-win-boys-cross-country-titles'], ['North wins state cross-country title, The Republic', 'https://www.therepublic.com/?p=416228'], ['State Championship History, IHSAA', 'https://www.ihsaa.org/sites/default/files/documents/State%20Championship%20History.pdf']] }),
+    sources: [['2002 Boys Cross Country State Finals yearbook, IHSAA', 'https://ihsaa.org/sites/default/files/documents/02BCCYearbook.pdf'], ['Columbus North, North Central sophomore win boys cross country titles, IHSAA (2009)', 'https://www.ihsaa.org/media/news/columbus-north-north-central-sophomore-win-boys-cross-country-titles'], ['North wins state cross country title, The Republic (November 1, 2020)', 'https://www.therepublic.com/2020/11/01/north_wins_state_crosscountry_title/'], ['State Championship History, IHSAA', 'https://www.ihsaa.org/sites/default/files/documents/State%20Championship%20History.pdf']] }),
 
   x({ slug: 'atterbury-goes-back-to-war', when: '2003', section: 'service',
     title: 'Camp Atterbury goes back to war',
@@ -122,7 +122,7 @@ export const A2000s = [
       'The Republic counted about 2,800 damaged homes, 15 percent of the buildings in Columbus, more than 70 damaged businesses, about 1,000 people in shelters, three deaths and more than $500 million in damage overall.',
       'The town rebuilt and planned. The city, the hospital and Cummins paid for a local study of the Haw Creek floodplain, and local floodplain rules were tightened. The county added stream gauges, for eight in all, and adopted a flood response plan in 2012. The hospital built a $4.7 million floodwall with 15 floodgates. Dave Lenart of the hospital’s operations staff called the flood “the worst of the worst,” the day people thought would never come.',
     ],
-    sources: [['Hectic, fast-paced and chaotic: Officials recall 2008 flood, The Republic', 'https://www.therepublic.com/?p=572192'], ['June 2008 flooding in Columbus, IN, U.S. Geological Survey', 'https://www.usgs.gov/media/images/june-2008-flooding-columbus'], ['Columbus Regional Health, Wikipedia', WP + 'Columbus_Regional_Health']] }),
+    sources: [['Hectic, fast paced and chaotic: Officials recall 2008 flood, The Republic (June 4, 2023)', 'https://www.therepublic.com/2023/06/04/hectic-fast-paced-and-chaotic-officials-recall-2008-flood-say-community-better-prepared-than-15-years-ago/'], ['June 2008 flooding in Columbus, IN, U.S. Geological Survey', 'https://www.usgs.gov/media/images/june-2008-flooding-columbus'], ['Columbus Regional Health, Wikipedia', WP + 'Columbus_Regional_Health']] }),
 
   x({ slug: 'irwin-union-fails', when: '2009', section: 'industry', landmark: 'irwin',
     title: 'The end of Irwin Union Bank',

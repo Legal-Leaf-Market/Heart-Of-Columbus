@@ -2,7 +2,6 @@
 // listed with it; see src/data/history/index.mjs for the rules.
 const CHECKED = '2026-10-26';
 const WP = 'https://en.wikipedia.org/wiki/';
-const IPM = 'https://indianapublicmedia.org/columbus/';
 const WEESE = ['The Harry Weese Legacy in Columbus, Visit Columbus Indiana', 'https://columbus.in.us/harry-weese-legacy'];
 
 const x = (o) => ({ checked: CHECKED, ...o });
@@ -25,14 +24,14 @@ export const A1960s = [
     title: 'Saarinen’s last building',
     dek: 'Eero Saarinen finished the design for North Christian Church in July 1961 and died that September. His associates built it. It was dedicated in April 1964.',
     body: [
-      'North Christian Church hired Eero Saarinen in February 1959, four years after its 43 founding members left First Christian. He spent about two years on the design. On July 28, 1961, he wrote, as Wikipedia records, “We have finally solved the Columbus church.” He died that September, before construction started, and his associate Kevin Roche saw it through. Indiana Public Media calls it Saarinen’s last project.',
+      'North Christian Church hired Eero Saarinen in February 1959, four years after its 43 founding members left First Christian. He spent about two years on the design. On July 28, 1961, he wrote, as Wikipedia records, “We have finally solved the Columbus church.” He died that September, before construction started, and his associate Kevin Roche saw it through. Visit Columbus counts it among Saarinen’s final designs, and says he named it as one of the works he most hoped would last, a church with “a real spirit that speaks forth to all Christians.”',
       'Ground was broken on September 2, 1962. In May 1963 the spire was hoisted into place in three 44 foot sections. The finished spire, copper clad, rises 192 feet. The first service was held on March 8, 1964, and the building was formally dedicated on April 19, 1964.',
-      'The plan is a hexagon, 210 feet from west to east and 106 feet from north to south. The slate roof is divided into six sections. The structural engineer, Henry Pfisterer, described the building as a “steel hat sitting over a concrete bowl.” The sanctuary seats about 445 to 470. Dan Kiley landscaped the 13.5 acre site with a six foot berm, and the Holtkamp organ was the last of its kind designed by Walter Holtkamp Sr.',
+      'The plan is a hexagon, 210 feet from west to east and 106 feet from north to south. The slate roof is divided into six sections. The structural engineer, Henry Pfisterer, described the building as a “steel hat sitting over a concrete bowl.” The sanctuary seats about 445 to 470. Dan Kiley landscaped the 13.5 acre site with a six foot berm, raising the low hexagon on an earth mound and laying out the parking as what Visit Columbus calls a series of “parking rooms,” and the Holtkamp organ was the last of its kind designed by Walter Holtkamp Sr.',
       'The church was named a National Historic Landmark on May 16, 2000. Keeping it up was always hard. The spire needed repairs in 2002 and 2003, and a $650,000 roof renovation in 2007 to 2009 was paid for partly with a $300,000 Save America’s Treasures grant. In 2018 Indiana Landmarks put it on its list of the state’s ten most endangered places, and in 2019 the Getty Foundation gave $150,000 toward a conservation plan.',
       'The congregation held its last service on July 16, 2022. The Bartholomew County Public Library accepted the building as a gift in 2024, and in 2025 named it The LEX, the Library of Experience.',
       'Saarinen never saw the spire go up. Columbus has been looking at it for more than 60 years.',
     ],
-    sources: [['North Christian Church, Wikipedia', WP + 'North_Christian_Church'], ['Columbus, Indiana: Different by Design, 1964, Indiana Public Media', IPM + 'text1964.html']] }),
+    sources: [['North Christian Church, Wikipedia', WP + 'North_Christian_Church'], ['The LEX (formerly North Christian Church), Visit Columbus Indiana', 'https://visitcolumbusindiana.com/directory/the-lex-formerly-north-christian-church/']] }),
 
   x({ slug: 'otter-creek-golf-course', when: '1964', section: 'sports',
     title: 'Cummins builds the town a golf course',
@@ -50,7 +49,7 @@ export const A1960s = [
       'The old 27 hole layout closed for construction. When AmateurGolf.com visited, the schedule called for a new practice range and chipping area in late summer 2026, The Pup and The Romp in spring 2027, and the New Otter, with three newly built holes, in fall 2027.',
       'Weese’s clubhouse is part of the plan too. The writer found green carpet, a brick backed bar and slatted wood walls from the 1960s, and reports that some of those materials are expected to be carried into the building’s next chapter. A 20,000 square foot putting green will sit just past the back patio, and the course’s old outdoor scoreboard is expected to stay exactly as it is.',
     ],
-    sources: [['Otter Creek golf course history, The Republic', 'https://www.therepublic.com/?p=354106'], ['Indiana’s Otter Creek Golf Course, AmateurGolf.com', 'https://www.amateurgolf.com/golf-tournament-news/indiana%27s-otter-creek-golf-course-cbe4cf'], ['How 70 years of design philanthropy transformed a Midwestern city, The Chronicle of Philanthropy', 'https://www.philanthropy.com/news/how-70-years-of-design-philanthropy-transformed-a-midwestern-city/']] }),
+    sources: [['Setting a new course, The Republic (November 7, 2015)', 'https://www.therepublic.com/2015/11/07/setting_a_new_course/'], ['Indiana’s Otter Creek Golf Course, AmateurGolf.com', 'https://www.amateurgolf.com/golf-tournament-news/indiana%27s-otter-creek-golf-course-cbe4cf'], ['How 70 years of design philanthropy transformed a Midwestern city, The Chronicle of Philanthropy', 'https://www.philanthropy.com/news/how-70-years-of-design-philanthropy-transformed-a-midwestern-city/']] }),
 
   x({ slug: 'first-baptist-church', when: '1965', section: 'faith',
     title: 'A Baptist church with a pyramid bell tower',
@@ -69,20 +68,20 @@ export const A1960s = [
 
   x({ slug: 'lincoln-elementary-and-lady-bird', when: '1967', section: 'schools',
     title: 'The First Lady comes to Lincoln School',
-    dek: 'In September 1967 Lady Bird Johnson came to Columbus to dedicate a new elementary school by Gunnar Birkerts. She called architecture “frozen music.”',
+    dek: 'In September 1967 Lady Bird Johnson came to Columbus to dedicate a new elementary school by Gunnar Birkerts. She praised the town’s buildings as “such a Symphony of Stone.”',
     body: [
       'Lincoln Elementary School opened in 1967 at 750 Fifth Street. Its architect was Gunnar Birkerts, who would later design St. Peter’s Lutheran Church across the street.',
       'Birkerts already knew Columbus. Born in Latvia in 1925, he escaped ahead of the advancing Soviet army near the end of the Second World War and graduated from the technical university in Stuttgart, Germany, in 1949, according to Wikipedia. He then worked in Eero Saarinen’s office, where the projects listed with his name include the Irwin Union Bank and Trust in downtown Columbus in 1954. By 1963 he had his own firm, Gunnar Birkerts and Associates, in Birmingham, Michigan. Wikipedia lists the Lincoln School as his work from 1965 to 1967.',
       'The Republic, writing about the school’s 50th anniversary, describes a building known for natural light, a central multipurpose room and the way it settles into its landscape. It also reports a claim the school was proud of: that Lincoln was the first school building in the United States to offer access to both levels by ramps, elevators and extra wide doors.',
-      'A few days after the school opened, First Lady Lady Bird Johnson came to Columbus. Indiana Public Media’s history says she dedicated a plaque at the entrance dated September 21, 1967, bearing the name of Mayor Eret Kline. The Republic reports that she called architecture “frozen music.”',
+      'A few days after the school opened, First Lady Lady Bird Johnson came to Columbus. The Republic reports that she dedicated a plaque at the entrance, praising the town’s efforts to make itself beautiful and calling its buildings “such a Symphony of Stone.” The library’s recording dates the dedication to September 21, 1967.',
       '## The recording',
       'The local radio station WCSI taped the ceremony, and the Bartholomew County Public Library now keeps the reel in its Columbus Indiana Architectural Archives. The archive’s description gives the details. The recording runs just under 20 minutes. Mrs. Johnson had come to Columbus on her Crossroads: USA tour, a run of Midwest stops from September 20 to 23, 1967, to see how her husband’s programs were reaching schools and towns. Her speech was the highlight, but the tape also carries speeches by Indiana Governor Roger D. Branigin and by Mayor Kline. The library has posted a version online with subtitles, a transcript and an index.',
       'The visit did not end at the school. The Miller House article on Wikipedia notes that Lady Bird Johnson stayed overnight at the Millers’ home in 1967.',
-      'In 1970 the American Institute of Architects gave Lincoln an Honor Award, one of three national Honor Awards that Wikipedia says Birkerts’s firm received, in 1962, 1970 and 1973. Indiana Public Media’s 1967 entry notes that it had been 25 years since First Christian Church opened, and that a new generation was now sending its children to the schools the Cummins Foundation had helped pay for.',
+      'In 1970 the American Institute of Architects gave Lincoln an Honor Award, one of three national Honor Awards that Wikipedia says Birkerts’s firm received, in 1962, 1970 and 1973.',
       'The school is now Columbus Signature Academy, Lincoln Campus. For its 50th anniversary, students led the public on tours. Birkerts died in August 2017, at 92. Wikipedia dates his other Columbus building, St. Peter’s Lutheran Church across the street, to 1980 to 1988.',
       'A visit from the First Lady was a big day for any town. For a school built to be easy for every child to get around in, it was a fitting one to remember.',
     ],
-    sources: [['Lincoln’s 5 decades of history worth celebrating, The Republic', 'https://www.therepublic.com/?p=374360'], ['Columbus, Indiana: Different by Design, 1967, Indiana Public Media', IPM + 'text1967.html'], ['Lady Bird Johnson speaks at Lincoln Elementary School (sound recording), Bartholomew County Public Library archives', 'https://bcplarchives.omeka.net/items/show/482'], ['Gunnar Birkerts, Wikipedia', WP + 'Gunnar_Birkerts'], ['Miller House (Columbus, Indiana), Wikipedia', WP + 'Miller_House_(Columbus,_Indiana)']] }),
+    sources: [['CSA, Lincoln’s 5 decades of history worth celebrating, The Republic (September 20, 2017)', 'https://www.therepublic.com/2017/09/20/csa__lincolns_5_decades_of_history_worth_celebrating/'], ['Lady Bird Johnson speaks at Lincoln Elementary School (sound recording), Bartholomew County Public Library archives', 'https://bcplarchives.omeka.net/items/show/482'], ['Gunnar Birkerts, Wikipedia', WP + 'Gunnar_Birkerts'], ['Miller House (Columbus, Indiana), Wikipedia', WP + 'Miller_House_(Columbus,_Indiana)']] }),
 
   x({ slug: 'fire-station-4', when: '1967', section: 'civic', landmark: 'firestation',
     title: 'An ordinary building with a big number 4',
@@ -109,7 +108,7 @@ export const A1960s = [
       'Plenty of things in Columbus changed in the 1960s. The newspaper on the porch got a shorter name, and kept the job of telling the town about all of it.',
       'Heart of Columbus tips its cap here. For more than 150 years, through six generations of the Brown family and several owners since, The Republic has covered this town every day. We hope to be a good neighbor to it.',
     ],
-    sources: [['The Republic (Columbus, Indiana), Wikipedia', WP + 'The_Republic_(Columbus,_Indiana)'], ['A history of The Republic: 1872 to today, The Republic', 'https://www.therepublic.com/?p=482537'], ['Bartholomew County, Indiana newspapers, Linkpendium / ldsgenealogy.com', 'https://ldsgenealogy.com/IN/Bartholomew-County-Newspapers-and-Obituaries.htm']] }),
+    sources: [['The Republic (Columbus, Indiana), Wikipedia', WP + 'The_Republic_(Columbus,_Indiana)'], ['A history of The Republic: 1872 to today, The Republic (April 4, 2022)', 'https://www.therepublic.com/2022/04/04/a-history-of-the-republic-1872-to-today/'], ['Bartholomew County, Indiana newspapers, Linkpendium / ldsgenealogy.com', 'https://ldsgenealogy.com/IN/Bartholomew-County-Newspapers-and-Obituaries.htm']] }),
 
   x({ slug: 'cummins-technical-center', when: '1967', section: 'industry',
     title: 'Where Cummins designs the next engine',
@@ -125,7 +124,7 @@ export const A1960s = [
       'The firm lists quiet rooms, nursing rooms, gender-neutral restrooms and even treadmill desks. Upgraded lighting and new window treatments work with Weese’s big windows to keep the light and cut energy use. Plus signs set into key spaces nod to the Cummins logos by the graphic designer Paul Rand. F.A. Wilhelm Construction built the renovation, a three year project.',
       'Engines designed and tested on McKinley Avenue go all over the world. The work still starts here.',
     ],
-    sources: [['Cummins Technical Center at 50, The Republic', 'https://www.therepublic.com/?p=375160'], ['Cummins Technical Center, HOK', 'https://www.hok.com/projects/view/cummins-technical-center/'], WEESE] }),
+    sources: [['50 years of leading edge innovation, The Republic (October 8, 2017)', 'https://www.therepublic.com/2017/10/08/50_years_of_leadingedge_innovation/'], ['Cummins Technical Center, HOK', 'https://www.hok.com/projects/view/cummins-technical-center/'], WEESE] }),
 
   x({ slug: 'bakalar-reservists-go-to-vietnam', when: '1968', section: 'service',
     title: 'Reservists from Bakalar fly gunships in Vietnam',
@@ -145,11 +144,10 @@ export const A1960s = [
     dek: 'To build its new library, Columbus closed a block of Lafayette Avenue and hired I. M. Pei. The library opened in 1969; Henry Moore’s Large Arch arrived in 1971.',
     body: [
       'Columbus has had a public library since 1899, when a county library opened in two rooms of the original City Hall. A Carnegie library followed, dedicated on June 1, 1903, and built for $19,200, with $15,000 from Andrew Carnegie. By the late 1950s the county had outgrown it.',
-      'The new library was paid for with a $1 million bond issue, community donations and an $800,000 grant from the Cummins Engine Foundation, according to Wikipedia. The architect was I. M. Pei and Partners. Construction by Dunlap and Company began in late 1966. Indiana Public Media’s history says the building opened to the public in October 1969; Wikipedia gives December 1969 as the end of construction.',
+      'The new library was paid for with a $1 million bond issue, community donations and an $800,000 grant from the Cummins Engine Foundation, according to Wikipedia. The architect was I. M. Pei and Partners. Construction by Dunlap and Company began in late 1966. Wikipedia gives December 1969 as the end of construction.',
       'Pei did something bold with the site. The old library was torn down, and Lafayette Avenue between Fifth and Sixth streets was closed, making room for the library and a plaza. The library was named for Cleo Rogers, who worked for the county library for 37 years, 28 of them as head librarian, and who died in 1964.',
-      'Two years later the plaza got its centerpiece. Xenia and J. Irwin Miller commissioned Henry Moore’s Large Arch, a five ton bronze, and gave it to the library. It was installed in 1971, and the library was dedicated that May with Pei speaking at the ceremony.',
+      'Two years later the plaza got its centerpiece. Xenia and J. Irwin Miller commissioned Henry Moore’s Large Arch, a five ton bronze, and gave it to the library. It was installed in 1971, and the library was dedicated that May with Pei speaking at the ceremony. Visit Columbus describes the arch as an abstract gateway inspired by Stonehenge, its curves set against the crisp lines of the library and First Christian Church across the street, and notes that generations of local children have called it “the dinosaur bone.”',
       'The building has been expanded and renovated since, with an addition by James K. Paris and a renovation in 1989. It holds the Columbus Indiana Architectural Archives. It also appeared in the 2017 film Columbus.',
-      'Indiana Public Media notes that the plaza around the arch has hosted outdoor concerts, art shows and community events for decades.',
     ],
-    sources: [['Cleo Rogers Memorial Library, Wikipedia', WP + 'Cleo_Rogers_Memorial_Library'], ['Columbus, Indiana: Different by Design, 1969, Indiana Public Media', IPM + 'text1969.html']] }),
+    sources: [['Cleo Rogers Memorial Library, Wikipedia', WP + 'Cleo_Rogers_Memorial_Library'], ['Large Arch, Visit Columbus Indiana', 'https://visitcolumbusindiana.com/directory/large-arch/']] }),
 ];
