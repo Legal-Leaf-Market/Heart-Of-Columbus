@@ -6,7 +6,7 @@
 import { esc, t, json } from '../layout.mjs';
 import { svg } from '../site.mjs';
 import { directory, km } from '../data/directory.mjs';
-import { EVENTS, CALENDARS } from '../data/events.mjs';
+import { EVENTS, CALENDARS, SOURCES as SOURCE_LIST } from '../data/events.mjs';
 
 const NEAR_KM = 0.4; // about a 5-minute walk
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -64,4 +64,40 @@ export function icsFeed(now = new Date()) {
   // Lines longer than 75 characters continue on the next line after a space.
   const folded = lines.map((l) => l.match(/.{1,73}/g).join('\r\n '));
   return folded.join('\r\n') + '\r\n';
+}
+
+// The homepage calendar: "This week in Columbus". Fourteen day tiles with a
+// count each, tap a day to list its events, tap an event for a pop up with
+// the organizer's link and an add-to-calendar file. public/js/events-week.js
+// fills it from /api/events (library, parks, Arts Council and hand-entered
+// listings). Without the script, or if the feed fails, it shows the
+// signature events as a short list, never an empty box.
+export function homeEvents() {
+  const upcoming = EVENTS.slice().sort((a, b) => a.start.localeCompare(b.start));
+  const srcNames = Object.fromEntries(SOURCE_LIST.map((s) => [s.id, s.short || s.name]));
+  return `
+<section class="wrap evw" id="this-week" aria-labelledby="evw-h" data-evw data-src-names="${esc(JSON.stringify(srcNames))}">
+  <div class="rail-head"><div><p class="kicker">Library, parks, arts and more</p><h2 id="evw-h">This week in Columbus</h2></div>
+    <a class="see-all" href="/events/">All local events ${svg('arrow', 'ic-sm')}</a></div>
+  <div class="evw-tools" data-evw-tools hidden>
+    <div class="evw-filters" role="group" aria-label="Show">
+      <button type="button" class="evw-chip" data-evw-filter="all" aria-pressed="true">Everything</button>
+      <button type="button" class="evw-chip" data-evw-filter="kids" aria-pressed="false">Kids &amp; family</button>
+      <button type="button" class="evw-chip" data-evw-filter="live" aria-pressed="false">Live music &amp; arts</button>
+    </div>
+  </div>
+  <div class="evw-days" data-evw-days role="tablist" aria-label="Pick a day" hidden></div>
+  <div class="evw-list" data-evw-list aria-live="polite">
+    <ul class="evw-rows" role="list">${upcoming.map((e) => `<li><a class="evw-row" href="${esc(e.url)}" target="_blank" rel="noopener"><span class="evw-when">${esc(dateRange(e))}</span><span class="evw-what"><strong>${t(e.name)}</strong><span>${esc(e.venue)}</span></span></a></li>`).join('')}</ul>
+  </div>
+  <dialog class="evw-pop" data-evw-pop aria-labelledby="evw-pop-h">
+    <form method="dialog"><button class="evw-x" aria-label="Close">${svg('x', 'ic-sm')}</button></form>
+    <p class="evw-pop-k" data-evw-pop-k></p>
+    <h3 id="evw-pop-h" data-evw-pop-h></h3>
+    <p class="evw-pop-m" data-evw-pop-m></p>
+    <p class="evw-pop-cta"><a class="btn" data-evw-pop-go target="_blank" rel="noopener">Details from the organizer ${svg('arrow', 'ic-sm')}</a><a class="btn btn-ghost" data-evw-pop-ics download>Add to my calendar</a></p>
+    <p class="fine" data-evw-pop-src></p>
+  </dialog>
+  <p class="fine evw-foot">Listings come from each organizer’s own calendar and link back to it. Times can change; check before you go. <a href="/events.ics">Signature events calendar</a></p>
+</section>`;
 }

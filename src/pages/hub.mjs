@@ -6,7 +6,7 @@ import { page, esc, t } from '../layout.mjs';
 import { businesses, prototypes } from '../data/businesses.mjs';
 import { directory, CATEGORIES, AREAS, inSection } from '../data/directory.mjs';
 import { header, footer, rail, svg, PHOTOS, sticker, catSticker } from '../site.mjs';
-import { eventsSection } from './events.mjs';
+import { eventsSection, homeEvents } from './events.mjs';
 import { yourWay } from './trip-pages.mjs';
 import { spotlightSection } from './spotlight.mjs';
 
@@ -169,7 +169,7 @@ ${o || k || f ? `<section class="wrap go-band" aria-labelledby="go-h">
   </div>
 </section>
 
-${eventsSection({ mode: 'weekend', id: 'this-weekend', title: 'This weekend in Columbus', kicker: 'Happening Friday to Sunday' })}
+${homeEvents()}
 
 ${rail('Open right now', '/explore/?open=1', directory.filter((b) => b.hours && !b.tempClosed && FOOD.includes(b.cat)).sort((a, b) => weeklyMinutes(b) - weeklyMinutes(a)).slice(0, OPEN_CANDIDATES), { kicker: 'Hungry? These are open', openOnly: true })}
 
@@ -292,7 +292,7 @@ ${footer()}`;
     title: 'Heart of Columbus | Local Businesses in Columbus, Indiana',
     description: `${total} independent restaurants, shops, salons and trades in Columbus, Indiana. Browse by category or neighborhood, and order direct.`,
     body,
-    scripts: ['site.js', 'hub.js', 'events.js', 'banners.js', 'subscribe.js'],
+    scripts: ['site.js', 'hub.js', 'events-week.js', 'banners.js', 'subscribe.js'],
     styles: ['hoc.css'],
     assets,
     ld: [siteLd()],
