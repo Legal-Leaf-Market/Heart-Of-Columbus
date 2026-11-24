@@ -5,8 +5,8 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { readFileSync, existsSync } from 'node:fs';
 import sharp from 'sharp';
-import { EDITORIAL, EDITORIAL_CAPTION, editorialFor, editorialHero } from '../src/editorial-art.mjs';
-import { directory, subBySlug } from '../src/data/directory.mjs';
+import { EDITORIAL, EDITORIAL_CAPTION, editorialFor, editorialHero, sectionHero } from '../src/editorial-art.mjs';
+import { CATEGORIES, directory, subBySlug } from '../src/data/directory.mjs';
 import { card, searchIndex } from '../src/site.mjs';
 
 const root = new URL('../', import.meta.url);
@@ -54,19 +54,32 @@ test('the barbershops page: the painted header in the intro, text-first cards be
   assert.match(page, /<section class="(?:wrap )?list list-ed"/);
 });
 
-test('other beauty pages keep their own header and art', () => {
-  for (const p of ['c/beauty/', 'c/beauty/salons/', 'c/beauty/nails/', 'c/beauty/spa/', 'c/beauty/tattoo/']) {
-    const page = html(p);
-    assert.doesNotMatch(page, /band-ed|ed-hero/, p);
-    assert.doesNotMatch(page, /list-ed/, p);
+test('each category and subcategory has its own or inherited banner', () => {
+  for (const cat of CATEGORIES) {
+    const categoryHero = sectionHero(cat.slug);
+    assert.ok(categoryHero?.small, cat.slug);
+    assert.ok(existsSync(new URL(`public/art/${categoryHero.file}`, root)), categoryHero.file);
+    assert.ok(existsSync(new URL(`public/art/${categoryHero.small}`, root)), categoryHero.small);
+    const pages = [[`c/${cat.slug}/`, categoryHero]];
+    if (cat.subs.length > 1) for (const sub of cat.subs) {
+      pages.push([`c/${cat.slug}/${sub.slug}/`, editorialHero(sub.slug) || categoryHero]);
+    }
+    for (const [path, hero] of pages) {
+      const banner = html(path).match(/<figure class="ed-hero-art">[\s\S]*?<\/figure>/)?.[0];
+      assert.ok(banner, path);
+      if (hero.small) {
+        assert.ok(banner.includes(hero.file) && banner.includes(hero.small), path);
+      } else {
+        const responsiveSource = hero.file.replace(/\.webp$/, '-');
+        assert.ok(banner.includes(hero.file) || banner.includes(responsiveSource), path);
+      }
+    }
   }
-  const salons = html('c/beauty/salons/');
-  assert.doesNotMatch(salons, /ed-tag|editorial-barbers/);
 });
 
-test('no business slot carries a painted scene, on the page or in the search index', () => {
+test('category scenes stay out of business slots and the search index', () => {
   for (const b of barbers) {
-    assert.doesNotMatch(card(b), /ed-tag|ed-art|art\//, b.slug);
+    assert.doesNotMatch(card(b), /ed-tag|ed-art|\/art\/(?:sections-v1|editorial-)/, b.slug);
     const page = html(`b/${b.slug}/`);
     const top = page.slice(page.indexOf('<section class="wrap biz">'), page.indexOf('</aside>'));
     assert.doesNotMatch(top, /ed-tag|ed-art|art-editorial|biz-cover/, b.slug);

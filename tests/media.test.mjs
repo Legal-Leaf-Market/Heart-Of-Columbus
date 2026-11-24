@@ -33,15 +33,15 @@ test('nothing sits in public/business-media without an approved entry', () => {
   }
 });
 
-test('a card shows an approved photo, and an entry missing its permission shows nothing', async () => {
-  const { card } = await import('../src/site.mjs');
+test('a spotlight shows a photo only when its entry has permission', async () => {
+  const { spotCard } = await import('../src/pages/spotlight.mjs');
   const b = directory.find((x) => x.slug === 'jills-diner');
   const cover = { file: 'cover.webp', width: 1200, height: 800, alt: 'The counter' };
   MEDIA['jills-diner'] = { cover, sourceUrl: 'https://example.org', permission: 'Owner email, 2026-11-02', credit: 'Photo: the owner', checked: '2026-11-02' };
   try {
-    assert.match(card(b), /src="\/business-media\/jills-diner\/cover\.webp" width="1200" height="800"/);
+    assert.match(spotCard({ b, picks: [] }), /src="\/business-media\/jills-diner\/cover\.webp" width="1200" height="800"/);
     MEDIA['jills-diner'] = { cover, sourceUrl: 'https://example.org', credit: 'Photo: the owner', checked: '2026-11-02' };
-    assert.doesNotMatch(card(b), /business-media/);
+    assert.doesNotMatch(spotCard({ b, picks: [] }), /business-media/);
   } finally {
     delete MEDIA['jills-diner'];
   }

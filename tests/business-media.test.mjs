@@ -1,7 +1,5 @@
-// No art stands in for a business (docs/redesign/CLAUDE_DEEP_REDESIGN.md).
-// A business card, page, spotlight, search result or Spin result shows a real
-// approved photo of that business, or no image region at all. Stickers and
-// painted scenes stay in category and editorial modules.
+// Directory cards can show an illustration assigned to the business. Only
+// approved photos populate photo slots, and category artwork stays in headers.
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
@@ -49,16 +47,18 @@ test('the resolver refuses anything without permission, source, date and credit,
     MEDIA[b.slug] = good;
     const m = businessMedia(b.slug);
     assert.equal(m.state, 'photo');
-    assert.match(card(b), new RegExp(`<a class="bz-media"[^>]*><img class="bz-photo" src="/business-media/${b.slug}/cover.webp"`));
+    assert.match(spotCard({ b, picks: [] }), new RegExp(`<a class="sp-cover"[^>]*><img class="bz-photo" src="/business-media/${b.slug}/cover.webp"`));
     assert.equal(searchIndex().find((x) => x.s === b.slug).i, `/business-media/${b.slug}/cover.webp`);
   } finally { delete MEDIA[b.slug]; }
 });
 
-test('a business with no approved photo gets a card with no image region', () => {
+test('directory cards without approved photos can show their own illustrations', () => {
   for (const b of directory.filter((x) => businessMedia(x.slug).state === 'none')) {
     const c = card(b);
-    assert.doesNotMatch(c, /<img|bz-media|bz-cover/, b.slug);
-    assert.match(c, /data-media="none"/, b.slug);
+    assert.doesNotMatch(c, /business-media|bz-photo|bz-cover|\/art\/(?:sections-v1|editorial-)/, b.slug);
+    for (const [, slug] of c.matchAll(/(?:business-scenes\/|#biz-)([a-z0-9-]+)/g)) {
+      assert.equal(slug, b.slug, 'illustrations belong to the listed business');
+    }
     assert.match(c, /data-save=/, `${b.slug}: save kept`);
     assert.match(c, /data-open-slot/, `${b.slug}: open-now status has a home`);
   }
@@ -76,7 +76,7 @@ test('spotlight cards follow the same rule', () => {
 // The supplied scanner (tools/audit_business_art.py in the redesign package),
 // ported: any element inside a business-media wrapper or a link to /b/ must
 // not carry known art paths or classes.
-test('no built page puts art in a business slot', () => {
+test('no built page puts category art in a business slot', () => {
   const walk = (d) => readdirSync(d).flatMap((f) => (statSync(d + f).isDirectory() ? walk(d + f + '/') : f.endsWith('.html') ? [d + f] : []));
   const WRAP = /\b(?:biz-cover|bz-cover|bz-media|sp-cover|business-media|business-photo|biz-figure)\b/;
   let pages = 0;
