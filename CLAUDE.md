@@ -201,7 +201,11 @@ Indiana. A pitch, not a live service. See README.md.
   "Check cart handoff" workflow, triggered by editing
   `scripts/data/handoff-request.txt` on a claude branch) proves it on the real
   shops: it reads each catalog from the deployed site, follows our Woo add
-  links in a fresh session and reads that cart back from the shop. Marketplaces that take a cut (DoorDash
+  links in a fresh session and reads that cart back from the shop. It also
+  runs nightly: `scripts/handoff-verdict.mjs` compares the run with the last
+  one, results live on the `checks/handoff` branch (never main), and a broken
+  shop (unreadable, empty, a failed Woo add, or a catalog that halved) opens
+  or updates one "Cart check:" issue; a clean run closes it. Marketplaces that take a cut (DoorDash
   marketplace, Grubhub, Uber Eats) are never linked as "direct".
 - **Pickup tickets** (`/api/pickup`, `netlify/functions/pickup.mjs`, adapted
   from Herbal Leaf Market's local-order route). A ticket is a record, never a
