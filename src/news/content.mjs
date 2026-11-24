@@ -47,7 +47,7 @@
 //         tally: 6 to 1
 //     followUps: [What happens to the parks line next year?]
 //   stickers: [{ sticker: olive-branch }, { sticker: road-trip, heading: Getting there }]  # src/news/stickers.mjs
-//   series: jake-takes-the-town    # optional: src/news/series.mjs; its writer must be on the byline
+//   series: jake-takes-the-town    # optional: src/news/series.mjs; its writer, if it has one, must be on the byline
 //   game:                          # optional scoreboard box for a game story
 //     home: Columbus North         # team names as the teams write them
 //     away: Columbus East
@@ -132,7 +132,7 @@ export function checkStory(s) {
   if (s.series) {
     const sr = seriesBySlug[s.series];
     if (!sr) p.push(`series "${s.series}" is not in src/news/series.mjs`);
-    else if (!s.sample && !(s.bylines || []).includes(sr.writer)) p.push(`a ${sr.name} story must carry ${sr.writer} on the byline`);
+    else if (sr.writer && !s.sample && !(s.bylines || []).includes(sr.writer)) p.push(`a ${sr.name} story must carry ${sr.writer} on the byline`);
   }
   if (s.game) {
     const g = s.game;

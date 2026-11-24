@@ -22,6 +22,7 @@ function newsletterPage(ctx) {
 <section class="pk-card">${on ? `
   <form class="ow-form np-form" action="${esc(NEWSLETTER.signupAction)}" method="post" target="_blank">
     <label>Email<input name="email" type="email" autocomplete="email" required></label>
+    <input type="hidden" name="embed" value="1">
     <button class="btn" type="submit">Sign up</button>
     <p class="fine">We’ll email you once to confirm. Every newsletter has a one-click unsubscribe link. Read our <a href="/privacy/">privacy page</a>.</p>
   </form>` : '<p><strong>Sign up opens soon.</strong> The newsletter starts with the first edition of the paper.</p>'}</section>
@@ -85,7 +86,7 @@ function wherePage(ctx) {
 // The 30-second shootaround, from the Pacers design pack (2026-11-24). The
 // game lives in public/js/shootaround.js; without it the page says so.
 function shootaroundPage(ctx) {
-  const body = doc('Quick game', 'Hoosier shootaround', 'Thirty seconds, one ball. Pull the ball back away from the hoop and let go. On a keyboard, aim with the arrow keys and press Space.', `
+  const body = doc('Quick game', 'Hoosier shootaround', 'Thirty seconds, one ball. Press anywhere on the court, pull down and away from the hoop, and let go. On a keyboard, aim with the arrow keys and press Space.', `
 <section class="sa" data-sa aria-label="Basketball shootaround game">
   <div class="sa-shell">
     <div class="sa-hud" aria-live="polite">
@@ -95,7 +96,7 @@ function shootaroundPage(ctx) {
       </div>
       <span class="sa-tag" data-sa-tag>READY?</span>
     </div>
-    <canvas width="960" height="540" tabindex="0" role="img" aria-label="Basketball court. Drag the ball down and away from the hoop, then let go to shoot. Or use the left and right arrows to aim, up and down for power, and Space to shoot."></canvas>
+    <canvas width="960" height="540" tabindex="0" role="img" aria-label="Basketball court. Press anywhere, drag down and away from the hoop, then let go to shoot. Or use the left and right arrows to aim, up and down for power, and Space to shoot."></canvas>
     <div class="sa-controls">
       <button type="button" class="sa-btn sa-go" data-sa-start>Start shootaround</button>
       <button type="button" class="sa-btn sa-alt" data-sa-shoot disabled>Shoot (Space)</button>
@@ -103,7 +104,7 @@ function shootaroundPage(ctx) {
       <p class="sa-status" data-sa-status role="status">Ready when you are.</p>
     </div>
   </div>
-  <p class="sa-how"><strong>Touch or mouse:</strong> press on the ball, pull down and away from the hoop, then let go. <strong>Keyboard:</strong> focus the court, aim with the left and right arrows, set power with up and down, and shoot with Space or Enter. Scores aren't saved anywhere.</p>
+  <p class="sa-how"><strong>Touch or mouse:</strong> press anywhere on the court, pull down and away from the hoop like a slingshot, then let go. The dotted arc shows where it will go. <strong>Keyboard:</strong> focus the court, aim with the left and right arrows, set power with up and down, and shoot with Space or Enter. Scores aren't saved anywhere.</p>
   <noscript><p class="sa-how">The shootaround needs JavaScript turned on.</p></noscript>
   <p class="fine"><a href="/games/">More local games</a></p>
 </section>`);

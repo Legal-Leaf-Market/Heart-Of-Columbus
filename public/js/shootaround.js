@@ -14,7 +14,7 @@
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const W = 960, H = 540, home = { x: 255, y: 420 }, hoop = { x: 730, y: 236 };
   const PULL = 0.16;
-  let ball, score = 0, running = false, dragging = false, drag = { x: 0, y: 0 }, aim = { angle: 58, power: 17.4 }, last = 0, raf = 0, swish = 0, timer = 0;
+  let ball, score = 0, running = false, dragging = false, drag = { x: 0, y: 0 }, origin = { x: 0, y: 0 }, aim = { angle: 58, power: 17.4 }, last = 0, raf = 0, swish = 0, timer = 0;
   const stars = Array.from({ length: 46 }, (_, i) => ({ x: (i * 197 + 43) % W, y: (i * 89 + 30) % 310, r: (i % 3) * 0.65 + 0.8, phase: i * 0.9 }));
   const resetBall = () => { ball = { x: home.x, y: home.y, vx: 0, vy: 0, r: 28, air: false }; dragging = false; };
   resetBall();
@@ -38,7 +38,7 @@
       ctx.fillStyle = 'rgba(255,244,200,.63)';
       for (let i = 1; i <= 13; i++) { const k = i * 2.2, x = ball.x + vx * k, y = ball.y + vy * k + 0.215 * k * k; if (y > 395) break; ctx.beginPath(); ctx.arc(x, y, 2.5, 0, Math.PI * 2); ctx.fill(); }
     }
-    if (dragging) { ctx.strokeStyle = 'rgba(255,241,190,.7)'; ctx.lineWidth = 3; ctx.setLineDash([7, 8]); ctx.beginPath(); ctx.moveTo(ball.x, ball.y); ctx.lineTo(drag.x, drag.y); ctx.stroke(); ctx.setLineDash([]); }
+    if (dragging) { ctx.strokeStyle = 'rgba(255,241,190,.7)'; ctx.lineWidth = 3; ctx.setLineDash([7, 8]); ctx.beginPath(); ctx.moveTo(ball.x, ball.y); ctx.lineTo(ball.x + drag.x - origin.x, ball.y + drag.y - origin.y); ctx.stroke(); ctx.setLineDash([]); }
     ctx.save(); ctx.translate(ball.x, ball.y); ctx.shadowColor = 'rgba(16,26,45,.47)'; ctx.shadowBlur = 9; ctx.shadowOffsetY = 5;
     ctx.fillStyle = '#f29424'; ctx.beginPath(); ctx.arc(0, 0, ball.r, 0, Math.PI * 2); ctx.fill(); ctx.shadowColor = 'transparent';
     ctx.strokeStyle = '#552d17'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(0, 0, ball.r, 0, Math.PI * 2);
@@ -77,14 +77,17 @@
   function aimedShot() { const a = aim.angle * Math.PI / 180; shoot(Math.cos(a) * aim.power, -Math.sin(a) * aim.power); }
   function point(e) { const b = c.getBoundingClientRect(); return { x: (e.clientX - b.left) * W / b.width, y: (e.clientY - b.top) * H / b.height }; }
 
+  // Press anywhere on the court and pull back, like a slingshot: on a phone
+  // the ball is a small target, so the pull is measured from where you pressed.
   c.addEventListener('pointerdown', (e) => {
-    if (!running || ball.air) return;
-    const p = point(e);
-    if (Math.hypot(p.x - ball.x, p.y - ball.y) < ball.r * 2.4) { dragging = true; drag = p; c.setPointerCapture(e.pointerId); e.preventDefault(); }
+    e.preventDefault();
+    if (!running) { start(); return; }
+    if (ball.air) return;
+    origin = point(e); drag = origin; dragging = true; c.setPointerCapture(e.pointerId);
   });
   // A pull down and away from the hoop aims the shot the other way.
   const pullAim = () => {
-    const dx = ball.x - drag.x, dy = drag.y - ball.y;
+    const dx = origin.x - drag.x, dy = drag.y - origin.y;
     if (dx < 10 || dy < 10) return false;
     aim.angle = Math.max(22, Math.min(70, Math.atan2(dy, dx) * 180 / Math.PI));
     aim.power = Math.max(13, Math.min(21, Math.hypot(dx, dy) * PULL));
