@@ -8,6 +8,10 @@
   # The paper is launched (Jake, 2026-11-24): the News link shows in the main
   # menu everywhere. Search indexing is a separate switch (HOC_INDEX).
   NEWS_LIVE = "1"
+  # Launched (Jake, 2026-11-24): search engines may index the site. Deploy
+  # previews and branch deploys stay noindex (src/indexing.mjs checks CONTEXT).
+  # When the domain is bought, set HOC_ORIGIN to it here or in Netlify.
+  HOC_INDEX = "1"
 
 
 [[headers]]

@@ -1,6 +1,7 @@
 // Farm country only says what a cited page says, and the grain prices carry
 // their report and date.
 import assert from 'node:assert/strict';
+import { LAUNCH } from '../src/indexing.mjs';
 import { test } from 'node:test';
 import { readFileSync } from 'node:fs';
 import { AG, GRAIN } from '../src/data/agriculture.mjs';
@@ -31,6 +32,7 @@ test('grain prices name their report and date, and the numbers add up', () => {
   assert.ok(html.includes(GRAIN.source.replace(/&/g, '&amp;')));
   assert.ok(html.includes('Thursday, October 22, 2026') || !GRAIN.asOf.startsWith('2026-10-22'));
   for (const i of items) assert.ok(html.includes(`id="${i.slug}"`), i.slug);
-  assert.ok(html.includes('noindex'));
+  // Before launch only; after it, tests/seo.test.mjs checks the page against src/indexing.mjs.
+  if (!LAUNCH) assert.ok(html.includes('noindex'));
   assert.match(readFileSync(new URL('../dist/index.html', import.meta.url), 'utf8'), /href="\/agriculture\/"/);
 });

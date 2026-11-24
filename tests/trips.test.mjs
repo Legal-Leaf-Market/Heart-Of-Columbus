@@ -1,6 +1,7 @@
 // Trip ideas promise that each stop is open when you get there. This test
 // holds them to it, so a change in hours breaks the build, not a visit.
 import assert from 'node:assert/strict';
+import { LAUNCH } from '../src/indexing.mjs';
 import { test } from 'node:test';
 import { readFileSync } from 'node:fs';
 import { TRIPS } from '../src/data/trips.mjs';
@@ -40,7 +41,8 @@ test('trip copy stays factual and every trip page is built', () => {
   for (const trip of TRIPS) {
     assert.doesNotMatch(`${trip.title} ${trip.line}`, /\b(best|favorite|must|hidden gem|iconic)\b/i, trip.slug);
     const html = readFileSync(new URL(`../dist/trips/${trip.slug}/index.html`, import.meta.url), 'utf8');
-    assert.match(html, /noindex/);
+    // Before launch only; after it, tests/seo.test.mjs checks the page against src/indexing.mjs.
+    if (!LAUNCH) assert.match(html, /noindex/);
     assert.match(html, /straight-line estimates/);
   }
   assert.match(readFileSync(new URL('../dist/visit/index.html', import.meta.url), 'utf8'), /id="your-way"/);

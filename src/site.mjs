@@ -135,7 +135,7 @@ export function footer({ lang = 'en' } = {}) {
       <img class="ftr-stk" src="/art/sticker-community-heart.webp" width="72" height="72" alt="" aria-hidden="true" loading="lazy" decoding="async">
       <a href="/" class="logo logo-light">${heartLogo}<span>Heart of <em>Columbus</em></span></a>
       <p class="ftr-tag">${es ? ES.footerTag : 'Independent businesses of Columbus, Indiana. Owner-run and local. Spot a chain? Tell us and it comes off.'}</p>
-      <p class="ftr-small">${es ? ES.footerSmall : 'A concept preview. Details come from public listings and may change; call ahead. Not affiliated with the businesses listed.'}</p>
+      <p class="ftr-small">${es ? ES.footerSmall : 'Details come from public listings and may change; call ahead. Not affiliated with the businesses listed.'}</p>
     </div>
     <div><h3>${es ? ES.browse : 'Browse'}</h3>${CATEGORIES.slice(0, 8).map((c) => `<a href="/c/${c.slug}/">${cat(c)}</a>`).join('')}</div>
     <div><h3>${es ? ES.more : 'More'}</h3>${CATEGORIES.slice(8).map((c) => `<a href="/c/${c.slug}/">${cat(c)}</a>`).join('')}<a href="/djs/">${k.djs}</a><a href="/plan/">${k.plan}</a></div>
@@ -180,7 +180,7 @@ export function card(b, { compact = false, note = '' } = {}) {
     <h3 class="bz-name"><a href="/b/${b.slug}/">${t(b.name)}</a></h3>
     <p class="bz-type">${t(b.featured ? sub.label : b.type)}</p>
     ${b.address ? `<p class="bz-addr">${t(b.address)}</p>` : ''}
-    <p class="bz-status" data-open-slot></p>
+    <p class="bz-status" data-open-slot>${b.hours ? '' : '<span class="bz-nohours">Hours not listed. Call ahead.</span>'}</p>
     ${note ? `<p class="bz-note">${esc(note)}</p>` : ''}
     ${tags.length ? `<div class="bz-tags">${tags.join('')}</div>` : ''}
   </div>

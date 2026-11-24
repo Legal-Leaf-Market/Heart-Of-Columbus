@@ -3,6 +3,7 @@
 // exports a newspaper or a calendar app can take. The rows below are
 // made-up fixtures in each feed's shape, never shown on the site.
 import assert from 'node:assert/strict';
+import { LAUNCH } from '../src/indexing.mjs';
 import { test } from 'node:test';
 import { readFileSync } from 'node:fs';
 import { parseCommunico, parseIcs, collect, toText, toCsv, toIcs, noDash, apTime, webTime, handEntered, communicoUrl } from '../src/event-feeds.mjs';
@@ -153,7 +154,8 @@ test('/events/ and the printable listing are built, linked and credit every sour
     if (s.calendar) assert.ok(list.includes(`href="${s.calendar}"`), `${s.id} calendar link`);
     assert.ok(print.includes(s.site || s.credit), `${s.id} credit`);
   }
-  assert.match(list, /noindex/);
+  if (!LAUNCH) assert.match(list, /noindex/); // after launch tests/seo.test.mjs checks the policy
+  assert.match(print, /noindex/);
   assert.match(list, /href="\/events\/print\/"/);
   assert.match(readFileSync(new URL('../dist/index.html', import.meta.url), 'utf8'), /href="\/events\/"/);
 });

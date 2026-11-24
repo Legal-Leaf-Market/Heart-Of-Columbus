@@ -1,6 +1,7 @@
 // The visitor page states facts about Columbus, so each one must say where it
 // came from and when someone last checked it.
 import assert from 'node:assert/strict';
+import { LAUNCH } from '../src/indexing.mjs';
 import { test } from 'node:test';
 import { readFileSync } from 'node:fs';
 import { VISIT_SECTIONS, SRC } from '../src/data/visit.mjs';
@@ -17,7 +18,8 @@ test('every visit fact has a source URL and a checked date', () => {
 
 test('/visit/ is built, noindex, linked from the header and points to the official site', () => {
   const html = readFileSync(new URL('../dist/visit/index.html', import.meta.url), 'utf8');
-  assert.match(html, /noindex/);
+  // Before launch only; after it, tests/seo.test.mjs checks the page against src/indexing.mjs.
+  if (!LAUNCH) assert.match(html, /noindex/);
   assert.match(html, /not the visitors bureau/);
   assert.ok(html.includes(`href="${SRC.official}"`));
   assert.ok(!html.includes('—'));

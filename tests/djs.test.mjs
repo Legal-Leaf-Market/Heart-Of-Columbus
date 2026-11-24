@@ -1,5 +1,6 @@
 // "Columbus DJs" lists only what a cited page says, and leads with the featured DJ.
 import assert from 'node:assert/strict';
+import { LAUNCH } from '../src/indexing.mjs';
 import { test } from 'node:test';
 import { readFileSync } from 'node:fs';
 import { DJS, DJ_ITEMS } from '../src/data/djs.mjs';
@@ -27,6 +28,7 @@ test('the page lists each DJ, stays noindex and is linked from the events catego
   for (const i of DJ_ITEMS) assert.ok(html.includes(`id="${i.slug}"`), i.slug);
   assert.ok(html.indexOf('id="crossroads-wedding-co"') < html.indexOf('id="matty-o-entertainment"'));
   assert.ok(html.includes('not affiliated'));
-  assert.ok(html.includes('noindex'));
+  // Before launch only; after it, tests/seo.test.mjs checks the page against src/indexing.mjs.
+  if (!LAUNCH) assert.ok(html.includes('noindex'));
   assert.ok(readFileSync(new URL('../dist/c/events/index.html', import.meta.url), 'utf8').includes('href="/djs/"'));
 });

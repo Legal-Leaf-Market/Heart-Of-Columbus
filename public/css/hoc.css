@@ -2194,3 +2194,9 @@ a.tag:not(.tag-member):hover { filter: brightness(.96); }
 .hx-more[open] summary { margin-bottom: 10px; }
 .hx-archive-h { font-size: clamp(26px, 4vw, 38px); margin: 44px 0 6px; padding-top: 18px; border-top: 3px double var(--ink); }
 @media (max-width: 640px) { .hx-pop-bars { height: 110px; gap: 3px; } .hx-pop-n { font-size: 9.5px; } .hx-pop-y { font-size: 9px; } }
+
+/* A card with no hours on file says so, instead of an empty gap. */
+.bz-nohours { font-size: 13px; color: var(--muted); }
+.keep-share { margin: 10px 0 0; font-size: 14px; }
+.np-edition { border-top: 3px double var(--ink); padding-top: 14px; margin-top: 22px; }
+.np-edition-mail { border: 1px solid var(--line); border-radius: 12px; padding: 18px; background: #fff; max-width: 640px; font-family: Georgia, serif; }

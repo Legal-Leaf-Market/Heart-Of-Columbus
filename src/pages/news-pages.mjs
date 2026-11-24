@@ -183,6 +183,10 @@ const newsPlate = (s, sec) => {
 // The shootaround card: on the front page and at the end of sports stories.
 const playCta = (small = false) => `<a class="np-play-cta${small ? ' np-play-cta-sm' : ''}" href="/games/shootaround/">${stickerImg('basketball', 'np-sticker')}<span><strong>Take a 30-second shootaround</strong><span>A quick basketball game. Pull back, let it fly.</span></span></a>`;
 
+// The 1200 x 630 card a share shows: cut from the story's lead photo by
+// build.mjs (writeShareCards). Stories without a photo use the site card.
+export const shareCard = (s) => (s.images?.[0]?.file?.startsWith('/') ? { src: `/og/news/${s.slug}.jpg`, alt: s.images[0].alt } : null);
+
 function storyPage(ctx, s) {
   const sec = sectionBySlug[s.section];
   const banner = s.sample
@@ -194,6 +198,7 @@ function storyPage(ctx, s) {
     styles: ['kindle.css', 'newsprint.css'],
     body: reader({ section: sec.name, variant: 'news', cls: s.series ? `kd-series-${s.series}` : '', inner: newsPlate(s, sec) + storyBody(s) }) + `<div class="wrap np-story-end">${shareBar({ path: s.href, title: s.headline, text: s.dek })}${signupBox({ compact: true })}</div>` + inThisStory(s) + `<div class="wrap np-story-end">${s.section === 'sports' ? playCta(true) : ''}${storyAsk()}${followStrip({ feeds: s.series && seriesBySlug[s.series] ? [[`${seriesHref(seriesBySlug[s.series])}feed.xml`, seriesBySlug[s.series].name]] : [] })}</div>`,
     feeds: s.series && seriesBySlug[s.series] ? [[`${seriesHref(seriesBySlug[s.series])}feed.xml`, seriesBySlug[s.series].name]] : [],
+    shareImage: shareCard(s),
     ld: s.sample || s.draft ? [] : [newsArticleLd({ ...s, sectionName: sec.name }, { people: s.bylines.map((b) => person(b)), paper: PAPER })],
   });
 }

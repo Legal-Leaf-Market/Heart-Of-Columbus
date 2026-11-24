@@ -1,19 +1,25 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync } from 'node:fs';
+import { indexable } from '../src/indexing.mjs';
 import { pageUrl, finalizeSeo, sitemapXml, robotsTxt } from '../src/seo.mjs';
 import { ORIGIN } from '../src/jsonld.mjs';
 
 const dist = new URL('../dist/', import.meta.url);
 test('every generated content page has its own absolute canonical and social URL', () => {
-  for (const f of readdirSync(dist, { recursive: true }).filter((p) => p.endsWith('.html') && !p.startsWith('preview/'))) {
+  for (const f of readdirSync(dist, { recursive: true }).filter((p) => p.endsWith('.html') && !p.startsWith('preview/') && !p.startsWith('admin/'))) {
     const html = readFileSync(new URL(f, dist), 'utf8');
     const canonicals = [...html.matchAll(/rel="canonical" href="([^"]+)"/g)];
     assert.equal(canonicals.length, f === '404.html' ? 0 : 1, f);
     if (canonicals.length) assert.equal(canonicals[0][1], pageUrl(f), f);
-    assert.ok(html.includes(`property="og:image" content="${ORIGIN}/og.png"`), f);
+    // The share image is absolute and real: the site card, or a story's own.
+    const img = html.match(/property="og:image" content="([^"]+)"/)?.[1] || '';
+    assert.ok(img.startsWith(`${ORIGIN}/`), f);
+    assert.ok(existsSync(new URL(img.slice(ORIGIN.length + 1), dist)), `${f}: ${img}`);
     assert.ok(html.includes('name="twitter:card" content="summary_large_image"'), f);
-    assert.match(html, /name="robots" content="noindex, nofollow"/, f);
+    assert.match(html, /property="og:title" content="[^"]+"/, f);
+    // noindex exactly where the one policy says (src/indexing.mjs).
+    assert.equal(/name="robots" content="noindex, nofollow"/.test(html), !indexable(f), f);
   }
 });
 
