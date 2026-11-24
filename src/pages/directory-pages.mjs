@@ -298,18 +298,20 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
       <div class="bz-tags">${b.member ? '<a class="tag tag-member" href="#member-note">★ Founding Member</a>' : ''}${tier === 'claimed' ? '<span class="tag tag-claimed">✓ Claimed by the owner</span>' : ''}${tier === 'listed' ? '<a class="tag tag-outline" href="#claim-card">Outline listing</a>' : ''}${SPOTLIGHT_SLUGS.has(b.slug) ? (spotFor(b.slug)?.picks.length ? '<a class="tag tag-spot" href="#owners-picks">★ Spotlight</a>' : '<span class="tag tag-spot">★ Spotlight</span>') : ''}${b.demo ? '<span class="tag tag-hot">Order direct (demo)</span>' : ''}${b.heritage ? '<span class="tag">Columbus original</span>' : ''}${b.dora ? '<span class="tag tag-dora">Social District: drinks to go</span>' : ''}${b.building ? `<a class="tag tag-history" href="#building">🏛 ${esc(b.building.name)}, ${esc(b.building.built)}</a>` : ''}${b.before ? `<a class="tag tag-history" href="#building">Before: ${esc(b.before.was)}</a>` : ''}${b.also.map((a) => `<a class="tag tag-go" href="#also-${a.cat}">${catBySlug[a.cat].emoji} ${esc(a.title)}</a>`).join('')}<span class="tag tag-plain">Independent</span></div>
       ${b.hours ? `<p class="open-badge biz-open" data-open-now='${JSON.stringify(b.hours)}' hidden></p>` : ''}
       ${reviews ? `<div class="biz-reviews">${reviews}<a href="/reviews/#${b.slug}">Review links</a></div>` : ''}
-      <div class="biz-actions">
+      <div class="biz-actions" role="group" aria-label="Business actions">
         ${b.order.map((o, i) => `<a class="btn${i ? ' btn-ghost' : ''}" href="${esc(tagFor(b, o.url, 'order'))}"${hocAttr(b.slug, 'order')} target="_blank" rel="noopener">${svg('store')} Order online${b.order.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
         ${b.book.map((o, i) => `<a class="btn${b.order.length || i ? ' btn-ghost' : ''}" href="${esc(tagFor(b, o.url, 'book'))}"${hocAttr(b.slug, 'book')} target="_blank" rel="noopener">${svg('store')} Book online${b.book.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
         ${b.feed ? `<a class="btn${b.order.length || b.book.length ? ' btn-ghost' : ''}" href="#shop">${svg('store')} Shop online</a>` : ''}
         ${b.store ? `<a class="btn${b.order.length || b.book.length ? ' btn-ghost' : ''}" href="${esc(tagFor(b, b.store, 'shop'))}"${hocAttr(b.slug, 'shop')} target="_blank" rel="noopener">${svg('store')} Shop their online store</a>` : ''}
-        ${b.links.filter((l) => !b.socials.some((profile) => profile.url === socialProfile(l.url)?.url)).map((l) => `<a class="btn btn-ghost" href="${esc(l.url)}" target="_blank" rel="noopener">${svg('globe')} ${esc(l.label)} ↗</a>`).join('')}
         ${b.demo ? `<a class="btn btn-ghost" href="${b.demo}">${svg('store')} ${b.cat === 'beauty' ? 'Book' : 'Order'} (demo)</a>` : ''}
         ${b.phone ? `<a class="btn ${b.demo || b.order.length || b.book.length || b.feed || b.store ? 'btn-ghost' : ''}" href="${tel(b.phone)}">${svg('phone')} Call ${esc(b.phone)}</a>` : ''}
         ${b.added && !b.address ? '' : `<a class="btn btn-ghost" href="${mapsLink(b)}" target="_blank" rel="noopener">${svg('pin')} Directions</a>`}
         ${b.website && !websiteAction(b) && !b.socials.some((profile) => profile.url === socialProfile(b.website)?.url) ? `<a class="btn btn-ghost" href="${esc(b.website)}"${hocAttr(b.slug, 'website')} target="_blank" rel="noopener">${svg('globe')} Website</a>` : ''}
-        ${b.socials.map(({ label, url }) => `<a class="btn btn-ghost" href="${esc(url)}" target="_blank" rel="noopener">${label}</a>`).join('')}
         ${b.gift ? `<a class="btn btn-ghost" href="${esc(tagFor(b, b.gift.url, 'gift'))}"${hocAttr(b.slug, 'gift')} target="_blank" rel="noopener">${svg('heart')} Gift cards</a>` : ''}
+      </div>
+      <div class="biz-actions biz-extra-actions" role="group" aria-label="More ways to connect">
+        ${b.links.filter((l) => !b.socials.some((profile) => profile.url === socialProfile(l.url)?.url)).map((l) => `<a class="btn btn-ghost" href="${esc(l.url)}" target="_blank" rel="noopener">${svg('globe')} ${esc(l.label)} ↗</a>`).join('')}
+        ${b.socials.map(({ label, url }) => `<a class="btn btn-ghost" href="${esc(url)}" target="_blank" rel="noopener">${label}</a>`).join('')}
         <button type="button" class="btn btn-ghost" data-save="${b.slug}" aria-pressed="false">${svg('heart')} <span data-save-label>Save</span></button>
         <button type="button" class="btn btn-ghost" data-share="${esc(b.name)}">${svg('share')} Share</button>
       </div>
