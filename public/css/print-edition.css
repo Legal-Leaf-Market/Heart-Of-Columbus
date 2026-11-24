@@ -144,7 +144,7 @@ body:has(.pe-paper) :where(a, button, summary):focus-visible { outline: 2px soli
 .pe-qr-code { width: 0.68in; height: 0.68in; flex: none; display: block; }
 .pe-qr p { font: 7pt/1.25 var(--pe-sans); max-width: 1.5in; }
 .pe-qr b { display: block; }
-.pe-qr span { display: block; color: var(--pe-gray); font-size: 6.2pt; overflow-wrap: anywhere; }
+.pe-qr span { display: block; color: var(--pe-gray); font-size: 6.2pt; overflow-wrap: anywhere; hyphens: none; }
 
 /* Proof marks: they show on screen and in a proof print, and go away when
    the piece is ready (or with "Hide proof marks"). */

@@ -108,8 +108,9 @@ for (const a of CARDS) qrUrls.add(abs(a.path));
 const QR = Object.fromEntries(await Promise.all([...qrUrls].map(async (u) => [u, await QRCode.toString(u, { type: 'svg', margin: 0, errorCorrectionLevel: 'M', color: { dark: '#141310', light: '#ffffff00' } })])));
 const qr = (url, label = 'Read it online, with its sources') => {
   const u = abs(url);
+  const displayUrl = esc(short(u)).replaceAll('/', '/<wbr>');
   const svg = (QR[u] || '').replace('<svg ', `<svg class="pe-qr-code" role="img" aria-label="QR code for ${esc(short(u))}" `);
-  return `<div class="pe-qr">${svg}<p><a href="${esc(u)}"><b>${t(label)}</b></a><span>${esc(short(u))}</span></p></div>`;
+  return `<div class="pe-qr">${svg}<p><a href="${esc(u)}"><b>${t(label)}</b></a><span>${displayUrl}</span></p></div>`;
 };
 
 // ---------- Pieces ----------
@@ -588,9 +589,9 @@ const editionPage = ({ assets }) => page({
         <div class="pe-menu-panel pe-print-panel">
           <p class="pe-tb-status" data-pe-status role="status">Preparing the tabloid proof…</p>
           <button type="button" data-pe-proof aria-pressed="false" disabled>Tabloid proof</button>
-          <button type="button" class="pe-print-button" data-pe-print disabled>Print or save as PDF</button>
-          <label><input type="checkbox" data-pe-clean> Hide proof marks</label>
-          <p class="pe-tb-help">Choose Tabloid (11 × 17 in), no margins, 100% scale and background graphics.</p>
+          <button type="button" class="pe-print-button" data-pe-print disabled>Print or save proof PDF</button>
+          <label><input type="checkbox" data-pe-clean> Hide proof overlays</label>
+          <p class="pe-tb-help">Choose Tabloid (11 × 17 in), no margins, 100% scale and background graphics. Editorial check notes stay in the proof.</p>
           <a href="${BASE}status/">What’s left before printing</a>
         </div>
       </details>
@@ -631,12 +632,13 @@ photo:
   license: Staff photo
 ---
 The story, in plain paragraphs.</pre>
-      <h2>Printing it</h2>
-      <ul class="pe-todo"><li><b>Make the PDF.</b> Open the edition, wait for “All 16 pages fit”, then print: paper size Tabloid (11 by 17), margins None, scale 100%, background graphics on, and save as PDF. Or run <code>node scripts/print-pdf.mjs</code>, which writes the PDF and checks every page.</li>
-      <li><b>Trim size</b> 11 by 17 inches, 16 pages. Everything sits inside a half inch margin, so the paper needs no bleed.</li>
-      <li><b>Color.</b> The PDF is RGB. Most short run newspaper printers convert it; ask yours.</li>
-      <li><b>Photos</b> should be 200 pixels per inch or more at printed size; the PDF script lists any that are not.</li>
-      <li><b>Quotes.</b> Ask the Columbus press that prints The Republic, Newspaper Club and Mixam for 16 page tabloid, 100 and 200 copies (docs/paper/december-2026-prototype.md has prices).</li></ul>
+      <h2>Proof and printer quote</h2>
+      <ul class="pe-todo">
+        <li><b>Layout proof.</b> Open the edition’s Print menu, wait for “All 16 pages fit,” then save a PDF using Tabloid (11 by 17), no margins, 100% scale and background graphics. Or run <code>node scripts/print-pdf.mjs</code> to check and save the proof.</li>
+        <li><b>First-run quote.</b> Request a price for 500 copies, with 100 as a comparison. Specify 16 pages on standard newsprint at a finished page size of 11 × 17 inches. Ask for the total including delivery to Columbus, Indiana, or pickup.</li>
+        <li><b>Color plan.</b> Quote full color on pages 1 and 16 (outside) and 8 and 9 (center spread), with black ink only on the other 12 pages. The browser exports an RGB proof. Ask the printer to confirm page pairing and how to supply the black-only pages.</li>
+        <li><b>Approval.</b> Resolve editorial checks and draft statuses, confirm that photos hold up at printed size, and inspect the printer’s proof before ordering.</li>
+      </ul>
     </main>`,
   });
 };
