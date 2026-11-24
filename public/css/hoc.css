@@ -343,7 +343,7 @@ section { scroll-margin-top: 130px; }
 .ftr { background: var(--ink); color: rgba(255,255,255,.75); padding: 48px 0 40px; font-size: 14px; }
 .ftr-grid { display: grid; gap: 28px; }
 @media (min-width: 560px) and (max-width: 899px) { .ftr-grid { grid-template-columns: 1fr 1fr; } .ftr-grid > div:first-child { grid-column: 1 / -1; } }
-@media (min-width: 900px) { .ftr-grid { grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr; } }
+@media (min-width: 900px) { .ftr-grid { grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr 1fr; } }
 .ftr h3 { font-family: var(--body); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: #fff; margin-bottom: 10px; }
 .ftr-grid > div:not(:first-child) a { display: block; padding: 3px 0; }
 .ftr a:hover { color: #fff; }
@@ -1927,6 +1927,7 @@ a.tag:not(.tag-member):hover { filter: brightness(.96); }
 .ftr h3 { color: var(--paper); }
 .ftr a:hover { color: var(--paper); text-decoration: underline; text-underline-offset: 3px; }
 .ftr-grid > div:not(:first-child) a { padding: 5px 0; }
+.ftr .ftr-paper h3 { font-family: var(--display); font-size: 19px; line-height: 1.15; letter-spacing: 0; text-transform: none; padding-bottom: 8px; border-bottom: 3px double rgba(255,255,255,.55); }
 .ftr-tag { color: var(--paper); }
 .ftr-stk { width: 72px; height: 72px; margin-bottom: 14px; }
 .logo-light { color: var(--paper); }
