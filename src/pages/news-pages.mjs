@@ -304,7 +304,7 @@ function frontPage(ctx) {
   const photo = PHOTOS.aerial;
   const body = `
 <header class="wrap np-mast">
-  <nav class="np-mast-links" aria-label="Get the paper"><a href="/newsletter/">Newsletter</a><a href="/games/">Games</a><a href="/ask/">Ask us</a><a href="/tips/">Send a tip</a></nav>
+  <nav class="np-mast-links" aria-label="Get the paper"><a href="/print/2026-12/">Print edition</a><a href="/newsletter/">Newsletter</a><a href="/games/">Games</a><a href="/ask/">Ask us</a><a href="/tips/">Send a tip</a></nav>
   <p class="np-mast-date" data-np-today></p>
   <h1 class="np-mast-name">${esc(PAPER.name)}</h1>
   <p class="np-mast-motto">${PAPER.motto ? t(PAPER.motto) : 'Local news for Columbus, Indiana'}</p>
@@ -317,6 +317,7 @@ function frontPage(ctx) {
   <aside class="np-front-side">
     ${weatherBox()}
     ${signupBox({ compact: true })}
+    <section class="np-box np-print-box"><p class="kicker">In print</p><h2>The December edition</h2><p>Our first printed paper, a prototype for friends and family: 16 pages at tabloid size. Read it on screen or print it at home.</p><a class="np-more" href="/print/2026-12/">Open the December edition</a></section>
     ${playCta()}
     ${sponsorSlot('front')}
     ${changes.length ? `<section class="np-box"><h2>Openings and closings</h2>${changes.map((s) => storyCard(s, { size: 'line', showSection: false })).join('')}<a class="np-more" href="/news/business/">More business news</a></section>` : ''}

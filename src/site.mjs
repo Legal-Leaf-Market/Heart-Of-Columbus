@@ -538,6 +538,15 @@ export const mapsLink = (b) =>
 
 // lang 'es' swaps the chrome to Spanish; alt is the same page in the other
 // language, shown as a switcher link.
+// The header's category bar puts Events & Weddings up front, right after
+// Coffee & Sweets (Jake, 2026-11-24). Only the bar changes; every other list
+// keeps the order in CATEGORIES.
+const CATBAR = (() => {
+  const rest = CATEGORIES.filter((c) => c.slug !== 'events');
+  const at = rest.findIndex((c) => c.slug === 'coffee-sweets') + 1;
+  return [...rest.slice(0, at), ...CATEGORIES.filter((c) => c.slug === 'events'), ...rest.slice(at)];
+})();
+
 export function header(active = '', { lang = 'en', alt = '' } = {}) {
   const es = lang === 'es';
   const L = es ? ES.nav : { visit: 'Visit', events: 'Events', explore: 'Explore', order: 'Order & book', map: 'Map', areas: 'Neighborhoods', saved: 'Saved' };
@@ -575,7 +584,7 @@ export function header(active = '', { lang = 'en', alt = '' } = {}) {
     </nav>
   </div>
   <nav class="catbar" aria-label="${es ? 'Categorías' : 'Categories'}"><div class="wrap catbar-row">
-    ${CATEGORIES.map((c) => `<a href="/c/${c.slug}/" class="${active === c.slug ? 'on' : ''}" style="--c:${c.color}">${artIcon(c.slug, c.emoji, 'cb-i')}${esc(es ? ES_CAT[c.slug] : c.label)}</a>`).join('')}
+    ${CATBAR.map((c) => `<a href="/c/${c.slug}/" class="${active === c.slug ? 'on' : ''}" style="--c:${c.color}">${artIcon(c.slug, c.emoji, 'cb-i')}${esc(es ? ES_CAT[c.slug] : c.label)}</a>`).join('')}
   </div></nav>
 </header>`;
 }
