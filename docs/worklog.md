@@ -18,6 +18,8 @@ congregation in town, of every faith, by area and by faith, plus nonprofits.
     Columbus and Great Wind Zendo (`scripts/data/irs-eo.json`). Many
     addresses are PO boxes, and some religious rows are trusts or
     associations, not congregations
+- [ ] Owner question open: how to fill in addresses (Google Places key, publish
+      what we have and invite corrections, or a person checks the list)
 - [ ] A third source with street addresses and websites: the Google Maps
       lookup that made `maps-lookup.json` was run outside this repo, so the
       same pass is needed for congregations (or a person checks the list)
@@ -30,25 +32,32 @@ congregation in town, of every faith, by area and by faith, plus nonprofits.
 - [ ] Map layer, search and visit-page links
 - [ ] Tests, then PR
 
-### Newsletter admin page (not started)
-- [ ] Read what exists: the morning job (`netlify/functions/newsletter.mjs`)
-      makes a draft from published stories; Decap CMS at `/admin/`; the editor
-      inbox at `/newsroom/inbox/`
-- [ ] Admin page: see today's edition, choose and order its stories, preview,
-      make the draft, see past drafts. Never sends (house rule)
-- [ ] Owner decision needed: CLAUDE.md says "Claude never writes news" and
-      "automation makes leads, not stories". A generator that WRITES stories
-      would break that rule; one that gathers leads and fills the edition from
-      stories people wrote fits it
+### The desk: morning newsletter writing (`claude/newsroom-desk`, [#129](https://github.com/Legal-Leaf-Market/Heart-Of-Columbus/pull/129))
+- [x] Owner decision: AI drafts newsletter pieces from the publisher's angle,
+      commentary and sources; the publisher approves every piece. Recorded in
+      `AI_POLICY`, docs/newsroom-policies.md and CLAUDE.md
+- [x] `/newsroom/desk/`: this morning's plan, pieces, idea bank, voice
+      profile, preview, make the newsletter draft (never sends)
+- [x] Writing help: draft, headlines, openings, tighten, sound more like me,
+      check facts. Approval blocked by [CHECK], no source or a dash
+- [x] Morning job uses the approved desk edition; "No edition" skips the day
+- [x] docs/morning-paper.md: the clock, what to gather, how to stay original
+- [x] Tests (7) and a Chromium run at 390 and 1280
+- [ ] Owner: set `ANTHROPIC_API_KEY` (and `RESEND_*` or `BUTTONDOWN_API_KEY`)
+      in Netlify, then fill in **Your voice** at the desk
+- [ ] Study writewithpaige.ai: the host is now allowed, but the name has no
+      public DNS record from here. Need the exact link or screenshots
+- [ ] Later: overnight lead gathering into the idea bank (council agendas,
+      directory changes, events), and "publish to the site" for a piece
 
 ## Bugs found along the way
-- [ ] `/newsroom/inbox/` sends the admin key as `?k=` in the address
-      (`public/js/newsroom.js`), against the house rule that private keys never
-      ride in a query string. `public/js/owners.js` `adminKey()` is the right
-      pattern (#k=, session storage, `x-hoc-key` header)
+- [x] `/newsroom/inbox/` sent the admin key as `?k=` in the address, against
+      the house rule. Fixed in #129: #k=, session storage, `x-hoc-key` header
 
 ## Waiting on a merge
 - [ ] Nightly cart check, [#127](https://github.com/Legal-Leaf-Market/Heart-Of-Columbus/pull/127)
+- [ ] The desk, [#129](https://github.com/Legal-Leaf-Market/Heart-Of-Columbus/pull/129)
+- [ ] This worklog and the worship source data, [#128](https://github.com/Legal-Leaf-Market/Heart-Of-Columbus/pull/128)
 
 ## Done
 - [x] Forge order link kept through re-imports, [#126](https://github.com/Legal-Leaf-Market/Heart-Of-Columbus/pull/126)
