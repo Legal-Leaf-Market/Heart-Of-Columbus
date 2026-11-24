@@ -4717,7 +4717,7 @@ export const COMMERCE = {
   "order": [
    {
     "label": "Square Online",
-    "url": "https://forgepub-on-4th.square.site/?owg-fulfillment=pickup&fulfillment=PICKUP&location=11edcdaaab35bda68cfeac1f6bbbd01e&location_id=LC0ZV69BNMVRW"
+    "url": "https://forgepub-on-4th.square.site/s/order?location=LC0ZV69BNMVRW#most-popular"
    }
   ],
   "book": []
