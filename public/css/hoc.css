@@ -2024,3 +2024,40 @@ a.tag:not(.tag-member):hover { filter: brightness(.96); }
 .cd-status:empty { display: none; }
 .cd-route { width: 100%; justify-content: center; margin-bottom: 10px; }
 .cd-go[disabled] { opacity: .6; }
+
+/* ---------- Stickers and the front page lead (Pacers design pack, 2026-11-24) ----------
+   Stickers are decorative illustration: beside headlines and headings, never
+   over a photo. Navy, gold and blue are sports accents; cream and ink stay
+   dominant. */
+:root { --hoop-navy: #152e58; --hoop-gold: #f2b632; --hoop-blue: #3b8cc9; }
+.np-sticker { width: 64px; height: auto; flex: none; filter: drop-shadow(0 2px 3px rgba(0,0,0,.15)); }
+.np-sticker-strip { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0 0; }
+.np-h2-sticker { display: flex; align-items: center; gap: 12px; }
+.np-h2-sticker .np-sticker { width: 56px; }
+@media (prefers-reduced-motion: no-preference) {
+  .np-sticker { transition: transform .25s ease; }
+  .np-sticker-strip .np-sticker:hover, .np-lead-sticker:hover { transform: rotate(-6deg) scale(1.06); }
+}
+.np-card-lead { position: relative; }
+.np-card-lead .np-card-img { position: relative; display: block; }
+.np-card-lead .np-card-img::after { content: ''; position: absolute; left: 0; right: 0; bottom: -6px; height: 6px; border-radius: 0 0 8px 8px;
+  background: linear-gradient(90deg, var(--hoop-navy), var(--hoop-blue) 55%, var(--hoop-gold)); }
+.np-card-lead .np-card-img img { aspect-ratio: 3 / 2; object-position: center 40%; }
+.np-card-lead .np-card-body { border-left: 4px solid var(--hoop-gold); padding-left: 16px; margin-top: 6px; }
+.np-lead-sticker { float: right; width: 84px; margin: 0 0 6px 12px; }
+.np-card-lead h3 { text-wrap: balance; }
+@media (max-width: 640px) {
+  .np-mast { padding-top: 10px; padding-bottom: 8px; }
+  .np-mast-name { font-size: 34px; }
+  .np-mast-links { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; gap: 0; scrollbar-width: none; }
+  .np-mast-links a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; white-space: nowrap; }
+  .np-front { display: flex; flex-direction: column; gap: 22px; }
+  .np-front-main { display: contents; }
+  .np-front-main > .np-card-lead { order: 1; }
+  .np-front-side { order: 2; }
+  .np-front-main > .np-front-more { order: 3; }
+  .np-card-lead .np-card-img img { aspect-ratio: 4 / 3; }
+  .np-card-lead h3 { font-size: 30px; }
+  .np-lead-sticker { width: 64px; }
+  .np-sticker { width: 52px; }
+}

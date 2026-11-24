@@ -46,6 +46,7 @@
 //         result: Passed
 //         tally: 6 to 1
 //     followUps: [What happens to the parks line next year?]
+//   stickers: [{ sticker: olive-branch }, { sticker: road-trip, heading: Getting there }]  # src/news/stickers.mjs
 //   series: jake-takes-the-town    # optional: src/news/series.mjs; its writer must be on the byline
 //   game:                          # optional scoreboard box for a game story
 //     home: Columbus North         # team names as the teams write them
@@ -63,6 +64,7 @@ import { LABELS } from './labels.mjs';
 import { sectionBySlug, TOPICS } from './sections.mjs';
 import { STAFF, SAMPLE_STAFF } from '../data/staff.mjs';
 import { seriesBySlug } from './series.mjs';
+import { STICKERS } from './stickers.mjs';
 import { directory, areaBySlug } from '../data/directory.mjs';
 import { landmarkBySlug } from '../data/landmarks.mjs';
 import { BODIES } from '../data/civic.mjs';
@@ -123,6 +125,10 @@ export function checkStory(s) {
     for (const v of m?.votes || []) if (!v?.motion || !v?.result) p.push('each vote needs a motion and a result');
   }
   if (!s.draft && /\[(YOUR|WHO TOOK|ONE LINE)\b|__ out of 5/.test(JSON.stringify({ ...s, file: '' }) + s.body)) p.push('fill in every [BRACKET] blank before taking a story out of draft');
+  for (const st of s.stickers || []) {
+    if (!STICKERS[st?.sticker]) p.push(`sticker "${st?.sticker}" is not in src/news/stickers.mjs`);
+    else if (st.heading && !new RegExp(`^## ${st.heading.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`, 'm').test(s.body || '')) p.push(`sticker "${st.sticker}": no "## ${st.heading}" heading in the story`);
+  }
   if (s.series) {
     const sr = seriesBySlug[s.series];
     if (!sr) p.push(`series "${s.series}" is not in src/news/series.mjs`);
@@ -149,13 +155,14 @@ function load(file, { sample }) {
   const slug = file.pathname.split('/').pop().replace(/\.md$/, '');
   const s = {
     slug, file: file.pathname.replace(/^.*\/content\//, 'content/'),
-    headline: '', dek: '', bylines: [], editor: '', label: '', section: '', tags: [], sources: [], methods: '', corrections: [], images: [],
+    headline: '', dek: '', bylines: [], editor: '', label: '', section: '', tags: [], sources: [], methods: '', corrections: [], images: [], stickers: [],
     ...data, sample: !!data.sample, draft: !!data.draft, body,
   };
   if (sample && !s.sample) throw new Error(`${s.file}: everything in content/samples/ must say sample: true`);
   if (!sample && s.sample) throw new Error(`${s.file}: sample content can't be in content/stories/. Move it to content/samples/.`);
   s.bylines = [].concat(s.bylines || []);
   s.tags = [].concat(s.tags || []);
+  s.stickers = [].concat(s.stickers || []);
   s.corrections = [].concat(s.corrections || []).map((c) => ({ ...c, date: String(c.date) }));
   if (s.game) s.game = { ...s.game, date: String(s.game.date) };
   if (s.meeting) s.meeting = { attended: [], decisions: [], votes: [], followUps: [], ...s.meeting, date: String(s.meeting.date) };

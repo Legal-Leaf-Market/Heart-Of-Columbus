@@ -1,4 +1,5 @@
 // Pieces every news page uses to show stories: cards, lists, bylines, dates.
+import { stickerImg } from './stickers.mjs';
 import { esc, t } from '../layout.mjs';
 import { person } from '../data/staff.mjs';
 import { sectionBySlug, sectionHref } from './sections.mjs';
@@ -36,7 +37,7 @@ export function storyCard(s, { size = 'card', showSection = true } = {}) {
   ${img && size !== 'line' ? `<a class="np-card-img" href="${s.href}" tabindex="-1" aria-hidden="true"><img src="${esc(img.file)}" alt="" loading="lazy"></a>` : ''}
   <div class="np-card-body">
     <p class="np-card-kick">${label(s)}${showSection && sec ? ` <a href="${sectionHref(sec)}">${esc(sec.name)}</a>` : ''}</p>
-    <h3><a href="${s.href}">${t(s.headline)}</a></h3>
+    ${size === 'lead' && s.stickers?.length ? stickerImg(s.stickers[0].sticker, 'np-sticker np-lead-sticker') : ''}<h3><a href="${s.href}">${t(s.headline)}</a></h3>
     ${s.dek && size !== 'line' ? `<p class="np-card-dek">${t(s.dek)}</p>` : ''}
     <p class="np-card-meta">${esc(bylineText(s))} · <time datetime="${esc(s.published)}">${fmtDay(s.published)}</time></p>
   </div>
