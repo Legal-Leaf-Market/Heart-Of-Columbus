@@ -204,7 +204,7 @@ for (const l of landscape) {
 
 for (const a of ADDED) {
   all.push({
-    slug: uniq(slugify(a.name)), name: a.name, cat: a.cat, sub: a.sub, type: a.type, address: a.address,
+    slug: uniq(a.slug || slugify(a.name)), name: a.name, cat: a.cat, sub: a.sub, type: a.type, address: a.address,
     area: '', phone: a.phone, website: a.website, demo: '', ll: a.ll || null, pin: a.ll ? 'listing' : null, featured: false, heritage: false, added: a,
   });
 }

@@ -18,7 +18,7 @@
 // post, seen by the publisher). Booksy publishes no phone, hours or services, so
 // none are shown; booking goes to its own Booksy page.
 //
-// Legal Leaf Market Cafe: from its owner, Jacob Kennedy, who also publishes
+// Legal Leaf Market and Cafe: from its owner, Jacob Kennedy, who also publishes
 // Heart of Columbus (2026-11-13): a cafe coming soon to Columbus, Indiana. No
 // address, hours or menu yet. Listed as coming soon, with the tie disclosed on
 // its page. Moved to Shopping, Smoke & Vape on 2026-11-24 (see the entry).
@@ -175,7 +175,9 @@ export const ADDED = [
     checked: '2026-11-13',
   },
   {
-    name: 'Legal Leaf Market Cafe',
+    name: 'Legal Leaf Market and Cafe',
+    // Renamed 2026-11-24 (owner); the page keeps its first address.
+    slug: 'legal-leaf-market-cafe',
     // Filed under Smoke & Vape for now (owner's call, 2026-11-24): its online
     // store sells vapes and smoke goods today. Its coffee and tea shop isn't
     // open yet; move it back to Coffee & Sweets (or list it in both, `also`
