@@ -224,6 +224,7 @@ const BOX = {
   masthead: () => `<header class="pe-masthead">
     <div class="pe-ears"><p>Volume ${E.volume}, Number ${E.number}</p><p>${t(E.date)}</p></div>
     <h1 class="pe-nameplate">Heart <span>of</span> Columbus</h1>
+    <p class="pe-badge" aria-hidden="true"><b>No. ${E.number}</b><span>${E.number === 1 ? 'First edition' : t(E.date)}</span></p>
     <p class="pe-motto">The local paper that shows its work. Every story ends with a code to its sources.</p>
     <div class="pe-dateline"><span>${t(E.line)}</span><span>Columbus, Indiana</span><span>Free</span><span>${esc(short(ORIGIN))}</span></div>
   </header>`,
@@ -251,7 +252,7 @@ const BOX = {
 
   reach: () => `<section class="pe-box"><h3>How to reach us</h3><ul class="pe-plain"><li><b>Tips</b> ${esc(short(ORIGIN))}/tips</li><li><b>Letters to the editor</b> ${esc(short(ORIGIN))}/letters</li><li><b>Questions</b> ${esc(short(ORIGIN))}/ask</li><li><b>Corrections</b> ${esc(short(ORIGIN))}/about/corrections</li></ul></section>`,
 
-  coupon: (m) => couponHtml(m.coupon),
+  coupon: (m) => couponHtml(m.coupon, m.shape),
 
   'spot-head': () => `<header class="pe-spread-head"><p class="pe-kicker">Spotlight</p><h2>Three local businesses</h2><p class="pe-dek">Our December spotlights, picked by our publisher. Two are Founding Members who pay us for a website and a featured listing, and one is a business our publisher runs. Each one says so.</p></header>`,
 
@@ -392,7 +393,7 @@ const BOX = {
   gathers: () => `<section class="pe-box pe-gathers"><ol>${E.gathers.map(([path, place, photo]) => {
     const a = historyBy[path];
     if (!a) throw new Error(`print: no history article ${path}`);
-    return `<li class="pe-stop${a.status === 'approved' ? '' : ' pe-unapproved'}"><p class="pe-decade">${esc(path.split('/')[0])}</p>${photo && PHOTOS[photo] ? `<img src="${esc(psrc(photo))}" srcset="${esc(psrc(photo))} 1280w" alt="${esc(PHOTOS[photo].title)}" style="object-position:${esc(PHOTOS[photo].pos || '50% 50%')}">` : ''}<h4>${t(place)}</h4><p class="pe-stop-title">${t(a.title)}</p><p>${t(a.dek)}</p>${qr(a.path, 'The whole story')}</li>`;
+    return `<li class="pe-stop${a.status === 'approved' ? '' : ' pe-unapproved'}"><p class="pe-decade">${esc(path.split('/')[0])}</p>${photo && PHOTOS[photo] ? `<img src="${esc(psrc(photo))}" srcset="${esc(psrc(photo))} 1280w" alt="${esc(PHOTOS[photo].title)}" style="object-position:${esc(PHOTOS[photo].pos || '50% 50%')}">` : `<div class="pe-titlecard" aria-hidden="true"><span>${esc(a.when)}</span><b>${t(place)}</b></div>`}<h4>${t(place)}</h4><p class="pe-stop-title">${t(a.title)}</p><p>${t(a.dek)}</p>${qr(a.path, 'The whole story')}</li>`;
   }).join('')}</ol><p class="pe-fine">Ten approved articles from our history, one per decade. Photos via Wikimedia Commons; credits on the back page.</p></section>`,
 
   meals: () => `<section class="pe-box pe-meals"><h3>Free community meals</h3><p class="pe-dek">Hot meals by day. Anyone who comes is welcome.</p><ul>${MEALS.filter(([, , w]) => !/closed[^)]*December/i.test(w)).map(([d, p, w]) => `<li><b>${t(d)}</b><span>${t(p)}</span><em>${t(w)}</em></li>`).join('')}</ul><p class="pe-fine">From United Way of Bartholomew County’s guide, as listed on our help page. Three meals that close in December are left off. Holiday hours change: call first.</p></section>`,
@@ -456,7 +457,7 @@ function mod(m) {
 }
 
 function sheet(pg) {
-  const folio = pg.n === 1 ? '' : `<div class="pe-folio"><span>${pg.n % 2 ? t(pg.section) : `${pg.n}`}</span><span>Heart of Columbus · ${t(E.date)}</span><span>${pg.n % 2 ? `${pg.n}` : t(pg.section)}</span></div>`;
+  const folio = pg.n === 1 ? '' : `<div class="pe-folio"><span>${pg.n % 2 ? `<i class="pe-sec">${t(pg.section)}</i>` : `<b class="pe-pn">${pg.n}</b>`}</span><span>Heart of Columbus · ${t(E.date)}</span><span>${pg.n % 2 ? `<b class="pe-pn">${pg.n}</b>` : `<i class="pe-sec">${t(pg.section)}</i>`}</span></div>`;
   return `<section class="pe-sheet${pg.spread ? ` pe-spread-${pg.spread}` : ''}" data-page="${pg.n}" data-topics="${esc((pg.topics || []).join(' '))}" aria-label="Page ${pg.n}">
   ${folio}
   <div class="pe-body">${pg.rows.map((row) => `<div class="pe-row${row.fill ? ' pe-fill' : ''}">${row.mods.map((m) => `<div class="pe-cell" style="grid-column:span ${m.span}">${mod(m)}</div>`).join('')}</div>`).join('')}</div>
@@ -467,20 +468,46 @@ function sheet(pg) {
 // Deals come from the business (the owner's word, relayed by the publisher
 // for Amy's Closet; the publisher's own for Crossroads). Each is labeled as an
 // ad, says what ties it to us, and keeps [CHECK] marks for the end date and
-// terms until the business confirms them. `cap` is how many times the fitter
-// may also drop it into a short column.
+// terms until the business confirms them. Each deal prints in several shapes
+// (COUPON_SHAPES): the fitter drops them into space left at the bottom of a
+// column, biggest first, at most one per business on a page, each shape at
+// most `cap` times. Every shape keeps the ad label, the terms and the tie.
 export const COUPONS = {
-  crossroads: { slug: 'crossroads-wedding-co', cap: 4, big: '10% off', what: 'your booking with Crossroads Wedding and Event Co.',
+  crossroads: { slug: 'crossroads-wedding-co', big: '10% off', burst: ['10%', 'off'], stub: 'Good for',
+    what: 'your booking with Crossroads Wedding and Event Co.',
+    short: 'your Crossroads Wedding and Event Co. booking. Mention Heart of Columbus at crossroadsweddingco.shop.',
     body: 'Wedding DJs, live acoustic sets, bartenders and day of coordination, from Columbus. Bring this coupon or mention Heart of Columbus when you book at crossroadsweddingco.shop.',
     terms: 'One per booking. [CHECK: expiration date, and whether it applies to every service.]' },
-  amys: { slug: 'amys-closet', cap: 1, big: 'Spend $10, get $5', what: 'Spend $10 or more at Amy\u2019s Closet and get a $5 gift certificate.',
+  amys: { slug: 'amys-closet', big: 'Spend $10, get $5', seal: '$5', stub: 'Amy\u2019s Closet',
+    what: 'Spend $10 or more at Amy\u2019s Closet and get a $5 gift certificate.',
+    short: 'Spend $10 at Amy\u2019s Closet, 3928 25th Street, and get a $5 gift certificate.',
     body: 'Donated clothing, inspected three times, at 3928 25th Street. Open Tuesday through Saturday, 11 AM to 7 PM.',
     terms: 'Bring this coupon. [CHECK with Amy: the end date, and how many per visit.]' },
 };
-const couponHtml = (id) => {
+// [shape, size (3 tall, 2 medium, 1 a slim strip), cap as a filler]
+export const COUPON_SHAPES = {
+  crossroads: [['ticket', 2, 3], ['burst', 2, 3], ['clip', 2, 3], ['strip', 1, 3]],
+  amys: [['cert', 3, 3], ['tag', 2, 3], ['clip', 2, 2], ['strip', 1, 3]],
+};
+// A twenty point starburst, drawn here so it needs no image.
+const burst = (lines) => {
+  const pts = [];
+  for (let i = 0; i < 40; i++) { const r = i % 2 ? 40 : 49, a = (Math.PI * i) / 20; pts.push(`${(50 + r * Math.sin(a)).toFixed(1)},${(50 - r * Math.cos(a)).toFixed(1)}`); }
+  return `<svg class="pe-burst" viewBox="0 0 100 100" role="img" aria-label="${esc(lines.join(' '))}"><polygon points="${pts.join(' ')}"/><text x="50" y="${lines[1] ? 51 : 60}" class="b1">${esc(lines[0])}</text>${lines[1] ? `<text x="50" y="70" class="b2">${esc(lines[1])}</text>` : ''}</svg>`;
+};
+const couponHtml = (id, shape = 'clip') => {
   const c = COUPONS[id];
   const tie = disclosures([c.slug]).map((d) => d.text).concat(dirBy[c.slug]?.added?.tie || []).join(' ');
-  return `<aside class="pe-coupon-ad" data-house="coupon-${id}" data-cap="${c.cap}"><p class="pe-ad-tag">✂ Ad · Clip and save</p><p class="pe-coupon-big">${t(c.big)}</p><p class="pe-coupon-what">${t(c.what)}</p><p>${t(c.body)}</p><p class="pe-fine">${markCheck(t(c.terms))}</p><p class="pe-fine">${t(tie)}</p></aside>`;
+  const [, size, cap] = COUPON_SHAPES[id].find((x) => x[0] === shape) || [shape, 2, 1];
+  const attrs = `data-house="coupon-${id}-${shape}" data-biz="${id}" data-cap="${cap}" data-size="${size}"`;
+  const tag = '<p class="pe-ad-tag">\u2702 Ad \u00b7 Clip and save</p>';
+  const fine = `<p class="pe-fine">${markCheck(t(c.terms))}</p><p class="pe-fine">${t(tie)}</p>`;
+  if (shape === 'strip') return `<aside class="pe-cp pe-cp-strip" ${attrs}><span class="pe-cp-x" aria-hidden="true">\u2702</span><b class="pe-cp-big">${t(c.big)}</b><div><p class="pe-cp-what"><span class="pe-cp-ad">Ad</span> ${t(c.short)}</p><p class="pe-fine">${markCheck(t(c.terms))} ${t(tie)}</p></div></aside>`;
+  if (shape === 'ticket') return `<aside class="pe-cp pe-cp-ticket" ${attrs}><div class="pe-cp-stub"><span>${t(c.stub)}</span><b>${t(c.big)}</b></div><div class="pe-cp-main">${tag}<p class="pe-coupon-what">${t(c.what)}</p><p>${t(c.body)}</p>${fine}</div></aside>`;
+  if (shape === 'burst') return `<aside class="pe-cp pe-cp-burst" ${attrs}>${burst(c.burst || [c.big])}<div class="pe-cp-main">${tag}<p class="pe-coupon-what">${t(c.what)}</p><p>${t(c.body)}</p>${fine}</div></aside>`;
+  if (shape === 'tag') return `<aside class="pe-cp pe-cp-tag" ${attrs}><span class="pe-cp-hole" aria-hidden="true"></span><div class="pe-cp-main">${tag}<p class="pe-coupon-big">${t(c.big)}</p><p class="pe-coupon-what">${t(c.what)}</p><p>${t(c.body)}</p>${fine}</div></aside>`;
+  if (shape === 'cert') return `<aside class="pe-cp pe-cp-cert" ${attrs}><div class="pe-cp-main">${tag}<p class="pe-cert-h">A gift certificate offer</p><div class="pe-cert-row"><span class="pe-cert-seal">${t(c.seal || c.big)}</span><div><p class="pe-coupon-big">${t(c.big)}</p><p class="pe-coupon-what">${t(c.what)}</p></div></div><p>${t(c.body)}</p>${fine}</div></aside>`;
+  return `<aside class="pe-cp pe-coupon-ad pe-cp-clip" ${attrs}>${tag}<p class="pe-coupon-big">${t(c.big)}</p><p class="pe-coupon-what">${t(c.what)}</p><p>${t(c.body)}</p>${fine}</aside>`;
 };
 
 // ---------- House ads ----------
@@ -499,7 +526,7 @@ const HOUSE = [
   ['letters', 'Write to the editor', 'Agree, disagree or tell us what we missed. We print letters with the writer’s name.', '/letters/', 'Write a letter'],
   ['order', 'Order direct, skip the app fee', 'Local restaurants and shops that take orders and bookings on their own pages.', '/order/', 'Order and book direct'],
 ];
-const houseAds = () => `<template id="pe-fillers">${Object.keys(COUPONS).map(couponHtml).join('')}${CARDS.map((a) => `<aside class="pe-hcard" data-hist="${esc(a.group + '/' + a.slug)}" data-topic="${esc(a.section)}"><div><p class="pe-kicker">From our history · ${t(a.when)}</p><h3>${t(a.title)}</h3><p>${t(a.dek)}</p></div>${qr(a.path, 'The whole story')}</aside>`).join('')}${HOUSE.map(([id, h, p, path, label]) => `<aside class="pe-house" data-house="${id}"><div><p class="pe-house-tag">From Heart of Columbus</p><h3>${t(h)}</h3><p>${t(p)}</p></div>${qr(path, label)}</aside>`).join('')}</template>`;
+const houseAds = () => `<template id="pe-fillers">${Object.entries(COUPON_SHAPES).flatMap(([id, shapes]) => shapes.map(([shape]) => couponHtml(id, shape))).join('')}${CARDS.map((a) => `<aside class="pe-hcard" data-hist="${esc(a.group + '/' + a.slug)}" data-topic="${esc(a.section)}"><div><p class="pe-kicker">From our history · ${t(a.when)}</p><h3>${t(a.title)}</h3><p>${t(a.dek)}</p></div>${qr(a.path, 'The whole story')}</aside>`).join('')}${HOUSE.map(([id, h, p, path, label]) => `<aside class="pe-house" data-house="${id}"><div><p class="pe-house-tag">From Heart of Columbus</p><h3>${t(h)}</h3><p>${t(p)}</p></div>${qr(path, label)}</aside>`).join('')}${HOUSE.map(([id, h, , path, label]) => `<aside class="pe-house pe-house-slim" data-house="${id}-slim" data-max="8"><p><b>${t(h)}</b> ${t(label)}: ${esc(short(ORIGIN))}${esc(path)}</p></aside>`).join('')}</template>`;
 
 // ---------- Readiness ----------
 export function readiness() {

@@ -125,11 +125,28 @@ comes together. One stop per decade:
 | 2010s | columbus-the-movie | The film that gathered the town's buildings |
 | 2020s | yes-and | Yes And, the exhibition downtown |
 
-Ideas for later months: **January,** the river (floods, the dam, Mill Race
-Park, the riverfront); **February,** people who came from elsewhere
-(Atterbury soldiers, Afghan families, the Ethnic Expo); **March,**
-schools; **April,** work (Cummins, Arvin, Cosco, Toyota). Each one is a
-query over the history data, so it is easy to pull the list for a month.
+**The whole year is planned in `src/print/threads.mjs`**, one theme a month
+through November 2027, each with one approved article per decade and a
+research lead for every decade that has none yet (tests/threads.test.mjs
+checks every stop exists and is from its decade):
+
+| Month | Theme | Decades still missing |
+|---|---|---|
+| Jan 2027 | The river (promised on page 16) | 8: 1930s to 1980s, 2010s, 2020s |
+| Feb | The world comes to Columbus | 2: 1970s, 2000s |
+| Mar | Houses of faith (Easter March 28) | 0 |
+| Apr | Building the town | 0 |
+| May | Race day and game day (the 500) | 2: 1940s, 1970s |
+| Jun | The engine town | 0 |
+| Jul | A night out | 2: 1940s, 2020s |
+| Aug | Back to school | 2: 1930s, 1940s |
+| Sep | A town that grows | 0 |
+| Oct | Hard times | 4: 1950s, 1970s, 1990s, 2020s |
+| Nov | Those who serve (Veterans Day) | 1: 2010s |
+
+**January is the urgent one:** the river is already promised in print, and
+only two river articles exist (Mill Race Park, the 2008 flood). Its eight
+gaps need new history articles from sources before the January layout.
 Before a theme runs, check that every article in it is approved in
 `signoff.mjs`.
 
@@ -138,8 +155,10 @@ Before a theme runs, check that every article in it is approved in
 ### Brief A: The river comes back (front page)
 
 What the sources say:
-- The city's "Our River, Our Riverfront" project removed the failing low head
-  dam in September 2026.
+- The city's "Our River, Our Riverfront" project began removing the 100 plus
+  year old low head dam in September 2026, its project page says; the page
+  does not yet say the removal is finished. It gives the end of 2026 as the
+  goal for substantial completion.
 - The Republic reported on November 18, 2026 that most construction would
   wrap up by the end of November. Still open: a commemorative plaque waiting
   on state historic preservation approval, and gates that close the

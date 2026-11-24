@@ -70,7 +70,7 @@ export const EDITION = {
       { mods: [{ span: 5, type: 'box', box: 'civic' }] },
       { fill: true, mods: [
         { span: 3, type: 'history', path: '2020s/columbus-passes-fifty-thousand', fit: 'trim', cols: 3 },
-        { span: 2, type: 'box', box: 'coupon', coupon: 'crossroads' },
+        { span: 2, type: 'box', box: 'coupon', coupon: 'crossroads', shape: 'burst' },
       ] },
     ] },
 
@@ -107,13 +107,13 @@ export const EDITION = {
         { span: 2, type: 'stack', mods: [
           { type: 'writer', id: 'spotlight-amys', writer: null, editor: 'jacob-kennedy', words: 350, kicker: 'Spotlight',
             working: 'Amy\u2019s Closet', guide: 'A spotlight on Amy\u2019s Closet from its listing and its own website.' },
-          { type: 'box', box: 'coupon', coupon: 'amys' },
+          { type: 'box', box: 'coupon', coupon: 'amys', shape: 'tag' },
         ] },
       ] },
       { fill: true, mods: [
         { span: 3, type: 'writer', id: 'spotlight-crossroads', writer: null, editor: 'eli-wire', words: 350, cols: 2, kicker: 'Spotlight',
           working: 'Crossroads Wedding and Event Co.', guide: 'A spotlight on Crossroads Wedding and Event Co. from its own website.' },
-        { span: 2, type: 'box', box: 'coupon', coupon: 'crossroads' },
+        { span: 2, type: 'box', box: 'coupon', coupon: 'crossroads', shape: 'ticket' },
       ] },
     ] },
 

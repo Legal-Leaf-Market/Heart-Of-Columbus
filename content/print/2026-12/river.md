@@ -38,7 +38,7 @@ The state's summary of the project adds native plants, accessible overlooks, mor
 
 ## How it is being built
 
-Work began on the west bank in early 2025, clearing the tree line for a staging area and access point while the redesign was finished and permits were amended. By the middle of 2025 the city had picked a contractor for the east bank, where the work includes armoring the bank, the trail connection and an amphitheater.
+Work began on the west bank in early 2025, clearing the tree line for a staging area and access point while the redesign was finished and permits were amended. By the middle of 2025 the city had picked a contractor for the east bank, where the work includes armoring the bank, the trail connection and an amphitheater. [CHECK: a public Facebook post with photos credited to Randy Royer (relayed 2026-11-24) names Milestone Contractors. Confirm the contractor with Columbus Redevelopment, Jake asked Randy Royer on 2026-11-24 about printing his photos; waiting on his answer. Lead: content/drafts/leads/2026-11-24-riverfront-facebook.md]
 
 The city says it aims to have the project substantially complete by the end of 2026. [CHECK with Columbus Redevelopment: what is finished, what waits for spring, and the date of the ribbon cutting.]
 

@@ -3,9 +3,11 @@
    page. Each page is rows on a five column grid; a .pe-fill row takes the
    height that is left. public/js/print-edition.js fits text into that height.
 
-   Type: Fraunces headlines, Newsreader body at 9.5 points, Inter labels.
-   Color: the site's red and gold on white newsprint. Everything sits inside a
-   half inch margin, so the printer needs no bleed. */
+   Type: Fraunces headlines, Newsreader body at 9.5 points, Archivo labels.
+   Look: a new appliance in a vintage style. Newspaper grid and type, with
+   enamel colors (tomato, mustard, teal), rounded panels, pill labels and a
+   three stripe trim, a nod to the town's mid century buildings. Everything
+   sits inside a half inch margin, so the printer needs no bleed. */
 
 @font-face { font-family: "Newsreader"; src: url("/fonts/newsreader-latin-opsz-normal.woff2") format("woff2"); font-weight: 200 800; font-style: normal; font-display: block; }
 @font-face { font-family: "Newsreader"; src: url("/fonts/newsreader-latin-opsz-italic.woff2") format("woff2"); font-weight: 200 800; font-style: italic; font-display: block; }
@@ -13,9 +15,11 @@
 @page { size: 11in 17in; margin: 0; }
 
 :root {
-  --pe-ink: #1b1a17; --pe-red: #c8232c; --pe-gold: #f2b33d; --pe-gray: #5f5a52;
-  --pe-hair: #a8a196; --pe-tint: #f7f0e3; --pe-tint2: #fdf3e7;
-  --pe-serif: "Newsreader", Georgia, serif; --pe-head: "Fraunces", Georgia, serif; --pe-sans: "Inter", system-ui, sans-serif;
+  --pe-ink: #211f1b; --pe-red: #d4432b; --pe-gold: #e9a935; --pe-teal: #1d7471; --pe-gray: #5f5a52;
+  --pe-hair: #b3ab9f; --pe-tint: #f6efe1; --pe-tint2: #fdf3e7;
+  --pe-mint: #e1f0ea; --pe-butter: #fcefc6; --pe-blush: #fbe2d9; --pe-r: 9pt;
+  --pe-stripes: linear-gradient(to bottom, var(--pe-red) 0 2pt, transparent 2pt 3.2pt, var(--pe-gold) 3.2pt 5.2pt, transparent 5.2pt 6.4pt, var(--pe-teal) 6.4pt 8.4pt);
+  --pe-serif: "Newsreader", Georgia, serif; --pe-head: "Fraunces", Georgia, serif; --pe-sans: "Archivo", "Inter", system-ui, sans-serif;
   --pe-gap: 0.17in;
 }
 
@@ -78,7 +82,7 @@ body:has(.pe-paper) { background: #d6d1c6; }
 .pe-box h4 { font: 700 7.5pt/1.2 var(--pe-sans); text-transform: uppercase; letter-spacing: .07em; margin: 6pt 0 2pt; }
 
 /* Body text: justified columns with rules between them. */
-.pe-text { column-count: var(--cols, 1); column-gap: var(--pe-gap); column-rule: 0.5pt solid var(--pe-hair); text-align: justify; hyphens: auto; -webkit-hyphens: auto; orphans: 2; widows: 2; }
+.pe-text { column-count: var(--cols, 1); column-gap: var(--pe-gap); column-rule: 0.5pt solid var(--pe-hair); text-align: left; hyphens: auto; -webkit-hyphens: auto; orphans: 2; widows: 2; }
 .pe-fill .pe-text { flex: 1 1 0; min-height: 0; column-fill: auto; overflow: hidden; }
 .pe-text p { text-indent: 1.1em; }
 .pe-text > p:first-child, .pe-text h4 + p, .pe-text h2 + p, .pe-text h3 + p, .pe-text blockquote + p, .pe-text .pe-cont, .pe-text ul + p { text-indent: 0; }
@@ -395,6 +399,194 @@ mark.pe-check { background: #ffe58a; color: #5c3b00; font: 700 0.86em/1.3 var(--
 .pe-ad p { font-size: 9.2pt; line-height: 1.3; margin-bottom: 4pt !important; }
 .pe-colophon { font: 7.6pt/1.4 var(--pe-sans); color: #3a3731; }
 .pe-colophon p + p { margin-top: 4pt; }
+
+/* ---------- Retro modern trim ----------
+   Kept in one place so the look can change without touching the layout. */
+.pe-sheet .pe-kicker { width: fit-content; align-self: flex-start; max-width: 100%; padding: 2pt 6.5pt 1.6pt; border-radius: 99pt; background: var(--pe-red); color: #fff; letter-spacing: .1em; }
+.pe-next .pe-kicker, .pe-inside .pe-kicker { background: var(--pe-gold); color: var(--pe-ink); }
+.pe-flag { border-radius: 99pt; padding: 2pt 7pt; }
+
+/* Folio: the page number in a round dial, the section on a pill. */
+.pe-folio { align-items: center; padding-bottom: 4pt; border-bottom: 1.5pt solid var(--pe-ink); }
+.pe-pn { display: inline-grid; place-items: center; min-width: 17pt; height: 17pt; padding: 0 4pt; border-radius: 99pt; background: var(--pe-teal); color: #fff; font: 800 8.5pt/1 var(--pe-sans); letter-spacing: 0; }
+.pe-sec { font-style: normal; display: inline-block; padding: 2.2pt 7pt 1.8pt; border: 1pt solid var(--pe-ink); border-radius: 99pt; }
+
+/* Masthead: a round "of", a first edition badge and the three stripe trim. */
+.pe-masthead { position: relative; }
+.pe-nameplate { font-size: 66pt; }
+.pe-nameplate span { display: inline-grid; place-items: center; width: 1.05em; height: 1.05em; margin: 0 .06em; border-radius: 50%; background: var(--pe-teal); color: #fff; font: italic 600 .4em/1 var(--pe-serif); vertical-align: .62em; }
+.pe-badge { position: absolute; right: 0.08in; top: 0.27in; width: 0.86in; height: 0.86in; display: grid; place-content: center; text-align: center; border-radius: 50%; background: var(--pe-gold); color: var(--pe-ink); transform: rotate(-9deg); box-shadow: inset 0 0 0 2.2pt var(--pe-gold), inset 0 0 0 3.2pt var(--pe-ink); }
+.pe-badge b { display: block; font: 900 15pt/1 var(--pe-head); }
+.pe-badge span { display: block; margin-top: 2pt; font: 800 5.8pt/1.15 var(--pe-sans); text-transform: uppercase; letter-spacing: .08em; }
+.pe-dateline { border-top: 0; padding-top: 12pt; background: var(--pe-stripes) top / 100% 8.4pt no-repeat; }
+.pe-row:has(.pe-masthead) + .pe-row { border-top: 1.5pt solid var(--pe-ink); }
+
+/* Panels: enamel colors with rounded corners. */
+.pe-sidebar, .pe-help, .pe-math, .pe-visitors, .pe-house, .pe-cal-all, .pe-disclose { border-radius: var(--pe-r); }
+.pe-sidebar, .pe-math { background: var(--pe-mint); }
+.pe-help { background: var(--pe-blush); }
+.pe-house { border-top: 0; background: var(--pe-butter); }
+.pe-house:nth-of-type(3n+2) { background: var(--pe-mint); }
+.pe-house:nth-of-type(3n) { background: var(--pe-blush); }
+.pe-visitors { background: var(--pe-mint); }
+.pe-brief, .pe-coupon, .pe-coupon-ad, .pe-survey, .pe-ad, .pe-card, .pe-wanted { border-radius: var(--pe-r); }
+.pe-inside { border-radius: var(--pe-r); background: var(--pe-teal); }
+.pe-inside h3 { color: #fff; }
+.pe-inside li { align-items: center; border-bottom-color: rgba(255,255,255,.22); }
+.pe-inside li b { display: inline-grid; place-items: center; min-width: 10.5pt; height: 10.5pt; margin: 0; border-radius: 99pt; background: var(--pe-gold); color: var(--pe-ink); font-size: 6.8pt; }
+.pe-next { border-radius: var(--pe-r); background: var(--pe-teal); }
+.pe-teaser { border-top: 0; border-radius: var(--pe-r); background: var(--pe-mint); }
+.pe-teaser:nth-child(4n+2) { background: var(--pe-butter); }
+.pe-teaser:nth-child(4n+3) { background: var(--pe-blush); }
+.pe-teaser:nth-child(4n+4) { background: var(--pe-tint); }
+
+/* Photos get softened corners, like a new appliance's. */
+.pe-fig img, .pe-stop img, .pe-sw-photos img { border-radius: 5pt; }
+.pe-crop { border-radius: var(--pe-r); }
+
+/* Subheads and small heads take the teal. */
+.pe-text h4, .pe-prose h2, .pe-prose h3, .pe-box h4 { color: var(--pe-teal); }
+.pe-cal-grid .dow { background: var(--pe-teal); }
+
+/* Where Columbus gathers: each decade on its own colored pill. */
+.pe-stop { border-top: 0; padding-top: 0; }
+.pe-decade { width: fit-content; padding: 2pt 8pt 1pt; border-radius: 99pt; background: var(--pe-red); color: #fff !important; font-size: 15pt !important; }
+.pe-gathers li:nth-child(3n+2) .pe-decade { background: var(--pe-teal); }
+.pe-gathers li:nth-child(3n+3) .pe-decade { background: var(--pe-gold); color: var(--pe-ink) !important; }
+
+/* ---------- Coupons in many shapes ----------
+   One deal, several cuts (COUPON_SHAPES in print-pages.mjs): a classic
+   dashed clip, a ticket with a stub, a starburst, a hang tag, a gift
+   certificate and a slim strip for small gaps. The last ad in a column grows
+   (.pe-grow) and centers its content so the column ends on color. */
+.pe-cp { flex: none; position: relative; display: flex; flex-direction: column; margin-top: 0.14in; font: 8pt/1.32 var(--pe-sans); }
+.pe-stack > .pe-cp, .pe-cell > .pe-cp:first-child { margin-top: 0; }
+.pe-cp .pe-ad-tag { margin-bottom: 2pt !important; }
+.pe-cp .pe-coupon-what { font-weight: 800; font-size: 9.2pt; margin-bottom: 3pt !important; }
+.pe-cp.pe-grow, .pe-house.pe-grow { flex: 1 1 auto; }
+.pe-cp.pe-grow:not(.pe-cp-ticket):not(.pe-cp-burst):not(.pe-cp-strip) { justify-content: center; }
+.pe-cp-cert .pe-cp-main, .pe-cp-tag .pe-cp-main { flex: 1 1 auto; }
+@container (max-width: 4.6in) { .pe-house.pe-grow { justify-content: center; } }
+.pe-cell.pe-spread { justify-content: space-between; }
+.pe-house.pe-house-slim { display: block; margin-top: 0.12in; padding: 5pt 12pt; border-radius: 99pt; background: var(--pe-mint); font: 8pt/1.3 var(--pe-sans); }
+.pe-house-slim b { font: 800 10pt var(--pe-head); margin-right: 4pt; }
+
+/* A ticket: a tomato stub, a dashed tear line and notches on both edges. */
+.pe-cp-ticket { flex-direction: row; background: var(--pe-butter); border-radius: 6pt; overflow: hidden; }
+.pe-cp-ticket::before, .pe-cp-ticket::after { content: ""; position: absolute; top: 50%; width: 12pt; height: 12pt; margin-top: -6pt; border-radius: 50%; background: #fff; }
+.pe-cp-ticket::before { left: -6pt; } .pe-cp-ticket::after { right: -6pt; }
+.pe-cp-stub { flex: none; width: 0.95in; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2pt; padding: 8pt 6pt; background: var(--pe-red); color: #fff; border-radius: 6pt 0 0 6pt; text-align: center; border-right: 1.6pt dashed #fff; }
+.pe-cp-stub span { font: 800 6.4pt var(--pe-sans); text-transform: uppercase; letter-spacing: .12em; }
+.pe-cp-stub b { font: 900 21pt/.95 var(--pe-head); }
+.pe-cp-main { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; padding: 8pt 12pt 8pt 10pt; }
+
+/* A starburst, like a price sticker on a new appliance. */
+.pe-cp-burst { flex-direction: row; align-items: center; gap: 4pt; border: 1.5pt dashed var(--pe-teal); border-radius: var(--pe-r); background: var(--pe-mint); padding-left: 6pt; }
+.pe-burst { flex: none; width: 1.05in; height: 1.05in; transform: rotate(-8deg); }
+.pe-burst polygon { fill: var(--pe-gold); stroke: var(--pe-ink); stroke-width: 1.2; }
+.pe-burst text { text-anchor: middle; fill: var(--pe-ink); font-family: var(--pe-head); font-weight: 900; }
+.pe-burst .b1 { font-size: 27px; } .pe-burst .b2 { font-size: 15px; font-family: var(--pe-sans); letter-spacing: .12em; text-transform: uppercase; }
+.pe-cp-burst .pe-cp-main { padding-left: 4pt; }
+
+/* A hang tag, for a clothing shop: a pointed end and a punched hole. */
+.pe-cp-tag { background: var(--pe-blush); clip-path: polygon(18pt 0, 100% 0, 100% 100%, 18pt 100%, 0 50%); border-radius: 0 var(--pe-r) var(--pe-r) 0; padding-left: 22pt; }
+.pe-cp-hole { position: absolute; left: 10pt; top: 50%; width: 9pt; height: 9pt; margin-top: -4.5pt; border-radius: 50%; background: #fff; box-shadow: 0 0 0 1.4pt var(--pe-red); }
+.pe-cp-tag .pe-cp-main { margin: 5pt 5pt 5pt 0; padding: 6pt 9pt; border: 1pt dashed var(--pe-red); border-radius: 6pt; }
+.pe-cp-tag .pe-coupon-big { margin-top: 0 !important; }
+
+/* A gift certificate: a double frame, a centered title and a round seal. */
+.pe-cp-cert { padding: 4pt; border: 3pt double var(--pe-teal); border-radius: var(--pe-r); background: #fff; }
+.pe-cp-cert .pe-cp-main { padding: 7pt 9pt; border: 0.8pt solid var(--pe-teal); border-radius: 5pt; background: var(--pe-mint); }
+.pe-cert-h { font: italic 600 12pt/1.1 var(--pe-serif) !important; color: var(--pe-teal); text-align: center; margin: 0 0 5pt !important; }
+.pe-cert-row { display: flex; align-items: center; gap: 9pt; margin-bottom: 4pt; }
+.pe-cert-seal { flex: none; display: grid; place-items: center; width: 0.72in; height: 0.72in; border-radius: 50%; background: var(--pe-red); color: #fff; font: 900 20pt/1 var(--pe-head); box-shadow: inset 0 0 0 2pt var(--pe-red), inset 0 0 0 3pt #fff; transform: rotate(-6deg); }
+.pe-cp-cert .pe-coupon-big { font-size: 19pt !important; margin: 0 0 2pt !important; }
+
+/* A slim strip for small gaps: one rounded line, cut along the dashes. */
+.pe-cp-strip { flex-direction: row; align-items: center; gap: 8pt; padding: 4pt 12pt; border: 1.3pt dashed var(--pe-ink); border-radius: 99pt; background: var(--pe-butter); }
+.pe-cp-x { font-size: 11pt; color: var(--pe-red); }
+.pe-cp-big { flex: none; font: 900 15pt/1 var(--pe-head); color: var(--pe-red); white-space: nowrap; }
+.pe-cp-strip > div { min-width: 0; }
+.pe-cp-what { font: 700 7.8pt/1.25 var(--pe-sans) !important; }
+.pe-cp-ad { display: inline-block; padding: 0.5pt 4pt; margin-right: 2pt; border-radius: 99pt; background: var(--pe-ink); color: #fff; font: 800 5.8pt/1.3 var(--pe-sans); text-transform: uppercase; letter-spacing: .1em; vertical-align: 1pt; }
+.pe-cp-strip .pe-fine { margin-top: 1pt !important; font-size: 6.2pt !important; }
+@container (max-width: 2.6in) {
+  .pe-cp-ticket, .pe-cp-burst { flex-direction: column; }
+  .pe-cp-stub { width: auto; flex-direction: row; border-radius: 6pt 6pt 0 0; border-right: 0; border-bottom: 1.6pt dashed #fff; }
+  .pe-cp-ticket::before, .pe-cp-ticket::after { top: 18pt; }
+  .pe-cp-burst { align-items: center; padding: 6pt 0 0; }
+  .pe-cp-strip { flex-wrap: wrap; border-radius: var(--pe-r); }
+}
+
+/* A decade with no photo gets a title card: the year and the place. */
+.pe-titlecard { aspect-ratio: 4 / 3; display: flex; flex-direction: column; justify-content: center; gap: 3pt; margin-bottom: 4pt; padding: 8pt 10pt; border-radius: 5pt; background: var(--pe-ink); color: #fff; background-image: var(--pe-stripes); background-size: 100% 8.4pt; background-repeat: no-repeat; background-position: 0 calc(100% - 8pt); }
+.pe-titlecard span { font: 900 30pt/1 var(--pe-head); color: var(--pe-gold); letter-spacing: -.02em; }
+.pe-titlecard b { font: italic 500 11pt/1.15 var(--pe-serif); color: #fff; }
+.pe-gathers li:nth-child(3n+2) .pe-titlecard { background-color: var(--pe-teal); }
+.pe-gathers li:nth-child(3n+2) .pe-titlecard span { color: #fff; }
+.pe-gathers li:nth-child(3n+3) .pe-titlecard { background-color: var(--pe-red); }
+.pe-gathers li:nth-child(3n+3) .pe-titlecard span { color: var(--pe-butter); }
+.pe-cal-dl { display: none; }
+
+/* ---------- On a phone: the same pages in one readable column ----------
+   print-edition.js adds .pe-reflow below 760 pixels, after fitting at full
+   size. Printing always uses the tabloid layout above. */
+@media screen and (max-width: 759px) { .pe-toolbar { position: static; } }
+@media screen {
+  .pe-reflow { gap: 18px; padding: 12px 10px 48px; }
+  .pe-reflow .pe-sheet { width: 100%; max-width: 640px; height: auto; overflow: visible; padding: 14px 14px 18px; font-size: 12pt; line-height: 1.42; border-radius: 6px; }
+  .pe-reflow .pe-sheet::after { bottom: -16px; }
+  .pe-reflow .pe-folio span:nth-child(2) { display: none; }
+  .pe-reflow .pe-folio { grid-template-columns: 1fr 1fr; }
+  .pe-reflow .pe-body, .pe-reflow .pe-fill, .pe-reflow .pe-fill > .pe-cell, .pe-reflow .pe-mod, .pe-reflow .pe-box, .pe-reflow .pe-stack, .pe-reflow .pe-lead, .pe-reflow .pe-lead-l, .pe-reflow .pe-lead-text, .pe-reflow .pe-calendar { flex: none !important; min-height: 0; height: auto; overflow: visible; }
+  .pe-reflow .pe-sheet * { flex-basis: auto !important; }
+  .pe-reflow .pe-cal-grid, .pe-reflow .pe-crop, .pe-reflow .pe-lines, .pe-reflow .pe-factbox, .pe-reflow .pe-lead-l > .pe-fig { flex: none !important; }
+  .pe-reflow .pe-house-slim { display: none; }
+  .pe-reflow .pe-row { display: block; }
+  .pe-reflow .pe-row + .pe-row { margin-top: 16px; padding-top: 14px; }
+  .pe-reflow .pe-cell { display: flex; flex-direction: column; gap: 10px; }
+  .pe-reflow .pe-cell + .pe-cell { margin-top: 16px; padding-top: 14px; border-top: 0.75pt solid var(--pe-hair); }
+  .pe-reflow .pe-cell + .pe-cell::before { display: none; }
+  .pe-reflow .pe-cell > * { margin-top: 0 !important; }
+  .pe-reflow .pe-text, .pe-reflow .pe-fill .pe-text, .pe-reflow .pe-lead-text .pe-text { column-count: 1 !important; overflow: visible; flex: none !important; font-size: 12pt; line-height: 1.45; }
+  .pe-reflow .pe-text p { text-indent: 0; margin-bottom: .55em; }
+  .pe-reflow .pe-lead, .pe-reflow .pe-wide, .pe-reflow .pe-split, .pe-reflow .pe-grid3, .pe-reflow .pe-two, .pe-reflow .pe-teasers, .pe-reflow .pe-figs, .pe-reflow .pe-how-cols, .pe-reflow .pe-ans-row, .pe-reflow .pe-sw-photos { display: grid; grid-template-columns: minmax(0, 1fr) !important; gap: 12px; }
+  .pe-reflow .pe-lead > *, .pe-reflow .pe-wide > *, .pe-reflow .pe-split > * { grid-column: auto !important; }
+  .pe-reflow .pe-how-cols > div + div { border-left: 0; padding-left: 0; }
+  .pe-reflow .pe-gift-cols, .pe-reflow .pe-free-cols, .pe-reflow .pe-sw, .pe-reflow .pe-cal-weekly ul { column-count: 1 !important; }
+  .pe-reflow .pe-gathers ol { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; }
+  .pe-reflow .pe-hed-lead, .pe-reflow .pe-hed-5, .pe-reflow .pe-hed-4 { font-size: 26pt; line-height: 1.02; }
+  .pe-reflow .pe-hed-3 { font-size: 22pt; } .pe-reflow .pe-hed-2 { font-size: 19pt; }
+  .pe-reflow .pe-spread-head h2, .pe-reflow .pe-byb-head h2 { font-size: 32pt; }
+  .pe-reflow .pe-byb-head { grid-template-columns: 1fr; }
+  .pe-reflow .pe-dek { font-size: 13pt !important; }
+  .pe-reflow .pe-masthead { padding-right: 0; }
+  .pe-reflow .pe-nameplate { font-size: 30pt; white-space: normal; }
+  .pe-reflow .pe-badge { position: static; margin: 6px auto 2px; width: 0.8in; height: 0.8in; }
+  .pe-reflow .pe-ears, .pe-reflow .pe-dateline { flex-wrap: wrap; gap: 4px 12px; justify-content: center; }
+  .pe-reflow .pe-inside ol { columns: 2; column-gap: 14px; }
+  .pe-reflow .pe-fig img { aspect-ratio: auto; max-height: 70vh; }
+  .pe-reflow .pe-pull { font-size: 17pt; }
+  .pe-reflow .pe-card { width: 100%; height: auto; }
+  .pe-reflow .pe-house, .pe-reflow .pe-hcard { flex-direction: column; align-items: flex-start; }
+  .pe-reflow .pe-cp-ticket, .pe-reflow .pe-cp-burst { flex-direction: column; }
+  .pe-reflow .pe-cp-stub { width: auto; flex-direction: row; border-right: 0; border-bottom: 1.6pt dashed #fff; border-radius: 6pt 6pt 0 0; }
+  .pe-reflow .pe-cp-strip { flex-wrap: wrap; border-radius: var(--pe-r); }
+  .pe-reflow .pe-lines { min-height: 0; }
+  /* The calendar becomes a list of days that have something on. */
+  .pe-reflow .pe-cal-grid { display: block; border: 0; }
+  .pe-reflow .pe-cal-grid .dow, .pe-reflow .pe-cal-day.blank:not(:has(li)), .pe-reflow .pe-cal-day:not(:has(li)):not(:has(.hol)) { display: none; }
+  .pe-reflow .pe-cal-day { overflow: visible; padding: 8px 0; border: 0; border-bottom: 0.5pt solid var(--pe-hair); font-size: 10pt; }
+  .pe-reflow .pe-cal-day .n { display: none; }
+  .pe-reflow .pe-cal-dl { display: block; margin-bottom: 3px; font: 800 12pt var(--pe-head); }
+  .pe-reflow .pe-cal-day .more { position: static; display: block; padding: 0; }
+  /* Puzzles shrink to the screen. */
+  .pe-reflow .pe-cw td { width: 19px; height: 19px; font-size: 10px; }
+  .pe-reflow .pe-cw sup { font-size: 5px; }
+  .pe-reflow .pe-ws td { width: 18px; height: 18px; font-size: 10px; }
+  .pe-reflow .pe-wordlist { grid-template-columns: repeat(2, auto); }
+  .pe-reflow .pe-crop { min-height: 200px; }
+}
 
 /* ---------- The readiness page ---------- */
 .pe-status { max-width: 1100px; margin: 0 auto; padding: 32px 16px 80px; color: var(--pe-ink); font: 16px/1.5 var(--pe-sans); background: var(--paper, #fbf7f0); }
