@@ -84,13 +84,13 @@ export const A1960s = [
     ],
     sources: [['CSA, Lincoln’s 5 decades of history worth celebrating, The Republic (September 20, 2017)', 'https://www.therepublic.com/2017/09/20/csa__lincolns_5_decades_of_history_worth_celebrating/'], ['Lady Bird Johnson speaks at Lincoln Elementary School (sound recording), Bartholomew County Public Library archives', 'https://bcplarchives.omeka.net/items/show/482'], ['Gunnar Birkerts, Wikipedia', WP + 'Gunnar_Birkerts'], ['Miller House (Columbus, Indiana), Wikipedia', WP + 'Miller_House_(Columbus,_Indiana)']] }),
 
-  x({ slug: 'fire-station-4', when: '1967', section: 'civic', landmark: 'firestation',
+  x({ checked: '2026-11-24', slug: 'fire-station-4', when: '1967', section: 'civic', landmark: 'firestation',
     title: 'An ordinary building with a big number 4',
     dek: 'The fire department asked for a plain, easy to maintain station. Robert Venturi gave it one, with a giant numeral on the tower, and helped start postmodern architecture.',
     body: [
       'In 1967, according to Wikipedia, the fire department asked architect Robert Venturi for an “ordinary building that was easy to maintain.”',
       'Visit Columbus calls Fire Station 4 his fourth completed project. The station went up at 4730 East 25th Street, started in 1967 and finished in 1968.',
-      'What he designed was ordinary on purpose. It is a low building on a trapezoid shaped plan, made of cinderblock, white glazed and red brick, and glass. The one thing that stands up is a tower, which Visit Columbus describes as the hose drying tower, and at its top a large number 4. Wikipedia says the semicircular tower also serves as the main entrance.',
+      'What he designed was ordinary on purpose. It is a low building on a trapezoid shaped plan, made of cinderblock, white glazed and red brick, and glass. The one thing that stands up is a tower, which Visit Columbus describes as the hose drying tower, and at its top a large number 4. Wikipedia says the semicircular tower also serves as the main entrance, and that the big number 4 at its top is yellow. It credits the design to Robert Venturi and Denise Scott Brown.',
       'Wikipedia counts Fire Station 4 as an early example of postmodern architecture.',
       'It was a long way from the department’s beginnings. The city’s own history says Columbus had a volunteer bucket brigade in 1835, its first horse drawn hose wagons in the 1890s and its first motor trucks in 1918. In 1941 the department moved into a new Central Fire Station at Eleventh and Washington streets. Fire Station 4 was something new for it: a firehouse people would travel to look at.',
       'It also started a Columbus tradition of interesting firehouses. Fire Station 3 by William Burd followed in 1983, with a glass tower showing off its fire pole. Fire Station 5 by Susana Torre came in 1987, and Visit Columbus says it was the first firehouse designed to include women firefighters. Fire Station 6 by William Rawn followed in 1998 and won design awards.',

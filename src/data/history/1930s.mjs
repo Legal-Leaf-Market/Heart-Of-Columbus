@@ -133,7 +133,7 @@ export const A1930s = [
     ],
     sources: [['Celebrating 85 years, Bartholomew County REMC in Indiana Connection', 'https://www.indianaconnection.org/celebrating-85-years-3/'], ['Rural Electrification Act, Wikipedia', WP + 'Rural_Electrification_Act']] }),
 
-  x({ slug: 'fire-department-diesel-pumper', when: '1939', section: 'civic',
+  x({ checked: '2026-11-24', slug: 'fire-department-diesel-pumper', when: '1939', section: 'civic',
     title: 'A Cummins diesel on the fire truck',
     dek: 'The Columbus Fire Department ended the 1930s with a chief, 13 firefighters, five motorized rigs and a new pumper powered by a hometown engine.',
     body: [
@@ -141,7 +141,8 @@ export const A1930s = [
       'The horses went away after World War I. In 1918 No. 1 Company switched to two American LaFrance fire trucks, and the volunteer company was disbanded. No. 2 got its own truck about two years later.',
       'The 1930s were lean years, and the department grew slowly. The city bought a car for the chief in 1931. In 1934 it added one more man, bringing the department to a chief and thirteen firefighters.',
       'Then, in 1939, the city bought a new pumper with a Cummins Diesel motor. It gave the department five pieces of motorized equipment. For a town whose largest employer was trying to convince the world that diesels were dependable, putting one on the fire truck made a point of its own.',
-      'The decade ended with the department’s home falling apart. In 1940 old No. 1 was condemned as unsafe and the company moved to temporary quarters. The old building came down in February 1941. A new Central Fire Station, designed by Indianapolis architect Leighton Bowers and built by Dunlap and Company of Columbus, went up at Eleventh and Washington streets that year, and No. 1 Company moved in on August 9, 1941.',
+      'The decade ended with the department’s home falling apart. In 1940 old No. 1 was condemned as unsafe and the company moved to temporary quarters. The old building came down in February 1941. A new Central Fire Station, designed by Indianapolis architect Leighton Bowers and built by Dunlap and Company of Columbus, went up at Eleventh and Washington streets that year. The company started moving in on August 9, 1941, and the dedication was set for November 30, the day the city’s history says the new station began operations. Old Number One, on Fifth Street just west of City Hall, was razed.',
+      'The new station was built to grow into. The city’s history, which reprints the souvenir booklet published for the opening, says it had room for four trucks, the chief’s car and 16 firemen, if No. 1 Company ever needed to be that large. Historic Columbus Indiana, which posts the whole booklet, says it was edited by Melvin Lostutter, then editor of the Evening Republican.',
       'Today, the city says, the department has 95 career firefighters in six firehouses covering about 28 square miles. One of those firehouses, Fire Station 4 by Robert Venturi, is itself on the architecture tour.',
     ],
     sources: [['History of the Columbus Fire Department, City of Columbus', 'https://www.columbus.in.gov/fire/about/history-of-the-columbus-fire-department/'], ['City Fire Department History, 1835 to 1941, Historic Columbus Indiana', 'https://www.historiccolumbusindiana.org/firedept/cover.html']] }),
