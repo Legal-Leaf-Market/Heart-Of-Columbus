@@ -50,8 +50,6 @@ images:
 methods: Tickets were a gift from Eli's cousins, who have half season tickets.
 ---
 
-dek: "A second chance at friendship, an underdog homecoming, and a Pacers finish worth the drive."
-
 Eli and I had just found our way back to friendship. Less than a week before the game, we ran into each other at her birthday party. I told her, “Life’s short,” and gave her a hug. Simple as that.
 
 A few days later, her cousins invited us along to see the Pacers take on the Thunder. They had half season tickets, we had a free invitation, and Columbus was an easy drive from the arena. An old friend beside me and a whole night of basketball ahead? That’s a pretty great way to spend an evening.
