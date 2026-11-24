@@ -172,4 +172,16 @@ export const ADDED = [
     source: 'https://www.bipsbites.com/',
     checked: '2026-11-15',
   },
+  {
+    name: 'Wild Bramble Catering',
+    cat: 'restaurants',
+    sub: 'bbq-trucks',
+    type: 'Seasonal catering for weddings, private events and corporate gatherings',
+    address: '',
+    phone: '(463) 202-6046',
+    website: 'https://www.wildbramblecatering.com/',
+    book: [],
+    source: 'https://www.wildbramblecatering.com/',
+    checked: '2026-11-24',
+  },
 ];
