@@ -38,6 +38,7 @@ from what was relayed.
    structure on the site?). If it is sourced, it is a 1930s stop for the
    January river thread, which has no 1930s article yet.
 3. Whether "Riverfront District" is the area's official name.
-4. Ask Randy Royer for permission to print his photos, with credit, and
-   whether he would give a quote about working on the project. Until he
-   says yes, Eli Wire's riverfront walk is the plan for photos.
+4. Randy Royer's permission to print his photos, with credit: Jake asked him
+   on Facebook on 2026-11-24; no answer yet. Also ask whether he would give
+   a quote about working on the project. Until he says yes, Eli Wire's
+   riverfront walk (or another photo with permission) is the plan.
