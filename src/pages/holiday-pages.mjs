@@ -8,7 +8,7 @@ import { page, esc, t } from '../layout.mjs';
 import { header, footer, svg, rail, breadcrumbs } from '../site.mjs';
 import { directory } from '../data/directory.mjs';
 import { SMALL_BUSINESS_SATURDAY as SBS } from '../data/holidays.mjs';
-import { eventsSection } from './events.mjs';
+import { eventsSection, homeEvents } from './events.mjs';
 import { spotlightSection } from './spotlight.mjs';
 import { ORIGIN } from '../jsonld.mjs';
 import { PAGES, FACTS, REVIEW_NOTE, CATEGORY, VISIT, esDate } from '../i18n/es.mjs';
@@ -52,7 +52,7 @@ ${rail('Something sweet on the way', '/n/downtown/', treats, { kicker: 'Coffee a
   <div class="rail-head"><div><p class="kicker">A Saturday plan</p><h2>Shop small on a Saturday</h2></div></div>
   <div class="yw-grid"><a class="yw-card" href="/trips/shop-small-saturday/"><span class="yw-day">Saturday · stops downtown</span><strong>Pastries, books, gifts, lunch and ice cream</strong><span>Each stop is a short walk from the last and open for its whole slot on a regular Saturday. Holiday hours can differ, so call ahead.</span></a></div>
 </section>
-${eventsSection({ mode: 'upcoming', id: 'whats-on', title: 'What’s on this season', kicker: 'Signature events' })}
+${homeEvents({ id: 'whats-on', title: 'What’s on this season', kicker: 'Library, parks, arts and live music' })}
 <section class="wrap"><p class="fine hol-foot">Business details come from public listings and can change around the holidays. We are not affiliated with these businesses, and we never take payment or orders for them.</p></section>
 </main>
 ${footer()}`;
@@ -60,7 +60,7 @@ ${footer()}`;
     title: 'Shop small for the holidays | Heart of Columbus',
     description: `Small Business Saturday in Columbus, Indiana is ${longDate(SBS.date)}. Independent shops, gift cards bought directly, and local stores that sell online.`,
     alternates: [['en', `${ORIGIN}/holidays/`], ['es', `${ORIGIN}/es/holidays/`]],
-    body, scripts: ['site.js', 'hub.js', 'events.js'], styles, assets,
+    body, scripts: ['site.js', 'hub.js', 'events.js', 'events-week.js'], styles, assets,
   });
 }
 

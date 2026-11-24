@@ -26,7 +26,7 @@
   const dow = new Date(`${today}T12:00:00Z`).getUTCDay();
   const fri = dow === 0 ? addDays(today, -2) : dow === 6 ? addDays(today, -1) : addDays(today, 5 - dow);
   const sun = addDays(fri, 2);
-  let all = [], filter = 'all';
+  let all = [], filter = root.dataset.evwStart || 'all';
 
   const pass = (e) => filter === 'all' ? true
     : filter === 'today' ? e.date === today

@@ -19,7 +19,7 @@ import { disclosures } from '../news/disclosure.mjs';
 import { storyList, storyCard, label, byline, editorLine, fmtWhen, fmtDate } from '../news/render.mjs';
 import { card, svg, rail, PHOTOS } from '../site.mjs';
 import { directory, areaBySlug, AREAS } from '../data/directory.mjs';
-import { eventsSection } from './events.mjs';
+import { eventsSection, homeEvents } from './events.mjs';
 import { ALERT, activeAlert, LEVELS } from '../news/alert.mjs';
 import { BODIES } from '../data/civic.mjs';
 import { reader, nameplate } from '../kindle.mjs';
@@ -219,8 +219,8 @@ function sectionPage(ctx, sec) {
   ${storyList(items, { showSection: false, empty: 'No stories in this section yet.' })}
   ${followStrip({ feeds: [[`/news/${sec.slug}/feed.xml`, sec.name]] })}
 </section>
-${sec.events ? eventsSection({ mode: 'upcoming', id: 'whats-on', title: 'What’s on', kicker: 'Signature events' }) : ''}`;
-  return newsPage({ ...ctx, path: sectionHref(sec), title: sec.name, description: sec.blurb, crumbs: [['/news/', 'News'], ['', sec.name]], body, scripts: sec.events ? ['hub.js', 'events.js'] : [], feeds: [[`/news/${sec.slug}/feed.xml`, sec.name]] });
+${sec.events ? homeEvents({ id: 'whats-on', title: 'What’s on', kicker: 'Library, parks, arts and live music' }) : ''}`;
+  return newsPage({ ...ctx, path: sectionHref(sec), title: sec.name, description: sec.blurb, crumbs: [['/news/', 'News'], ['', sec.name]], body, scripts: sec.events ? ['hub.js', 'events.js', 'events-week.js'] : [], feeds: [[`/news/${sec.slug}/feed.xml`, sec.name]] });
 }
 
 // A series that takes reader stories (`invite` in src/news/series.mjs) leads
@@ -324,10 +324,10 @@ function frontPage(ctx) {
   </aside>
 </div>
 ${rail('Open right now', '/explore/?open=1', directory.filter((b) => b.hours && !b.tempClosed && ['restaurants', 'coffee-sweets', 'bars'].includes(b.cat)).slice(0, 150), { kicker: 'From the directory', openOnly: true, id: 'open-now' })}
-${eventsSection({ mode: 'weekend', id: 'this-weekend', title: 'This weekend in Columbus', kicker: 'Happening Friday to Sunday' })}
+${homeEvents({ id: 'this-weekend', title: 'This weekend in Columbus', kicker: 'Swipe through what’s on', start: 'weekend' })}
 ${historyBanner()}
 ${bySection.length ? `<div class="wrap np-sections">${bySection.map(([sec, xs]) => `<section class="np-sec-block"><h2><a href="${sectionHref(sec)}">${esc(sec.name)}</a></h2>${xs.map((s) => storyCard(s, { size: 'line', showSection: false })).join('')}</section>`).join('')}</div>` : ''}`;
-  return newsPage({ ...ctx, path: '/news/', title: 'News', description: 'Local news for Columbus, Indiana: the city, the county, schools, business, food, architecture, sports and things to do.', body, scripts: ['hub.js', 'events.js', 'news.js'] });
+  return newsPage({ ...ctx, path: '/news/', title: 'News', description: 'Local news for Columbus, Indiana: the city, the county, schools, business, food, architecture, sports and things to do.', body, scripts: ['hub.js', 'events.js', 'events-week.js', 'news.js'] });
 }
 
 export function newsPages(ctx) {

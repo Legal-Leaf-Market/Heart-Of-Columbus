@@ -79,20 +79,23 @@ const evCard = (e, i) => `<li class="evc-card" data-src="${esc(e.from || 'org')}
   <span class="evc-tag">${esc(dateRange(e))}</span>
   <strong class="evc-t">${t(e.name)}</strong>
   <span class="evc-m">${e.times ? esc(`${fmtMin(e.times[0])} to ${fmtMin(e.times[1])}`) + '<br>' : ''}${esc(e.venue)}</span></a></li>`;
-export function homeEvents(today = new Date().toISOString().slice(0, 10)) {
+// The same carousel on the homepage, /visit/, /holidays/, the news front
+// page and Things to do: `start` picks the filter it opens on (all, today,
+// weekend, kids, live).
+export function homeEvents({ id = 'this-week', title = 'Coming up in Columbus', kicker = 'Library, parks, arts and more', start = 'all', today = new Date().toISOString().slice(0, 10) } = {}) {
   const upcoming = EVENTS.filter((e) => e.end >= today).sort((a, b) => a.start.localeCompare(b.start));
   const srcNames = Object.fromEntries(SOURCE_LIST.map((s) => [s.id, s.short || s.name]));
   return `
-<section class="wrap evc" id="this-week" aria-labelledby="evc-h" data-evw data-src-names="${esc(JSON.stringify(srcNames))}">
-  <div class="rail-head"><div><p class="kicker">Library, parks, arts and more</p><h2 id="evc-h">Coming up in Columbus</h2></div>
+<section class="wrap evc" id="${id}" aria-labelledby="${id}-h" data-evw data-evw-start="${start}" data-src-names="${esc(JSON.stringify(srcNames))}">
+  <div class="rail-head"><div><p class="kicker">${esc(kicker)}</p><h2 id="${id}-h">${esc(title)}</h2></div>
     <a class="see-all" href="/events/">All local events ${svg('arrow', 'ic-sm')}</a></div>
   <div class="evc-bar">
     <div class="evw-filters" role="group" aria-label="Show" data-evw-tools hidden>
-      <button type="button" class="evw-chip" data-evw-filter="all" aria-pressed="true">Everything</button>
-      <button type="button" class="evw-chip" data-evw-filter="today" aria-pressed="false">Today</button>
-      <button type="button" class="evw-chip" data-evw-filter="weekend" aria-pressed="false">This weekend</button>
-      <button type="button" class="evw-chip" data-evw-filter="kids" aria-pressed="false">Kids &amp; family</button>
-      <button type="button" class="evw-chip" data-evw-filter="live" aria-pressed="false">Live music &amp; arts</button>
+      <button type="button" class="evw-chip" data-evw-filter="all" aria-pressed="${start === 'all'}">Everything</button>
+      <button type="button" class="evw-chip" data-evw-filter="today" aria-pressed="${start === 'today'}">Today</button>
+      <button type="button" class="evw-chip" data-evw-filter="weekend" aria-pressed="${start === 'weekend'}">This weekend</button>
+      <button type="button" class="evw-chip" data-evw-filter="kids" aria-pressed="${start === 'kids'}">Kids &amp; family</button>
+      <button type="button" class="evw-chip" data-evw-filter="live" aria-pressed="${start === 'live'}">Live music &amp; arts</button>
     </div>
     <div class="evc-nav"><button type="button" class="evc-btn" data-evc-prev aria-label="Earlier events">${svg('arrow', 'ic sc-flip')}</button><button type="button" class="evc-btn" data-evc-next aria-label="Later events">${svg('arrow')}</button></div>
   </div>
