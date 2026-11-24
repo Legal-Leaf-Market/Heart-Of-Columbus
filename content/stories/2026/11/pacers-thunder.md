@@ -1,6 +1,6 @@
 ---
 draft: true
-headline: "[YOUR HEADLINE: your verdict on the night, in one line]"
+headline: Old Friends Make New Memories
 dek: "[YOUR ONE SENTENCE under the headline]"
 label: Opinion
 section: sports
