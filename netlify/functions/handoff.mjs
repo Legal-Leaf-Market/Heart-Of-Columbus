@@ -47,7 +47,7 @@ export async function count(store, b, now = new Date()) {
   return true;
 }
 
-async function shopifyOrders(month) {
+export async function shopifyOrders(month) {
   const store = getStore('shopify-orders');
   const latest = new Map();
   for await (const { blobs } of store.list({ prefix: `${month}/`, paginate: true })) {
@@ -57,7 +57,8 @@ async function shopifyOrders(month) {
         if (!row) continue;
         const previous = latest.get(row.order);
         if (!previous || row.updated > previous.updated ||
-            (row.updated === previous.updated && row.triggered > previous.triggered)) {
+            (row.updated === previous.updated && (row.triggered > previous.triggered ||
+              (row.triggered === previous.triggered && row.status === 'cancelled')))) {
           latest.set(row.order, row);
         }
       }
