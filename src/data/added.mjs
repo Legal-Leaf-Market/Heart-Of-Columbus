@@ -55,7 +55,48 @@
 // chicken and vegetables"; cooking videos; 812-764-8400. Its founder's own
 // LinkedIn profile lists "Private chef, Food and Beverage consultant, Bip's
 // Bites" in Columbus, Indiana. No street address.
+// From the research pass of 2026-11-24 (ChatGPT's candidate list, each
+// checked by hand against the page named here; candidates whose own pages
+// did not answer were left out):
+//
+// PAQ'D Meats (paqdmeats.com, checked 2026-11-24): "a small, family-owned and
+// operated sheep and goat farm located in southern Indiana" selling "locally
+// raised, high-quality lamb, goat and beef meats", with an Order Online page;
+// 5844 Laramie Trail, Columbus, IN 47203; Tel 812-350-0100.
+//
+// Not added: M&M Sportscards & Collectibles. The visitors bureau's directory
+// still lists it at 3003 25th Street, but its own Google listing marks it
+// permanently closed (src/data/web.mjs) and its old domain no longer belongs
+// to it, so it stays off, as the landscape row already did.
+//
+// Max's Jewelry (yellowpages.com listing, checked 2026-11-24): jewelers and
+// jewelry repairing, 401 Washington St, Columbus, IN 47201, (812) 379-4572.
+// Not the store's own page; hours there are not shown here until confirmed.
 export const ADDED = [
+  {
+    name: "PAQ'D Meats",
+    cat: 'shopping',
+    sub: 'markets',
+    type: 'Farm-raised lamb, goat and beef',
+    address: '5844 Laramie Trail',
+    phone: '(812) 350-0100',
+    website: 'https://www.paqdmeats.com/',
+    book: [],
+    source: 'https://www.paqdmeats.com/',
+    checked: '2026-11-24',
+  },
+  {
+    name: "Max's Jewelry",
+    cat: 'shopping',
+    sub: 'gifts',
+    type: 'Jewelry',
+    address: '401 Washington St',
+    phone: '(812) 379-4572',
+    website: '',
+    book: [],
+    source: 'https://www.yellowpages.com/columbus-in/mip/maxs-jewelry-7632076',
+    checked: '2026-11-24',
+  },
   {
     name: 'Crossroads Wedding Co.',
     cat: 'events',

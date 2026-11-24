@@ -122,10 +122,10 @@ ${smartCarousel(slides({ news: stories[0] }))}
   <div class="fg-head"><div><p class="kicker">Browse by category</p><h2 id="cats-h">What are you after today?</h2></div>
     <p class="fg-head-note">Every category, every count, straight from the directory. Hungry, fixing something, or booking a cut.</p></div>
   <ul class="cat-grid" role="list">
-    ${CATEGORIES.map((c) => `<li><a class="cat-tile" href="/c/${c.slug}/" style="--t:${c.tint}">
-        <span class="cat-stk">${catSticker(c.slug, { size: 88 })}</span>
-        <span class="cat-name">${esc(c.label)}</span>
-        <span class="cat-n">${count((b) => inSection(b, c.slug))} places</span>
+    ${CATEGORIES.map((c) => `<li><a class="cat-tile" href="/c/${c.slug}/" style="--t:${c.tint};--c:${c.color}">
+        <span class="cat-stk">${catSticker(c.slug, { size: 56 })}</span>
+        <span class="cat-txt"><span class="cat-name">${esc(c.label)}</span><span class="cat-n">${count((b) => inSection(b, c.slug))}</span></span>
+        <svg class="cat-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a></li>`).join('')}
   </ul>
 </section>

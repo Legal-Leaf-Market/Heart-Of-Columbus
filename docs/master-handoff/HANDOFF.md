@@ -1,101 +1,123 @@
-# Handoff for the next Claude session (2026-11-13)
+# Handoff for the next Claude session (2026-11-24)
 
-Read this first, then `CLAUDE.md`. Jacob Kennedy (Jake) is Co-Founder and Chief
-Editor of Heart of Columbus; Terry Winchester II is the other Co-Founder and an editor (`terry-winchester-ii`,
-`editor: true`); he signs Jake's own pieces under the two-person rule.
+Read this first, then `CLAUDE.md`. The previous handoff (2026-11-13) is
+`HANDOFF-2026-11-13.md`; its open items still stand unless marked below.
+Jacob Kennedy (Jake) is Co-Founder and Chief Editor; he owns Legal Leaf Market
+and Crossroads Wedding Co. Everything below is on `main` and live at
+`heartofcolumbus.netlify.app` (Netlify deploys `main`, about a minute).
 
-## What shipped today (all live, all on `main`)
+## What shipped on 2026-11-24 (PRs #98 to #106, plus this one)
 
-Heart of Columbus (`heartofcolumbus.netlify.app`, Netlify deploys `main`):
+**Content**
+- **History:** 11 short articles expanded from their own cited sources (#98,
+  #99): Otter Creek, First Baptist, Lincoln School, Miller House, Cummins goes
+  global, kidscommons, the Columbus Drive-In, Cummins Technical Center,
+  Columbus East, Ethnic Expo, Columbus Regional Hospital. Jake gave Claude
+  standing permission to write history and guide copy only from sources read
+  in the same session (recorded in CLAUDE.md). Still short, sources were
+  unreachable from the sandbox: Memorial Gym (stadiumjourney, visitindiana),
+  Arts Council (artsincolumbus.org), the eclipse (nationaleclipse.com 406),
+  The Republic links (its site refuses bots).
+- **Back YOUR Blue** (`/news/series/back-your-blue/`): big lead feature with a
+  poster graphic, and a "Tell us about your person" form posting to
+  `/api/newsroom` as kind `blue` (editor inbox). Series with `invite` in
+  `src/news/series.mjs` get this treatment.
+- **News bar:** Back YOUR Blue and Jake Takes the Town come first, bold italic
+  in their own colors (`feature: true` in `src/news/sections.mjs`).
 
-- **TJ's ChopShop:** listing at `/b/tjs-chopshop/`, draft site and ambassador pitch at
-  `/preview/tjs-chopshop/` and `/preview/tjs-chopshop/pitch.html` (built from
-  `sites/tjs-chopshop/`, including his brand library and another session's motion layer).
-- **Founding Member badge** (`src/data/members.mjs`, empty until an owner pays) and the
-  **Founders Club** at `/founders-club/`: $20 a month, cancel any time, sites portable to any
-  host, every new tool included, one Ambassador per section, works alongside the Chamber.
-- **Chamber pilot brief** for Jon Myers at `/preview/chamber-pilot/` (Jake has a coffee
-  planned with him).
-- **Legal Leaf Market Cafe** listed as coming soon, with the owner tie disclosed.
-- **History sign-off:** 128 articles approved, no drafts left (`src/data/history/signoff.mjs`, two-person rule
-  enforced by `tests/signoff.test.mjs`).
-- **Barbershop views and map art v2**, with close-zoom cutouts for all nine landmarks.
-- **"Columbus, building by building"** at `/history/buildings/`: eleven field guides,
-  approved by Jake (editor `jacob-kennedy`).
+**Homepage and site**
+- **Events carousel** "Coming up in Columbus" (`homeEvents()` in
+  `src/pages/events.mjs`, `public/js/events-week.js`): poster cards from
+  `/api/events`, filters, Share and Add to calendar; also on the news front
+  page (opens on This weekend), Things to do, /visit/ (plus signature events
+  to save to a trip) and /holidays/.
+- **"Need help?" dock** on every page (`src/help-dock.mjs`,
+  `public/js/help-dock.js`, `/help/index.json`): tap-to-call lines, search over
+  every sourced resource, quick exit.
+- **Footer column "Heart of Columbus: Newspaper"** for every article page.
+- **"What are you after today?"** categories: compact four-across tiles.
+- **Smoke & Vape is its own category** (`/c/smoke/`, after Shopping in the
+  header; `/c/shopping/smoke/*` redirects in netlify.toml).
 
-Crossroads Wedding and Event Co. (`crossroadsweddingco.shop`, repo
-Legal-Leaf-Market/CrossroadsWeddingCo, Netlify deploys `main`):
+**Order direct**
+- **Speed:** `/api/shop` answers sit in Netlify's shared cache (`durable`,
+  15 minutes), `?top=N` sends only what a grid shows, Shopify photos ask for
+  480 px, grids load as they scroll in.
+- **In stock only:** `/api/stock` asks the store itself right before checkout
+  and pulls sold-out lines from the cart (`netlify/functions/stock.mjs`).
+  Limit: items a store doesn't track inventory for always read "in stock".
+- **Owner rules** (`src/data/shop-rules.mjs`): Legal Leaf Market Cafe is not
+  licensed to sell nicotine; everything tagged `nicotia` and every nicotine,
+  cigar or tobacco type is hidden everywhere a catalog is read.
+- **Owner ties** show as a Disclosure line wherever a tied business's shop
+  appears (`tie` in `src/data/added.mjs`; Legal Leaf, Crossroads).
+- **Daily store crawl** (`.github/workflows/store-crawl.yml`, 3:17 AM Eastern):
+  probe-deep, import-commerce, then `scripts/snapshot-catalogs.mjs` saves each
+  shop's catalog or menu to `public/catalogs/<slug>.json` (store feeds, or
+  schema.org JSON-LD from any platform via `mapJsonLd`). Scheduled runs push
+  to `crawl/daily` and open a PR for a person to merge. A site that fails one
+  morning keeps its last good result for 14 days. First run: 23 shops with a
+  catalog (4 Wix shops newly readable), 0 restaurant menus.
+- **Order tracking** (`docs/order-tracking.md`, read it): every handoff
+  carries `utm_source=heartofcolumbus` and a cart visit id; `/api/handoff`
+  counts them; owners confirm orders by a Shopify pixel or Woo snippet
+  (`/owners/tracking/`, posts to `/api/conversion`), or **WooCommerce one-click**
+  (`/api/woo-connect?b=<slug>`, Woo's own approval screen, read-only key,
+  encrypted; daily `woo-sync` keeps only our orders and their status). Private
+  report: `/owners/report/#k=<HOC_ADMIN_KEY>`. One test handoff ($0.01,
+  visit `claudetest1`, Legal Leaf) is in November's numbers.
 
-- **Back YOUR Blue** at `/back-your-blue` (PR #118): Jake's tribute to his father, Kevin Lee
-  Kennedy, born November 16, 1966 (confirmed by Jake), turning 60 on November 16, with a moderated notes board for family, coworkers and
-  church family. Notes are approved at `/admin/<key>/reviews` and show on that page only.
+**Research**
+- `docs/research/scraping-brief.md` (generated by `scripts/research-brief.mjs`)
+  went to ChatGPT; its answers are in `docs/research/chatgpt-2026-11-24/` with a
+  README of what was used. Added from it after checking: PAQ'D Meats, Max's
+  Jewelry. Not added: M&M Sportscards (Google says permanently closed),
+  Blessing International Market and High Heat Cards (sites didn't answer),
+  Gold Nugget Pawn (Hope). Apna Bazaar vs Apna Kitchen needs a person.
 
 ## Next, in order
 
-1. **Section art: DONE** (second session, 2026-11-13). `SECTION_ART` in
-   `src/editorial-art.mjs` gives `/c/coffee-sweets/`, `/c/bars/` (navy panel),
-   `/c/shopping/`, `/c/events/` and `/c/things-to-do/` a painted header, also used on
-   their type pages that have no painting of their own (barbers keeps its own). Explore
-   shows `downtown-day` as a strip in list view, hidden on the map. `srcset` 768/1440,
-   every use tagged "Category illustration", never a card fallback. The two background
-   textures (`cream-botanical`, `midnight-architectural`) are unused so far.
-2. **Field guides: APPROVED** by Jake, 2026-11-13 (all eleven in `signoff.mjs`).
-3. **Passport v1: DONE** (second session). `/passport/` collects every trail's stamps
-   (`public/js/passport.js`, tests in `tests/passport.test.mjs`): digital discoveries on
-   the honor system, labeled "not a verified visit" and "can't be redeemed". Versioned
-   save/load file (`heart-of-columbus-passport`, v1); loading only adds, refuses bad,
-   foreign, newer or oversized files, and keeps stamps for stops that left a trail
-   without counting them. Shows a plain warning when the browser blocks storage. Still
-   to come from the plan: verified visits and redemption (need a server), a printed
-   passport, and the Landmark Trail as its own verified collection.
-4. **Place contract v1: DONE** (second session). `src/data/places.mjs` gives all 931
-   businesses and 10 landmarks one validated record (see CLAUDE.md). Pin sources today:
-   499 from Google listings, 356 from public listings, 10 approximate (the hand-built
-   featured cards: ask their owners or geocode them to retire `approx`), 66 with no pin.
-   Not yet moved onto it: the map, list and trail code still read directory rows
-   directly; switch them over one at a time, then build the downtown 3D pilot on it.
-5. **Nine landmark articles** (one per map landmark, plus an overview and a downtown
-   walking trail), drafts for Jake to sign. UNBLOCKED: Jake allowed the source hosts
-   (visitcolumbusindiana.com, mybcpl.org, discovernewfields.org, bare and www) on the
-   "yxunglxve" cloud environment, 2026-11-13; all three load. Byline "Heart of Columbus",
-   every fact cited, drafts until Jake signs in `signoff.mjs`.
-6. **Backlog:** `planning/EXECUTION_BACKLOG.md` (shared place contract, downtown spatial
-   pilot, passport and Landmark Trail, merchant pilot). `planning/TRAILS_PASSPORTS_AND_MERCHANTS.md`
-   has the detail. Jake holds the full master handoff zip, including the internal product and
-   partnership documents deliberately kept out of this public repo.
+1. **Shopify one-click tracking** (Jake said yes after WooCommerce): a Shopify
+   app with `read_orders`. Blocked on Jake creating a free Shopify Partner
+   account. Start with custom-distribution install links (one per store),
+   apply for review later for one link for all. Webhooks orders/create and
+   orders/fulfilled; the mandatory privacy webhooks; store tokens with
+   `src/vault.mjs`. Match on the `hoc_click` cart attribute.
+2. **First real tests of tracking:** Jake's own Shopify (paste the pixel from
+   `/owners/tracking/`, keys from the report) and one WooCommerce store's
+   one-click connect. The Woo order-attribution meta may not show in the REST
+   API; product matching covers that, but confirm on a real store.
+3. **Restaurant menus:** the crawl reads no menus yet. The playbook's finding:
+   Square, Toast and Clover menus are behind auth and terms, so the gap is
+   first-party menus as plain HTML or PDF (Amazing Joe's PDF, Black Sheep
+   Pizza). Build an HTML and PDF menu reader for those, then show them through
+   the existing `data-menu` block.
+4. **Square Online, Wix, GoDaddy catalogs:** Wix Stores shops already read
+   through JSON-LD on product pages; check whether Square Online and GoDaddy
+   product pages publish it too (the crawl report lists which got nothing).
+5. **Jake's own store:** 679 nicotine products are still public on
+   shop.legalleafmarket.shop and untracked for inventory; that's his to change
+   in Shopify (Draft, or off the Online Store channel) if they don't need to be
+   there for the Nicotia affiliate setup.
+6. **Chains:** Jake decided to keep the directory independents only and to
+   drop the chain/franchise toggle idea "for now". Don't build it.
 
-## Decided
+## Working notes (learned the hard way today)
 
-- **North Christian is now The LEX** (Jake, 2026-11-13): the landmark reads "The LEX
-  (formerly North Christian Church)" and says the congregation worshipped there until 2022.
-  The slug `/l/northchristian/` stays. History pieces, Brian Blair's retellings and the
-  film trail keep the church's name as written, and the 2008 photo is captioned as North
-  Christian Church.
-
-## Cookie Paradise, Founding Member #1 (third session, 2026-11-13)
-
-- Jake confirmed the owner (Trung) joined and paid: `cookie-paradise-llc` is in
-  `members.mjs` (since 2026-11-13; correct the date if he signed earlier). Badge, first in
-  Coffee & Sweets, disclosure line, #1 on the Founders Wall.
-- `src/data/own-facts.mjs`: facts a business publishes on its own site beat the sweep. His
-  listing now shows the trailer at 3950 25th St (Holiday Center lot) and his own hours
-  (Tue to Fri 10 to 6, Sat 10 to 8) instead of the Chamber's 3346 Cox Ln and Google's hours.
-- Live shops (`cart.js`) show only items in stock AND photographed (two of his had no photo).
-- Draft site and member sheet: `sites/cookie-paradise/` at `/preview/cookie-paradise/` and
-  `/preview/cookie-paradise/pitch.html`. Menu reads `/api/shop` live; checkout is his own
-  Shopify cart; "Reserve for pickup" makes demo tickets (`cookie-paradise` in DEMO_SLUGS).
-- Crossroads Wedding Co. listing now carries its tie to Jake, and the cookie site discloses it.
-- Open with Trung: approve the draft, send photos, fix his Google hours, where the site lives,
-  and whether to turn on a real pickup counter (add him to `partners.mjs` plus a board key).
-
-## Open decisions for Jake
-
-- Three barbers whose Booksy names or addresses differ from the directory (see PR #57).
-- TJ's terms (three free months, rewards at 1, 3 and 5 referrals) were proposed by Claude; confirm.
-- Brian Blair byline confirmations on the faith retellings.
-
-## Working notes
-
-- The environment allows the sources and hosts used today; ask before adding more.
-- Merge by PR with `expectedHeadSha`; another session merged #58 in parallel today.
-- Both repos are public: keep strategy about real institutions and private details out.
+- **Network:** the session runs on the personal environment
+  "Heart-Of-Columbus" (allowed hosts for history sources, the live site,
+  Legal Leaf's shop and today's research sites). curl goes through the proxy;
+  **Node's built-in fetch does not**, so scripts that fetch business sites
+  can't run here. Run them in GitHub Actions (the crawl workflow) instead.
+  The WebFetch tool doesn't follow the session's host list either; use curl.
+- **The crawl workflow commits back to the branch it ran on.** It now rebases
+  first, but pushing to the branch during a run used to make it fail.
+- **Shell heredocs containing `$$(` trip a safety check**; write the edit as a
+  Python file in the scratchpad and run it instead.
+- **CSS:** `public/css/hoc.css` has older rules near the top for the same
+  classes (for example `.cat-tile`); later rules must reset properties like
+  `flex-direction`, not just add new ones.
+- **Merge by PR with `expectedHeadSha`.** Another session merged #103 (Wild
+  Bramble Catering) in parallel today.
+- `HOC_ADMIN_KEY` now also derives the tracking keys and the vault key;
+  changing it means owners re-paste keys and Woo stores reconnect.
