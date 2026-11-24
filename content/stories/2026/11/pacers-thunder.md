@@ -4,6 +4,14 @@ dek: "Life's short, extend an olive branch."
 label: Opinion
 section: sports
 series: jake-takes-the-town
+game:
+  home: Indiana Pacers
+  away: Oklahoma City Thunder
+  venue: Gainbridge Fieldhouse, Indianapolis
+  date: 2026-11-23
+  final:
+    home: 125
+    away: 120
 stickers:
   - sticker: olive-branch
   - sticker: hug
@@ -18,12 +26,14 @@ stickers:
     heading: The people working the building
   - sticker: choir
     heading: The show
+  - sticker: hoop
+    heading: The game
   - sticker: starburst
     heading: Worth the drive?
 bylines: [jacob-kennedy]
 editor: eli-wire
 published: 2026-11-23T20:16:00-05:00
-updated: 2026-11-23T21:00:00-05:00
+updated: 2026-11-23T23:20:00-05:00
 images:
   - file: /news-media/2026/11/pacers-thunder-jake-and-eli.jpg
     alt: Eli Wire and Jake Kennedy smiling together in their seats at the Pacers game.
@@ -88,6 +98,10 @@ The halftime was Tyler's Amazing Balancing Act. He balances a bunch of stuff on 
 **Halftime: 4 out of 5**
 
 **Rating: 5 out of 5**
+
+## The game
+
+Pacers won! Final score was 125 to 120, Pacers. They really kicked ass, they were just fresh back from New York and must have been on adrenaline.
 
 ## Worth the drive?
 
