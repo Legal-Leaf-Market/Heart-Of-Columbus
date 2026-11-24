@@ -34,7 +34,9 @@ Jake's note so far: pleased with the seat view.
 
 We were in section 219.
 
-[What you could see from 219, and why you liked it. Your rating: __ out of 5]
+[What you could see from 219, and why you liked it.]
+
+**Rating: 5 out of 5**
 
 ## Food and drink
 
@@ -42,19 +44,25 @@ Jake's note so far: pleased with the concession prices.
 
 We got chicken fingers, fries, and cotton candy.
 
-[What each item cost, from your receipt or card. Your rating: __ out of 5]
+[What each item cost, from your receipt or card.]
+
+**Rating: 5 out of 5**
 
 ## The people working the building
 
 Jake's note so far: staff were friendly.
 
-[One moment that showed it. Your rating: __ out of 5]
+[One moment that showed it.]
+
+**Rating: 5 out of 5**
 
 ## The show
 
 They had an elementary choir sing the national anthem and a middle school aged dance group. Both were phenomenal.
 
-[Anything else: the flame cannons, intros, music, video board. Your rating: __ out of 5]
+[Anything else: the flame cannons, intros, music, video board.]
+
+**Rating: 5 out of 5**
 
 ## The game
 
@@ -62,4 +70,8 @@ They had an elementary choir sing the national anthem and a middle school aged d
 
 ## Worth the drive?
 
-[Who should go, and your one tip for next time. Overall: __ out of 5]
+I was truly impressed.
+
+[Who should go, and your one tip for next time.]
+
+**Overall: 5 out of 5**
