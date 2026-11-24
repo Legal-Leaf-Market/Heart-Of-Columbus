@@ -338,3 +338,30 @@ test('no [OWNER: ...] marker reaches a built page', () => {
   const found = walk(dist).filter((f) => readFileSync(f, 'utf8').includes('[OWNER:'));
   assert.deepEqual(found.map((f) => f.pathname.slice(dist.pathname.length)), []);
 });
+
+// ---------- Stickers, the newspaper page, the series (2026-11-24) ----------
+import { NEWS_STICKERS } from '../src/news/stickers.mjs';
+import { STICKERS as SITE_STICKERS } from '../src/site.mjs';
+
+test('news stickers have their art and never reuse a site sticker name', () => {
+  for (const name of Object.keys(NEWS_STICKERS)) {
+    assert.ok(existsSync(new URL(`../public/art/sticker-${name}.webp`, import.meta.url)), name);
+    assert.ok(!SITE_STICKERS.includes(name), `${name} would overwrite the site's own sticker art`);
+  }
+  assert.deepEqual(checkStory({ ...good, stickers: [{ sticker: 'basketball' }] }), []);
+  assert.ok(checkStory({ ...good, stickers: [{ sticker: 'not-a-sticker' }] }).some((p) => /stickers\.mjs/.test(p)));
+  assert.ok(checkStory({ ...good, stickers: [{ sticker: 'basketball', heading: 'Missing heading' }] }).some((p) => /no "## Missing heading"/.test(p)));
+  assert.deepEqual(checkStory({ ...good, body: 'Intro.\n\n## Worth the drive?\n\nYes.', stickers: [{ sticker: 'starburst', heading: 'Worth the drive?' }] }), []);
+});
+
+test('news stories print as a newspaper page; history keeps the e-reader', () => {
+  const s = stories.find((x) => x.stickers.length);
+  if (!s) return;
+  const html = read(`${s.href.slice(1)}index.html`);
+  for (const want of ['kd kd-news', 'np-plate', 'np-folio', 'newsprint.css', 'np-fig-img']) assert.ok(html.includes(want), want);
+  assert.ok(!/kindle\.js/.test(html), 'news stories do not load the e-reader pager');
+  for (const m of html.matchAll(/<img class="np-sticker[^"]*"[^>]*>/g)) assert.match(m[0], /alt="" aria-hidden="true"/);
+  assert.ok(html.includes('np-h2-sticker'), 'heading stickers render');
+  const front = read('news/index.html');
+  if (stories[0] === s) assert.ok(front.includes('np-lead-sticker'), 'the lead carries its first sticker');
+});

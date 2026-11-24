@@ -64,7 +64,7 @@ import { LABELS } from './labels.mjs';
 import { sectionBySlug, TOPICS } from './sections.mjs';
 import { STAFF, SAMPLE_STAFF } from '../data/staff.mjs';
 import { seriesBySlug } from './series.mjs';
-import { STICKERS } from './stickers.mjs';
+import { NEWS_STICKERS } from './stickers.mjs';
 import { directory, areaBySlug } from '../data/directory.mjs';
 import { landmarkBySlug } from '../data/landmarks.mjs';
 import { BODIES } from '../data/civic.mjs';
@@ -126,7 +126,7 @@ export function checkStory(s) {
   }
   if (!s.draft && /\[(YOUR|WHO TOOK|ONE LINE)\b|__ out of 5/.test(JSON.stringify({ ...s, file: '' }) + s.body)) p.push('fill in every [BRACKET] blank before taking a story out of draft');
   for (const st of s.stickers || []) {
-    if (!STICKERS[st?.sticker]) p.push(`sticker "${st?.sticker}" is not in src/news/stickers.mjs`);
+    if (!NEWS_STICKERS[st?.sticker]) p.push(`sticker "${st?.sticker}" is not in src/news/stickers.mjs`);
     else if (st.heading && !new RegExp(`^## ${st.heading.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`, 'm').test(s.body || '')) p.push(`sticker "${st.sticker}": no "## ${st.heading}" heading in the story`);
   }
   if (s.series) {

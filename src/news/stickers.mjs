@@ -9,10 +9,11 @@
 //     - sticker: road-trip
 //       heading: Getting there         # shown beside that ## heading instead
 
-export const STICKERS = {
+// Names must not repeat the site's own stickers (STICKERS in src/site.mjs):
+// they share public/art/, so a repeated name overwrites that artwork.
+export const NEWS_STICKERS = {
   'hug': 'Two friends hugging',
   'hands': 'Clasped hands',
-  'indiana-heart': 'Indiana in a heart',
   'olive-branch': 'An olive branch',
   'road-trip': 'Friends on a road trip',
   'tickets': 'Two blank tickets',
