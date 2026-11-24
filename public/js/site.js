@@ -150,7 +150,8 @@
       var st = window.HoCOpen(JSON.parse(el.getAttribute('data-open-now') || 'null'));
       if (!st) return;
       el.textContent = st.label;
-      el.className = 'open-badge ' + (st.open ? 'is-open' : 'is-closed');
+      el.classList.toggle('is-open', st.open);
+      el.classList.toggle('is-closed', !st.open);
       el.hidden = false;
     });
     $$('[data-today]').forEach(function (tr) { if (Number(tr.getAttribute('data-today')) === nowParts().day) tr.classList.add('today'); });
