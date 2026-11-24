@@ -8,6 +8,7 @@ import { SPOTLIGHT_SLUGS } from './data/spotlight.mjs';
 import { NEWS_LIVE } from './data/paper.mjs';
 import { businessMedia } from './data/media.mjs';
 import { attrCodes } from './attrs.mjs';
+import { helpDock } from './help-dock.mjs';
 
 // The field-guide sticker family (art-source/stickers/, cut by
 // scripts/cut-stickers.py into public/art/sticker-<id>.webp, 320 px square).
@@ -165,7 +166,7 @@ export function footer({ lang = 'en' } = {}) {
     <div class="ftr-paper"><h3>Heart of Columbus: Newspaper</h3>${PAPER_LINKS.map(([href, en, sp]) => `<a href="${href}">${es ? sp : en}</a>`).join('')}</div>
     <div><h3>${es ? ES.owners : 'Owners'}</h3><a href="/owners/">${k.claim}</a><a href="/owners/#claim">${k.pickup}</a><a href="/founders-club/">${k.founders}</a><a href="/order/">${k.direct}</a></div>
   </div>
-</footer>`;
+</footer>${helpDock({ lang })}`;
 }
 
 
