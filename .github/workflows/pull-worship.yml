@@ -2,6 +2,9 @@
 # list for the Columbus ZIPs (scripts/pull-worship.mjs) and commits the raw
 # files, so src/data/worship.mjs and nonprofits.mjs can be built from them.
 # Read-only: one Overpass query and one IRS file download, nothing posted.
+# Then Google Maps (scripts/pull-worship-places.mjs, official Places API) for
+# street addresses, websites, phones and hours, when the GOOGLE_PLACES_API_KEY
+# repository secret is set; without it that step says so and the rest commits.
 name: Pull places of worship
 on:
   workflow_dispatch:
@@ -20,10 +23,17 @@ jobs:
         with:
           node-version: 22
       - run: node scripts/pull-worship.mjs scripts/data
+      - name: Google Maps addresses
+        env:
+          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+        run: |
+          if [ -z "$GOOGLE_PLACES_API_KEY" ]; then echo "::warning::GOOGLE_PLACES_API_KEY is not set, so no Google Maps addresses this run."; exit 0; fi
+          node scripts/pull-worship-places.mjs scripts/data/places-worship.json
       - name: Commit results
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add scripts/data/osm-worship.json scripts/data/irs-eo.json
+          [ -f scripts/data/places-worship.json ] && git add scripts/data/places-worship.json
           git diff --cached --quiet || git commit -m "Places of worship and nonprofits from the Pull places of worship workflow"
           git push
