@@ -52,6 +52,7 @@ images:
     license: Staff photo
   - file: /news-media/2026/11/pacers-thunder-halftime.jpg
     alt: At center court, a performer in a red Tyler's Amazing Balancing Act shirt balances a tall stepladder on his face while a camera operator films.
+    caption: That doesn’t even look real.
     credit: Eli Wire
     creditUrl: https://www.instagram.com/eliwire/
     license: Staff photo
@@ -64,7 +65,7 @@ A few days later, her cousins invited us along to see the Pacers take on the Thu
 
 ## Getting there
 
-The Pacers were coming home from New York after a 113 to 106 loss to the Knicks the night before. They were 5 and 12, carrying a four game losing streak into a matchup with the 10 and 7 Thunder. Indiana was listed as a 4.5 point underdog, and FanDuel’s pregame projection gave Oklahoma City a 77.8 percent chance to win. That left the Pacers with about a 22 percent chance in that model. [Pregame odds and projection](https://www.fanduel.com/research/pacers-vs-thunder-prediction-nba-odds-spread-best-bets-for-11-23-2026) · [Pacers at Knicks result](https://www.nba.com/game/ind-vs-nyk-0022600285)
+The Pacers were coming home from New York after a 113 to 106 loss to the Knicks the night before. They were 5 and 12, carrying a four game losing streak into a matchup with the 10 and 7 Thunder. [Pacers at Knicks result](https://www.nba.com/game/ind-vs-nyk-0022600285)
 
 Then Indiana came home and flipped the script.
 

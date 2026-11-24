@@ -12,6 +12,7 @@ import { cmsPage } from '../news/cms.mjs';
 import { ALL_STORIES, SAMPLES, stories, storiesIn, storiesInSeries, storiesBy, correctionsLog } from '../news/content.mjs';
 import { SERIES, seriesBySlug, seriesHref } from '../news/series.mjs';
 import { stickerImg } from '../news/stickers.mjs';
+import { signupBox, shareBar, followStrip } from '../news/share.mjs';
 import { SECTIONS, sectionBySlug, sectionHref } from '../news/sections.mjs';
 import { disclosures } from '../news/disclosure.mjs';
 import { storyList, storyCard, label, byline, editorLine, fmtWhen, fmtDate } from '../news/render.mjs';
@@ -121,8 +122,11 @@ const credit = (im) => `${im.creditUrl ? `<a href="${esc(im.creditUrl)}" target=
 
 // Stickers: the ones with a heading sit beside that ## heading, the rest in a
 // strip under the byline. Decorative only, never over a photo.
+// A paragraph that is nothing but bold (the ratings) is marked so it can print
+// as a boxed rule line; a paragraph with some bold in it is left alone.
 const stickerProse = (s) => s.stickers.filter((x) => x.heading).reduce((html, x) =>
-  html.replace(`<h2>${t(x.heading)}</h2>`, `<h2 class="np-h2-sticker">${stickerImg(x.sticker)}<span>${t(x.heading)}</span></h2>`), s.html);
+  html.replace(`<h2>${t(x.heading)}</h2>`, `<h2 class="np-h2-sticker">${stickerImg(x.sticker)}<span>${t(x.heading)}</span></h2>`), s.html)
+  .replace(/<p><strong>([^<]*)<\/strong><\/p>/g, '<p class="np-rating"><strong>$1</strong></p>');
 
 export function storyBody(s) {
   const major = s.corrections.filter((c) => c.major);
@@ -132,7 +136,7 @@ export function storyBody(s) {
   return `
 <article class="wrap np-story">
   <header class="np-story-head">
-    <p class="np-story-kick">${label(s)} <a href="${sectionHref(sectionBySlug[s.section])}">${esc(sectionBySlug[s.section].name)}</a>${s.series && seriesBySlug[s.series] ? ` <a class="np-series" href="${seriesHref(seriesBySlug[s.series])}">${esc(seriesBySlug[s.series].name)}</a>` : ''}</p>
+    <p class="np-story-kick">${label(s)} <a href="${sectionHref(sectionBySlug[s.section])}">${esc(sectionBySlug[s.section].name)}</a>${s.series && seriesBySlug[s.series] ? ` <a class="np-series" href="${seriesHref(seriesBySlug[s.series])}">${seriesName(seriesBySlug[s.series])}</a>` : ''}</p>
     <h1>${t(s.headline)}</h1>
     ${s.dek ? `<p class="np-dek">${t(s.dek)}</p>` : ''}
     <p class="np-byline">${byline(s)}</p>
@@ -156,6 +160,9 @@ export function storyBody(s) {
 </article>`;
 }
 
+// A series name, with YOUR in Back YOUR Blue set off the way the series writes it.
+const seriesName = (sr) => esc(sr.name).replace(/\bYOUR\b/, '<span class="np-your">YOUR</span>');
+
 // The newspaper nameplate on a story: town and date in the ears, the folio
 // line under the name. Every value comes from the story or the paper.
 const plateDay = (iso) => new Intl.DateTimeFormat('en-US', { timeZone: 'America/Indiana/Indianapolis', weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }).format(new Date(iso));
@@ -168,7 +175,7 @@ const newsPlate = (s, sec) => {
     <p class="np-plate-name">${esc(PAPER.name)}</p>
     <p class="np-ear np-ear-r">${esc(plateDay(s.published))}</p>
   </div>
-  <p class="np-folio"><span class="np-folio-day">${esc(plateDay(s.published))}</span><span>${esc(sec.name)}${sr ? ` · ${esc(sr.name)}` : ''} · ${esc(s.label)}</span></p>
+  <p class="np-folio"><span class="np-folio-day">${esc(plateDay(s.published))}</span><span>${esc(sec.name)}${sr ? ` · ${seriesName(sr)}` : ''} · ${esc(s.label)}</span></p>
 </div>`;
 };
 
@@ -184,7 +191,8 @@ function storyPage(ctx, s) {
     ...ctx, path: s.href, title: s.headline, description: s.dek || s.headline, banner,
     crumbs: [['/news/', 'News'], [sectionHref(sec), sec.name], ['', s.headline]],
     styles: ['kindle.css', 'newsprint.css'],
-    body: reader({ section: sec.name, variant: 'news', inner: newsPlate(s, sec) + storyBody(s) }) + inThisStory(s) + `<div class="wrap np-story-end">${s.section === 'sports' ? playCta(true) : ''}${storyAsk()}</div>`,
+    body: reader({ section: sec.name, variant: 'news', cls: s.series ? `kd-series-${s.series}` : '', inner: newsPlate(s, sec) + storyBody(s) }) + `<div class="wrap np-story-end">${shareBar({ path: s.href, title: s.headline, text: s.dek })}${signupBox({ compact: true })}</div>` + inThisStory(s) + `<div class="wrap np-story-end">${s.section === 'sports' ? playCta(true) : ''}${storyAsk()}${followStrip({ feeds: s.series && seriesBySlug[s.series] ? [[`${seriesHref(seriesBySlug[s.series])}feed.xml`, seriesBySlug[s.series].name]] : [] })}</div>`,
+    feeds: s.series && seriesBySlug[s.series] ? [[`${seriesHref(seriesBySlug[s.series])}feed.xml`, seriesBySlug[s.series].name]] : [],
     ld: s.sample || s.draft ? [] : [newsArticleLd({ ...s, sectionName: sec.name }, { people: s.bylines.map((b) => person(b)), paper: PAPER })],
   });
 }
@@ -197,9 +205,10 @@ function sectionPage(ctx, sec) {
   ${sec.links ? `<nav class="chips np-sec-links" aria-label="Related">${sec.links.map(([h, l]) => `<a class="pill" href="${h}">${esc(l)}</a>`).join('')}</nav>` : ''}
   ${sec.areas ? `<nav class="chips np-sec-links" aria-label="Neighborhoods">${AREAS.map((a) => `<a class="pill" href="/n/${a.slug}/">${esc(a.label)}</a>`).join('')}</nav>` : ''}
   ${storyList(items, { showSection: false, empty: 'No stories in this section yet.' })}
+  ${followStrip({ feeds: [[`/news/${sec.slug}/feed.xml`, sec.name]] })}
 </section>
 ${sec.events ? eventsSection({ mode: 'upcoming', id: 'whats-on', title: 'What’s on', kicker: 'Signature events' }) : ''}`;
-  return newsPage({ ...ctx, path: sectionHref(sec), title: sec.name, description: sec.blurb, crumbs: [['/news/', 'News'], ['', sec.name]], body, scripts: sec.events ? ['hub.js', 'events.js'] : [] });
+  return newsPage({ ...ctx, path: sectionHref(sec), title: sec.name, description: sec.blurb, crumbs: [['/news/', 'News'], ['', sec.name]], body, scripts: sec.events ? ['hub.js', 'events.js'] : [], feeds: [[`/news/${sec.slug}/feed.xml`, sec.name]] });
 }
 
 function seriesPage(ctx, sr) {
@@ -208,8 +217,11 @@ function seriesPage(ctx, sr) {
 <section class="wrap np-section">
   <header class="np-doc-head"><p class="kicker">A series</p><h1>${esc(sr.name)}</h1><p class="np-dek">${esc(sr.blurb)}</p></header>
   ${storyList(items, { empty: `The first ${sr.name} story is on its way.` })}
+  ${shareBar({ path: seriesHref(sr), title: `${sr.name}, from ${PAPER.name}`, text: sr.blurb, label: 'Share this series' })}
+  ${signupBox({ compact: true })}
+  ${followStrip({ feeds: [[`${seriesHref(sr)}feed.xml`, sr.name]] })}
 </section>`;
-  return newsPage({ ...ctx, path: seriesHref(sr), title: sr.name, description: sr.blurb, crumbs: [['/news/', 'News'], ['', sr.name]], body });
+  return newsPage({ ...ctx, path: seriesHref(sr), title: sr.name, description: sr.blurb, crumbs: [['/news/', 'News'], ['', sr.name]], body, feeds: [[`${seriesHref(sr)}feed.xml`, sr.name]] });
 }
 
 function samplesPage(ctx) {
@@ -245,6 +257,7 @@ function frontPage(ctx) {
   </div>
   <aside class="np-front-side">
     ${weatherBox()}
+    ${signupBox({ compact: true })}
     ${playCta()}
     ${sponsorSlot('front')}
     ${changes.length ? `<section class="np-box"><h2>Openings and closings</h2>${changes.map((s) => storyCard(s, { size: 'line', showSection: false })).join('')}<a class="np-more" href="/news/business/">More business news</a></section>` : ''}
