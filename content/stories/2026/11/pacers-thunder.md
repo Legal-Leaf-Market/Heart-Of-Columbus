@@ -52,7 +52,7 @@ Prices were reasonable.
 
 Jake's note so far: staff were friendly.
 
-[One moment that showed it.]
+Staff pointed us the wrong direction first for Chick-fil-A, but then two lovely ladies corrected us on where the new location was.
 
 **Rating: 5 out of 5**
 
