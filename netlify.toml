@@ -5,10 +5,10 @@
 
 [build.environment]
   NODE_VERSION = "22"
-
-# Deploy previews show the newspaper's News link; production waits for launch.
-[context.deploy-preview.environment]
+  # The paper is launched (Jake, 2026-11-24): the News link shows in the main
+  # menu everywhere. Search indexing is a separate switch (HOC_INDEX).
   NEWS_LIVE = "1"
+
 
 [[headers]]
   for = "/fonts/*"

@@ -13,6 +13,7 @@ import { ALL_STORIES, SAMPLES, stories, storiesIn, storiesInSeries, storiesBy, c
 import { SERIES, seriesBySlug, seriesHref } from '../news/series.mjs';
 import { stickerImg } from '../news/stickers.mjs';
 import { signupBox, shareBar, followStrip } from '../news/share.mjs';
+import { historyBanner } from '../banners.mjs';
 import { SECTIONS, sectionBySlug, sectionHref } from '../news/sections.mjs';
 import { disclosures } from '../news/disclosure.mjs';
 import { storyList, storyCard, label, byline, editorLine, fmtWhen, fmtDate } from '../news/render.mjs';
@@ -266,6 +267,7 @@ function frontPage(ctx) {
 </div>
 ${rail('Open right now', '/explore/?open=1', directory.filter((b) => b.hours && !b.tempClosed && ['restaurants', 'coffee-sweets', 'bars'].includes(b.cat)).slice(0, 150), { kicker: 'From the directory', openOnly: true, id: 'open-now' })}
 ${eventsSection({ mode: 'weekend', id: 'this-weekend', title: 'This weekend in Columbus', kicker: 'Happening Friday to Sunday' })}
+${historyBanner()}
 ${bySection.length ? `<div class="wrap np-sections">${bySection.map(([sec, xs]) => `<section class="np-sec-block"><h2><a href="${sectionHref(sec)}">${esc(sec.name)}</a></h2>${xs.map((s) => storyCard(s, { size: 'line', showSection: false })).join('')}</section>`).join('')}</div>` : ''}`;
   return newsPage({ ...ctx, path: '/news/', title: 'News', description: 'Local news for Columbus, Indiana: the city, the county, schools, business, food, architecture, sports and things to do.', body, scripts: ['hub.js', 'events.js', 'news.js'] });
 }

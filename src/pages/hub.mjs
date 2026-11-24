@@ -1,3 +1,5 @@
+import { smartCarousel, slides, orderDirectBanner, newsletterBanner, historyBanner } from '../banners.mjs';
+import { stories } from '../news/content.mjs';
 import { siteLd } from '../jsonld.mjs';
 // The home page: a front door to every independent business in Columbus.
 import { page, esc, t } from '../layout.mjs';
@@ -111,6 +113,8 @@ ${header()}
   </div>
 </section>
 
+${smartCarousel(slides({ news: stories[0] }))}
+
 <section class="cats wrap" aria-labelledby="cats-h">
   <div class="fg-head"><div><p class="kicker">Browse by category</p><h2 id="cats-h">What are you after today?</h2></div>
     <p class="fg-head-note">Every category, every count, straight from the directory. Hungry, fixing something, or booking a cut.</p></div>
@@ -123,11 +127,15 @@ ${header()}
   </ul>
 </section>
 
+${newsletterBanner()}
+
 ${spotlightSection({ title: 'Meet your neighbors.' })}
+
+${o ? orderDirectBanner({ n: o }) : ''}
 
 ${o || k || f ? `<section class="wrap go-band" aria-labelledby="go-h">
   <div class="go-box">
-    <div class="go-copy"><p class="kicker">No app in the middle</p><h2 id="go-h">Go straight to the source.</h2>
+    <div class="go-copy"><p class="kicker">No app in the middle</p><h2 id="go-h">Book and shop direct, too.</h2>
     <p>These places already run their own online ordering, booking or store. We send you to theirs, so they keep the whole ticket. We never take payment.</p></div>
     <ul class="go-tiles" role="list">
       ${o ? `<li><a href="/order/#order">${sticker('takeaway', { size: 72 })}<span><b>${o}</b> order pickup online</span>${svg('arrow', 'ic-sm')}</a></li>` : ''}
@@ -173,6 +181,8 @@ ${railsShown.map(([title, href, fn, kicker]) => rail(title, href, pick(fn), { ki
     ${trails.map((x) => `<li><a class="trail-row" href="${x.href}">${sticker(x.stk, { size: 64 })}<span class="trail-txt"><span class="trail-k">${esc(x.kicker)}</span><strong>${esc(x.title)}</strong></span><span class="trail-n">${x.n} places</span><span class="trail-go">See all ${svg('arrow', 'ic-sm')}</span></a></li>`).join('')}
   </ul>
 </section>
+
+${historyBanner()}
 
 <section class="athens" id="architecture" aria-labelledby="athens-h">
   <div class="wrap athens-head">
@@ -278,7 +288,7 @@ ${footer()}`;
     title: 'Heart of Columbus | Local Businesses in Columbus, Indiana',
     description: `${total} independent restaurants, shops, salons and trades in Columbus, Indiana. Browse by category or neighborhood, and order direct.`,
     body,
-    scripts: ['site.js', 'hub.js', 'events.js'],
+    scripts: ['site.js', 'hub.js', 'events.js', 'banners.js', 'subscribe.js'],
     styles: ['hoc.css'],
     assets,
     ld: [siteLd()],
