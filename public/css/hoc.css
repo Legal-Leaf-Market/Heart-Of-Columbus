@@ -2060,6 +2060,19 @@ a.tag:not(.tag-member):hover { filter: brightness(.96); }
 .biz-photo-ask a { text-decoration: underline; text-underline-offset: 3px; }
 @media (max-width: 600px) { .biz-head h1 { font-size: 34px; } body { line-height: 1.6; } }
 
+/* Boost: paid, always labeled (src/promotions.mjs). */
+.tag-boost { background: var(--gold); color: var(--ink); }
+.promo { padding-top: 48px; }
+.promo-head { margin-bottom: 16px; }
+.promo-head h2 { font-size: clamp(26px, 3.4vw, 38px); }
+.promo-grid { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 700px) { .promo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.promo-item { display: grid; gap: 8px; align-content: start; }
+.promo-line, .promo-offer { font-size: 15px; }
+.promo-note { margin-top: 12px; }
+.promo-side .kicker { color: var(--ink); background: var(--gold); display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; }
+.promo-side .side-body p { display: block; }
+.promo-side .kicker { width: auto; }
 /* Pickup cart (public/js/cart.js) */
 .cd-summary { font-size: 14px; margin: 0 0 12px; }
 .cd-store-h { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }

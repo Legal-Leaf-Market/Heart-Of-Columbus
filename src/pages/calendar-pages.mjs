@@ -1,4 +1,5 @@
 // Local events (/events/) and the printable listing (/events/print/).
+import { boostedRow } from '../promotions.mjs';
 // The listings come live from /api/events (netlify/functions/events.mjs),
 // which reads each organizer's calendar and is cached for an hour; the
 // browser draws them (public/js/calendar.js). The hand-entered ones ride
@@ -88,6 +89,7 @@ ${breadcrumbs([['/', 'Home'], ['', 'Local events']])}
     </p>
   </div>
 </section>
+${boostedRow('events', { title: 'Boosted around town' })}
 ${fairCard()}
 <div class="wrap cal-wrap">
   <form class="cal-filters" data-cal-filters onsubmit="return false" aria-label="Filter events">

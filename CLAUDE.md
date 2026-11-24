@@ -44,6 +44,16 @@ Indiana. A pitch, not a live service. See README.md.
   page and on any story tagging it (`src/news/disclosure.mjs`). Search
   ranking never reads membership, and the free listing never depends on it.
   The offer is explained at `/owners/#members`. tests/members.test.mjs.
+- **Boost is paid, so it is always labeled.** `src/promotions.mjs` reads
+  agreements in `src/data/sponsors.mjs` (`boost: true`, `confirmed`, `by`,
+  `since`, `until`; empty until an owner pays). A boosted listing sorts to the
+  top of its category and neighborhood lists, is featured in the Boosted row
+  on the home page and /events/ (three at most), and shows as one side card on
+  other pages in its category. Every one of those says "Boosted · paid", the
+  sort never happens without the label, and the business's own page discloses
+  it. It stops on `until` (rows also come down in the browser). Search ranking
+  never reads it, nor does anything we write. Rates are Jake's to set; the
+  owners page says "Ask about rates" until then. tests/promotions.test.mjs.
 - **Owner picks come only from owners.** With none sent, no picks box shows at
   all (no placeholder rows); the business's own page gets a one-line invitation.
 - **Public events only.** `access()` in `src/event-feeds.mjs` reads a listing's
