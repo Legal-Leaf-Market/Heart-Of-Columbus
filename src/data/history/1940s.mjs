@@ -4,7 +4,7 @@ const CHECKED = '2026-10-26';
 const WP = 'https://en.wikipedia.org/wiki/';
 const ATTERBURY = ['Camp Atterbury, Wikipedia', WP + 'Camp_Atterbury'];
 const AIRPORT = ['Airport history, City of Columbus', 'https://www.columbus.in.gov/airport/about/history'];
-const MARKER = ['Atterbury Army Air Field historical marker, Indiana Historical Bureau', 'https://www.in.gov/history/markers/528.htm'];
+const MARKER = ['Atterbury Army Air Field historical marker, Indiana Historical Bureau', 'https://www.in.gov/history/state-historical-markers/find-a-marker/atterbury-army-air-field/'];
 const FCC = ['First Christian Church (Columbus, Indiana), Wikipedia', WP + 'First_Christian_Church_(Columbus,_Indiana)'];
 const ARVIN = ['Arvin Industries, Inc. (company history), Encyclopedia.com', 'https://encyclopedia.com/books/politics-and-business-magazines/arvin-industries-inc'];
 const CLESSIE_WAR = ['The people who built Cummins: Clessie and the War, Cummins Inc. (2026)', 'https://cummins.com/en-na/news/2026/04/15/people-who-built-cummins-clessie-and-war'];
@@ -51,7 +51,7 @@ export const A1940s = [
     ],
     sources: [FCC, ['First Christian Church, Visit Columbus Indiana', 'https://columbus.in.us/first-christian-church/'], ['First Christian: A Modern Masterwork, Christian Standard', 'https://christianstandard.com/first-christian-a-modern-masterwork']] }),
 
-  x({ slug: 'atterbury-army-air-field', when: '1943', section: 'service',
+  x({ checked: '2026-11-24', slug: 'atterbury-army-air-field', when: '1943', section: 'service',
     title: 'An air base north of town',
     dek: 'In 1942 the Army poured runways on farmland north of Columbus. The field trained bomber and glider crews, flew in the wounded, and became today’s Columbus Municipal Airport.',
     body: [
@@ -60,9 +60,9 @@ export const A1940s = [
       'Atterbury Army Air Field opened in February 1943. It trained crews for B-25 and B-26 medium bombers and for gliders. Cadets from Freeman Field in Seymour practiced takeoffs and landings there that spring.',
       'By 1944 the field had another job. Hospital planes landed with wounded soldiers from Europe, bound for Wakeman General Hospital at Camp Atterbury, about twelve miles away.',
       'After the war the base was shut down. It reopened in 1949 for Air Force Reserve training, with the 434th Troop Carrier Wing, and its units were called up for Korea. On November 13, 1954, it was renamed Bakalar Air Force Base for First Lieutenant John Edmond Bakalar of Hammond, Indiana, who was killed in action over France on September 1, 1944.',
-      'The marker says the base closed in 1970 and was given to the City of Columbus in 1972. It is now Columbus Municipal Airport. One original building was turned into a chapel and, in 1998, dedicated to Jean Lewellen Norbeck, a Women Airforce Service Pilot killed testing aircraft in 1944. The Atterbury Bakalar Air Museum sits beside the control tower.',
+      'The marker says the base closed in 1970. The City of Columbus received the title to the property in 1972, according to Wikipedia’s history of the base, and it is now Columbus Municipal Airport. One original building became a chapel; the marker says it was restored and named for Jean Lewellen Norbeck, a Women Airforce Service Pilot from Columbus, in the 1990s, and the air museum’s history dates the finished restoration to 1998. Norbeck was killed in service in 1944. The Atterbury Bakalar Air Museum sits beside the control tower.',
     ],
-    sources: [AIRPORT, MARKER, ['Columbus Municipal Airport (Indiana), Wikipedia', WP + 'Columbus_Municipal_Airport_(Indiana)']] }),
+    sources: [AIRPORT, MARKER, ['Columbus Municipal Airport (Indiana), Wikipedia', WP + 'Columbus_Municipal_Airport_(Indiana)'], ['Bakalar Air Force Base, Wikipedia', WP + 'Bakalar_Air_Force_Base'], ['Atterbury-Bakalar Air Museum, Wikipedia', WP + 'Atterbury-Bakalar_Air_Museum']] }),
 
   x({ slug: 'cummins-goes-to-war', when: '1943', section: 'industry',
     title: 'Engines for the Army and the Navy',
@@ -116,15 +116,17 @@ export const A1940s = [
     ],
     sources: [ATTERBURY, ['Civilians at Wakeman General Hospital, Indiana Military', 'https://www.indianamilitary.org/WakemanHospital/Civilians/Civilian.htm'], AIRPORT] }),
 
-  x({ slug: 'miller-takes-the-helm', when: '1947', section: 'industry',
+  x({ checked: '2026-11-24', slug: 'miller-takes-the-helm', when: '1947', section: 'industry',
     title: 'One year, two presidencies',
     dek: 'In 1947 J. Irwin Miller became president of both Cummins Engine Company and the family bank. He was 37.',
     body: [
       'The war years were hard on the people who had built Columbus’s two biggest family enterprises. William G. Irwin died in 1943. Clessie Cummins, worn down by the war, moved to California in July 1945. And in 1947 Hugh Th. Miller, who had run the bank since Irwin’s death, died too.',
       'That left J. Irwin Miller, Hugh’s son and W. G. Irwin’s great nephew, holding both jobs. According to the Bartholomew County Public Library’s history of the bank, he became president of Irwin Union Trust Company in 1947, after his father’s death. The same year he became president of Cummins Engine Company. A 2026 Cummins history says he took the job on the condition that Clessie Cummins become chairman of the board.',
+      'Wikipedia’s biography fills in the man who took both chairs. Born in Columbus on May 26, 1909, he graduated from Yale in 1931 as a member of Phi Beta Kappa, then studied philosophy, politics and economics at Balliol College, Oxford, from 1931 to 1933. On February 5, 1943, he married Xenia Simons, and during the Second World War he served as a lieutenant in the U.S. Navy in the South Pacific.',
       'Miller had come a long way since 1934, when he arrived as general manager of a company that had never made money. He had been executive vice president since 1944. Now he ran a company whose sales, company histories say, had reached $20 million in 1946, and which was about to ride the postwar boom in trucking.',
       'The bank was growing too. In 1947 the library timeline lists loans of $3,053,000 and net earnings of $105,000, more than double the $40,000 the bank had earned in 1937.',
-      'Miller served as Cummins president until 1951, when he became chairman, a post he held until 1977. At the bank he became board chairman in 1953. By the mid 1950s, Cummins sales topped $100 million.',
+      'Miller served as Cummins president until 1951, when he became chairman, a post he held until 1977. By the mid 1950s, Cummins sales topped $100 million.',
+      'At the bank he became board chairman in 1953, the library timeline says, and S. Ed Lauther, who had been with the bank since 1946, replaced him as president. Total assets that year were $30,965,481. The bank introduced a credit card in 1953, one of the first in the nation, the timeline notes, and in 1954 it took the name Irwin Union Bank and Trust Company to reflect how much commercial banking had grown.',
       'Miller would use both positions, and the foundation he set up in 1954, to change what Columbus looked like. In 1947 he was a 37 year old with two new jobs.',
     ],
     sources: [['J. Irwin Miller, Wikipedia', WP + 'J._Irwin_Miller'], ['Timeline history of Irwin Union Bank, Bartholomew County Public Library archives', 'https://bcplarchives.omeka.net/items/show/159'], CLESSIE_WAR, ['Cummins Engine Company, Inc. (company history), Encyclopedia.com', 'https://www.encyclopedia.com/books/politics-and-business-magazines/cummins-engine-company-inc']] }),

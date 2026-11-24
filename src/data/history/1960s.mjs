@@ -139,7 +139,7 @@ export const A1960s = [
       'The squadron earned a Presidential Unit Citation for its service from December 19, 1968, to May 31, 1969. It was released from active duty and returned to Bakalar on June 18, 1969.',
       'Within a year, the base itself was closed. The Indiana Historical Bureau marker at the old base chapel gives 1970 as the closing date. The airfield those crews came home to is now Columbus Municipal Airport.',
     ],
-    sources: [['71st Special Operations Squadron, Wikipedia', WP + '71st_Special_Operations_Squadron'], ['Airport history, City of Columbus', 'https://www.columbus.in.gov/airport/about/history'], ['Atterbury Army Air Field historical marker, Indiana Historical Bureau', 'https://www.in.gov/history/markers/528.htm']] }),
+    sources: [['71st Special Operations Squadron, Wikipedia', WP + '71st_Special_Operations_Squadron'], ['Airport history, City of Columbus', 'https://www.columbus.in.gov/airport/about/history'], ['Atterbury Army Air Field historical marker, Indiana Historical Bureau', 'https://www.in.gov/history/state-historical-markers/find-a-marker/atterbury-army-air-field/']] }),
 
   x({ checked: '2026-11-24', slug: 'cleo-rogers-library', when: '1969', section: 'architecture', landmark: 'library',
     title: 'I. M. Pei builds the library, and a street disappears',

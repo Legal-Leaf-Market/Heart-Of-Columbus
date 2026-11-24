@@ -26,7 +26,7 @@ export const A1950s = [
     ],
     sources: [['Columbus Drive-In, Cinema Treasures', 'https://www.cinematreasures.org/theaters/48928'], ['History of the Columbus Drive In, Historic Columbus Indiana', 'https://www.historiccolumbusindiana.org/drivein/drivein.html']] }),
 
-  x({ slug: 'korea-brings-soldiers-back', when: '1950', section: 'service',
+  x({ checked: '2026-11-24', slug: 'korea-brings-soldiers-back', when: '1950', section: 'service',
     title: 'Korea fills the camp and the air base again',
     dek: 'Four years after the Army shut down Camp Atterbury, the Korean War brought it back. The reserve airmen at the base north of town were called up too.',
     body: [
@@ -35,9 +35,9 @@ export const A1950s = [
       'Then war broke out in Korea in June 1950. On September 14, 1950, Camp Atterbury was reactivated when the 28th Infantry Division arrived to train.',
       'The 434th was called to active duty too. The airport history says it trained at Atterbury, moved to Lawson Air Force Base in Georgia, and served 21 months before returning to reserve status in Indiana. Wikipedia’s history of the airport lists the wing at the base from 1949 to 1952 and again from 1953 to 1969. The Indiana Historical Bureau marker at the old base chapel notes that, as in World War II, the field received wounded soldiers during the Korean War.',
       'On November 13, 1954, the air field was renamed Bakalar Air Force Base, honoring First Lieutenant John Edmond Bakalar of Hammond, Indiana, who was killed in action over France on September 1, 1944. Air Force reservists kept training there until the late 1960s.',
-      'The base closed in 1970 and was given to the City of Columbus in 1972, according to the marker. It became Columbus Municipal Airport. Camp Atterbury remains a National Guard training post.',
+      'The base closed in 1970, the marker says, and the City of Columbus received the title to the property in 1972, according to Wikipedia’s history of the base. It became Columbus Municipal Airport. Camp Atterbury remains a National Guard training post.',
     ],
-    sources: [['Camp Atterbury, Wikipedia', WP + 'Camp_Atterbury'], ['Airport history, City of Columbus', 'https://www.columbus.in.gov/airport/about/history'], ['Columbus Municipal Airport (Indiana), Wikipedia', WP + 'Columbus_Municipal_Airport_(Indiana)'], ['Atterbury Army Air Field historical marker, Indiana Historical Bureau', 'https://www.in.gov/history/markers/528.htm']] }),
+    sources: [['Camp Atterbury, Wikipedia', WP + 'Camp_Atterbury'], ['Airport history, City of Columbus', 'https://www.columbus.in.gov/airport/about/history'], ['Columbus Municipal Airport (Indiana), Wikipedia', WP + 'Columbus_Municipal_Airport_(Indiana)'], ['Atterbury Army Air Field historical marker, Indiana Historical Bureau', 'https://www.in.gov/history/state-historical-markers/find-a-marker/atterbury-army-air-field/'], ['Bakalar Air Force Base, Wikipedia', WP + 'Bakalar_Air_Force_Base']] }),
 
   x({ slug: 'a-diesel-on-the-pole', when: '1952', section: 'sports',
     title: 'A diesel on the pole at Indianapolis',
