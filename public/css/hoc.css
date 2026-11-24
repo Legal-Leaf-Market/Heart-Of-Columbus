@@ -950,6 +950,14 @@ section { scroll-margin-top: 130px; }
 .np-bar a { white-space: nowrap; padding: 6px 10px; border-radius: 999px; color: var(--muted); }
 .np-bar a:hover, .np-bar a[aria-current] { background: var(--wash); color: var(--ink); }
 .np-bar .np-flag { font-family: var(--display); font-weight: 800; font-size: 17px; color: var(--ink); padding-left: 0; margin-right: 6px; }
+.np-bar a.np-feat { font-style: italic; font-weight: 800; font-size: 15px; color: var(--brand); letter-spacing: -.005em; }
+.np-bar a.np-feat-back-your-blue { color: #1f3a6e; }
+.np-bar a.np-feat .np-your { text-decoration-thickness: 2px; }
+.np-bar a.np-feat:hover, .np-bar a.np-feat[aria-current] { background: var(--wash); }
+.np-bar a.np-feat-back-your-blue:hover, .np-bar a.np-feat-back-your-blue[aria-current] { color: #1f3a6e; background: #e8eef8; }
+.np-bar a.np-feat-jake-takes-the-town:hover, .np-bar a.np-feat-jake-takes-the-town[aria-current] { color: var(--brand); background: var(--blush-wash); }
+.np-bar a.np-feat + a:not(.np-feat) { margin-left: 6px; position: relative; }
+.np-bar a.np-feat + a:not(.np-feat)::before { content: ""; position: absolute; left: -5px; top: 25%; bottom: 25%; border-left: 1px solid var(--line); }
 .np-doc { max-width: 760px; padding-top: 18px; padding-bottom: 56px; }
 .np-doc-head { border-bottom: 1px solid var(--line); padding-bottom: 18px; margin-bottom: 8px; }
 .np-doc h1 { font-size: clamp(32px, 5vw, 52px); font-weight: 600; letter-spacing: -0.015em; }

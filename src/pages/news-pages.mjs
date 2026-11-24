@@ -91,7 +91,13 @@ export function inThisStory(s) {
 </section>`;
 }
 
-setBarLinks(() => SECTIONS.filter((s) => s.bar !== false).map((s) => [sectionHref(s), s.name]));
+setBarLinks(() => {
+  const inBar = SECTIONS.filter((s) => s.bar !== false);
+  return {
+    features: inBar.filter((s) => s.feature).map((s) => [sectionHref(s), s.name, `np-feat np-feat-${s.slug}`]),
+    sections: inBar.filter((s) => !s.feature).map((s) => [sectionHref(s), s.name]),
+  };
+});
 
 const host = (u) => new URL(u).hostname.replace(/^www\./, '');
 
