@@ -120,7 +120,8 @@
   // What is left at the bottom of a column gets a card from our history on
   // that page's topic or, failing that, an ad for ourselves. A history card
   // runs once in the edition; an ad at most three times, once per page.
-  const MIN = 0.85 * 96;
+  // A slim coupon strip fits a gap this small.
+  const MIN = 0.6 * 96;
   const elastic = '.pe-lines';
   function gapsNow(skipElastic) {
     paper.classList.add('pe-measure');
@@ -151,16 +152,22 @@
       const row = cell.closest('.pe-row');
       const body = sheet.querySelector('.pe-body');
       const rot = (list) => list.slice(turn % Math.max(1, list.length)).concat(list.slice(0, turn % Math.max(1, list.length)));
-      const coupons = ads.filter((a) => a.dataset.cap);
+      // Coupons biggest first, rotating among the shapes of one size.
+      const bySize = {};
+      for (const a of ads.filter((x) => x.dataset.cap)) (bySize[a.dataset.size || 2] ||= []).push(a);
+      const coupons = Object.keys(bySize).sort((a, b) => b - a).flatMap((k) => rot(bySize[k]));
       const order = [...coupons, ...cards.filter((c) => topics.includes(c.dataset.topic)), ...rot(ads.filter((a) => !a.dataset.cap)), ...rot(cards.filter((c) => !topics.includes(c.dataset.topic)))];
       let room = gap;
       cell.classList.add('pe-filled');
-      for (let n = 0; n < Math.min(3, Math.ceil(gap / (2.2 * 96))) && room > MIN; n++) {
+      for (let n = 0; n < 6 && room > MIN; n++) {
         let placed = false;
         for (const item of order) {
           const id = item.dataset.hist || item.dataset.house;
-          const cap = item.dataset.hist ? 1 : Number(item.dataset.cap) || 3;
-          if ((uses.get(id) || 0) >= cap || (item.dataset.house && sheet.querySelector(`[data-house="${id}"]`))) continue;
+          const cap = item.dataset.hist ? 1 : Number(item.dataset.cap || item.dataset.max) || 3;
+          const base = (item.dataset.house || '').replace(/-slim$/, '');
+          if ((uses.get(id) || 0) >= cap || (base && sheet.querySelector(`[data-house="${base}"], [data-house="${base}-slim"]`))) continue;
+          // One coupon per business on a page.
+          if (item.dataset.biz && sheet.querySelector(`[data-biz="${item.dataset.biz}"]`)) continue;
           const before = row.getBoundingClientRect().height;
           const copy = item.cloneNode(true);
           cell.append(copy);
@@ -173,9 +180,15 @@
         }
         if (!placed) break;
       }
-      if (!cell.querySelector('.pe-house, .pe-hcard')) cell.classList.remove('pe-filled');
+      if (!cell.querySelector('.pe-house, .pe-hcard, .pe-cp')) cell.classList.remove('pe-filled');
+      // What is still left goes to the last ad in the column, which grows and
+      // centers its content, so the column ends on color, not white space.
+      // With nothing that can grow, the pieces spread evenly down the column.
+      const grow = [...cell.children].filter((k) => k.matches('.pe-cp:not(.pe-cp-strip), .pe-house:not(.pe-house-slim)')).pop();
+      if (grow) grow.classList.add('pe-grow');
+      else if (cell.classList.contains('pe-filled')) cell.classList.add('pe-spread');
     }
-    for (const [cell, gap] of gapsNow(true)) if (gap > 2 * 96) room_.push(`Page ${cell.closest('.pe-sheet').dataset.page}: about ${(gap / 96).toFixed(1)} inches free at the bottom of ${what(cell.firstElementChild || cell)}`);
+    for (const [cell, gap] of gapsNow(true)) if (gap > 0.9 * 96) room_.push(`Page ${cell.closest('.pe-sheet').dataset.page}: about ${(gap / 96).toFixed(1)} inches free at the bottom of ${what(cell.firstElementChild || cell)}`);
   }
   const room_ = [];
   // Anything in the column pushed out of its box counts, not just the column.

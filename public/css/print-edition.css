@@ -452,6 +452,70 @@ mark.pe-check { background: #ffe58a; color: #5c3b00; font: 700 0.86em/1.3 var(--
 .pe-gathers li:nth-child(3n+2) .pe-decade { background: var(--pe-teal); }
 .pe-gathers li:nth-child(3n+3) .pe-decade { background: var(--pe-gold); color: var(--pe-ink) !important; }
 
+/* ---------- Coupons in many shapes ----------
+   One deal, several cuts (COUPON_SHAPES in print-pages.mjs): a classic
+   dashed clip, a ticket with a stub, a starburst, a hang tag, a gift
+   certificate and a slim strip for small gaps. The last ad in a column grows
+   (.pe-grow) and centers its content so the column ends on color. */
+.pe-cp { flex: none; position: relative; display: flex; flex-direction: column; margin-top: 0.14in; font: 8pt/1.32 var(--pe-sans); }
+.pe-stack > .pe-cp, .pe-cell > .pe-cp:first-child { margin-top: 0; }
+.pe-cp .pe-ad-tag { margin-bottom: 2pt !important; }
+.pe-cp .pe-coupon-what { font-weight: 800; font-size: 9.2pt; margin-bottom: 3pt !important; }
+.pe-cp.pe-grow, .pe-house.pe-grow { flex: 1 1 auto; }
+.pe-cp.pe-grow:not(.pe-cp-ticket):not(.pe-cp-burst):not(.pe-cp-strip) { justify-content: center; }
+.pe-cp-cert .pe-cp-main, .pe-cp-tag .pe-cp-main { flex: 1 1 auto; }
+@container (max-width: 4.6in) { .pe-house.pe-grow { justify-content: center; } }
+.pe-cell.pe-spread { justify-content: space-between; }
+.pe-house.pe-house-slim { display: block; margin-top: 0.12in; padding: 5pt 12pt; border-radius: 99pt; background: var(--pe-mint); font: 8pt/1.3 var(--pe-sans); }
+.pe-house-slim b { font: 800 10pt var(--pe-head); margin-right: 4pt; }
+
+/* A ticket: a tomato stub, a dashed tear line and notches on both edges. */
+.pe-cp-ticket { flex-direction: row; background: var(--pe-butter); border-radius: 6pt; overflow: hidden; }
+.pe-cp-ticket::before, .pe-cp-ticket::after { content: ""; position: absolute; top: 50%; width: 12pt; height: 12pt; margin-top: -6pt; border-radius: 50%; background: #fff; }
+.pe-cp-ticket::before { left: -6pt; } .pe-cp-ticket::after { right: -6pt; }
+.pe-cp-stub { flex: none; width: 0.95in; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2pt; padding: 8pt 6pt; background: var(--pe-red); color: #fff; border-radius: 6pt 0 0 6pt; text-align: center; border-right: 1.6pt dashed #fff; }
+.pe-cp-stub span { font: 800 6.4pt var(--pe-sans); text-transform: uppercase; letter-spacing: .12em; }
+.pe-cp-stub b { font: 900 21pt/.95 var(--pe-head); }
+.pe-cp-main { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; padding: 8pt 12pt 8pt 10pt; }
+
+/* A starburst, like a price sticker on a new appliance. */
+.pe-cp-burst { flex-direction: row; align-items: center; gap: 4pt; border: 1.5pt dashed var(--pe-teal); border-radius: var(--pe-r); background: var(--pe-mint); padding-left: 6pt; }
+.pe-burst { flex: none; width: 1.05in; height: 1.05in; transform: rotate(-8deg); }
+.pe-burst polygon { fill: var(--pe-gold); stroke: var(--pe-ink); stroke-width: 1.2; }
+.pe-burst text { text-anchor: middle; fill: var(--pe-ink); font-family: var(--pe-head); font-weight: 900; }
+.pe-burst .b1 { font-size: 27px; } .pe-burst .b2 { font-size: 15px; font-family: var(--pe-sans); letter-spacing: .12em; text-transform: uppercase; }
+.pe-cp-burst .pe-cp-main { padding-left: 4pt; }
+
+/* A hang tag, for a clothing shop: a pointed end and a punched hole. */
+.pe-cp-tag { background: var(--pe-blush); clip-path: polygon(18pt 0, 100% 0, 100% 100%, 18pt 100%, 0 50%); border-radius: 0 var(--pe-r) var(--pe-r) 0; padding-left: 22pt; }
+.pe-cp-hole { position: absolute; left: 10pt; top: 50%; width: 9pt; height: 9pt; margin-top: -4.5pt; border-radius: 50%; background: #fff; box-shadow: 0 0 0 1.4pt var(--pe-red); }
+.pe-cp-tag .pe-cp-main { margin: 5pt 5pt 5pt 0; padding: 6pt 9pt; border: 1pt dashed var(--pe-red); border-radius: 6pt; }
+.pe-cp-tag .pe-coupon-big { margin-top: 0 !important; }
+
+/* A gift certificate: a double frame, a centered title and a round seal. */
+.pe-cp-cert { padding: 4pt; border: 3pt double var(--pe-teal); border-radius: var(--pe-r); background: #fff; }
+.pe-cp-cert .pe-cp-main { padding: 7pt 9pt; border: 0.8pt solid var(--pe-teal); border-radius: 5pt; background: var(--pe-mint); }
+.pe-cert-h { font: italic 600 12pt/1.1 var(--pe-serif) !important; color: var(--pe-teal); text-align: center; margin: 0 0 5pt !important; }
+.pe-cert-row { display: flex; align-items: center; gap: 9pt; margin-bottom: 4pt; }
+.pe-cert-seal { flex: none; display: grid; place-items: center; width: 0.72in; height: 0.72in; border-radius: 50%; background: var(--pe-red); color: #fff; font: 900 20pt/1 var(--pe-head); box-shadow: inset 0 0 0 2pt var(--pe-red), inset 0 0 0 3pt #fff; transform: rotate(-6deg); }
+.pe-cp-cert .pe-coupon-big { font-size: 19pt !important; margin: 0 0 2pt !important; }
+
+/* A slim strip for small gaps: one rounded line, cut along the dashes. */
+.pe-cp-strip { flex-direction: row; align-items: center; gap: 8pt; padding: 4pt 12pt; border: 1.3pt dashed var(--pe-ink); border-radius: 99pt; background: var(--pe-butter); }
+.pe-cp-x { font-size: 11pt; color: var(--pe-red); }
+.pe-cp-big { flex: none; font: 900 15pt/1 var(--pe-head); color: var(--pe-red); white-space: nowrap; }
+.pe-cp-strip > div { min-width: 0; }
+.pe-cp-what { font: 700 7.8pt/1.25 var(--pe-sans) !important; }
+.pe-cp-ad { display: inline-block; padding: 0.5pt 4pt; margin-right: 2pt; border-radius: 99pt; background: var(--pe-ink); color: #fff; font: 800 5.8pt/1.3 var(--pe-sans); text-transform: uppercase; letter-spacing: .1em; vertical-align: 1pt; }
+.pe-cp-strip .pe-fine { margin-top: 1pt !important; font-size: 6.2pt !important; }
+@container (max-width: 2.6in) {
+  .pe-cp-ticket, .pe-cp-burst { flex-direction: column; }
+  .pe-cp-stub { width: auto; flex-direction: row; border-radius: 6pt 6pt 0 0; border-right: 0; border-bottom: 1.6pt dashed #fff; }
+  .pe-cp-ticket::before, .pe-cp-ticket::after { top: 18pt; }
+  .pe-cp-burst { align-items: center; padding: 6pt 0 0; }
+  .pe-cp-strip { flex-wrap: wrap; border-radius: var(--pe-r); }
+}
+
 /* ---------- The readiness page ---------- */
 .pe-status { max-width: 1100px; margin: 0 auto; padding: 32px 16px 80px; color: var(--pe-ink); font: 16px/1.5 var(--pe-sans); background: var(--paper, #fbf7f0); }
 body:has(.pe-status) { background: var(--paper, #fbf7f0); }
