@@ -42,9 +42,10 @@
   // One tab, walked through every add link. A tab we opened may be sent to
   // another address by us; each step is a normal visit to their store, so
   // their cart cookie is theirs and stays with the shopper.
-  function fillWoo(urls, onStep, onDone) {
-    var w = window.open(urls[0], '_blank');
+  function fillWoo(urls, onStep, onDone, tab) {
+    var w = tab || window.open(urls[0], '_blank');
     if (!w) { onDone(false); return; }
+    if (tab) { try { w.location.href = urls[0]; } catch (e) { onDone(false); return; } }
     var i = 0;
     onStep(0);
     (function next() {
@@ -103,6 +104,7 @@
     var G = groups(cart);
     var stops = [];
     var html = '<div class="cd-head"><h2>Your local cart</h2><button type="button" class="cd-x" data-cd-close aria-label="Close">✕</button></div>';
+    html += '<p class="cd-note cd-alert" data-cd-note hidden></p>';
     if (!cart.length) html += '<p class="cd-empty">Your cart is empty. Look for “Shop online” on a business page.</p>';
     else {
       var items = cart.reduce(function (a, l) { return a + l.qty; }, 0);
@@ -164,12 +166,50 @@
       more.innerHTML = ls.slice(1).map(function (l) { return '<a class="pill" href="' + esc(l.url) + '" target="_blank" rel="noopener">Open ' + esc(l.title) + ' ↗</a>'; }).join('');
       return;
     }
-    if (first.platform === 'shopify') { window.open(shopifyUrl(first.origin, ls, pickupOn(slug, first)), '_blank', 'noopener'); return; }
+    // In stock only (owner's rule): ask the store, this minute, before its
+    // checkout opens. The tab opens now, on the tap, so the browser allows it,
+    // and goes to the store once the answer is back.
+    var tab = window.open('about:blank', '_blank');
+    if (tab) { try { tab.opener = null; tab.document.title = 'Checking stock…'; } catch (x) { /* fine */ } }
+    co.disabled = true;
+    status.textContent = 'Checking stock at ' + first.store + '…';
+    checkStock(slug, ls).then(function (sold) {
+      co.disabled = false;
+      var gone = ls.filter(function (l) { return sold.indexOf(String(l.variantId)) !== -1; });
+      if (gone.length) {
+        write(read().filter(function (x) { return !(x.slug === slug && sold.indexOf(String(x.variantId)) !== -1); }));
+        renderDrawer();
+        ls = groups(read()).by[slug] || [];
+        status = $('[data-status="' + slug + '"]', drawer) || status;
+        more = $('[data-more="' + slug + '"]', drawer) || more;
+        co = $('[data-checkout="' + slug + '"]', drawer) || co;
+        var msg = 'Sold out at ' + first.store + ' just now, so we took it out of your cart: ' + gone.map(function (l) { return l.title; }).join(', ') + '.';
+        if (!ls.length) { if (tab) tab.close(); var box = $('[data-cd-note]', drawer); if (box) { box.textContent = msg; box.hidden = false; } return; }
+        status.textContent = msg;
+      } else status.textContent = '';
+      handOff(slug, ls, first, tab, co, status, more);
+    });
+  });
+  // Sold-out lines, read from the store by /api/stock. A slow or failed
+  // answer counts as none sold out: the store's own checkout still decides.
+  function checkStock(slug, ls) {
+    var done = false;
+    return new Promise(function (ok) {
+      setTimeout(function () { if (!done) { done = true; ok([]); } }, 7000);
+      fetch('/api/stock', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ slug: slug, lines: ls.map(function (l) { return { productId: l.productId, variantId: l.variantId, url: l.url }; }) }) })
+        .then(function (r) { return r.json(); })
+        .then(function (j) { if (!done) { done = true; ok((j && j.sold || []).map(String)); } })
+        .catch(function () { if (!done) { done = true; ok([]); } });
+    });
+  }
+  function handOff(slug, ls, first, tab, co, status, more) {
+    var go = function (u) { if (tab) tab.location.href = u; else window.open(u, '_blank', 'noopener'); };
+    if (first.platform === 'shopify') { go(shopifyUrl(first.origin, ls, pickupOn(slug, first))); return; }
     var urls = wooUrls(first.origin, ls);
     var listed = function () {
       more.innerHTML = urls.map(function (u, i) { return '<a class="pill" href="' + esc(u) + '" target="_blank" rel="noopener">Add ' + esc(ls[i].title) + (ls[i].variant ? ' (' + esc(ls[i].variant) + ')' : '') + ' ↗</a>'; }).join('');
     };
-    if (urls.length < 2) { window.open(urls[0], '_blank', 'noopener'); return; }
+    if (urls.length < 2) { go(urls[0]); return; }
     co.disabled = true;
     fillWoo(urls, function (i) {
       status.textContent = 'Adding ' + (i + 1) + ' of ' + urls.length + ' to their cart…';
@@ -178,8 +218,8 @@
       status.textContent = ok ? 'Done. Their tab has your items: open their cart there to check out. If one is missing, add it below.'
         : 'Your browser blocked the new tab. Add each item below instead.';
       listed();
-    });
-  });
+    }, tab);
+  }
   function paint() {
     var n = read().reduce(function (a, l) { return a + l.qty; }, 0);
     fab.hidden = !n;

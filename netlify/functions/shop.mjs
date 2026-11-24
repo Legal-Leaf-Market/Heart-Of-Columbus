@@ -1,6 +1,7 @@
 // GET /api/shop?slug=...  A business's live catalog, from its own store.
 // Shopify: /products.json. WooCommerce: the public Store API. Cached at the
-// CDN for six hours so we don't lean on the shop's server. `durable` puts the
+// CDN for 15 minutes (stock moves; the cart checks again at checkout through
+// /api/stock) so we don't lean on the shop's server. `durable` puts the
 // answer in Netlify's shared cache: without it each edge node kept its own
 // copy, so almost every visitor missed and waited on the shop (measured
 // 2026-11-24: 0.4 to 6.7 seconds a store, every request a miss).
@@ -10,13 +11,14 @@
 // grid prints. A 1,000 item catalog is ~280 KB whole and a few KB this way.
 import { COMMERCE } from '../../src/data/commerce.mjs';
 import { mapShopify, mapWoo, mapSquarespace } from '../../src/commerce-core.mjs';
+import { SHOP_RULES } from '../../src/data/shop-rules.mjs';
 
 export const config = { path: '/api/shop' };
 const UA = 'Mozilla/5.0 (compatible; HeartOfColumbusBot/1.0; +https://heartofcolumbus.netlify.app)';
 const json = (status, body, cache) =>
   new Response(JSON.stringify(body), {
     status,
-    headers: { 'content-type': 'application/json', 'cache-control': 'public, max-age=300', ...(cache ? { 'netlify-cdn-cache-control': 'public, durable, s-maxage=21600, stale-while-revalidate=86400' } : {}) },
+    headers: { 'content-type': 'application/json', 'cache-control': 'public, max-age=300', ...(cache ? { 'netlify-cdn-cache-control': 'public, durable, s-maxage=900, stale-while-revalidate=3600' } : {}) },
   });
 
 async function getJson(url) {
@@ -53,14 +55,15 @@ export async function wooCollection(origin, query, maxPages, get = getJson) {
 
 // One business's catalog, read from its own store. Shared with the daily
 // crawl (scripts/snapshot-catalogs.mjs), which saves the same thing to disk.
-export async function readCatalog(c, get = getJson) {
+export async function readCatalog(c, get = getJson, slug = '') {
   const origin = c.origin.replace(/\/+$/, '');
+  const rule = SHOP_RULES[slug];
   let items = [];
   if (c.platform === 'shopify') {
     for (let page = 1; page <= 4; page++) {
       const d = await get(`${origin}/products.json?limit=250&page=${page}`);
       const batch = (d && d.body && d.body.products) || [];
-      items = items.concat(mapShopify(origin, batch));
+      items = items.concat(mapShopify(origin, rule && rule.hideShopify ? batch.filter((p) => !rule.hideShopify(p)) : batch));
       if (batch.length < 250) break;
     }
   } else if (c.platform === 'woocommerce') {
@@ -90,7 +93,7 @@ export default async (req) => {
   // Listings store the origin as found ("https://shop.example/"); every path
   // in readCatalog and every cart link the browser builds starts with a slash.
   const origin = c.origin.replace(/\/+$/, '');
-  const items = await readCatalog(c);
+  const items = await readCatalog(c, getJson, slug);
   if (!items.length) return json(502, { ok: false, error: 'Their store did not answer. Try their website directly.', origin });
   return json(200, { ok: true, slug, platform: c.platform, origin, ...gridView(items, new URL(req.url).searchParams.get('top')) }, true);
 };

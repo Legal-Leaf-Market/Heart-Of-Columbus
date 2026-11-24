@@ -2424,3 +2424,4 @@ a.tag:not(.tag-member):hover { filter: brightness(.96); }
   .sr-invite { padding: 20px 16px; }
 }
 .shop-tie { margin: 0 0 12px; }
+.cd-alert { background: #fdecea; border: 1.5px solid #f2b8b0; border-radius: 12px; padding: 10px 12px; color: var(--ink); }
