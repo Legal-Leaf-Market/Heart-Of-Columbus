@@ -22,7 +22,7 @@ images:
     license: Used with permission
 methods: "[ONE LINE: for example, I bought my own ticket and paid for my own food.]"
 ---
-[YOUR OPENING: two sentences on the best moment of the night.]
+Eli and I made up as friends recently. I greeted her with a, "life's short" and hug less than a week ago after running into her at her birthday party.
 
 ## Getting there
 
