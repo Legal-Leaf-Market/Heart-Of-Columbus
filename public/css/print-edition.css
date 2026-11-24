@@ -262,7 +262,7 @@ body:has(.pe-paper) :where(a, button, summary):focus-visible { outline: 2px soli
 .pe-timeline ol b { color: var(--pe-red); }
 .pe-two { display: grid; grid-template-columns: 1fr 1fr; gap: var(--pe-gap); }
 .pe-next { background: var(--pe-ink); color: #fff; padding: 9pt 10pt; }
-.pe-next .pe-kicker { color: var(--pe-gold); }
+.pe-sheet .pe-next .pe-kicker { color: var(--pe-gold); }
 .pe-next h3 { font-size: 22pt; color: #fff; }
 .pe-next p { font-size: 9.8pt; line-height: 1.32; }
 .pe-next p + p { margin-top: 5pt; }
