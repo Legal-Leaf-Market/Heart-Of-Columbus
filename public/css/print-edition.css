@@ -4,10 +4,9 @@
    height that is left. public/js/print-edition.js fits text into that height.
 
    Type: Fraunces headlines, Newsreader body at 9.5 points, Archivo labels.
-   Look: a new appliance in a vintage style. Newspaper grid and type, with
-   enamel colors (tomato, mustard, teal), rounded panels, pill labels and a
-   three stripe trim, a nod to the town's mid century buildings. Everything
-   sits inside a half inch margin, so the printer needs no bleed. */
+   Newspaper grid and type, with enamel colors drawn from the town's
+   mid-century buildings. The reader reflows the same sheets on screen.
+   The printed design stays within the margins and needs no bleed. */
 
 @font-face { font-family: "Newsreader"; src: url("/fonts/newsreader-latin-opsz-normal.woff2") format("woff2"); font-weight: 200 800; font-style: normal; font-display: block; }
 @font-face { font-family: "Newsreader"; src: url("/fonts/newsreader-latin-opsz-italic.woff2") format("woff2"); font-weight: 200 800; font-style: italic; font-display: block; }
@@ -15,7 +14,7 @@
 @page { size: 11in 17in; margin: 0; }
 
 :root {
-  --pe-ink: #211f1b; --pe-red: #d4432b; --pe-gold: #e9a935; --pe-teal: #1d7471; --pe-gray: #5f5a52;
+  --pe-ink: #211f1b; --pe-red: #a83123; --pe-gold: #e9a935; --pe-teal: #1d7471; --pe-gray: #5f5a52;
   --pe-hair: #b3ab9f; --pe-tint: #f6efe1; --pe-tint2: #fdf3e7;
   --pe-mint: #e1f0ea; --pe-butter: #fcefc6; --pe-blush: #fbe2d9; --pe-r: 9pt;
   --pe-stripes: linear-gradient(to bottom, var(--pe-red) 0 2pt, transparent 2pt 3.2pt, var(--pe-gold) 3.2pt 5.2pt, transparent 5.2pt 6.4pt, var(--pe-teal) 6.4pt 8.4pt);
@@ -23,24 +22,50 @@
   --pe-gap: 0.17in;
 }
 
-/* ---------- Screen: a stack of pages on a gray table ---------- */
-body:has(.pe-paper) { background: #d6d1c6; }
-.pe-toolbar { position: sticky; top: 0; z-index: 20; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 18px; padding: 10px 16px; background: var(--pe-ink); color: #fff; font: 14px/1.35 var(--pe-sans); }
-.pe-toolbar p { margin: 0; }
-.pe-tb-status { color: var(--pe-gold); }
-.pe-tb-status.ok { color: #9be39b; }
-.pe-tb-status.bad { color: #ffb4a8; }
-.pe-tb-actions { display: flex; gap: 14px; align-items: center; margin-left: auto !important; }
-.pe-toolbar a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
-.pe-toolbar button { font: 600 14px var(--pe-sans); background: var(--pe-red); color: #fff; border: 0; border-radius: 6px; padding: 7px 12px; cursor: pointer; }
-.pe-toolbar label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
-.pe-tb-help { flex-basis: 100%; font-size: 12.5px; color: #cfc8bb; }
-.pe-tb-issues { flex-basis: 100%; margin: 0; padding: 0 0 0 18px; font-size: 13px; color: #ffd5cd; }
+/* ---------- Issue controls and tabloid proof ---------- */
+body:has(.pe-paper) { background: #e9e2d6; }
+.pe-toolbar { position: sticky; top: 0; z-index: 20; padding: 0 16px; background: #272722; color: #fcf7eb; font: 14px/1.4 var(--pe-sans); }
+.pe-toolbar-inner { position: relative; max-width: 1120px; min-height: 62px; margin: auto; display: flex; align-items: center; gap: 8px; }
+.pe-edition-label { display: grid; min-width: 0; gap: 2px; margin-right: auto; }
+.pe-edition-label a { font: 750 17px/1.1 var(--pe-head); color: inherit; }
+.pe-edition-label > span { color: #e0d8ca; font-size: 11px; }
+.pe-menu { flex: none; }
+.pe-menu summary { display: flex; align-items: center; gap: 8px; min-height: 42px; padding: 0 11px; border: 1px solid #827a6c; border-radius: 4px; cursor: pointer; list-style: none; font-weight: 650; }
+.pe-menu summary::-webkit-details-marker { display: none; }
+.pe-menu summary::after { content: ""; width: 7px; height: 7px; border: solid currentColor; border-width: 0 1px 1px 0; transform: translateY(-2px) rotate(45deg); }
+.pe-menu[open] summary, .pe-menu summary:hover { color: #24221c; background: #f3d28d; border-color: #f3d28d; }
+.pe-menu[open] summary::after { transform: translateY(2px) rotate(225deg); }
+.pe-menu-panel { position: absolute; top: calc(100% + 1px); right: 0; width: min(620px, 100%); max-height: calc(100dvh - 76px); overflow: auto; overscroll-behavior: contain; padding: 12px; border: 1px solid #a89c86; border-top: 3px solid var(--pe-gold); border-radius: 0 0 6px 6px; background: #fffaf0; color: var(--pe-ink); box-shadow: 0 14px 32px #29241935; }
+.pe-contents ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 12px; margin: 0; padding: 0; list-style: none; }
+.pe-contents a { display: flex; align-items: center; gap: 10px; min-height: 43px; padding: 7px 6px; border-bottom: 1px solid #ded3c2; line-height: 1.25; }
+.pe-contents a span, .pe-page-turn a span { color: var(--pe-red); font-size: 11px; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
+.pe-contents a:hover { background: #f4ead9; text-decoration: underline; }
+.pe-print-panel { width: min(390px, 100%); display: grid; gap: 9px; padding: 15px; }
+.pe-print-panel p, .pe-print-panel ul { margin: 0; }
+.pe-print-panel a { width: fit-content; color: var(--pe-red); text-decoration: underline; text-underline-offset: 3px; }
+.pe-print-panel button { min-height: 42px; padding: 7px 12px; border: 1px solid #a89c86; border-radius: 4px; font-weight: 650; cursor: pointer; }
+.pe-print-panel .pe-print-button, .pe-print-panel button[aria-pressed="true"] { border-color: var(--pe-teal); background: var(--pe-teal); color: #fff; }
+.pe-print-panel button:disabled { opacity: .55; cursor: wait; }
+.pe-print-panel label { display: flex; align-items: center; min-height: 36px; gap: 8px; cursor: pointer; }
+.pe-tb-status { font-weight: 700; }
+.pe-tb-status.bad { color: var(--pe-red); }
+.pe-tb-help, .pe-tb-issues { color: var(--pe-gray); font-size: 12px; }
+.pe-tb-issues { padding-left: 18px; list-style: disc; }
 .pe-paper { display: flex; flex-direction: column; align-items: center; gap: 0.35in; padding: 0.35in 0 1in; }
-.pe-sheet { box-shadow: 0 2px 4px rgba(0,0,0,.18), 0 18px 40px -20px rgba(0,0,0,.45); }
-.pe-sheet::after { content: "Page " attr(data-page); position: absolute; right: 0; bottom: -0.27in; font: 600 11px var(--pe-sans); color: #6b665c; letter-spacing: .08em; text-transform: uppercase; }
+.pe-sheet { box-shadow: 0 2px 6px #38291b28, 0 18px 40px -24px #38291b3d; }
+.pe-page-turn, .pe-full-text, .pe-cal-extra { display: none; }
 .pe-paper.pe-clean .pe-flag, .pe-paper.pe-clean .pe-note, .pe-paper.pe-clean .pe-over-tag { display: none !important; }
 .pe-paper.pe-clean .pe-over { outline: 0 !important; }
+html:has(.pe-paper) { scroll-padding-top: 74px; }
+body:has(.pe-paper) :where(a, button, summary):focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+@media screen and (max-width: 420px) {
+  .pe-toolbar { padding-inline: 10px; }
+  .pe-edition-label a { font-size: 15px; }
+  .pe-edition-count { display: none; }
+  .pe-menu summary { padding-inline: 8px; gap: 5px; font-size: 13px; }
+  .pe-contents ol { gap: 0 5px; font-size: 13px; }
+  .pe-contents a { gap: 6px; }
+}
 
 /* ---------- The page ---------- */
 .pe-sheet {
@@ -191,7 +216,8 @@ body:has(.pe-paper) { background: #d6d1c6; }
 .pe-inside { background: var(--pe-ink); color: #fff; padding: 7pt 8pt; }
 .pe-inside h3 { color: var(--pe-gold); font-size: 12pt; }
 .pe-inside ol { list-style: none; font: 600 7.6pt/1.55 var(--pe-sans); }
-.pe-inside li { display: flex; justify-content: space-between; gap: 6pt; border-bottom: 0.5pt solid rgba(255,255,255,.18); }
+.pe-inside li { border-bottom: 0.5pt solid rgba(255,255,255,.18); }
+.pe-inside li a { display: flex; justify-content: space-between; gap: 6pt; align-items: center; }
 .pe-inside li b { color: var(--pe-gold); }
 .pe-almanac table { width: 100%; border-collapse: collapse; font: 8pt/1.3 var(--pe-sans); margin-bottom: 4pt; }
 .pe-almanac th, .pe-almanac td { text-align: left; padding: 1.5pt 0; border-bottom: 0.5pt solid #ddd6ca; }
@@ -400,26 +426,22 @@ mark.pe-check { background: #ffe58a; color: #5c3b00; font: 700 0.86em/1.3 var(--
 .pe-colophon { font: 7.6pt/1.4 var(--pe-sans); color: #3a3731; }
 .pe-colophon p + p { margin-top: 4pt; }
 
-/* ---------- Retro modern trim ----------
-   Kept in one place so the look can change without touching the layout. */
-.pe-sheet .pe-kicker { width: fit-content; align-self: flex-start; max-width: 100%; padding: 2pt 6.5pt 1.6pt; border-radius: 99pt; background: var(--pe-red); color: #fff; letter-spacing: .1em; }
-.pe-next .pe-kicker, .pe-inside .pe-kicker { background: var(--pe-gold); color: var(--pe-ink); }
-.pe-flag { border-radius: 99pt; padding: 2pt 7pt; }
+/* ---------- Editorial trim ---------- */
+.pe-sheet .pe-kicker { width: fit-content; align-self: flex-start; max-width: 100%; padding: 2pt 0 1.6pt; color: var(--pe-red); letter-spacing: .1em; }
+.pe-flag { border-radius: 3pt; padding: 2pt 7pt; }
 
-/* Folio: the page number in a round dial, the section on a pill. */
 .pe-folio { align-items: center; padding-bottom: 4pt; border-bottom: 1.5pt solid var(--pe-ink); }
-.pe-pn { display: inline-grid; place-items: center; min-width: 17pt; height: 17pt; padding: 0 4pt; border-radius: 99pt; background: var(--pe-teal); color: #fff; font: 800 8.5pt/1 var(--pe-sans); letter-spacing: 0; }
-.pe-sec { font-style: normal; display: inline-block; padding: 2.2pt 7pt 1.8pt; border: 1pt solid var(--pe-ink); border-radius: 99pt; }
+.pe-pn { display: inline-grid; place-items: center; min-width: 17pt; height: 17pt; font: 800 10pt/1 var(--pe-head); letter-spacing: 0; }
+.pe-sec { font-style: normal; display: inline-block; color: var(--pe-red); }
 
-/* Masthead: a round "of", a first edition badge and the three stripe trim. */
-.pe-masthead { position: relative; }
-.pe-nameplate { font-size: 66pt; }
-.pe-nameplate span { display: inline-grid; place-items: center; width: 1.05em; height: 1.05em; margin: 0 .06em; border-radius: 50%; background: var(--pe-teal); color: #fff; font: italic 600 .4em/1 var(--pe-serif); vertical-align: .62em; }
-.pe-badge { position: absolute; right: 0.08in; top: 0.27in; width: 0.86in; height: 0.86in; display: grid; place-content: center; text-align: center; border-radius: 50%; background: var(--pe-gold); color: var(--pe-ink); transform: rotate(-9deg); box-shadow: inset 0 0 0 2.2pt var(--pe-gold), inset 0 0 0 3.2pt var(--pe-ink); }
-.pe-badge b { display: block; font: 900 15pt/1 var(--pe-head); }
-.pe-badge span { display: block; margin-top: 2pt; font: 800 5.8pt/1.15 var(--pe-sans); text-transform: uppercase; letter-spacing: .08em; }
-.pe-dateline { border-top: 0; padding-top: 12pt; background: var(--pe-stripes) top / 100% 8.4pt no-repeat; }
-.pe-row:has(.pe-masthead) + .pe-row { border-top: 1.5pt solid var(--pe-ink); }
+.pe-masthead { padding-top: 5pt; border-top: 4pt solid var(--pe-ink); }
+.pe-masthead .pe-first { color: var(--pe-red); }
+.pe-nameplate { font-size: 69pt; }
+.pe-nameplate span { font: italic 550 .5em/1 var(--pe-serif); vertical-align: .24em; }
+.pe-dateline { border-block: 1pt solid var(--pe-ink); padding: 4pt 0; }
+.pe-row:has(.pe-masthead) + .pe-row { border-top: 0; margin-top: 0.08in; padding-top: 0.07in; }
+.pe-factbox { border-radius: 0; border-top: 2pt solid var(--pe-teal); }
+.pe-qr a { color: inherit; text-decoration: none; }
 
 /* Panels: enamel colors with rounded corners. */
 .pe-sidebar, .pe-help, .pe-math, .pe-visitors, .pe-house, .pe-cal-all, .pe-disclose { border-radius: var(--pe-r); }
@@ -432,13 +454,11 @@ mark.pe-check { background: #ffe58a; color: #5c3b00; font: 700 0.86em/1.3 var(--
 .pe-brief, .pe-coupon, .pe-coupon-ad, .pe-survey, .pe-ad, .pe-card, .pe-wanted { border-radius: var(--pe-r); }
 .pe-inside { border-radius: var(--pe-r); background: var(--pe-teal); }
 .pe-inside h3 { color: #fff; }
-.pe-inside li { align-items: center; border-bottom-color: rgba(255,255,255,.22); }
+.pe-inside li { border-bottom-color: rgba(255,255,255,.22); }
 .pe-inside li b { display: inline-grid; place-items: center; min-width: 10.5pt; height: 10.5pt; margin: 0; border-radius: 99pt; background: var(--pe-gold); color: var(--pe-ink); font-size: 6.8pt; }
 .pe-next { border-radius: var(--pe-r); background: var(--pe-teal); }
-.pe-teaser { border-top: 0; border-radius: var(--pe-r); background: var(--pe-mint); }
-.pe-teaser:nth-child(4n+2) { background: var(--pe-butter); }
-.pe-teaser:nth-child(4n+3) { background: var(--pe-blush); }
-.pe-teaser:nth-child(4n+4) { background: var(--pe-tint); }
+.pe-teaser { border-top: 2pt solid var(--pe-teal); background: #f7f3e9; }
+.pe-teaser:nth-child(even) { border-top-color: var(--pe-red); }
 
 /* Photos get softened corners, like a new appliance's. */
 .pe-fig img, .pe-stop img, .pe-sw-photos img { border-radius: 5pt; }
@@ -528,64 +548,109 @@ mark.pe-check { background: #ffe58a; color: #5c3b00; font: 700 0.86em/1.3 var(--
 .pe-gathers li:nth-child(3n+3) .pe-titlecard span { color: var(--pe-butter); }
 .pe-cal-dl { display: none; }
 
-/* ---------- On a phone: the same pages in one readable column ----------
-   print-edition.js adds .pe-reflow below 760 pixels, after fitting at full
-   size. Printing always uses the tabloid layout above. */
-@media screen and (max-width: 759px) { .pe-toolbar { position: static; } }
+/* ---------- Screen reading view ----------
+   The fitter briefly uses the tabloid geometry. Print media always does. */
 @media screen {
-  .pe-reflow { gap: 18px; padding: 12px 10px 48px; }
-  .pe-reflow .pe-sheet { width: 100%; max-width: 640px; height: auto; overflow: visible; padding: 14px 14px 18px; font-size: 12pt; line-height: 1.42; border-radius: 6px; }
-  .pe-reflow .pe-sheet::after { bottom: -16px; }
-  .pe-reflow .pe-folio span:nth-child(2) { display: none; }
-  .pe-reflow .pe-folio { grid-template-columns: 1fr 1fr; }
-  .pe-reflow .pe-body, .pe-reflow .pe-fill, .pe-reflow .pe-fill > .pe-cell, .pe-reflow .pe-mod, .pe-reflow .pe-box, .pe-reflow .pe-stack, .pe-reflow .pe-lead, .pe-reflow .pe-lead-l, .pe-reflow .pe-lead-text, .pe-reflow .pe-calendar { flex: none !important; min-height: 0; height: auto; overflow: visible; }
-  .pe-reflow .pe-sheet * { flex-basis: auto !important; }
-  .pe-reflow .pe-cal-grid, .pe-reflow .pe-crop, .pe-reflow .pe-lines, .pe-reflow .pe-factbox, .pe-reflow .pe-lead-l > .pe-fig { flex: none !important; }
-  .pe-reflow .pe-house-slim { display: none; }
-  .pe-reflow .pe-row { display: block; }
-  .pe-reflow .pe-row + .pe-row { margin-top: 16px; padding-top: 14px; }
-  .pe-reflow .pe-cell { display: flex; flex-direction: column; gap: 10px; }
-  .pe-reflow .pe-cell + .pe-cell { margin-top: 16px; padding-top: 14px; border-top: 0.75pt solid var(--pe-hair); }
-  .pe-reflow .pe-cell + .pe-cell::before { display: none; }
-  .pe-reflow .pe-cell > * { margin-top: 0 !important; }
-  .pe-reflow .pe-text, .pe-reflow .pe-fill .pe-text, .pe-reflow .pe-lead-text .pe-text { column-count: 1 !important; overflow: visible; flex: none !important; font-size: 12pt; line-height: 1.45; }
-  .pe-reflow .pe-text p { text-indent: 0; margin-bottom: .55em; }
-  .pe-reflow .pe-lead, .pe-reflow .pe-wide, .pe-reflow .pe-split, .pe-reflow .pe-grid3, .pe-reflow .pe-two, .pe-reflow .pe-teasers, .pe-reflow .pe-figs, .pe-reflow .pe-how-cols, .pe-reflow .pe-ans-row, .pe-reflow .pe-sw-photos { display: grid; grid-template-columns: minmax(0, 1fr) !important; gap: 12px; }
-  .pe-reflow .pe-lead > *, .pe-reflow .pe-wide > *, .pe-reflow .pe-split > * { grid-column: auto !important; }
-  .pe-reflow .pe-how-cols > div + div { border-left: 0; padding-left: 0; }
-  .pe-reflow .pe-gift-cols, .pe-reflow .pe-free-cols, .pe-reflow .pe-sw, .pe-reflow .pe-cal-weekly ul { column-count: 1 !important; }
-  .pe-reflow .pe-gathers ol { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; }
-  .pe-reflow .pe-hed-lead, .pe-reflow .pe-hed-5, .pe-reflow .pe-hed-4 { font-size: 26pt; line-height: 1.02; }
-  .pe-reflow .pe-hed-3 { font-size: 22pt; } .pe-reflow .pe-hed-2 { font-size: 19pt; }
-  .pe-reflow .pe-spread-head h2, .pe-reflow .pe-byb-head h2 { font-size: 32pt; }
-  .pe-reflow .pe-byb-head { grid-template-columns: 1fr; }
-  .pe-reflow .pe-dek { font-size: 13pt !important; }
-  .pe-reflow .pe-masthead { padding-right: 0; }
-  .pe-reflow .pe-nameplate { font-size: 30pt; white-space: normal; }
-  .pe-reflow .pe-badge { position: static; margin: 6px auto 2px; width: 0.8in; height: 0.8in; }
-  .pe-reflow .pe-ears, .pe-reflow .pe-dateline { flex-wrap: wrap; gap: 4px 12px; justify-content: center; }
-  .pe-reflow .pe-inside ol { columns: 2; column-gap: 14px; }
-  .pe-reflow .pe-fig img { aspect-ratio: auto; max-height: 70vh; }
-  .pe-reflow .pe-pull { font-size: 17pt; }
-  .pe-reflow .pe-card { width: 100%; height: auto; }
-  .pe-reflow .pe-house, .pe-reflow .pe-hcard { flex-direction: column; align-items: flex-start; }
-  .pe-reflow .pe-cp-ticket, .pe-reflow .pe-cp-burst { flex-direction: column; }
-  .pe-reflow .pe-cp-stub { width: auto; flex-direction: row; border-right: 0; border-bottom: 1.6pt dashed #fff; border-radius: 6pt 6pt 0 0; }
-  .pe-reflow .pe-cp-strip { flex-wrap: wrap; border-radius: var(--pe-r); }
-  .pe-reflow .pe-lines { min-height: 0; }
-  /* The calendar becomes a list of days that have something on. */
-  .pe-reflow .pe-cal-grid { display: block; border: 0; }
-  .pe-reflow .pe-cal-grid .dow, .pe-reflow .pe-cal-day.blank:not(:has(li)), .pe-reflow .pe-cal-day:not(:has(li)):not(:has(.hol)) { display: none; }
-  .pe-reflow .pe-cal-day { overflow: visible; padding: 8px 0; border: 0; border-bottom: 0.5pt solid var(--pe-hair); font-size: 10pt; }
-  .pe-reflow .pe-cal-day .n { display: none; }
-  .pe-reflow .pe-cal-dl { display: block; margin-bottom: 3px; font: 800 12pt var(--pe-head); }
-  .pe-reflow .pe-cal-day .more { position: static; display: block; padding: 0; }
-  /* Puzzles shrink to the screen. */
-  .pe-reflow .pe-cw td { width: 19px; height: 19px; font-size: 10px; }
-  .pe-reflow .pe-cw sup { font-size: 5px; }
-  .pe-reflow .pe-ws td { width: 18px; height: 18px; font-size: 10px; }
-  .pe-reflow .pe-wordlist { grid-template-columns: repeat(2, auto); }
-  .pe-reflow .pe-crop { min-height: 200px; }
+  .pe-reading:not(.pe-fitting) { gap: 30px; padding: 22px 12px 64px; }
+  .pe-reading:not(.pe-fitting) .pe-sheet {
+    width: min(100%, 1120px); height: auto; overflow: visible; padding: clamp(16px, 4vw, 48px);
+    background: #fffdf7; font-size: 17px; line-height: 1.5;
+  }
+  .pe-reading:not(.pe-fitting) .pe-folio { align-items: center; margin-bottom: 24px; padding-bottom: 10px; font-size: 11px; }
+  .pe-reading:not(.pe-fitting) .pe-pn { font-size: 17px; }
+  .pe-reading:not(.pe-fitting) :is(.pe-body, .pe-fill, .pe-cell, .pe-mod, .pe-box, .pe-stack, .pe-lead, .pe-lead-l, .pe-lead-text) { flex: none; min-height: 0; height: auto; overflow: visible; }
+  .pe-reading:not(.pe-fitting) .pe-row { grid-template-columns: repeat(5, minmax(0, 1fr)); column-gap: clamp(20px, 3vw, 40px); }
+  .pe-reading:not(.pe-fitting) .pe-cell + .pe-cell::before { left: calc(clamp(20px, 3vw, 40px) / -2); }
+  .pe-reading:not(.pe-fitting) .pe-row + .pe-row { margin-top: 24px; padding-top: 24px; }
+  .pe-reading:not(.pe-fitting) .pe-row:has(.pe-masthead) + .pe-row { margin-top: 18px; padding-top: 8px; }
+  .pe-reading:not(.pe-fitting) :is(.pe-print-filler, .pe-trimmed, .pe-flow-empty, .pe-over-tag, .pe-cal-day .more) { display: none; }
+  .pe-reading:not(.pe-fitting) :is(.pe-full-text, .pe-cal-extra) { display: revert; }
+  .pe-reading:not(.pe-fitting) .pe-over { outline: none; }
+  .pe-reading:not(.pe-fitting) .pe-flag { position: static; align-self: flex-start; margin-top: 10px; }
+  .pe-reading:not(.pe-fitting) .pe-text { flex: none !important; column-count: 1; overflow: visible; max-width: 68ch; font-size: 18px; line-height: 1.52; hyphens: manual; }
+  .pe-reading:not(.pe-fitting) .pe-text p { text-indent: 0; margin-bottom: .68em; }
+  .pe-reading:not(.pe-fitting) .pe-prose :is(h2, h3, h4) { margin: 1.35em 0 .5em; font-size: 12px; }
+  .pe-reading:not(.pe-fitting) .pe-text > p:last-child { margin-bottom: 0; }
+  .pe-reading:not(.pe-fitting) .pe-text .pe-jump-out { text-align: left; margin-top: 12px; }
+  .pe-reading:not(.pe-fitting) :is(.pe-qr a, .pe-prose a, .pe-dek a, .pe-jump a, .pe-teaser-box h3 a) { text-decoration: underline; text-underline-offset: 3px; }
+  .pe-reading:not(.pe-fitting) .pe-qr { flex-wrap: wrap; }
+  .pe-reading:not(.pe-fitting) .pe-qr p { font-size: 12px; }
+  .pe-reading:not(.pe-fitting) .pe-qr p span { font-size: 10px; }
+  .pe-reading:not(.pe-fitting) .pe-endnote { flex-wrap: wrap; gap: 10px 16px; margin-top: 12px; padding-top: 12px; }
+  .pe-reading:not(.pe-fitting) .pe-methods { min-width: min(240px, 100%); font-size: 13px !important; }
+  .pe-reading:not(.pe-fitting) .pe-kicker { font-size: 11px !important; }
+  .pe-reading:not(.pe-fitting) .pe-hed { margin-bottom: .22em; font-size: clamp(28px, 4vw, 48px); }
+  .pe-reading:not(.pe-fitting) :is(.pe-hed-1, .pe-hed-2) { font-size: clamp(25px, 3.2vw, 34px); }
+  .pe-reading:not(.pe-fitting) .pe-hed-lead { max-width: 17ch; font-size: clamp(38px, 7vw, 82px); line-height: .98; }
+  .pe-reading:not(.pe-fitting) .pe-dek { max-width: 68ch; font-size: clamp(17px, 2vw, 22px) !important; line-height: 1.3 !important; }
+  .pe-reading:not(.pe-fitting) .pe-byline { margin-top: 8px; margin-bottom: 15px !important; padding-bottom: 10px; font-size: 10px !important; }
+  .pe-reading:not(.pe-fitting) .pe-fig figcaption, .pe-reading:not(.pe-fitting) .pe-credit { font-size: 11px; }
+  .pe-reading:not(.pe-fitting) .pe-box h3, .pe-reading:not(.pe-fitting) .pe-sidebar h3 { font-size: 22px; }
+  .pe-reading:not(.pe-fitting) :is(.pe-sidebar, .pe-box .pe-plain, .pe-brief, .pe-almanac p) { font-size: 14px; }
+  .pe-reading:not(.pe-fitting) .pe-brief { overflow-wrap: anywhere; }
+  .pe-reading:not(.pe-fitting) .pe-masthead { border-top-width: 6px; padding-top: 10px; }
+  .pe-reading:not(.pe-fitting) .pe-nameplate { font-size: clamp(45px, 9.8vw, 106px); white-space: normal; text-wrap: balance; line-height: .94; margin: 16px 0 7px; }
+  .pe-reading:not(.pe-fitting) .pe-motto { font-size: clamp(16px, 2vw, 21px); margin: 7px auto 14px !important; }
+  .pe-reading:not(.pe-fitting) :is(.pe-ears, .pe-dateline) { flex-wrap: wrap; gap: 5px 12px; font-size: 10px; }
+  .pe-reading:not(.pe-fitting) .pe-dateline { padding-block: 8px; }
+  .pe-reading:not(.pe-fitting) .pe-lead { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: clamp(16px, 3vw, 36px); align-items: start; }
+  .pe-reading:not(.pe-fitting) .pe-lead > * { grid-column: auto; }
+  .pe-reading:not(.pe-fitting) .pe-lead-l > .pe-fig img { aspect-ratio: 3 / 2; }
+  .pe-reading:not(.pe-fitting) :is(.pe-lead-l > .pe-fig img, .pe-teaser, .pe-inside, .pe-sidebar) { border-radius: 2px; }
+  .pe-reading:not(.pe-fitting) .pe-factbox { padding: 12px 15px; }
+  .pe-reading:not(.pe-fitting) .pe-inside { padding: 12px; }
+  .pe-reading:not(.pe-fitting) .pe-inside a { min-height: 30px; }
+  .pe-reading:not(.pe-fitting) .pe-teaser { padding: 12px; }
+  .pe-reading:not(.pe-fitting) .pe-teaser h3 { font-size: 19px; }
+  .pe-reading:not(.pe-fitting) .pe-teaser p:last-child { font-size: 14px; }
+  .pe-reading:not(.pe-fitting) .pe-teaser:hover h3, .pe-reading:not(.pe-fitting) .pe-inside a:hover { text-decoration: underline; }
+  .pe-reading:not(.pe-fitting) :is(.pe-spread-head, .pe-byb-head) h2 { font-size: clamp(35px, 6vw, 70px); }
+  .pe-reading:not(.pe-fitting) .pe-byb-head { grid-template-columns: 1fr; gap: 8px; }
+  .pe-reading:not(.pe-fitting) .pe-card { max-width: 100%; height: auto; }
+  .pe-reading:not(.pe-fitting) .pe-gathers ol { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .pe-reading:not(.pe-fitting) .pe-cal-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: none !important; gap: 12px; border: 0; }
+  .pe-reading:not(.pe-fitting) :is(.pe-cal-grid .dow, .pe-cal-day:not(:has(li, .hol)), .pe-cal-day .n) { display: none; }
+  .pe-reading:not(.pe-fitting) .pe-cal-day { padding: 10px; border: 0; border-top: 1px solid #cfc4b4; overflow: visible; font-size: 13px; line-height: 1.35; }
+  .pe-reading:not(.pe-fitting) .pe-cal-day.blank { grid-column: 1 / -1 !important; }
+  .pe-reading:not(.pe-fitting) .pe-cal-day li { margin-block: 5px; }
+  .pe-reading:not(.pe-fitting) .pe-cal-dl { display: block; margin-bottom: 5px; font: 750 17px var(--pe-head); }
+  .pe-reading:not(.pe-fitting) .pe-cal-weekly ul { column-count: 2; font-size: 13px; }
+  .pe-reading:not(.pe-fitting) .pe-page-turn { display: flex; gap: 10px; margin-top: 30px; padding-top: 12px; border-top: 2px solid var(--pe-ink); }
+  .pe-page-turn a { display: grid; align-content: center; gap: 4px; min-width: 0; min-height: 58px; padding: 8px 12px; background: #f4eee1; font: 750 15px/1.2 var(--pe-head); }
+  .pe-page-turn a:last-child { margin-left: auto; text-align: right; }
+  .pe-page-turn a:hover { background: #ebe0cb; text-decoration: underline; }
+}
+
+@media screen and (max-width: 800px) {
+  .pe-reading:not(.pe-fitting) .pe-folio { grid-template-columns: 1fr 1fr; }
+  .pe-reading:not(.pe-fitting) .pe-folio span:nth-child(2) { display: none; }
+  .pe-reading:not(.pe-fitting) .pe-row { display: block; }
+  .pe-reading:not(.pe-fitting) .pe-cell + .pe-cell { margin-top: 18px; padding-top: 16px; border-top: 1px solid #d4cabc; }
+  .pe-reading:not(.pe-fitting) .pe-cell + .pe-cell::before { display: none; }
+  .pe-reading:not(.pe-fitting) :is(.pe-lead, .pe-wide, .pe-split, .pe-grid3, .pe-two, .pe-how-cols, .pe-ans-row, .pe-sw-photos) { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .pe-reading:not(.pe-fitting) :is(.pe-wide, .pe-split) > * { grid-column: auto; }
+  .pe-reading:not(.pe-fitting) .pe-lead { grid-template-rows: auto; }
+  .pe-reading:not(.pe-fitting) .pe-lead-l { display: contents; }
+  .pe-reading:not(.pe-fitting) .pe-lead .pe-factbox { grid-column: auto; order: 1; }
+  .pe-reading:not(.pe-fitting) .pe-how-cols > div + div { border-left: 0; padding-left: 0; }
+  .pe-reading:not(.pe-fitting) :is(.pe-gift-cols, .pe-free-cols, .pe-sw) { column-count: 1; }
+  .pe-reading:not(.pe-fitting) :is(.pe-gathers ol, .pe-teasers, .pe-cal-grid) { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .pe-reading:not(.pe-fitting) .pe-fig img { max-height: 65vh; }
+  .pe-reading:not(.pe-fitting) .pe-card { width: 100%; height: auto; }
+  .pe-reading:not(.pe-fitting) .pe-ears { font-size: 9px; letter-spacing: .05em; }
+  .pe-reading:not(.pe-fitting) .pe-dateline { justify-content: center; text-align: center; }
+  .pe-reading:not(.pe-fitting) .pe-cw td { width: clamp(12px, 4.1vw, 32px); height: clamp(12px, 4.1vw, 32px); font-size: 10px; }
+  .pe-reading:not(.pe-fitting) .pe-cw sup { top: 1px; left: 1px; font-size: 6px; }
+  .pe-reading:not(.pe-fitting) .pe-ws td { width: clamp(13px, 4.5vw, 28px); height: clamp(13px, 4.5vw, 28px); font-size: 10px; }
+  .pe-reading:not(.pe-fitting) .pe-lines { min-height: 0; }
+}
+@media screen and (max-width: 480px) {
+  .pe-reading:not(.pe-fitting) { padding-inline: 8px; gap: 18px; }
+  .pe-reading:not(.pe-fitting) :is(.pe-teasers, .pe-cal-grid) { grid-template-columns: minmax(0, 1fr); }
+  .pe-reading:not(.pe-fitting) .pe-inside ol { columns: 2; column-gap: 16px; }
+  .pe-reading:not(.pe-fitting) .pe-inside li { break-inside: avoid; }
+  .pe-reading:not(.pe-fitting) .pe-cal-weekly ul { column-count: 1; }
+  .pe-reading:not(.pe-fitting) .pe-wordlist { grid-template-columns: repeat(2, auto); }
 }
 
 /* ---------- The readiness page ---------- */
@@ -622,5 +687,4 @@ body:has(.pe-status) { background: var(--paper, #fbf7f0); }
   .pe-paper { display: block; padding: 0; gap: 0; zoom: 1 !important; }
   .pe-sheet { box-shadow: none; break-after: page; page-break-after: always; margin: 0; }
   .pe-sheet:last-child { break-after: auto; page-break-after: auto; }
-  .pe-sheet::after { display: none; }
 }

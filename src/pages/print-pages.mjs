@@ -42,6 +42,7 @@ import { EDITION } from '../print/edition-2026-12.mjs';
 
 const E = EDITION;
 const BASE = `/print/${E.slug}/`;
+const pageAnchor = (n) => `page-${n}`;
 const SLOT_DIR = new URL(`../../content/print/${E.slug}/`, import.meta.url);
 const historyBy = Object.fromEntries(ARTICLES.map((a) => [`${a.group}/${a.slug}`, a]));
 const storyBy = Object.fromEntries(stories.map((s) => [s.slug, s]));
@@ -108,7 +109,7 @@ const QR = Object.fromEntries(await Promise.all([...qrUrls].map(async (u) => [u,
 const qr = (url, label = 'Read it online, with its sources') => {
   const u = abs(url);
   const svg = (QR[u] || '').replace('<svg ', `<svg class="pe-qr-code" role="img" aria-label="QR code for ${esc(short(u))}" `);
-  return `<div class="pe-qr">${svg}<p><b>${t(label)}</b><span>${esc(short(u))}</span></p></div>`;
+  return `<div class="pe-qr">${svg}<p><a href="${esc(u)}"><b>${t(label)}</b></a><span>${esc(short(u))}</span></p></div>`;
 };
 
 // ---------- Pieces ----------
@@ -124,7 +125,7 @@ const photoFig = (p, cls = '') => {
   if (!p) return '';
   if (p.key && PHOTOS[p.key]) {
     const ph = PHOTOS[p.key];
-    return `<figure class="pe-fig ${cls}"><img src="${esc(psrc(p.key))}" srcset="${esc(psrc(p.key))} 1280w" alt=""${esc(ph.title)}" style="object-position:${esc(ph.pos || '50% 50%')}"><figcaption>${t(p.caption || ph.title + '.')} <span class="pe-credit">Photo: ${t(ph.credit)}, ${t(ph.license)}, via Wikimedia Commons.</span>${p.note ? `<span class="pe-note">${t(p.note)}</span>` : ''}</figcaption></figure>`;
+    return `<figure class="pe-fig ${cls}"><img src="${esc(psrc(p.key))}" srcset="${esc(psrc(p.key))} 1280w" alt="${esc(p.alt || ph.title)}" style="object-position:${esc(ph.pos || '50% 50%')}"><figcaption>${t(p.caption || ph.title + '.')} <span class="pe-credit">Photo: ${t(ph.credit)}, ${t(ph.license)}, via Wikimedia Commons.</span>${p.note ? `<span class="pe-note">${t(p.note)}</span>` : ''}</figcaption></figure>`;
   }
   if (p.file) return `<figure class="pe-fig ${cls}"><img src="${esc(p.file)}" srcset="${esc(p.file)} 2000w" alt="${esc(p.alt || '')}"><figcaption>${t(p.caption || '')} <span class="pe-credit">Photo: ${t(p.credit || '')}${p.license ? `, ${t(p.license)}` : ''}</span></figcaption></figure>`;
   return `<figure class="pe-fig pe-fig-wanted ${cls}"><div class="pe-wanted"><b>Photo wanted</b><span>${t((p.note || '').replace(/^Photo wanted:\s*/, ''))}</span></div></figure>`;
@@ -222,19 +223,18 @@ function writerMod(m) {
 // ---------- Boxes ----------
 const BOX = {
   masthead: () => `<header class="pe-masthead">
-    <div class="pe-ears"><p>Volume ${E.volume}, Number ${E.number}</p><p>${t(E.date)}</p></div>
+    <div class="pe-ears"><p>Volume ${E.volume}, Number ${E.number}</p>${E.number === 1 ? '<p class="pe-first">First edition</p>' : ''}<p>${t(E.date)}</p></div>
     <h1 class="pe-nameplate">Heart <span>of</span> Columbus</h1>
-    <p class="pe-badge" aria-hidden="true"><b>No. ${E.number}</b><span>${E.number === 1 ? 'First edition' : t(E.date)}</span></p>
     <p class="pe-motto">The local paper that shows its work. Every story ends with a code to its sources.</p>
     <div class="pe-dateline"><span>${t(E.line)}</span><span>Columbus, Indiana</span><span>Free</span><span>${esc(short(ORIGIN))}</span></div>
   </header>`,
 
   'teaser-referendum': () => {
     const c = SLOTS.referendum.copy;
-    return `<section class="pe-box pe-teaser-box"><p class="pe-kicker">Schools · Page 3</p><h3>${t(c?.headline || 'The BCSC referendum, explained')}</h3><p>${t(c?.dek || 'What the “Vote yes” signs asked, what it costs and what it pays for.')}</p></section>`;
+    return `<section class="pe-box pe-teaser-box"><p class="pe-kicker">Schools · Page 3</p><h3><a href="#${pageAnchor(3)}">${t(c?.headline || 'The BCSC referendum, explained')}</a></h3><p>${t(c?.dek || 'What the “Vote yes” signs asked, what it costs and what it pays for.')}</p></section>`;
   },
 
-  inside: () => `<section class="pe-box pe-inside"><h3>Inside</h3><ol>${E.pages.slice(1).filter((p, i, a) => !a[i - 1] || a[i - 1].section !== p.section).map((p) => `<li><span>${t(p.section)}</span><b>${p.n}</b></li>`).join('')}</ol></section>`,
+  inside: () => `<section class="pe-box pe-inside"><h3>Inside</h3><ol>${E.pages.slice(1).filter((p, i, a) => !a[i - 1] || a[i - 1].section !== p.section).map((p) => `<li><a href="#${pageAnchor(p.n)}"><span>${t(p.section)}</span><b>${p.n}</b></a></li>`).join('')}</ol></section>`,
 
   almanac: () => {
     const al = almanac(E.month.year);
@@ -246,7 +246,7 @@ const BOX = {
       <p class="pe-fine">Computed for downtown Columbus with NOAA’s solar equations. Eastern Standard Time.</p></section>`;
   },
 
-  teasers: () => `<section class="pe-box pe-teasers">${[...E.teasers].sort((a, b) => a.page - b.page).map((x) => `<a class="pe-teaser"><p class="pe-kicker">${t(x.kicker)} · Page ${x.page}</p><h3>${t(x.title)}</h3><p>${t(x.text)}</p></a>`).join('')}</section>`,
+  teasers: () => `<section class="pe-box pe-teasers">${[...E.teasers].sort((a, b) => a.page - b.page).map((x) => `<a class="pe-teaser" href="#${pageAnchor(x.page)}"><p class="pe-kicker">${t(x.kicker)} · Page ${x.page}</p><h3>${t(x.title)}</h3><p>${t(x.text)}</p></a>`).join('')}</section>`,
 
   staff: () => `<section class="pe-box pe-staffbox"><h3>Who makes this paper</h3><ul>${staffList().map((s) => `<li><b>${t(s.name)}</b><span>${t(s.role)}</span></li>`).join('')}</ul><p class="pe-fine">Heart of Columbus is independent and local. It is free to read.</p></section>`,
 
@@ -400,7 +400,7 @@ const BOX = {
 
   crossword: () => {
     const cw = CW;
-    return `<section class="pe-box pe-crossword"><p class="pe-kicker">Puzzles</p><h2 class="pe-hed pe-hed-3">The Columbus crossword</h2><p class="pe-dek">Every answer is in our history. Answers on page 16.</p>${cwGrid(cw, false)}</section>`;
+    return `<section class="pe-box pe-crossword"><p class="pe-kicker">Puzzles</p><h2 class="pe-hed pe-hed-3">The Columbus crossword</h2><p class="pe-dek">Every answer is in our history. <a href="#${pageAnchor(16)}">Answers on page 16</a>.</p>${cwGrid(cw, false)}</section>`;
   },
 
   clues: () => `<section class="pe-box pe-clues"><h3>Across</h3><ol>${CW.across.map((p) => `<li value="${p.n}"><b>${p.n}</b> ${t(p.clue)} (${p.word.length})</li>`).join('')}</ol><h3>Down</h3><ol>${CW.down.map((p) => `<li value="${p.n}"><b>${p.n}</b> ${t(p.clue)} (${p.word.length})</li>`).join('')}</ol></section>`,
@@ -409,7 +409,7 @@ const BOX = {
 
   where: () => {
     const ph = PHOTOS.library;
-    return `<section class="pe-box pe-where"><h3>Where in Columbus?</h3><p class="pe-dek">A close look at something downtown. Where is it? Answer on page 16.</p><div class="pe-crop"><img src="${esc(ph.src)}" alt="A close crop of a Columbus landmark" style="object-position:62% 55%"></div><p class="pe-fine">Photo: ${t(ph.credit)}, ${t(ph.license)}, via Wikimedia Commons.</p></section>`;
+    return `<section class="pe-box pe-where"><h3>Where in Columbus?</h3><p class="pe-dek">A close look at something downtown. Where is it? <a href="#${pageAnchor(16)}">Answer on page 16</a>.</p><div class="pe-crop"><img src="${esc(ph.src)}" alt="A close crop of a Columbus landmark" style="object-position:62% 55%"></div><p class="pe-fine">Photo: ${t(ph.credit)}, ${t(ph.license)}, via Wikimedia Commons.</p></section>`;
   },
 
   wallet: () => `<section class="pe-box pe-wallet"><p class="pe-scissors">✂ Cut out and keep</p><div class="pe-card">
@@ -457,10 +457,16 @@ function mod(m) {
 }
 
 function sheet(pg) {
+  const previous = E.pages[pg.n - 2];
+  const next = E.pages[pg.n];
   const folio = pg.n === 1 ? '' : `<div class="pe-folio"><span>${pg.n % 2 ? `<i class="pe-sec">${t(pg.section)}</i>` : `<b class="pe-pn">${pg.n}</b>`}</span><span>Heart of Columbus · ${t(E.date)}</span><span>${pg.n % 2 ? `<b class="pe-pn">${pg.n}</b>` : `<i class="pe-sec">${t(pg.section)}</i>`}</span></div>`;
-  return `<section class="pe-sheet${pg.spread ? ` pe-spread-${pg.spread}` : ''}" data-page="${pg.n}" data-topics="${esc((pg.topics || []).join(' '))}" aria-label="Page ${pg.n}">
+  return `<section class="pe-sheet${pg.spread ? ` pe-spread-${pg.spread}` : ''}" data-page="${pg.n}" data-topics="${esc((pg.topics || []).join(' '))}" id="${pageAnchor(pg.n)}" tabindex="-1" aria-label="Page ${pg.n}, ${esc(pg.section)}">
   ${folio}
   <div class="pe-body">${pg.rows.map((row) => `<div class="pe-row${row.fill ? ' pe-fill' : ''}">${row.mods.map((m) => `<div class="pe-cell" style="grid-column:span ${m.span}">${mod(m)}</div>`).join('')}</div>`).join('')}</div>
+  <nav class="pe-page-turn" aria-label="Around page ${pg.n}">
+    ${previous ? `<a href="#${pageAnchor(previous.n)}"><span>← Page ${previous.n}</span>${t(previous.section)}</a>` : ''}
+    ${next ? `<a href="#${pageAnchor(next.n)}"><span>Page ${next.n} →</span>${t(next.section)}</a>` : `<a href="#${pageAnchor(1)}"><span>Back to page 1 ↑</span>Front page</a>`}
+  </nav>
 </section>`;
 }
 
@@ -568,13 +574,29 @@ const editionPage = ({ assets }) => page({
   path: BASE,
   styles: ['print-edition.css'], scripts: ['print-edition.js'], assets,
   head: '<link rel="preload" href="/fonts/newsreader-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>',
-  body: `<div class="pe-toolbar" data-pe-toolbar>
-    <p><b>${t(E.title)} · ${t(E.date)}</b> · 16 pages, 11 by 17 inches</p>
-    <p class="pe-tb-status" data-pe-status>Fitting the pages…</p>
-    <p class="pe-tb-actions"><a href="${BASE}status/">What’s left before printing</a><button type="button" data-pe-print>Print or save as PDF</button></p>
-    <p class="pe-tb-help">In the print dialog: paper size Tabloid (11 by 17), margins None, scale 100%, background graphics on.</p>
-  </div>
-  <main id="main" class="pe-paper">${E.pages.map(sheet).join('\n')}${houseAds()}</main>`,
+  body: `<header class="pe-toolbar" data-pe-toolbar>
+    <div class="pe-toolbar-inner">
+      <div class="pe-edition-label"><a href="/print/">${t(E.title)}</a><span>${t(E.date)} <span class="pe-edition-count">· ${E.pages.length} pages</span></span></div>
+      <details class="pe-menu" data-pe-menu>
+        <summary>Contents</summary>
+        <nav class="pe-menu-panel pe-contents" aria-label="Issue contents">
+          <ol>${E.pages.map((p) => `<li><a href="#${pageAnchor(p.n)}"><span>${String(p.n).padStart(2, '0')}</span>${t(p.section)}</a></li>`).join('')}</ol>
+        </nav>
+      </details>
+      <details class="pe-menu" data-pe-menu>
+        <summary>Print</summary>
+        <div class="pe-menu-panel pe-print-panel">
+          <p class="pe-tb-status" data-pe-status role="status">Preparing the tabloid proof…</p>
+          <button type="button" data-pe-proof aria-pressed="false" disabled>Tabloid proof</button>
+          <button type="button" class="pe-print-button" data-pe-print disabled>Print or save as PDF</button>
+          <label><input type="checkbox" data-pe-clean> Hide proof marks</label>
+          <p class="pe-tb-help">Choose Tabloid (11 × 17 in), no margins, 100% scale and background graphics.</p>
+          <a href="${BASE}status/">What’s left before printing</a>
+        </div>
+      </details>
+    </div>
+  </header>
+  <main id="main" class="pe-paper pe-reading" tabindex="-1">${E.pages.map(sheet).join('\n')}${houseAds()}</main>`,
 });
 
 const STATE_LABEL = { ready: 'Ready', draft: 'Draft', fix: 'Needs fixing', missing: 'Missing', optional: 'Optional' };
