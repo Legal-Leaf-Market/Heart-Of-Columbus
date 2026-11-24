@@ -139,6 +139,15 @@ version is `AI_POLICY` in `src/data/paper.mjs`, shown on /about/standards/.
 - **Reporters may use AI writing tools** (ChatGPT, Claude) to help shape
   their own words. The reporter decides what stays and the editor checks
   every fact. A story that used one says so in its `methods` note.
+- **The morning newsletter is drafted with AI, directed and approved by the
+  publisher** (owner decision, 2026-11-24). The publisher picks every item,
+  writes the angle and commentary, and lists the public sources; the writing
+  desk (`/newsroom/desk/`) drafts and tightens in the publisher's voice from
+  those alone, marks anything unsure `[CHECK]`, and cannot put a piece in an
+  edition until the publisher approves it. The publisher is both byline and
+  approver for the newsletter, so the "editor who is not the byline" rule
+  above applies to the website's stories, not to the newsletter. Every item
+  links its sources, and the email links this policy.
 - **History articles are drafted with the help of AI**, only from the
   public sources listed with each one, and an editor checks them against
   those sources. A fact that can't be sourced stays out.

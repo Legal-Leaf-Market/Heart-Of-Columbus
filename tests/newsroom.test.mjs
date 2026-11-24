@@ -15,7 +15,7 @@ globalThis.fetch = async (url, opts = {}) => {
 };
 const { default: newsroom } = await import('../netlify/functions/newsroom.mjs');
 const post = (b, headers = {}) => newsroom(new Request('https://h/api/newsroom', { method: 'POST', body: JSON.stringify(b), headers }));
-const inbox = async (kind, k = 'k'.repeat(24)) => newsroom(new Request(`https://h/api/newsroom?kind=${kind}&k=${k}`));
+const inbox = async (kind, k = 'k'.repeat(24)) => newsroom(new Request(`https://h/api/newsroom?kind=${kind}`, { headers: { 'x-hoc-key': k } }));
 
 test('each form requires what it says it requires', async () => {
   assert.equal((await post({ kind: 'ask' })).status, 400);

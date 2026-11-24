@@ -243,6 +243,15 @@ Indiana. A pitch, not a live service. See README.md.
   from memory; a source it cannot reach stays out. The editor's sign-off
   still applies, and news, obituaries and quotes not printed in a source are
   still off limits.
+  Second exception, granted by the owner on 2026-11-24: the morning
+  newsletter. The publisher directs every piece (angle, commentary, sources)
+  at the writing desk (`/newsroom/desk/`, `src/news/desk.mjs`,
+  `netlify/functions/desk.mjs`), the model drafts in the publisher's voice
+  from those alone, and nothing reaches an edition until the publisher
+  approves it (`blockers()` refuses a `[CHECK]`, a missing source or a
+  dash). The model never invents a quote, a person, a number or a source.
+  The morning job drafts the approved desk edition when there is one, and
+  never sends. docs/morning-paper.md is the routine.
 - **Sample content must look fake** (Sampleton, "Sample Reporter") and carry
   `sample: true`; it never appears in a published section.
 - **Automation makes leads, not stories.** Directory diffs and public-record

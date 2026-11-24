@@ -34,6 +34,7 @@ export const FUNDERS = [];
 export const AI_POLICY = [
   'Every story has a named person behind it. Reporting, facts, opinions and ratings come from the reporter, and an editor who is not the byline approves every piece before it runs.',
   'Reporters may use AI writing tools, such as ChatGPT or Claude, to help shape their own words: tightening a draft, suggesting a headline, fixing flow. The reporter decides what stays, and the editor checks every fact.',
+  'The morning newsletter is the publisher\'s own. The publisher picks every item, sets its angle and writes the commentary; an AI writing tool drafts and tightens from those notes and the public sources listed with each item; and the publisher edits, checks and approves every piece before the edition goes out. Each item links its sources.',
   'When an AI tool helped write a story, the story says so in its "How we reported this" note.',
   'Our history articles are drafted with the help of AI, only from the public sources listed with each one, and an editor checks them against those sources. A fact we cannot source stays out.',
   'AI never invents a quote, a person, a number or a source, and anything a tool tells us is a lead until a person confirms it.',

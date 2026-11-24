@@ -5,7 +5,7 @@
 // Privacy: we keep only what the form asks for. No IP address, user agent
 // or other request header is stored or logged.
 //
-// GET /api/newsroom?k=<HOC_ADMIN_KEY>&kind=tip lists submissions for the
+// GET /api/newsroom?kind=tip with an x-hoc-key: <HOC_ADMIN_KEY> header lists submissions for the
 // editor's inbox at /newsroom/inbox/. The key lives only in Netlify's
 // environment variables.
 import { blobStore } from '../../src/blobs.mjs';
@@ -47,7 +47,7 @@ export default async (req) => {
   try {
     if (req.method === 'GET') {
       const u = new URL(req.url);
-      if (!sameKey(process.env.HOC_ADMIN_KEY || '', u.searchParams.get('k') || '')) return json({ ok: false, error: 'Wrong inbox link.' }, 403);
+      if (!sameKey(process.env.HOC_ADMIN_KEY || '', req.headers.get('x-hoc-key') || '')) return json({ ok: false, error: 'Wrong inbox link.' }, 403);
       const kind = KINDS[u.searchParams.get('kind')] ? u.searchParams.get('kind') : 'ask';
       const index = (await store.getJSON(`${kind}/index`)) || [];
       const items = (await Promise.all(index.slice(-300).map((id) => store.getJSON(`${kind}/${id}`)))).filter(Boolean).reverse();
