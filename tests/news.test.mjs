@@ -1,6 +1,7 @@
 // The newspaper's rules: real people only in bylines, disclosures that
 // can't be forgotten, and trust pages that stay noindex until launch.
 import assert from 'node:assert/strict';
+import { LAUNCH } from '../src/indexing.mjs';
 import { test } from 'node:test';
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { STAFF, SAMPLE_STAFF } from '../src/data/staff.mjs';
@@ -37,10 +38,11 @@ test('tagging a partner or sponsor always adds a disclosure', () => {
 test('trust pages exist, are noindex, and explain every label', () => {
   for (const p of ['about/', 'about/standards/', 'about/corrections/', 'staff/']) {
     const html = read(p + 'index.html');
-    assert.match(html, /name="robots" content="noindex/, p);
+    // Before launch only; after it, tests/seo.test.mjs checks the page against src/indexing.mjs.
+    if (!LAUNCH) assert.match(html, /name="robots" content="noindex/, p);
   }
   const std = read('about/standards/index.html');
-  for (const id of ['ethics', 'ai', 'sources', 'anonymous', 'conflicts', 'labels', 'corrections']) assert.ok(std.includes(`id="${id}"`), id);
+  for (const id of ['ethics', 'two-people', 'sources', 'anonymous', 'conflicts', 'labels', 'corrections']) assert.ok(std.includes(`id="${id}"`), id);
 });
 
 // ---------- The content model (item 2) ----------
@@ -94,6 +96,7 @@ test('checkStory catches each broken rule', () => {
   bad({ images: [{ file: 'https://example.org/a.jpg', alt: 'A' }] }, /credit/);
   bad({ images: [{ file: 'https://example.org/a.jpg', credit: 'C', license: 'L' }] }, /alt/);
   bad({ sources: [{ name: 'No link' }] }, /source/);
+  bad({ images: [{ file: 'https://example.org/a.jpg', alt: 'A', credit: 'C', license: 'L', creditUrl: 'javascript:alert(1)' }] }, /creditUrl/);
   bad({ body: 'One — two' }, /dash/);
   bad({ sample: false, bylines: ['jacob-kennedy'], editor: 'jacob-kennedy' }, /own story/);
   bad({ sample: false, bylines: ['sample-reporter'] }, /byline/);
@@ -118,7 +121,8 @@ test('a story page shows label, byline, editor, sources, methods and corrections
 test('every published story has a page and appears in its section', () => {
   for (const s of stories) {
     const page = read(`${s.href.slice(1)}index.html`);
-    assert.ok(page.includes('name="robots" content="noindex'), s.href);
+    // Before launch only; after it, tests/seo.test.mjs checks the page against src/indexing.mjs.
+    if (!LAUNCH) assert.ok(page.includes('name="robots" content="noindex'), s.href);
     const sec = SECTIONS.find((x) => x.slug === s.section);
     if (!sec.href) assert.ok(read(`news/${sec.slug}/index.html`).includes(`href="${s.href}"`), s.href);
   }
@@ -198,7 +202,8 @@ test('the alert banner never shows an expired, undated or inactive alert', () =>
 test('the front page has the weather and river box with its sources', () => {
   const html = read('news/index.html');
   for (const want of ['data-np-wx', 'data-gauge="03364000"', 'forecast.weather.gov', 'flood-inundation-maps-east-fork-white-river-columbus-indiana', '/js/news.js']) assert.ok(html.includes(want), want);
-  assert.ok(read('news/alert/index.html').includes('noindex'));
+  // Before launch only; after it, tests/seo.test.mjs checks the page against src/indexing.mjs.
+  if (!LAUNCH) assert.ok(read('news/alert/index.html').includes('noindex'));
 });
 
 // ---------- The business beat's lead lists (item 6) ----------
@@ -245,7 +250,8 @@ test('every civic fact has an official source and a checked date', () => {
     assert.ok(existsSync(new URL(`data/${d.slug}/index.html`, dist)), d.slug);
   }
   for (const n of [...NOTICE_SOURCES, NOTICE_LAW]) assert.ok(/^https:\/\//.test(n.url || n.source) && day.test(n.checked));
-  for (const p of ['meetings/', 'data/', 'notices/']) assert.match(read(p + 'index.html'), /noindex/, p);
+  // Before launch only; after it, tests/seo.test.mjs checks the page against src/indexing.mjs.
+  if (!LAUNCH) for (const p of ['meetings/', 'data/', 'notices/']) assert.match(read(p + 'index.html'), /noindex/, p);
 });
 
 test('meeting notes need the Documenters format and render it', () => {
@@ -253,6 +259,34 @@ test('meeting notes need the Documenters format and render it', () => {
   assert.ok(checkStory({ ...good, sample: false, bylines: ['nobody'], label: 'Meeting notes', meeting: { body: 'made-up-board', date: '2026-11-03', decisions: [] } }).some((p) => /civic\.mjs/.test(p)));
   const html = read('news/samples/sampleton-council-notes/index.html');
   for (const want of ['np-label-meeting-notes', 'Who was there', 'What was decided', '<th scope="col">Tally</th>', 'Questions to follow up']) assert.ok(html.includes(want), want);
+});
+
+test('a game story carries a checked box score, typed by the writer', () => {
+  const game = { home: 'Sample Sharks', away: 'Pretend Pumpkins', venue: 'Sampleton Arena', date: '2026-11-03', final: { home: 4, away: 3 } };
+  assert.deepEqual(checkStory({ ...good, section: 'sports', game }), []);
+  const bad = (patch, re) => assert.ok(checkStory({ ...good, section: 'sports', game: { ...game, ...patch } }).some((p) => re.test(p)), JSON.stringify(patch));
+  bad({ home: '' }, /game needs home/);
+  bad({ venue: undefined }, /game needs venue/);
+  bad({ date: 'Nov 3' }, /YYYY-MM-DD/);
+  bad({ final: { home: 4 } }, /whole number/);
+  bad({ final: { home: 4.5, away: 3 } }, /whole number/);
+  bad({ note: 'Over time \u2014 late' }, /dash/);
+  assert.ok(checkStory({ ...good, game }).some((p) => /sports section/.test(p)), 'game box only on sports stories');
+  const html = read('news/samples/sampleton-game-story/index.html');
+  for (const want of ['np-game', 'Final, Overtime', 'Sample Sharks', '<td>4</td>', 'Sampleton Arena']) assert.ok(html.includes(want), want);
+  assert.ok(!read('sports/index.html').includes('Sampleton'), 'samples stay off /sports/');
+});
+
+test('a series story names a real series and carries its writer', () => {
+  assert.deepEqual(checkStory({ ...good, series: 'jake-takes-the-town' }), []);
+  assert.ok(checkStory({ ...good, headline: '[YOUR HEADLINE]' }).some((p) => /BRACKET/.test(p)), 'blanks block publishing');
+  assert.ok(checkStory({ ...good, body: 'Seats. Your rating: __ out of 5' }).some((p) => /BRACKET/.test(p)));
+  assert.deepEqual(checkStory({ ...good, headline: '[YOUR HEADLINE]', draft: true }), [], 'drafts may hold blanks');
+  assert.ok(checkStory({ ...good, series: 'made-up-series' }).some((p) => /series\.mjs/.test(p)));
+  assert.ok(checkStory({ ...good, sample: false, bylines: ['terry-winchester-ii'], editor: 'jacob-kennedy', series: 'jake-takes-the-town' }).some((p) => /must carry jacob-kennedy/.test(p)));
+  const html = read('news/series/jake-takes-the-town/index.html');
+  assert.ok(html.includes('Jake Takes the Town'));
+  assert.ok(!/\[YOUR /.test(html), 'drafts stay off the series page');
 });
 
 // ---------- Newsletter, games, membership and sponsors (items 8, 11, 12) ----------
@@ -286,7 +320,7 @@ test('sponsors appear only in labeled slots, only while their deal runs, never i
 test('no page asks for money or an email address until the owner turns it on', () => {
   if (!MEMBERSHIP.open) assert.ok(!read('members/index.html').includes('Become a member</a>'));
   if (!NEWSLETTER.signupAction) assert.ok(!read('newsletter/index.html').includes('type="email"'));
-  for (const p of ['newsletter/', 'members/', 'privacy/', 'games/', 'games/where/', 'games/quiz/']) assert.match(read(p + 'index.html'), /noindex/, p);
+  if (!LAUNCH) for (const p of ['newsletter/', 'members/', 'privacy/', 'games/', 'games/where/', 'games/quiz/']) assert.match(read(p + 'index.html'), /noindex/, p);
   assert.ok(read('news/samples/sampleton-opinion/index.html').includes('np-ask'), 'the ask ends each story');
 });
 
@@ -308,4 +342,99 @@ test('no [OWNER: ...] marker reaches a built page', () => {
     e.isDirectory() ? walk(new URL(`${e.name}/`, dir)) : e.name.endsWith('.html') ? [new URL(e.name, dir)] : []);
   const found = walk(dist).filter((f) => readFileSync(f, 'utf8').includes('[OWNER:'));
   assert.deepEqual(found.map((f) => f.pathname.slice(dist.pathname.length)), []);
+});
+
+// ---------- Stickers, the newspaper page, the series (2026-11-24) ----------
+import { NEWS_STICKERS } from '../src/news/stickers.mjs';
+import { STICKERS as SITE_STICKERS } from '../src/site.mjs';
+
+test('news stickers have their art and never reuse a site sticker name', () => {
+  for (const name of Object.keys(NEWS_STICKERS)) {
+    assert.ok(existsSync(new URL(`../public/art/sticker-${name}.webp`, import.meta.url)), name);
+    assert.ok(!SITE_STICKERS.includes(name), `${name} would overwrite the site's own sticker art`);
+  }
+  assert.deepEqual(checkStory({ ...good, stickers: [{ sticker: 'basketball' }] }), []);
+  assert.ok(checkStory({ ...good, stickers: [{ sticker: 'not-a-sticker' }] }).some((p) => /stickers\.mjs/.test(p)));
+  assert.ok(checkStory({ ...good, stickers: [{ sticker: 'basketball', heading: 'Missing heading' }] }).some((p) => /no "## Missing heading"/.test(p)));
+  assert.deepEqual(checkStory({ ...good, body: 'Intro.\n\n## Worth the drive?\n\nYes.', stickers: [{ sticker: 'starburst', heading: 'Worth the drive?' }] }), []);
+});
+
+test('news stories print as a newspaper page; history keeps the e-reader', () => {
+  const s = stories.find((x) => x.stickers.length);
+  if (!s) return;
+  const html = read(`${s.href.slice(1)}index.html`);
+  for (const want of ['kd kd-news', 'np-plate', 'np-folio', 'newsprint.css', 'np-fig-img']) assert.ok(html.includes(want), want);
+  assert.ok(!/kindle\.js/.test(html), 'news stories do not load the e-reader pager');
+  for (const m of html.matchAll(/<img class="np-sticker[^"]*"[^>]*>/g)) assert.match(m[0], /alt="" aria-hidden="true"/);
+  assert.ok(html.includes('np-h2-sticker'), 'heading stickers render');
+  const front = read('news/index.html');
+  if (stories[0] === s) assert.ok(front.includes('np-lead-sticker'), 'the lead carries its first sticker');
+});
+
+// ---------- The newsletter morning job (netlify/functions/newsletter.mjs) ----------
+import { makeDraft } from '../netlify/functions/newsletter.mjs';
+
+test('the morning job makes one Buttondown draft per day, never sends, and fails closed', async () => {
+  const calls = [];
+  const kv = new Map();
+  const store = { getJSON: async (k) => kv.get(k) ?? null, setJSON: async (k, v) => { kv.set(k, v); } };
+  const fake = (edition) => async (url, init) => {
+    calls.push({ url, init });
+    if (url.includes('/newsletter/editions/')) return edition ? new Response(JSON.stringify(edition)) : new Response('', { status: 404 });
+    return new Response(JSON.stringify({ id: 'em_1' }), { status: 201 });
+  };
+  const ed = { date: '2026-11-24', subject: 'Heart of Columbus, Tuesday, November 24', html: '<p>Hi</p>', fresh: 2 };
+  const quiet = () => {};
+  assert.equal((await makeDraft({ key: '', origin: 'https://x', date: ed.date, store, fetchFn: fake(ed), log: quiet })).reason, 'no-key');
+  assert.equal(calls.length, 0, 'no key, no requests');
+  const r = await makeDraft({ key: 'k', origin: 'https://x', date: ed.date, store, fetchFn: fake(ed), log: quiet });
+  assert.equal(r.reason, 'drafted');
+  const post = calls.find((c) => c.init?.method === 'POST');
+  assert.equal(JSON.parse(post.init.body).status, 'draft', 'drafts only, never sends');
+  assert.equal(post.init.headers.authorization, 'Token k');
+  assert.equal((await makeDraft({ key: 'k', origin: 'https://x', date: ed.date, store, fetchFn: fake(ed), log: quiet })).reason, 'already', 'a retry makes no second draft');
+  assert.equal((await makeDraft({ key: 'k', origin: 'https://x', date: '2026-11-25', store, fetchFn: fake({ ...ed, date: '2026-11-25', fresh: 0 }), log: quiet })).reason, 'nothing-new');
+  assert.equal((await makeDraft({ key: 'k', origin: 'https://x', date: '2026-11-26', store, fetchFn: fake(null), log: quiet })).reason, 'no-edition');
+  assert.ok(existsSync(new URL('newsletter/editions/', dist)), 'the build writes editions');
+});
+
+// ---------- Subscribing and sharing (2026-11-24) ----------
+import { handle as subscribe, validEmail } from '../netlify/functions/subscribe.mjs';
+
+test('signup is double opt in on Resend, and fails closed', async () => {
+  const kv = new Map();
+  const store = { getJSON: async (k) => kv.get(k) ?? null, setJSON: async (k, v) => { kv.set(k, v); } };
+  const calls = [];
+  const fetchFn = async (url, init) => { calls.push({ url, body: JSON.parse(init.body) }); return new Response('{}', { status: 200 }); };
+  const cfg = { key: 'k', audience: 'aud', from: 'Heart of Columbus <news@example.org>', origin: 'https://hoc.example' };
+  const post = (body, json = true) => new Request('https://hoc.example/api/subscribe', { method: 'POST', headers: { 'content-type': json ? 'application/json' : 'application/x-www-form-urlencoded' }, body: json ? JSON.stringify(body) : new URLSearchParams(body).toString() });
+  assert.equal((await subscribe(post({ email: 'a@b.co' }), { store, fetchFn, cfg: { ...cfg, key: '' } })).status, 503, 'no key, no signup');
+  assert.equal((await subscribe(post({ email: 'nope' }), { store, fetchFn, cfg })).status, 400);
+  const ok = await subscribe(post({ email: 'Reader@Example.org' }), { store, fetchFn, cfg });
+  assert.equal(ok.status, 200);
+  assert.equal(calls.length, 1, 'only the confirmation email, nothing added yet');
+  assert.ok(calls[0].url.endsWith('/emails') && calls[0].body.to[0] === 'reader@example.org');
+  const link = calls[0].body.text.match(/https:\/\/hoc\.example\/api\/subscribe\?confirm=([0-9a-f]{48})/);
+  assert.ok(link, 'the email carries a confirm link');
+  const done = await subscribe(new Request(link[0]), { store, fetchFn, cfg });
+  assert.equal(done.status, 200);
+  assert.ok(calls[1].url.endsWith('/audiences/aud/contacts') && calls[1].body.email === 'reader@example.org', 'added only after confirming');
+  assert.equal((await subscribe(new Request(link[0]), { store, fetchFn, cfg })).status, 410, 'a link works once');
+  assert.equal((await subscribe(post({ email: 'x@y.co', website: 'spam' }), { store, fetchFn, cfg })).status, 200);
+  assert.equal(calls.length, 2, 'the honeypot sends nothing');
+  const form = await subscribe(post({ email: 'f@g.co' }, false), { store, fetchFn, cfg });
+  assert.match(form.headers.get('content-type'), /text\/html/, 'a plain form post gets a page back');
+  assert.ok(validEmail('a.b+c@d.io') && !validEmail('a@b') && !validEmail('<a>@b.co'));
+});
+
+test('the paper has RSS feeds, named on its pages, and stories carry share and signup', () => {
+  const feed = read('news/feed.xml');
+  assert.match(feed, /<rss version="2.0"/);
+  for (const s of stories) assert.ok(feed.includes(`${s.href}</link>`), s.href);
+  assert.ok(existsSync(new URL('news/series/jake-takes-the-town/feed.xml', dist)));
+  assert.ok(existsSync(new URL('news/series/back-your-blue/feed.xml', dist)));
+  assert.ok(!/samples|Sampleton/.test(feed), 'no samples in the feed');
+  assert.match(read('news/index.html'), /application\/rss\+xml/);
+  const html = read(`${stories[0].href.slice(1)}index.html`);
+  for (const want of ['data-share', 'np-signup', 'subscribe.js']) assert.ok(html.includes(want), want);
 });

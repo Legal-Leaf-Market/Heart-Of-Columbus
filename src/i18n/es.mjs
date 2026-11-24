@@ -13,14 +13,14 @@ export const UI = {
   nav: { visit: 'Visitar', events: 'Eventos', explore: 'Explorar', order: 'Pedir y reservar', map: 'Mapa', areas: 'Vecindarios', saved: 'Guardados' },
   switchTo: 'English',
   footerTag: 'Negocios independientes de Columbus, Indiana. De dueños locales. ¿Ve una cadena? Avísenos y la quitamos.',
-  footerSmall: 'Una vista previa. Los datos vienen de listados públicos y pueden cambiar; llame antes de ir. Sin afiliación con los negocios listados.',
+  footerSmall: 'Los datos vienen de listados públicos y pueden cambiar; llame antes de ir. Sin afiliación con los negocios listados.',
   browse: 'Explorar', more: 'Más', aroundTown: 'Por la ciudad', owners: 'Dueños',
   links: { visit: 'Planee su visita', events: 'Eventos locales', free: 'Gratis en Columbus', film: 'La ruta de la película Columbus', architecture: 'Arquitectura (en inglés)', arts: 'Arte público (en inglés)', cummins: 'Cummins y Columbus (en inglés)', holidays: 'Compras locales en las fiestas', djs: 'DJ de Columbus', plan: 'Planee un evento (en inglés)', credits: 'Créditos de fotos', ag: 'El campo y 4-H (en inglés)', markets: 'Mercados (en inglés)', obituaries: 'Obituarios (en inglés)', sports: 'Deportes (en inglés)', history: 'Historia de Columbus (en inglés)', skate: 'El skatepark', claim: 'Reclame su listado', pickup: 'Pedidos para recoger', direct: 'Pedir, reservar y comprar directo', founders: 'Club de Fundadores (en inglés)' },
   home: 'Inicio',
 };
 
 export const CATEGORY = {
-  restaurants: 'Restaurantes', 'coffee-sweets': 'Café y dulces', bars: 'Bares y cervecerías', beauty: 'Belleza y cuidado personal', shopping: 'Tiendas',
+  restaurants: 'Restaurantes', 'coffee-sweets': 'Café y dulces', bars: 'Bares y cervecerías', beauty: 'Belleza y cuidado personal', shopping: 'Tiendas', smoke: 'Tabaco y vapeo',
   health: 'Salud y bienestar', fitness: 'Ejercicio', pets: 'Mascotas', 'home-services': 'Servicios para el hogar', auto: 'Autos', pros: 'Servicios profesionales',
   events: 'Eventos y bodas', kids: 'Niños y clases', 'things-to-do': 'Qué hacer', makers: 'Fabricantes e industria',
 };

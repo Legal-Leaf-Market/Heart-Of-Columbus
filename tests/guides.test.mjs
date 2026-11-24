@@ -2,6 +2,7 @@
 // checked date, every art work names its artist and year, landmark links
 // resolve, and the pages are built, noindex and free of visible dashes.
 import assert from 'node:assert/strict';
+import { LAUNCH } from '../src/indexing.mjs';
 import { test } from 'node:test';
 import { readFileSync } from 'node:fs';
 import { ARCH_FACTS, NHL } from '../src/data/architecture.mjs';
@@ -35,7 +36,8 @@ test('guide pages are built, noindex, say they are not affiliated, and show no d
   const visible = (h) => h.replace(/<(script|style)[\s\S]*?<\/\1>/g, '').replace(/<[^>]+>/g, '\n');
   for (const p of ['architecture', 'arts', 'cummins']) {
     const html = read(`${p}/index.html`);
-    assert.ok(html.includes('noindex'), p);
+    // Before launch only; after it, tests/seo.test.mjs checks the page against src/indexing.mjs.
+    if (!LAUNCH) assert.ok(html.includes('noindex'), p);
     assert.deepEqual(visible(html).split('\n').filter((l) => /[‒-―]| - /.test(l)), [], p);
   }
   assert.ok(read('cummins/index.html').includes('not affiliated with Cummins'));

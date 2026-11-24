@@ -3,7 +3,7 @@
 // Ethics. Policies the publisher has not signed off on say "draft".
 import { esc, t } from '../layout.mjs';
 import { newsPage } from '../news/frame.mjs';
-import { PAPER, FUNDERS, AI_POLICY } from '../data/paper.mjs';
+import { PAPER, FUNDERS } from '../data/paper.mjs';
 import { staffList, person } from '../data/staff.mjs';
 import { LABELS, labelClass } from '../news/labels.mjs';
 
@@ -57,7 +57,6 @@ function standardsPage(ctx) {
       </ul>`],
     ['two-people', 'Two people on every story', `
       <p>A named person writes every story and a different person, an editor, approves it before it runs. Nobody approves their own work.</p>`],
-    ['ai', 'How we use AI', `${draft(PAPER.aiPolicyApproved)}<ul class="np-list">${AI_POLICY.map((l) => `<li>${esc(l)}</li>`).join('')}</ul>`],
     ['sources', 'Sources', `
       <p>Every story ends with its references: the people we interviewed (with the date), the documents we read, and the data we used, linked where we can. If we learned something from another newsroom’s reporting, we link to it and name them.</p>
       <p>Business details in our directory come from public listings. When a story says a business opened, closed or changed hands, we confirm it with the business or say plainly that we could not reach them.</p>`],
@@ -81,7 +80,7 @@ function standardsPage(ctx) {
       </ul>`],
     ['feedback', 'Tell us', `<p>Spot an error, have a tip, or think we got the balance wrong? <a href="/tips/">Send a tip or a correction</a>, <a href="/letters/">write a letter to the editor</a>, or <a href="/ask/">ask us a question</a>. A person reads every message.</p>`],
   ]);
-  return newsPage({ ...ctx, path: '/about/standards/', title: 'Our standards', description: 'Ethics, AI use, sourcing, anonymous sources, conflicts of interest, labels and corrections.', crumbs: [['/about/', 'About'], ['', 'Standards']], body });
+  return newsPage({ ...ctx, path: '/about/standards/', title: 'Our standards', description: 'Ethics, sourcing, anonymous sources, conflicts of interest, labels and corrections.', crumbs: [['/about/', 'About'], ['', 'Standards']], body });
 }
 
 // log: [{ date, text, story: { headline, href } }] newest first, from the stories.

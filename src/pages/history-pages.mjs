@@ -9,6 +9,7 @@ import { landmarkBySlug } from '../data/landmarks.mjs';
 import { ORIGIN } from '../jsonld.mjs';
 import { reader, nameplate } from '../kindle.mjs';
 import { person } from '../data/staff.mjs';
+import { newsletterBanner } from '../banners.mjs';
 
 const styles = ['hoc.css'];
 // Only decades and series that have landed get pages and links.
@@ -38,43 +39,66 @@ const item = (a, { group = false } = {}) => `
 const intro = `Ten stories a decade, from the Depression to now. Each one is built from public sources, listed at its foot, and says so where they disagree. No made-up quotes, people or numbers.`;
 
 function frontPage({ assets }) {
+  // Start here: the longest story from four different sections, so the first
+  // picks cover industry, architecture, faith and the rest, not one decade.
+  const picks = [];
+  for (const a of [...DECADE_ARTICLES].sort((x, y) => y.words - x.words)) {
+    if (picks.length === 4) break;
+    if (!picks.some((p) => p.section === a.section)) picks.push(a);
+  }
+  const maxPop = Math.max(...DECADES.map((d) => d.pop[1]));
+  const SHOW = 4;
   const body = `
 ${header('', { alt: '' })}
 <main id="main">
 ${breadcrumbs([['/', 'Home'], ['', 'History']])}
-<section class="order-hero hx-hero">
+<section class="hx-banner" aria-labelledby="hx-h">
   <div class="wrap">
-    <p class="kicker kicker-pill">Columbus history</p>
-    <h1>Columbus, Indiana,<br><span class="hl">decade by decade.</span></h1>
-    <p class="lede">${esc(intro)}</p>
-    <nav class="chips vs-jump" aria-label="Decades">${DECADES.map((d) => `<a class="pill" href="#d${d.slug}">${d.slug}</a>`).join('')}</nav>
-    <nav class="chips vs-jump hx-secnav" aria-label="Sections">${SECTIONS.filter((s) => ARTICLES.some((a) => a.section === s.slug)).map((s) => `<a class="pill" href="/history/section/${s.slug}/">${mark(s, 'hx-pill-art')}${esc(s.label)}</a>`).join('')}</nav>
+    <p class="hx-banner-k">Columbus history</p>
+    <img src="/img/field-guide-stickers/fire-station.webp" width="96" height="96" style="object-fit:contain" alt="" loading="lazy" decoding="async">
+    <h1 id="hx-h">Columbus, Indiana, <span>decade by decade.</span></h1>
+    <p class="hx-banner-lede">${esc(intro)}</p>
+    <nav class="hx-banner-decades" aria-label="Decades">${DECADES.map((d) => `<a href="#d${d.slug}">${d.slug}</a>`).join('')}</nav>
+    <figure class="hx-pop" aria-labelledby="hx-pop-cap">
+      <ol class="hx-pop-bars" role="list">${DECADES.map((d) => `<li><a href="#d${d.slug}" aria-label="${d.slug}: ${fmt(d.pop[1])} people in ${d.pop[0]}"><span class="hx-pop-bar" style="--h:${Math.round((d.pop[1] / maxPop) * 100)}%"></span><span class="hx-pop-n">${fmt(Math.round(d.pop[1] / 1000))}k</span><span class="hx-pop-y">${d.pop[0]}</span></a></li>`).join('')}</ol>
+      <figcaption id="hx-pop-cap">Columbus at each census, from ${fmt(DECADES[0].pop[1])} people in ${DECADES[0].pop[0]} to ${fmt(DECADES.at(-1).pop[1])} in ${DECADES.at(-1).pop[0]}.</figcaption>
+    </figure>
   </div>
 </section>
 <div class="wrap hx-front">
-${SERIES.map((g) => `
-<section class="hx-series" id="${g.slug}" aria-labelledby="${g.slug}-h">
-  <p class="kicker">${esc(g.kicker)}</p>
-  <h2 id="${g.slug}-h"><a href="/history/${g.slug}/">${t(g.title)}</a></h2>
-  <p class="vs-lead">${t(g.lead)}</p>
-  <ol class="hx-list hx-list-2">${g.items.map((a) => item(a, { group: true })).join('')}</ol>
-</section>`).join('')}
+<section class="hx-start" aria-labelledby="hx-start-h">
+  <p class="kicker">Start here</p>
+  <h2 id="hx-start-h">Four stories to begin with</h2>
+  <ol class="hx-start-grid" role="list">${picks.map((a) => `<li><a href="${a.path}">${mark(sectionBySlug[a.section], 'hx-start-art')}<span class="hx-when">${esc(a.when)} · ${esc(sectionBySlug[a.section].label)}</span><strong>${t(a.title)}</strong><span class="hx-dek">${t(a.dek)}</span><span class="hx-meta"><span>${a.readMin} min read</span></span></a></li>`).join('')}</ol>
+  <nav class="chips vs-jump hx-secnav" aria-label="Sections">${SECTIONS.filter((s) => ARTICLES.some((a) => a.section === s.slug)).map((s) => `<a class="pill" href="/history/section/${s.slug}/">${mark(s, 'hx-pill-art')}${esc(s.label)}</a>`).join('')}</nav>
+</section>
 ${DECADES.map((d) => `
 <section class="hx-decade" id="d${d.slug}" aria-labelledby="h${d.slug}" style="--pat:url('/art/${d.art}')">
   <header class="hx-dhead">
     <h2 id="h${d.slug}"><a href="/history/${d.slug}/">${d.title}</a></h2>
     <p>${fmt(d.pop[1])} people in Columbus at the ${d.pop[0]} census</p>
   </header>
-  <ol class="hx-list hx-list-2">${d.items.map((a) => item(a)).join('')}</ol>
+  <ol class="hx-list hx-list-2">${d.items.slice(0, SHOW).map((a) => item(a)).join('')}</ol>
+  ${d.items.length > SHOW ? `<details class="hx-more"><summary>All ${d.items.length} stories from the ${d.slug}</summary><ol class="hx-list hx-list-2">${d.items.slice(SHOW).map((a) => item(a)).join('')}</ol></details>` : ''}
+</section>`).join('')}
+${SERIES.length ? `<h2 class="hx-archive-h">More from the archive</h2>` : ''}
+${SERIES.map((g) => `
+<section class="hx-series" id="${g.slug}" aria-labelledby="${g.slug}-h">
+  <p class="kicker">${esc(g.kicker)}</p>
+  <h2 id="${g.slug}-h"><a href="/history/${g.slug}/">${t(g.title)}</a></h2>
+  <p class="vs-lead">${t(g.lead)}</p>
+  <ol class="hx-list hx-list-2">${g.items.slice(0, SHOW).map((a) => item(a, { group: true })).join('')}</ol>
+  ${g.items.length > SHOW ? `<p><a class="btn btn-ghost" href="/history/${g.slug}/">All ${g.items.length} ${esc(g.title.replace(/<[^>]+>/g, ''))} ${svg('arrow', 'ic-sm')}</a></p>` : ''}
 </section>`).join('')}
 <p class="fine hx-foot">Population figures: U.S. census counts as listed on <a href="${DECADES[0].popSource}" target="_blank" rel="noopener">Wikipedia</a>. Heart of Columbus is not affiliated with the organizations, churches or businesses written about here. The same articles, with word counts and print lengths, are at <a href="/history/articles.json">articles.json</a>.</p>
 </div>
+${newsletterBanner()}
 </main>
 ${footer()}`;
   return page({
     title: 'Columbus history, decade by decade | Heart of Columbus',
     description: `${DECADE_ARTICLES.length} sourced stories about Columbus, Indiana, from the ${DECADES[0].slug} to the ${DECADES.at(-1).slug}: industry, architecture, faith, schools, the river and the people who built the town.`,
-    body, scripts: ['site.js'], styles, assets,
+    body, scripts: ['site.js', 'subscribe.js'], styles, assets,
   });
 }
 

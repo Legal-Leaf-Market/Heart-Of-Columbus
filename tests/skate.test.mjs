@@ -1,6 +1,7 @@
 // The skate park page: every line has a source and a checked date, shows on
 // the page, and the page is linked from /visit/ and the footer.
 import assert from 'node:assert/strict';
+import { LAUNCH } from '../src/indexing.mjs';
 import { test } from 'node:test';
 import { readFileSync } from 'node:fs';
 import { SKATE, SKATE_FACTS } from '../src/data/skate.mjs';
@@ -18,7 +19,8 @@ test('every skate park fact has a source and a checked date, and shows on the pa
     assert.ok(html.includes(`href="${f.source.replace(/&/g, '&amp;')}"`), f.source);
   }
   for (const s of SKATE.sections) assert.ok(html.includes(`id="${s.id}"`), s.id);
-  assert.ok(html.includes('noindex'));
+  // Before launch only; after it, tests/seo.test.mjs checks the page against src/indexing.mjs.
+  if (!LAUNCH) assert.ok(html.includes('noindex'));
 });
 
 test('the skate park page is linked from /visit/ and the footer', () => {

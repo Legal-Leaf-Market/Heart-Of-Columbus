@@ -53,6 +53,25 @@
       ? n + (n === 1 ? ' demo order' : ' demo orders') + ': about ' + window.HoC.money(total * val('rate') / 100) + ' that would have gone to app fees at ' + val('rate') + '%.'
       : 'Place an order in any demo storefront and it shows up here.';
   }
+  // A link that opens the calculator with these exact numbers, for sharing
+  // ("?orders=60&avg=24&biz=10#keep-it-local"). Values outside a slider's
+  // own range are ignored, so a shared link can't show other math. The
+  // commission rate is NOT shared or read from a link: everyone opens on 6%,
+  // DoorDash's pickup rate for restaurants, the one number the page cites.
+  var KEYS = ['orders', 'avg', 'biz'];
+  var q = new URLSearchParams(location.search);
+  KEYS.forEach(function (k) {
+    var el = $('[data-in="' + k + '"]'), v = Number(q.get(k));
+    if (el && q.has(k) && v >= Number(el.min) && v <= Number(el.max)) el.value = v;
+  });
+  var shareBtn = $('[data-keep-share]'), shareMsg = $('[data-keep-msg]');
+  if (shareBtn) shareBtn.addEventListener('click', function () {
+    var u = new URL(location.href); u.hash = 'keep-it-local';
+    KEYS.forEach(function (k) { u.searchParams.set(k, val(k)); });
+    var text = 'Ordering direct could keep ' + $('[data-year]').textContent + ' a year in Columbus.';
+    if (navigator.share) { navigator.share({ title: 'Keep it in Columbus', text: text, url: u.href }).catch(function () {}); return; }
+    (navigator.clipboard ? navigator.clipboard.writeText(text + ' ' + u.href) : Promise.reject()).then(function () { shareMsg.textContent = ' Link copied.'; }, function () { shareMsg.textContent = ' ' + u.href; });
+  });
   $$('[data-in]').forEach(function (i) { i.addEventListener('input', calc); });
   window.addEventListener('pageshow', calc);
   calc();

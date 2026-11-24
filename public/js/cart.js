@@ -29,9 +29,18 @@
   var WOO_STEP_MS = 4000;
 
   // ---------- Handoff URLs ----------
-  function shopifyUrl(origin, lines, pickup) {
+  // Order tracking (docs/order-tracking.md): every handoff carries our UTM
+  // tag and a visit id. Shopify also keeps the id on the order as a cart
+  // attribute (hoc_click); WooCommerce records the UTM fields itself.
+  function visitId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+  function utm(campaign, click) { return 'utm_source=' + REF + '&utm_medium=referral&utm_campaign=' + campaign + (click ? '&utm_content=' + click : ''); }
+  function tag(u, campaign, click) { return u + (u.indexOf('?') === -1 ? '?' : '&') + utm(campaign, click); }
+  function beacon(slug, kind, extra) {
+    try { if (navigator.sendBeacon) navigator.sendBeacon('/api/handoff', JSON.stringify(Object.assign({ slug: slug, kind: kind }, extra || {}))); } catch (x) { /* best effort */ }
+  }
+  function shopifyUrl(origin, lines, pickup, click) {
     var parts = lines.filter(function (l) { return l.available !== false && l.variantId; }).map(function (l) { return encodeURIComponent(l.variantId) + ':' + l.qty; });
-    var q = (pickup ? 'note=' + encodeURIComponent('Pickup, please. Sent from Heart of Columbus.') + '&' : '') + 'ref=' + REF;
+    var q = (pickup ? 'note=' + encodeURIComponent('Pickup, please. Sent from Heart of Columbus.') + '&' : '') + 'ref=' + REF + (click ? '&attributes%5Bhoc_click%5D=' + click + '&' + utm('cart', click) : '');
     return (parts.length ? origin + '/cart/' + parts.join(',') : origin + '/cart') + '?' + q;
   }
   function wooUrls(origin, lines) {
@@ -42,9 +51,10 @@
   // One tab, walked through every add link. A tab we opened may be sent to
   // another address by us; each step is a normal visit to their store, so
   // their cart cookie is theirs and stays with the shopper.
-  function fillWoo(urls, onStep, onDone) {
-    var w = window.open(urls[0], '_blank');
+  function fillWoo(urls, onStep, onDone, tab) {
+    var w = tab || window.open(urls[0], '_blank');
     if (!w) { onDone(false); return; }
+    if (tab) { try { w.location.href = urls[0]; } catch (e) { onDone(false); return; } }
     var i = 0;
     onStep(0);
     (function next() {
@@ -103,6 +113,7 @@
     var G = groups(cart);
     var stops = [];
     var html = '<div class="cd-head"><h2>Your local cart</h2><button type="button" class="cd-x" data-cd-close aria-label="Close">✕</button></div>';
+    html += '<p class="cd-note cd-alert" data-cd-note hidden></p>';
     if (!cart.length) html += '<p class="cd-empty">Your cart is empty. Look for “Shop online” on a business page.</p>';
     else {
       var items = cart.reduce(function (a, l) { return a + l.qty; }, 0);
@@ -160,16 +171,60 @@
     var slug = co.dataset.checkout, ls = groups(read()).by[slug], first = ls[0];
     var status = $('[data-status="' + slug + '"]', drawer), more = $('[data-more="' + slug + '"]', drawer);
     if (first.buyOnSite) {
-      window.open(first.url, '_blank', 'noopener');
-      more.innerHTML = ls.slice(1).map(function (l) { return '<a class="pill" href="' + esc(l.url) + '" target="_blank" rel="noopener">Open ' + esc(l.title) + ' ↗</a>'; }).join('');
+      beacon(slug, 'cart', { items: ls.reduce(function (a, l) { return a + l.qty; }, 0), total: ls.reduce(function (a, l) { return a + l.price * l.qty; }, 0) });
+      window.open(tag(first.url, 'cart'), '_blank', 'noopener');
+      more.innerHTML = ls.slice(1).map(function (l) { return '<a class="pill" href="' + esc(tag(l.url, 'cart')) + '" target="_blank" rel="noopener">Open ' + esc(l.title) + ' ↗</a>'; }).join('');
       return;
     }
-    if (first.platform === 'shopify') { window.open(shopifyUrl(first.origin, ls, pickupOn(slug, first)), '_blank', 'noopener'); return; }
+    // In stock only (owner's rule): ask the store, this minute, before its
+    // checkout opens. The tab opens now, on the tap, so the browser allows it,
+    // and goes to the store once the answer is back.
+    var tab = window.open('about:blank', '_blank');
+    if (tab) { try { tab.opener = null; tab.document.title = 'Checking stock…'; } catch (x) { /* fine */ } }
+    co.disabled = true;
+    status.textContent = 'Checking stock at ' + first.store + '…';
+    checkStock(slug, ls).then(function (sold) {
+      co.disabled = false;
+      var gone = ls.filter(function (l) { return sold.indexOf(String(l.variantId)) !== -1; });
+      if (gone.length) {
+        write(read().filter(function (x) { return !(x.slug === slug && sold.indexOf(String(x.variantId)) !== -1); }));
+        renderDrawer();
+        ls = groups(read()).by[slug] || [];
+        status = $('[data-status="' + slug + '"]', drawer) || status;
+        more = $('[data-more="' + slug + '"]', drawer) || more;
+        co = $('[data-checkout="' + slug + '"]', drawer) || co;
+        var msg = 'Sold out at ' + first.store + ' just now, so we took it out of your cart: ' + gone.map(function (l) { return l.title; }).join(', ') + '.';
+        if (!ls.length) { if (tab) tab.close(); var box = $('[data-cd-note]', drawer); if (box) { box.textContent = msg; box.hidden = false; } return; }
+        status.textContent = msg;
+      } else status.textContent = '';
+      handOff(slug, ls, first, tab, co, status, more);
+    });
+  });
+  // Sold-out lines, read from the store by /api/stock. A slow or failed
+  // answer counts as none sold out: the store's own checkout still decides.
+  function checkStock(slug, ls) {
+    var done = false;
+    return new Promise(function (ok) {
+      setTimeout(function () { if (!done) { done = true; ok([]); } }, 7000);
+      fetch('/api/stock', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ slug: slug, lines: ls.map(function (l) { return { productId: l.productId, variantId: l.variantId, url: l.url }; }) }) })
+        .then(function (r) { return r.json(); })
+        .then(function (j) { if (!done) { done = true; ok((j && j.sold || []).map(String)); } })
+        .catch(function () { if (!done) { done = true; ok([]); } });
+    });
+  }
+  function handOff(slug, ls, first, tab, co, status, more) {
+    var go = function (u) { if (tab) tab.location.href = u; else window.open(u, '_blank', 'noopener'); };
+    var click = visitId();
+    beacon(slug, 'cart', { click: click, ids: ls.map(function (l) { return String(l.variantId || l.productId); }), items: ls.reduce(function (a, l) { return a + l.qty; }, 0), total: ls.reduce(function (a, l) { return a + l.price * l.qty; }, 0) });
+    if (first.platform === 'shopify') { go(shopifyUrl(first.origin, ls, pickupOn(slug, first), click)); return; }
     var urls = wooUrls(first.origin, ls);
+    // WooCommerce's order attribution reads the UTM fields from the first page
+    // of the visit, so only the first add link carries them.
+    if (urls.length) urls[0] = tag(urls[0], 'cart', click);
     var listed = function () {
       more.innerHTML = urls.map(function (u, i) { return '<a class="pill" href="' + esc(u) + '" target="_blank" rel="noopener">Add ' + esc(ls[i].title) + (ls[i].variant ? ' (' + esc(ls[i].variant) + ')' : '') + ' ↗</a>'; }).join('');
     };
-    if (urls.length < 2) { window.open(urls[0], '_blank', 'noopener'); return; }
+    if (urls.length < 2) { go(urls[0]); return; }
     co.disabled = true;
     fillWoo(urls, function (i) {
       status.textContent = 'Adding ' + (i + 1) + ' of ' + urls.length + ' to their cart…';
@@ -178,8 +233,8 @@
       status.textContent = ok ? 'Done. Their tab has your items: open their cart there to check out. If one is missing, add it below.'
         : 'Your browser blocked the new tab. Add each item below instead.';
       listed();
-    });
-  });
+    }, tab);
+  }
   function paint() {
     var n = read().reduce(function (a, l) { return a + l.qty; }, 0);
     fab.hidden = !n;
@@ -203,20 +258,40 @@
     });
     write(cart);
   }
-  $$('[data-shop]').forEach(function (box) {
+  // A store's grid loads as it nears the screen, so a page of many stores
+  // (/order/ has 18) fetches the first ones first instead of all at once.
+  function whenNear(el, fn) {
+    if (!('IntersectionObserver' in window)) { fn(); return; }
+    var io = new IntersectionObserver(function (es) {
+      if (es.some(function (e) { return e.isIntersecting; })) { io.disconnect(); fn(); }
+    }, { rootMargin: '900px 0px' });
+    io.observe(el);
+  }
+  $$('[data-shop]').forEach(function (box) { whenNear(box, function () { loadShop(box); }); });
+  function loadShop(box) {
     var slug = box.dataset.shop, name = box.dataset.name, limit = Number(box.dataset.limit || 48);
     var hours = null;
     try { hours = JSON.parse(box.dataset.hours || 'null'); } catch (e) { hours = null; }
-    fetch('/api/shop?slug=' + encodeURIComponent(slug)).then(function (r) { return r.json(); }).then(function (d) {
+    // A live store answers through /api/shop (?top asks for only the grid's
+    // items and the counts). A shop the daily crawl saved (data-snap) is read
+    // from its static file, and a live store that doesn't answer falls back
+    // to that file.
+    var snap = function () { return fetch('/catalogs/' + encodeURIComponent(slug) + '.json').then(function (r) { return r.ok ? r.json() : { ok: false }; }).then(function (d) { if (d.ok) d.saved = d.checked; return d; }); };
+    var live = function () { return fetch('/api/shop?slug=' + encodeURIComponent(slug) + '&top=' + limit).then(function (r) { return r.json(); }); };
+    var src = 'live' in box.dataset ? live().catch(function () { return { ok: false }; }).then(function (d) { return d.ok || !box.dataset.snap ? d : snap(); }) : snap();
+    src.then(function (d) {
       if (!d.ok) { box.innerHTML = '<p class="muted">' + esc(d.error || 'Their store did not answer.') + '</p>'; return; }
       var store = { slug: slug, name: name, platform: d.platform, origin: d.origin, address: box.dataset.address || '', hours: hours };
       // Pristine and in stock only (owner's rule): a product that is sold out or
       // has no photo in the shop's own catalog stays off the grid. The link
-      // below still reaches every item on the shop's own site.
+      // below still reaches every item on the shop's own site. The server
+      // applies the same rule for ?top; filtering again keeps an older cached
+      // answer (the whole catalog) right.
       var items = d.items.filter(function (i) { return i.available && i.image; });
-      var stock = d.items.filter(function (i) { return i.available; });
-      var unseen = stock.length - items.length;
-      box.innerHTML = '<p class="shop-count">' + stock.length + ' items in stock at ' + esc(name) + '’s own store</p><div class="prod-grid">' + items.slice(0, limit).map(function (it, idx) {
+      var stockN = d.stock != null ? d.stock : d.items.filter(function (i) { return i.available; }).length;
+      var picturedN = d.pictured != null ? d.pictured : items.length;
+      var unseen = stockN - picturedN;
+      box.innerHTML = '<p class="shop-count">' + stockN + ' items in stock at ' + esc(name) + '’s own store</p>' + (d.saved ? '<p class="snap-note">Saved from their website on ' + esc(new Date(d.saved + 'T12:00:00Z').toLocaleDateString('en-US', { timeZone: 'UTC', month: 'long', day: 'numeric' })) + '. Their site has the final word on price and stock.</p>' : '') + '<div class="prod-grid">' + items.slice(0, limit).map(function (it, idx) {
         var fl = firstLive(it);
         return '<article class="prod"><img src="' + esc(it.image) + '" alt="" loading="lazy">' +
           '<div class="prod-b"><a href="' + esc(it.url) + '" target="_blank" rel="noopener" class="prod-t">' + esc(it.title) + '</a><p class="prod-p">' + money(it.price) + '</p>' +
@@ -225,7 +300,7 @@
           // their site: an add link without the options adds nothing there.
           (it.pick ? '<a class="btn btn-sm btn-ghost" href="' + esc(it.url) + '" target="_blank" rel="noopener">Choose options ↗</a>'
             : '<button type="button" class="btn btn-sm" data-add="' + idx + '">' + (it.buyOnSite ? 'Add to my list' : 'Add to cart') + '</button>') + '</div></article>';
-      }).join('') + '</div>' + (items.length > limit || unseen ? '<a class="btn btn-ghost" href="' + esc(d.origin) + '" target="_blank" rel="noopener">See all ' + stock.length + ' on their site ↗</a>' : '');
+      }).join('') + '</div>' + (picturedN > limit || unseen ? '<a class="btn btn-ghost" href="' + esc(d.origin) + '" target="_blank" rel="noopener">See all ' + stockN + ' on their site ↗</a>' : '');
       box.addEventListener('click', function (e) {
         var b = e.target.closest('[data-add]');
         if (!b) return;
@@ -236,5 +311,21 @@
         setTimeout(function () { b.textContent = label; }, 1400);
       });
     }).catch(function () { box.innerHTML = '<p class="muted">Their store did not answer. Try their website.</p>'; });
+  }
+
+  // ---------- A restaurant's saved menu (/b/<slug>/#menu) ----------
+  $$('[data-menu]').forEach(function (box) {
+    whenNear(box, function () {
+      fetch('/catalogs/' + encodeURIComponent(box.dataset.menu) + '.json').then(function (r) { return r.json(); }).then(function (d) {
+        if (!d.ok || !d.items.length) throw 0;
+        var secs = [], by = {};
+        d.items.forEach(function (i) { var k = i.type || 'Menu'; if (!by[k]) { by[k] = []; secs.push(k); } by[k].push(i); });
+        box.innerHTML = secs.map(function (k) {
+          return (secs.length > 1 ? '<h3 class="menu-sec">' + esc(k) + '</h3>' : '') + '<ul class="menu-rows">' + by[k].map(function (i) {
+            return '<li><a href="' + esc(i.url) + '" target="_blank" rel="noopener">' + esc(i.title) + '</a><b>' + money(i.price) + '</b></li>';
+          }).join('') + '</ul>';
+        }).join('') + (box.dataset.order ? '<p><a class="btn" href="' + esc(box.dataset.order) + '" target="_blank" rel="noopener">' + esc(box.dataset.orderLabel || 'Their website') + ' ↗</a></p>' : '');
+      }).catch(function () { box.innerHTML = '<p class="muted">Their menu is on their own website.</p>'; });
+    });
   });
 })();

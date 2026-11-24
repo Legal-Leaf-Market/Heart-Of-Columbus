@@ -21,13 +21,21 @@ for (const file of process.argv.slice(2)) {
 const probes = Object.values(bySlug);
 const catOf = Object.fromEntries(directory.map((b) => [b.slug, b.cat]));
 const FOOD = new Set(['restaurants', 'coffee-sweets', 'bars']);
-const RETAIL = new Set(['shopping', 'coffee-sweets', 'pets', 'kids', 'things-to-do', 'beauty']);
+const RETAIL = new Set(['shopping', 'smoke', 'coffee-sweets', 'pets', 'kids', 'things-to-do', 'beauty']);
 const NO_FEED = new Set(['pros', 'home-services', 'auto', 'health']);
 const STOREFRONT = new Set(['shopify', 'woocommerce', 'bigcommerce', 'squarespace-commerce', 'wix-stores', 'square-online']);
 // Marketplaces take a cut, so they are not "direct" and are never linked.
 const MARKET = /(?:^|\.)(doordash\.com|grubhub\.com|ubereats\.com|postmates\.com|seamless\.com|yelp\.com|facebook\.com|instagram\.com|google\.com)$/i;
 const host = (u) => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return ''; } };
 
+// Order pages set by hand, because the business's own site and its Google
+// listing both still carry an older address. Each entry says who gave it and
+// when; it replaces the same provider's link from the sweep (or is added).
+//   the-forge-english-pub: Square order page, from the site owner 2026-11-24.
+//     forgeon4th.com and Google still link the older pickup landing page.
+const ORDER_SET = {
+  'the-forge-english-pub': { label: 'Square Online', url: 'https://forgepub-on-4th.square.site/s/order?location=LC0ZV69BNMVRW#most-popular' },
+};
 const out = {};
 for (const slug of new Set([...Object.keys(WEB), ...Object.keys(bySlug)])) {
   const p = bySlug[slug] || {};
@@ -92,6 +100,11 @@ for (const slug of new Set([...Object.keys(WEB), ...Object.keys(bySlug)])) {
     if (/\.square\.site$/.test(h) && h !== ownSquare) order.splice(i, 1);
     else if (h === ownSquare) order[i].url = order[i].url.replace(/^http:/, 'https:');
   }
+  const set = ORDER_SET[slug];
+  if (set) {
+    const i = order.findIndex((o) => o.label === set.label);
+    if (i === -1) order.unshift({ ...set }); else order[i] = { ...set };
+  }
   // One ordering and one booking link per provider is enough: two buttons
   // that both say "Square Online" are one store listed twice.
   for (const list of [order, book]) for (let i = list.length - 1; i > 0; i--) if (list.slice(0, i).some((b) => b.label === list[i].label)) list.splice(i, 1);
@@ -108,10 +121,10 @@ for (const slug of new Set([...Object.keys(WEB), ...Object.keys(bySlug)])) {
     if (p.platform === 'square-online' && FOOD.has(cat)) { if (!order.some((o) => o.label === 'Square Online')) push(order, 'Square Online', p.origin); }
     else if (RETAIL.has(cat) && p.own && p.own.shop && shopPath !== '/' && !/^\/products?\/[^/]+\/?$/.test(shopPath)) store = store || p.own.shop;
     else if (RETAIL.has(cat) && ['shopify', 'bigcommerce'].includes(p.platform)) store = store || p.origin;
-    else if (['shopping', 'pets', 'kids'].includes(cat) && p.platform === 'square-online') store = store || p.origin;
+    else if (['shopping', 'smoke', 'pets', 'kids'].includes(cat) && p.platform === 'square-online') store = store || p.origin;
   }
   // A shop whose own site has a working cart page sells on it.
-  if (!feed && !store && p.ok && ['shopping', 'pets', 'kids'].includes(cat) && (p.pages || []).some((x) => /^\/(?:checkout\/)?cart\/?$/.test(x))) store = p.origin;
+  if (!feed && !store && p.ok && ['shopping', 'smoke', 'pets', 'kids'].includes(cat) && (p.pages || []).some((x) => /^\/(?:checkout\/)?cart\/?$/.test(x))) store = p.origin;
   // A shop that runs its cart on a separate own-engine store (Big Cartel,
   // Ecwid, a Shopify store on another address) gets that store as its link.
   // A store address carrying a preview key is a password page, not a shop.

@@ -5,6 +5,8 @@ import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { esc, t } from '../layout.mjs';
 import { newsPage } from '../news/frame.mjs';
 import { PAPER, NEWSLETTER, MEMBERSHIP } from '../data/paper.mjs';
+import { signupBox, shareBar } from '../news/share.mjs';
+import { upcomingEditions } from '../news/editions.mjs';
 import { LANDMARKS } from '../data/landmarks.mjs';
 
 const doc = (kicker, h1, dek, inner) => `<article class="wrap np-doc"><header class="np-doc-head"><p class="kicker">${esc(kicker)}</p><h1>${esc(h1)}</h1><p class="np-dek">${dek}</p></header>${inner}</article>`;
@@ -19,14 +21,24 @@ export const storyAsk = () => `
 function newsletterPage(ctx) {
   const on = !!NEWSLETTER.signupAction;
   const body = doc('Newsletter', 'The morning edition', 'Weather, three to five stories, what’s open early, today’s events and one business change. Every weekday morning, free.', `
-<section class="pk-card">${on ? `
-  <form class="ow-form np-form" action="${esc(NEWSLETTER.signupAction)}" method="post" target="_blank">
-    <label>Email<input name="email" type="email" autocomplete="email" required></label>
-    <button class="btn" type="submit">Sign up</button>
-    <p class="fine">We’ll email you once to confirm. Every newsletter has a one-click unsubscribe link. Read our <a href="/privacy/">privacy page</a>.</p>
-  </form>` : '<p><strong>Sign up opens soon.</strong> The newsletter starts with the first edition of the paper.</p>'}</section>
+${signupBox({ heading: 'Sign up free' })}
+${shareBar({ path: '/newsletter/', title: `The ${PAPER.name} morning edition`, text: 'Good, honest Columbus news in your inbox on weekday mornings. Free.', label: 'Share the newsletter' })}
 <section><h2>How it’s made</h2><p>The morning edition is put together from stories we have already published, then an editor reads it before it goes out. It never contains anything that hasn’t run on the site.</p></section>`);
   return newsPage({ ...ctx, path: '/newsletter/', title: 'Newsletter', description: 'The morning edition: Columbus news in your inbox every weekday.', crumbs: [['/news/', 'News'], ['', 'Newsletter']], body });
+}
+
+// The editor's look at the next editions, the same HTML the morning job puts
+// in the draft. Kept out of search (src/indexing.mjs). Days with nothing new
+// say so: the job skips them.
+function nextEditionsPage(ctx) {
+  const eds = upcomingEditions(new Date(), 4);
+  const inner = (html) => (html.match(/<body[^>]*>([\s\S]*)<\/body>/) || [, html])[1];
+  const body = doc('For the editor', 'The next morning editions', 'What each weekday draft will hold, built from stories already published. The draft lands in the newsletter service each weekday morning; read it there and press send.', eds.map((ed) => `
+<section class="np-edition">
+  <h2>${esc(ed.subject)}</h2>
+  ${ed.fresh ? `<p class="fine">${ed.fresh} new ${ed.fresh === 1 ? 'story' : 'stories'} since the last edition.</p><div class="np-edition-mail">${inner(ed.html)}</div>` : '<p><strong>No new stories for this morning, so no draft is made.</strong> Publish a story and it shows up here.</p>'}
+</section>`).join(''));
+  return newsPage({ ...ctx, path: '/newsletter/next/', title: 'Next morning editions', description: 'The editor’s preview of the next newsletter drafts.', crumbs: [['/newsletter/', 'Newsletter'], ['', 'Next editions']], body });
 }
 
 function privacyPage(ctx) {
@@ -64,6 +76,7 @@ function gamesIndex(ctx) {
   const body = doc('Games', 'Play', 'A little Columbus every day. Scores stay in your browser.', `
 <div class="np-games">
   <a class="np-game" href="/games/where/"><strong>Where in Columbus?</strong><span>A close-up of a Columbus landmark. Name it in one guess. New every day.</span></a>
+  <a class="np-game" href="/games/shootaround/"><strong>Hoosier shootaround</strong><span>Thirty seconds, one ball. Pull back, let it fly, see how many you can sink.</span></a>
   <a class="np-game" href="/games/quiz/"><strong>The weekly news quiz</strong><span>How closely were you reading this week?</span></a>
 </div>
 <p class="fine">A crossword is coming when a local constructor makes one for us.</p>`);
@@ -81,6 +94,40 @@ function wherePage(ctx) {
   return newsPage({ ...ctx, path: '/games/where/', title: 'Where in Columbus?', description: 'A daily guessing game: name the Columbus landmark from a close-up.', crumbs: [['/games/', 'Games'], ['', 'Where in Columbus?']], body, scripts: ['games.js'], data: { where: WHERE } });
 }
 
+// The 30-second shootaround, from the Pacers design pack (2026-11-24). The
+// game lives in public/js/shootaround.js; without it the page says so.
+function shootaroundPage(ctx) {
+  const body = doc('Quick game', 'Hoosier shootaround', 'Thirty seconds, one ball. Tap Shoot, or drag down and left on the court and release.', `
+<section class="sa" data-sa aria-label="Basketball shootaround game">
+  <div class="sa-shell">
+    <div class="sa-hud">
+      <div class="sa-scores">
+        <div class="sa-stat"><span>Score</span><strong data-sa-score>0</strong></div>
+        <div class="sa-stat"><span>Time</span><strong><span data-sa-time>30</span><span aria-hidden="true">s</span></strong></div>
+      </div>
+      <span class="sa-tag" data-sa-tag>READY?</span>
+    </div>
+    <canvas width="960" height="540" tabindex="0" role="img" aria-label="Basketball court. Press anywhere, drag down and away from the hoop, then let go to shoot. Or use the left and right arrows to aim, up and down for power, and Space to shoot."></canvas>
+    <div class="sa-controls">
+      <button type="button" class="sa-btn sa-go" data-sa-start>Start shootaround</button>
+      <div class="sa-aim" data-sa-aim role="group" aria-label="Adjust shot" hidden>
+        <button type="button" class="sa-btn sa-alt" data-sa-direction="ArrowLeft" aria-label="Aim higher">Higher</button>
+        <button type="button" class="sa-btn sa-alt" data-sa-direction="ArrowRight" aria-label="Aim lower">Lower</button>
+        <button type="button" class="sa-btn sa-alt" data-sa-direction="ArrowDown">Less power</button>
+        <button type="button" class="sa-btn sa-alt" data-sa-direction="ArrowUp">More power</button>
+      </div>
+      <button type="button" class="sa-btn sa-go" data-sa-shoot hidden>Shoot</button>
+      <button type="button" class="sa-btn sa-alt" data-sa-again hidden>Play again</button>
+      <p class="sa-status" data-sa-status role="status">Ready when you are.</p>
+    </div>
+  </div>
+  <p class="sa-how"><strong>Touch or mouse:</strong> press anywhere on the court, pull down and away from the hoop like a slingshot, then let go. The dotted arc shows where it will go. <strong>Keyboard:</strong> focus the court, aim with the left and right arrows, set power with up and down, and shoot with Space or Enter. Scores aren't saved anywhere.</p>
+  <noscript><p class="sa-how">The shootaround needs JavaScript turned on.</p></noscript>
+  <p class="fine"><a href="/games/">More local games</a></p>
+</section>`);
+  return newsPage({ ...ctx, path: '/games/shootaround/', title: 'Hoosier shootaround', description: 'A 30-second basketball shootaround game from Heart of Columbus.', crumbs: [['/games/', 'Games'], ['', 'Hoosier shootaround']], body, scripts: ['shootaround.js'], styles: ['shootaround.css'] });
+}
+
 function quizPage(ctx, quiz, { sample = false } = {}) {
   const path = sample ? '/games/quiz/sample/' : '/games/quiz/';
   const body = quiz
@@ -94,9 +141,11 @@ function quizPage(ctx, quiz, { sample = false } = {}) {
 export const habitPages = (ctx) => [
   { path: 'newsletter/index.html', html: newsletterPage(ctx) },
   { path: 'privacy/index.html', html: privacyPage(ctx) },
+  { path: 'newsletter/next/index.html', html: nextEditionsPage(ctx) },
   { path: 'members/index.html', html: membersPage(ctx) },
   { path: 'games/index.html', html: gamesIndex(ctx) },
   { path: 'games/where/index.html', html: wherePage(ctx) },
+  { path: 'games/shootaround/index.html', html: shootaroundPage(ctx) },
   { path: 'games/quiz/index.html', html: quizPage(ctx, QUIZZES.at(-1)) },
   ...(SAMPLE_QUIZZES.length ? [{ path: 'games/quiz/sample/index.html', html: quizPage(ctx, SAMPLE_QUIZZES.at(-1), { sample: true }) }] : []),
 ];

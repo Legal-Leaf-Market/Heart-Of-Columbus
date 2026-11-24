@@ -1,10 +1,12 @@
+import { smartCarousel, slides, orderDirectBanner, newsletterBanner, historyBanner } from '../banners.mjs';
+import { stories } from '../news/content.mjs';
 import { siteLd } from '../jsonld.mjs';
 // The home page: a front door to every independent business in Columbus.
 import { page, esc, t } from '../layout.mjs';
 import { businesses, prototypes } from '../data/businesses.mjs';
 import { directory, CATEGORIES, AREAS, inSection } from '../data/directory.mjs';
 import { header, footer, rail, svg, PHOTOS, sticker, catSticker } from '../site.mjs';
-import { eventsSection } from './events.mjs';
+import { eventsSection, homeEvents } from './events.mjs';
 import { yourWay } from './trip-pages.mjs';
 import { spotlightSection } from './spotlight.mjs';
 
@@ -20,10 +22,13 @@ const featuredStyle = {
 // A rail is a taste with a "See all" link, not the whole category: n places
 // spread evenly through the list, so it is not always the A names.
 const RAIL = 8;
-const pick = (fn, n = RAIL) => {
-  const all = directory.filter(fn);
-  if (all.length <= n) return all;
-  return Array.from({ length: n }, (_, i) => all[Math.floor((i * all.length) / n)]);
+// `seen` keeps one business from showing in two homepage rails (411 Gallery is
+// both downtown and a gift shop); each rail takes the next ones instead.
+const pick = (fn, n = RAIL, seen = null) => {
+  const all = directory.filter((b) => fn(b) && !(seen && seen.has(b.slug)));
+  const out = all.length <= n ? all : Array.from({ length: n }, (_, i) => all[Math.floor((i * all.length) / n)]);
+  if (seen) for (const b of out) seen.add(b.slug);
+  return out;
 };
 // The open-now rail ships the places open the most hours a week, so a few are
 // open at almost any hour; the page then shows only the ones open right now.
@@ -111,23 +116,35 @@ ${header()}
   </div>
 </section>
 
+${smartCarousel(slides({ news: stories[0] }))}
+
 <section class="cats wrap" aria-labelledby="cats-h">
   <div class="fg-head"><div><p class="kicker">Browse by category</p><h2 id="cats-h">What are you after today?</h2></div>
     <p class="fg-head-note">Every category, every count, straight from the directory. Hungry, fixing something, or booking a cut.</p></div>
   <ul class="cat-grid" role="list">
-    ${CATEGORIES.map((c) => `<li><a class="cat-tile" href="/c/${c.slug}/" style="--t:${c.tint}">
-        <span class="cat-stk">${catSticker(c.slug, { size: 88 })}</span>
-        <span class="cat-name">${esc(c.label)}</span>
-        <span class="cat-n">${count((b) => inSection(b, c.slug))} places</span>
+    ${CATEGORIES.map((c) => `<li><a class="cat-tile" href="/c/${c.slug}/" style="--t:${c.tint};--c:${c.color}">
+        <span class="cat-stk">${catSticker(c.slug, { size: 56 })}</span>
+        <span class="cat-txt"><span class="cat-name">${esc(c.label)}</span><span class="cat-n">${count((b) => inSection(b, c.slug))}</span></span>
+        <svg class="cat-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a></li>`).join('')}
   </ul>
 </section>
 
+${newsletterBanner()}
+
 ${spotlightSection({ title: 'Meet your neighbors.' })}
+<section class="wrap" data-counter-activity hidden aria-labelledby="counter-title">
+  <img src="/img/field-guide-stickers/clinking-mugs.webp" width="96" height="96" style="object-fit:contain" alt="" loading="lazy" decoding="async">
+  <h2 id="counter-title">Around the Counter</h2>
+  <p data-counter-count></p>
+  <a href="/explore/">Visit the business</a>
+</section>
+
+${o ? orderDirectBanner({ n: o }) : ''}
 
 ${o || k || f ? `<section class="wrap go-band" aria-labelledby="go-h">
   <div class="go-box">
-    <div class="go-copy"><p class="kicker">No app in the middle</p><h2 id="go-h">Go straight to the source.</h2>
+    <div class="go-copy"><p class="kicker">No app in the middle</p><h2 id="go-h">Book and shop direct, too.</h2>
     <p>These places already run their own online ordering, booking or store. We send you to theirs, so they keep the whole ticket. We never take payment.</p></div>
     <ul class="go-tiles" role="list">
       ${o ? `<li><a href="/order/#order">${sticker('takeaway', { size: 72 })}<span><b>${o}</b> order pickup online</span>${svg('arrow', 'ic-sm')}</a></li>` : ''}
@@ -158,12 +175,12 @@ ${o || k || f ? `<section class="wrap go-band" aria-labelledby="go-h">
   </div>
 </section>
 
-${eventsSection({ mode: 'weekend', id: 'this-weekend', title: 'This weekend in Columbus', kicker: 'Happening Friday to Sunday' })}
+${homeEvents()}
 
 ${rail('Open right now', '/explore/?open=1', directory.filter((b) => b.hours && !b.tempClosed && FOOD.includes(b.cat)).sort((a, b) => weeklyMinutes(b) - weeklyMinutes(a)).slice(0, OPEN_CANDIDATES), { kicker: 'Hungry? These are open', openOnly: true })}
 
 <div class="rails" data-shuffle-rails>
-${railsShown.map(([title, href, fn, kicker]) => rail(title, href, pick(fn), { kicker })).join('')}
+${((seen) => railsShown.map(([title, href, fn, kicker]) => rail(title, href, pick(fn, RAIL, seen), { kicker })).join(''))(new Set())}
 </div>
 
 <section class="wrap fg-trails" aria-labelledby="trails-h">
@@ -173,6 +190,8 @@ ${railsShown.map(([title, href, fn, kicker]) => rail(title, href, pick(fn), { ki
     ${trails.map((x) => `<li><a class="trail-row" href="${x.href}">${sticker(x.stk, { size: 64 })}<span class="trail-txt"><span class="trail-k">${esc(x.kicker)}</span><strong>${esc(x.title)}</strong></span><span class="trail-n">${x.n} places</span><span class="trail-go">See all ${svg('arrow', 'ic-sm')}</span></a></li>`).join('')}
   </ul>
 </section>
+
+${historyBanner()}
 
 <section class="athens" id="architecture" aria-labelledby="athens-h">
   <div class="wrap athens-head">
@@ -200,7 +219,7 @@ ${yourWay({ id: 'trip-ideas' })}
 <section class="areas wrap" id="neighborhoods" aria-labelledby="areas-h">
   <div class="fg-map">
     <div class="fg-map-head">
-      <div><p class="kicker">Around town</p><h2 id="areas-h">Discover Columbus by neighborhood.</h2>
+      <div><p class="kicker">Around town</p><img src="/img/field-guide-stickers/neighborhood-map.webp" width="80" height="80" style="object-fit:contain" alt="" loading="lazy" decoding="async"><h2 id="areas-h">Discover Columbus by neighborhood.</h2>
       <p>${AREAS.length} parts of town, each with its own rail of places. The drawing is decoration; for real pins use the <a href="/explore/?view=map">map</a>.</p></div>
       <div class="fg-map-art" aria-hidden="true">${sticker('map-heart', { size: 150 })}${sticker('covered-bridge', { size: 120 })}</div>
     </div>
@@ -234,14 +253,14 @@ ${yourWay({ id: 'trip-ideas' })}
     <div>
       <p class="kicker">The math</p>
       <h2 id="keep-h">Keep it in Columbus</h2>
-      <p class="keep-sub">Delivery apps commonly charge restaurants 15 to 30 percent of each order. Move the sliders to see what direct ordering could keep in local pockets.</p>
+      <p class="keep-sub">Ordering apps take a cut even when you pick the food up yourself. DoorDash charges restaurants 6 percent on pickup orders. Move the sliders to see what ordering direct could keep in local pockets.</p>
       <div class="sliders">
-        <label><span><span id="k-orders-l">App orders per week, per business</span><output data-out="orders"></output></span>
+        <label><span><span id="k-orders-l">App pickup orders per week, per business</span><output data-out="orders"></output></span>
           <input type="range" min="10" max="300" step="10" value="60" data-in="orders" id="k-orders" aria-labelledby="k-orders-l"></label>
         <label><span><span id="k-avg-l">Average order</span><output data-out="avg"></output></span>
           <input type="range" min="10" max="60" step="1" value="24" data-in="avg" id="k-avg" aria-labelledby="k-avg-l"></label>
-        <label><span><span id="k-rate-l">App commission</span><output data-out="rate"></output></span>
-          <input type="range" min="15" max="30" step="1" value="25" data-in="rate" id="k-rate" aria-labelledby="k-rate-l"></label>
+        <label><span><span id="k-rate-l">App pickup commission</span><output data-out="rate"></output></span>
+          <input type="range" min="1" max="10" step="1" value="6" autocomplete="off" data-in="rate" id="k-rate" aria-labelledby="k-rate-l"></label>
         <label><span><span id="k-biz-l">Restaurants that switch</span><output data-out="biz"></output></span>
           <input type="range" min="1" max="${count((b) => b.cat === 'restaurants')}" step="1" value="10" data-in="biz" id="k-biz" aria-labelledby="k-biz-l"></label>
       </div>
@@ -249,7 +268,8 @@ ${yourWay({ id: 'trip-ideas' })}
     <div class="keep-out">
       <div class="keep-card"><p>Kept in Columbus each year</p><p class="keep-big" data-year>$0</p><p data-week></p></div>
       <div class="keep-card"><p>Your demo orders on this device</p><p class="keep-mid" data-ledger>$0.00 ordered</p><p data-ledger-kept>Place an order in any demo storefront and it shows up here.</p></div>
-      <p class="keep-fine">An estimate from the numbers above, not real sales data. Commission range from common delivery-app restaurant plans.</p>
+      <p class="keep-share"><button type="button" class="btn btn-ghost" data-keep-share>Share this math</button><span data-keep-msg role="status"></span></p>
+      <p class="keep-fine">An estimate from the numbers above, not real sales data. Pickup commission runs 1 to 10 percent here; 6 percent is DoorDash’s pickup rate for restaurants.</p>
     </div>
   </div>
 </section>
@@ -278,7 +298,7 @@ ${footer()}`;
     title: 'Heart of Columbus | Local Businesses in Columbus, Indiana',
     description: `${total} independent restaurants, shops, salons and trades in Columbus, Indiana. Browse by category or neighborhood, and order direct.`,
     body,
-    scripts: ['site.js', 'hub.js', 'events.js'],
+    scripts: ['site.js', 'hub.js', 'events-week.js', 'banners.js', 'subscribe.js', 'counter-activity.js'],
     styles: ['hoc.css'],
     assets,
     ld: [siteLd()],

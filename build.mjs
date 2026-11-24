@@ -9,12 +9,18 @@ import { pages as storefronts } from './src/pages/storefronts.mjs';
 import { directoryPages } from './src/pages/directory-pages.mjs';
 import { pickupPages } from './src/pages/pickup-pages.mjs';
 import { ownersPages } from './src/pages/owners-pages.mjs';
+import { trackingPages } from './src/pages/tracking-pages.mjs';
 import { foundersPages } from './src/pages/founders-pages.mjs';
 import { visitPages } from './src/pages/visit-pages.mjs';
 import { landmarkPages } from './src/pages/landmark-pages.mjs';
 import { icsFeed } from './src/pages/events.mjs';
 import { finalizeSeo } from './src/seo.mjs';
 import { ORIGIN } from './src/jsonld.mjs';
+import { upcomingEditions } from './src/news/editions.mjs';
+import { allFeeds } from './src/news/feeds.mjs';
+import { stories as publishedStories } from './src/news/content.mjs';
+import { shareCard } from './src/pages/news-pages.mjs';
+import sharp from 'sharp';
 import { prepareImages, responsiveImages } from './scripts/images.mjs';
 import { holidayPages } from './src/pages/holiday-pages.mjs';
 import { filmPages } from './src/pages/film-pages.mjs';
@@ -30,8 +36,9 @@ import { accessPages } from './src/pages/access-pages.mjs';
 import { calendarPages } from './src/pages/calendar-pages.mjs';
 import { paperPages } from './src/pages/paper-pages.mjs';
 import { sportsPages } from './src/pages/sports-pages.mjs';
-import { helpPages } from './src/pages/help-pages.mjs';
+import { helpPages, helpDockJson } from './src/pages/help-pages.mjs';
 import { historyPages, articlesJson } from './src/pages/history-pages.mjs';
+import { printPages } from './src/pages/print-pages.mjs';
 import { searchIndex } from './src/site.mjs';
 import { newsPages } from './src/pages/news-pages.mjs';
 import { cmsConfig } from './src/news/cms.mjs';
@@ -69,6 +76,7 @@ const pages = [
   ...directoryPages({ assets }),
   ...pickupPages({ assets }),
   ...ownersPages({ assets }),
+  ...trackingPages({ assets }),
   ...foundersPages({ assets }),
   ...visitPages({ assets }),
   ...landmarkPages({ assets }),
@@ -89,6 +97,7 @@ const pages = [
   ...helpPages({ assets }),
   ...historyPages({ assets }),
   ...skatePages({ assets }),
+  ...printPages({ assets }),
 ];
 await mkdir(new URL('data/', out), { recursive: true });
 await writeFile(new URL('data/directory.json', out), JSON.stringify(searchIndex()));
@@ -97,6 +106,23 @@ await mkdir(new URL('admin/', out), { recursive: true });
 await writeFile(new URL('admin/config.yml', out), cmsConfig());
 await mkdir(new URL('history/', out), { recursive: true });
 await writeFile(new URL('history/articles.json', out), articlesJson());
+// The floating help dock's search (public/js/help-dock.js) reads this.
+await mkdir(new URL('help/', out), { recursive: true });
+await writeFile(new URL('help/index.json', out), helpDockJson());
+// The newsletter's next seven editions, for the morning job (src/news/editions.mjs).
+await mkdir(new URL('newsletter/editions/', out), { recursive: true });
+for (const ed of upcomingEditions()) await writeFile(new URL(`newsletter/editions/${ed.date}.json`, out), JSON.stringify(ed));
+// RSS: the whole paper, each series and each section (src/news/feeds.mjs).
+for (const [file, xml] of allFeeds()) { const u = new URL(file, out); await mkdir(new URL('./', u), { recursive: true }); await writeFile(u, xml); }
+// Share cards: each story's lead photo cut to 1200 x 630 for Facebook, texts
+// and X, so a shared link shows the story rather than the site logo.
+await mkdir(new URL('og/news/', out), { recursive: true });
+for (const s of publishedStories) {
+  const card = shareCard(s);
+  if (!card) continue;
+  const src = new URL('public' + s.images[0].file, root);
+  if (existsSync(src)) await sharp(src.pathname).rotate().resize(1200, 630, { fit: 'cover', position: 'attention' }).jpeg({ quality: 82 }).toFile(new URL(card.src.slice(1), out).pathname);
+}
 // The robots meta is decided here, per path, by the one policy in
 // src/indexing.mjs. The layout leaves a marker so no page can opt itself in.
 for (const p of pages) {

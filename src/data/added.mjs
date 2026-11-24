@@ -21,7 +21,7 @@
 // Legal Leaf Market Cafe: from its owner, Jacob Kennedy, who also publishes
 // Heart of Columbus (2026-11-13): a cafe coming soon to Columbus, Indiana. No
 // address, hours or menu yet. Listed as coming soon, with the tie disclosed on
-// its page.
+// its page. Moved to Shopping, Smoke & Vape on 2026-11-24 (see the entry).
 //
 // Rabbit's Balloons: from its owner, Rachael Starr, in conversation with Jacob
 // Kennedy (2026-11-15): organic balloon arches, garlands and displays in all
@@ -105,7 +105,37 @@
 // 2026-11-23): 750 West 200 South, Columbus. Home of the 4-H Fair; the fair's own
 // site (already credited in events.mjs) lists building rentals through the year.
 // No current phone found on a public listing, so none is shown.
+//
+// From the research pass of 2026-11-24 (ChatGPT's candidate list, each
+// checked by hand against the page named here; candidates whose own pages
+// did not answer were left out):
+//
+// PAQ'D Meats (paqdmeats.com, checked 2026-11-24): "a small, family-owned and
+// operated sheep and goat farm located in southern Indiana" selling "locally
+// raised, high-quality lamb, goat and beef meats", with an Order Online page;
+// 5844 Laramie Trail, Columbus, IN 47203; Tel 812-350-0100.
+//
+// Not added: M&M Sportscards & Collectibles. The visitors bureau's directory
+// still lists it at 3003 25th Street, but its own Google listing marks it
+// permanently closed (src/data/web.mjs) and its old domain no longer belongs
+// to it, so it stays off, as the landscape row already did.
+//
+// Not added: Max's Jewelry (401 Washington St). Added earlier on 2026-11-24
+// from an old YellowPages listing, then taken off the same day: Jake says the
+// store has closed and another business is in its space.
 export const ADDED = [
+  {
+    name: "PAQ'D Meats",
+    cat: 'shopping',
+    sub: 'markets',
+    type: 'Farm-raised lamb, goat and beef',
+    address: '5844 Laramie Trail',
+    phone: '(812) 350-0100',
+    website: 'https://www.paqdmeats.com/',
+    book: [],
+    source: 'https://www.paqdmeats.com/',
+    checked: '2026-11-24',
+  },
   {
     name: 'Crossroads Wedding Co.',
     cat: 'events',
@@ -146,9 +176,13 @@ export const ADDED = [
   },
   {
     name: 'Legal Leaf Market Cafe',
-    cat: 'coffee-sweets',
-    sub: 'coffee-sweets',
-    type: 'Cafe',
+    // Filed under Smoke & Vape for now (owner's call, 2026-11-24): its online
+    // store sells vapes and smoke goods today. Its coffee and tea shop isn't
+    // open yet; move it back to Coffee & Sweets (or list it in both, `also`
+    // in own-facts.mjs) once coffee and tea are on sale.
+    cat: 'smoke',
+    sub: 'smoke',
+    type: 'Vape shop',
     address: '',
     phone: '',
     website: 'https://shop.legalleafmarket.shop/',
@@ -300,5 +334,31 @@ export const ADDED = [
     book: [],
     source: 'https://comeseecolumbus.com/directory/bartholomew-county-fairgrounds/',
     checked: '2026-11-23',
+  },
+  {
+    name: 'Wild Bramble Catering',
+    cat: 'restaurants',
+    sub: 'bbq-trucks',
+    type: 'Seasonal catering for weddings, private events and corporate gatherings',
+    address: '',
+    phone: '(463) 202-6046',
+    website: 'https://www.wildbramblecatering.com/',
+    book: [],
+    source: 'https://www.wildbramblecatering.com/',
+    checked: '2026-11-24',
+  },
+  {
+    // The publisher confirmed the location and shared ownership. The public
+    // internship announcement confirms the name and city.
+    name: 'Rad Play',
+    cat: 'shopping',
+    sub: 'local-shops',
+    type: 'Local shop from the owners of Dooby’s',
+    address: 'State Street, next to Dooby’s',
+    phone: '',
+    website: '',
+    book: [],
+    source: 'https://www.linkedin.com/in/alliefpeters',
+    checked: '2026-11-24',
   },
 ];
