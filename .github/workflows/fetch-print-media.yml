@@ -1,0 +1,31 @@
+# Saves local copies of the print edition's photos (scripts/fetch-print-media.mjs)
+# so no page hotlinks a photo that can vanish. Trigger: edit
+# scripts/data/print-media-request.txt on a claude branch (first line: the
+# PHOTOS keys to fetch, space separated, or blank for every missing one), or
+# run it by hand. Read-only toward the source; the result is committed to the
+# branch that asked.
+name: Fetch print media
+on:
+  workflow_dispatch:
+  push:
+    branches: ['claude/**']
+    paths: ['scripts/data/print-media-request.txt']
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/fetch-print-media.mjs $(head -1 scripts/data/print-media-request.txt 2>/dev/null)
+      - name: Commit results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/print-media
+          git diff --cached --quiet || git commit -m "Print photos saved locally by the Fetch print media workflow"
+          git push
