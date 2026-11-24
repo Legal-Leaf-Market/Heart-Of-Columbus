@@ -189,7 +189,6 @@ export function card(b, { compact = false, note = '' } = {}) {
   const cat = catBySlug[b.cat];
   const sub = subBySlug[b.sub];
   const area = areaBySlug[b.area];
-  const m = businessMedia(b.slug);
   const tags = [];
   if (b.member) tags.push('<span class="tag tag-member" title="Pays Heart of Columbus for a website and a featured spot">★ Founding Member</span>');
   if (SPOTLIGHT_SLUGS.has(b.slug)) tags.push('<span class="tag tag-spot">★ Spotlight</span>');
@@ -202,8 +201,8 @@ export function card(b, { compact = false, note = '' } = {}) {
   if (b.added?.soon) tags.push('<span class="tag tag-hot">Coming soon</span>');
   if (b.tempClosed) tags.push('<span class="tag tag-warn">Temporarily closed</span>');
   return `
-<article class="bz${compact ? ' bz-compact' : ''}" data-slug="${b.slug}" data-media="${m.state === 'photo' ? 'photo' : 'none'}" style="--t:${cat.tint}">
-  ${m.state === 'photo' ? `<a class="bz-media" href="/b/${b.slug}/" tabindex="-1" aria-hidden="true"><img class="bz-photo" src="${m.src}" width="${m.width}" height="${m.height}" alt="" loading="lazy" decoding="async" onerror="${MEDIA_FAIL}"></a>` : ''}
+<article class="bz${compact ? ' bz-compact' : ''}" data-slug="${b.slug}" data-media="art" style="--t:${cat.tint}">
+  <a class="bz-artwork" href="/b/${b.slug}/" tabindex="-1" aria-hidden="true" style="display:flex;align-items:center;justify-content:center;overflow:hidden;height:${compact ? 148 : 188}px;background:var(--t);border-radius:14px 14px 0 0">${businessIllustration(b.slug, { size: compact ? 112 : 146 })}</a>
   <div class="bz-body">
     <div class="bz-top">
       <p class="bz-meta">${esc(cat.label)}${area ? `<span class="bz-area">${svg('pin', 'ic-xs')}${esc(area.label)}</span>` : ''}</p>
