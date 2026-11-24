@@ -4,10 +4,26 @@ dek: "Life's short, extend an olive branch."
 label: Opinion
 section: sports
 series: jake-takes-the-town
+stickers:
+  - sticker: olive-branch
+  - sticker: hug
+  - sticker: basketball
+  - sticker: road-trip
+    heading: Getting there
+  - sticker: arena-lights
+    heading: The view from my seat
+  - sticker: popcorn-cotton-candy
+    heading: Food and drink
+  - sticker: cheering
+    heading: The people working the building
+  - sticker: choir
+    heading: The show
+  - sticker: starburst
+    heading: Worth the drive?
 bylines: [jacob-kennedy]
 editor: eli-wire
 published: 2026-11-23T20:16:00-05:00
-updated: 2026-11-23T20:39:00-05:00
+updated: 2026-11-23T20:44:00-05:00
 images:
   - file: /news-media/2026/11/pacers-thunder-jake-and-eli.jpg
     alt: Eli Wire and Jake Kennedy smiling together in their seats at the Pacers game.
@@ -23,6 +39,11 @@ images:
   - file: /news-media/2026/11/pacers-thunder-intros.jpg
     alt: Flame cannons fire on the court during player introductions, with a player in an Indiana number 32 jersey shouting on the center video board and the scoreboard still at 0 to 0.
     caption: Off with a bang!
+    credit: Eli Wire
+    creditUrl: https://www.instagram.com/eliwire/
+    license: Staff photo
+  - file: /news-media/2026/11/pacers-thunder-halftime.jpg
+    alt: At center court, a performer in a red Tyler's Amazing Balancing Act shirt balances a tall stepladder on his face while a camera operator films.
     credit: Eli Wire
     creditUrl: https://www.instagram.com/eliwire/
     license: Staff photo
@@ -66,9 +87,9 @@ Staff pointed us the wrong direction first for Chick-fil-A, but then two lovely 
 
 They had an elementary choir sing the national anthem and a middle school aged dance group. Both were phenomenal.
 
-The halftime was Tyler Amazing Balance Act. He balances a bunch of stuff on his nose. I give it a 3.5, weakest point of the night.
+The halftime was Tyler's Amazing Balancing Act. He balances a bunch of stuff on his nose. I give it a solid 4, weakest point of the night.
 
-**Halftime: 3.5 out of 5**
+**Halftime: 4 out of 5**
 
 **Rating: 5 out of 5**
 
