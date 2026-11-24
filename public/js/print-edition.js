@@ -128,7 +128,7 @@
     }
   }
   // Give unoccupied space to the field guides before using history or house notices.
-  const MIN = 0.4 * 96;
+  const MIN = 0.34 * 96;
   function gapIn(cell) {
     const bottom = Math.max(...[...cell.children].map((child) => child.getBoundingClientRect().bottom));
     return cell.getBoundingClientRect().bottom - bottom;
@@ -152,6 +152,7 @@
     const pool = [...tpl.content.children];
     const architecture = pool.filter((item) => item.dataset.landmark);
     const history = pool.filter((item) => item.dataset.hist);
+    const trivia = pool.filter((item) => item.dataset.trivia);
     const notices = pool.filter((item) => item.dataset.house);
     const uses = new Map();
     const gaps = gapsNow().sort((a, b) => b[1] - a[1]);
@@ -160,29 +161,37 @@
       const topics = (sheet.dataset.topics || '').split(' ');
       const row = cell.closest('.pe-row');
       const body = sheet.querySelector('.pe-body');
-      const order = [...architecture, ...history.filter((item) => topics.includes(item.dataset.topic)), ...history.filter((item) => !topics.includes(item.dataset.topic)), ...notices];
+      const relatedFirst = (items) => [...items.filter((item) => topics.includes(item.dataset.topic)), ...items.filter((item) => !topics.includes(item.dataset.topic))];
+      const order = [...architecture, ...relatedFirst(history), ...relatedFirst(trivia), ...notices];
       const before = row.getBoundingClientRect().height;
+      const fits = () => !squeezed(cell) && !over(body) && row.getBoundingClientRect().height <= before + 1;
       const pageNotices = new Set([...sheet.querySelectorAll('[data-house]')].map((item) => item.dataset.house.replace(/-slim$/, '')));
       let placed = false;
       let hasGuide = Boolean(sheet.querySelector('[data-landmark]'));
+      let hasTrivia = Boolean(sheet.querySelector('[data-trivia]'));
       cell.classList.add('pe-filled');
       for (const item of order) {
         if (gapIn(cell) < MIN) break;
-        const id = item.dataset.landmark || item.dataset.hist || item.dataset.house;
+        const id = item.dataset.landmark || item.dataset.hist || item.dataset.trivia || item.dataset.house;
         const cap = item.dataset.house ? 2 : 1;
         const notice = item.dataset.house?.replace(/-slim$/, '');
         if ((uses.get(id) || 0) >= cap || (notice && pageNotices.has(notice))) continue;
         if (item.dataset.landmark && hasGuide) continue;
+        if (item.dataset.trivia && hasTrivia) continue;
         const copy = item.cloneNode(true);
-        copy.classList.add(item.dataset.landmark ? 'pe-architecture-fill' : 'pe-print-filler');
+        copy.classList.toggle('pe-architecture-fill', Boolean(item.dataset.landmark));
+        if (!item.dataset.landmark && !item.dataset.trivia) copy.classList.add('pe-print-filler');
+        copy.classList.toggle('pe-architecture-feature', item.hasAttribute('data-landscape'));
         cell.append(copy);
-        if (squeezed(cell) || over(body) || row.getBoundingClientRect().height > before + 1) {
+        if (copy.classList.contains('pe-architecture-feature') && !fits()) copy.classList.remove('pe-architecture-feature');
+        if (!fits()) {
           copy.remove();
           continue;
         }
         uses.set(id, (uses.get(id) || 0) + 1);
         if (notice) pageNotices.add(notice);
         if (item.dataset.landmark) hasGuide = true;
+        if (item.dataset.trivia) hasTrivia = true;
         placed = true;
       }
       if (!placed) cell.classList.remove('pe-filled');

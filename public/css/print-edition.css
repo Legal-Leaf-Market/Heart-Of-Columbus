@@ -472,25 +472,31 @@ mark.pe-check { background: #ffe58a; color: #5c3b00; font: 700 0.86em/1.3 var(--
 .pe-gathers li:nth-child(3n+3) .pe-decade { background: var(--pe-gold); color: var(--pe-ink) !important; }
 
 /* ---------- Illustrated landmarks and advertisements ---------- */
-.pe-architecture, .pe-business-ad { flex: none; min-width: 0; margin-top: 0.14in; }
+.pe-architecture, .pe-business-ad, .pe-trivia { flex: none; min-width: 0; margin-top: 0.14in; }
 .pe-cell > :is(.pe-architecture, .pe-business-ad):first-child, .pe-stack > :is(.pe-architecture, .pe-business-ad):first-child, .pe-lead-l > .pe-architecture { margin-top: 0; }
 .pe-card-label { color: var(--pe-red); font: 750 7pt/1.15 var(--pe-sans) !important; letter-spacing: .13em; text-transform: uppercase; }
-.pe-architecture { display: grid; grid-template-columns: minmax(0, 1.05in) minmax(0, 1fr); gap: 9pt; align-items: center; padding: 8pt; border: 1pt solid var(--pe-hair); border-left: 2pt solid var(--pe-teal); background: var(--pe-tint); }
-.pe-architecture-art { display: grid; place-items: center; aspect-ratio: 1; padding: 2pt; background: #fffbf6; }
-.pe-architecture-art img { width: 100%; height: 100%; object-fit: contain; }
+.pe-architecture { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 10pt; align-items: center; padding: 8pt; border: 1pt solid var(--pe-hair); border-left: 2pt solid var(--pe-teal); background: var(--pe-tint); }
+/* The crop matches the opaque building, not the map pin’s full canvas. */
+.pe-architecture-art { position: relative; width: 100%; aspect-ratio: 512 / var(--art-height); overflow: hidden; }
+.pe-architecture-art img { position: absolute; inset: var(--art-top) auto auto 0; display: block; width: 100%; height: auto; }
+.pe-architecture-copy { min-width: 0; max-width: 30ch; }
 .pe-architecture h3 { margin: 2pt 0 3pt; font: 750 14pt/1.05 var(--pe-head); letter-spacing: -.01em; }
 .pe-architecture-location { color: var(--pe-teal); font: 700 7.3pt/1.3 var(--pe-sans) !important; margin-bottom: 3pt !important; }
 .pe-architecture .pe-qr { margin-top: 4pt; }
 .pe-architecture .pe-qr p span { display: none; }
 .pe-architecture .pe-qr-code, .pe-business-ad .pe-qr-code { width: .48in; height: .48in; }
+.pe-architecture-feature { grid-template-columns: minmax(0, 1fr); gap: 5pt; justify-items: start; }
+.pe-architecture-feature .pe-architecture-copy { order: -1; max-width: 32ch; }
+.pe-architecture-feature .pe-architecture-art { width: min(100%, 4.15in); justify-self: center; }
 @container (min-width: 4.6in) {
-  .pe-architecture { grid-template-columns: minmax(0, 1.43in) minmax(0, 1fr); }
+  .pe-architecture:not(.pe-architecture-feature) { grid-template-columns: minmax(0, min(67%, 3.95in)) minmax(0, 1fr); }
   .pe-architecture h3 { font-size: 16pt; }
 }
-@container (max-width: 2.5in) {
-  .pe-architecture { grid-template-columns: minmax(0, 1fr); }
-  .pe-architecture-art { width: 1in; justify-self: center; }
-}
+
+.pe-trivia { position: relative; margin-top: .08in; padding: 4pt 6pt 4pt 15pt; border-block: .5pt solid var(--pe-hair); font: 8.5pt/1.23 var(--pe-serif); }
+.pe-trivia::before { position: absolute; left: 3pt; top: 4pt; content: "◇"; color: var(--pe-red); font: 9pt/1 var(--pe-serif); }
+.pe-trivia b { color: var(--pe-red); font: 750 6.5pt var(--pe-sans); letter-spacing: .07em; text-transform: uppercase; white-space: nowrap; }
+.pe-trivia a { color: inherit; }
 
 .pe-business-ad { padding: 10pt; border: 1pt solid var(--pe-hair); border-top: 3pt solid var(--pe-red); background: #fff8f0; font: 8.3pt/1.3 var(--pe-sans); }
 .pe-business-ad-amys { border-top-color: var(--pe-teal); background: var(--pe-mint); }
@@ -569,12 +575,16 @@ mark.pe-check { background: #ffe58a; color: #5c3b00; font: 700 0.86em/1.3 var(--
   .pe-reading:not(.pe-fitting) .pe-dateline { padding-block: 8px; }
   .pe-reading:not(.pe-fitting) .pe-lead { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: clamp(16px, 3vw, 36px); align-items: start; }
   .pe-reading:not(.pe-fitting) .pe-lead > * { grid-column: auto; }
+  .pe-reading:not(.pe-fitting) .pe-lead-l { container-type: inline-size; }
   .pe-reading:not(.pe-fitting) .pe-lead-l > .pe-fig { flex: none; }
   .pe-reading:not(.pe-fitting) .pe-lead-l > .pe-fig img { flex: none; height: auto; aspect-ratio: 3 / 2; }
   .pe-reading:not(.pe-fitting) :is(.pe-lead-l > .pe-fig img, .pe-teaser, .pe-inside, .pe-sidebar) { border-radius: 2px; }
   .pe-reading:not(.pe-fitting) .pe-factbox { padding: 12px 15px; }
   .pe-reading:not(.pe-fitting) :is(.pe-architecture, .pe-business-ad) { padding: 15px; border-radius: 4px; }
-  .pe-reading:not(.pe-fitting) .pe-architecture-fill { margin-top: 16px !important; }
+  .pe-reading:not(.pe-fitting) :is(.pe-architecture-fill, .pe-trivia) { margin-top: 16px !important; }
+  .pe-reading:not(.pe-fitting) .pe-trivia { font-size: 15px; }
+  .pe-reading:not(.pe-fitting) .pe-trivia a:hover { text-decoration: underline; }
+  .pe-reading:not(.pe-fitting) .pe-architecture-feature .pe-architecture-art { width: min(100%, 600px); }
   .pe-reading:not(.pe-fitting) :is(.pe-architecture, .pe-business-ad) h3 { font-size: clamp(22px, 3vw, 29px); }
   .pe-reading:not(.pe-fitting) .pe-business-ad { font-size: 14px; }
   .pe-reading:not(.pe-fitting) :is(.pe-architecture, .pe-business-ad) a { text-decoration: underline; text-underline-offset: 3px; }
@@ -599,6 +609,13 @@ mark.pe-check { background: #ffe58a; color: #5c3b00; font: 700 0.86em/1.3 var(--
   .pe-page-turn a { display: grid; align-content: center; gap: 4px; min-width: 0; min-height: 58px; padding: 8px 12px; background: #f4eee1; font: 750 15px/1.2 var(--pe-head); }
   .pe-page-turn a:last-child { margin-left: auto; text-align: right; }
   .pe-page-turn a:hover { background: #ebe0cb; text-decoration: underline; }
+}
+
+@media screen {
+  @container (max-width: 440px) {
+    .pe-reading:not(.pe-fitting) .pe-architecture:not(.pe-architecture-feature) { grid-template-columns: minmax(0, 1fr); }
+    .pe-reading:not(.pe-fitting) .pe-architecture:not(.pe-architecture-feature) .pe-architecture-art { max-width: 310px; justify-self: center; }
+  }
 }
 
 @media screen and (max-width: 800px) {
@@ -630,7 +647,8 @@ mark.pe-check { background: #ffe58a; color: #5c3b00; font: 700 0.86em/1.3 var(--
   .pe-reading:not(.pe-fitting) .pe-inside ol { columns: 2; column-gap: 16px; }
   .pe-reading:not(.pe-fitting) .pe-inside li { break-inside: avoid; }
   .pe-reading:not(.pe-fitting) .pe-cal-weekly ul { column-count: 1; }
-  .pe-reading:not(.pe-fitting) .pe-architecture { grid-template-columns: minmax(0, 85px) minmax(0, 1fr); }
+  .pe-reading:not(.pe-fitting) .pe-architecture:not(.pe-architecture-feature) { grid-template-columns: minmax(0, 1fr); }
+  .pe-reading:not(.pe-fitting) .pe-architecture:not(.pe-architecture-feature) .pe-architecture-art { max-width: 280px; justify-self: center; }
   .pe-reading:not(.pe-fitting) .pe-wordlist { grid-template-columns: repeat(2, auto); }
 }
 

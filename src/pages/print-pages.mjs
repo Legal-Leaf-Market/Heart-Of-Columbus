@@ -88,10 +88,31 @@ function loadSlot(id) {
 const SLOTS = {};
 for (const pg of E.pages) for (const m of pg.rows.flatMap((r) => r.mods.flatMap((x) => (x.type === 'stack' ? x.mods : [x])))) if (m.type === 'writer') SLOTS[m.id] = { mod: m, page: pg.n, copy: loadSlot(m.id) };
 
+// Small facts reuse the approved history and link straight to its sources.
+const TRIVIA = [
+  ['1930s/fire-department-diesel-pumper', 'Columbus’s fire department ended the 1930s with five motorized rigs.'],
+  ['1940s/camp-atterbury-is-built', 'Camp Atterbury was planned as a training camp for 30,000 soldiers.'],
+  ['1950s/lillian-schmitt-school', 'Schmitt Elementary was the first building in the Cummins Foundation’s architectural fee program.'],
+  ['1960s/otter-creek-golf-course', 'Otter Creek hosted the Indiana State Amateur for 26 straight years.'],
+  ['1960s/first-baptist-church', 'Architect Harry Weese designed the red brick First Baptist Church on Fairlawn Drive.'],
+  ['1970s/columbus-east-high-school', 'Columbus High became Columbus North when Columbus East opened in 1972.'],
+  ['1980s/clifty-creek-school', 'Richard Meier kept Clifty Creek Elementary’s interior almost all white so student artwork could bring the color.'],
+  ['1980s/fire-station-5', 'At Fire Station 5, architect Susana Torre put the kitchen at the center of station life.'],
+  ['1990s/mill-race-park', 'Mill Race Park was designed to go underwater and recover after a flood.'],
+  ['1990s/north-swimming-three-straight', 'Columbus North won three straight boys swimming state titles from 1998 to 2000.'],
+  ['1990s/second-street-bridge', 'The Second Street bridge was renamed for former mayor Bob Stewart in 2013.'],
+  ['2010s/iu-architecture-school', 'Indiana University’s architecture program in Columbus started with 20 students in the former Republic building.'],
+].map(([path, fact]) => {
+  const article = historyBy[path];
+  if (article?.status !== 'approved') throw new Error(`print: trivia needs approved history for ${path}`);
+  return { path, fact, article };
+});
+const TRIVIA_PATHS = new Set(TRIVIA.map(({ path }) => path));
+
 // History cards for short columns: approved articles the edition does not
 // already print, up to five per section, spread across the decades.
 const USED = new Set([...(E.noCards || []), ...E.gathers.map((g) => g[0]), ...E.pages.flatMap((pg) => pg.rows.flatMap((r) => r.mods.flatMap((m) => (m.type === 'stack' ? m.mods : [m])))).filter((m) => m.type === 'history').map((m) => m.path)]);
-const CARDS = Object.values(ARTICLES.filter((a) => a.status === 'approved' && a.kind === 'history' && !['papers', 'buildings'].includes(a.group) && !USED.has(`${a.group}/${a.slug}`) && a.dek && a.dek.length < 260)
+const CARDS = Object.values(ARTICLES.filter((a) => a.status === 'approved' && a.kind === 'history' && !['papers', 'buildings'].includes(a.group) && !USED.has(`${a.group}/${a.slug}`) && !TRIVIA_PATHS.has(`${a.group}/${a.slug}`) && a.dek && a.dek.length < 260)
   .reduce((by, a) => { (by[a.section] ||= []).push(a); return by; }, {}))
   .flatMap((list) => list.sort((a, b) => String(a.when).localeCompare(String(b.when))).filter((_, i, all) => all.length <= 5 || i % Math.ceil(all.length / 5) === 0).slice(0, 5));
 
@@ -120,13 +141,30 @@ const qr = (url, label = 'Read it online, with its sources') => {
 };
 
 // ---------- Pieces ----------
+// The map art shares a tall canvas so its buildings sit on the same baseline.
+// Trim that transparent space in the print presentation, without editing the originals.
+const FIELD_ART = {
+  cityhall: ['Columbus City Hall', 355, 608],
+  courthouse: ['County Courthouse', 73, 608],
+  firestation: ['Fire Station 4', 341, 608],
+  firstchristian: ['First Christian Church', 98, 608],
+  northchristian: ['The LEX', 96, 608],
+  library: ['The Library and Large Arch', 352, 606],
+  irwin: ['Irwin Union Bank', 339, 608],
+  miller: ['Miller House and Garden', 340, 608],
+  commons: ['Chaos I at The Commons', 37, 608],
+};
+
 function architectureHtml(slug) {
   const l = landmarkBySlug[slug];
   const guide = ARCHITECTURE[slug];
   if (!l || !guide) throw new Error(`print: no approved illustrated field guide for ${slug}`);
-  return `<aside class="pe-architecture" data-landmark="${esc(slug)}">
-    <div class="pe-architecture-art"><img src="${esc(guide.art)}" alt="Illustration of ${esc(l.name)}" width="512" height="512"></div>
-    <div><p class="pe-card-label">Columbus architecture</p><h3>${t(guide.title)}</h3>
+  const [name, top, bottom] = FIELD_ART[slug];
+  const height = bottom - top;
+  const artStyle = `--art-height:${height};--art-top:${(-100 * top / height).toFixed(2)}%`;
+  return `<aside class="pe-architecture" data-landmark="${esc(slug)}"${height < 300 ? ' data-landscape' : ''}>
+    <div class="pe-architecture-art" style="${artStyle}"><img src="${esc(guide.art)}" alt="Illustration of ${esc(l.name)}" width="512" height="608"></div>
+    <div class="pe-architecture-copy"><p class="pe-card-label">Columbus architecture</p><h3>${t(name)}</h3>
       <p class="pe-architecture-location">${t(l.address)}</p><p>${t(guide.dek)}</p>
       ${qr(guide.path, 'Field guide and sources')}
     </div>
@@ -545,7 +583,7 @@ function businessAd(id) {
 }
 
 // ---------- House ads ----------
-// The fitter uses illustrated field guides first, then history and compact
+// The fitter uses illustrated field guides first, then history, trivia and compact
 // house notices. Business ads are part of the page plan.
 const HOUSE = [
   ['tips', 'Know something we should?', 'Tell us. A reporter reads every tip, and we never print your name without asking.', '/tips/', 'Send a tip'],
@@ -559,7 +597,7 @@ const HOUSE = [
   ['letters', 'Write to the editor', 'Agree, disagree or tell us what we missed. We print letters with the writer’s name.', '/letters/', 'Write a letter'],
   ['order', 'Order direct, skip the app fee', 'Local restaurants and shops that take orders and bookings on their own pages.', '/order/', 'Order and book direct'],
 ];
-const houseAds = () => `<template id="pe-fillers">${Object.keys(ARCHITECTURE).filter((slug) => !PLANNED_ARCHITECTURE.has(slug)).map(architectureHtml).join('')}${CARDS.map((a) => `<aside class="pe-hcard" data-hist="${esc(a.group + '/' + a.slug)}" data-topic="${esc(a.section)}"><div><p class="pe-kicker">From our history · ${t(a.when)}</p><h3>${t(a.title)}</h3><p>${t(a.dek)}</p></div>${qr(a.path, 'The whole story')}</aside>`).join('')}${HOUSE.map(([id, h, p, path, label]) => `<aside class="pe-house" data-house="${id}"><div><p class="pe-house-tag">From Heart of Columbus</p><h3>${t(h)}</h3><p>${t(p)}</p></div>${qr(path, label)}</aside>`).join('')}${HOUSE.map(([id, h, , path, label]) => `<aside class="pe-house pe-house-slim" data-house="${id}-slim" data-max="8"><p><b>${t(h)}</b> ${t(label)}: ${esc(short(ORIGIN))}${esc(path)}</p></aside>`).join('')}</template>`;
+const houseAds = () => `<template id="pe-fillers">${Object.keys(ARCHITECTURE).filter((slug) => !PLANNED_ARCHITECTURE.has(slug)).map(architectureHtml).join('')}${CARDS.map((a) => `<aside class="pe-hcard" data-hist="${esc(a.group + '/' + a.slug)}" data-topic="${esc(a.section)}"><div><p class="pe-kicker">From our history · ${t(a.when)}</p><h3>${t(a.title)}</h3><p>${t(a.dek)}</p></div>${qr(a.path, 'The whole story')}</aside>`).join('')}${TRIVIA.map(({ path, fact, article }) => `<aside class="pe-trivia" data-trivia="${esc(path)}" data-topic="${esc(article.section)}"><p><b>Did you know?</b> <a href="${esc(article.path)}">${t(fact)}</a></p></aside>`).join('')}${HOUSE.map(([id, h, p, path, label]) => `<aside class="pe-house" data-house="${id}"><div><p class="pe-house-tag">From Heart of Columbus</p><h3>${t(h)}</h3><p>${t(p)}</p></div>${qr(path, label)}</aside>`).join('')}${HOUSE.map(([id, h, , path, label]) => `<aside class="pe-house pe-house-slim" data-house="${id}-slim" data-max="8"><p><b>${t(h)}</b> ${t(label)}: ${esc(short(ORIGIN))}${esc(path)}</p></aside>`).join('')}</template>`;
 
 // ---------- Readiness ----------
 export function readiness() {
