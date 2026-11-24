@@ -22,7 +22,7 @@ images:
     license: Used with permission
 methods: "[ONE LINE: for example, I bought my own ticket and paid for my own food.]"
 ---
-Eli and I made up as friends recently. I greeted her with a, "life's short" and hug less than a week ago after running into her at her birthday party.
+Eli and I made up as friends recently. I greeted her with a, "life's short" and hug less than a week ago after running into her at her birthday party. Her cousins invited us for free, it was such a treat.
 
 ## Getting there
 
