@@ -9,6 +9,11 @@ bylines: [jacob-kennedy]
 editor: terry-winchester-ii
 published: 2026-11-24T12:00:00-05:00
 images:
+  - file: /news-media/2026/11/pacers-thunder-jake-and-eli.jpg
+    alt: Eli Wire and Jake Kennedy smiling together in their seats at the Pacers game.
+    caption: Friends for life, some things never change.
+    credit: "[WHO TOOK THIS PHOTO]"
+    license: "[Staff photo, or used with permission]"
   - file: /news-media/2026/11/pacers-thunder-upper-level.jpg
     alt: A packed arena seen from the upper level, with the Pacers and Thunder on the court and a player in an Indiana number 32 jersey raising his arms on the center video board.
     caption: The view from section 219 was an ideal happy medium.
