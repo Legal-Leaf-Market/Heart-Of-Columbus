@@ -28,13 +28,21 @@
   var inbox = $('[data-newsroom-inbox]');
   if (!inbox) return;
   var status = $('[data-inbox-status]'), out = $('[data-inbox-out]');
-  var k = new URLSearchParams(location.search).get('k') || '';
+  // The key arrives as #k= (an older ?k= link still works once), moves to
+  // this tab's session storage, is wiped from the address bar and is sent as
+  // a header: private keys never ride in a query string.
+  var k = (function () {
+    var h = new URLSearchParams(location.hash.slice(1)).get('k'), q = new URLSearchParams(location.search).get('k'), v = h || q || '';
+    try { if (v) sessionStorage.setItem('hoc-admin', v); else v = sessionStorage.getItem('hoc-admin') || ''; } catch (e) { /* storage off */ }
+    if (h || q) history.replaceState(null, '', location.pathname);
+    return v;
+  })();
   var SHOW = { blue: ['person', 'role', 'agency', 'story', 'name', 'relation', 'town', 'email', 'phone', 'photo', 'ok'], ask: ['question', 'name', 'email', 'neighborhood'], letter: ['body', 'about', 'name', 'town', 'email', 'phone'], tip: ['tip', 'contact'] };
   function load(kind) {
     $$('[data-kind]', inbox).forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-kind') === kind ? 'true' : 'false'); });
     status.textContent = 'Loading…';
     out.innerHTML = '';
-    fetch('/api/newsroom?kind=' + kind + '&k=' + encodeURIComponent(k), { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (j) {
+    fetch('/api/newsroom?kind=' + kind, { cache: 'no-store', headers: { 'x-hoc-key': k } }).then(function (r) { return r.json(); }).then(function (j) {
       if (!j.ok) { status.textContent = j.error || 'Could not load.'; return; }
       status.textContent = j.items.length + (j.items.length === 1 ? ' item' : ' items');
       out.innerHTML = j.items.map(function (x) {
