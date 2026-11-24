@@ -33,7 +33,19 @@ export const sticker = (id, { size = 96, cls = '', alt = '', lazy = true } = {})
   `<img class="stk${cls ? ' ' + cls : ''}" src="/art/sticker-${id}.webp" width="${size}" height="${size}" alt="${esc(alt)}"${alt ? '' : ' aria-hidden="true"'} decoding="async"${lazy ? ' loading="lazy"' : ''}>`;
 export const catSticker = (slug, opts) => sticker(CAT_STICKER[slug] || 'storefront', opts);
 import { BUSINESS_ART_SHARDS } from './data/business-art.mjs';
+const ILLUSTRATED_BUSINESSES = new Set([
+  'cookie-paradise-llc',
+  'donut-central',
+  'lucabe-coffee-co-4th-street',
+  'lucabe-coffee-co-eastbrook',
+  'tribal-blend-cat-cafe',
+  'zaharakos-ice-cream-parlor',
+]);
 export const businessIllustration = (slug, { size = 82 } = {}) => {
+  if (ILLUSTRATED_BUSINESSES.has(slug)) {
+    const edge = Math.round(size * 1.25);
+    return `<img class="business-illustration" src="/art/business-scenes/${slug}.webp" width="${edge}" height="${edge}" style="object-fit:contain;max-width:100%" alt="" loading="lazy" decoding="async">`;
+  }
   const shard = BUSINESS_ART_SHARDS[slug];
   if (!shard) return '';
   const file = String(shard).padStart(2, '0');
