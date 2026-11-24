@@ -1,0 +1,27 @@
+/* The 30-second shootaround (/games/shootaround/), from the Pacers design
+   pack. Scoped to .sa so the site's own .btn and colors are untouched. */
+.sa { --sa-navy: #152e58; --sa-blue: #3b8cc9; --sa-gold: #f2b632; --sa-ink: #242321; max-width: 900px; margin: 0 auto; padding: 0 0 28px; }
+.sa-shell { background: var(--sa-navy); border: 5px solid #fff; border-radius: 22px; box-shadow: 0 14px 0 #d9c9ab, 0 20px 35px rgba(21,46,88,.12); overflow: hidden; }
+.sa-hud { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 18px; color: #fff; background: #102447; border-bottom: 1px solid rgba(255,255,255,.17); }
+.sa-scores { display: flex; gap: 24px; }
+.sa-stat { display: grid; gap: 2px; }
+.sa-stat span:first-child { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: #bfcee3; }
+.sa-stat strong { font: 800 1.6rem/1 system-ui, sans-serif; font-variant-numeric: tabular-nums; }
+.sa-tag { font-size: .78rem; font-weight: 750; color: #1c2a3f; background: var(--sa-gold); padding: 7px 11px; border-radius: 999px; }
+.sa canvas { display: block; width: 100%; height: auto; touch-action: none; outline: none; }
+.sa canvas:focus-visible { outline: 4px solid #fff; outline-offset: -7px; }
+.sa-controls { display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap; padding: 15px; background: #102447; }
+.sa-btn { appearance: none; border: 0; border-radius: 999px; padding: 12px 19px; font: 800 .95rem system-ui, sans-serif; cursor: pointer; min-height: 46px; }
+.sa-btn:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.sa-btn:disabled { opacity: .5; cursor: default; }
+.sa-go { background: var(--sa-gold); color: #1d2a3e; box-shadow: 0 3px 0 #b47c12; }
+.sa-alt { background: #fff; color: var(--sa-navy); }
+.sa-status { min-height: 1.4em; text-align: center; color: #fff; font-weight: 700; font-size: .88rem; flex-basis: 100%; }
+.sa-how { max-width: 760px; margin: 16px auto 0; text-align: center; color: var(--muted, #565149); font-size: .94rem; line-height: 1.5; }
+@media (prefers-reduced-motion: no-preference) { .sa-btn { transition: transform .15s; } .sa-btn:hover:not(:disabled) { transform: translateY(-2px); } }
+@media (max-width: 600px) {
+  .sa-shell { border-width: 3px; border-radius: 17px; }
+  .sa-hud { padding: 11px 12px; } .sa-scores { gap: 18px; } .sa-stat strong { font-size: 1.35rem; }
+  .sa-controls { padding: 12px 9px; gap: 8px; } .sa-btn { flex: 1 1 130px; }
+  .sa-how { font-size: .88rem; }
+}

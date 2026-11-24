@@ -23,7 +23,7 @@ stickers:
 bylines: [jacob-kennedy]
 editor: eli-wire
 published: 2026-11-23T20:16:00-05:00
-updated: 2026-11-23T20:48:00-05:00
+updated: 2026-11-23T21:00:00-05:00
 images:
   - file: /news-media/2026/11/pacers-thunder-jake-and-eli.jpg
     alt: Eli Wire and Jake Kennedy smiling together in their seats at the Pacers game.
@@ -80,6 +80,8 @@ Staff pointed us the wrong direction first for Chick-fil-A, but then two lovely 
 ## The show
 
 They had an elementary choir sing the national anthem and a middle school aged dance group. Both were phenomenal.
+
+The Pacemates were on point. As a show choir alumni their lines were clean and very coordinated.
 
 The halftime was Tyler's Amazing Balancing Act. He balances a bunch of stuff on his nose. I give it a solid 4, weakest point of the night.
 

@@ -2069,3 +2069,10 @@ a.tag:not(.tag-member):hover { filter: brightness(.96); }
   body:has(.np-bar) .catbar { display: none; }
   .np-bar-row a { min-height: 44px; display: inline-flex; align-items: center; }
 }
+
+/* The shootaround card (front page, end of sports stories). */
+.np-play-cta { display: flex; align-items: center; gap: 14px; border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; background: var(--surface, #fff); text-decoration: none; }
+.np-play-cta img { width: 56px; height: auto; flex: none; }
+.np-play-cta strong { display: block; font-size: 17px; }
+.np-play-cta span { color: var(--muted); font-size: 14px; }
+.np-play-cta:hover strong { text-decoration: underline; }
