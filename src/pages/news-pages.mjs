@@ -9,7 +9,8 @@ import { civicPages } from './civic-pages.mjs';
 import { habitPages, storyAsk } from './habit-pages.mjs';
 import { sponsorSlot } from '../news/sponsor-slot.mjs';
 import { cmsPage } from '../news/cms.mjs';
-import { ALL_STORIES, SAMPLES, stories, storiesIn, storiesBy, correctionsLog } from '../news/content.mjs';
+import { ALL_STORIES, SAMPLES, stories, storiesIn, storiesInSeries, storiesBy, correctionsLog } from '../news/content.mjs';
+import { SERIES, seriesBySlug, seriesHref } from '../news/series.mjs';
 import { SECTIONS, sectionBySlug, sectionHref } from '../news/sections.mjs';
 import { disclosures } from '../news/disclosure.mjs';
 import { storyList, storyCard, label, byline, editorLine, fmtWhen, fmtDate } from '../news/render.mjs';
@@ -122,7 +123,7 @@ export function storyBody(s) {
   return `
 <article class="wrap np-story">
   <header class="np-story-head">
-    <p class="np-story-kick">${label(s)} <a href="${sectionHref(sectionBySlug[s.section])}">${esc(sectionBySlug[s.section].name)}</a></p>
+    <p class="np-story-kick">${label(s)} <a href="${sectionHref(sectionBySlug[s.section])}">${esc(sectionBySlug[s.section].name)}</a>${s.series && seriesBySlug[s.series] ? ` <a class="np-series" href="${seriesHref(seriesBySlug[s.series])}">${esc(seriesBySlug[s.series].name)}</a>` : ''}</p>
     <h1>${t(s.headline)}</h1>
     ${s.dek ? `<p class="np-dek">${t(s.dek)}</p>` : ''}
     <p class="np-byline">${byline(s)}</p>
@@ -170,6 +171,16 @@ function sectionPage(ctx, sec) {
 </section>
 ${sec.events ? eventsSection({ mode: 'upcoming', id: 'whats-on', title: 'What’s on', kicker: 'Signature events' }) : ''}`;
   return newsPage({ ...ctx, path: sectionHref(sec), title: sec.name, description: sec.blurb, crumbs: [['/news/', 'News'], ['', sec.name]], body, scripts: sec.events ? ['hub.js', 'events.js'] : [] });
+}
+
+function seriesPage(ctx, sr) {
+  const items = storiesInSeries(sr.slug);
+  const body = `
+<section class="wrap np-section">
+  <header class="np-doc-head"><p class="kicker">A series</p><h1>${esc(sr.name)}</h1><p class="np-dek">${esc(sr.blurb)}</p></header>
+  ${storyList(items, { empty: `The first ${sr.name} story is on its way.` })}
+</section>`;
+  return newsPage({ ...ctx, path: seriesHref(sr), title: sr.name, description: sr.blurb, crumbs: [['/news/', 'News'], ['', sr.name]], body });
 }
 
 function samplesPage(ctx) {
@@ -222,6 +233,7 @@ export function newsPages(ctx) {
     ...SECTIONS.filter((s) => !s.href).map((s) => ({ path: `news/${s.slug}/index.html`, html: sectionPage(ctx, s) })),
     ...ALL_STORIES.map((s) => ({ path: `${s.href.slice(1)}index.html`, html: storyPage(ctx, s) })),
     { path: 'news/samples/index.html', html: samplesPage(ctx) },
+    ...SERIES.map((sr) => ({ path: `${seriesHref(sr).slice(1)}index.html`, html: seriesPage(ctx, sr) })),
     { path: 'news/alert/index.html', html: alertPage(ctx) },
     { path: 'admin/index.html', html: cmsPage() },
     ...SAMPLES.map((s) => ({ path: `${s.href.slice(1)}index.html`, html: storyPage(ctx, s) })),

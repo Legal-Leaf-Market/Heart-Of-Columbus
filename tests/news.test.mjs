@@ -271,6 +271,15 @@ test('a game story carries a checked box score, typed by the writer', () => {
   assert.ok(!read('sports/index.html').includes('Sampleton'), 'samples stay off /sports/');
 });
 
+test('a series story names a real series and carries its writer', () => {
+  assert.deepEqual(checkStory({ ...good, series: 'jake-takes-the-town' }), []);
+  assert.ok(checkStory({ ...good, series: 'made-up-series' }).some((p) => /series\.mjs/.test(p)));
+  assert.ok(checkStory({ ...good, sample: false, bylines: ['terry-winchester-ii'], editor: 'jacob-kennedy', series: 'jake-takes-the-town' }).some((p) => /must carry jacob-kennedy/.test(p)));
+  const html = read('news/series/jake-takes-the-town/index.html');
+  assert.ok(html.includes('Jake Takes the Town'));
+  assert.ok(!/\[YOUR /.test(html), 'drafts stay off the series page');
+});
+
 // ---------- Newsletter, games, membership and sponsors (items 8, 11, 12) ----------
 import { morningEdition } from '../src/news/morning.mjs';
 import { sponsorSlot, sponsorsFor } from '../src/news/sponsor-slot.mjs';

@@ -4,6 +4,7 @@ headline: "[YOUR HEADLINE: your verdict on the night, in one line]"
 dek: "[YOUR ONE SENTENCE under the headline]"
 label: Opinion
 section: sports
+series: jake-takes-the-town
 bylines: [jacob-kennedy]
 editor: terry-winchester-ii
 published: 2026-11-24T12:00:00-05:00
@@ -13,6 +14,11 @@ images:
     caption: "[YOUR CAPTION: where you sat and what was happening]"
     credit: Jake Kennedy
     license: Staff photo
+  - file: /news-media/2026/11/pacers-thunder-intros.jpg
+    alt: Flame cannons fire on the court during player introductions, with a player in an Indiana number 32 jersey shouting on the center video board and the scoreboard still at 0 to 0.
+    caption: "[YOUR CAPTION: for example, the starting lineup intros]"
+    credit: "[WHO TOOK THIS PHOTO]"
+    license: "[Staff photo if you took it, or used with permission]"
 methods: "[ONE LINE: for example, I bought my own ticket and paid for my own food.]"
 ---
 [YOUR OPENING: two sentences on the best moment of the night.]
