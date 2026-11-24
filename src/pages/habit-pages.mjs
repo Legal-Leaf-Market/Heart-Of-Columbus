@@ -97,10 +97,10 @@ function wherePage(ctx) {
 // The 30-second shootaround, from the Pacers design pack (2026-11-24). The
 // game lives in public/js/shootaround.js; without it the page says so.
 function shootaroundPage(ctx) {
-  const body = doc('Quick game', 'Hoosier shootaround', 'Thirty seconds, one ball. Press anywhere on the court, pull down and away from the hoop, and let go. On a keyboard, aim with the arrow keys and press Space.', `
+  const body = doc('Quick game', 'Hoosier shootaround', 'Thirty seconds, one ball. Tap Shoot, or drag down and left on the court and release.', `
 <section class="sa" data-sa aria-label="Basketball shootaround game">
   <div class="sa-shell">
-    <div class="sa-hud" aria-live="polite">
+    <div class="sa-hud">
       <div class="sa-scores">
         <div class="sa-stat"><span>Score</span><strong data-sa-score>0</strong></div>
         <div class="sa-stat"><span>Time</span><strong><span data-sa-time>30</span><span aria-hidden="true">s</span></strong></div>
@@ -110,7 +110,13 @@ function shootaroundPage(ctx) {
     <canvas width="960" height="540" tabindex="0" role="img" aria-label="Basketball court. Press anywhere, drag down and away from the hoop, then let go to shoot. Or use the left and right arrows to aim, up and down for power, and Space to shoot."></canvas>
     <div class="sa-controls">
       <button type="button" class="sa-btn sa-go" data-sa-start>Start shootaround</button>
-      <button type="button" class="sa-btn sa-alt" data-sa-shoot disabled>Shoot (Space)</button>
+      <div class="sa-aim" data-sa-aim role="group" aria-label="Adjust shot" hidden>
+        <button type="button" class="sa-btn sa-alt" data-sa-direction="ArrowLeft" aria-label="Aim higher">Higher</button>
+        <button type="button" class="sa-btn sa-alt" data-sa-direction="ArrowRight" aria-label="Aim lower">Lower</button>
+        <button type="button" class="sa-btn sa-alt" data-sa-direction="ArrowDown">Less power</button>
+        <button type="button" class="sa-btn sa-alt" data-sa-direction="ArrowUp">More power</button>
+      </div>
+      <button type="button" class="sa-btn sa-go" data-sa-shoot hidden>Shoot</button>
       <button type="button" class="sa-btn sa-alt" data-sa-again hidden>Play again</button>
       <p class="sa-status" data-sa-status role="status">Ready when you are.</p>
     </div>

@@ -11,9 +11,10 @@
 .sa canvas { display: block; width: 100%; height: auto; touch-action: none; outline: none; }
 .sa canvas:focus-visible { outline: 4px solid #fff; outline-offset: -7px; }
 .sa-controls { display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap; padding: 15px; background: #102447; }
-.sa-btn { appearance: none; border: 0; border-radius: 999px; padding: 12px 19px; font: 800 .95rem system-ui, sans-serif; cursor: pointer; min-height: 46px; }
+.sa-aim { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; flex-basis: 100%; }
+.sa [hidden] { display: none; }
+.sa-btn { touch-action: manipulation; appearance: none; border: 0; border-radius: 999px; padding: 12px 19px; font: 800 .95rem system-ui, sans-serif; cursor: pointer; min-height: 46px; }
 .sa-btn:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
-.sa-btn:disabled { opacity: .5; cursor: default; }
 .sa-go { background: var(--sa-gold); color: #1d2a3e; box-shadow: 0 3px 0 #b47c12; }
 .sa-alt { background: #fff; color: var(--sa-navy); }
 .sa-status { min-height: 1.4em; text-align: center; color: #fff; font-weight: 700; font-size: .88rem; flex-basis: 100%; }
@@ -22,6 +23,8 @@
 @media (max-width: 600px) {
   .sa-shell { border-width: 3px; border-radius: 17px; }
   .sa-hud { padding: 11px 12px; } .sa-scores { gap: 18px; } .sa-stat strong { font-size: 1.35rem; }
-  .sa-controls { padding: 12px 9px; gap: 8px; } .sa-btn { flex: 1 1 130px; }
+  .sa-controls { padding: 12px 9px; gap: 8px; }
+  .sa-controls > .sa-btn { flex-basis: 100%; }
+  .sa-aim { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .sa-how { font-size: .88rem; }
 }
