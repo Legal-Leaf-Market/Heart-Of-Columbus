@@ -44,7 +44,7 @@ Jake's note so far: pleased with the concession prices.
 
 We got chicken fingers, fries, and cotton candy.
 
-[What each item cost, from your receipt or card.]
+Prices were reasonable.
 
 **Rating: 5 out of 5**
 
