@@ -10,6 +10,7 @@
 // GET, with the admin key in the x-hoc-key header, returns a month's report:
 // every business's handoffs, the confirmed orders its owner's snippet sent
 // to /api/conversion (step 2), and its tracking key to hand to the owner.
+import { getStore } from '@netlify/blobs';
 import { blobStore } from '../../src/blobs.mjs';
 import { pixelKey, sameKey } from '../../src/pixel-key.mjs';
 import { COMMERCE } from '../../src/data/commerce.mjs';
@@ -46,12 +47,35 @@ export async function count(store, b, now = new Date()) {
   return true;
 }
 
-export async function report(store, m) {
-  const slugs = new Set([...((await store.getJSON(`h/${m}/index`)) || []), ...((await store.getJSON(`c/${m}/index`)) || [])]);
+async function shopifyOrders(month) {
+  const store = getStore('shopify-orders');
+  const latest = new Map();
+  for await (const { blobs } of store.list({ prefix: `${month}/`, paginate: true })) {
+    for (let i = 0; i < blobs.length; i += 20) {
+      const rows = await Promise.all(blobs.slice(i, i + 20).map(({ key }) => store.get(key, { type: 'json' })));
+      for (const row of rows) {
+        if (!row) continue;
+        const previous = latest.get(row.order);
+        if (!previous || row.updated > previous.updated ||
+            (row.updated === previous.updated && row.triggered > previous.triggered)) {
+          latest.set(row.order, row);
+        }
+      }
+    }
+  }
+  return [...latest.values()];
+}
+
+export async function report(store, m, shopify = []) {
+  const slugs = new Set([...((await store.getJSON(`h/${m}/index`)) || []), ...((await store.getJSON(`c/${m}/index`)) || []), ...shopify.map((order) => order.slug)]);
   const rows = await Promise.all([...slugs].map(async (slug) => {
     const h = (await store.getJSON(`h/${m}/${slug}`)) || {};
     const c = (await store.getJSON(`c/${m}/${slug}`)) || { orders: [] };
-    const orders = c.orders || [];
+    const synced = shopify.filter((order) => order.slug === slug);
+    // The existing pixel endpoint strips slashes from Shopify GraphQL IDs.
+    const syncedIds = new Set(synced.flatMap(({ order }) => [order.split('/').at(-1), order.replaceAll('/', '')]));
+    const orders = [...(c.orders || []).filter((order) => order.via !== 'shopify' || !syncedIds.has(order.order)), ...synced]
+      .sort((a, b) => String(a.at || '').localeCompare(String(b.at || '')));
     const sent = new Set((h.carts || []).map((x) => x.click));
     const matched = orders.filter((o) => o.click && sent.has(o.click)).length;
     return { slug, handoffs: { ...h, carts: undefined }, matched, fulfilled: orders.filter((o) => o.fulfilled).length, orders: orders.length, orderValue: Math.round(orders.reduce((a, o) => a + (Number(o.total) || 0), 0) * 100) / 100, recent: orders.slice(-5) };
@@ -67,7 +91,7 @@ export default async (req) => {
       if (!sameKey(process.env.HOC_ADMIN_KEY || '', req.headers.get('x-hoc-key') || '')) return json({ ok: false, error: 'Wrong report link.' }, 403);
       const u = new URL(req.url);
       const m = /^\d{4}-\d\d$/.test(u.searchParams.get('month') || '') ? u.searchParams.get('month') : month();
-      const rows = await report(store, m);
+      const rows = await report(store, m, process.env.HOC_SHOPIFY_SHOP ? await shopifyOrders(m) : []);
       const keyFor = u.searchParams.get('key');
       const woo = await Promise.all(((await store.getJSON('woo/index')) || []).map(async (slug) => { const r = (await store.getJSON(`woo/${slug}`)) || {}; return { slug, connected: r.connected || '', lastSync: r.lastSync || '', lastResult: r.lastResult || null }; }));
       return json({ ok: true, month: m, woo, rows: rows.map((r) => ({ ...r, key: pixelKey(r.slug), connect: connectLink(r.slug) })), ...(keyFor && /^[a-z0-9-]{2,80}$/.test(keyFor) ? { lookup: { slug: keyFor, key: pixelKey(keyFor), connect: connectLink(keyFor) } } : {}) });
