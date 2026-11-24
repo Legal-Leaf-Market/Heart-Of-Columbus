@@ -120,92 +120,81 @@
   // A piece shorter than its space would otherwise fill one column to the
   // bottom and leave the rest empty. Balanced, it sits across all its columns.
   function balance() {
-    for (const text of paper.querySelectorAll('.pe-fill .pe-text, .pe-lead-text .pe-text')) {
-      if (text.dataset.flowTo || text.querySelector('.pe-more') || over(text)) continue;
+    for (const text of paper.querySelectorAll('.pe-fill .pe-text:not(.pe-full-text), .pe-lead-text .pe-text')) {
+      if (text.dataset.flowTo || over(text)) continue;
       text.classList.add('pe-balance');
       const mod = text.closest('.pe-mod');
       if (mod && mod.parentElement.classList.contains('pe-cell')) mod.classList.add('pe-short');
     }
   }
-  // What is left at the bottom of a column gets a card from our history on
-  // that page's topic or, failing that, an ad for ourselves. A history card
-  // runs once in the edition; an ad at most three times, once per page.
-  // A slim coupon strip fits a gap this small.
-  const MIN = 0.6 * 96;
-  const elastic = '.pe-lines';
-  function gapsNow(skipElastic) {
+  // Give unoccupied space to the field guides before using history or house notices.
+  const MIN = 0.4 * 96;
+  function gapIn(cell) {
+    const bottom = Math.max(...[...cell.children].map((child) => child.getBoundingClientRect().bottom));
+    return cell.getBoundingClientRect().bottom - bottom;
+  }
+
+  function gapsNow() {
     paper.classList.add('pe-measure');
     const out = [];
     for (const cell of paper.querySelectorAll('.pe-cell')) {
       if (cell.querySelector('.pe-waiting, .pe-calendar, .pe-masthead, .pe-spread-head, .pe-byb-head, .pe-teasers, .pe-lead')) continue;
-      if (skipElastic && cell.querySelector(elastic)) continue;
-      // A text that fills its column to the bottom leaves nothing to fill.
-      if ([...cell.querySelectorAll('.pe-text')].some((x) => x.closest('.pe-fill') && !x.classList.contains('pe-balance'))) continue;
-      const bottom = Math.max(...[...cell.children].map((k) => k.getBoundingClientRect().bottom));
-      const gap = cell.getBoundingClientRect().bottom - bottom;
+      const gap = gapIn(cell);
       if (gap > MIN) out.push([cell, gap]);
     }
     paper.classList.remove('pe-measure');
     return out;
   }
+
   function fillers() {
     const tpl = document.getElementById('pe-fillers');
     if (!tpl) return;
     const pool = [...tpl.content.children];
-    const cards = pool.filter((x) => x.dataset.hist);
-    const ads = pool.filter((x) => x.dataset.house);
+    const architecture = pool.filter((item) => item.dataset.landmark);
+    const history = pool.filter((item) => item.dataset.hist);
+    const notices = pool.filter((item) => item.dataset.house);
     const uses = new Map();
-    let turn = 0;
-    for (const [cell, gap] of gapsNow(false).sort((a, b) => b[1] - a[1])) {
+    const gaps = gapsNow().sort((a, b) => b[1] - a[1]);
+    for (const [cell] of gaps) {
       const sheet = cell.closest('.pe-sheet');
       const topics = (sheet.dataset.topics || '').split(' ');
       const row = cell.closest('.pe-row');
       const body = sheet.querySelector('.pe-body');
-      const rot = (list) => list.slice(turn % Math.max(1, list.length)).concat(list.slice(0, turn % Math.max(1, list.length)));
-      // Coupons biggest first, rotating among the shapes of one size.
-      const bySize = {};
-      for (const a of ads.filter((x) => x.dataset.cap)) (bySize[a.dataset.size || 2] ||= []).push(a);
-      const coupons = Object.keys(bySize).filter((k) => k > 1).sort((a, b) => b - a).flatMap((k) => rot(bySize[k]));
-      // Slim one line pieces only fill what the bigger ones leave.
-      const slim = [...rot(bySize[1] || []), ...rot(ads.filter((a) => !a.dataset.cap && a.classList.contains('pe-house-slim')))];
-      const order = [...coupons, ...cards.filter((c) => topics.includes(c.dataset.topic)), ...rot(ads.filter((a) => !a.dataset.cap && !a.classList.contains('pe-house-slim'))), ...rot(cards.filter((c) => !topics.includes(c.dataset.topic))), ...slim];
-      let room = gap;
+      const order = [...architecture, ...history.filter((item) => topics.includes(item.dataset.topic)), ...history.filter((item) => !topics.includes(item.dataset.topic)), ...notices];
+      const before = row.getBoundingClientRect().height;
+      const pageNotices = new Set([...sheet.querySelectorAll('[data-house]')].map((item) => item.dataset.house.replace(/-slim$/, '')));
+      let placed = false;
+      let hasGuide = Boolean(sheet.querySelector('[data-landmark]'));
       cell.classList.add('pe-filled');
-      for (let n = 0; n < 6 && room > MIN; n++) {
-        let placed = false;
-        for (const item of order) {
-          const id = item.dataset.hist || item.dataset.house;
-          const cap = item.dataset.hist ? 1 : Number(item.dataset.cap || item.dataset.max) || 3;
-          const base = (item.dataset.house || '').replace(/-slim$/, '');
-          if ((uses.get(id) || 0) >= cap || (base && sheet.querySelector(`[data-house="${base}"], [data-house="${base}-slim"]`))) continue;
-          // One coupon per business on a page.
-          if (item.dataset.biz && sheet.querySelector(`[data-biz="${item.dataset.biz}"]`)) continue;
-          const before = row.getBoundingClientRect().height;
-          const copy = item.cloneNode(true);
-          copy.classList.add('pe-print-filler');
-          cell.append(copy);
-          if (squeezed(cell) || over(body) || row.getBoundingClientRect().height > before + 1) { copy.remove(); continue; }
-          uses.set(id, (uses.get(id) || 0) + 1);
-          room -= copy.getBoundingClientRect().height + 14;
-          turn++;
-          placed = true;
-          break;
+      for (const item of order) {
+        if (gapIn(cell) < MIN) break;
+        const id = item.dataset.landmark || item.dataset.hist || item.dataset.house;
+        const cap = item.dataset.house ? 2 : 1;
+        const notice = item.dataset.house?.replace(/-slim$/, '');
+        if ((uses.get(id) || 0) >= cap || (notice && pageNotices.has(notice))) continue;
+        if (item.dataset.landmark && hasGuide) continue;
+        const copy = item.cloneNode(true);
+        copy.classList.add(item.dataset.landmark ? 'pe-architecture-fill' : 'pe-print-filler');
+        cell.append(copy);
+        if (squeezed(cell) || over(body) || row.getBoundingClientRect().height > before + 1) {
+          copy.remove();
+          continue;
         }
-        if (!placed) break;
+        uses.set(id, (uses.get(id) || 0) + 1);
+        if (notice) pageNotices.add(notice);
+        if (item.dataset.landmark) hasGuide = true;
+        placed = true;
       }
-      if (!cell.querySelector('.pe-house, .pe-hcard, .pe-cp')) cell.classList.remove('pe-filled');
-      // What is still left goes to the last ad in the column, which grows and
-      // centers its content, so the column ends on color, not white space.
-      // With nothing that can grow, the pieces spread evenly down the column.
-      const grow = [...cell.children].filter((k) => k.matches('.pe-cp:not(.pe-cp-strip), .pe-house:not(.pe-house-slim)')).pop();
-      if (grow) grow.classList.add('pe-grow');
-      else if (cell.classList.contains('pe-filled')) cell.classList.add('pe-spread');
+      if (!placed) cell.classList.remove('pe-filled');
     }
-    for (const [cell, gap] of gapsNow(true)) if (gap > 0.9 * 96) room_.push(`Page ${cell.closest('.pe-sheet').dataset.page}: about ${(gap / 96).toFixed(1)} inches free at the bottom of ${what(cell.firstElementChild || cell)}`);
+    for (const cell of paper.querySelectorAll('.pe-cell')) {
+      const gap = gapIn(cell);
+      if (gap > 0.9 * 96 && !cell.querySelector('.pe-lines')) room_.push(`Page ${pageOf(cell)}: about ${(gap / 96).toFixed(1)} inches free after ${what(cell.firstElementChild || cell)}`);
+    }
   }
   const room_ = [];
   // Anything in the column pushed out of its box counts, not just the column.
-  const squeezed = (cell) => over(cell) || [...cell.querySelectorAll('.pe-text, .pe-mod, .pe-box, .pe-stack, .pe-lines, .pe-cal-day')].some(over);
+  const squeezed = (cell) => over(cell) || [...cell.querySelectorAll('.pe-text, .pe-mod, .pe-box, .pe-stack, .pe-lines, .pe-cal-day, .pe-architecture, .pe-business-ad')].some(over);
 
   // ---------- 1. The calendar ----------
   const MON = ['Jan.', 'Feb.', 'March', 'April', 'May', 'June', 'July', 'Aug.', 'Sept.', 'Oct.', 'Nov.', 'Dec.'];
@@ -289,8 +278,11 @@
       const body = sh.querySelector('.pe-body');
       if (over(body)) flag(body, 'This page runs past the bottom margin');
       for (const cell of sh.querySelectorAll('.pe-fill > .pe-cell')) if (over(cell)) flag(cell, `${what(cell.firstElementChild || cell)} is cut off at the bottom`);
-      for (const text of sh.querySelectorAll('.pe-text')) {
-        if (text.dataset.fit === 'trim' || text.dataset.flowTo || text.closest('.pe-over')) continue;
+      for (const panel of sh.querySelectorAll('.pe-lead-l, .pe-architecture, .pe-business-ad')) {
+        if (over(panel)) flag(panel, 'An illustrated panel runs out of space');
+      }
+      for (const text of sh.querySelectorAll('.pe-text:not(.pe-full-text)')) {
+        if (text.dataset.flowTo || text.closest('.pe-over')) continue;
         if (over(text)) flag(text.closest('.pe-mod, .pe-box') || text, `${what(text)} runs long: cut it or give it more room`);
       }
     }

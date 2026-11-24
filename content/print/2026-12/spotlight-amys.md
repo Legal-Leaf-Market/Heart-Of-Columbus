@@ -25,4 +25,4 @@ The shop asks donors to wash or dry clean everything first, check the pockets, m
 
 ## Shopping
 
-Amy's Closet is at 3928 25th Street, open Tuesday through Saturday, 11 AM to 7 PM. Call (812) 565-2197. The shop also sells online, and resellers and bulk buyers are welcome. [CHECK with Amy: the hours, and that the Love Chapel gift is 10 percent of every sale.]
+Amy's Closet is at 3928 25th Street, open Tuesday through Saturday, 11 AM to 7 PM. Call (812) 565-2197. The shop also sells online, and resellers and bulk buyers are welcome. [CHECK with Amy: the hours.]
