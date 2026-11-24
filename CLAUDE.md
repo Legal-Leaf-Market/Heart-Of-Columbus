@@ -262,6 +262,13 @@ Indiana. A pitch, not a live service. See README.md.
   dash). The model never invents a quote, a person, a number or a source.
   The morning job drafts the approved desk edition when there is one, and
   never sends. docs/morning-paper.md is the routine.
+  Third exception, granted by the owner on 2026-11-24: first drafts of the
+  news slots in the print edition (`content/print/<edition>/`), for the
+  publisher to read, rewrite and approve. Only from sources read in that
+  session, listed in each file's `sources:`; no quote a source did not
+  print; anything unconfirmed is marked `[CHECK: ...]` in the text. A draft
+  stays `status: draft` with no byline until a named person takes it, and
+  the editor's sign-off still applies.
 - **Sample content must look fake** (Sampleton, "Sample Reporter") and carry
   `sample: true`; it never appears in a published section.
 - **Automation makes leads, not stories.** Directory diffs and public-record

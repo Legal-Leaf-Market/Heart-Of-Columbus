@@ -40,7 +40,7 @@ test('the edition is laid out at tabloid size and never indexed', () => {
 
 test('every history piece in the edition is approved and sourced', () => {
   const paths = [...mods.filter((m) => m.type === 'history').map((m) => m.path), ...EDITION.gathers.map((g) => g[0])];
-  assert.ok(paths.length >= 20);
+  assert.ok(paths.length >= 15);
   for (const p of paths) {
     const a = historyBy[p];
     assert.ok(a, `no history article ${p}`);
@@ -59,7 +59,19 @@ test('news slots: Claude never writes news, so each one names a brief or a guide
     assert.ok(m.words > 0);
   }
   // Until a writer files, the page shows the brief, labeled so it never prints as a story.
-  assert.match(html, /Writer’s brief · not for print/);
+  const filed = (id) => new URL(`../content/print/2026-12/${id}.md`, import.meta.url);
+  const writers = mods.filter((x) => x.type === 'writer' && !x.fallback);
+  if (writers.some((m) => !existsSync(filed(m.id)))) assert.match(html, /Writer’s brief · not for print/);
+  // A first draft by Claude (the owner's third exception in CLAUDE.md) stays a
+  // draft with no byline and lists what it was written from.
+  for (const m of writers.filter((x) => existsSync(filed(x.id)))) {
+    const src = readFileSync(filed(m.id), 'utf8');
+    const front = src.split(/^---$/m)[1] || '';
+    if (!/^drafted:/m.test(front)) continue;
+    assert.match(front, /^status: draft$/m, `${m.id}: a Claude draft cannot be ready`);
+    assert.match(front, /^bylines: \[\]$/m, `${m.id}: a Claude draft carries no byline`);
+    assert.match(front, /^sources:\n\s+- name:/m, `${m.id}: a draft lists its sources`);
+  }
 });
 
 test('every story the edition reprints is published, and the pull quote is the writer’s own words', () => {

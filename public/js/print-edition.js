@@ -151,14 +151,15 @@
       const row = cell.closest('.pe-row');
       const body = sheet.querySelector('.pe-body');
       const rot = (list) => list.slice(turn % Math.max(1, list.length)).concat(list.slice(0, turn % Math.max(1, list.length)));
-      const order = [...cards.filter((c) => topics.includes(c.dataset.topic)), ...rot(ads), ...rot(cards.filter((c) => !topics.includes(c.dataset.topic)))];
+      const coupons = ads.filter((a) => a.dataset.cap);
+      const order = [...coupons, ...cards.filter((c) => topics.includes(c.dataset.topic)), ...rot(ads.filter((a) => !a.dataset.cap)), ...rot(cards.filter((c) => !topics.includes(c.dataset.topic)))];
       let room = gap;
       cell.classList.add('pe-filled');
       for (let n = 0; n < Math.min(3, Math.ceil(gap / (2.2 * 96))) && room > MIN; n++) {
         let placed = false;
         for (const item of order) {
           const id = item.dataset.hist || item.dataset.house;
-          const cap = item.dataset.hist ? 1 : 3;
+          const cap = item.dataset.hist ? 1 : Number(item.dataset.cap) || 3;
           if ((uses.get(id) || 0) >= cap || (item.dataset.house && sheet.querySelector(`[data-house="${id}"]`))) continue;
           const before = row.getBoundingClientRect().height;
           const copy = item.cloneNode(true);

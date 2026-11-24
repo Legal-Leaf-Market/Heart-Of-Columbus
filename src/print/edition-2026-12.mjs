@@ -33,7 +33,7 @@ export const EDITION = {
   pages: [
     { n: 1, section: 'Front page', topics: ['civic', 'river'], rows: [
       { mods: [{ span: 5, type: 'box', box: 'masthead' }] },
-      { fill: true, mods: [{ span: 5, type: 'writer', id: 'river', layout: 'lead', brief: 'A', writer: 'jacob-kennedy', editor: 'terry-winchester-ii', words: 600,
+      { fill: true, mods: [{ span: 5, type: 'writer', id: 'river', layout: 'lead', brief: 'A', writer: 'jacob-kennedy', editor: 'terry-winchester-ii', words: 600, flow: 'river-jump',
         photo: { key: 'aerial', note: 'Stand in from Wikimedia Commons until Eli Wire shoots the riverfront this month.' } }] },
       { mods: [
         { span: 2, type: 'box', box: 'teaser-referendum' },
@@ -50,6 +50,7 @@ export const EDITION = {
         { span: 2, type: 'stack', mods: [
           { type: 'box', box: 'staff' },
           { type: 'box', box: 'reach' },
+          { type: 'box', box: 'next-theme' },
         ] },
       ] },
       { mods: [{ span: 5, type: 'box', box: 'how-we-work' }] },
@@ -69,17 +70,17 @@ export const EDITION = {
       { mods: [{ span: 5, type: 'box', box: 'civic' }] },
       { fill: true, mods: [
         { span: 3, type: 'history', path: '2020s/columbus-passes-fifty-thousand', fit: 'trim', cols: 3 },
-        { span: 2, type: 'history', path: '1980s/fire-station-5', fit: 'trim', cols: 2 },
+        { span: 2, type: 'box', box: 'coupon', coupon: 'crossroads' },
       ] },
     ] },
 
-    { n: 5, section: 'Community', topics: ['civic', 'service'], rows: [
+    { n: 5, section: 'Community', topics: ['civic', 'river'], rows: [
       { mods: [
         { span: 3, type: 'writer', id: 'camping', brief: 'D', writer: null, editor: 'jacob-kennedy', words: 750 },
         { span: 2, type: 'box', box: 'help' },
       ] },
       { fill: true, mods: [
-        { span: 3, type: 'history', path: '2020s/atterbury-welcomes-afghans', fit: 'trim', cols: 3, label: 'From our history: a camp that took people in' },
+        { span: 3, type: 'flow', id: 'river-jump', label: 'Continued from page 1' },
         { span: 2, type: 'history', path: '1990s/memorial-for-veterans', fit: 'trim', cols: 2 },
       ] },
     ] },
@@ -96,14 +97,23 @@ export const EDITION = {
       ] },
     ] },
 
-    { n: 7, section: 'History', topics: ['river', 'media'], rows: [
-      { mods: [{ span: 5, type: 'history', path: '2000s/flood-of-2008', fit: 'trim', cols: 3, layout: 'with-photo', photo: { key: null, note: 'Photo wanted: the June 2008 flood, from the library archives or a reader, with permission.' } }] },
-      { fill: true, mods: [
-        { span: 3, type: 'history', path: '1970s/the-republic-glass-newsroom', fit: 'trim', cols: 3 },
+    // December's spotlights: the site's own list (src/data/spotlight.mjs),
+    // each with its disclosure, and the two coupons.
+    { n: 7, section: 'Spotlight', topics: ['industry', 'culture'], rows: [
+      { mods: [{ span: 5, type: 'box', box: 'spot-head' }] },
+      { mods: [
+        { span: 3, type: 'writer', id: 'spotlight-jills', writer: null, editor: 'jacob-kennedy', words: 400, cols: 2, media: 'jills-diner', kicker: 'Spotlight',
+          working: 'Jill\u2019s Diner', guide: 'A spotlight on Jill\u2019s Diner from its listing and its own website.' },
         { span: 2, type: 'stack', mods: [
-          { type: 'box', box: 'next-theme' },
-          { type: 'box', box: 'then-and-now' },
+          { type: 'writer', id: 'spotlight-amys', writer: null, editor: 'jacob-kennedy', words: 350, kicker: 'Spotlight',
+            working: 'Amy\u2019s Closet', guide: 'A spotlight on Amy\u2019s Closet from its listing and its own website.' },
+          { type: 'box', box: 'coupon', coupon: 'amys' },
         ] },
+      ] },
+      { fill: true, mods: [
+        { span: 3, type: 'writer', id: 'spotlight-crossroads', writer: null, editor: 'eli-wire', words: 350, cols: 2, kicker: 'Spotlight',
+          working: 'Crossroads Wedding and Event Co.', guide: 'A spotlight on Crossroads Wedding and Event Co. from its own website.' },
+        { span: 2, type: 'box', box: 'coupon', coupon: 'crossroads' },
       ] },
     ] },
 
@@ -217,9 +227,10 @@ export const EDITION = {
 
   // Front page teasers: section navigation, written as house copy.
   teasers: [
-    { page: 6, kicker: 'History', title: 'Columbus in print', text: 'Before The Republic there was the Advocate, the Ledger, the Gazette and more. Four stories from the town’s papers.' },
+    { page: 6, kicker: 'History', title: 'Columbus in print', text: 'Before The Republic there was the Advocate, the Ledger, the Gazette and more. Four stories from the town\u2019s papers.' },
+    { page: 7, kicker: 'Spotlight', title: 'Three local businesses', text: 'Jill\u2019s Diner, Amy\u2019s Closet and Crossroads Wedding and Event Co., with two coupons to clip.' },
     { page: 8, kicker: 'Back YOUR Blue', title: 'My father was, and still is, my hero', text: 'Our publisher starts a series of thank you stories with his own, and asks for yours.' },
-    { page: 14, kicker: 'Where Columbus gathers', title: 'Ten places, ten decades', text: 'From the Crump to Yes And, one stop for every decade since the 1930s.' },
     { page: 10, kicker: 'Free this winter', title: 'Warm places that cost nothing', text: 'An indoor playground, a library by I. M. Pei, a free bus and ten landmarks to see from the sidewalk.' },
   ],
+
 };

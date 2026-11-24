@@ -32,6 +32,8 @@ import { handEntered, inWindow } from '../event-feeds.mjs';
 import { SOURCES as EVENT_SOURCES } from '../data/events.mjs';
 import { dashes } from '../visible.mjs';
 import { LABELS } from '../news/labels.mjs';
+import { disclosures } from '../news/disclosure.mjs';
+import { businessMedia } from '../data/media.mjs';
 import { seriesBySlug, seriesHref } from '../news/series.mjs';
 import { BRIEFS } from '../print/briefs.mjs';
 import { almanac } from '../print/almanac.mjs';
@@ -56,14 +58,19 @@ const words = (html) => String(html).replace(/<[^>]+>/g, ' ').split(/\s+/).filte
 // Front matter: headline, dek, kicker, bylines, editor, status (draft or
 // ready), photo {file, alt, caption, credit, license}, box {title, items},
 // results (election: list of {office, note, candidates: [{name, party, votes}]}).
+// A writer marks what still needs confirming as [CHECK: ...]. The proof
+// shows each one highlighted; a story with any left cannot be ready.
+const markCheck = (html) => html.replace(/\[CHECK:?\s*([^\]]*)\]/g, (_, x) => `<mark class="pe-check">Check: ${x}</mark>`);
+
 function loadSlot(id) {
   const file = new URL(`${id}.md`, SLOT_DIR);
   if (!existsSync(file)) return null;
   const { data, body } = splitFrontMatter(readFileSync(file, 'utf8'));
   const s = { id, headline: '', dek: '', kicker: '', bylines: [], editor: '', status: 'draft', ...data };
   s.bylines = [].concat(s.bylines || []);
-  s.html = markdown(body || '');
-  s.words = words(s.html);
+  s.checks = ((body || '') + JSON.stringify(s.box || '')).match(/\[CHECK/g)?.length || 0;
+  s.html = markCheck(markdown(body || ''));
+  s.words = words(s.html.replace(/<mark class="pe-check">.*?<\/mark>/g, ''));
   const p = [];
   if (!s.headline) p.push('needs a headline');
   for (const b of s.bylines) if (!STAFF[b]) p.push(`byline "${b}" is not in src/data/staff.mjs`);
@@ -71,13 +78,14 @@ function loadSlot(id) {
   if (s.editor && !STAFF[s.editor]?.editor) p.push(`editor "${s.editor}" is not a staff editor`);
   if (s.editor && s.bylines.includes(s.editor)) p.push('the editor cannot also be a byline (two-person rule)');
   if (s.status === 'ready' && !s.editor) p.push('a ready story needs an editor');
+  if (s.status === 'ready' && s.checks) p.push(`${s.checks} [CHECK] notes still in the text`);
   if (s.photo?.file && s.photo.file.startsWith('/') && !existsSync(new URL(`../../public${s.photo.file}`, import.meta.url))) p.push(`photo ${s.photo.file} is not in public/`);
   if (s.photo?.file && !(s.photo.credit && s.photo.alt)) p.push('a photo needs alt text and a credit');
   s.problems = p;
   return s;
 }
 const SLOTS = {};
-for (const pg of E.pages) for (const m of pg.rows.flatMap((r) => r.mods)) if (m.type === 'writer') SLOTS[m.id] = { mod: m, page: pg.n, copy: loadSlot(m.id) };
+for (const pg of E.pages) for (const m of pg.rows.flatMap((r) => r.mods.flatMap((x) => (x.type === 'stack' ? x.mods : [x])))) if (m.type === 'writer') SLOTS[m.id] = { mod: m, page: pg.n, copy: loadSlot(m.id) };
 
 // History cards for short columns: approved articles the edition does not
 // already print, up to five per section, spread across the decades.
@@ -181,6 +189,13 @@ function briefBox(m) {
   </div>`;
 }
 
+// A story that features a business says what ties it to us, from the same
+// rules the site uses (src/news/disclosure.mjs) plus the directory's `tie`.
+function discloseFor(tags = []) {
+  const lines = [...disclosures([].concat(tags || [])).map((d) => d.text), ...[].concat(tags || []).map((s) => dirBy[s]?.added?.tie).filter(Boolean)];
+  return lines.length ? `<p class="pe-disclose"><b>Disclosure.</b> ${lines.map(t).join(' ')}</p>` : '';
+}
+
 function writerMod(m) {
   const slot = SLOTS[m.id];
   const c = slot.copy;
@@ -190,16 +205,18 @@ function writerMod(m) {
   const head = c
     ? `${kicker(c.kicker || m.kicker || '')}<h2 class="pe-hed pe-hed-${layout === 'lead' ? 'lead' : m.span}">${t(c.headline)}</h2>${c.dek ? `<p class="pe-dek">${t(c.dek)}</p>` : ''}${byline(c.bylines, c.editor)}`
     : `${kicker(m.kicker || '')}<h2 class="pe-hed pe-hed-${layout === 'lead' ? 'lead' : m.span} pe-hed-working">${t(m.working || BRIEFS[m.brief]?.title || '')}</h2>`;
-  const text = c ? `<div class="pe-text pe-prose" style="--cols:${cols}" data-fit="report">${c.html}</div>` : briefBox(m);
+  const text = c ? `<div class="pe-text pe-prose" style="--cols:${cols}" data-fit="${m.flow ? 'flow' : 'report'}"${m.flow ? ` data-flow-to="${esc(m.flow)}"` : ''}>${c.html}</div>` : briefBox(m);
   const status = c ? (c.status === 'ready' && !c.problems.length ? '' : `<p class="pe-flag">${c.status === 'ready' ? 'Needs fixing: ' + t(c.problems.join('; ')) : 'Draft'}</p>`) : '<p class="pe-flag">Waiting for the writer</p>';
-  const photo = c?.photo ? photoFig(c.photo, 'pe-fig-lead') : m.photo ? photoFig(m.photo, 'pe-fig-lead') : '';
+  const media = m.media ? businessMedia(m.media) : null;
+  const photo = c?.photo ? photoFig(c.photo, 'pe-fig-lead') : media?.state === 'photo' ? `<figure class="pe-fig pe-fig-lead"><img src="${esc(media.src)}" srcset="${esc(media.src)} ${media.width}w" alt="${esc(media.alt || '')}"><figcaption><span class="pe-credit">Photo: ${t(media.credit || '')}</span></figcaption></figure>` : m.photo ? photoFig(m.photo, 'pe-fig-lead') : '';
   const side = layout === 'wide' && m.sidebar ? `<aside class="pe-sidebar"><h3>${t(c?.box?.title || m.sidebar)}</h3>${c?.box?.items ? `<ul>${c.box.items.map((i) => `<li>${t(i)}</li>`).join('')}</ul>` : '<p class="pe-empty">The writer fills this box with checked numbers.</p>'}</aside>` : '';
   const factBox = `<aside class="pe-sidebar pe-factbox"><h3>${t(c?.box?.title || m.sidebar || 'The project in numbers')}</h3>${c?.box?.items ? `<ul>${c.box.items.map((i) => `<li>${t(i)}</li>`).join('')}</ul>` : '<p class="pe-empty">The writer fills this box with checked numbers: the final cost, the money from each source, the opening dates.</p>'}</aside>`;
   const inner = layout === 'lead' ? `<div class="pe-lead"><div class="pe-lead-l">${photo}${factBox}</div><div class="pe-lead-text">${text}</div></div>`
     : layout === 'wide' ? `<div class="pe-wide">${text}${side}</div>`
     : layout === 'theme' ? `<div class="pe-theme-intro">${text}</div>`
     : `${photo}${text}`;
-  return `<article class="pe-mod pe-writer pe-layout-${layout}${c ? '' : ' pe-waiting'}" data-kind="writer" data-slot="${esc(m.id)}">${head}${inner}${status}</article>`;
+  const ties = c ? discloseFor(c.tags) : '';
+  return `<article class="pe-mod pe-writer pe-layout-${layout}${c ? '' : ' pe-waiting'}" data-kind="writer" data-slot="${esc(m.id)}">${head}${inner}${ties}${status}</article>`;
 }
 
 // ---------- Boxes ----------
@@ -234,6 +251,10 @@ const BOX = {
 
   reach: () => `<section class="pe-box"><h3>How to reach us</h3><ul class="pe-plain"><li><b>Tips</b> ${esc(short(ORIGIN))}/tips</li><li><b>Letters to the editor</b> ${esc(short(ORIGIN))}/letters</li><li><b>Questions</b> ${esc(short(ORIGIN))}/ask</li><li><b>Corrections</b> ${esc(short(ORIGIN))}/about/corrections</li></ul></section>`,
 
+  coupon: (m) => couponHtml(m.coupon),
+
+  'spot-head': () => `<header class="pe-spread-head"><p class="pe-kicker">Spotlight</p><h2>Three local businesses</h2><p class="pe-dek">Our December spotlights, picked by our publisher. Two are Founding Members who pay us for a website and a featured listing, and one is a business our publisher runs. Each one says so.</p></header>`,
+
   'how-we-work': () => `<section class="pe-box pe-how"><h3>How this paper works</h3><div class="pe-how-cols">
     <div><h4>Two people on every story</h4><p>A named person writes every story and a different person, an editor, approves it before it runs. Nobody approves their own work.</p></div>
     <div><h4>Sources</h4><p>Every story names who wrote it, who edited it and where the facts came from. The code at the end of each story opens it online with its sources.</p>
@@ -265,7 +286,8 @@ const BOX = {
     return `<section class="pe-box pe-results"><h3>Bartholomew County results</h3><p class="pe-kicker">${t(c.resultsLine || 'Certified canvass, November 3, 2026')}</p>
       <table><tbody>${races.map((r) => {
         const total = (r.candidates || []).reduce((n, x) => n + (Number(x.votes) || 0), 0);
-        return `<tr class="pe-race"><th colspan="3">${t(r.office)}${r.note ? ` <span>${t(r.note)}</span>` : ''}</th></tr>${(r.candidates || []).map((x, i) => `<tr><td>${i === 0 ? '✓ ' : ''}${t(x.name)}${x.party ? ` (${esc(x.party)})` : ''}</td><td class="pe-num">${Number(x.votes).toLocaleString('en-US')}</td><td class="pe-num">${total ? ((100 * x.votes) / total).toFixed(1) + '%' : ''}</td></tr>`).join('')}`;
+        const counted = (r.candidates || []).every((x) => Number.isFinite(Number(x.votes)) && x.votes !== undefined && x.votes !== '');
+        return `<tr class="pe-race"><th colspan="3">${t(r.office)}${r.note ? ` <span>${t(r.note)}</span>` : ''}</th></tr>${(r.candidates || []).map((x, i) => `<tr><td>${counted && i === 0 ? '✓ ' : ''}${t(x.name)}${x.party ? ` (${esc(x.party)})` : ''}</td>${counted ? `<td class="pe-num">${Number(x.votes).toLocaleString('en-US')}</td><td class="pe-num">${total ? ((100 * x.votes) / total).toFixed(1) + '%' : ''}</td>` : '<td class="pe-tbd" colspan="2">Certified count to come</td>'}</tr>`).join('')}`;
       }).join('')}</tbody></table>${c.resultsSource ? `<p class="pe-fine">${t(c.resultsSource)}</p>` : ''}</section>`;
   },
 
@@ -441,6 +463,26 @@ function sheet(pg) {
 </section>`;
 }
 
+// ---------- Coupons ----------
+// Deals come from the business (the owner's word, relayed by the publisher
+// for Amy's Closet; the publisher's own for Crossroads). Each is labeled as an
+// ad, says what ties it to us, and keeps [CHECK] marks for the end date and
+// terms until the business confirms them. `cap` is how many times the fitter
+// may also drop it into a short column.
+export const COUPONS = {
+  crossroads: { slug: 'crossroads-wedding-co', cap: 4, big: '10% off', what: 'your booking with Crossroads Wedding and Event Co.',
+    body: 'Wedding DJs, live acoustic sets, bartenders and day of coordination, from Columbus. Bring this coupon or mention Heart of Columbus when you book at crossroadsweddingco.shop.',
+    terms: 'One per booking. [CHECK: expiration date, and whether it applies to every service.]' },
+  amys: { slug: 'amys-closet', cap: 1, big: 'Spend $10, get $5', what: 'Spend $10 or more at Amy\u2019s Closet and get a $5 gift certificate.',
+    body: 'Donated clothing, inspected three times, at 3928 25th Street. Open Tuesday through Saturday, 11 AM to 7 PM.',
+    terms: 'Bring this coupon. [CHECK with Amy: the end date, and how many per visit.]' },
+};
+const couponHtml = (id) => {
+  const c = COUPONS[id];
+  const tie = disclosures([c.slug]).map((d) => d.text).concat(dirBy[c.slug]?.added?.tie || []).join(' ');
+  return `<aside class="pe-coupon-ad" data-house="coupon-${id}" data-cap="${c.cap}"><p class="pe-ad-tag">✂ Ad · Clip and save</p><p class="pe-coupon-big">${t(c.big)}</p><p class="pe-coupon-what">${t(c.what)}</p><p>${t(c.body)}</p><p class="pe-fine">${markCheck(t(c.terms))}</p><p class="pe-fine">${t(tie)}</p></aside>`;
+};
+
 // ---------- House ads ----------
 // Short pieces leave room at the bottom of a column. Like any paper, we fill
 // it with ads for ourselves: the fitter (public/js/print-edition.js) measures
@@ -457,7 +499,7 @@ const HOUSE = [
   ['letters', 'Write to the editor', 'Agree, disagree or tell us what we missed. We print letters with the writer’s name.', '/letters/', 'Write a letter'],
   ['order', 'Order direct, skip the app fee', 'Local restaurants and shops that take orders and bookings on their own pages.', '/order/', 'Order and book direct'],
 ];
-const houseAds = () => `<template id="pe-fillers">${CARDS.map((a) => `<aside class="pe-hcard" data-hist="${esc(a.group + '/' + a.slug)}" data-topic="${esc(a.section)}"><div><p class="pe-kicker">From our history · ${t(a.when)}</p><h3>${t(a.title)}</h3><p>${t(a.dek)}</p></div>${qr(a.path, 'The whole story')}</aside>`).join('')}${HOUSE.map(([id, h, p, path, label]) => `<aside class="pe-house" data-house="${id}"><div><p class="pe-house-tag">From Heart of Columbus</p><h3>${t(h)}</h3><p>${t(p)}</p></div>${qr(path, label)}</aside>`).join('')}</template>`;
+const houseAds = () => `<template id="pe-fillers">${Object.keys(COUPONS).map(couponHtml).join('')}${CARDS.map((a) => `<aside class="pe-hcard" data-hist="${esc(a.group + '/' + a.slug)}" data-topic="${esc(a.section)}"><div><p class="pe-kicker">From our history · ${t(a.when)}</p><h3>${t(a.title)}</h3><p>${t(a.dek)}</p></div>${qr(a.path, 'The whole story')}</aside>`).join('')}${HOUSE.map(([id, h, p, path, label]) => `<aside class="pe-house" data-house="${id}"><div><p class="pe-house-tag">From Heart of Columbus</p><h3>${t(h)}</h3><p>${t(p)}</p></div>${qr(path, label)}</aside>`).join('')}</template>`;
 
 // ---------- Readiness ----------
 export function readiness() {
