@@ -65,8 +65,6 @@ Staff pointed us the wrong direction first for Chick-fil-A, but then two lovely 
 
 They had an elementary choir sing the national anthem and a middle school aged dance group. Both were phenomenal.
 
-[Anything else: the flame cannons, intros, music, video board.]
-
 **Rating: 5 out of 5**
 
 ## The game
