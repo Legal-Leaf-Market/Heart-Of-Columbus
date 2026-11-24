@@ -16,7 +16,7 @@ images:
     license: Staff photo
   - file: /news-media/2026/11/pacers-thunder-intros.jpg
     alt: Flame cannons fire on the court during player introductions, with a player in an Indiana number 32 jersey shouting on the center video board and the scoreboard still at 0 to 0.
-    caption: "[YOUR CAPTION: for example, the starting lineup intros]"
+    caption: Off with a bang!
     credit: Eli Wire
     creditUrl: https://www.instagram.com/eliwire/
     license: Used with permission
