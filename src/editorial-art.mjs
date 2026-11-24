@@ -51,11 +51,22 @@ export const editorialHero = (sub) => EDITORIAL[sub]?.hero || null;
 // copy panel; pos keeps the subject in frame. dark: navy copy panel.
 const SEC = (name, pos, dark = false) => ({ file: `sections-v1/${name}-1440.webp`, small: `sections-v1/${name}-768.webp`, width: 1440, height: 480, pos, dark });
 export const SECTION_ART = {
+  restaurants: SEC('restaurants', '72% 50%', true),
   'coffee-sweets': SEC('coffee-and-sweets', '74% 50%'),
   bars: SEC('downtown-after-dark', '80% 50%', true),
+  beauty: SEC('beauty', '72% 50%'),
   shopping: SEC('makers-and-markets', '70% 50%'),
+  smoke: SEC('smoke', '72% 50%', true),
+  health: SEC('health', '72% 50%'),
+  fitness: SEC('fitness', '72% 50%'),
+  pets: SEC('pets', '72% 50%'),
+  'home-services': SEC('home-services', '72% 50%'),
+  auto: SEC('auto', '72% 50%'),
+  pros: SEC('pros', '72% 50%'),
   events: SEC('arts-and-music', '76% 50%'),
+  kids: SEC('kids', '72% 50%'),
   'things-to-do': SEC('parks-and-trails', '70% 50%'),
+  makers: SEC('makers', '72% 50%'),
 };
 // The Explore page banner (list view only).
 export const EXPLORE_ART = SEC('downtown-day', '74% 50%');
