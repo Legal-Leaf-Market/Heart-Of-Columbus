@@ -14,7 +14,8 @@ for the site. Reviewed by Claude Code the same day:
   crawl already reads. Useful mainly for the menu URLs it found.
 - **independent-additions.csv:** 8 candidates. Outcome:
   - Added (src/data/added.mjs, each checked against the page named there):
-    PAQ'D Meats (own site), Max's Jewelry (YellowPages listing).
+    PAQ'D Meats (own site). Max's Jewelry (YellowPages listing) was added,
+    then taken off the same day: Jake says it has closed.
   - Already listed: Wild Bramble Catering. Apna Bazaar shares Apna Kitchen's
     address (needs a person to decide if it's a separate shop).
   - Not added: M&M Sportscards (Google marks it permanently closed);
