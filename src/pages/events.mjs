@@ -66,36 +66,48 @@ export function icsFeed(now = new Date()) {
   return folded.join('\r\n') + '\r\n';
 }
 
-// The homepage calendar: "This week in Columbus". Fourteen day tiles with a
-// count each, tap a day to list its events, tap an event for a pop up with
-// the organizer's link and an add-to-calendar file. public/js/events-week.js
-// fills it from /api/events (library, parks, Arts Council and hand-entered
-// listings). Without the script, or if the feed fails, it shows the
-// signature events as a short list, never an empty box.
-export function homeEvents() {
-  const upcoming = EVENTS.slice().sort((a, b) => a.start.localeCompare(b.start));
+// The homepage events carousel: "Coming up in Columbus". A swipeable row
+// of poster cards (three across on a desktop, one and a bit on a phone) with
+// arrow buttons, a progress bar, filters, and on every card Share and Add to
+// calendar. public/js/events-week.js fills it from /api/events (library,
+// parks, Arts Council and hand-entered listings) for the next two weeks; a
+// program that repeats shows once, with its other dates counted. Without the
+// script, or if the feed fails, the cards are the signature events that have
+// not ended yet, so the row is never empty.
+const evCard = (e, i) => `<li class="evc-card" data-src="${esc(e.from || 'org')}"><a class="evc-hit" href="${esc(e.url)}" target="_blank" rel="noopener">
+  <span class="evc-date"><b>${esc(new Date(e.start + 'T12:00:00Z').toLocaleDateString('en-US', { timeZone: 'UTC', day: 'numeric' }))}</b>${esc(new Date(e.start + 'T12:00:00Z').toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short' }))}</span>
+  <span class="evc-tag">${esc(dateRange(e))}</span>
+  <strong class="evc-t">${t(e.name)}</strong>
+  <span class="evc-m">${e.times ? esc(`${fmtMin(e.times[0])} to ${fmtMin(e.times[1])}`) + '<br>' : ''}${esc(e.venue)}</span></a></li>`;
+export function homeEvents(today = new Date().toISOString().slice(0, 10)) {
+  const upcoming = EVENTS.filter((e) => e.end >= today).sort((a, b) => a.start.localeCompare(b.start));
   const srcNames = Object.fromEntries(SOURCE_LIST.map((s) => [s.id, s.short || s.name]));
   return `
-<section class="wrap evw" id="this-week" aria-labelledby="evw-h" data-evw data-src-names="${esc(JSON.stringify(srcNames))}">
-  <div class="rail-head"><div><p class="kicker">Library, parks, arts and more</p><h2 id="evw-h">This week in Columbus</h2></div>
+<section class="wrap evc" id="this-week" aria-labelledby="evc-h" data-evw data-src-names="${esc(JSON.stringify(srcNames))}">
+  <div class="rail-head"><div><p class="kicker">Library, parks, arts and more</p><h2 id="evc-h">Coming up in Columbus</h2></div>
     <a class="see-all" href="/events/">All local events ${svg('arrow', 'ic-sm')}</a></div>
-  <div class="evw-tools" data-evw-tools hidden>
-    <div class="evw-filters" role="group" aria-label="Show">
+  <div class="evc-bar">
+    <div class="evw-filters" role="group" aria-label="Show" data-evw-tools hidden>
       <button type="button" class="evw-chip" data-evw-filter="all" aria-pressed="true">Everything</button>
+      <button type="button" class="evw-chip" data-evw-filter="today" aria-pressed="false">Today</button>
+      <button type="button" class="evw-chip" data-evw-filter="weekend" aria-pressed="false">This weekend</button>
       <button type="button" class="evw-chip" data-evw-filter="kids" aria-pressed="false">Kids &amp; family</button>
       <button type="button" class="evw-chip" data-evw-filter="live" aria-pressed="false">Live music &amp; arts</button>
     </div>
+    <div class="evc-nav"><button type="button" class="evc-btn" data-evc-prev aria-label="Earlier events">${svg('arrow', 'ic sc-flip')}</button><button type="button" class="evc-btn" data-evc-next aria-label="Later events">${svg('arrow')}</button></div>
   </div>
-  <div class="evw-days" data-evw-days role="tablist" aria-label="Pick a day" hidden></div>
-  <div class="evw-list" data-evw-list aria-live="polite">
-    <ul class="evw-rows" role="list">${upcoming.map((e) => `<li><a class="evw-row" href="${esc(e.url)}" target="_blank" rel="noopener"><span class="evw-when">${esc(dateRange(e))}</span><span class="evw-what"><strong>${t(e.name)}</strong><span>${esc(e.venue)}</span></span></a></li>`).join('')}</ul>
+  <div class="evc-frame">
+    <ul class="evc-track" data-evc-track role="list" tabindex="0" aria-label="Upcoming events, scroll sideways">${upcoming.map(evCard).join('') || '<li class="evc-card evc-empty"><a class="evc-hit" href="/events/"><strong class="evc-t">See every local listing</strong></a></li>'}</ul>
   </div>
+  <div class="evc-progress" aria-hidden="true"><span data-evc-progress></span></div>
+  <p class="evc-count" data-evc-count aria-live="polite"></p>
   <dialog class="evw-pop" data-evw-pop aria-labelledby="evw-pop-h">
     <form method="dialog"><button class="evw-x" aria-label="Close">${svg('x', 'ic-sm')}</button></form>
     <p class="evw-pop-k" data-evw-pop-k></p>
     <h3 id="evw-pop-h" data-evw-pop-h></h3>
     <p class="evw-pop-m" data-evw-pop-m></p>
-    <p class="evw-pop-cta"><a class="btn" data-evw-pop-go target="_blank" rel="noopener">Details from the organizer ${svg('arrow', 'ic-sm')}</a><a class="btn btn-ghost" data-evw-pop-ics download>Add to my calendar</a></p>
+    <p class="evw-pop-more" data-evw-pop-more></p>
+    <p class="evw-pop-cta"><a class="btn" data-evw-pop-go target="_blank" rel="noopener">Details from the organizer ${svg('arrow', 'ic-sm')}</a><button type="button" class="btn btn-ghost" data-evw-pop-share>${svg('share', 'ic-sm')} Share</button><a class="btn btn-ghost" data-evw-pop-ics download>Add to my calendar</a></p>
     <p class="fine" data-evw-pop-src></p>
   </dialog>
   <p class="fine evw-foot">Listings come from each organizer’s own calendar and link back to it. Times can change; check before you go. <a href="/events.ics">Signature events calendar</a></p>
