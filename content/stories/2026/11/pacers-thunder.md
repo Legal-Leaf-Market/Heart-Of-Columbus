@@ -32,13 +32,17 @@ Eli and I made up as friends recently. I greeted her with a, "life's short" and 
 
 Jake's note so far: pleased with the seat view.
 
-[Section or level, what you could see, what you paid, worth it or not. Your rating: __ out of 5]
+We were in section 219.
+
+[What you could see from 219, and why you liked it. Your rating: __ out of 5]
 
 ## Food and drink
 
 Jake's note so far: pleased with the concession prices.
 
-[What you bought and what each item cost. Your rating: __ out of 5]
+We got chicken fingers, fries, and cotton candy.
+
+[What each item cost, from your receipt or card. Your rating: __ out of 5]
 
 ## The people working the building
 
