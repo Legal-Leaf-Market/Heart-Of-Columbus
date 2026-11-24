@@ -8,7 +8,7 @@ stickers:
   - sticker: hands
   - sticker: starburst
 bylines: [jacob-kennedy]
-editor: eli-wire
+editor: adelaide-kennedy
 published: 2026-11-13T12:00:00-05:00
 sources:
   - name: First published on Crossroads Wedding and Event Co., with a notes board for Kevin

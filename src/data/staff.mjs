@@ -43,6 +43,16 @@ export const STAFF = {
     email: '',
     editor: true,
   },
+  'adelaide-kennedy': {
+    name: 'Adelaide Kennedy',
+    role: 'Editor',
+    beat: '',
+    // Named by Jake Kennedy, 2026-11-24, as the editor of Back YOUR Blue,
+    // the tribute to her grandfather. TODO(owner): a bio in her own words.
+    bio: 'Editor of Back YOUR Blue, the tribute to her grandfather, Kevin Lee Kennedy.',
+    email: '',
+    editor: true,
+  },
 };
 
 // Made-up people for templates and tests only, in a made-up town. They never

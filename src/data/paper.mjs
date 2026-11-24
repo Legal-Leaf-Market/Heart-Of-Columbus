@@ -16,8 +16,8 @@ export const PAPER = {
   funding: '',
   // TODO(owner): a public newsroom address for tips, letters and corrections.
   email: '',
-  // TODO(owner): approve the AI policy on /about/standards/ (AI_POLICY below).
-  aiPolicyApproved: false,
+  // Approved by the publisher, Jake Kennedy, on 2026-11-24.
+  aiPolicyApproved: true,
 };
 
 // Turns the News link on in the header and lets the front page be announced.
@@ -32,10 +32,13 @@ export const FUNDERS = [];
 // Draft policies, shown on /about/standards/ with a "draft" note until the
 // publisher approves them. Plain sentences, no dashes.
 export const AI_POLICY = [
-  'People report and write every story, headline, quote, letter and obituary we publish. A named reporter writes it and an editor approves it.',
-  'Software helps us run the paper: it builds the pages, checks spelling and links, keeps the business directory current, and turns public data into lead lists for reporters. A lead is never a story until a person has confirmed it.',
-  'We do not publish AI written stories, recaps or summaries, and we do not use AI to create or alter news photos.',
-  'If a tool ever helps with something a reader sees, such as a translation, the page says so.',
+  'Every story has a named person behind it. Reporting, facts, opinions and ratings come from the reporter, and an editor who is not the byline approves every piece before it runs.',
+  'Reporters may use AI writing tools, such as ChatGPT or Claude, to help shape their own words: tightening a draft, suggesting a headline, fixing flow. The reporter decides what stays, and the editor checks every fact.',
+  'When an AI tool helped write a story, the story says so in its "How we reported this" note.',
+  'Our history articles are drafted with the help of AI, only from the public sources listed with each one, and an editor checks them against those sources. A fact we cannot source stays out.',
+  'AI never invents a quote, a person, a number or a source, and anything a tool tells us is a lead until a person confirms it.',
+  'We do not publish AI made or AI altered photos, video or audio of real people, places or events.',
+  'Software also helps run the paper: it builds the pages, checks spelling and links, and keeps the business directory current.',
 ];
 
 // The morning newsletter. We never build email delivery: a newsletter
