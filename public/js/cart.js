@@ -29,9 +29,18 @@
   var WOO_STEP_MS = 4000;
 
   // ---------- Handoff URLs ----------
-  function shopifyUrl(origin, lines, pickup) {
+  // Order tracking (docs/order-tracking.md): every handoff carries our UTM
+  // tag and a visit id. Shopify also keeps the id on the order as a cart
+  // attribute (hoc_click); WooCommerce records the UTM fields itself.
+  function visitId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+  function utm(campaign, click) { return 'utm_source=' + REF + '&utm_medium=referral&utm_campaign=' + campaign + (click ? '&utm_content=' + click : ''); }
+  function tag(u, campaign, click) { return u + (u.indexOf('?') === -1 ? '?' : '&') + utm(campaign, click); }
+  function beacon(slug, kind, extra) {
+    try { if (navigator.sendBeacon) navigator.sendBeacon('/api/handoff', JSON.stringify(Object.assign({ slug: slug, kind: kind }, extra || {}))); } catch (x) { /* best effort */ }
+  }
+  function shopifyUrl(origin, lines, pickup, click) {
     var parts = lines.filter(function (l) { return l.available !== false && l.variantId; }).map(function (l) { return encodeURIComponent(l.variantId) + ':' + l.qty; });
-    var q = (pickup ? 'note=' + encodeURIComponent('Pickup, please. Sent from Heart of Columbus.') + '&' : '') + 'ref=' + REF;
+    var q = (pickup ? 'note=' + encodeURIComponent('Pickup, please. Sent from Heart of Columbus.') + '&' : '') + 'ref=' + REF + (click ? '&attributes%5Bhoc_click%5D=' + click + '&' + utm('cart', click) : '');
     return (parts.length ? origin + '/cart/' + parts.join(',') : origin + '/cart') + '?' + q;
   }
   function wooUrls(origin, lines) {
@@ -162,8 +171,9 @@
     var slug = co.dataset.checkout, ls = groups(read()).by[slug], first = ls[0];
     var status = $('[data-status="' + slug + '"]', drawer), more = $('[data-more="' + slug + '"]', drawer);
     if (first.buyOnSite) {
-      window.open(first.url, '_blank', 'noopener');
-      more.innerHTML = ls.slice(1).map(function (l) { return '<a class="pill" href="' + esc(l.url) + '" target="_blank" rel="noopener">Open ' + esc(l.title) + ' ↗</a>'; }).join('');
+      beacon(slug, 'cart', { items: ls.reduce(function (a, l) { return a + l.qty; }, 0), total: ls.reduce(function (a, l) { return a + l.price * l.qty; }, 0) });
+      window.open(tag(first.url, 'cart'), '_blank', 'noopener');
+      more.innerHTML = ls.slice(1).map(function (l) { return '<a class="pill" href="' + esc(tag(l.url, 'cart')) + '" target="_blank" rel="noopener">Open ' + esc(l.title) + ' ↗</a>'; }).join('');
       return;
     }
     // In stock only (owner's rule): ask the store, this minute, before its
@@ -204,8 +214,13 @@
   }
   function handOff(slug, ls, first, tab, co, status, more) {
     var go = function (u) { if (tab) tab.location.href = u; else window.open(u, '_blank', 'noopener'); };
-    if (first.platform === 'shopify') { go(shopifyUrl(first.origin, ls, pickupOn(slug, first))); return; }
+    var click = visitId();
+    beacon(slug, 'cart', { click: click, items: ls.reduce(function (a, l) { return a + l.qty; }, 0), total: ls.reduce(function (a, l) { return a + l.price * l.qty; }, 0) });
+    if (first.platform === 'shopify') { go(shopifyUrl(first.origin, ls, pickupOn(slug, first), click)); return; }
     var urls = wooUrls(first.origin, ls);
+    // WooCommerce's order attribution reads the UTM fields from the first page
+    // of the visit, so only the first add link carries them.
+    if (urls.length) urls[0] = tag(urls[0], 'cart', click);
     var listed = function () {
       more.innerHTML = urls.map(function (u, i) { return '<a class="pill" href="' + esc(u) + '" target="_blank" rel="noopener">Add ' + esc(ls[i].title) + (ls[i].variant ? ' (' + esc(ls[i].variant) + ')' : '') + ' ↗</a>'; }).join('');
     };
