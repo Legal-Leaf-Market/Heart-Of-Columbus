@@ -3,7 +3,7 @@ import { tagUrl, hocAttr } from '../ref.mjs';
 import { page, esc, t } from '../layout.mjs';
 import { directory, CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, km, inSection, asListedIn } from '../data/directory.mjs';
 import { PRICE } from '../data/members.mjs';
-import { header, footer, card, rail, svg, PHOTOS, artIcon, catSticker, sticker, STICKERS, CAT_STICKER, MEDIA_FAIL, tel, mapsLink, breadcrumbs, websiteAction } from '../site.mjs';
+import { header, footer, card, rail, svg, PHOTOS, artIcon, catSticker, sticker, STICKERS, CAT_STICKER, MEDIA_FAIL, tel, mapsLink, breadcrumbs, websiteAction, businessIllustration } from '../site.mjs';
 import { editorialFor, editorialHero, sectionHero, EXPLORE_ART, EDITORIAL_CAPTION } from '../editorial-art.mjs';
 import { placeFromBusiness, PIN_NOTE } from '../data/places.mjs';
 import { fmtRange, DAY_NAMES } from '../hours.mjs';
@@ -261,7 +261,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
     <div class="biz-head">
       <p class="kicker"><a href="/c/${cat.slug}/${cat.subs.length > 1 ? sub.slug + '/' : ''}">${esc(sub.label)}</a>${area ? ` · <a href="/n/${area.slug}/">${esc(area.label)}</a>` : ''}</p>
       ${tier === 'member' ? `<p class="brand-line"><a class="brand-ribbon" href="/founders-club/">★ Founding Member #${fnum}</a></p>` : ''}
-      <div class="biz-id">${logo}<h1>${t(b.name)}</h1></div>
+      <div class="biz-id">${logo}${businessIllustration(b.slug)}<h1>${t(b.name)}</h1></div>
       <p class="biz-type">${t(b.type)}</p>
       <div class="bz-tags">${b.member ? '<a class="tag tag-member" href="#member-note">★ Founding Member</a>' : ''}${tier === 'claimed' ? '<span class="tag tag-claimed">✓ Claimed by the owner</span>' : ''}${tier === 'listed' ? '<a class="tag tag-outline" href="#claim-card">Outline listing</a>' : ''}${SPOTLIGHT_SLUGS.has(b.slug) ? (spotFor(b.slug)?.picks.length ? '<a class="tag tag-spot" href="#owners-picks">★ Spotlight</a>' : '<span class="tag tag-spot">★ Spotlight</span>') : ''}${b.demo ? '<span class="tag tag-hot">Order direct (demo)</span>' : ''}${b.heritage ? '<span class="tag">Columbus original</span>' : ''}${b.dora ? '<span class="tag tag-dora">Social District: drinks to go</span>' : ''}${b.also.map((a) => `<a class="tag tag-go" href="#also-${a.cat}">${catBySlug[a.cat].emoji} ${esc(a.title)}</a>`).join('')}<span class="tag tag-plain">Independent</span></div>
       ${b.hours ? `<p class="open-badge biz-open" data-open-now='${JSON.stringify(b.hours)}' hidden></p>` : ''}

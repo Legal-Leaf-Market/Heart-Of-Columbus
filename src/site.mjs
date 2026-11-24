@@ -32,6 +32,14 @@ export const STICKERS = [
 export const sticker = (id, { size = 96, cls = '', alt = '', lazy = true } = {}) =>
   `<img class="stk${cls ? ' ' + cls : ''}" src="/art/sticker-${id}.webp" width="${size}" height="${size}" alt="${esc(alt)}"${alt ? '' : ' aria-hidden="true"'} decoding="async"${lazy ? ' loading="lazy"' : ''}>`;
 export const catSticker = (slug, opts) => sticker(CAT_STICKER[slug] || 'storefront', opts);
+import { BUSINESS_ART_SHARDS } from './data/business-art.mjs';
+export const businessIllustration = (slug, { size = 82 } = {}) => {
+  const shard = BUSINESS_ART_SHARDS[slug];
+  if (!shard) return '';
+  const file = String(shard).padStart(2, '0');
+  return `<svg class="business-illustration" viewBox="0 0 280 360" width="${size}" height="${Math.round(size * 1.286)}" role="img" aria-label="Heart of Columbus field guide illustration"><use href="/art/business-stickers-${file}.svg#biz-${esc(slug)}"></use></svg>`;
+};
+
 
 // Architecture photography from Wikimedia Commons, hotlinked with credit.
 // Every photo is public domain or Creative Commons; see /credits/. The
