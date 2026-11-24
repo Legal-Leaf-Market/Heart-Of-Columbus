@@ -1,4 +1,5 @@
 // Category, neighborhood, business, explore, saved and credits pages.
+import { tagUrl, hocAttr } from '../ref.mjs';
 import { page, esc, t } from '../layout.mjs';
 import { directory, CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, km, inSection, asListedIn } from '../data/directory.mjs';
 import { PRICE } from '../data/members.mjs';
@@ -265,16 +266,16 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
       <div class="bz-tags">${b.member ? '<a class="tag tag-member" href="#member-note">★ Founding Member</a>' : ''}${tier === 'claimed' ? '<span class="tag tag-claimed">✓ Claimed by the owner</span>' : ''}${tier === 'listed' ? '<a class="tag tag-outline" href="#claim-card">Outline listing</a>' : ''}${SPOTLIGHT_SLUGS.has(b.slug) ? (spotFor(b.slug)?.picks.length ? '<a class="tag tag-spot" href="#owners-picks">★ Spotlight</a>' : '<span class="tag tag-spot">★ Spotlight</span>') : ''}${b.demo ? '<span class="tag tag-hot">Order direct (demo)</span>' : ''}${b.heritage ? '<span class="tag">Columbus original</span>' : ''}${b.dora ? '<span class="tag tag-dora">Social District: drinks to go</span>' : ''}${b.also.map((a) => `<a class="tag tag-go" href="#also-${a.cat}">${catBySlug[a.cat].emoji} ${esc(a.title)}</a>`).join('')}<span class="tag tag-plain">Independent</span></div>
       ${b.hours ? `<p class="open-badge biz-open" data-open-now='${JSON.stringify(b.hours)}' hidden></p>` : ''}
       <div class="biz-actions">
-        ${b.order.map((o, i) => `<a class="btn${i ? ' btn-ghost' : ''}" href="${esc(o.url)}" target="_blank" rel="noopener">${svg('store')} Order online${b.order.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
-        ${b.book.map((o, i) => `<a class="btn${b.order.length || i ? ' btn-ghost' : ''}" href="${esc(o.url)}" target="_blank" rel="noopener">${svg('store')} Book online${b.book.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
+        ${b.order.map((o, i) => `<a class="btn${i ? ' btn-ghost' : ''}" href="${esc(tagFor(b, o.url, 'order'))}"${hocAttr(b.slug, 'order')} target="_blank" rel="noopener">${svg('store')} Order online${b.order.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
+        ${b.book.map((o, i) => `<a class="btn${b.order.length || i ? ' btn-ghost' : ''}" href="${esc(tagFor(b, o.url, 'book'))}"${hocAttr(b.slug, 'book')} target="_blank" rel="noopener">${svg('store')} Book online${b.book.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
         ${b.feed ? `<a class="btn${b.order.length || b.book.length ? ' btn-ghost' : ''}" href="#shop">${svg('store')} Shop online</a>` : ''}
-        ${b.store ? `<a class="btn${b.order.length || b.book.length ? ' btn-ghost' : ''}" href="${esc(b.store)}" target="_blank" rel="noopener">${svg('store')} Shop their online store</a>` : ''}
+        ${b.store ? `<a class="btn${b.order.length || b.book.length ? ' btn-ghost' : ''}" href="${esc(tagFor(b, b.store, 'shop'))}"${hocAttr(b.slug, 'shop')} target="_blank" rel="noopener">${svg('store')} Shop their online store</a>` : ''}
         ${b.links.map((l) => `<a class="btn btn-ghost" href="${esc(l.url)}" target="_blank" rel="noopener">${svg('globe')} ${esc(l.label)} ↗</a>`).join('')}
         ${b.demo ? `<a class="btn btn-ghost" href="${b.demo}">${svg('store')} ${b.cat === 'beauty' ? 'Book' : 'Order'} (demo)</a>` : ''}
         ${b.phone ? `<a class="btn ${b.demo || b.order.length || b.book.length || b.feed || b.store ? 'btn-ghost' : ''}" href="${tel(b.phone)}">${svg('phone')} Call ${esc(b.phone)}</a>` : ''}
         ${b.added && !b.address ? '' : `<a class="btn btn-ghost" href="${mapsLink(b)}" target="_blank" rel="noopener">${svg('pin')} Directions</a>`}
-        ${b.website && !websiteAction(b) ? `<a class="btn btn-ghost" href="${esc(b.website)}" target="_blank" rel="noopener">${svg('globe')} Website</a>` : ''}
-        ${b.gift ? `<a class="btn btn-ghost" href="${esc(b.gift.url)}" target="_blank" rel="noopener">${svg('heart')} Gift cards</a>` : ''}
+        ${b.website && !websiteAction(b) ? `<a class="btn btn-ghost" href="${esc(b.website)}"${hocAttr(b.slug, 'website')} target="_blank" rel="noopener">${svg('globe')} Website</a>` : ''}
+        ${b.gift ? `<a class="btn btn-ghost" href="${esc(tagFor(b, b.gift.url, 'gift'))}"${hocAttr(b.slug, 'gift')} target="_blank" rel="noopener">${svg('heart')} Gift cards</a>` : ''}
         <button type="button" class="btn btn-ghost" data-save="${b.slug}" aria-pressed="false">${svg('heart')} <span data-save-label>Save</span></button>
         <button type="button" class="btn btn-ghost" data-share="${esc(b.name)}">${svg('share')} Share</button>
       </div>
@@ -482,6 +483,11 @@ ${footer()}`;
 // A business tied to the people who run Heart of Columbus (added.mjs `tie`)
 // says so wherever its products are shown, not only at the top of its page.
 const tieNote = (b) => (b.added?.tie ? `<p class="direct-note member-note shop-tie">★ <span><strong>Disclosure:</strong> ${esc(b.added.tie)}</span></p>` : '');
+
+// Order tracking: our UTM tag on handoff links, except a link that is the
+// business's own listed website, which the page (and its JSON-LD) shows as is.
+const bare = (u) => String(u || '').toLowerCase().replace(/^https?:\/\/(www\.)?/, '').replace(/\/+$/, '');
+const tagFor = (b, url, campaign) => (b.website && bare(url) === bare(b.website) ? url : tagUrl(url, campaign));
 
 // Pickup details for the cart: the address and hours the page already shows.
 const shopAttrs = (b) => `data-shop="${b.slug}" data-name="${esc(b.name)}"${b.snap ? ` data-snap="${b.snap.checked}"` : ''}${b.feed ? ' data-live' : ''}${b.address ? ` data-address="${esc(b.address)}"` : ''}${b.hours ? ` data-hours='${JSON.stringify(b.hours)}'` : ''}`;

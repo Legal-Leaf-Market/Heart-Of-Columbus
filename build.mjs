@@ -9,6 +9,7 @@ import { pages as storefronts } from './src/pages/storefronts.mjs';
 import { directoryPages } from './src/pages/directory-pages.mjs';
 import { pickupPages } from './src/pages/pickup-pages.mjs';
 import { ownersPages } from './src/pages/owners-pages.mjs';
+import { trackingPages } from './src/pages/tracking-pages.mjs';
 import { foundersPages } from './src/pages/founders-pages.mjs';
 import { visitPages } from './src/pages/visit-pages.mjs';
 import { landmarkPages } from './src/pages/landmark-pages.mjs';
@@ -74,6 +75,7 @@ const pages = [
   ...directoryPages({ assets }),
   ...pickupPages({ assets }),
   ...ownersPages({ assets }),
+  ...trackingPages({ assets }),
   ...foundersPages({ assets }),
   ...visitPages({ assets }),
   ...landmarkPages({ assets }),

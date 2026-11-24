@@ -314,3 +314,15 @@
     document.addEventListener('click', function (e) { if (d.open && !d.contains(e.target)) d.open = false; });
   });
 })();
+
+// Order tracking, step 1 (docs/order-tracking.md): one count per tap on a
+// link marked data-hoc="<slug>|<kind>" (order, book, shop, website, gift).
+// sendBeacon survives the page closing; it carries no cookie or id.
+(function () {
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[data-hoc]');
+    if (!a || !navigator.sendBeacon) return;
+    var p = a.getAttribute('data-hoc').split('|');
+    try { navigator.sendBeacon('/api/handoff', JSON.stringify({ slug: p[0], kind: p[1] })); } catch (x) { /* counting is best effort */ }
+  }, true);
+})();
