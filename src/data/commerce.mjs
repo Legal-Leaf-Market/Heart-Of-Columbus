@@ -137,6 +137,9 @@ export const COMMERCE = {
  },
  "aei-fitness-center": {
   "platform": "wordpress",
+  "stack": [
+   "wordpress"
+  ],
   "origin": "https://aeifitnesscenter.com",
   "feed": false,
   "store": "",
@@ -739,7 +742,6 @@ export const COMMERCE = {
    "square-online",
    "webflow",
    "weebly",
-   "woocommerce",
    "wordpress"
   ],
   "origin": "https://www.boudoirbynaomi.com",
@@ -1519,7 +1521,6 @@ export const COMMERCE = {
  "days-of-old-antique-shoppe": {
   "platform": "wordpress",
   "stack": [
-   "woocommerce",
    "wordpress"
   ],
   "origin": "https://daysofold.store",
@@ -2877,9 +2878,8 @@ export const COMMERCE = {
   "book": []
  },
  "kind-car-wash": {
-  "platform": "woocommerce",
+  "platform": "wordpress",
   "stack": [
-   "woocommerce",
    "wordpress"
   ],
   "origin": "https://www.kindcarwash.com",
@@ -4438,9 +4438,8 @@ export const COMMERCE = {
   ]
  },
  "southern-roofing-inc": {
-  "platform": "woocommerce",
+  "platform": "wordpress",
   "stack": [
-   "woocommerce",
    "wordpress"
   ],
   "origin": "https://www.southernroofinginc.com",
@@ -4747,9 +4746,8 @@ export const COMMERCE = {
   "book": []
  },
  "the-phillips-company-inc": {
-  "platform": "woocommerce",
+  "platform": "wordpress",
   "stack": [
-   "woocommerce",
    "wordpress"
   ],
   "origin": "https://thephillipscompany.com",
@@ -5443,6 +5441,18 @@ export const COMMERCE = {
   "order": [],
   "book": []
  },
+ "bartholomew-county-4-h-fairgrounds": {
+  "platform": "woocommerce",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://bartholomewcountyfair.com",
+  "feed": true,
+  "store": "",
+  "order": [],
+  "book": []
+ },
  "bips-bites": {
   "platform": "woocommerce",
   "stack": [
@@ -5467,6 +5477,34 @@ export const COMMERCE = {
   "order": [],
   "book": []
  },
+ "centra-credit-union": {
+  "platform": "wordpress",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.centra.org",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": []
+ },
+ "clarity-of-central-indiana": {
+  "platform": "woocommerce",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://claritycares.org",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "online booking",
+    "url": "https://claritycares.org/schedule-appointment/"
+   }
+  ]
+ },
  "first-class-catering": {
   "platform": "squarespace-commerce",
   "stack": [
@@ -5485,8 +5523,8 @@ export const COMMERCE = {
    "shopify"
   ],
   "origin": "https://shop.legalleafmarket.shop",
-  "feed": true,
-  "store": "",
+  "feed": false,
+  "store": "https://shop.legalleafmarket.shop",
   "order": [],
   "book": []
  },
@@ -5501,5 +5539,34 @@ export const COMMERCE = {
   "store": "",
   "order": [],
   "book": []
+ },
+ "paqd-meats": {
+  "platform": "wix-stores",
+  "stack": [
+   "wix",
+   "wix-stores",
+   "wordpress"
+  ],
+  "origin": "https://www.paqdmeats.com",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [],
+  "gift": {
+   "label": "their website",
+   "url": "https://www.paqdmeats.com/gift-card"
+  }
+ },
+ "wild-bramble-catering": {
+  "platform": "",
+  "origin": "https://www.wildbramblecatering.com",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [],
+  "gift": {
+   "label": "their website",
+   "url": "https://www.wildbramblecatering.com/gift-cards"
+  }
  }
 };

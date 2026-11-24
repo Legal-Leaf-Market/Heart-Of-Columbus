@@ -15,7 +15,7 @@ export const CATALOGS = {
  },
  "boutique-elise": {
   "kind": "shop",
-  "items": 569,
+  "items": 570,
   "method": "store feed",
   "checked": "2026-11-24"
  },
@@ -51,13 +51,13 @@ export const CATALOGS = {
  },
  "flowers-from-the-woods": {
   "kind": "shop",
-  "items": 18,
+  "items": 19,
   "method": "page data",
   "checked": "2026-11-24"
  },
  "footworks": {
   "kind": "shop",
-  "items": 647,
+  "items": 646,
   "method": "store feed",
   "checked": "2026-11-24"
  },
@@ -69,7 +69,7 @@ export const CATALOGS = {
  },
  "girlee-boutique": {
   "kind": "shop",
-  "items": 21,
+  "items": 24,
   "method": "page data",
   "checked": "2026-11-24"
  },
@@ -79,16 +79,16 @@ export const CATALOGS = {
   "method": "store feed",
   "checked": "2026-11-24"
  },
- "legal-leaf-market-cafe": {
-  "kind": "shop",
-  "items": 1000,
-  "method": "store feed",
-  "checked": "2026-11-24"
- },
  "minash-boutique": {
   "kind": "shop",
   "items": 63,
   "method": "store feed",
+  "checked": "2026-11-24"
+ },
+ "paqd-meats": {
+  "kind": "shop",
+  "items": 13,
+  "method": "page data",
   "checked": "2026-11-24"
  },
  "sew-vivid-designs": {
@@ -111,7 +111,7 @@ export const CATALOGS = {
  },
  "the-bicycle-station": {
   "kind": "shop",
-  "items": 858,
+  "items": 860,
   "method": "store feed",
   "checked": "2026-11-24"
  },
