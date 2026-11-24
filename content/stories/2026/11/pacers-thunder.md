@@ -11,7 +11,7 @@ published: 2026-11-24T12:00:00-05:00
 images:
   - file: /news-media/2026/11/pacers-thunder-upper-level.jpg
     alt: A packed arena seen from the upper level, with the Pacers and Thunder on the court and a player in an Indiana number 32 jersey raising his arms on the center video board.
-    caption: "[YOUR CAPTION: where you sat and what was happening]"
+    caption: The view from section 219 was an ideal happy medium.
     credit: Jake Kennedy
     license: Staff photo
   - file: /news-media/2026/11/pacers-thunder-intros.jpg
