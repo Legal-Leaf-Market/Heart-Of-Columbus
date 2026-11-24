@@ -316,7 +316,7 @@ const BOX = {
 
   civic: () => `<section class="pe-box pe-civic"><h3>Where decisions get made</h3><p class="pe-dek">The people on this page meet in public. Here is where to find their agendas.</p><ul class="pe-grid3">${BODIES.map((b) => `<li><b>${t(b.name)}</b><span>${t(b.note || '')}</span><em>${esc(short(b.url).split('/')[0])}</em></li>`).join('')}</ul></section>`,
 
-  help: () => `<section class="pe-box pe-help"><h3>Help in Columbus</h3><p class="pe-dek">Numbers that answer tonight.</p>
+  help: () => `<section class="pe-box pe-help"><h3>Help in Columbus</h3><p class="pe-dek">Local shelter and referral numbers.</p>
     <ul class="pe-help-list">${FIRST.map((f) => `<li><b>${esc(f.number)}</b><span>${t(f.label)}</span><em>${t(f.note)}</em></li>`).join('')}</ul>
     <p>Food, rent and utility help, health care, recovery, jobs, legal help and ID: every resource in Columbus is on one page, with hours and where to apply.</p>
     ${qr('/help/', 'Every resource, on one page')}
@@ -552,7 +552,7 @@ const HOUSE = [
   ['byb', 'Back YOUR Blue', 'Tell Columbus about the person who served you: an officer, an EMT, a dispatcher, a veteran.', BYB_HREF, 'Tell us about your Blue'],
   ['newsletter', 'The paper, every morning', 'A short free email on weekday mornings: weather, stories and what’s on.', '/newsletter/', 'Sign up'],
   ['history', 'Every story here is online', 'With its sources, its writer and its editor, and corrections when we make them.', '/history/', 'Read our history'],
-  ['help', 'Need help tonight? Call 211', 'Free, any hour, for food, shelter, rent and more. Every resource in town is on one page.', '/help/', 'Help in Columbus'],
+  ['help', 'Find help in Columbus', 'Find local food, shelter and rent resources. Indiana 211’s online directory is available anytime.', '/help/', 'Help in Columbus'],
   ['events', 'What’s on this week', 'The library, the parks and the season’s big nights, kept current every day.', '/events/', 'See this week'],
     ['standards', 'How we report', 'Two people on every story, sources with every story and corrections that are never deleted.', '/about/standards/', 'Read our standards'],
   ['ask', 'Ask us about Columbus', 'A question about the town, a building or a story? Ask it, and a person answers.', '/ask/', 'Ask a question'],
@@ -589,7 +589,7 @@ export const TODO = [
   ['Photo permissions', 'Ask the Bartholomew County Public Library archives for an old dam photo (page 7) and a 2008 flood photo (page 7).'],
   ['Domain', `Every QR code points to ${ORIGIN}. Scan a few from the proof with a phone before ordering the run.`],
   ['Calendar', 'Open the edition on the live site so page 11 fills from the library and parks calendars, then read every listing against its source.'],
-  ['Election', 'Fill results: in content/print/2026-12/election.md from the clerk’s certified canvass only.'],
+  ['Coupons', 'Confirm the expiration dates and eligible services for Crossroads, and the expiration date and per-visit limit for Amy’s Closet.'],
   ['Meals', 'Page 14’s meal list comes from United Way’s guide. Call each church for Christmas week hours.'],
   ['Proof', 'Print one proof copy and read every page on paper before ordering the run.'],
 ];

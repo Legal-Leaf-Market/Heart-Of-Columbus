@@ -10,6 +10,8 @@ drafted: First draft by Claude on 2026-11-24 for Jake Kennedy to rewrite, from t
 sources:
   - name: Amy's Closet listing, Heart of Columbus
     url: https://heartofcolumbus.shop/b/amys-closet/
+  - name: Visit Columbus Indiana, Amy’s Closet directory entry
+    url: https://visitcolumbusindiana.com/directory/amys-closet/
   - name: Amy's Closet website
     url: https://legal-leaf-market.github.io/amyscloset/
 ---
@@ -25,4 +27,4 @@ The shop asks donors to wash or dry clean everything first, check the pockets, m
 
 ## Shopping
 
-Amy's Closet is at 3928 25th Street, open Tuesday through Saturday, 11 AM to 7 PM. Call (812) 565-2197. The shop also sells online, and resellers and bulk buyers are welcome. [CHECK with Amy: the hours.]
+Amy’s Closet is at 3928 25th Street. [Message the shop on Facebook](https://www.facebook.com/profile.php?id=100091049706849) before visiting. The shop also sells online, and resellers and bulk buyers are welcome. [CHECK: confirm current store hours with Amy.]

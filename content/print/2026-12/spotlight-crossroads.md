@@ -19,4 +19,4 @@ A wedding DJ starts at $1,000 flat and covers ceremony sound, cocktail hour and 
 
 Bar service puts licensed, experienced bartenders behind the bar at backyard and do it yourself venues with no bar staff of their own, at $250 for one bartender or $400 for two. The host provides the drinks; Crossroads pours them. It also offers day of coordination: calling cues, lining up the wedding party and keeping the run of show moving.
 
-It also plays holiday parties and corporate events, DJ and sound at $1,500 flat. [CHECK: corporate offer as published.] Book a 30 minute intro call at crossroadsweddingco.shop.
+Crossroads lists DJ, sound and MC service for corporate events and holiday parties at a flat $1,500. It quotes live music and bar service separately. Book a 30 minute intro call at crossroadsweddingco.shop.
