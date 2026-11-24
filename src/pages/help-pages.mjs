@@ -77,7 +77,7 @@ ${breadcrumbs([['/', 'Home'], ['', 'Get help']])}
       <input type="search" name="q" autocomplete="off" placeholder="What do you need? Food, rent, ID, a doctor…" aria-label="Search the resources on this page">
       <output data-help-count aria-live="polite"></output>
     </form>
-    <nav class="chips vs-jump" aria-label="On this page">${HELP.map((g) => `<a class="pill" href="#${g.id}">${g.emoji} ${esc(g.title)}</a>`).join('')}<a class="pill" href="#meals">🍲 Hot meals by day</a><a class="pill" href="#read">📰 Read</a></nav>
+    <nav class="chips vs-jump" aria-label="On this page">${HELP.map((g) => `<a class="pill" href="#${g.id}">${g.emoji} ${esc(g.title)}</a>`).join('')}<a class="pill" href="#meals">🍲 Hot meals by day</a><a class="pill" href="/housing/">🏠 Apartments and landlords</a><a class="pill" href="/nonprofits/">🤝 Nonprofits in town</a><a class="pill" href="#read">📰 Read</a></nav>
   </div>
 </section>
 <div class="wrap fr-list">
