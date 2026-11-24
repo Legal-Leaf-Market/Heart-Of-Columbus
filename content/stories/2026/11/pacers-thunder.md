@@ -1,7 +1,7 @@
 ---
 draft: true
 headline: Old Friends Make New Memories
-dek: "[YOUR ONE SENTENCE under the headline]"
+dek: "Life's short, extend an olive branch."
 label: Opinion
 section: sports
 series: jake-takes-the-town
