@@ -1,0 +1,33 @@
+# Pulls apartment buildings and property managers (scripts/pull-housing.mjs)
+# from OpenStreetMap, and from Google Maps when the GOOGLE_PLACES_API_KEY
+# repository secret is set, and commits the raw files for
+# scripts/import-housing.mjs. Read-only toward both sources.
+# Trigger: edit scripts/data/housing-request.txt on a claude branch, or run it
+# by hand.
+name: Pull housing
+on:
+  workflow_dispatch:
+  push:
+    branches: ['claude/**']
+    paths: ['scripts/data/housing-request.txt']
+permissions:
+  contents: write
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/pull-housing.mjs scripts/data
+        env:
+          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+      - name: Commit results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for f in scripts/data/osm-housing.json scripts/data/places-housing.json; do [ -f "$f" ] && git add "$f"; done
+          git diff --cached --quiet || git commit -m "Apartments and property managers from the Pull housing workflow"
+          git push
