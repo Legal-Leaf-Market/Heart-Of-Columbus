@@ -426,6 +426,8 @@ mark.pe-check { background: #ffe58a; color: #5c3b00; font: 700 0.86em/1.3 var(--
 .pe-sidebar, .pe-math { background: var(--pe-mint); }
 .pe-help { background: var(--pe-blush); }
 .pe-house { border-top: 0; background: var(--pe-butter); }
+.pe-house:nth-of-type(3n+2) { background: var(--pe-mint); }
+.pe-house:nth-of-type(3n) { background: var(--pe-blush); }
 .pe-visitors { background: var(--pe-mint); }
 .pe-brief, .pe-coupon, .pe-coupon-ad, .pe-survey, .pe-ad, .pe-card, .pe-wanted { border-radius: var(--pe-r); }
 .pe-inside { border-radius: var(--pe-r); background: var(--pe-teal); }
@@ -514,6 +516,76 @@ mark.pe-check { background: #ffe58a; color: #5c3b00; font: 700 0.86em/1.3 var(--
   .pe-cp-ticket::before, .pe-cp-ticket::after { top: 18pt; }
   .pe-cp-burst { align-items: center; padding: 6pt 0 0; }
   .pe-cp-strip { flex-wrap: wrap; border-radius: var(--pe-r); }
+}
+
+/* A decade with no photo gets a title card: the year and the place. */
+.pe-titlecard { aspect-ratio: 4 / 3; display: flex; flex-direction: column; justify-content: center; gap: 3pt; margin-bottom: 4pt; padding: 8pt 10pt; border-radius: 5pt; background: var(--pe-ink); color: #fff; background-image: var(--pe-stripes); background-size: 100% 8.4pt; background-repeat: no-repeat; background-position: 0 calc(100% - 8pt); }
+.pe-titlecard span { font: 900 30pt/1 var(--pe-head); color: var(--pe-gold); letter-spacing: -.02em; }
+.pe-titlecard b { font: italic 500 11pt/1.15 var(--pe-serif); color: #fff; }
+.pe-gathers li:nth-child(3n+2) .pe-titlecard { background-color: var(--pe-teal); }
+.pe-gathers li:nth-child(3n+2) .pe-titlecard span { color: #fff; }
+.pe-gathers li:nth-child(3n+3) .pe-titlecard { background-color: var(--pe-red); }
+.pe-gathers li:nth-child(3n+3) .pe-titlecard span { color: var(--pe-butter); }
+.pe-cal-dl { display: none; }
+
+/* ---------- On a phone: the same pages in one readable column ----------
+   print-edition.js adds .pe-reflow below 760 pixels, after fitting at full
+   size. Printing always uses the tabloid layout above. */
+@media screen and (max-width: 759px) { .pe-toolbar { position: static; } }
+@media screen {
+  .pe-reflow { gap: 18px; padding: 12px 10px 48px; }
+  .pe-reflow .pe-sheet { width: 100%; max-width: 640px; height: auto; overflow: visible; padding: 14px 14px 18px; font-size: 12pt; line-height: 1.42; border-radius: 6px; }
+  .pe-reflow .pe-sheet::after { bottom: -16px; }
+  .pe-reflow .pe-folio span:nth-child(2) { display: none; }
+  .pe-reflow .pe-folio { grid-template-columns: 1fr 1fr; }
+  .pe-reflow .pe-body, .pe-reflow .pe-fill, .pe-reflow .pe-fill > .pe-cell, .pe-reflow .pe-mod, .pe-reflow .pe-box, .pe-reflow .pe-stack, .pe-reflow .pe-lead, .pe-reflow .pe-lead-l, .pe-reflow .pe-lead-text, .pe-reflow .pe-calendar { flex: none !important; min-height: 0; height: auto; overflow: visible; }
+  .pe-reflow .pe-sheet * { flex-basis: auto !important; }
+  .pe-reflow .pe-cal-grid, .pe-reflow .pe-crop, .pe-reflow .pe-lines, .pe-reflow .pe-factbox, .pe-reflow .pe-lead-l > .pe-fig { flex: none !important; }
+  .pe-reflow .pe-house-slim { display: none; }
+  .pe-reflow .pe-row { display: block; }
+  .pe-reflow .pe-row + .pe-row { margin-top: 16px; padding-top: 14px; }
+  .pe-reflow .pe-cell { display: flex; flex-direction: column; gap: 10px; }
+  .pe-reflow .pe-cell + .pe-cell { margin-top: 16px; padding-top: 14px; border-top: 0.75pt solid var(--pe-hair); }
+  .pe-reflow .pe-cell + .pe-cell::before { display: none; }
+  .pe-reflow .pe-cell > * { margin-top: 0 !important; }
+  .pe-reflow .pe-text, .pe-reflow .pe-fill .pe-text, .pe-reflow .pe-lead-text .pe-text { column-count: 1 !important; overflow: visible; flex: none !important; font-size: 12pt; line-height: 1.45; }
+  .pe-reflow .pe-text p { text-indent: 0; margin-bottom: .55em; }
+  .pe-reflow .pe-lead, .pe-reflow .pe-wide, .pe-reflow .pe-split, .pe-reflow .pe-grid3, .pe-reflow .pe-two, .pe-reflow .pe-teasers, .pe-reflow .pe-figs, .pe-reflow .pe-how-cols, .pe-reflow .pe-ans-row, .pe-reflow .pe-sw-photos { display: grid; grid-template-columns: minmax(0, 1fr) !important; gap: 12px; }
+  .pe-reflow .pe-lead > *, .pe-reflow .pe-wide > *, .pe-reflow .pe-split > * { grid-column: auto !important; }
+  .pe-reflow .pe-how-cols > div + div { border-left: 0; padding-left: 0; }
+  .pe-reflow .pe-gift-cols, .pe-reflow .pe-free-cols, .pe-reflow .pe-sw, .pe-reflow .pe-cal-weekly ul { column-count: 1 !important; }
+  .pe-reflow .pe-gathers ol { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; }
+  .pe-reflow .pe-hed-lead, .pe-reflow .pe-hed-5, .pe-reflow .pe-hed-4 { font-size: 26pt; line-height: 1.02; }
+  .pe-reflow .pe-hed-3 { font-size: 22pt; } .pe-reflow .pe-hed-2 { font-size: 19pt; }
+  .pe-reflow .pe-spread-head h2, .pe-reflow .pe-byb-head h2 { font-size: 32pt; }
+  .pe-reflow .pe-byb-head { grid-template-columns: 1fr; }
+  .pe-reflow .pe-dek { font-size: 13pt !important; }
+  .pe-reflow .pe-masthead { padding-right: 0; }
+  .pe-reflow .pe-nameplate { font-size: 30pt; white-space: normal; }
+  .pe-reflow .pe-badge { position: static; margin: 6px auto 2px; width: 0.8in; height: 0.8in; }
+  .pe-reflow .pe-ears, .pe-reflow .pe-dateline { flex-wrap: wrap; gap: 4px 12px; justify-content: center; }
+  .pe-reflow .pe-inside ol { columns: 2; column-gap: 14px; }
+  .pe-reflow .pe-fig img { aspect-ratio: auto; max-height: 70vh; }
+  .pe-reflow .pe-pull { font-size: 17pt; }
+  .pe-reflow .pe-card { width: 100%; height: auto; }
+  .pe-reflow .pe-house, .pe-reflow .pe-hcard { flex-direction: column; align-items: flex-start; }
+  .pe-reflow .pe-cp-ticket, .pe-reflow .pe-cp-burst { flex-direction: column; }
+  .pe-reflow .pe-cp-stub { width: auto; flex-direction: row; border-right: 0; border-bottom: 1.6pt dashed #fff; border-radius: 6pt 6pt 0 0; }
+  .pe-reflow .pe-cp-strip { flex-wrap: wrap; border-radius: var(--pe-r); }
+  .pe-reflow .pe-lines { min-height: 0; }
+  /* The calendar becomes a list of days that have something on. */
+  .pe-reflow .pe-cal-grid { display: block; border: 0; }
+  .pe-reflow .pe-cal-grid .dow, .pe-reflow .pe-cal-day.blank:not(:has(li)), .pe-reflow .pe-cal-day:not(:has(li)):not(:has(.hol)) { display: none; }
+  .pe-reflow .pe-cal-day { overflow: visible; padding: 8px 0; border: 0; border-bottom: 0.5pt solid var(--pe-hair); font-size: 10pt; }
+  .pe-reflow .pe-cal-day .n { display: none; }
+  .pe-reflow .pe-cal-dl { display: block; margin-bottom: 3px; font: 800 12pt var(--pe-head); }
+  .pe-reflow .pe-cal-day .more { position: static; display: block; padding: 0; }
+  /* Puzzles shrink to the screen. */
+  .pe-reflow .pe-cw td { width: 19px; height: 19px; font-size: 10px; }
+  .pe-reflow .pe-cw sup { font-size: 5px; }
+  .pe-reflow .pe-ws td { width: 18px; height: 18px; font-size: 10px; }
+  .pe-reflow .pe-wordlist { grid-template-columns: repeat(2, auto); }
+  .pe-reflow .pe-crop { min-height: 200px; }
 }
 
 /* ---------- The readiness page ---------- */

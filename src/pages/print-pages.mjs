@@ -393,7 +393,7 @@ const BOX = {
   gathers: () => `<section class="pe-box pe-gathers"><ol>${E.gathers.map(([path, place, photo]) => {
     const a = historyBy[path];
     if (!a) throw new Error(`print: no history article ${path}`);
-    return `<li class="pe-stop${a.status === 'approved' ? '' : ' pe-unapproved'}"><p class="pe-decade">${esc(path.split('/')[0])}</p>${photo && PHOTOS[photo] ? `<img src="${esc(psrc(photo))}" srcset="${esc(psrc(photo))} 1280w" alt="${esc(PHOTOS[photo].title)}" style="object-position:${esc(PHOTOS[photo].pos || '50% 50%')}">` : ''}<h4>${t(place)}</h4><p class="pe-stop-title">${t(a.title)}</p><p>${t(a.dek)}</p>${qr(a.path, 'The whole story')}</li>`;
+    return `<li class="pe-stop${a.status === 'approved' ? '' : ' pe-unapproved'}"><p class="pe-decade">${esc(path.split('/')[0])}</p>${photo && PHOTOS[photo] ? `<img src="${esc(psrc(photo))}" srcset="${esc(psrc(photo))} 1280w" alt="${esc(PHOTOS[photo].title)}" style="object-position:${esc(PHOTOS[photo].pos || '50% 50%')}">` : `<div class="pe-titlecard" aria-hidden="true"><span>${esc(a.when)}</span><b>${t(place)}</b></div>`}<h4>${t(place)}</h4><p class="pe-stop-title">${t(a.title)}</p><p>${t(a.dek)}</p>${qr(a.path, 'The whole story')}</li>`;
   }).join('')}</ol><p class="pe-fine">Ten approved articles from our history, one per decade. Photos via Wikimedia Commons; credits on the back page.</p></section>`,
 
   meals: () => `<section class="pe-box pe-meals"><h3>Free community meals</h3><p class="pe-dek">Hot meals by day. Anyone who comes is welcome.</p><ul>${MEALS.filter(([, , w]) => !/closed[^)]*December/i.test(w)).map(([d, p, w]) => `<li><b>${t(d)}</b><span>${t(p)}</span><em>${t(w)}</em></li>`).join('')}</ul><p class="pe-fine">From United Way of Bartholomew County’s guide, as listed on our help page. Three meals that close in December are left off. Holiday hours change: call first.</p></section>`,
@@ -486,8 +486,8 @@ export const COUPONS = {
 };
 // [shape, size (3 tall, 2 medium, 1 a slim strip), cap as a filler]
 export const COUPON_SHAPES = {
-  crossroads: [['ticket', 2, 2], ['burst', 2, 2], ['clip', 2, 2], ['strip', 1, 3]],
-  amys: [['cert', 3, 2], ['tag', 2, 2], ['clip', 2, 1], ['strip', 1, 3]],
+  crossroads: [['ticket', 2, 3], ['burst', 2, 3], ['clip', 2, 3], ['strip', 1, 3]],
+  amys: [['cert', 3, 3], ['tag', 2, 3], ['clip', 2, 2], ['strip', 1, 3]],
 };
 // A twenty point starburst, drawn here so it needs no image.
 const burst = (lines) => {

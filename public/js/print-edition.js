@@ -155,8 +155,10 @@
       // Coupons biggest first, rotating among the shapes of one size.
       const bySize = {};
       for (const a of ads.filter((x) => x.dataset.cap)) (bySize[a.dataset.size || 2] ||= []).push(a);
-      const coupons = Object.keys(bySize).sort((a, b) => b - a).flatMap((k) => rot(bySize[k]));
-      const order = [...coupons, ...cards.filter((c) => topics.includes(c.dataset.topic)), ...rot(ads.filter((a) => !a.dataset.cap)), ...rot(cards.filter((c) => !topics.includes(c.dataset.topic)))];
+      const coupons = Object.keys(bySize).filter((k) => k > 1).sort((a, b) => b - a).flatMap((k) => rot(bySize[k]));
+      // Slim one line pieces only fill what the bigger ones leave.
+      const slim = [...rot(bySize[1] || []), ...rot(ads.filter((a) => !a.dataset.cap && a.classList.contains('pe-house-slim')))];
+      const order = [...coupons, ...cards.filter((c) => topics.includes(c.dataset.topic)), ...rot(ads.filter((a) => !a.dataset.cap && !a.classList.contains('pe-house-slim'))), ...rot(cards.filter((c) => !topics.includes(c.dataset.topic))), ...slim];
       let room = gap;
       cell.classList.add('pe-filled');
       for (let n = 0; n < 6 && room > MIN; n++) {
@@ -237,7 +239,7 @@
     if (lead) { const c = el('div', 'pe-cal-day blank', ongoing.length ? `<span class="hol">Running this month</span><ul>${ongoing.map((e) => `<li><b>${esc(short(e.date) === short(from) && e.date < from ? 'Now' : short(e.date))} to ${esc(short(e.until))}</b> ${esc(e.title)} <i>${esc(venue(e.venue))}</i></li>`).join('')}</ul>` : ''); c.style.gridColumn = `span ${lead}`; grid.append(c); }
     for (const d of dates) {
       const list = byDay[d].sort((a, b) => (a.start ?? -1) - (b.start ?? -1) || a.title.localeCompare(b.title));
-      const cell = el('div', 'pe-cal-day', `<span class="n">${Number(d.slice(8))}</span>${hol[d] ? `<span class="hol">${esc(hol[d])}</span>` : ''}<ul>${list.map((e) => `<li>${e.start != null ? `<b>${esc(ap(e.start))}</b> ` : ''}${esc(e.title)} <i>${esc(venue(e.venue))}</i></li>`).join('')}</ul>`);
+      const cell = el('div', 'pe-cal-day', `<span class="n">${Number(d.slice(8))}</span><span class="pe-cal-dl">${DAYS[dowOf(d)]}, ${esc(short(d))}</span>${hol[d] ? `<span class="hol">${esc(hol[d])}</span>` : ''}<ul>${list.map((e) => `<li>${e.start != null ? `<b>${esc(ap(e.start))}</b> ` : ''}${esc(e.title)} <i>${esc(venue(e.venue))}</i></li>`).join('')}</ul>`);
       grid.append(cell);
     }
     const tail = (7 - ((lead + last) % 7)) % 7;
@@ -273,10 +275,15 @@
     }
   }
 
+  // A wide screen shows the tabloid pages, zoomed to fit. A phone gets the
+  // same pages reflowed into one readable column (.pe-reflow); fitting has
+  // already run at full size, so the printed layout never changes.
   function zoomToScreen() {
     if (matchMedia('print').matches) return;
     const w = document.documentElement.clientWidth;
-    paper.style.zoom = String(Math.min(1, (w - 16) / 1056));
+    const phone = w < 760;
+    paper.classList.toggle('pe-reflow', phone);
+    paper.style.zoom = phone ? '1' : String(Math.min(1, (w - 16) / 1056));
   }
 
   function toolbar() {
@@ -291,6 +298,8 @@
   async function run() {
     toolbar();
     paper.style.zoom = '1';
+    addEventListener('beforeprint', () => { paper.classList.remove('pe-reflow'); paper.style.zoom = '1'; });
+    addEventListener('afterprint', () => zoomToScreen());
     try { await document.fonts.ready; } catch { /* fallback fonts still lay out */ }
     await calendar();
     flows();
