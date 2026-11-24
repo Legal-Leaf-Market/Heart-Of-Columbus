@@ -1,3 +1,46 @@
+
+
+---
+headline: Old Friends Make New Memories
+dek: "A second chance at friendship, an underdog homecoming, and a Pacers finish worth the drive."
+label: Opinion
+section: sports
+series: jake-takes-the-town
+stickers:
+  - sticker: olive-branch
+  - sticker: hug
+  - sticker: basketball
+  - sticker: road-trip
+    heading: Getting there
+  - sticker: arena-lights
+    heading: The view from my seat
+  - sticker: popcorn-cotton-candy
+    heading: Food and drink
+  - sticker: cheering
+    heading: The people working the building
+  - sticker: choir
+    heading: The show
+  - sticker: starburst
+    heading: Worth the drive?
+bylines: [jacob-kennedy]
+editor: eli-wire
+published: 2026-11-23T20:16:00-05:00
+updated: 2026-11-23T23:00:00-05:00
+images:
+  - file: /news-media/2026/11/pacers-thunder-jake-and-eli.jpg
+    alt: Eli Wire and Jake Kennedy smiling together in their seats at the Pacers game.
+    caption: Friends for life, some things never change.
+    credit: Eli Wire
+    creditUrl: https://www.instagram.com/eliwire/
+    license: Staff photo
+  - file: /news-media/2026/11/pacers-thunder-upper-level.jpg
+    alt: A packed arena seen from the upper level, with the Pacers and Thunder on the court and a player in an Indiana number 32 jersey raising his arms on the center video board.
+    caption: The view from section 219 was an ideal happy medium.
+    credit: Jake Kennedy
+    license: Staff photo
+  - file: /news-media/2026/11/pacers-thunder-intros.jpg
+    alt: Flame cannons
+
 dek: "A second chance at friendship, an underdog homecoming, and a Pacers finish worth the drive."
 
 Eli and I had just found our way back to friendship. Less than a week before the game, we ran into each other at her birthday party. I told her, “Life’s short,” and gave her a hug. Simple as that.
