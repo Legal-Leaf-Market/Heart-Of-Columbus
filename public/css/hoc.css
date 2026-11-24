@@ -2076,3 +2076,26 @@ a.tag:not(.tag-member):hover { filter: brightness(.96); }
 .np-play-cta strong { display: block; font-size: 17px; }
 .np-play-cta span { color: var(--muted); font-size: 14px; }
 .np-play-cta:hover strong { text-decoration: underline; }
+
+/* Newsletter signup, share bar and follow strip (src/news/share.mjs). */
+.np-signup { border: 2px solid var(--ink); border-radius: 14px; padding: 18px 18px 14px; background: var(--surface, #fff); box-shadow: 4px 4px 0 var(--ink); margin: 22px 0; }
+.np-signup-sm { box-shadow: 3px 3px 0 var(--ink); }
+.np-signup-k { font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--brand); margin: 0; }
+.np-signup h2 { font-size: 24px; margin: 4px 0 6px; }
+.np-signup-sm h2 { font-size: 20px; }
+.np-signup-form { display: flex; gap: 8px; margin: 12px 0 6px; flex-wrap: wrap; }
+.np-signup-form input[type=email] { flex: 1 1 200px; min-height: 46px; border: 1px solid var(--edge); border-radius: 10px; padding: 0 12px; font-size: 16px; }
+.np-signup-form button { min-height: 46px; padding: 0 18px; border: 0; border-radius: 10px; background: var(--brand); color: #fff; font-weight: 800; font-size: 15px; cursor: pointer; }
+.np-signup-form button:disabled { opacity: .6; }
+.np-hp { position: absolute; left: -9999px; width: 1px; height: 1px; }
+.np-signup-msg { font-weight: 700; min-height: 1.2em; margin: 0; }
+.np-signup-msg[data-ok="0"] { color: var(--brand); }
+.np-share { margin: 22px 0; }
+.np-share-k { font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; margin: 0 0 8px; }
+.np-share-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.np-share-btn { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border: 1px solid var(--ink); border-radius: 999px; background: none; font: inherit; font-size: 14px; font-weight: 700; color: var(--ink); text-decoration: none; cursor: pointer; }
+.np-share-btn:hover { background: var(--ink); color: var(--paper, #fff); }
+.np-share-native { background: var(--ink); color: var(--paper, #fff); }
+.np-share-msg { min-height: 1.2em; font-size: 14px; margin: 6px 0 0; word-break: break-word; }
+.np-follow { font-size: 14px; color: var(--muted); margin: 20px 0; }
+.np-follow span { font-weight: 700; }

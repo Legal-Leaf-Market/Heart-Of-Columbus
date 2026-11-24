@@ -392,3 +392,44 @@ test('the morning job makes one Buttondown draft per day, never sends, and fails
   assert.equal((await makeDraft({ key: 'k', origin: 'https://x', date: '2026-11-26', store, fetchFn: fake(null), log: quiet })).reason, 'no-edition');
   assert.ok(existsSync(new URL('newsletter/editions/', dist)), 'the build writes editions');
 });
+
+// ---------- Subscribing and sharing (2026-11-24) ----------
+import { handle as subscribe, validEmail } from '../netlify/functions/subscribe.mjs';
+
+test('signup is double opt in on Resend, and fails closed', async () => {
+  const kv = new Map();
+  const store = { getJSON: async (k) => kv.get(k) ?? null, setJSON: async (k, v) => { kv.set(k, v); } };
+  const calls = [];
+  const fetchFn = async (url, init) => { calls.push({ url, body: JSON.parse(init.body) }); return new Response('{}', { status: 200 }); };
+  const cfg = { key: 'k', audience: 'aud', from: 'Heart of Columbus <news@example.org>', origin: 'https://hoc.example' };
+  const post = (body, json = true) => new Request('https://hoc.example/api/subscribe', { method: 'POST', headers: { 'content-type': json ? 'application/json' : 'application/x-www-form-urlencoded' }, body: json ? JSON.stringify(body) : new URLSearchParams(body).toString() });
+  assert.equal((await subscribe(post({ email: 'a@b.co' }), { store, fetchFn, cfg: { ...cfg, key: '' } })).status, 503, 'no key, no signup');
+  assert.equal((await subscribe(post({ email: 'nope' }), { store, fetchFn, cfg })).status, 400);
+  const ok = await subscribe(post({ email: 'Reader@Example.org' }), { store, fetchFn, cfg });
+  assert.equal(ok.status, 200);
+  assert.equal(calls.length, 1, 'only the confirmation email, nothing added yet');
+  assert.ok(calls[0].url.endsWith('/emails') && calls[0].body.to[0] === 'reader@example.org');
+  const link = calls[0].body.text.match(/https:\/\/hoc\.example\/api\/subscribe\?confirm=([0-9a-f]{48})/);
+  assert.ok(link, 'the email carries a confirm link');
+  const done = await subscribe(new Request(link[0]), { store, fetchFn, cfg });
+  assert.equal(done.status, 200);
+  assert.ok(calls[1].url.endsWith('/audiences/aud/contacts') && calls[1].body.email === 'reader@example.org', 'added only after confirming');
+  assert.equal((await subscribe(new Request(link[0]), { store, fetchFn, cfg })).status, 410, 'a link works once');
+  assert.equal((await subscribe(post({ email: 'x@y.co', website: 'spam' }), { store, fetchFn, cfg })).status, 200);
+  assert.equal(calls.length, 2, 'the honeypot sends nothing');
+  const form = await subscribe(post({ email: 'f@g.co' }, false), { store, fetchFn, cfg });
+  assert.match(form.headers.get('content-type'), /text\/html/, 'a plain form post gets a page back');
+  assert.ok(validEmail('a.b+c@d.io') && !validEmail('a@b') && !validEmail('<a>@b.co'));
+});
+
+test('the paper has RSS feeds, named on its pages, and stories carry share and signup', () => {
+  const feed = read('news/feed.xml');
+  assert.match(feed, /<rss version="2.0"/);
+  for (const s of stories) assert.ok(feed.includes(`${s.href}</link>`), s.href);
+  assert.ok(existsSync(new URL('news/series/jake-takes-the-town/feed.xml', dist)));
+  assert.ok(existsSync(new URL('news/series/back-your-blue/feed.xml', dist)));
+  assert.ok(!/samples|Sampleton/.test(feed), 'no samples in the feed');
+  assert.match(read('news/index.html'), /application\/rss\+xml/);
+  const html = read(`${stories[0].href.slice(1)}index.html`);
+  for (const want of ['data-share', 'np-signup', 'subscribe.js']) assert.ok(html.includes(want), want);
+});

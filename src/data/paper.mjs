@@ -46,11 +46,14 @@ export const AI_POLICY = [
 // Buttondown username) in Netlify and the signup form turns on at the next
 // build; BUTTONDOWN_API_KEY turns on the morning draft job
 // (netlify/functions/newsletter.mjs). Both unset: the page says signup opens soon.
+// Resend instead: set HOC_NEWSLETTER=resend at build (plus the RESEND_* keys for
+// the functions) and the form posts to our own /api/subscribe, double opt in.
 const BD_USER = (process.env.HOC_BUTTONDOWN_USER || '').trim().replace(/[^a-z0-9_-]/gi, '');
+const RESEND = (process.env.HOC_NEWSLETTER || '').trim().toLowerCase() === 'resend';
 export const NEWSLETTER = {
-  provider: BD_USER ? 'buttondown' : '',
-  signupAction: BD_USER ? `https://buttondown.com/api/emails/embed-subscribe/${BD_USER}` : '',
-  archive: BD_USER ? `https://buttondown.com/${BD_USER}/archive/` : '',
+  provider: RESEND ? 'resend' : BD_USER ? 'buttondown' : '',
+  signupAction: RESEND ? '/api/subscribe' : BD_USER ? `https://buttondown.com/api/emails/embed-subscribe/${BD_USER}` : '',
+  archive: !RESEND && BD_USER ? `https://buttondown.com/${BD_USER}/archive/` : '',
 };
 
 // TODO(owner): memberships mean taking payment, which CLAUDE.md rules out

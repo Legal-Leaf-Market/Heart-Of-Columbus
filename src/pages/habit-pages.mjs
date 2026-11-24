@@ -5,6 +5,7 @@ import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { esc, t } from '../layout.mjs';
 import { newsPage } from '../news/frame.mjs';
 import { PAPER, NEWSLETTER, MEMBERSHIP } from '../data/paper.mjs';
+import { signupBox, shareBar } from '../news/share.mjs';
 import { LANDMARKS } from '../data/landmarks.mjs';
 
 const doc = (kicker, h1, dek, inner) => `<article class="wrap np-doc"><header class="np-doc-head"><p class="kicker">${esc(kicker)}</p><h1>${esc(h1)}</h1><p class="np-dek">${dek}</p></header>${inner}</article>`;
@@ -19,13 +20,8 @@ export const storyAsk = () => `
 function newsletterPage(ctx) {
   const on = !!NEWSLETTER.signupAction;
   const body = doc('Newsletter', 'The morning edition', 'Weather, three to five stories, what’s open early, today’s events and one business change. Every weekday morning, free.', `
-<section class="pk-card">${on ? `
-  <form class="ow-form np-form" action="${esc(NEWSLETTER.signupAction)}" method="post" target="_blank">
-    <label>Email<input name="email" type="email" autocomplete="email" required></label>
-    <input type="hidden" name="embed" value="1">
-    <button class="btn" type="submit">Sign up</button>
-    <p class="fine">We’ll email you once to confirm. Every newsletter has a one-click unsubscribe link. Read our <a href="/privacy/">privacy page</a>.</p>
-  </form>` : '<p><strong>Sign up opens soon.</strong> The newsletter starts with the first edition of the paper.</p>'}</section>
+${signupBox({ heading: 'Sign up free' })}
+${shareBar({ path: '/newsletter/', title: `The ${PAPER.name} morning edition`, text: 'Good, honest Columbus news in your inbox on weekday mornings. Free.', label: 'Share the newsletter' })}
 <section><h2>How it’s made</h2><p>The morning edition is put together from stories we have already published, then an editor reads it before it goes out. It never contains anything that hasn’t run on the site.</p></section>`);
   return newsPage({ ...ctx, path: '/newsletter/', title: 'Newsletter', description: 'The morning edition: Columbus news in your inbox every weekday.', crumbs: [['/news/', 'News'], ['', 'Newsletter']], body });
 }

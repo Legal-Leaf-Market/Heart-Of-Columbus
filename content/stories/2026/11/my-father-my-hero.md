@@ -1,10 +1,12 @@
 ---
-draft: true
 headline: My father was, and still is, my hero.
 dek: Before Back YOUR Blue becomes a place for our community’s thank you stories, I want to start with mine.
 label: Opinion
 section: local
 series: back-your-blue
+stickers:
+  - sticker: hands
+  - sticker: starburst
 bylines: [jacob-kennedy]
 editor: eli-wire
 published: 2026-11-13T12:00:00-05:00
