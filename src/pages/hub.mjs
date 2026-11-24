@@ -22,10 +22,13 @@ const featuredStyle = {
 // A rail is a taste with a "See all" link, not the whole category: n places
 // spread evenly through the list, so it is not always the A names.
 const RAIL = 8;
-const pick = (fn, n = RAIL) => {
-  const all = directory.filter(fn);
-  if (all.length <= n) return all;
-  return Array.from({ length: n }, (_, i) => all[Math.floor((i * all.length) / n)]);
+// `seen` keeps one business from showing in two homepage rails (411 Gallery is
+// both downtown and a gift shop); each rail takes the next ones instead.
+const pick = (fn, n = RAIL, seen = null) => {
+  const all = directory.filter((b) => fn(b) && !(seen && seen.has(b.slug)));
+  const out = all.length <= n ? all : Array.from({ length: n }, (_, i) => all[Math.floor((i * all.length) / n)]);
+  if (seen) for (const b of out) seen.add(b.slug);
+  return out;
 };
 // The open-now rail ships the places open the most hours a week, so a few are
 // open at almost any hour; the page then shows only the ones open right now.
@@ -171,7 +174,7 @@ ${eventsSection({ mode: 'weekend', id: 'this-weekend', title: 'This weekend in C
 ${rail('Open right now', '/explore/?open=1', directory.filter((b) => b.hours && !b.tempClosed && FOOD.includes(b.cat)).sort((a, b) => weeklyMinutes(b) - weeklyMinutes(a)).slice(0, OPEN_CANDIDATES), { kicker: 'Hungry? These are open', openOnly: true })}
 
 <div class="rails" data-shuffle-rails>
-${railsShown.map(([title, href, fn, kicker]) => rail(title, href, pick(fn), { kicker })).join('')}
+${((seen) => railsShown.map(([title, href, fn, kicker]) => rail(title, href, pick(fn, RAIL, seen), { kicker })).join(''))(new Set())}
 </div>
 
 <section class="wrap fg-trails" aria-labelledby="trails-h">
@@ -259,6 +262,7 @@ ${yourWay({ id: 'trip-ideas' })}
     <div class="keep-out">
       <div class="keep-card"><p>Kept in Columbus each year</p><p class="keep-big" data-year>$0</p><p data-week></p></div>
       <div class="keep-card"><p>Your demo orders on this device</p><p class="keep-mid" data-ledger>$0.00 ordered</p><p data-ledger-kept>Place an order in any demo storefront and it shows up here.</p></div>
+      <p class="keep-share"><button type="button" class="btn btn-ghost" data-keep-share>Share this math</button><span data-keep-msg role="status"></span></p>
       <p class="keep-fine">An estimate from the numbers above, not real sales data. Pickup commission runs 1 to 10 percent here; 6 percent is DoorDash’s pickup rate for restaurants.</p>
     </div>
   </div>

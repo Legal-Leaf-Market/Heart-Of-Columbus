@@ -1,5 +1,6 @@
 // "Free in Columbus" only says something is free when a cited page says so.
 import assert from 'node:assert/strict';
+import { LAUNCH } from '../src/indexing.mjs';
 import { test } from 'node:test';
 import { readFileSync } from 'node:fs';
 import { FREE } from '../src/data/free.mjs';
@@ -22,5 +23,6 @@ test('the page lists each item and only street-visible landmarks', () => {
   const html = readFileSync(new URL('../dist/free/index.html', import.meta.url), 'utf8');
   for (const i of items) assert.ok(html.includes(`id="${i.slug}"`), i.slug);
   assert.ok(!html.includes('href="/l/miller/"'), 'Miller House has no public access');
-  assert.ok(html.includes('noindex'));
+  // Before launch only; after it, tests/seo.test.mjs checks the page against src/indexing.mjs.
+  if (!LAUNCH) assert.ok(html.includes('noindex'));
 });

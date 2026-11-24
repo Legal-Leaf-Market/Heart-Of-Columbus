@@ -2,6 +2,7 @@
 // and the sitemap together. npm test builds without HOC_INDEX, so dist/ is the
 // preview build; the launch matrix runs the policy module in child processes.
 import assert from 'node:assert/strict';
+import { LAUNCH } from '../src/indexing.mjs';
 import { test } from 'node:test';
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
@@ -13,7 +14,7 @@ const htmlFiles = (dir) => readdirSync(dir).flatMap((f) => {
   return statSync(p).isDirectory() ? htmlFiles(p + '/') : f.endsWith('.html') ? [p] : [];
 });
 
-test('a preview build is noindex in both layers, and has no sitemap', () => {
+test('a preview build is noindex in both layers, and has no sitemap', { skip: LAUNCH && 'this is the launched build' }, () => {
   assert.match(readFileSync(dist + '_headers', 'utf8'), /^\/\*\n  X-Robots-Tag: noindex, nofollow/m);
   for (const f of htmlFiles(dist)) {
     const h = readFileSync(f, 'utf8');

@@ -17,6 +17,9 @@ import { finalizeSeo } from './src/seo.mjs';
 import { ORIGIN } from './src/jsonld.mjs';
 import { upcomingEditions } from './src/news/editions.mjs';
 import { allFeeds } from './src/news/feeds.mjs';
+import { stories as publishedStories } from './src/news/content.mjs';
+import { shareCard } from './src/pages/news-pages.mjs';
+import sharp from 'sharp';
 import { prepareImages, responsiveImages } from './scripts/images.mjs';
 import { holidayPages } from './src/pages/holiday-pages.mjs';
 import { filmPages } from './src/pages/film-pages.mjs';
@@ -104,6 +107,15 @@ await mkdir(new URL('newsletter/editions/', out), { recursive: true });
 for (const ed of upcomingEditions()) await writeFile(new URL(`newsletter/editions/${ed.date}.json`, out), JSON.stringify(ed));
 // RSS: the whole paper, each series and each section (src/news/feeds.mjs).
 for (const [file, xml] of allFeeds()) { const u = new URL(file, out); await mkdir(new URL('./', u), { recursive: true }); await writeFile(u, xml); }
+// Share cards: each story's lead photo cut to 1200 x 630 for Facebook, texts
+// and X, so a shared link shows the story rather than the site logo.
+await mkdir(new URL('og/news/', out), { recursive: true });
+for (const s of publishedStories) {
+  const card = shareCard(s);
+  if (!card) continue;
+  const src = new URL('public' + s.images[0].file, root);
+  if (existsSync(src)) await sharp(src.pathname).rotate().resize(1200, 630, { fit: 'cover', position: 'attention' }).jpeg({ quality: 82 }).toFile(new URL(card.src.slice(1), out).pathname);
+}
 // The robots meta is decided here, per path, by the one policy in
 // src/indexing.mjs. The layout leaves a marker so no page can opt itself in.
 for (const p of pages) {

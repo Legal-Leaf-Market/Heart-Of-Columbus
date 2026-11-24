@@ -6,6 +6,7 @@ import { esc, t } from '../layout.mjs';
 import { newsPage } from '../news/frame.mjs';
 import { PAPER, NEWSLETTER, MEMBERSHIP } from '../data/paper.mjs';
 import { signupBox, shareBar } from '../news/share.mjs';
+import { upcomingEditions } from '../news/editions.mjs';
 import { LANDMARKS } from '../data/landmarks.mjs';
 
 const doc = (kicker, h1, dek, inner) => `<article class="wrap np-doc"><header class="np-doc-head"><p class="kicker">${esc(kicker)}</p><h1>${esc(h1)}</h1><p class="np-dek">${dek}</p></header>${inner}</article>`;
@@ -24,6 +25,20 @@ ${signupBox({ heading: 'Sign up free' })}
 ${shareBar({ path: '/newsletter/', title: `The ${PAPER.name} morning edition`, text: 'Good, honest Columbus news in your inbox on weekday mornings. Free.', label: 'Share the newsletter' })}
 <section><h2>How it’s made</h2><p>The morning edition is put together from stories we have already published, then an editor reads it before it goes out. It never contains anything that hasn’t run on the site.</p></section>`);
   return newsPage({ ...ctx, path: '/newsletter/', title: 'Newsletter', description: 'The morning edition: Columbus news in your inbox every weekday.', crumbs: [['/news/', 'News'], ['', 'Newsletter']], body });
+}
+
+// The editor's look at the next editions, the same HTML the morning job puts
+// in the draft. Kept out of search (src/indexing.mjs). Days with nothing new
+// say so: the job skips them.
+function nextEditionsPage(ctx) {
+  const eds = upcomingEditions(new Date(), 4);
+  const inner = (html) => (html.match(/<body[^>]*>([\s\S]*)<\/body>/) || [, html])[1];
+  const body = doc('For the editor', 'The next morning editions', 'What each weekday draft will hold, built from stories already published. The draft lands in the newsletter service each weekday morning; read it there and press send.', eds.map((ed) => `
+<section class="np-edition">
+  <h2>${esc(ed.subject)}</h2>
+  ${ed.fresh ? `<p class="fine">${ed.fresh} new ${ed.fresh === 1 ? 'story' : 'stories'} since the last edition.</p><div class="np-edition-mail">${inner(ed.html)}</div>` : '<p><strong>No new stories for this morning, so no draft is made.</strong> Publish a story and it shows up here.</p>'}
+</section>`).join(''));
+  return newsPage({ ...ctx, path: '/newsletter/next/', title: 'Next morning editions', description: 'The editor’s preview of the next newsletter drafts.', crumbs: [['/newsletter/', 'Newsletter'], ['', 'Next editions']], body });
 }
 
 function privacyPage(ctx) {
@@ -120,6 +135,7 @@ function quizPage(ctx, quiz, { sample = false } = {}) {
 export const habitPages = (ctx) => [
   { path: 'newsletter/index.html', html: newsletterPage(ctx) },
   { path: 'privacy/index.html', html: privacyPage(ctx) },
+  { path: 'newsletter/next/index.html', html: nextEditionsPage(ctx) },
   { path: 'members/index.html', html: membersPage(ctx) },
   { path: 'games/index.html', html: gamesIndex(ctx) },
   { path: 'games/where/index.html', html: wherePage(ctx) },

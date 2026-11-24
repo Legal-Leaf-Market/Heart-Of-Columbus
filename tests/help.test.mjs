@@ -1,6 +1,7 @@
 // The resource center only lists what a cited page says, every phone number
 // dials, and the stories cite their facts.
 import assert from 'node:assert/strict';
+import { LAUNCH } from '../src/indexing.mjs';
 import { test } from 'node:test';
 import { readFileSync } from 'node:fs';
 import { HELP, FIRST, MEALS, helpItems } from '../src/data/help.mjs';
@@ -37,7 +38,8 @@ test('the page shows every resource, every meal, the card and a QR code', () => 
   assert.ok(html.includes('href="/help/card/"'));
   assert.match(html, /<svg class="hp-qr"/);
   assert.ok(html.includes('not affiliated'));
-  assert.ok(html.includes('noindex'));
+  // Before launch only; after it, tests/seo.test.mjs checks the page against src/indexing.mjs.
+  if (!LAUNCH) assert.ok(html.includes('noindex'));
 });
 
 test('the wallet card sheet prints ten cards with the QR code', () => {

@@ -60,6 +60,6 @@ export const footer = (extra = '') => `
 <footer class="bg-ink text-white/80 text-sm">
   <div class="mx-auto max-w-6xl px-4 py-8 flex flex-wrap justify-between gap-4">
     <p><a href="/" class="font-semibold text-white">Heart of Columbus</a> · Keep it in Columbus, Indiana.</p>
-    <p>${extra || 'A concept preview. Business details come from public listings and may change; call ahead.'}</p>
+    <p>${extra || 'Business details come from public listings and may change; call ahead.'}</p>
   </div>
 </footer>`;

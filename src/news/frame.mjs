@@ -26,7 +26,7 @@ export const newsBar = (path) => {
 </div></nav>`;
 };
 
-export function newsPage({ assets, path, title, description, crumbs = [], body, ld = [], scripts = [], data = null, banner = '', styles = [], alt = '', alternates = [], feeds = [] }) {
+export function newsPage({ assets, path, title, description, crumbs = [], body, ld = [], scripts = [], data = null, banner = '', styles = [], alt = '', alternates = [], feeds = [], shareImage = null }) {
   const html = `
 ${header('news', alt ? { alt } : undefined)}
 ${newsBar(path)}
@@ -38,6 +38,7 @@ ${body}
 ${footer()}`;
   // Every newspaper page names the paper's RSS feed (and any feed of its own)
   // so readers and feed apps can find them.
-  const head = [['/news/feed.xml', PAPER.name], ...feeds].map(([h, t]) => feedLink(h, t)).join('\n');
+  const head = [['/news/feed.xml', PAPER.name], ...feeds].map(([h, t]) => feedLink(h, t)).join('\n')
+    + (shareImage ? `\n<meta name="hoc:image" content="${esc(shareImage.src)}" data-alt="${esc(shareImage.alt)}" data-type="article">` : '');
   return page({ title: `${title} | ${PAPER.name}`, description, body: html, scripts: ['site.js', 'subscribe.js', ...scripts], styles: ['hoc.css', ...styles], assets, ld, data, path, alternates, head });
 }

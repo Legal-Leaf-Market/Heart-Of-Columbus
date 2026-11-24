@@ -25,6 +25,7 @@ export const NEVER_INDEX = [
   ['/obituaries/review/', 'private review queue'],
   ['/admin/', 'newsroom CMS'],
   ['/newsletter/editions/', 'newsletter drafts for the morning job, read before they are sent'],
+  ['/newsletter/next/', 'the editor’s preview of the next drafts'],
   ['/saved/', "a visitor's own list"],
   ['/explore/', 'search and map tool; categories and neighborhoods carry the same listings'],
   ['/events/print/', 'printable copy of /events/'],
@@ -33,6 +34,8 @@ export const NEVER_INDEX = [
   ['/data/', 'raw data'],
   ['/api/', 'functions'],
   ['/preview/', 'draft websites for owners to review, served from sites/'],
+  ['/news/samples/', 'made-up Sampleton stories that show the formats'],
+  ['/games/quiz/sample/', 'a made-up quiz that shows the format'],
 ];
 
 // path is a URL path ("/b/jills-diner/") or a dist file path ("b/jills-diner/index.html").

@@ -1,6 +1,7 @@
 // The holiday page: the date is the Saturday after Thanksgiving, and every
 // gift-card link goes to the business's own page, never a marketplace.
 import assert from 'node:assert/strict';
+import { LAUNCH } from '../src/indexing.mjs';
 import { test } from 'node:test';
 import { readFileSync } from 'node:fs';
 import { SMALL_BUSINESS_SATURDAY as SBS } from '../src/data/holidays.mjs';
@@ -18,7 +19,8 @@ test('Small Business Saturday is the Saturday after the fourth Thursday of Novem
 
 test('gift-card links are first-party and the page lists each one', () => {
   const html = readFileSync(new URL('../dist/holidays/index.html', import.meta.url), 'utf8');
-  assert.ok(html.includes('noindex'));
+  // Before launch only; after it, tests/seo.test.mjs checks the page against src/indexing.mjs.
+  if (!LAUNCH) assert.ok(html.includes('noindex'));
   const MARKET = /doordash|grubhub|ubereats|postmates|seamless|yelp|facebook|instagram|google\./i;
   for (const b of giftList()) {
     assert.ok(!MARKET.test(b.gift.url), b.slug);

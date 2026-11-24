@@ -1,6 +1,7 @@
 // The newspaper's rules: real people only in bylines, disclosures that
 // can't be forgotten, and trust pages that stay noindex until launch.
 import assert from 'node:assert/strict';
+import { LAUNCH } from '../src/indexing.mjs';
 import { test } from 'node:test';
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { STAFF, SAMPLE_STAFF } from '../src/data/staff.mjs';
@@ -37,7 +38,8 @@ test('tagging a partner or sponsor always adds a disclosure', () => {
 test('trust pages exist, are noindex, and explain every label', () => {
   for (const p of ['about/', 'about/standards/', 'about/corrections/', 'staff/']) {
     const html = read(p + 'index.html');
-    assert.match(html, /name="robots" content="noindex/, p);
+    // Before launch only; after it, tests/seo.test.mjs checks the page against src/indexing.mjs.
+    if (!LAUNCH) assert.match(html, /name="robots" content="noindex/, p);
   }
   const std = read('about/standards/index.html');
   for (const id of ['ethics', 'ai', 'sources', 'anonymous', 'conflicts', 'labels', 'corrections']) assert.ok(std.includes(`id="${id}"`), id);
@@ -119,7 +121,8 @@ test('a story page shows label, byline, editor, sources, methods and corrections
 test('every published story has a page and appears in its section', () => {
   for (const s of stories) {
     const page = read(`${s.href.slice(1)}index.html`);
-    assert.ok(page.includes('name="robots" content="noindex'), s.href);
+    // Before launch only; after it, tests/seo.test.mjs checks the page against src/indexing.mjs.
+    if (!LAUNCH) assert.ok(page.includes('name="robots" content="noindex'), s.href);
     const sec = SECTIONS.find((x) => x.slug === s.section);
     if (!sec.href) assert.ok(read(`news/${sec.slug}/index.html`).includes(`href="${s.href}"`), s.href);
   }
@@ -199,7 +202,8 @@ test('the alert banner never shows an expired, undated or inactive alert', () =>
 test('the front page has the weather and river box with its sources', () => {
   const html = read('news/index.html');
   for (const want of ['data-np-wx', 'data-gauge="03364000"', 'forecast.weather.gov', 'flood-inundation-maps-east-fork-white-river-columbus-indiana', '/js/news.js']) assert.ok(html.includes(want), want);
-  assert.ok(read('news/alert/index.html').includes('noindex'));
+  // Before launch only; after it, tests/seo.test.mjs checks the page against src/indexing.mjs.
+  if (!LAUNCH) assert.ok(read('news/alert/index.html').includes('noindex'));
 });
 
 // ---------- The business beat's lead lists (item 6) ----------
@@ -246,7 +250,8 @@ test('every civic fact has an official source and a checked date', () => {
     assert.ok(existsSync(new URL(`data/${d.slug}/index.html`, dist)), d.slug);
   }
   for (const n of [...NOTICE_SOURCES, NOTICE_LAW]) assert.ok(/^https:\/\//.test(n.url || n.source) && day.test(n.checked));
-  for (const p of ['meetings/', 'data/', 'notices/']) assert.match(read(p + 'index.html'), /noindex/, p);
+  // Before launch only; after it, tests/seo.test.mjs checks the page against src/indexing.mjs.
+  if (!LAUNCH) for (const p of ['meetings/', 'data/', 'notices/']) assert.match(read(p + 'index.html'), /noindex/, p);
 });
 
 test('meeting notes need the Documenters format and render it', () => {
@@ -315,7 +320,7 @@ test('sponsors appear only in labeled slots, only while their deal runs, never i
 test('no page asks for money or an email address until the owner turns it on', () => {
   if (!MEMBERSHIP.open) assert.ok(!read('members/index.html').includes('Become a member</a>'));
   if (!NEWSLETTER.signupAction) assert.ok(!read('newsletter/index.html').includes('type="email"'));
-  for (const p of ['newsletter/', 'members/', 'privacy/', 'games/', 'games/where/', 'games/quiz/']) assert.match(read(p + 'index.html'), /noindex/, p);
+  if (!LAUNCH) for (const p of ['newsletter/', 'members/', 'privacy/', 'games/', 'games/where/', 'games/quiz/']) assert.match(read(p + 'index.html'), /noindex/, p);
   assert.ok(read('news/samples/sampleton-opinion/index.html').includes('np-ask'), 'the ask ends each story');
 });
 

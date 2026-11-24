@@ -35,8 +35,8 @@
       var s = parse(card.getAttribute('data-start')), e = parse(card.getAttribute('data-end'));
       return e >= today && Math.max(s, today, fri) <= Math.min(e, sun);
     };
-    // Nothing on this weekend: say so, and show the next three events instead
-    // of hiding the section or putting other dates under a weekend label.
+    // Nothing on this weekend: retitle the section "Coming up in Columbus" and
+    // show the next three events, never other dates under a weekend label.
     if (weekend && !cards.some(inWeekend)) {
       weekend = false;
       var later = cards.filter(function (c) { return parse(c.getAttribute('data-end')) >= today; })
@@ -44,7 +44,7 @@
         .slice(0, 3);
       cards.forEach(function (c) { if (later.indexOf(c) < 0) c.parentNode.removeChild(c); });
       var k = $$('[data-ev-kicker]', sec)[0], h = $$('[data-ev-title]', sec)[0];
-      if (k) k.textContent = 'Nothing listed this weekend';
+      if (k) k.textContent = 'Up next';
       if (h) h.textContent = 'Coming up in Columbus';
     }
     var shown = 0;
