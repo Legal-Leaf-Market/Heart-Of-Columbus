@@ -133,6 +133,11 @@ ${smartCarousel(slides({ news: stories[0] }))}
 ${newsletterBanner()}
 
 ${spotlightSection({ title: 'Meet your neighbors.' })}
+<section class="wrap" data-counter-activity hidden aria-labelledby="counter-title">
+  <h2 id="counter-title">Around the Counter</h2>
+  <p data-counter-count></p>
+  <a href="/explore/">Visit the business</a>
+</section>
 
 ${o ? orderDirectBanner({ n: o }) : ''}
 
@@ -292,7 +297,7 @@ ${footer()}`;
     title: 'Heart of Columbus | Local Businesses in Columbus, Indiana',
     description: `${total} independent restaurants, shops, salons and trades in Columbus, Indiana. Browse by category or neighborhood, and order direct.`,
     body,
-    scripts: ['site.js', 'hub.js', 'events-week.js', 'banners.js', 'subscribe.js'],
+    scripts: ['site.js', 'hub.js', 'events-week.js', 'banners.js', 'subscribe.js', 'counter-activity.js'],
     styles: ['hoc.css'],
     assets,
     ld: [siteLd()],
