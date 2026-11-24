@@ -94,6 +94,7 @@ test('checkStory catches each broken rule', () => {
   bad({ images: [{ file: 'https://example.org/a.jpg', alt: 'A' }] }, /credit/);
   bad({ images: [{ file: 'https://example.org/a.jpg', credit: 'C', license: 'L' }] }, /alt/);
   bad({ sources: [{ name: 'No link' }] }, /source/);
+  bad({ images: [{ file: 'https://example.org/a.jpg', alt: 'A', credit: 'C', license: 'L', creditUrl: 'javascript:alert(1)' }] }, /creditUrl/);
   bad({ body: 'One — two' }, /dash/);
   bad({ sample: false, bylines: ['jacob-kennedy'], editor: 'jacob-kennedy' }, /own story/);
   bad({ sample: false, bylines: ['sample-reporter'] }, /byline/);

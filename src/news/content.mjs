@@ -31,6 +31,7 @@
 //       caption: Optional caption
 //       credit: Photographer's name
 //       license: Staff photo
+//       creditUrl: https://www.instagram.com/handle/   # optional: links the credit
 //   sponsor: Name                  # required when label is Sponsored
 //   developing:                    # optional box for a developing story
 //     know: [Fact we confirmed]
@@ -111,6 +112,7 @@ export function checkStory(s) {
     if (!im?.file) p.push('each image needs a file');
     if (!im?.alt) p.push(`image ${im?.file}: alt text is required`);
     if (!im?.credit) p.push(`image ${im?.file}: credit is required`);
+    if (im?.creditUrl && !/^https:\/\//.test(im.creditUrl)) p.push(`image ${im?.file}: creditUrl must be an https address`);
     if (!im?.license) p.push(`image ${im?.file}: license is required (Staff photo, CC BY 4.0, used with permission...)`);
     if (im?.file?.startsWith('/') && !existsSync(new URL(`../../public${im.file}`, import.meta.url))) p.push(`image ${im.file} is not in public/`);
   }
