@@ -273,6 +273,9 @@ test('a game story carries a checked box score, typed by the writer', () => {
 
 test('a series story names a real series and carries its writer', () => {
   assert.deepEqual(checkStory({ ...good, series: 'jake-takes-the-town' }), []);
+  assert.ok(checkStory({ ...good, headline: '[YOUR HEADLINE]' }).some((p) => /BRACKET/.test(p)), 'blanks block publishing');
+  assert.ok(checkStory({ ...good, body: 'Seats. Your rating: __ out of 5' }).some((p) => /BRACKET/.test(p)));
+  assert.deepEqual(checkStory({ ...good, headline: '[YOUR HEADLINE]', draft: true }), [], 'drafts may hold blanks');
   assert.ok(checkStory({ ...good, series: 'made-up-series' }).some((p) => /series\.mjs/.test(p)));
   assert.ok(checkStory({ ...good, sample: false, bylines: ['terry-winchester-ii'], editor: 'jacob-kennedy', series: 'jake-takes-the-town' }).some((p) => /must carry jacob-kennedy/.test(p)));
   const html = read('news/series/jake-takes-the-town/index.html');

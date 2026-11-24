@@ -120,6 +120,7 @@ export function checkStory(s) {
     else if (!s.sample && !bodyBySlug[m.body]) p.push(`meeting body "${m.body}" is not in src/data/civic.mjs`);
     for (const v of m?.votes || []) if (!v?.motion || !v?.result) p.push('each vote needs a motion and a result');
   }
+  if (!s.draft && /\[(YOUR|WHO TOOK|ONE LINE)\b|__ out of 5/.test(JSON.stringify({ ...s, file: '' }) + s.body)) p.push('fill in every [BRACKET] blank before taking a story out of draft');
   if (s.series) {
     const sr = seriesBySlug[s.series];
     if (!sr) p.push(`series "${s.series}" is not in src/news/series.mjs`);
