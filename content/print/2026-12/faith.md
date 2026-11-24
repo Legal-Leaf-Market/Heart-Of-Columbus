@@ -1,7 +1,7 @@
 ---
 headline: Christmas services and community dinners
 kicker: Faith and community
-dek: Where to worship on Christmas Eve and Christmas Day, and where anyone can get a hot meal this month.
+dek: Christmas Eve services posted by local churches, plus holiday meal resources.
 bylines: []
 editor: jacob-kennedy
 status: draft
@@ -18,28 +18,20 @@ sources:
   - name: Heart of Columbus help page, community meals, from United Way of Bartholomew County's guide
     url: https://heartofcolumbus.shop/help/
 ---
-Christmas falls on a Friday this year, with Christmas Eve on Thursday. Here is where Columbus congregations are gathering, and where anyone who needs a meal this month can sit down to one.
+## Christmas Eve · Thursday, Dec. 24
 
-The churches below posted these Christmas Eve times on their websites. Check the church’s site before you go.
+**First Christian Church, 531 Fifth Street.** Candlelight at 5 and 7 PM.
 
-## Christmas Eve, Thursday, December 24
+**First United Methodist Church, 618 Eighth Street.** Family service at 4 PM, jazz at 6 PM and Lessons and Carols at 8 PM.
 
-**First Christian Church, 531 Fifth Street.** Candlelight services at 5 and 7 PM. The church says battery-powered candles will be available for children.
+[CHECK: call both churches to confirm times. Ask St. Bartholomew and First Presbyterian for their schedules.]
 
-**First United Methodist Church, 618 Eighth Street.** Family service at 4 PM, jazz service at 6 PM, and Lessons and Carols at 8 PM.
+[CHECK: confirm Christmas Day services and meals.]
 
-[CHECK: confirm the published times by phone and ask St. Bartholomew Catholic Church and First Presbyterian Church for their 2026 schedules.]
+## Holiday meals
 
-## Christmas Day, Friday, December 25
+**Love Chapel, 292 Center Street.** Holiday meal baskets for county residents through Dec. 23, Mon–Sat, 9–11:45 AM. Extra hours Dec. 7, 3–6 PM. Bring a pantry card or photo ID and proof of residency.
 
-[CHECK: services and Christmas Day meals, confirmed by phone.]
+[CHECK: confirm Christmas-week hours for the free meals listed here.]
 
-## Community meals this month
-
-United Way lists Love Chapel’s Christmas Feast Giveaway at 292 Center Street. Bartholomew County residents can pick up a holiday meal basket through Dec. 23, Monday through Saturday from 9 to 11:45 AM, with extra hours Dec. 7 from 3 to 6 PM. Bring a pantry card or photo ID and proof of current county residency.
-
-The free community meals in the box on this page come from United Way of Bartholomew County's guide. Three of them close for December: the Monday meal at Hope Moravian Church, the Thursday meal at the Salvation Army and the fourth Friday meal at Columbus Baptist Church. Holiday weeks change schedules, so call before you go. [CHECK: Christmas week hours for each meal in the box.]
-
-## Finding help over the holidays
-
-Call 211 or text your ZIP code to 898-211 during weekday service hours. If the line is closed, search the Indiana 211 resource directory at in211.org. The full list is on page 5 and on the wallet card on the back page.
+For other resources, call 211 on weekdays or search in211.org anytime.
