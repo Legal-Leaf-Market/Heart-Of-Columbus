@@ -6,7 +6,7 @@ import { page, esc, t } from '../layout.mjs';
 import { businesses, prototypes } from '../data/businesses.mjs';
 import { directory, CATEGORIES, AREAS, inSection } from '../data/directory.mjs';
 import { header, footer, rail, svg, PHOTOS, sticker, catSticker } from '../site.mjs';
-import { eventsSection } from './events.mjs';
+import { eventsSection, homeEvents } from './events.mjs';
 import { yourWay } from './trip-pages.mjs';
 import { spotlightSection } from './spotlight.mjs';
 
@@ -169,7 +169,7 @@ ${o || k || f ? `<section class="wrap go-band" aria-labelledby="go-h">
   </div>
 </section>
 
-${eventsSection({ mode: 'weekend', id: 'this-weekend', title: 'This weekend in Columbus', kicker: 'Happening Friday to Sunday' })}
+${homeEvents()}
 
 ${rail('Open right now', '/explore/?open=1', directory.filter((b) => b.hours && !b.tempClosed && FOOD.includes(b.cat)).sort((a, b) => weeklyMinutes(b) - weeklyMinutes(a)).slice(0, OPEN_CANDIDATES), { kicker: 'Hungry? These are open', openOnly: true })}
 
@@ -254,7 +254,7 @@ ${yourWay({ id: 'trip-ideas' })}
         <label><span><span id="k-avg-l">Average order</span><output data-out="avg"></output></span>
           <input type="range" min="10" max="60" step="1" value="24" data-in="avg" id="k-avg" aria-labelledby="k-avg-l"></label>
         <label><span><span id="k-rate-l">App pickup commission</span><output data-out="rate"></output></span>
-          <input type="range" min="1" max="10" step="1" value="6" data-in="rate" id="k-rate" aria-labelledby="k-rate-l"></label>
+          <input type="range" min="1" max="10" step="1" value="6" autocomplete="off" data-in="rate" id="k-rate" aria-labelledby="k-rate-l"></label>
         <label><span><span id="k-biz-l">Restaurants that switch</span><output data-out="biz"></output></span>
           <input type="range" min="1" max="${count((b) => b.cat === 'restaurants')}" step="1" value="10" data-in="biz" id="k-biz" aria-labelledby="k-biz-l"></label>
       </div>
@@ -292,7 +292,7 @@ ${footer()}`;
     title: 'Heart of Columbus | Local Businesses in Columbus, Indiana',
     description: `${total} independent restaurants, shops, salons and trades in Columbus, Indiana. Browse by category or neighborhood, and order direct.`,
     body,
-    scripts: ['site.js', 'hub.js', 'events.js', 'banners.js', 'subscribe.js'],
+    scripts: ['site.js', 'hub.js', 'events-week.js', 'banners.js', 'subscribe.js'],
     styles: ['hoc.css'],
     assets,
     ld: [siteLd()],

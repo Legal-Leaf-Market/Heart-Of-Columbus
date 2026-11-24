@@ -36,6 +36,9 @@ test('/events.ics is a calendar with every event, and both event sections are bu
   assert.match(ics, /END:VCALENDAR\r\n$/);
   for (const e of EVENTS) assert.ok(ics.includes(`UID:${e.slug}@heartofcolumbus`), e.slug);
   for (const line of ics.split('\r\n')) assert.ok(line.length <= 75, `long line: ${line}`);
-  assert.match(readFileSync(new URL('../dist/index.html', import.meta.url), 'utf8'), /data-events="weekend"/);
+  // The homepage carries the two-week calendar; its no-script fallback lists every signature event.
+  const home = readFileSync(new URL('../dist/index.html', import.meta.url), 'utf8');
+  assert.match(home, /data-evw/);
+  for (const e of EVENTS) assert.ok(home.includes(e.url.replace(/&/g, '&amp;')), e.slug);
   assert.match(readFileSync(new URL('../dist/visit/index.html', import.meta.url), 'utf8'), /data-events="upcoming"/);
 });

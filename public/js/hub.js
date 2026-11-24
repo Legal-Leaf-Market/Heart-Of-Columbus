@@ -54,9 +54,11 @@
       : 'Place an order in any demo storefront and it shows up here.';
   }
   // A link that opens the calculator with these exact numbers, for sharing
-  // ("?orders=60&avg=24&rate=6&biz=10#keep-it-local"). Values outside a
-  // slider's own range are ignored, so a shared link can't show other math.
-  var KEYS = ['orders', 'avg', 'rate', 'biz'];
+  // ("?orders=60&avg=24&biz=10#keep-it-local"). Values outside a slider's
+  // own range are ignored, so a shared link can't show other math. The
+  // commission rate is NOT shared or read from a link: everyone opens on 6%,
+  // DoorDash's pickup rate for restaurants, the one number the page cites.
+  var KEYS = ['orders', 'avg', 'biz'];
   var q = new URLSearchParams(location.search);
   KEYS.forEach(function (k) {
     var el = $('[data-in="' + k + '"]'), v = Number(q.get(k));
