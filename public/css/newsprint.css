@@ -86,5 +86,19 @@
 .kd-news .np-trust h2 { font-family: var(--np-serif); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; }
 .kd-news .btn { background: none; color: var(--np-ink); border: 1px solid var(--np-ink); border-radius: 0; box-shadow: none; font-family: var(--np-serif); }
 
+/* Photos after the story run as a spread, side by side, like a picture page. */
+.kd-news .np-figs { display: grid; gap: 18px; border-top: 3px double var(--np-ink); padding-top: 14px; }
+@media (min-width: 640px) { .kd-news .np-figs-2, .kd-news .np-figs-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1000px) { .kd-news .np-figs-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.kd-news .np-figs .np-fig { display: flex; flex-direction: column; }
+.kd-news .np-figs .np-fig-img { display: block; margin: 0 0 6px; }
+.kd-news .np-figs .np-fig img { width: 100%; max-height: none; aspect-ratio: 3 / 4; object-fit: cover; }
+.kd-news .np-figs figcaption { margin-top: auto; }
+
+/* Ink on newsprint: a hair of spread, the first line in small capitals. */
+.kd-news .np-prose, .kd-news h1, .kd-news .np-plate-name { text-shadow: 0 0 .5px rgba(20,19,16,.45); }
+.kd-news .np-prose > p:first-child::first-line { font-variant: small-caps; letter-spacing: .03em; }
+@media (max-width: 479px) { .kd-news .np-prose { text-align: left; hyphens: manual; -webkit-hyphens: manual; } }
+
 @media (max-width: 899px) { .kd-news { padding: 0 0 16px; } .kd-news .kd-screen { box-shadow: none; } }
 @media print { .kd-news .kd-screen { background: none; box-shadow: none; } .kd-news .np-fig-img::after { display: none; } }

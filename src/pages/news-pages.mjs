@@ -146,7 +146,7 @@ export function storyBody(s) {
   ${s.meeting ? meetingBox(s.meeting, s.sample) : ''}
   ${s.game ? gameBox(s.game) : ''}
   <div class="np-prose">${stickerProse(s)}</div>
-  ${s.images.slice(1).map((im) => `<figure class="np-fig"><span class="np-fig-img"><img src="${esc(im.file)}" alt="${esc(im.alt)}" loading="lazy"></span><figcaption>${im.caption ? `${t(im.caption)} ` : ''}<span class="np-credit">${credit(im)}</span></figcaption></figure>`).join('')}
+  ${s.images.length > 1 ? `<div class="np-figs np-figs-${Math.min(s.images.length - 1, 3)}">${s.images.slice(1).map((im) => `<figure class="np-fig"><span class="np-fig-img"><img src="${esc(im.file)}" alt="${esc(im.alt)}" loading="lazy"></span><figcaption>${im.caption ? `${t(im.caption)} ` : ''}<span class="np-credit">${credit(im)}</span></figcaption></figure>`).join('')}</div>` : ''}
   <footer class="np-trust">
     ${s.sources.length ? `<section id="references"><h2>References</h2><ul>${s.sources.map((x) => `<li>${x.url ? `<a href="${esc(x.url)}" target="_blank" rel="noopener">${t(x.name)}</a> <span class="np-host">${esc(host(x.url))}</span>` : t(x.name)}${x.note ? `, ${t(x.note)}` : ''}</li>`).join('')}</ul></section>` : ''}
     ${s.methods ? `<section id="methods"><h2>How we reported this</h2><p>${t(s.methods)}</p></section>` : ''}
