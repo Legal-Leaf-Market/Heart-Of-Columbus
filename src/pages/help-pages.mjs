@@ -81,7 +81,7 @@ ${breadcrumbs([['/', 'Home'], ['', 'Get help']])}
   </div>
 </section>
 <div class="wrap fr-list">
-${HELP.map((g) => `<section class="fr-group" id="${g.id}" aria-labelledby="${g.id}-h" data-help-group><h2 id="${g.id}-h"><span aria-hidden="true">${g.emoji}</span> ${esc(g.title)}</h2>${g.lead ? `<p class="vs-lead">${t(g.lead)}</p>` : ''}${g.items.map(item).join('')}</section>`).join('')}
+${HELP.map((g) => `<section class="fr-group" id="${g.id}" aria-labelledby="${g.id}-h" data-help-group><h2 id="${g.id}-h"><span aria-hidden="true">${g.emoji}</span> ${esc(g.title)}</h2>${g.lead ? `<p class="vs-lead">${t(g.lead)}</p>` : ''}${g.id === 'find-housing' ? '<p class="vs-lead"><a href="/housing/">See apartment communities and property managers in town</a></p>' : ''}${g.items.map(item).join('')}</section>`).join('')}
 <p class="hp-none" data-help-none hidden>Nothing on this page matches that. Call 211, any hour, and they will look it up with you.</p>
 ${meals()}
 ${cardBlock()}
