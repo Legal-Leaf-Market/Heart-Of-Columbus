@@ -4,6 +4,14 @@ dek: "A second chance at friendship, an underdog homecoming, and a Pacers finish
 label: Opinion
 section: sports
 series: jake-takes-the-town
+game:
+  home: Indiana Pacers
+  away: Oklahoma City Thunder
+  venue: Gainbridge Fieldhouse, Indianapolis
+  date: 2026-11-23
+  final:
+    home: 125
+    away: 120
 stickers:
   - sticker: olive-branch
   - sticker: hug
