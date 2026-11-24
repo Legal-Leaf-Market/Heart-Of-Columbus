@@ -497,3 +497,65 @@ export function shopifyCartUrlWith(origin, lines, opts = {}) {
   if (opts.ref) q.push(`ref=${encodeURIComponent(opts.ref)}`);
   return q.length ? `${url}?${q.join('&')}` : url;
 }
+
+// ---------- Any platform: schema.org data in the page ----------
+// Most site builders (Wix, Square Online, GoDaddy, WordPress themes, menu
+// services) publish products and menus as JSON-LD for search engines. This
+// reads that, whatever built the site: Product (with Offer or AggregateOffer),
+// ItemList of products, and Menu / MenuSection / MenuItem. Items are bought
+// on the business's own page (buyOnSite), like Squarespace. Only what the
+// page states is kept: a name and a positive price are required; stock is
+// "available" unless the offer says otherwise; no description is copied.
+export function readJsonLd(html) {
+  const out = [];
+  for (const m of String(html || '').matchAll(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
+    try { out.push(JSON.parse(m[1].trim().replace(/^<!--|-->$/g, ''))); } catch { /* a broken block is skipped */ }
+  }
+  return out;
+}
+const ldType = (n, t) => [].concat(n && n['@type'] || []).some((x) => String(x).toLowerCase() === t);
+const ldImage = (img, base) => {
+  const one = Array.isArray(img) ? img[0] : img;
+  const src = typeof one === 'string' ? one : one && (one.url || one.contentUrl) || '';
+  try { return src ? new URL(src, base).toString() : ''; } catch { return ''; }
+};
+const ldPrice = (offers) => {
+  const list = [].concat(offers || []);
+  for (const o of list) {
+    const raw = o ? (o.price ?? o.lowPrice ?? (o.priceSpecification && o.priceSpecification.price)) : null;
+    const p = Number(String(raw ?? '').replace(/[^0-9.]/g, ''));
+    if (p > 0) return { price: money(p), available: !/OutOfStock|SoldOut|Discontinued/i.test(String(o.availability || '')) };
+  }
+  return null;
+};
+export function mapJsonLd(html, pageUrl) {
+  const items = [], seen = new Set();
+  const add = (n, kind, section) => {
+    const name = String(n && n.name || '').replace(/\s+/g, ' ').trim();
+    const offer = ldPrice(n && n.offers);
+    if (!name || !offer) return;
+    let url = pageUrl;
+    try { if (n.url) url = new URL(n.url, pageUrl).toString(); } catch { /* keep the page */ }
+    const key = (name + '|' + offer.price).toLowerCase();
+    if (seen.has(key)) return;
+    seen.add(key);
+    items.push({ id: `j${(n.sku || n.productID || n['@id'] || key).toString().slice(0, 80)}`, title: name, type: section || (kind === 'menu' ? 'Menu' : ''),
+      url, image: ldImage(n.image, pageUrl), price: offer.price, available: offer.available, buyOnSite: true, kind,
+      variants: [{ id: '0', title: '', price: offer.price, available: offer.available }] });
+  };
+  const walk = (n, section) => {
+    if (!n || typeof n !== 'object') return;
+    if (Array.isArray(n)) { n.forEach((x) => walk(x, section)); return; }
+    if (n['@graph']) walk(n['@graph'], section);
+    if (ldType(n, 'product')) add(n, 'product', section);
+    else if (ldType(n, 'menuitem')) add(n, 'menu', section);
+    if (ldType(n, 'itemlist')) walk((n.itemListElement || []).map((e) => e && (e.item || e)), section);
+    if (ldType(n, 'menu') || ldType(n, 'menusection')) {
+      const sec = ldType(n, 'menusection') ? String(n.name || section || '') : section;
+      walk(n.hasMenuSection, sec); walk(n.hasMenuItem, sec);
+    }
+    if (n.hasMenu && typeof n.hasMenu === 'object') walk(n.hasMenu, section);
+  };
+  for (const block of readJsonLd(html)) walk(block);
+  return items;
+}

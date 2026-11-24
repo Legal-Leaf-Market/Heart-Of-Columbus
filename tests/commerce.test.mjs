@@ -250,3 +250,20 @@ test('/api/shop answers go to the shared (durable) CDN cache', async () => {
   const src = (await import('node:fs')).readFileSync(new URL('../netlify/functions/shop.mjs', import.meta.url), 'utf8');
   assert.match(src, /netlify-cdn-cache-control': 'public, durable,/);
 });
+
+test('JSON-LD reader: products, item lists and menus from any site builder', async () => {
+  const { mapJsonLd } = await import('../src/commerce-core.mjs');
+  const page = (o) => `<html><script type="application/ld+json">${JSON.stringify(o)}</script></html>`;
+  const p = mapJsonLd(page({ '@context': 'https://schema.org', '@type': 'Product', name: 'Walnut Cutting Board', sku: 'WB1', image: ['/img/board.jpg'], offers: { '@type': 'Offer', price: '45.00', availability: 'https://schema.org/InStock' } }), 'https://shop.example/p/board');
+  assert.equal(p.length, 1);
+  assert.deepEqual([p[0].title, p[0].price, p[0].available, p[0].image, p[0].buyOnSite], ['Walnut Cutting Board', 45, true, 'https://shop.example/img/board.jpg', true]);
+  const sold = mapJsonLd(page({ '@type': 'Product', name: 'Mug', offers: [{ price: 12, availability: 'OutOfStock' }] }), 'https://s.example/');
+  assert.equal(sold[0].available, false);
+  // No price, no item: nothing is guessed.
+  assert.equal(mapJsonLd(page({ '@type': 'Product', name: 'Mystery' }), 'https://s.example/').length, 0);
+  const list = mapJsonLd(page({ '@graph': [{ '@type': 'ItemList', itemListElement: [{ '@type': 'ListItem', item: { '@type': 'Product', name: 'A', url: '/a', offers: { '@type': 'AggregateOffer', lowPrice: '9.5' } } }, { '@type': 'ListItem', item: { '@type': 'Product', name: 'B', offers: { price: 3 } } }] }] }), 'https://s.example/shop');
+  assert.deepEqual(list.map((i) => [i.title, i.price, i.url]), [['A', 9.5, 'https://s.example/a'], ['B', 3, 'https://s.example/shop']]);
+  const menu = mapJsonLd(page({ '@type': 'Restaurant', name: 'Diner', hasMenu: { '@type': 'Menu', hasMenuSection: [{ '@type': 'MenuSection', name: 'Breakfast', hasMenuItem: [{ '@type': 'MenuItem', name: 'Two Eggs', offers: { '@type': 'Offer', price: '6.50' } }, { '@type': 'MenuItem', name: 'Toast' }] }] } }), 'https://diner.example/menu');
+  assert.deepEqual(menu.map((i) => [i.title, i.price, i.type, i.kind]), [['Two Eggs', 6.5, 'Breakfast', 'menu']]);
+  assert.equal(mapJsonLd('<script type="application/ld+json">{broken</script>', 'https://x.example/').length, 0);
+});

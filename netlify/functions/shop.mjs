@@ -51,17 +51,14 @@ export async function wooCollection(origin, query, maxPages, get = getJson) {
   return rows;
 }
 
-export default async (req) => {
-  const slug = new URL(req.url).searchParams.get('slug') || '';
-  const c = COMMERCE[slug];
-  if (!c || !c.feed) return json(404, { ok: false, error: 'This business has no online store we can read.' });
-  // Listings store the origin as found ("https://shop.example/"); every path
-  // below and every cart link the browser builds starts with a slash.
+// One business's catalog, read from its own store. Shared with the daily
+// crawl (scripts/snapshot-catalogs.mjs), which saves the same thing to disk.
+export async function readCatalog(c, get = getJson) {
   const origin = c.origin.replace(/\/+$/, '');
   let items = [];
   if (c.platform === 'shopify') {
     for (let page = 1; page <= 4; page++) {
-      const d = await getJson(`${origin}/products.json?limit=250&page=${page}`);
+      const d = await get(`${origin}/products.json?limit=250&page=${page}`);
       const batch = (d && d.body && d.body.products) || [];
       items = items.concat(mapShopify(origin, batch));
       if (batch.length < 250) break;
@@ -69,21 +66,31 @@ export default async (req) => {
   } else if (c.platform === 'woocommerce') {
     // Variable products (a coffee in two sizes and three grinds) need their
     // variations: each has its own price, stock and add-to-cart query.
-    const products = await wooCollection(origin, '', 4);
-    const variations = products.some((p) => p.type === 'variable') ? await wooCollection(origin, 'type=variation', 6) : [];
+    const products = await wooCollection(origin, '', 4, get);
+    const variations = products.some((p) => p.type === 'variable') ? await wooCollection(origin, 'type=variation', 6, get) : [];
     items = mapWoo(origin, products, variations);
-  }
-  else if (c.platform === 'squarespace-commerce' && c.catalog) {
+  } else if (c.platform === 'squarespace-commerce' && c.catalog) {
     // ?format=json on their store page; later pages by the offset it gives.
     let url = `${c.catalog.replace(/[?#].*$/, '')}?format=json`;
     for (let page = 0; page < 4 && url; page++) {
-      const d = await getJson(url);
+      const d = await get(url);
       const body = d && d.body;
       items = items.concat(mapSquarespace(origin, (body && body.items) || []));
       const next = body && body.pagination && body.pagination.nextPage && body.pagination.nextPageOffset;
       url = next ? `${c.catalog.replace(/[?#].*$/, '')}?format=json&offset=${encodeURIComponent(next)}` : '';
     }
   }
+  return items;
+}
+
+export default async (req) => {
+  const slug = new URL(req.url).searchParams.get('slug') || '';
+  const c = COMMERCE[slug];
+  if (!c || !c.feed) return json(404, { ok: false, error: 'This business has no online store we can read.' });
+  // Listings store the origin as found ("https://shop.example/"); every path
+  // in readCatalog and every cart link the browser builds starts with a slash.
+  const origin = c.origin.replace(/\/+$/, '');
+  const items = await readCatalog(c);
   if (!items.length) return json(502, { ok: false, error: 'Their store did not answer. Try their website directly.', origin });
   return json(200, { ok: true, slug, platform: c.platform, origin, ...gridView(items, new URL(req.url).searchParams.get('top')) }, true);
 };
