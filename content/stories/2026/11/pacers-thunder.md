@@ -7,7 +7,7 @@ series: jake-takes-the-town
 bylines: [jacob-kennedy]
 editor: eli-wire
 published: 2026-11-23T20:16:00-05:00
-updated: 2026-11-23T20:38:00-05:00
+updated: 2026-11-23T20:39:00-05:00
 images:
   - file: /news-media/2026/11/pacers-thunder-jake-and-eli.jpg
     alt: Eli Wire and Jake Kennedy smiling together in their seats at the Pacers game.
@@ -66,9 +66,9 @@ Staff pointed us the wrong direction first for Chick-fil-A, but then two lovely 
 
 They had an elementary choir sing the national anthem and a middle school aged dance group. Both were phenomenal.
 
-The halftime was Tyler Amazing Balance Act. He balances a bunch of stuff on his nose. I give it a 3, weakest point of the night.
+The halftime was Tyler Amazing Balance Act. He balances a bunch of stuff on his nose. I give it a 3.5, weakest point of the night.
 
-**Halftime: 3 out of 5**
+**Halftime: 3.5 out of 5**
 
 **Rating: 5 out of 5**
 
