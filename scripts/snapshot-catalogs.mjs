@@ -101,7 +101,7 @@ async function snapshot(b) {
   const website = (WEB[b.slug] && WEB[b.slug].website) || b.website;
   let items = [], method = '', platform = (c && c.platform) || '', origin = '', pages = 0, reason = '';
   if (c && c.feed) {
-    items = await readCatalog(c, getJson).catch(() => []);
+    items = await readCatalog(c, getJson, b.slug).catch(() => []);
     method = 'store feed'; origin = c.origin;
   }
   if (!items.length && website) {
@@ -146,5 +146,5 @@ const report = { checked: TODAY, crawled: results.length, withCatalog: found.len
   byPlatform: found.reduce((a, r) => ((a[r.platform || 'unknown'] = (a[r.platform || 'unknown'] || 0) + 1), a), {}),
   found: found.map((r) => ({ slug: r.slug, name: r.name, cat: r.cat, kind: r.kind, method: r.method, platform: r.platform, items: r.items.length, inStockWithPhoto: r.items.filter((i) => i.available && i.image).length })),
   nothing: results.filter((r) => r.items.length < 3).map((r) => ({ slug: r.slug, cat: r.cat, platform: r.platform || '', reason: r.reason || (r.items.length ? `${r.items.length} items` : 'no product or menu data') })) };
-writeFileSync(new URL('scripts/data/crawl-report.json', ROOT), JSON.stringify(report, null, 1) + '\n');
+if (!ONLY.size) writeFileSync(new URL('scripts/data/crawl-report.json', ROOT), JSON.stringify(report, null, 1) + '\n');
 console.log(found.length, 'of', results.length, 'have a catalog or menu;', JSON.stringify(report.byMethod), JSON.stringify(report.byKind));
