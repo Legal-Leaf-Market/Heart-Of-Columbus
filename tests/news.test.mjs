@@ -42,7 +42,7 @@ test('trust pages exist, are noindex, and explain every label', () => {
     if (!LAUNCH) assert.match(html, /name="robots" content="noindex/, p);
   }
   const std = read('about/standards/index.html');
-  for (const id of ['ethics', 'ai', 'sources', 'anonymous', 'conflicts', 'labels', 'corrections']) assert.ok(std.includes(`id="${id}"`), id);
+  for (const id of ['ethics', 'two-people', 'sources', 'anonymous', 'conflicts', 'labels', 'corrections']) assert.ok(std.includes(`id="${id}"`), id);
 });
 
 // ---------- The content model (item 2) ----------

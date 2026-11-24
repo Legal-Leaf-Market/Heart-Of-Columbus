@@ -98,7 +98,7 @@ ${markdown(p.body || '')}${p.shape === 'take' ? '<p><small>The publisher\'s view
 <h1 style="font-size:28px">${h(name)}</h1><p>The morning edition, ${h(date)}</p>
 ${intro ? markdown(intro) : ''}
 ${items}
-<hr><p><small>You signed up at ${h(origin)}/newsletter/. Unsubscribe with the link below. How we use AI: ${h(origin)}/about/standards/#ai</small></p></body></html>`;
+<hr><p><small>You signed up at ${h(origin)}/newsletter/. Unsubscribe with the link below. Read our reporting standards at ${h(origin)}/about/standards/</small></p></body></html>`;
 }
 
 export function hostOf(url) {

@@ -19,7 +19,6 @@ import { ARTICLES } from '../data/history/index.mjs';
 import { stories } from '../news/content.mjs';
 import { splitFrontMatter, markdown } from '../news/markdown.mjs';
 import { STAFF, person, staffList } from '../data/staff.mjs';
-import { AI_POLICY } from '../data/paper.mjs';
 import { FIRST, MEALS } from '../data/help.mjs';
 import { BODIES } from '../data/civic.mjs';
 import { COMMERCE } from '../data/commerce.mjs';
@@ -138,7 +137,7 @@ function historyMod(m) {
     <p class="pe-dek">${t(a.dek)}</p>
     <p class="pe-byline">Heart of Columbus history${a.editor && name(a.editor) ? ` · Approved by ${t(name(a.editor))}` : ''}</p>
     ${fig ? `<div class="pe-split">${fig}${body}</div>` : body}
-    <div class="pe-endnote"><p class="pe-ai">Drafted with the help of AI from the public sources listed online, and checked by an editor.</p>${qr(a.path)}</div>
+    <div class="pe-endnote"><p class="pe-methods">An editor checked the article against the public sources listed online.</p>${qr(a.path)}</div>
     ${approved ? '' : '<p class="pe-flag">Awaiting editor approval</p>'}
   </article>`;
 }
@@ -157,7 +156,7 @@ function storyMod(m, s = storyBy[m.slug]) {
     ${byline(s.bylines, s.editor, ` · First published online ${esc(longDate(s.published))}`)}
     ${figs ? `<div class="pe-figs pe-figs-${imgs.length}">${figs}</div>` : wanted}
     <div class="pe-text pe-prose" style="--cols:${cols}" data-fit="${m.flow ? 'flow' : 'report'}"${flowAttr}>${printHtml(s.html)}</div>
-    <div class="pe-endnote">${s.methods ? `<p class="pe-ai">${t(s.methods)}</p>` : ''}${qr(s.href)}</div>
+    <div class="pe-endnote">${s.methods ? `<p class="pe-methods">${t(s.methods)}</p>` : ''}${qr(s.href)}</div>
   </article>`;
 }
 const seriesName = (slug) => seriesBySlug[slug]?.name || '';
@@ -236,10 +235,9 @@ const BOX = {
   reach: () => `<section class="pe-box"><h3>How to reach us</h3><ul class="pe-plain"><li><b>Tips</b> ${esc(short(ORIGIN))}/tips</li><li><b>Letters to the editor</b> ${esc(short(ORIGIN))}/letters</li><li><b>Questions</b> ${esc(short(ORIGIN))}/ask</li><li><b>Corrections</b> ${esc(short(ORIGIN))}/about/corrections</li></ul></section>`,
 
   'how-we-work': () => `<section class="pe-box pe-how"><h3>How this paper works</h3><div class="pe-how-cols">
-    <div><h4>Two people on every story</h4><p>A named person writes every story and a different person, an editor, approves it before it runs. Nobody approves their own work.</p>
-      <h4>Sources</h4><p>Every story names who wrote it, who edited it and where the facts came from. The code at the end of each story opens it online with its sources.</p>
+    <div><h4>Two people on every story</h4><p>A named person writes every story and a different person, an editor, approves it before it runs. Nobody approves their own work.</p></div>
+    <div><h4>Sources</h4><p>Every story names who wrote it, who edited it and where the facts came from. The code at the end of each story opens it online with its sources.</p>
       <h4>Corrections</h4><p>When we get a fact wrong we fix it and say so, with the date. Corrections are never deleted.</p></div>
-    <div class="pe-how-ai"><h4>How we use AI</h4><ul>${AI_POLICY.map((l) => `<li>${t(l.replace(/"([^"]*)"/g, '“$1”'))}</li>`).join('')}</ul></div>
     <div><h4>What our labels mean</h4><dl>${Object.entries(LABELS).filter(([l]) => l !== 'Sponsored').map(([l, d]) => `<dt>${t(l)}</dt><dd>${t(d)}</dd>`).join('')}</dl></div>
   </div><p class="pe-fine">The whole of it, with the ethics code we follow: ${esc(short(ORIGIN))}/about/standards</p></section>`,
 
@@ -256,7 +254,6 @@ const BOX = {
   standards: () => `<section class="pe-box pe-standards"><h3>Our standards, in brief</h3>
     <p><b>Sources.</b> Every story names who wrote it, who edited it and where the facts came from. The code at the end of each story opens it online with its sources.</p>
     <p><b>Corrections.</b> When we get a fact wrong we fix it and say so, with the date. Corrections are never deleted.</p>
-    <p><b>AI.</b> ${t(AI_POLICY.slice(0, 4).join(' '))}</p>
     <p class="pe-fine">The full standards: ${esc(short(ORIGIN))}/about/standards</p></section>`,
 
   results: () => {

@@ -56,7 +56,7 @@ images:
     credit: Eli Wire
     creditUrl: https://www.instagram.com/eliwire/
     license: Staff photo
-methods: Tickets were a gift from Eli's cousins, who have half season tickets. Jake wrote this story and revised it with the help of ChatGPT; the experiences, opinions and ratings are his, and Eli Wire checked it as editor.
+methods: Tickets were a gift from Eli's cousins, who have half season tickets. Jake wrote this story from his own experience and gave the ratings. Eli Wire reviewed it as editor.
 ---
 
 Eli and I had just found our way back to friendship. Less than a week before the game, we ran into each other at her birthday party. I told her, “Life’s short,” and gave her a hug. Simple as that.

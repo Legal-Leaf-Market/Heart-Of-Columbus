@@ -110,7 +110,7 @@ body:has(.pe-paper) { background: #d6d1c6; }
 
 /* QR codes and the line that ends every story */
 .pe-endnote { flex: none; display: flex; align-items: center; gap: 9pt; margin-top: 6pt; padding-top: 5pt; border-top: 0.5pt solid #cfc9be; }
-.pe-ai { flex: 1; font: italic 7pt/1.3 var(--pe-serif) !important; color: var(--pe-gray); }
+.pe-methods { flex: 1; font: italic 7pt/1.3 var(--pe-serif) !important; color: var(--pe-gray); }
 .pe-qr { flex: none; display: flex; align-items: center; gap: 6pt; }
 .pe-qr-code { width: 0.68in; height: 0.68in; flex: none; display: block; }
 .pe-qr p { font: 7pt/1.25 var(--pe-sans); max-width: 1.5in; }
@@ -252,8 +252,6 @@ body:has(.pe-paper) { background: #d6d1c6; }
 .pe-how-cols { display: grid; grid-template-columns: 1.1fr 1.5fr 1.4fr; gap: var(--pe-gap); font: 8pt/1.35 var(--pe-sans); }
 .pe-how-cols > div + div { border-left: 0.5pt solid var(--pe-hair); padding-left: var(--pe-gap); }
 .pe-how-cols h4:first-child { margin-top: 0; }
-.pe-how-ai ul { padding-left: 1em; }
-.pe-how-ai li + li { margin-top: 2pt; }
 .pe-how dl { display: grid; grid-template-columns: auto 1fr; gap: 2pt 8pt; margin: 0; }
 .pe-how dt { font-weight: 800; color: var(--pe-red); }
 .pe-how dd { margin: 0; }
