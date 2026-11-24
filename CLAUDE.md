@@ -233,6 +233,12 @@ Indiana. A pitch, not a live service. See README.md.
 - **Claude never writes news.** No stories, quotes, headlines, obituaries,
   letters or newsletters about real people, businesses or events. Build the
   templates, tools and tests; a named person writes and the editor approves.
+  Exception, granted by the owner on 2026-11-24: Claude may write and expand
+  history articles (`src/data/history/`) and guide-page copy, but only from
+  sources it has actually read in that session, cited with the article. Never
+  from memory; a source it cannot reach stays out. The editor's sign-off
+  still applies, and news, obituaries and quotes not printed in a source are
+  still off limits.
 - **Sample content must look fake** (Sampleton, "Sample Reporter") and carry
   `sample: true`; it never appears in a published section.
 - **Automation makes leads, not stories.** Directory diffs and public-record
