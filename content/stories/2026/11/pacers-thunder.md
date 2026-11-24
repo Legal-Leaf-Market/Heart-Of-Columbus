@@ -72,6 +72,6 @@ They had an elementary choir sing the national anthem and a middle school aged d
 
 I was truly impressed.
 
-[Who should go, and your one tip for next time.]
+Everyone should go, every single Hoosier and foreigner.
 
 **Overall: 5 out of 5**
