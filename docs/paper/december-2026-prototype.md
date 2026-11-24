@@ -12,6 +12,46 @@ below are ready to lay out (they are approved articles from the site), and
 each news story comes with a sourced fact brief for its writer, not a
 finished story.
 
+## The edition is built: /print/2026-12/
+
+The whole paper is laid out on the site, at tabloid size, ready to print from
+a browser:
+
+- **`/print/2026-12/`** is the edition, all 16 pages. Open it, wait for the
+  toolbar to say "All 16 pages fit", then print: paper size Tabloid (11 by
+  17), margins None, scale 100%, background graphics on, save as PDF. That
+  PDF is what goes to the printer.
+- **`/print/2026-12/status/`** lists every piece, page by page, as Ready,
+  Draft or Missing, with what each writer owes, and the checklist below.
+- **`node scripts/print-pdf.mjs`** makes the same PDF from the command line
+  and checks it: pages that run long, photos under 200 pixels per inch, and
+  the page count. `--shots dir` saves a picture of every page.
+
+How it is put together, so it can be changed:
+
+| File | What it is |
+|---|---|
+| `src/print/edition-2026-12.mjs` | The page plan: every page, row and module. Change the paper here. |
+| `src/print/briefs.mjs` | The four news briefs (A to D below), shown in each news slot until the story arrives. |
+| `content/print/2026-12/*.md` | The writers' stories, one file per slot. Its README lists the slots, writers, editors and lengths. |
+| `src/pages/print-pages.mjs` | Builds the pages from the plan, the approved history, the published stories and the site's data. |
+| `public/css/print-edition.css` | The paper: 11 by 17, five columns, Fraunces headlines, Newsreader body type at 9.5 points. |
+| `public/js/print-edition.js` | Fits the pages in the browser: trims history at a sentence with a "the rest is online" line, balances short stories across their columns, fills the calendar from the live feeds, and fills short columns with history cards and house ads. Anything that still does not fit is outlined in pink and listed. |
+| `src/print/almanac.mjs`, `src/print/puzzles.mjs` | Sunrise, sunset and the solstice (computed, not looked up), and the crossword and word search (built from our own pages; a test checks every clue). |
+| `public/print-media/` | Local copies of the Wikimedia photos the edition uses (`node scripts/print-photos.mjs`), so the PDF never waits on Wikimedia. |
+
+What changed from the first plan, once the real lengths were in: Back YOUR
+Blue is 429 words, so it takes page 8 with a photo slot for Kevin Lee Kennedy
+and the reader coupon, and Jake Takes the Town moved up to page 9 (pages 8
+and 9 are still the center spread). Page 10 became **Free in Columbus this
+winter** (free places, ten landmarks to see from the sidewalk, the Visitors
+Center and tours, all from the site's sourced guide data). Page 6 runs four
+of the papers history pieces, page 7 the 2008 flood and the glass newsroom.
+Pages 4 and 5 carry a full civic history piece each under the news, page 12
+adds the restaurants that take orders on their own websites, and page 16
+gives half a page to a reader survey: what to keep, what to skip, would you
+pick one up every month.
+
 ## The format
 
 - **Newspaper, tabloid size** (about 11 by 17 inches, folded once), not
@@ -35,9 +75,10 @@ finished story.
 | 3 | **What "Vote yes" was about:** the BCSC operating referendum. | Jake or a reporter | Brief B. A small "what it costs, what it pays for" box. |
 | 4 | **Election results,** Bartholomew County, November 3, 2026. Table of races plus a short summary. | Reporter | Brief C. Use certified numbers from the county clerk. |
 | 5 | **Sleeping outside is now a crime in Indiana:** the state camping law and what Columbus is doing. Plus the **Help in Columbus** box (911, 211, 988, shelters). | Reporter | Brief D. The help box comes from the site's sourced Help data. |
-| 6 to 7 | **History centerspread: Columbus in print.** "Before the Republican: the first Columbus papers" (papers/columbus-argues-in-print, about 10 column inches) and "A newspaper you could watch being printed" (1970s/the-republic-glass-newsroom, about 10). Plus "The day Haw Creek came through town" (2000s/flood-of-2008, about 12), which ties to the riverfront. | Approved history (Claude drafted, Jake approved) | Ready now. Check `signoff.mjs` before print. |
-| 8 to 9 | **Back YOUR Blue:** Jake's tribute to his father, laid out big, and the call for readers' stories (mail-in coupon and QR). | Jake (already published, edited by Adelaide Kennedy) | Reuse as published. |
-| 10 | **Jake Takes the Town:** a December column on the events he goes to. | Jake | His series. |
+| 6 to 7 | **History: Columbus in print.** (As built: page 6 runs four papers pieces; page 7 the flood and the glass newsroom.) "Before the Republican: the first Columbus papers" (papers/columbus-argues-in-print, about 10 column inches) and "A newspaper you could watch being printed" (1970s/the-republic-glass-newsroom, about 10). Plus "The day Haw Creek came through town" (2000s/flood-of-2008, about 12), which ties to the riverfront. | Approved history (Claude drafted, Jake approved) | Ready now. Check `signoff.mjs` before print. |
+| 8 | **Back YOUR Blue:** Jake's tribute to his father, laid out big, and the call for readers' stories (coupon and QR). | Jake (already published, edited by Adelaide Kennedy) | Reuse as published. Photo of Kevin wanted. |
+| 9 | **Jake Takes the Town:** a December column on the events he goes to. Until he files one, the Pacers story runs. | Jake | His series. |
+| 10 | **Free in Columbus this winter.** | Guide data from the site | Every listing sourced and dated. |
 | 11 | **What's on in December:** library, parks, Arts Council and signature events. | Generated from the site's events data, then checked | Every listing links to its organizer. |
 | 12 | **Shop small, order direct:** how to buy from local shops without the app fees; the "Keep it in Columbus" math; gift cards. | Guide copy (Claude can draft) | No business pictured without its own approved photo. |
 | 13 | **Sports:** North and East winter sports; Indiana Sentinels history piece (2020s/indiana-sentinels). | Reporter plus approved history | |
@@ -229,13 +270,14 @@ The Republic is printed on) becomes cheaper per copy; get a quote.
 
 1. **Lock the page plan** (this document) and assign every page a writer and
    an editor. Two-person rule: nobody edits their own story.
-2. **Get the printer's spec sheet first**: trim size, bleed (usually 1/8 inch),
-   safe margins, color (CMYK), photos at 300 dpi at printed size, fonts
-   embedded, PDF/X export.
-3. **Lay it out** in Affinity Publisher (one-time purchase), Adobe InDesign,
-   or Canva (has newspaper templates; fine for a prototype). Start from a
-   5 column tabloid grid. The site's print metadata gives each history
-   article's length in column inches, so it is easy to fit.
+2. **Get the printer's spec sheet first**: trim size, bleed, safe margins,
+   color, photo resolution, fonts embedded, PDF/X export. Our PDF is 11 by 17
+   with everything inside a half inch margin, so it needs no bleed; it is
+   RGB, which most short run newspaper printers convert (ask). Newsprint
+   prints at 85 to 100 lines per inch, so 200 pixels per inch is plenty; the
+   stand in Wikimedia photos are about 180 to 210.
+3. **Lay it out:** done, on the site (above). Writers add their files to
+   `content/print/2026-12/`; the status page says what is still missing.
 4. **Order one proof copy**, read it on paper, fix, then order the run.
 5. **Distribute by hand** at December gatherings, and ask a few friendly
    local shops (coffee shops, the bookstore) if they'll keep a small stack.

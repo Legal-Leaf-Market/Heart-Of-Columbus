@@ -38,6 +38,7 @@ import { paperPages } from './src/pages/paper-pages.mjs';
 import { sportsPages } from './src/pages/sports-pages.mjs';
 import { helpPages, helpDockJson } from './src/pages/help-pages.mjs';
 import { historyPages, articlesJson } from './src/pages/history-pages.mjs';
+import { printPages } from './src/pages/print-pages.mjs';
 import { searchIndex } from './src/site.mjs';
 import { newsPages } from './src/pages/news-pages.mjs';
 import { cmsConfig } from './src/news/cms.mjs';
@@ -96,6 +97,7 @@ const pages = [
   ...helpPages({ assets }),
   ...historyPages({ assets }),
   ...skatePages({ assets }),
+  ...printPages({ assets }),
 ];
 await mkdir(new URL('data/', out), { recursive: true });
 await writeFile(new URL('data/directory.json', out), JSON.stringify(searchIndex()));
