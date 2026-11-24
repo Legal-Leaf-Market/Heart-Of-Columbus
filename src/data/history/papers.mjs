@@ -26,7 +26,7 @@ export const PAPERS = [
     ],
     sources: [LDS, HSC] }),
 
-  x({ slug: 'the-republican-arrives', when: '1872',
+  x({ checked: '2026-11-24', slug: 'the-republican-arrives', when: '1872',
     title: 'The Republican arrives, and stays',
     dek: 'On April 4, 1872, Isaac T. Brown published the first Columbus Republican. It became a daily in 1877, the Evening Republican in 1883 and The Republic in 1967, with a Brown in charge for 143 years.',
     body: [

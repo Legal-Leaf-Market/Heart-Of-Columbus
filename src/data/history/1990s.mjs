@@ -34,7 +34,7 @@ export const A1990s = [
     ],
     sources: [['Cummins Engine Co Inc, Reference for Business', 'https://www.referenceforbusiness.com/history2/41/Cummins-Engine-Co-Inc.html'], ['Cummins, Wikipedia', WP + 'Cummins'], ['Henry Schacht, Wikipedia', WP + 'Henry_Schacht'], ['James A. Henderson, Wikipedia', WP + 'James_A._Henderson'], ['Tim Solso, Wikipedia', WP + 'Tim_Solso']] }),
 
-  x({ slug: 'columbus-regional-hospital', when: '1992', section: 'civic',
+  x({ checked: '2026-11-24', slug: 'columbus-regional-hospital', when: '1992', section: 'civic',
     title: 'The county hospital takes a new name',
     dek: 'A $40 million expansion began in 1990, and in 1992 Bartholomew County Hospital became Columbus Regional Hospital. A free clinic for people without insurance followed in 1996.',
     body: [
@@ -102,7 +102,7 @@ export const A1990s = [
     ],
     sources: [['Bartholomew County Memorial for Veterans, Charles Rose Architects project data', 'https://archive.charlesrosearchitects.com/wp-content/uploads/2012/06/Memorial_Columbus_Data_Pages.pdf'], ['Bartholomew County Memorial for Veterans, The Clio', 'https://theclio.com/entry/115101'], ['The Bartholomew County Memorial for Veterans, The American Legion', 'https://www.legion.org/memorials/united-states/indiana/united-states-indiana-the-bartholomew-county-memorial-for-veterans/']] }),
 
-  x({ slug: 'kidscommons-opens', when: '1998', section: 'schools',
+  x({ checked: '2026-11-24', slug: 'kidscommons-opens', when: '1998', section: 'schools',
     title: 'A children’s museum in the mall',
     dek: 'After about three years of planning, a group of citizens opened kidscommons in The Commons in 1998. In 2005 it moved into the old J.C. Penney store on Washington Street.',
     body: [
@@ -112,9 +112,9 @@ export const A1990s = [
       'One of the most popular spots, by Kid at Art’s account, was the bubble tank, a giant vat where many children at once could see who made the biggest bubble. In 2000 the museum sponsored the American division of the Living in the Mirror Mail Art Show.',
       '## Moving up Washington Street',
       'It outgrew the space. On October 1, 2005, kidscommons opened at 309 Washington Street, in a building once occupied by the J.C. Penney department store, with about five times the room of the original. Local architect Louis Joyner led the design, with help from Quatrefoil Exhibit Designers of Maryland and people from the Cincinnati Children’s Museum. The museum is made for children from infancy through age twelve.',
-      'The new building has three floors of exhibits, all reachable by ramps and an elevator. The museum’s own list includes a 17 foot climbing wall, the Childhood Garden, Our House-Japan, Kids on the Move and ExploraHouse, home of what the museum calls its “world famous giant toilet.” Its bubble room carries on what the museum calls a favorite exhibit from its early days in the pilot museum.',
+      'The new building has three floors of exhibits, all reachable by ramps and an elevator. The museum’s own list includes a 17 foot climbing wall, the Childhood Garden, Our House-Japan, Kids on the Move and ExploraHouse, home of what the museum calls its “world famous giant toilet.” Its bubble room carries on what the museum calls a favorite exhibit from its early days in the pilot museum. The Republic reported in 2025 that the climbing wall has been closed since 2020.',
       'From the first day the museum also went out to schools, with programs for kindergarten through sixth grade on electricity, insects, bubbles, LEGO robotics, visual arts and recycling. Through the school corporation’s architecture program, every third grader in Bartholomew Consolidated schools comes to kidscommons. The museum takes part in Museums for All, which lowers admission for families eligible for SNAP benefits.',
-      'The Republic later reported plans for a party marking 20 years in the downtown building.',
+      'For the 20th anniversary of the downtown building in October 2025, executive director Whitney Hartwell told The Republic the museum had begun with residents who wanted a place for children to learn through play. Among the educators at the original museum, the paper noted, were Marilyn Brackney and Bridget Steele.',
       'A generation of Columbus kids has now learned about bubbles, robots and buildings there.',
     ],
     sources: [['Mission and history, kidscommons', 'https://www.kidscommons.org/about-us/mission-and-history/'], ['kidscommons, Kid at Art', 'https://www.kid-at-art.com/htdoc/kidscomm.html'], ['kidscommons to celebrate 20 years of fun with anniversary party, The Republic (October 1, 2025)', 'https://www.therepublic.com/2025/10/01/kidscommons-to-celebrate-20-years-of-fun-with-anniversary-party/']] }),

@@ -61,7 +61,7 @@ export const A1970s = [
     ],
     sources: [['Columbus East High School, Wikipedia', WP + 'Columbus_East_High_School'], ['Columbus East lands third football crown, IHSAA', 'https://www.ihsaa.org/media/news/columbus-east-lands-third-football-crown'], ['Indiana big school football champions, Wikipedia', WP + 'Indiana_big_school_football_champions']] }),
 
-  x({ slug: 'sandy-hook-moves-to-taylor-road', when: '1972', section: 'faith',
+  x({ checked: '2026-11-24', slug: 'sandy-hook-moves-to-taylor-road', when: '1972', section: 'faith',
     title: 'A congregation moves by caravan',
     dek: 'On November 24, 1972, the people of Sandy Hook United Methodist Church drove together from their old church on 17th Street to a new one on Taylor Road. The congregation traces its roots to 1892.',
     note: 'Disclosure: Jacob Kennedy, the publisher of Heart of Columbus, volunteers at this church, which he tells us now goes by Haven United Methodist Church, and is joining its staff as music director.',

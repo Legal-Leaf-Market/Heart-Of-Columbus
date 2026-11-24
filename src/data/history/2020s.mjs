@@ -35,12 +35,12 @@ export const A2020s = [
     ],
     sources: [['Afghan evacuees arrive in Indiana, head to Camp Atterbury, U.S. Army (September 3, 2021)', 'https://www.army.mil/article/250010/afghan_evacuees_arrive_in_indiana_head_to_camp_atterbury'], ['Operation Allies Welcome closes at Camp Atterbury, mural unveiled, WRTV (January 2022)', 'https://wrtv.com/news/local-news/johnson-county/operation-allies-welcome-comes-closes-at-camp-atterbury-mural-unveiled']] }),
 
-  x({ slug: 'sri-ganesh-mandir', when: '2022', section: 'faith',
+  x({ checked: '2026-11-24', slug: 'sri-ganesh-mandir', when: '2022', section: 'faith',
     title: 'A temple of their own',
     dek: 'Hindu families in Columbus prayed in churches, schools and apartment clubhouses for decades. On August 28, 2022, about 1,000 people came to dedicate Sri Ganesh Mandir on Goeller Boulevard.',
     body: [
       'For a long time, Hindus in Columbus had nowhere of their own to worship. The Republic reported that in the 1980s they met for prayer at the Briarwood Apartments clubhouse, and that the nearest temple was in Louisville, about 75 miles away. Over the years they also worshiped in Christian churches and schools. A 1987 picnic at what was then Ceraland Park started them talking about a place of their own.',
-      'By the 1990s, a past president of the Hindu Society of Southern Indiana recalled, 25 to 50 Hindu families in Columbus “had a dream.” In 2019, three years before the dedication, more than 1,000 people came to the groundbreaking for Sri Ganesh Mandir, a $1.2 million temple on Goeller Boulevard next to the Unitarian Universalist Congregation of Columbus. The Rev. Nic Cable, the Unitarian minister, said the temple would be part of a Columbus Interfaith Campus.',
+      'By the 1990s, a past president of the Hindu Society of Southern Indiana recalled, 25 to 50 Hindu families in Columbus “had a dream.” In 2019, three years before the dedication, more than 1,000 people came to the groundbreaking for Sri Ganesh Mandir, a $1.2 million temple in the 7800 block of Goeller Boulevard (the paper’s 2022 story calls it Goeller Road), next to the Unitarian Universalist Congregation of Columbus. It was planned then as 8,000 square feet for about 400 people. The Rev. Nic Cable, the Unitarian minister, said the temple would be part of a Columbus Interfaith Campus.',
       '## The dedication',
       'After a soft opening in April 2022, the temple was dedicated on Sunday, August 28, 2022, The Republic reported, and an estimated 1,000 people visited during the day. The 10,000 square foot building sits on two acres. Its name roughly means holy Ganesh’s temple, for the elephant headed god of intelligence, wisdom and prosperity.',
       '“This is indeed a big day,” said Algy Ramasamy, vice president of the society. Mayor Jim Lienhoop called it a “once in a lifetime opportunity” and compared it to the faith that had brought his own ancestors to start St. Peter’s Lutheran Church. At the groundbreaking he had called it a very American thing: people who came from far away for work, bringing their faith with them. Representative Greg Pence closed with a blessing for unity and harmony.',
@@ -74,16 +74,16 @@ export const A2020s = [
     ],
     sources: [['Rumsey succeeds Linebarger as CEO at Cummins, FreightWaves (July 14, 2022)', 'https://freightwaves.com/news/rumsey-succeeds-linebarger-as-ceo-at-cummins'], ['Cummins completes acquisition of Meritor, Cummins', 'https://selfscreening.cummins.com/de-eu/news/releases/2022/08/03/cummins-completes-acquisition-meritor'], ['Meritor, Inc., Wikipedia', WP + 'Arvin_Industries'], ['Arvin merger a disaster, mistake, experts say, Indianapolis Business Journal (2007)', 'https://www.ibj.com/articles/7757-arvin-merger-a-disaster-mistake-experts-say']] }),
 
-  x({ slug: 'the-eclipse', when: '2024', section: 'river',
+  x({ checked: '2026-11-24', slug: 'the-eclipse', when: '2024', section: 'river',
     title: 'Three and a half minutes of night',
     dek: 'On April 8, 2024, the moon covered the sun over Columbus for nearly four minutes. Schools moved a day off to keep the roads clear for the visitors.',
     body: [
-      'On Monday, April 8, 2024, the path of a total solar eclipse crossed Indiana, and Columbus was inside it. According to NationalEclipse.com, totality in Columbus began at 3:05:57 in the afternoon and lasted 3 minutes and 44 seconds. The Republic, citing the Great American Eclipse, put it at about 3 minutes and 50 seconds. Times vary across a city, the site notes.',
+      'On Monday, April 8, 2024, the path of a total solar eclipse crossed Indiana, and Columbus was inside it. According to NationalEclipse.com, totality in Columbus began at 3:05:57 in the afternoon and lasted 3 minutes and 44 seconds. The Republic, citing the Great American Eclipse, put it at about 3 minutes and 50 seconds, and up to about 4 minutes and 28 seconds in the best spots in the area. Times vary across a city, the site notes. Columbus had missed totality in 2017; this time it was in the path.',
       'The shadow raced across the state. NationalEclipse.com says the eclipse entered Indiana at the Wabash River, crossed about 183 miles of the state in 5 minutes and 24 seconds of shadow travel, and moved at an average of 2,038 miles an hour.',
       '## Planning for a crowd',
       'Totality in Columbus fell close to the end of the school day, and city and county officials worried that eclipse visitors could stop traffic. So the Bartholomew Consolidated School Corporation board moved a staff professional development day from March 28 to April 8, The Republic reported, giving students the day off.',
       '“It is something that people want to come and be part of,” Gina Pleak, the district’s assistant superintendent of human resources, told the paper. “And we’ll be welcoming many guests to our community on that day.”',
-      'Weather is part of many Columbus stories, from the flood of 2008 on. This was a gentler one: a few minutes of darkness in the middle of an April afternoon, in a town known for looking at its buildings, with everyone looking up instead.',
+      'Weather is part of many Columbus stories, from the flood of 2008 on. This was a gentler one: a few minutes of darkness in the middle of an April afternoon, in a town known for looking at its buildings, with everyone looking up instead. The paper, citing NASA, noted that the next total eclipse visible in the lower 48 states will not come until August 23, 2044.',
     ],
     sources: [['2024 total solar eclipse in Indiana, NationalEclipse.com', 'https://nationaleclipse.com/states/2024-total-solar-eclipse-indiana.html'], ['BCSC approves calendar change for solar eclipse, The Republic (April 26, 2023)', 'https://www.therepublic.com/2023/04/26/bcsc-approves-calendar-change-for-solar-eclipse/']] }),
 

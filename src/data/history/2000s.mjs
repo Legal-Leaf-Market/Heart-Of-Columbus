@@ -33,12 +33,12 @@ export const A2000s = [
     ],
     sources: [['Arvin merger a disaster, mistake, experts say, Indianapolis Business Journal (February 26, 2007)', 'https://www.ibj.com/articles/7757-arvin-merger-a-disaster-mistake-experts-say'], ['Meritor, Inc., Wikipedia', WP + 'Arvin_Industries'], ['The second wave: Small towns think Japan, The Christian Science Monitor (1987)', 'https://www.csmonitor.com/1987/0511/findy.html']] }),
 
-  x({ slug: 'philharmonic-salute', when: '2000', section: 'culture',
+  x({ checked: '2026-11-24', slug: 'philharmonic-salute', when: '2000', section: 'culture',
     title: 'An orchestra plays at the memorial',
     dek: 'In 2000 the Columbus Indiana Philharmonic played its first Salute! concert at the Memorial for Veterans. The orchestra had come a long way from Columbus Pro Musica.',
     body: [
       'The orchestra began in 1970 as Columbus Pro Musica, incorporated to build community interest in music and to revive the Columbus Symphony Orchestra, according to its history on the Bach Cantatas site. In 1987 it hired a conductor named David Bowden as music director and became the Pro Musica Orchestra, with its first concert under him on September 19, 1987. In 1995 it took the name Columbus Indiana Philharmonic, because the old name confused people.',
-      'Bowden told The Republic that J. Irwin Miller, who played a Stradivarius violin, shaped those early years. In 1988, after Bowden conducted a chamber concert at First Christian Church, Miller led a standing ovation. The next day he asked Bowden to commit to Columbus for ten years. “So I took some time (to think),” Bowden said. “And then I made a commitment.” The Republic later marked Bowden’s 30th season as music director, and called it the city’s first fully professional orchestra.',
+      'Bowden told The Republic that J. Irwin Miller, who played a Stradivarius violin, shaped those early years. In 1988, after Bowden conducted a chamber concert at First Christian Church, Miller led a standing ovation. The next day he asked Bowden to commit to Columbus for ten years. “So I took some time (to think),” Bowden said. “And then I made a commitment.” The Republic later marked Bowden’s 30th season as music director, in 2016, when he was 62 and still the only music director the Philharmonic had had. It called the orchestra the city’s first fully professional one, and noted that in its first 11 years it drew NPR broadcasts and national awards for its programming.',
       '## Salute!',
       'In 2000 the Philharmonic held the first Salute! concert over Memorial Day weekend, staged at the Bartholomew County Memorial for Veterans on the courthouse lawn, among the limestone pillars dedicated three years earlier.',
       'It built more than concerts. A Philharmonic Chorus began in 1987, Adventure Concerts for third and fourth graders in 1988, the Music for Youth Strings program in 1989 and a youth orchestra in 1993. In 1996 it recorded a CD for the Naxos label with the Aeolian Skinner organ at First Christian Church. In 2003 its office moved from The Commons to a 5,000 square foot building at 315 Franklin Street.',
@@ -46,7 +46,7 @@ export const A2000s = [
     ],
     sources: [['Columbus Indiana Philharmonic, Bach Cantatas Website', 'https://bach-cantatas.com/Bio/CIP.htm'], ['Conductor embarks on 30th season with the Philharmonic, The Republic (September 1, 2016)', 'https://www.therepublic.com/2016/09/01/conductor-embarks-on-30th-season-with-the-philharmonic/']] }),
 
-  x({ slug: 'st-bartholomew-new-church', when: '2002', section: 'faith',
+  x({ checked: '2026-11-24', slug: 'st-bartholomew-new-church', when: '2002', section: 'faith',
     title: 'Two parishes, one new church',
     dek: 'On March 5, 2002, St. Bartholomew Catholic Church dedicated a new 900 seat church on 27th Street, uniting the old downtown parish with St. Columba and bringing the old altar and bell along.',
     body: [
@@ -55,7 +55,8 @@ export const A2000s = [
       '## The new church',
       'The new St. Bartholomew at 1306 27th Street was dedicated on March 5, 2002. RATIO Architects of Indianapolis won an invited design competition, with Steven Risting as design principal, and Dunlap and Company of Columbus built it. The sanctuary is shaped like a nautilus shell, with fan shaped seating around the altar, a wood ceiling and copper on the roof and spire. The bell tower was designed for three bells, but one hangs there: the bell that had hung in the downtown church since 1935.',
       'Other pieces came too. The marble altar, built in the 1970s from older side altars, was moved from Eighth Street, along with the Good Shepherd stained glass window. The Rev. Clem Davis locked the doors of the old church at its final service in 2002, The Republic recalled.',
-      'The Republic later described St. Bartholomew as the county’s largest house of worship, with about 2,000 people at four weekly services and a Hispanic ministry of about 450 people at a weekly Spanish service. The old downtown church stood empty until it was torn down around 2020 for apartments, with some of its stained glass saved for display.',
+      'The Republic later described St. Bartholomew as the county’s largest house of worship, with about 2,000 people at four weekly services and a Hispanic ministry of about 450 people at a weekly Spanish service. The parish marked its 175th anniversary in August 2016 with a Mass led by Indianapolis Archbishop Joseph Tobin.',
+      'The old downtown church stood empty for 18 years. In December 2020, after 129 years, it was torn down. The Republic reported that its owner, Rubicon Development of Indianapolis, planned a 60 unit apartment complex on the site and kept some of the stained glass for a lobby display, while most of the windows that could be saved went to the parish.',
     ],
     sources: [['Week 41: St. Bartholomew Catholic Church, 52 Weeks of Columbus, Indiana', 'https://52weeks.rickyberkey.org/2011/11/26/week-41/'], ['A service concluded: Vacant former Catholic church ends lengthy life of faith, The Republic (December 13, 2020)', 'https://www.therepublic.com/2020/12/13/a_service_concluded_vacant_former_catholic_church_ends_lengthy_life_of_faith/'], ['Church’s 175th anniversary highlights contributions to community, The Republic (August 24, 2016)', 'https://www.therepublic.com/2016/08/24/churchs_175th_anniversary_highlights_contributions/']] }),
 
@@ -111,12 +112,13 @@ export const A2000s = [
     ],
     sources: [['IUPUC overview, Indiana University bulletin 2010 to 2012', 'https://bulletins.iu.edu/iupuc/2010-2012w/overview/index.shtml'], ['Columbus Learning Center, Fink Roberts and Petrie', 'https://frpinc.com/projects/columbus-learning-center/'], ['Kevin Kennon, Wikipedia', WP + 'Kevin_Kennon'], ['About the library, Indiana University Columbus', 'https://columbus.iu.edu/library/about.html'], ['List of works by Dale Chihuly, Wikipedia', WP + 'List_of_works_by_Dale_Chihuly'], ['Indiana University Columbus, Wikipedia', WP + 'Indiana_University_Columbus']] }),
 
-  x({ slug: 'flood-of-2008', when: '2008', section: 'river',
+  x({ checked: '2026-11-24', slug: 'flood-of-2008', when: '2008', section: 'river',
     title: 'The day Haw Creek came through town',
     dek: 'On June 7, 2008, more than 10 inches of rain fell on the watersheds above Columbus. Haw Creek flooded the hospital, every patient was evacuated, and the town changed how it plans for water.',
     body: [
       'It had been a wet spring. On Saturday, June 7, 2008, after days of rain upstream, more than 10 inches fell on the watersheds that feed Bartholomew County, The Republic recalled fifteen years later. The first flash flood alert went out at 9:40 a.m. Within an hour the county’s emergency center took its first call for a water rescue. By mid afternoon Interstate 65 and US 31 were closed, and floodwaters had cut off nearly every road into and out of Columbus.',
-      '“I don’t think any of us quite expected what we got. It was catastrophic,” emergency management director Shannon Cooke told the paper.',
+      '“I don’t think any of us quite expected what we got. It was catastrophic,” emergency management director Shannon Cooke, the agency’s deputy director in 2008, told the paper. From noon to 6 p.m. dispatchers took about five calls a minute, and nearly seven a minute after that until close to midnight.',
+      'The next day, June 8, President George W. Bush declared a major disaster, and The Republic reports that Columbus was the hardest hit community in the declaration.',
       '## The hospital',
       'Haw Creek, the small stream that runs through the middle of town, was at the center of it; The Republic says its flooding was worse than federal flood maps had predicted. The U.S. Geological Survey notes that the flash flood hit central Columbus after heavy rain upstream. Columbus Regional Hospital lost power, and water filled its first floor. All 157 patients were evacuated, with help from the Indiana National Guard. Wikipedia puts the hospital’s damage at more than $180 million; the USGS cites $125 million. The hospital opened an interim emergency department in August and reopened on October 27, 2008.',
       'The Republic counted about 2,800 damaged homes, 15 percent of the buildings in Columbus, more than 70 damaged businesses, about 1,000 people in shelters, three deaths and more than $500 million in damage overall.',

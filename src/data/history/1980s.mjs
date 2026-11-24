@@ -45,7 +45,7 @@ export const A1980s = [
     ],
     sources: [['State Championship History, Indiana High School Athletic Association', 'https://www.ihsaa.org/sites/default/files/documents/State%20Championship%20History.pdf'], ['Columbus North High School, Wikipedia', WP + 'Columbus_North_High_School'], ['Columbus East High School, Wikipedia', WP + 'Columbus_East_High_School']] }),
 
-  x({ slug: 'cummins-headquarters-on-the-rail-yard', when: '1983', section: 'industry',
+  x({ checked: '2026-11-24', slug: 'cummins-headquarters-on-the-rail-yard', when: '1983', section: 'industry',
     title: 'Cummins builds its headquarters around its first factory',
     dek: 'In 1983 Cummins moved into a Kevin Roche headquarters on an old downtown rail yard. Rather than tear down its first factory, Roche wrapped the new building around it.',
     body: [
@@ -73,7 +73,7 @@ export const A1980s = [
     ],
     sources: [['Ethnic Expo, City of Columbus', 'https://www.columbus.in.gov/community-development/ethnic-expo/'], ['China, Taiwan Ethnic Expo co hosts, The Republic (April 22, 2016)', 'https://www.therepublic.com/2016/04/22/china_taiwan_ethnic_expo_cohosts/'], ['Iconic former mayor of Columbus dies at 86, WISH TV', 'https://wishtv.com/news/iconic-former-mayor-of-columbus-dies-at-86']] }),
 
-  x({ slug: 'the-japan-strategy', when: '1987', section: 'industry',
+  x({ checked: '2026-11-24', slug: 'the-japan-strategy', when: '1987', section: 'industry',
     title: 'A mayor goes to Japan, and to a funeral',
     dek: 'In the 1980s Columbus set out to find employers beyond Cummins and Arvin. Mayor Bob Stewart traveled to Japan, and one gesture helped land a wheel plant.',
     body: [
@@ -126,7 +126,7 @@ export const A1980s = [
     ],
     sources: [['Mike Pence, Wikipedia', WP + 'Mike_Pence'], ['First run, Roll Call (2004)', 'https://www.rollcall.com/2004/05/11/first-run/'], ['Electoral history of Mike Pence, Wikipedia', WP + 'Electoral_history_of_Mike_Pence'], ['Columbus North High School, Wikipedia', WP + 'Columbus_North_High_School']] }),
 
-  x({ slug: 'ntn-comes-to-walesboro', when: '1989', section: 'industry',
+  x({ checked: '2026-11-24', slug: 'ntn-comes-to-walesboro', when: '1989', section: 'industry',
     title: 'NTN makes a mega investment',
     dek: 'In 1989 the Japanese bearing maker NTN announced a $97 million plant in Columbus with 250 jobs. It grew into the county’s second largest employer.',
     body: [

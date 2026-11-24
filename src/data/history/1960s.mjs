@@ -20,7 +20,7 @@ export const A1960s = [
     ],
     sources: [['Mabel McDowell School, National Historic Landmark nomination, National Park Service', 'https://npgallery.nps.gov/NRHP/GetAsset/NHLS/01000068_text'], ['Building information, Mabel McDowell (BCSC)', 'https://mcdowell.bcscschools.org/about/building-information'], ['Mabel McDowell Elementary School, Wikipedia', WP + 'Mabel_McDowell_Elementary_School'], ['John Carl Warnecke, Wikipedia', WP + 'John_Carl_Warnecke']] }),
 
-  x({ slug: 'north-christian-church-dedicated', when: '1964', section: 'architecture', landmark: 'northchristian',
+  x({ checked: '2026-11-24', slug: 'north-christian-church-dedicated', when: '1964', section: 'architecture', landmark: 'northchristian',
     title: 'Saarinen’s last building',
     dek: 'Eero Saarinen finished the design for North Christian Church in July 1961 and died that September. His associates built it. It was dedicated in April 1964.',
     body: [
@@ -33,7 +33,7 @@ export const A1960s = [
     ],
     sources: [['North Christian Church, Wikipedia', WP + 'North_Christian_Church'], ['The LEX (formerly North Christian Church), Visit Columbus Indiana', 'https://visitcolumbusindiana.com/directory/the-lex-formerly-north-christian-church/']] }),
 
-  x({ slug: 'otter-creek-golf-course', when: '1964', section: 'sports',
+  x({ checked: '2026-11-24', slug: 'otter-creek-golf-course', when: '1964', section: 'sports',
     title: 'Cummins builds the town a golf course',
     dek: 'Cummins hired Robert Trent Jones Sr. to design a public course and gave it to the city. It hosted the Indiana State Amateur for 26 straight years, and new owners are now rebuilding it.',
     body: [
@@ -67,7 +67,7 @@ export const A1960s = [
     ],
     sources: [['First Baptist Church (Columbus, Indiana), Wikipedia', WP + 'First_Baptist_Church_(Columbus,_Indiana)'], ['First Baptist Church, Docomomo US', 'https://www.docomomo-us.org/register/first-baptist-church'], WEESE] }),
 
-  x({ slug: 'lincoln-elementary-and-lady-bird', when: '1967', section: 'schools',
+  x({ checked: '2026-11-24', slug: 'lincoln-elementary-and-lady-bird', when: '1967', section: 'schools',
     title: 'The First Lady comes to Lincoln School',
     dek: 'In September 1967 Lady Bird Johnson came to Columbus to dedicate a new elementary school by Gunnar Birkerts. She praised the town’s buildings as “such a Symphony of Stone.”',
     body: [
@@ -98,7 +98,7 @@ export const A1960s = [
     ],
     sources: [['Fire Station Number 4 (Columbus, Indiana), Wikipedia', WP + 'Fire_Station_Number_4_(Columbus,_Indiana)'], ['Fire stations, Visit Columbus Indiana', 'https://columbus.in.us/art-architecture/fire-stations'], ['History of the Columbus Fire Department, City of Columbus', 'https://www.columbus.in.gov/fire/about/history-of-the-columbus-fire-department/']] }),
 
-  x({ slug: 'evening-republican-becomes-the-republic', when: '1967', section: 'media',
+  x({ checked: '2026-11-24', slug: 'evening-republican-becomes-the-republic', when: '1967', section: 'media',
     title: 'The Evening Republican becomes The Republic',
     dek: 'For 84 years the town’s daily was the Evening Republican. In January 1967 it shortened its name to the one it still has.',
     body: [
@@ -111,7 +111,7 @@ export const A1960s = [
     ],
     sources: [['The Republic (Columbus, Indiana), Wikipedia', WP + 'The_Republic_(Columbus,_Indiana)'], ['A history of The Republic: 1872 to today, The Republic (April 4, 2022)', 'https://www.therepublic.com/2022/04/04/a-history-of-the-republic-1872-to-today/'], ['Bartholomew County, Indiana newspapers, Linkpendium / ldsgenealogy.com', 'https://ldsgenealogy.com/IN/Bartholomew-County-Newspapers-and-Obituaries.htm']] }),
 
-  x({ slug: 'cummins-technical-center', when: '1967', section: 'industry',
+  x({ checked: '2026-11-24', slug: 'cummins-technical-center', when: '1967', section: 'industry',
     title: 'Where Cummins designs the next engine',
     dek: 'Built from 1964 to 1967 on McKinley Avenue, the Cummins Technical Center gave the company its own research campus in Columbus. Harry Weese designed it.',
     body: [
@@ -141,7 +141,7 @@ export const A1960s = [
     ],
     sources: [['71st Special Operations Squadron, Wikipedia', WP + '71st_Special_Operations_Squadron'], ['Airport history, City of Columbus', 'https://www.columbus.in.gov/airport/about/history'], ['Atterbury Army Air Field historical marker, Indiana Historical Bureau', 'https://www.in.gov/history/markers/528.htm']] }),
 
-  x({ slug: 'cleo-rogers-library', when: '1969', section: 'architecture', landmark: 'library',
+  x({ checked: '2026-11-24', slug: 'cleo-rogers-library', when: '1969', section: 'architecture', landmark: 'library',
     title: 'I. M. Pei builds the library, and a street disappears',
     dek: 'To build its new library, Columbus closed a block of Lafayette Avenue and hired I. M. Pei. The library opened in 1969; Henry Moore’s Large Arch arrived in 1971.',
     body: [
