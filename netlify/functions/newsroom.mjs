@@ -1,5 +1,5 @@
-// /api/newsroom: reader questions (/ask/), letters to the editor (/letters/)
-// and tips (/tips/). Each is stored in Netlify Blobs for an editor to read;
+// /api/newsroom: reader questions (/ask/), letters to the editor (/letters/),
+// tips (/tips/) and Back YOUR Blue thank you stories (/news/series/back-your-blue/). Each is stored in Netlify Blobs for an editor to read;
 // nothing is published automatically. Adapted from claim.mjs.
 //
 // Privacy: we keep only what the form asks for. No IP address, user agent
@@ -25,6 +25,13 @@ const KINDS = {
     check: (x) => (EMAIL.test(x.email) || x.phone ? '' : 'Add an email or phone so the editor can confirm you wrote it.'),
   },
   tip: { fields: { tip: 4000, contact: 200 }, need: [['tip', 'What should we know?']] },
+  // A thank you story about someone who served. Runs only after the editor
+  // talks with the writer; `ok` is their yes to publishing it with their name.
+  blue: {
+    fields: { person: 120, role: 40, agency: 160, story: 6000, name: 80, relation: 80, town: 80, email: 120, phone: 30, photo: 10, ok: 10 },
+    need: [['person', 'Who is your story about?'], ['story', 'Please write your story.'], ['name', 'Stories run with the writer’s name.'], ['ok', 'Please check the box so we may publish it with your name.']],
+    check: (x) => (EMAIL.test(x.email) || x.phone ? '' : 'Add an email or phone so the editor can reach you before it runs.'),
+  },
 };
 
 function sameKey(a, b) {

@@ -339,11 +339,15 @@ ${b.also.map((a) => `<section class="wrap also-wrap" id="also-${a.cat}"><div cla
   <p><a class="btn" href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.cta)} on their site ↗</a></p>
   <p class="fine">From ${t(b.name)}’s own page, checked ${longDate(b.own?.checked || '')}. Quotes, dates and payment are handled by ${t(b.name)}, not Heart of Columbus.</p>
 </div></section>`).join('')}
-${b.feed ? `<section class="wrap shop-sec" id="shop"><p class="kicker">Live from their store</p><h2>Shop ${t(b.name)} online</h2>
-  <p class="sub">${b.platform === 'squarespace-commerce'
+${b.feed || (b.snap && b.snap.kind === 'shop') ? `<section class="wrap shop-sec" id="shop"><p class="kicker">${b.feed ? 'Live from their store' : 'From their website'}</p><h2>Shop ${t(b.name)} online</h2>
+  <p class="sub">${!b.feed ? `Their products and prices as their own website lists them, saved ${longDate(b.snap.checked)}. Add what you want to your list here, then buy each one on their site; prices and stock there are the final word.`
+    : b.platform === 'squarespace-commerce'
     ? 'Their real products and prices, read from their own online store. Add what you want to your list here, then buy each one on their site: their store has no way to take a whole cart from another site.'
     : 'Their real products and prices, read from their own online store. Add to your cart here, then check out on their site with everything already in the cart. Choose pickup there if they offer it.'}</p>
   <div ${shopAttrs(b)}><p class="muted">Loading their store…</p></div></section>` : ''}
+${b.snap && b.snap.kind === 'menu' ? `<section class="wrap shop-sec" id="menu"><p class="kicker">From their website</p><h2>${t(b.name)}’s menu</h2>
+  <p class="sub">Dishes and prices as their own website lists them, saved ${longDate(b.snap.checked)}. Prices can change; their menu is the final word.</p>
+  <div data-menu="${b.slug}" data-order="${esc((b.order[0] && b.order[0].url) || b.website || '')}" data-order-label="${esc(b.order[0] ? 'Order on their site' : 'Their website')}"><p class="muted">Loading their menu…</p></div></section>` : ''}
 ${inSection(b, 'events') ? rail('Plan the rest of the day', '/plan/', planTheDay(b), { kicker: `${catBySlug.events.emoji} Events & Weddings`, id: 'plan-the-day' }) : ''}
 ${b.cat === 'events' ? '' : rail(`More ${sub.label.toLowerCase()}`, `/c/${cat.slug}/${cat.subs.length > 1 ? sub.slug + '/' : ''}`, same.slice(0, 14))}
 ${rail('Close by', area ? `/n/${area.slug}/` : '', near)}
@@ -475,12 +479,13 @@ ${footer()}`;
 }
 
 // Pickup details for the cart: the address and hours the page already shows.
-const shopAttrs = (b) => `data-shop="${b.slug}" data-name="${esc(b.name)}"${b.address ? ` data-address="${esc(b.address)}"` : ''}${b.hours ? ` data-hours='${JSON.stringify(b.hours)}'` : ''}`;
+const shopAttrs = (b) => `data-shop="${b.slug}" data-name="${esc(b.name)}"${b.snap ? ` data-snap="${b.snap.checked}"` : ''}${b.feed ? ' data-live' : ''}${b.address ? ` data-address="${esc(b.address)}"` : ''}${b.hours ? ` data-hours='${JSON.stringify(b.hours)}'` : ''}`;
 
 function orderPage({ assets }) {
   const order = directory.filter((b) => b.order.length);
   const book = directory.filter((b) => b.book.length);
-  const shops = directory.filter((b) => b.feed);
+  const shops = directory.filter((b) => b.feed || (b.snap && b.snap.kind === 'shop'));
+  const menus = directory.filter((b) => b.snap && b.snap.kind === 'menu');
   const stores = directory.filter((b) => b.store);
   const body = `
 ${header('order')}
@@ -497,6 +502,8 @@ ${shops.length ? `<section class="wrap shop-sec" id="shop"><p class="kicker">One
   <p class="sub">Live products from local shops that sell on their own websites. Fill one cart across all of them, then each shop checks you out on its own site. Picking up? Your cart lists every stop and routes them in one map.</p>
   ${shops.map((b) => `<div class="shop-block"><div class="shop-block-h"><h3><a href="/b/${b.slug}/">${t(b.name)}</a></h3><a class="see-all" href="/b/${b.slug}/#shop">Their whole store ${svg('arrow', 'ic-sm')}</a></div><div ${shopAttrs(b)} data-limit="8"><p class="muted">Loading…</p></div></div>`).join('')}
 </section>` : ''}
+${menus.length ? `<section class="wrap list" id="menus"><div class="sec-head"><p class="kicker">From their own websites</p><h2>Look at the menu before you go</h2><p class="sub">Menus and prices as each restaurant’s own website lists them, saved by our daily check. Order or call them directly.</p></div>
+  <div class="menu-links">${menus.map((b) => `<a class="menu-link" href="/b/${b.slug}/#menu"><strong>${t(b.name)}</strong><span>${b.snap.items} items</span></a>`).join('')}</div></section>` : ''}
 ${stores.length ? `<section class="wrap list" id="stores"><div class="sec-head"><p class="kicker">Their own web shops</p><h2>More local stores that sell online</h2><p class="sub">These shops sell on their own websites. Tap through to buy from them directly.</p></div>${listGrid(stores)}</section>` : ''}
 <section class="wrap list" id="order"><div class="sec-head"><p class="kicker">Food and drink</p><h2>Order pickup direct</h2></div>${listGrid(order)}</section>
 <section class="wrap list" id="book"><div class="sec-head"><p class="kicker">Appointments</p><h2>Book online</h2></div>${listGrid(book)}</section>

@@ -15,6 +15,7 @@ import { DORA_SLUGS } from './dora.mjs';
 import { GEO } from './geo.mjs';
 import { ADDED } from './added.mjs';
 import { MEMBERS } from './members.mjs';
+import { CATALOGS } from './catalogs.mjs';
 import { OWN_FACTS } from './own-facts.mjs';
 import { excludedForOwnership } from './ownership.mjs';
 
@@ -221,6 +222,8 @@ for (const b of all) {
   b.order = c ? c.order || [] : [];
   b.book = c ? c.book || [] : b.added ? b.added.book || [] : [];
   b.feed = !!(c && c.feed);
+  // A saved catalog or menu from the daily store crawl (public/catalogs/).
+  b.snap = CATALOGS[b.slug] || null;
   b.store = c && c.store ? c.store : '';
   b.gift = c && c.gift ? c.gift : null;
   b.platform = c ? c.platform || '' : '';
