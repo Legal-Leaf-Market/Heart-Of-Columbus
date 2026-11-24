@@ -52,7 +52,7 @@ export const A1950s = [
     ],
     sources: [['Cummins Diesel Indy 500 Racers, Old Machine Press (2019)', 'https://oldmachinepress.com/2019/01/20/cummins-diesel-indy-500-racers/'], ['Cummins Starts Up History With 1952 Indy Car, Transport Topics (2016)', 'https://www.ttnews.com/articles/cummins-starts-history-1952-indy-car']] }),
 
-  x({ slug: 'county-hospital-grows', when: '1953', section: 'civic',
+  x({ checked: '2026-11-24', slug: 'county-hospital-grows', when: '1953', section: 'civic',
     title: 'The county hospital keeps adding wings',
     dek: 'Bartholomew County Hospital opened with 32 beds in 1917. As Columbus grew after the war, the county kept building on.',
     body: [
@@ -60,7 +60,10 @@ export const A1950s = [
       'Then the town started to grow. Columbus counted 11,738 people in the 1940 census and 18,370 in 1950, an increase of more than half in ten years. The hospital grew with it.',
       'A south wing in 1945 raised capacity to 75 beds. In 1949 the county commissioners approved a $780,000 expansion that brought the hospital to 129 beds. In 1953 a $1.7 million project added two three story wings and raised the count to 142. In 1959 another 39 beds were added, along with remodeling of the second floor and the emergency room, at a cost of $911,000.',
       'Wikipedia notes one birth in that era that later made national news: Mike Pence, who would become governor of Indiana and vice president of the United States, was born at Bartholomew County Hospital on June 7, 1959.',
-      'The building kept changing. In 1968, $3.7 million in bonds paid for the five story, 108 bed Murphy Pavilion, named for administrator Olive Murphy. The hospital was renamed Columbus Regional Hospital in 1992. In June 2008 a record flood closed it for months, and the system that runs it took the name Columbus Regional Health in 2011.',
+      '## The building since',
+      'The building kept changing. In 1968, $3.7 million in bonds paid for the five story, 108 bed Murphy Pavilion, named for administrator Olive Murphy. The hospital was renamed Columbus Regional Hospital in 1992.',
+      'Its hardest day came on June 7, 2008, when a record flood swamped the campus. Wikipedia reports that 157 patients were evacuated and the hospital shut down, with damage of more than $180 million; the laboratory, pharmacy, kitchens and the mechanical and electrical systems were wrecked. An interim emergency department opened that August, and the rebuilt hospital reopened on October 27, 2008.',
+      'In 2011 the system that runs it took the name Columbus Regional Health. In 2012, with backing from the Federal Emergency Management Agency, 15 flood gates were installed around the campus to keep the water out next time. Wikipedia describes it today as a 225 bed not for profit hospital serving a ten county region, with about 1,650 employees.',
       'In the 1950s, though, the story was simpler. A growing factory town needed more hospital beds, and the county kept pouring concrete to provide them.',
     ],
     sources: [CRH_100, ['Columbus Regional Health, Wikipedia', WP + 'Columbus_Regional_Health'], ['Columbus, Indiana (census figures), Wikipedia', WP + 'Columbus,_Indiana']] }),
