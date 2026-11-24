@@ -33,6 +33,15 @@ export const STAFF = {
     // TODO(owner): name an editor, then set this back to false if you like.
     editor: true,
   },
+  'eli-wire': {
+    name: 'Eli Wire',
+    role: 'Official Photographer',
+    beat: '',
+    // Named by Jake Kennedy, 2026-11-24. TODO(owner): a bio in Eli's own words.
+    bio: 'The official photographer of Heart of Columbus. Her work is on Instagram at @eliwire.',
+    email: '',
+    editor: false,
+  },
 };
 
 // Made-up people for templates and tests only, in a made-up town. They never

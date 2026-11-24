@@ -14,7 +14,7 @@ images:
     caption: Friends for life, some things never change.
     credit: Eli Wire
     creditUrl: https://www.instagram.com/eliwire/
-    license: Used with permission
+    license: Staff photo
   - file: /news-media/2026/11/pacers-thunder-upper-level.jpg
     alt: A packed arena seen from the upper level, with the Pacers and Thunder on the court and a player in an Indiana number 32 jersey raising his arms on the center video board.
     caption: The view from section 219 was an ideal happy medium.
@@ -25,7 +25,7 @@ images:
     caption: Off with a bang!
     credit: Eli Wire
     creditUrl: https://www.instagram.com/eliwire/
-    license: Used with permission
+    license: Staff photo
 methods: Tickets were a gift from Eli's cousins, who have half season tickets.
 ---
 Eli and I made up as friends recently. I greeted her with a, "life's short" and hug less than a week ago after running into her at her birthday party. Her cousins invited us for free, it was such a treat.
