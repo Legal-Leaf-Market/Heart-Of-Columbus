@@ -1,5 +1,5 @@
-import { socialProfile } from '../social-profiles.mjs';
 // Category, neighborhood, business, explore, saved and credits pages.
+import { socialProfile } from '../social-profiles.mjs';
 import { tagUrl, hocAttr } from '../ref.mjs';
 import { page, esc, t } from '../layout.mjs';
 import { directory, CATEGORIES, AREAS, catBySlug, subBySlug, areaBySlug, km, inSection, asListedIn } from '../data/directory.mjs';

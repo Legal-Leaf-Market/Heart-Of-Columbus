@@ -4,6 +4,7 @@
 // parses and that its name, phone and address appear on the page itself.
 
 import { websiteAction } from './website.mjs';
+import { socialProfile } from './social-profiles.mjs';
 
 const origin = new URL(process.env.HOC_ORIGIN || 'https://heartofcolumbus.netlify.app');
 if (!['http:', 'https:'].includes(origin.protocol) || origin.username || origin.password || origin.pathname !== '/' || origin.search || origin.hash) {
@@ -38,13 +39,18 @@ const geo = (ll) => ({ '@type': 'GeoCoordinates', latitude: ll[0], longitude: ll
 // business's own site when we have it, never ours.
 export function businessLd(b) {
   const page = abs(`/b/${b.slug}/`);
+  const socials = (b.socials || []).map(({ url }) => url);
+  const profileWebsite = socialProfile(b.website)?.url;
+  const website = websiteAction(b) || (socials.includes(profileWebsite) ? profileWebsite : b.website);
+  const sameAs = [...new Set([website, ...socials].filter(Boolean))];
   return {
     '@context': 'https://schema.org', '@type': schemaType(b), '@id': `${page}#business`, name: b.name,
     mainEntityOfPage: { '@type': 'WebPage', '@id': page },
     ...(b.address ? { address: address(b.address) } : {}),
     ...(b.ll ? { geo: geo(b.ll) } : {}),
     ...(b.phone ? { telephone: b.phone } : {}),
-    ...(b.website ? { url: websiteAction(b) || b.website, sameAs: [websiteAction(b) || b.website] } : {}),
+    ...(website ? { url: website } : {}),
+    ...(sameAs.length ? { sameAs } : {}),
     ...(b.hours && !b.tempClosed ? { openingHoursSpecification: hoursSpec(b.hours) } : {}),
   };
 }

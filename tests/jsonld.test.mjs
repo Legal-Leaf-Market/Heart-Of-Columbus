@@ -25,6 +25,10 @@ test('every business page has one LocalBusiness block that matches the page', ()
     if (x.telephone) assert.ok(seen.includes(x.telephone), `${b.slug}: phone`);
     if (x.address) assert.ok(seen.includes(fold(x.address.streetAddress)), `${b.slug}: street`);
     if (x.url) assert.ok(html.includes(`href="${x.url.replace(/&/g, '&amp;')}"`), `${b.slug}: website link`);
+    for (const { url } of b.socials) {
+      assert.ok(x.sameAs.includes(url), `${b.slug}: social profile schema`);
+      assert.ok(html.includes(`href="${url.replace(/&/g, '&amp;')}"`), `${b.slug}: social profile link`);
+    }
     if (x.openingHoursSpecification) assert.equal(x.openingHoursSpecification.length, b.hours.length, `${b.slug}: hours`);
   }
 });
