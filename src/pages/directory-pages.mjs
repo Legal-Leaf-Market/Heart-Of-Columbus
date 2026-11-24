@@ -379,7 +379,7 @@ const mapData = () => ({
   events: EVENTS.map((e) => ({ s: e.slug, n: e.name, d: dateRange(e), a: e.venue, u: e.url, start: e.start, end: e.end, l: e.ll })),
 });
 
-const NOW_CATS = ['restaurants', 'coffee-sweets', 'bars', 'shopping', 'things-to-do'];
+const NOW_CATS = ['restaurants', 'coffee-sweets', 'bars', 'shopping', 'smoke', 'things-to-do'];
 const LAYERS = [['b', 'Businesses'], ['l', 'Landmarks'], ['e', 'This weekend'], ['z', 'Social District']];
 
 function explorePage({ assets }, { saved = false } = {}) {

@@ -28,7 +28,7 @@ const TODAY = new Date().toISOString().slice(0, 10);
 // What a shop grid or a menu can use: shops, food and drink, and the other
 // places that sell things over the counter. Services (plumbers, dentists)
 // are left alone.
-const SELLS = new Set(['shopping', 'restaurants', 'coffee-sweets', 'bars', 'pets', 'kids', 'things-to-do', 'beauty', 'makers']);
+const SELLS = new Set(['shopping', 'smoke', 'restaurants', 'coffee-sweets', 'bars', 'pets', 'kids', 'things-to-do', 'beauty', 'makers']);
 const KEEP = 300; // items saved per business, best first
 const PRODUCT_PAGES = 40;
 
