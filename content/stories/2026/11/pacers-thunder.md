@@ -6,7 +6,7 @@ label: Opinion
 section: sports
 series: jake-takes-the-town
 bylines: [jacob-kennedy]
-editor: terry-winchester-ii
+editor: eli-wire
 published: 2026-11-24T12:00:00-05:00
 images:
   - file: /news-media/2026/11/pacers-thunder-jake-and-eli.jpg

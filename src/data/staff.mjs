@@ -35,12 +35,13 @@ export const STAFF = {
   },
   'eli-wire': {
     name: 'Eli Wire',
-    role: 'Official Photographer',
+    role: 'Official Photographer and Editor',
     beat: '',
-    // Named by Jake Kennedy, 2026-11-24. TODO(owner): a bio in Eli's own words.
-    bio: 'The official photographer of Heart of Columbus. Her work is on Instagram at @eliwire.',
+    // Named by Jake Kennedy, 2026-11-24, as photographer and an editor who
+    // may approve stories. TODO(owner): a bio in Eli's own words.
+    bio: 'The official photographer of Heart of Columbus, and one of its editors. Her work is on Instagram at @eliwire.',
     email: '',
-    editor: false,
+    editor: true,
   },
 };
 
