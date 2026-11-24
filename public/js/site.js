@@ -12,7 +12,7 @@
   };
   var CAT = {
     restaurants: ['Restaurants', '🍽️', '#f5e4dd', 'restaurants'], 'coffee-sweets': ['Coffee & Sweets', '☕', '#f7ecd1', 'coffee-pastry'], bars: ['Bars & Breweries', '🍺', '#f7ecd1', 'beer-hops'],
-    beauty: ['Beauty & Grooming', '💈', '#e1edf3', 'barber'], shopping: ['Shopping', '🛍️', '#f5e4dd', 'shopping'], health: ['Health & Wellness', '🩺', '#e5ecdf', 'health'],
+    beauty: ['Beauty & Grooming', '💈', '#e1edf3', 'barber'], shopping: ['Shopping', '🛍️', '#f5e4dd', 'shopping'], smoke: ['Smoke & Vape', '💨', '#ece6f3', 'storefront'], health: ['Health & Wellness', '🩺', '#e5ecdf', 'health'],
     fitness: ['Fitness', '🏋️', '#e5ecdf', 'fitness'], pets: ['Pets', '🐾', '#f7ecd1', 'pets'], 'home-services': ['Home Services', '🛠️', '#e1edf3', 'home-services'],
     auto: ['Auto', '🚗', '#e1edf3', 'auto'], pros: ['Professional Services', '💼', '#e5ecdf', 'professional-services'], events: ['Events & Weddings', '💍', '#f5e4dd', 'weddings'],
     kids: ['Kids & Learning', '🎨', '#f7ecd1', 'kids-art'], 'things-to-do': ['Things to Do', '🎳', '#e1edf3', 'things-to-do'], makers: ['Makers & Industry', '🏭', '#e5ecdf', 'makers'],

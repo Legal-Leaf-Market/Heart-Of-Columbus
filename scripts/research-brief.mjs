@@ -13,7 +13,7 @@ const ROOT = new URL('../', import.meta.url);
 const probes = Object.fromEntries(JSON.parse(readFileSync(new URL('scripts/data/probe-deep.json', ROOT), 'utf8')).map((p) => [p.slug, p]));
 const report = existsSync(new URL('scripts/data/crawl-report.json', ROOT)) ? JSON.parse(readFileSync(new URL('scripts/data/crawl-report.json', ROOT), 'utf8')) : null;
 const found = Object.fromEntries((report?.found || []).map((f) => [f.slug, f]));
-const SELLS = ['restaurants', 'coffee-sweets', 'bars', 'shopping', 'makers', 'pets', 'kids', 'things-to-do', 'beauty'];
+const SELLS = ['restaurants', 'coffee-sweets', 'bars', 'shopping', 'smoke', 'makers', 'pets', 'kids', 'things-to-do', 'beauty'];
 const cell = (s) => String(s ?? '').replace(/\|/g, '/').replace(/\s+/g, ' ').trim() || ' ';
 const host = (u) => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return ''; } };
 

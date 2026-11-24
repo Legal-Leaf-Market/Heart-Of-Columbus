@@ -100,7 +100,7 @@ export const ADDED = [
     // store sells vapes and smoke goods today. Its coffee and tea shop isn't
     // open yet; move it back to Coffee & Sweets (or list it in both, `also`
     // in own-facts.mjs) once coffee and tea are on sale.
-    cat: 'shopping',
+    cat: 'smoke',
     sub: 'smoke',
     type: 'Vape shop',
     address: '',

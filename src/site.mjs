@@ -17,7 +17,7 @@ import { helpDock } from './help-dock.mjs';
 // photo of a real place.
 export const CAT_STICKER = {
   restaurants: 'restaurants', 'coffee-sweets': 'coffee-pastry', bars: 'beer-hops', beauty: 'barber',
-  shopping: 'shopping', health: 'health', fitness: 'fitness', pets: 'pets', 'home-services': 'home-services',
+  shopping: 'shopping', smoke: 'storefront', health: 'health', fitness: 'fitness', pets: 'pets', 'home-services': 'home-services',
   auto: 'auto', pros: 'professional-services', events: 'weddings', kids: 'kids-art',
   'things-to-do': 'things-to-do', makers: 'makers',
 };

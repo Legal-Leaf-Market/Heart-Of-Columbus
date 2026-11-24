@@ -47,3 +47,10 @@
 
 [functions]
   directory = "netlify/functions"
+
+# Smoke & Vape became its own section (2026-11-24); its old address under
+# Shopping goes to the new one.
+[[redirects]]
+  from = "/c/shopping/smoke/*"
+  to = "/c/smoke/:splat"
+  status = 301

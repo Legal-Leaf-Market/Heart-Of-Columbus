@@ -20,7 +20,7 @@ export const UI = {
 };
 
 export const CATEGORY = {
-  restaurants: 'Restaurantes', 'coffee-sweets': 'Café y dulces', bars: 'Bares y cervecerías', beauty: 'Belleza y cuidado personal', shopping: 'Tiendas',
+  restaurants: 'Restaurantes', 'coffee-sweets': 'Café y dulces', bars: 'Bares y cervecerías', beauty: 'Belleza y cuidado personal', shopping: 'Tiendas', smoke: 'Tabaco y vapeo',
   health: 'Salud y bienestar', fitness: 'Ejercicio', pets: 'Mascotas', 'home-services': 'Servicios para el hogar', auto: 'Autos', pros: 'Servicios profesionales',
   events: 'Eventos y bodas', kids: 'Niños y clases', 'things-to-do': 'Qué hacer', makers: 'Fabricantes e industria',
 };
