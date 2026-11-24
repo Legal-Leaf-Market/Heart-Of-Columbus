@@ -79,7 +79,12 @@ const photos = await page.evaluate(async () => {
 if (args.shots) {
   await mkdir(args.shots, { recursive: true });
   await page.emulateMedia({ media: 'screen' });
-  await page.evaluate(() => { document.querySelector('.pe-paper').style.zoom = '1'; document.querySelector('[data-pe-toolbar]')?.remove(); });
+  await page.evaluate(() => {
+    const paper = document.querySelector('.pe-paper');
+    paper.classList.remove('pe-reading');
+    paper.style.zoom = '1';
+    document.querySelector('[data-pe-toolbar]')?.remove();
+  });
   const sheets = await page.$$('.pe-sheet');
   for (const [i, s] of sheets.entries()) await s.screenshot({ path: join(args.shots, `page-${String(i + 1).padStart(2, '0')}.png`) });
   await page.emulateMedia({ media: 'print' });
