@@ -141,12 +141,12 @@ export function storyBody(s) {
   </header>
   ${disc.map((d) => `<p class="np-disclose" data-kind="${d.kind}"><strong>Disclosure:</strong> ${esc(d.text)}</p>`).join('')}
   ${major.length ? `<aside class="np-corr np-corr-top" aria-label="Corrections"><h2>Correction</h2><ul>${major.map(correction).join('')}</ul></aside>` : ''}
-  ${img ? `<figure class="np-fig"><img src="${esc(img.file)}" alt="${esc(img.alt)}"><figcaption>${img.caption ? `${t(img.caption)} ` : ''}<span class="np-credit">${credit(img)}</span></figcaption></figure>` : ''}
+  ${img ? `<figure class="np-fig"><span class="np-fig-img"><img src="${esc(img.file)}" alt="${esc(img.alt)}"></span><figcaption>${img.caption ? `${t(img.caption)} ` : ''}<span class="np-credit">${credit(img)}</span></figcaption></figure>` : ''}
   ${s.developing ? `<aside class="np-dev" aria-label="Developing story"><p class="kicker">Developing story</p><div><h2>What we know</h2><ul>${s.developing.know.map((x) => `<li>${t(x)}</li>`).join('')}</ul></div><div><h2>What we don’t know yet</h2><ul>${s.developing.dontKnow.map((x) => `<li>${t(x)}</li>`).join('')}</ul></div></aside>` : ''}
   ${s.meeting ? meetingBox(s.meeting, s.sample) : ''}
   ${s.game ? gameBox(s.game) : ''}
   <div class="np-prose">${stickerProse(s)}</div>
-  ${s.images.slice(1).map((im) => `<figure class="np-fig"><img src="${esc(im.file)}" alt="${esc(im.alt)}" loading="lazy"><figcaption>${im.caption ? `${t(im.caption)} ` : ''}<span class="np-credit">${credit(im)}</span></figcaption></figure>`).join('')}
+  ${s.images.slice(1).map((im) => `<figure class="np-fig"><span class="np-fig-img"><img src="${esc(im.file)}" alt="${esc(im.alt)}" loading="lazy"></span><figcaption>${im.caption ? `${t(im.caption)} ` : ''}<span class="np-credit">${credit(im)}</span></figcaption></figure>`).join('')}
   <footer class="np-trust">
     ${s.sources.length ? `<section id="references"><h2>References</h2><ul>${s.sources.map((x) => `<li>${x.url ? `<a href="${esc(x.url)}" target="_blank" rel="noopener">${t(x.name)}</a> <span class="np-host">${esc(host(x.url))}</span>` : t(x.name)}${x.note ? `, ${t(x.note)}` : ''}</li>`).join('')}</ul></section>` : ''}
     ${s.methods ? `<section id="methods"><h2>How we reported this</h2><p>${t(s.methods)}</p></section>` : ''}
@@ -156,6 +156,22 @@ export function storyBody(s) {
 </article>`;
 }
 
+// The newspaper nameplate on a story: town and date in the ears, the folio
+// line under the name. Every value comes from the story or the paper.
+const plateDay = (iso) => new Intl.DateTimeFormat('en-US', { timeZone: 'America/Indiana/Indianapolis', weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }).format(new Date(iso));
+const newsPlate = (s, sec) => {
+  const sr = s.series && seriesBySlug[s.series];
+  return `
+<div class="np-plate">
+  <div class="np-plate-row">
+    <p class="np-ear">Columbus, Indiana</p>
+    <p class="np-plate-name">${esc(PAPER.name)}</p>
+    <p class="np-ear np-ear-r">${esc(plateDay(s.published))}</p>
+  </div>
+  <p class="np-folio"><span class="np-folio-day">${esc(plateDay(s.published))}</span><span>${esc(sec.name)}${sr ? ` · ${esc(sr.name)}` : ''} · ${esc(s.label)}</span></p>
+</div>`;
+};
+
 function storyPage(ctx, s) {
   const sec = sectionBySlug[s.section];
   const banner = s.sample
@@ -164,8 +180,8 @@ function storyPage(ctx, s) {
   return newsPage({
     ...ctx, path: s.href, title: s.headline, description: s.dek || s.headline, banner,
     crumbs: [['/news/', 'News'], [sectionHref(sec), sec.name], ['', s.headline]],
-    styles: ['kindle.css'], scripts: ['kindle.js'],
-    body: reader({ section: sec.name, inner: nameplate(['News', sec.name]) + storyBody(s) }) + inThisStory(s) + `<div class="wrap np-story-end">${storyAsk()}</div>`,
+    styles: ['kindle.css', 'newsprint.css'],
+    body: reader({ section: sec.name, variant: 'news', inner: newsPlate(s, sec) + storyBody(s) }) + inThisStory(s) + `<div class="wrap np-story-end">${storyAsk()}</div>`,
     ld: s.sample || s.draft ? [] : [newsArticleLd({ ...s, sectionName: sec.name }, { people: s.bylines.map((b) => person(b)), paper: PAPER })],
   });
 }
