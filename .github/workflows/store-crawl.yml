@@ -49,7 +49,10 @@ jobs:
           SUMMARY=$(node -e "const r=require('./scripts/data/crawl-report.json');console.log(r.withCatalog+' of '+r.crawled+' shops and restaurants have a saved catalog or menu ('+Object.entries(r.byMethod).map(([k,v])=>v+' by '+k).join(', ')+').')")
           if [ "${{ github.event_name }}" = "push" ]; then
             git commit -m "Store crawl results: $SUMMARY"
-            git push
+            # The branch may have moved on during the crawl; these files are
+            # the crawl's own, so replay on top of whatever is there now.
+            git pull --rebase -X theirs origin "${{ github.ref_name }}" || true
+            git push origin "HEAD:${{ github.ref_name }}"
             exit 0
           fi
           git checkout -B crawl/daily

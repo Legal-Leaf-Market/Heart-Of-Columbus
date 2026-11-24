@@ -217,8 +217,14 @@
     var slug = box.dataset.shop, name = box.dataset.name, limit = Number(box.dataset.limit || 48);
     var hours = null;
     try { hours = JSON.parse(box.dataset.hours || 'null'); } catch (e) { hours = null; }
-    // ?top asks the server for only the grid's items and the counts.
-    fetch('/api/shop?slug=' + encodeURIComponent(slug) + '&top=' + limit).then(function (r) { return r.json(); }).then(function (d) {
+    // A live store answers through /api/shop (?top asks for only the grid's
+    // items and the counts). A shop the daily crawl saved (data-snap) is read
+    // from its static file, and a live store that doesn't answer falls back
+    // to that file.
+    var snap = function () { return fetch('/catalogs/' + encodeURIComponent(slug) + '.json').then(function (r) { return r.ok ? r.json() : { ok: false }; }).then(function (d) { if (d.ok) d.saved = d.checked; return d; }); };
+    var live = function () { return fetch('/api/shop?slug=' + encodeURIComponent(slug) + '&top=' + limit).then(function (r) { return r.json(); }); };
+    var src = 'live' in box.dataset ? live().catch(function () { return { ok: false }; }).then(function (d) { return d.ok || !box.dataset.snap ? d : snap(); }) : snap();
+    src.then(function (d) {
       if (!d.ok) { box.innerHTML = '<p class="muted">' + esc(d.error || 'Their store did not answer.') + '</p>'; return; }
       var store = { slug: slug, name: name, platform: d.platform, origin: d.origin, address: box.dataset.address || '', hours: hours };
       // Pristine and in stock only (owner's rule): a product that is sold out or
@@ -230,7 +236,7 @@
       var stockN = d.stock != null ? d.stock : d.items.filter(function (i) { return i.available; }).length;
       var picturedN = d.pictured != null ? d.pictured : items.length;
       var unseen = stockN - picturedN;
-      box.innerHTML = '<p class="shop-count">' + stockN + ' items in stock at ' + esc(name) + '’s own store</p><div class="prod-grid">' + items.slice(0, limit).map(function (it, idx) {
+      box.innerHTML = '<p class="shop-count">' + stockN + ' items in stock at ' + esc(name) + '’s own store</p>' + (d.saved ? '<p class="snap-note">Saved from their website on ' + esc(new Date(d.saved + 'T12:00:00Z').toLocaleDateString('en-US', { timeZone: 'UTC', month: 'long', day: 'numeric' })) + '. Their site has the final word on price and stock.</p>' : '') + '<div class="prod-grid">' + items.slice(0, limit).map(function (it, idx) {
         var fl = firstLive(it);
         return '<article class="prod"><img src="' + esc(it.image) + '" alt="" loading="lazy">' +
           '<div class="prod-b"><a href="' + esc(it.url) + '" target="_blank" rel="noopener" class="prod-t">' + esc(it.title) + '</a><p class="prod-p">' + money(it.price) + '</p>' +
@@ -251,4 +257,20 @@
       });
     }).catch(function () { box.innerHTML = '<p class="muted">Their store did not answer. Try their website.</p>'; });
   }
+
+  // ---------- A restaurant's saved menu (/b/<slug>/#menu) ----------
+  $$('[data-menu]').forEach(function (box) {
+    whenNear(box, function () {
+      fetch('/catalogs/' + encodeURIComponent(box.dataset.menu) + '.json').then(function (r) { return r.json(); }).then(function (d) {
+        if (!d.ok || !d.items.length) throw 0;
+        var secs = [], by = {};
+        d.items.forEach(function (i) { var k = i.type || 'Menu'; if (!by[k]) { by[k] = []; secs.push(k); } by[k].push(i); });
+        box.innerHTML = secs.map(function (k) {
+          return (secs.length > 1 ? '<h3 class="menu-sec">' + esc(k) + '</h3>' : '') + '<ul class="menu-rows">' + by[k].map(function (i) {
+            return '<li><a href="' + esc(i.url) + '" target="_blank" rel="noopener">' + esc(i.title) + '</a><b>' + money(i.price) + '</b></li>';
+          }).join('') + '</ul>';
+        }).join('') + (box.dataset.order ? '<p><a class="btn" href="' + esc(box.dataset.order) + '" target="_blank" rel="noopener">' + esc(box.dataset.orderLabel || 'Their website') + ' ↗</a></p>' : '');
+      }).catch(function () { box.innerHTML = '<p class="muted">Their menu is on their own website.</p>'; });
+    });
+  });
 })();
