@@ -224,6 +224,7 @@ const BOX = {
   masthead: () => `<header class="pe-masthead">
     <div class="pe-ears"><p>Volume ${E.volume}, Number ${E.number}</p><p>${t(E.date)}</p></div>
     <h1 class="pe-nameplate">Heart <span>of</span> Columbus</h1>
+    <p class="pe-badge" aria-hidden="true"><b>No. ${E.number}</b><span>${E.number === 1 ? 'First edition' : t(E.date)}</span></p>
     <p class="pe-motto">The local paper that shows its work. Every story ends with a code to its sources.</p>
     <div class="pe-dateline"><span>${t(E.line)}</span><span>Columbus, Indiana</span><span>Free</span><span>${esc(short(ORIGIN))}</span></div>
   </header>`,
@@ -456,7 +457,7 @@ function mod(m) {
 }
 
 function sheet(pg) {
-  const folio = pg.n === 1 ? '' : `<div class="pe-folio"><span>${pg.n % 2 ? t(pg.section) : `${pg.n}`}</span><span>Heart of Columbus · ${t(E.date)}</span><span>${pg.n % 2 ? `${pg.n}` : t(pg.section)}</span></div>`;
+  const folio = pg.n === 1 ? '' : `<div class="pe-folio"><span>${pg.n % 2 ? `<i class="pe-sec">${t(pg.section)}</i>` : `<b class="pe-pn">${pg.n}</b>`}</span><span>Heart of Columbus · ${t(E.date)}</span><span>${pg.n % 2 ? `<b class="pe-pn">${pg.n}</b>` : `<i class="pe-sec">${t(pg.section)}</i>`}</span></div>`;
   return `<section class="pe-sheet${pg.spread ? ` pe-spread-${pg.spread}` : ''}" data-page="${pg.n}" data-topics="${esc((pg.topics || []).join(' '))}" aria-label="Page ${pg.n}">
   ${folio}
   <div class="pe-body">${pg.rows.map((row) => `<div class="pe-row${row.fill ? ' pe-fill' : ''}">${row.mods.map((m) => `<div class="pe-cell" style="grid-column:span ${m.span}">${mod(m)}</div>`).join('')}</div>`).join('')}</div>
