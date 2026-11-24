@@ -257,6 +257,9 @@ section { scroll-margin-top: 130px; }
 .tag-plain { background: #eef6ee; }
 .tag-dora { background: #e6f0fa; }
 .direct-note.dora-note { background: #eef4fa; border-color: #c4d8ec; }
+.tag-history { background: #f4ece0; }
+.direct-note.bldg-note { background: #faf5ee; border-color: #e4d5bf; }
+.bldg-note a { text-decoration: underline; text-underline-offset: 3px; }
 .dora-note a { text-decoration: underline; text-underline-offset: 3px; }
 
 /* cover patterns, so a rail of the same category still has rhythm */

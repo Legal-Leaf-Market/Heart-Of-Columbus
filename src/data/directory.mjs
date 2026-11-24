@@ -18,6 +18,7 @@ import { MEMBERS } from './members.mjs';
 import { CATALOGS } from './catalogs.mjs';
 import { OWN_FACTS } from './own-facts.mjs';
 import { excludedForOwnership } from './ownership.mjs';
+import { buildingFor } from './building-history.mjs';
 
 // Top-level categories, in display order. `subs` map to the landscape's
 // vertical/filter pairs. Emoji are the fallback icon until /art/ assets land.
@@ -255,6 +256,13 @@ for (const b of all) {
     if (own.address) b.address = own.address;
     if (own.hours) { b.hours = own.hours; b.hoursFrom = 'own'; }
   }
+  // The building's history (src/data/building-history.mjs): its historic
+  // name and year, and the business that was at this address just before.
+  const bh = buildingFor(b.address);
+  b.building = bh.historic;
+  // Never "before X, X was here" on X's own page.
+  const nm = (s) => String(s).toLowerCase().replace(/[’']/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+  b.before = bh.before && nm(bh.before.was) !== nm(b.name) ? bh.before : null;
 }
 
 // Neighborhood for places the listings did not tag: the most common area
