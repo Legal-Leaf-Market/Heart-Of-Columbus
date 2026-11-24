@@ -456,6 +456,7 @@ const ILLUSTRATED_BUSINESSES = new Set([
   'ziggies-bar-and-grill',
   'zwanzigz-pizza-and-brewing',
   'zwanzigz-tap-room',
+  'rad-play',
 ]);
 export const businessIllustration = (slug, { size = 82 } = {}) => {
   if (ILLUSTRATED_BUSINESSES.has(slug)) {

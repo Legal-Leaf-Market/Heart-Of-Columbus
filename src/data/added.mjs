@@ -213,4 +213,18 @@ export const ADDED = [
     source: 'https://www.wildbramblecatering.com/',
     checked: '2026-11-24',
   },
+  {
+    // The publisher confirmed the location and shared ownership. The public
+    // internship announcement confirms the name and city.
+    name: 'Rad Play',
+    cat: 'shopping',
+    sub: 'local-shops',
+    type: 'Local shop from the owners of Dooby’s',
+    address: 'State Street, next to Dooby’s',
+    phone: '',
+    website: '',
+    book: [],
+    source: 'https://www.linkedin.com/in/alliefpeters',
+    checked: '2026-11-24',
+  },
 ];

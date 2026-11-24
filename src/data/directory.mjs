@@ -56,6 +56,7 @@ export const CATEGORIES = [
       { slug: 'home-garden', label: 'Flowers, Home & Garden', emoji: '💐', from: ['shop', 'home'] },
       { slug: 'markets', label: 'Markets & Specialty Food', emoji: '🧺', from: ['shop', 'market'] },
       { slug: 'hobbies', label: 'Sports, Games & Hobbies', emoji: '🎲', from: ['shop', 'outdoors'] },
+      { slug: 'local-shops', label: 'Other Local Shops', emoji: '🛍️', from: ['shop', 'other'] },
     ] },
   // Its own section in the header (owner's call, 2026-11-24), not a corner of
   // Shopping. Old /c/shopping/smoke/ links redirect here (netlify.toml).
