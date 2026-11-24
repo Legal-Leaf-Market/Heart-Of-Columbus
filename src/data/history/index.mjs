@@ -79,8 +79,8 @@ export const printLength = (n) => (n < 350 ? 'brief' : n < 650 ? 'standard' : 'f
 // editor signs off: `editor` stays null and the page says "draft" until then.
 const LABEL = { history: 'Explainer', tribute: 'Community', opinion: 'Opinion', essay: 'Opinion' };
 const METHODS = {
-  history: 'Researched from the public sources listed. No interviews. Quotes appear only where a cited source prints them, and disagreements between sources are noted in the text.',
-  tribute: 'A summary in our own words of a story first published in The Republic, with credit and a link to the original. Short quotes only, as the original printed them. Brian Blair is a friend of our publisher, Jacob Kennedy, and has interviewed Jacob for The Republic.',
+  history: 'Researched from the public sources listed. No interviews. Quotes appear only where a cited source prints them, and disagreements between sources are noted in the text. An editor checked the article against those sources.',
+  tribute: 'A summary in our own words of a story first published in The Republic, with credit and a link to the original. Short quotes only, as the original printed them. Brian Blair is a friend of our publisher, Jacob Kennedy, and has interviewed Jacob for The Republic. An editor checked this summary against the original.',
   opinion: 'The author’s own views and experience, in his words. Facts in it link to their sources.',
   essay: 'The author’s own memories, in his words.',
 };

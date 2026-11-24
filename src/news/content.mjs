@@ -31,6 +31,7 @@
 //       caption: Optional caption
 //       credit: Photographer's name
 //       license: Staff photo
+//       creditUrl: https://www.instagram.com/handle/   # optional: links the credit
 //   sponsor: Name                  # required when label is Sponsored
 //   developing:                    # optional box for a developing story
 //     know: [Fact we confirmed]
@@ -45,6 +46,15 @@
 //         result: Passed
 //         tally: 6 to 1
 //     followUps: [What happens to the parks line next year?]
+//   stickers: [{ sticker: olive-branch }, { sticker: road-trip, heading: Getting there }]  # src/news/stickers.mjs
+//   series: jake-takes-the-town    # optional: src/news/series.mjs; its writer, if it has one, must be on the byline
+//   game:                          # optional scoreboard box for a game story
+//     home: Columbus North         # team names as the teams write them
+//     away: Columbus East
+//     venue: Where it was played
+//     date: 2026-11-03             # the game's date, YYYY-MM-DD
+//     final: { home: 3, away: 2 }  # whole numbers, from the official score
+//     note: Overtime               # optional
 //   draft: true                    # optional: built for preview, listed nowhere
 //
 // Anything wrong in a story stops the build with the file and the reason.
@@ -53,6 +63,8 @@ import { splitFrontMatter, markdown } from './markdown.mjs';
 import { LABELS } from './labels.mjs';
 import { sectionBySlug, TOPICS } from './sections.mjs';
 import { STAFF, SAMPLE_STAFF } from '../data/staff.mjs';
+import { seriesBySlug } from './series.mjs';
+import { NEWS_STICKERS } from './stickers.mjs';
 import { directory, areaBySlug } from '../data/directory.mjs';
 import { landmarkBySlug } from '../data/landmarks.mjs';
 import { BODIES } from '../data/civic.mjs';
@@ -102,6 +114,7 @@ export function checkStory(s) {
     if (!im?.file) p.push('each image needs a file');
     if (!im?.alt) p.push(`image ${im?.file}: alt text is required`);
     if (!im?.credit) p.push(`image ${im?.file}: credit is required`);
+    if (im?.creditUrl && !/^https:\/\//.test(im.creditUrl)) p.push(`image ${im?.file}: creditUrl must be an https address`);
     if (!im?.license) p.push(`image ${im?.file}: license is required (Staff photo, CC BY 4.0, used with permission...)`);
     if (im?.file?.startsWith('/') && !existsSync(new URL(`../../public${im.file}`, import.meta.url))) p.push(`image ${im.file} is not in public/`);
   }
@@ -110,6 +123,24 @@ export function checkStory(s) {
     if (!m || !m.body || !/^\d{4}-\d{2}-\d{2}$/.test(String(m.date)) || !Array.isArray(m.decisions)) p.push('Meeting notes need meeting: body, date (YYYY-MM-DD) and a decisions list');
     else if (!s.sample && !bodyBySlug[m.body]) p.push(`meeting body "${m.body}" is not in src/data/civic.mjs`);
     for (const v of m?.votes || []) if (!v?.motion || !v?.result) p.push('each vote needs a motion and a result');
+  }
+  if (!s.draft && /\[(YOUR|WHO TOOK|ONE LINE)\b|__ out of 5/.test(JSON.stringify({ ...s, file: '' }) + s.body)) p.push('fill in every [BRACKET] blank before taking a story out of draft');
+  for (const st of s.stickers || []) {
+    if (!NEWS_STICKERS[st?.sticker]) p.push(`sticker "${st?.sticker}" is not in src/news/stickers.mjs`);
+    else if (st.heading && !new RegExp(`^## ${st.heading.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`, 'm').test(s.body || '')) p.push(`sticker "${st.sticker}": no "## ${st.heading}" heading in the story`);
+  }
+  if (s.series) {
+    const sr = seriesBySlug[s.series];
+    if (!sr) p.push(`series "${s.series}" is not in src/news/series.mjs`);
+    else if (sr.writer && !s.sample && !(s.bylines || []).includes(sr.writer)) p.push(`a ${sr.name} story must carry ${sr.writer} on the byline`);
+  }
+  if (s.game) {
+    const g = s.game;
+    if (s.section !== 'sports') p.push('a game box belongs on a story in the sports section');
+    for (const k of ['home', 'away', 'venue']) if (!g[k] || typeof g[k] !== 'string') p.push(`game needs ${k}`);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(String(g.date))) p.push('game date must be YYYY-MM-DD');
+    const f = g.final;
+    if (!f || ![f.home, f.away].every((n) => Number.isInteger(n) && n >= 0)) p.push('game final needs whole number scores for home and away');
   }
   if (s.developing && !(Array.isArray(s.developing.know) && Array.isArray(s.developing.dontKnow))) p.push('developing needs know and dontKnow lists');
   if (!s.sample && /\bSampleton\b|\bSample (Reporter|Editor)\b/.test(JSON.stringify(s) + s.body)) p.push('sample content in a real story');
@@ -124,14 +155,16 @@ function load(file, { sample }) {
   const slug = file.pathname.split('/').pop().replace(/\.md$/, '');
   const s = {
     slug, file: file.pathname.replace(/^.*\/content\//, 'content/'),
-    headline: '', dek: '', bylines: [], editor: '', label: '', section: '', tags: [], sources: [], methods: '', corrections: [], images: [],
+    headline: '', dek: '', bylines: [], editor: '', label: '', section: '', tags: [], sources: [], methods: '', corrections: [], images: [], stickers: [],
     ...data, sample: !!data.sample, draft: !!data.draft, body,
   };
   if (sample && !s.sample) throw new Error(`${s.file}: everything in content/samples/ must say sample: true`);
   if (!sample && s.sample) throw new Error(`${s.file}: sample content can't be in content/stories/. Move it to content/samples/.`);
   s.bylines = [].concat(s.bylines || []);
   s.tags = [].concat(s.tags || []);
+  s.stickers = [].concat(s.stickers || []);
   s.corrections = [].concat(s.corrections || []).map((c) => ({ ...c, date: String(c.date) }));
+  if (s.game) s.game = { ...s.game, date: String(s.game.date) };
   if (s.meeting) s.meeting = { attended: [], decisions: [], votes: [], followUps: [], ...s.meeting, date: String(s.meeting.date) };
   s.href = sample ? `/news/samples/${slug}/` : `/news/${String(s.published).slice(0, 4)}/${String(s.published).slice(5, 7)}/${slug}/`;
   if (!sample) {
@@ -162,6 +195,7 @@ for (const s of [...ALL_STORIES, ...SAMPLES]) {
 export const stories = ALL_STORIES.filter((s) => !s.draft);
 export const storiesIn = (section) => stories.filter((s) => s.section === section);
 export const storiesTagged = (tag) => stories.filter((s) => s.tags.includes(tag));
+export const storiesInSeries = (slug) => stories.filter((s) => s.series === slug);
 export const storiesBy = (staffSlug) => stories.filter((s) => s.bylines.includes(staffSlug) || s.editor === staffSlug);
 
 // Every correction on every published story, newest first, for the log.

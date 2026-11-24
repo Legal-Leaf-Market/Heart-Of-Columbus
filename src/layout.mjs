@@ -46,6 +46,7 @@ ${data ? `<script type="application/json" id="page-data">${json(data)}</script>`
 ${ld.map((x) => `<script type="application/ld+json">${json(x)}</script>`).join('\n')}
 <script src="/js/core.js?v=${assets.core}" defer></script>
 ${scripts.map((s) => `<script src="/js/${s}?v=${assets[s] ?? ''}" defer></script>`).join('\n')}
+${body.includes('data-help-dock') && !scripts.includes('help-dock.js') ? `<script src="/js/help-dock.js?v=${assets['help-dock.js'] ?? ''}" defer></script>` : ''}
 </head>
 <body class="${theme} min-h-screen">
 <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[100] focus:rounded-lg focus:bg-ink focus:px-4 focus:py-2 focus:text-paper">${lang === 'es' ? 'Saltar al contenido' : 'Skip to content'}</a>
@@ -60,6 +61,6 @@ export const footer = (extra = '') => `
 <footer class="bg-ink text-white/80 text-sm">
   <div class="mx-auto max-w-6xl px-4 py-8 flex flex-wrap justify-between gap-4">
     <p><a href="/" class="font-semibold text-white">Heart of Columbus</a> · Keep it in Columbus, Indiana.</p>
-    <p>${extra || 'A concept preview. Business details come from public listings and may change; call ahead.'}</p>
+    <p>${extra || 'Business details come from public listings and may change; call ahead.'}</p>
   </div>
 </footer>`;

@@ -1,0 +1,335 @@
+{
+ "checked": "2026-11-18T19:34:30.104Z",
+ "site": "https://heartofcolumbus.netlify.app",
+ "shops": {
+  "at-home-with-heartland": {
+   "platform": "shopify",
+   "api": 200,
+   "items": 1000,
+   "inStock": 569,
+   "variable": 509,
+   "pick": 0
+  },
+  "black-jewell-popcorn": {
+   "platform": "woocommerce",
+   "api": 502,
+   "items": 0,
+   "inStock": 0,
+   "variable": 0,
+   "pick": 0,
+   "error": "Their store did not answer. Try their website directly.",
+   "direct": {
+    "per_page=100&page=1": "error fetch failed",
+    "per_page=100&orderby=id&order=asc&page=1": "error fetch failed"
+   }
+  },
+  "boutique-elise": {
+   "platform": "shopify",
+   "api": 200,
+   "items": 566,
+   "inStock": 221,
+   "variable": 542,
+   "pick": 0
+  },
+  "columbus-outdoor-power": {
+   "platform": "woocommerce",
+   "api": 502,
+   "items": 0,
+   "inStock": 0,
+   "variable": 0,
+   "pick": 0,
+   "error": "Their store did not answer. Try their website directly.",
+   "direct": {
+    "per_page=100&page=1": "error fetch failed",
+    "per_page=100&orderby=id&order=asc&page=1": "error fetch failed"
+   }
+  },
+  "cookie-paradise-llc": {
+   "platform": "shopify",
+   "api": 200,
+   "items": 14,
+   "inStock": 8,
+   "variable": 1,
+   "pick": 0
+  },
+  "divine-family-bbq": {
+   "platform": "woocommerce",
+   "api": 502,
+   "items": 0,
+   "inStock": 0,
+   "variable": 0,
+   "pick": 0,
+   "error": "Their store did not answer. Try their website directly.",
+   "direct": {
+    "per_page=100&page=1": "200 application/json; charset=UTF-8 [{\"id\":179,\"name\":\"Pulled Pork Sandwich\",\"slug\":\"pulled-pork-sandwich\",\"parent\":0,\"type\":\"variable\",\"variation\":\"\",\"permalink\":\"https:\\/\\/di",
+    "per_page=100&orderby=id&order=asc&page=1": "410 text/html <!DOCTYPE html> <html style=\"height:100%\"> <head> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\" /> <"
+   }
+  },
+  "empire-tea-services": {
+   "platform": "shopify",
+   "api": 200,
+   "items": 446,
+   "inStock": 420,
+   "variable": 251,
+   "pick": 0
+  },
+  "footworks": {
+   "platform": "shopify",
+   "api": 200,
+   "items": 645,
+   "inStock": 468,
+   "variable": 573,
+   "pick": 0
+  },
+  "gracie-mae-events-llc": {
+   "platform": "woocommerce",
+   "api": 200,
+   "items": 14,
+   "inStock": 14,
+   "variable": 3,
+   "pick": 1,
+   "adds": [
+    {
+     "item": "Mason Jar Madness",
+     "option": "Pint or 5.5\" Hammered Jar",
+     "link": "https://graciemaeevents.com/?add-to-cart=395&variation_id=402&attribute_pa_jar-size=pint-or-55-hammered-jar&quantity=1",
+     "status": 200,
+     "landed": "https://graciemaeevents.com/?add-to-cart=395&variation_id=402&attribute_pa_jar-size=pint-or-55-hammered-jar&quantity=1",
+     "notice": "",
+     "cookies": [
+      "fkcart_cart_qty",
+      "fkcart_cart_total",
+      "woocommerce_items_in_cart",
+      "woocommerce_cart_hash",
+      "wp_woocommerce_session_d104ad90a7ebf6524294a0b5b5a13657"
+     ],
+     "cart": [
+      {
+       "id": 402,
+       "qty": 1,
+       "name": "Mason Jar Madness",
+       "variation": [
+        {
+         "raw_attribute": "attribute_pa_jar-size",
+         "attribute": "Jar Size",
+         "value": "Pint or 5.5&#8243; Hammered Jar"
+        }
+       ]
+      }
+     ],
+     "pass": true
+    },
+    {
+     "item": "Happiness in a Smile",
+     "option": "",
+     "link": "https://graciemaeevents.com/?add-to-cart=743&quantity=1",
+     "status": 200,
+     "landed": "https://graciemaeevents.com/?add-to-cart=743&quantity=1",
+     "notice": "",
+     "cookies": [
+      "fkcart_cart_qty",
+      "fkcart_cart_total",
+      "woocommerce_items_in_cart",
+      "woocommerce_cart_hash",
+      "wp_woocommerce_session_d104ad90a7ebf6524294a0b5b5a13657"
+     ],
+     "cart": [
+      {
+       "id": 743,
+       "qty": 1,
+       "name": "Happiness in a Smile",
+       "variation": []
+      }
+     ],
+     "pass": true
+    }
+   ]
+  },
+  "minash-boutique": {
+   "platform": "shopify",
+   "api": 200,
+   "items": 63,
+   "inStock": 43,
+   "variable": 52,
+   "pick": 0
+  },
+  "sew-vivid-designs": {
+   "platform": "shopify",
+   "api": 200,
+   "items": 1000,
+   "inStock": 992,
+   "variable": 971,
+   "pick": 0
+  },
+  "sojourn-coffee-company": {
+   "platform": "woocommerce",
+   "api": 200,
+   "items": 59,
+   "inStock": 58,
+   "variable": 59,
+   "pick": 0,
+   "adds": [
+    {
+     "item": "Organic Black Magic",
+     "option": "Whole Bean",
+     "link": "https://www.sojourncoffeecompany.com/?add-to-cart=692&variation_id=1909&attribute_attribute=Whole%20Bean&quantity=1",
+     "status": 200,
+     "landed": "https://www.sojourncoffeecompany.com/?add-to-cart=692&variation_id=1909&attribute_attribute=Whole%20Bean&quantity=1",
+     "notice": "",
+     "cookies": [
+      "woocommerce_items_in_cart",
+      "woocommerce_cart_hash",
+      "wp_woocommerce_session_18b39355dec732c8cb43c5b6b8154122"
+     ],
+     "cart": [
+      {
+       "id": 1909,
+       "qty": 1,
+       "name": "Organic Black Magic",
+       "variation": [
+        {
+         "raw_attribute": "attribute_attribute",
+         "attribute": "Attribute",
+         "value": "Whole Bean"
+        }
+       ]
+      }
+     ],
+     "pass": true
+    }
+   ]
+  },
+  "the-bicycle-station": {
+   "platform": "shopify",
+   "api": 200,
+   "items": 871,
+   "inStock": 871,
+   "variable": 460,
+   "pick": 0
+  },
+  "the-castle-games": {
+   "platform": "shopify",
+   "api": 200,
+   "items": 1000,
+   "inStock": 79,
+   "variable": 934,
+   "pick": 0
+  },
+  "tribal-blend-cat-cafe": {
+   "platform": "woocommerce",
+   "api": 200,
+   "items": 9,
+   "inStock": 8,
+   "variable": 0,
+   "pick": 0,
+   "adds": [
+    {
+     "item": "General Admission",
+     "option": "",
+     "link": "https://columbuscat.cafe/?add-to-cart=2043&quantity=1",
+     "status": 200,
+     "landed": "https://columbuscat.cafe/?add-to-cart=2043&quantity=1",
+     "notice": "",
+     "cookies": [
+      "woocommerce_items_in_cart",
+      "woocommerce_cart_hash",
+      "wp_woocommerce_session_30e09eb1e0b052aeb387f2d3f1dbdd4c"
+     ],
+     "cart": [
+      {
+       "id": 2043,
+       "qty": 1,
+       "name": "General Admission",
+       "variation": []
+      }
+     ],
+     "pass": true
+    }
+   ]
+  },
+  "wild-wisdom": {
+   "platform": "squarespace-commerce",
+   "api": 200,
+   "items": 53,
+   "inStock": 53,
+   "variable": 7,
+   "pick": 0
+  },
+  "xo-by-sophias": {
+   "platform": "shopify",
+   "api": 200,
+   "items": 883,
+   "inStock": 805,
+   "variable": 852,
+   "pick": 0
+  },
+  "bips-bites": {
+   "platform": "woocommerce",
+   "api": 200,
+   "items": 6,
+   "inStock": 6,
+   "variable": 4,
+   "pick": 0,
+   "adds": [
+    {
+     "item": "Men’s Premium Embroidered Tank Top",
+     "option": "Black / S",
+     "link": "https://www.bipsbites.com/?add-to-cart=143&variation_id=144&attribute_pa_color=black&attribute_pa_size=s&quantity=1",
+     "status": 200,
+     "landed": "https://www.bipsbites.com/?add-to-cart=143&variation_id=144&attribute_pa_color=black&attribute_pa_size=s&quantity=1",
+     "notice": "",
+     "cookies": [
+      "woocommerce_items_in_cart",
+      "woocommerce_cart_hash",
+      "wp_woocommerce_session_97f10b51f48c6d9c4bdf4d128033abce"
+     ],
+     "cart": [
+      {
+       "id": 144,
+       "qty": 1,
+       "name": "Men’s Premium Embroidered Tank Top",
+       "variation": [
+        {
+         "attribute": "Color",
+         "value": "Black"
+        },
+        {
+         "attribute": "Size",
+         "value": "S"
+        }
+       ]
+      }
+     ],
+     "pass": true
+    },
+    {
+     "item": "Dust of Deliciousness BBQ Rub - Smoky Sweet-Heat (7.5 oz)",
+     "option": "",
+     "link": "https://www.bipsbites.com/?add-to-cart=90&quantity=1",
+     "status": 200,
+     "landed": "https://www.bipsbites.com/?add-to-cart=90&quantity=1",
+     "notice": "",
+     "cookies": [
+      "woocommerce_items_in_cart",
+      "woocommerce_cart_hash",
+      "wp_woocommerce_session_97f10b51f48c6d9c4bdf4d128033abce"
+     ],
+     "cart": [
+      {
+       "id": 90,
+       "qty": 1,
+       "name": "Dust of Deliciousness BBQ Rub &#8211; Smoky Sweet-Heat (7.5 oz)",
+       "variation": []
+      }
+     ],
+     "pass": true
+    }
+   ]
+  }
+ },
+ "summary": {
+  "shops": 18,
+  "wooAdds": 6,
+  "wooPass": 6
+ }
+}

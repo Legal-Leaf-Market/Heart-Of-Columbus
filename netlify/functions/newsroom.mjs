@@ -1,11 +1,11 @@
-// /api/newsroom: reader questions (/ask/), letters to the editor (/letters/)
-// and tips (/tips/). Each is stored in Netlify Blobs for an editor to read;
+// /api/newsroom: reader questions (/ask/), letters to the editor (/letters/),
+// tips (/tips/) and Back YOUR Blue thank you stories (/news/series/back-your-blue/). Each is stored in Netlify Blobs for an editor to read;
 // nothing is published automatically. Adapted from claim.mjs.
 //
 // Privacy: we keep only what the form asks for. No IP address, user agent
 // or other request header is stored or logged.
 //
-// GET /api/newsroom?k=<HOC_ADMIN_KEY>&kind=tip lists submissions for the
+// GET /api/newsroom?kind=tip with an x-hoc-key: <HOC_ADMIN_KEY> header lists submissions for the
 // editor's inbox at /newsroom/inbox/. The key lives only in Netlify's
 // environment variables.
 import { blobStore } from '../../src/blobs.mjs';
@@ -25,6 +25,13 @@ const KINDS = {
     check: (x) => (EMAIL.test(x.email) || x.phone ? '' : 'Add an email or phone so the editor can confirm you wrote it.'),
   },
   tip: { fields: { tip: 4000, contact: 200 }, need: [['tip', 'What should we know?']] },
+  // A thank you story about someone who served. Runs only after the editor
+  // talks with the writer; `ok` is their yes to publishing it with their name.
+  blue: {
+    fields: { person: 120, role: 40, agency: 160, story: 6000, name: 80, relation: 80, town: 80, email: 120, phone: 30, photo: 10, ok: 10 },
+    need: [['person', 'Who is your story about?'], ['story', 'Please write your story.'], ['name', 'Stories run with the writer’s name.'], ['ok', 'Please check the box so we may publish it with your name.']],
+    check: (x) => (EMAIL.test(x.email) || x.phone ? '' : 'Add an email or phone so the editor can reach you before it runs.'),
+  },
 };
 
 function sameKey(a, b) {
@@ -40,7 +47,7 @@ export default async (req) => {
   try {
     if (req.method === 'GET') {
       const u = new URL(req.url);
-      if (!sameKey(process.env.HOC_ADMIN_KEY || '', u.searchParams.get('k') || '')) return json({ ok: false, error: 'Wrong inbox link.' }, 403);
+      if (!sameKey(process.env.HOC_ADMIN_KEY || '', req.headers.get('x-hoc-key') || '')) return json({ ok: false, error: 'Wrong inbox link.' }, 403);
       const kind = KINDS[u.searchParams.get('kind')] ? u.searchParams.get('kind') : 'ask';
       const index = (await store.getJSON(`${kind}/index`)) || [];
       const items = (await Promise.all(index.slice(-300).map((id) => store.getJSON(`${kind}/${id}`)))).filter(Boolean).reverse();

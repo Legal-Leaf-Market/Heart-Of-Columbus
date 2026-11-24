@@ -7,7 +7,7 @@ const HS = 'https://indianasentinels.hockeyshift.com/news/';
 const x = (o) => ({ checked: CHECKED, ...o });
 
 export const A2020s = [
-  x({ slug: 'columbus-passes-fifty-thousand', when: '2020', section: 'civic',
+  x({ checked: '2026-11-24', slug: 'columbus-passes-fifty-thousand', when: '2020', section: 'civic',
     title: 'A city of fifty thousand',
     dek: 'The 2020 census counted 50,474 people in Columbus, five times the town of 1930. It also showed a city more connected to the rest of the world than ever.',
     body: [
@@ -15,10 +15,12 @@ export const A2020s = [
       'The long view is even more striking. At the 1930 census, where this history begins, Columbus had 9,935 people. The town grew in every census after that: past 18,000 by 1950, past 30,000 by 1980, and past 39,000 by 2000. In ninety years it multiplied about five times over.',
       '## Who lives here',
       'The 2020 count also showed how the town is changing. Wikipedia’s summary of the census records that the share of residents who are Asian rose from 5.6 percent in 2010 to 10.4 percent in 2020, and the share who are Hispanic or Latino rose from 5.8 percent to 9.6 percent.',
-      'Those numbers have a history. As earlier articles in this series tell, Columbus began courting companies from Japan in the 1980s, and Site Selection magazine later counted 28 Japanese firms in Columbus employing more than 5,800 people, along with engineering firms from India and others from Europe and China. Cummins, headquartered downtown, does business around the world. Ethnic Expo, which began in 1984, now celebrates the traditions of more than 30 countries represented by Columbus residents, The Republic says.',
+      'Those numbers have a history, and Site Selection magazine laid much of it out in a profile written after NTN Driveshaft announced a $90 million Columbus investment in October 2018. Jason Hester, president of the Greater Columbus Indiana Economic Development Corporation, told the magazine the group was formed in 1976 to diversify the local economy and made its first foreign investment deal in 1978. By then Columbus had been sending a delegation to Japan every year for more than 35 years, and to China for more than a decade.',
+      'The magazine counted 28 Japanese firms in Columbus employing more than 5,800 people, most of them in the auto industry, along with French, Chinese and Indian companies; one Indian engineering firm, KPIT, employed 170 people here. Hester said about 38 percent of all jobs in Columbus were in manufacturing, putting the county in the top 2 percent nationwide, and that the city had averaged 365 new international residents a year over the previous three years, many of them engineers. Cummins, headquartered downtown, employed 8,000 people in southern Indiana, most of them in Columbus.',
+      'Ethnic Expo, which began in 1984, now celebrates the traditions of more than 30 countries represented by Columbus residents, The Republic says.',
       'The town of 1930 was a county seat with a young diesel engine company. The city of 2020 was still a county seat, still home to that company, and now home to families from around the world.',
     ],
-    sources: [['Columbus, Indiana, Wikipedia', WP + 'Columbus,_Indiana'], ['Around the world in 59 counties, Site Selection', 'https://siteselection.com/around-the-world-in-59-counties/'], ['Story on the 33rd Ethnic Expo, The Republic', 'https://www.therepublic.com/?p=351137']] }),
+    sources: [['Columbus, Indiana, Wikipedia', WP + 'Columbus,_Indiana'], ['Around the world in 59 counties, Site Selection', 'https://siteselection.com/around-the-world-in-59-counties/'], ['China, Taiwan Ethnic Expo co hosts, The Republic (April 22, 2016)', 'https://www.therepublic.com/2016/04/22/china_taiwan_ethnic_expo_cohosts/']] }),
 
   x({ slug: 'atterbury-welcomes-afghans', when: '2021', section: 'service',
     title: 'Camp Atterbury takes in Afghan families',
@@ -33,18 +35,18 @@ export const A2020s = [
     ],
     sources: [['Afghan evacuees arrive in Indiana, head to Camp Atterbury, U.S. Army (September 3, 2021)', 'https://www.army.mil/article/250010/afghan_evacuees_arrive_in_indiana_head_to_camp_atterbury'], ['Operation Allies Welcome closes at Camp Atterbury, mural unveiled, WRTV (January 2022)', 'https://wrtv.com/news/local-news/johnson-county/operation-allies-welcome-comes-closes-at-camp-atterbury-mural-unveiled']] }),
 
-  x({ slug: 'sri-ganesh-mandir', when: '2022', section: 'faith',
+  x({ checked: '2026-11-24', slug: 'sri-ganesh-mandir', when: '2022', section: 'faith',
     title: 'A temple of their own',
     dek: 'Hindu families in Columbus prayed in churches, schools and apartment clubhouses for decades. On August 28, 2022, about 1,000 people came to dedicate Sri Ganesh Mandir on Goeller Boulevard.',
     body: [
       'For a long time, Hindus in Columbus had nowhere of their own to worship. The Republic reported that in the 1980s they met for prayer at the Briarwood Apartments clubhouse, and that the nearest temple was in Louisville, about 75 miles away. Over the years they also worshiped in Christian churches and schools. A 1987 picnic at what was then Ceraland Park started them talking about a place of their own.',
-      'By the 1990s, a past president of the Hindu Society of Southern Indiana recalled, 25 to 50 Hindu families in Columbus “had a dream.” In 2019, three years before the dedication, more than 1,000 people came to the groundbreaking for Sri Ganesh Mandir, a $1.2 million temple on Goeller Boulevard next to the Unitarian Universalist Congregation of Columbus. The Rev. Nic Cable, the Unitarian minister, said the temple would be part of a Columbus Interfaith Campus.',
+      'By the 1990s, a past president of the Hindu Society of Southern Indiana recalled, 25 to 50 Hindu families in Columbus “had a dream.” In 2019, three years before the dedication, more than 1,000 people came to the groundbreaking for Sri Ganesh Mandir, a $1.2 million temple in the 7800 block of Goeller Boulevard (the paper’s 2022 story calls it Goeller Road), next to the Unitarian Universalist Congregation of Columbus. It was planned then as 8,000 square feet for about 400 people. The Rev. Nic Cable, the Unitarian minister, said the temple would be part of a Columbus Interfaith Campus.',
       '## The dedication',
       'After a soft opening in April 2022, the temple was dedicated on Sunday, August 28, 2022, The Republic reported, and an estimated 1,000 people visited during the day. The 10,000 square foot building sits on two acres. Its name roughly means holy Ganesh’s temple, for the elephant headed god of intelligence, wisdom and prosperity.',
       '“This is indeed a big day,” said Algy Ramasamy, vice president of the society. Mayor Jim Lienhoop called it a “once in a lifetime opportunity” and compared it to the faith that had brought his own ancestors to start St. Peter’s Lutheran Church. At the groundbreaking he had called it a very American thing: people who came from far away for work, bringing their faith with them. Representative Greg Pence closed with a blessing for unity and harmony.',
       'Columbus has spent a century building beautiful places to worship. Now one more congregation has its own.',
     ],
-    sources: [['New Hindu temple dedication brings together community to celebrate, The Republic (August 2022)', 'https://www.therepublic.com/?p=543919'], ['That dream is finally coming true, The Republic', 'https://www.therepublic.com/?p=399735']] }),
+    sources: [['New Hindu temple dedication brings together community to celebrate, The Republic (August 29, 2022)', 'https://www.therepublic.com/2022/08/29/new-hindu-temple-dedication-brings-together-community-to-celebrate/'], ['That dream is finally coming true, The Republic (August 17, 2019)', 'https://www.therepublic.com/2019/08/17/that_dream_is_finally_coming_true/']] }),
 
   x({ slug: 'north-christian-becomes-the-lex', when: '2022', section: 'architecture', landmark: 'northchristian',
     title: 'North Christian’s last service, and a new life',
@@ -72,28 +74,30 @@ export const A2020s = [
     ],
     sources: [['Rumsey succeeds Linebarger as CEO at Cummins, FreightWaves (July 14, 2022)', 'https://freightwaves.com/news/rumsey-succeeds-linebarger-as-ceo-at-cummins'], ['Cummins completes acquisition of Meritor, Cummins', 'https://selfscreening.cummins.com/de-eu/news/releases/2022/08/03/cummins-completes-acquisition-meritor'], ['Meritor, Inc., Wikipedia', WP + 'Arvin_Industries'], ['Arvin merger a disaster, mistake, experts say, Indianapolis Business Journal (2007)', 'https://www.ibj.com/articles/7757-arvin-merger-a-disaster-mistake-experts-say']] }),
 
-  x({ slug: 'the-eclipse', when: '2024', section: 'river',
+  x({ checked: '2026-11-24', slug: 'the-eclipse', when: '2024', section: 'river',
     title: 'Three and a half minutes of night',
     dek: 'On April 8, 2024, the moon covered the sun over Columbus for nearly four minutes. Schools moved a day off to keep the roads clear for the visitors.',
     body: [
-      'On Monday, April 8, 2024, the path of a total solar eclipse crossed Indiana, and Columbus was inside it. According to NationalEclipse.com, totality in Columbus began at 3:05:57 in the afternoon and lasted 3 minutes and 44 seconds. The Republic, citing the Great American Eclipse, put it at about 3 minutes and 50 seconds. Times vary across a city, the site notes.',
+      'On Monday, April 8, 2024, the path of a total solar eclipse crossed Indiana, and Columbus was inside it. According to NationalEclipse.com, totality in Columbus began at 3:05:57 in the afternoon and lasted 3 minutes and 44 seconds. The Republic, citing the Great American Eclipse, put it at about 3 minutes and 50 seconds, and up to about 4 minutes and 28 seconds in the best spots in the area. Times vary across a city, the site notes. Columbus had missed totality in 2017; this time it was in the path.',
       'The shadow raced across the state. NationalEclipse.com says the eclipse entered Indiana at the Wabash River, crossed about 183 miles of the state in 5 minutes and 24 seconds of shadow travel, and moved at an average of 2,038 miles an hour.',
       '## Planning for a crowd',
       'Totality in Columbus fell close to the end of the school day, and city and county officials worried that eclipse visitors could stop traffic. So the Bartholomew Consolidated School Corporation board moved a staff professional development day from March 28 to April 8, The Republic reported, giving students the day off.',
       '“It is something that people want to come and be part of,” Gina Pleak, the district’s assistant superintendent of human resources, told the paper. “And we’ll be welcoming many guests to our community on that day.”',
-      'Weather is part of many Columbus stories, from the flood of 2008 on. This was a gentler one: a few minutes of darkness in the middle of an April afternoon, in a town known for looking at its buildings, with everyone looking up instead.',
+      'Weather is part of many Columbus stories, from the flood of 2008 on. This was a gentler one: a few minutes of darkness in the middle of an April afternoon, in a town known for looking at its buildings, with everyone looking up instead. The paper, citing NASA, noted that the next total eclipse visible in the lower 48 states will not come until August 23, 2044.',
     ],
-    sources: [['2024 total solar eclipse in Indiana, NationalEclipse.com', 'https://nationaleclipse.com/states/2024-total-solar-eclipse-indiana.html'], ['BCSC approves calendar change for solar eclipse, The Republic', 'https://www.therepublic.com/?p=567638']] }),
+    sources: [['2024 total solar eclipse in Indiana, NationalEclipse.com', 'https://nationaleclipse.com/states/2024-total-solar-eclipse-indiana.html'], ['BCSC approves calendar change for solar eclipse, The Republic (April 26, 2023)', 'https://www.therepublic.com/2023/04/26/bcsc-approves-calendar-change-for-solar-eclipse/']] }),
 
-  x({ slug: 'iu-columbus', when: '2024', section: 'schools',
+  x({ checked: '2026-11-24', slug: 'iu-columbus', when: '2024', section: 'schools',
     title: 'IUPUC becomes IU Columbus',
     dek: 'On July 1, 2024, the split of IUPUI turned the Columbus campus into Indiana University Columbus, ending more than fifty years of a shared IU and Purdue name.',
     body: [
       'College classes came to Columbus in 1970 as an extension of Indiana University Purdue University Indianapolis. The campus moved into an old Air Force building at the airport in 1971, took the name IUPUC in 1994, and in 2005 moved into the Columbus Learning Center, as earlier articles in this series tell.',
       'Then the parent changed. On August 12, 2022, according to Wikipedia, the IU and Purdue boards announced that IUPUI would be split into two universities. The split took effect on July 1, 2024. In Columbus, IUPUC became Indiana University Columbus, and Purdue’s programs there withdrew. Purdue’s Polytechnic Institute keeps a separate Columbus campus, run from West Lafayette.',
+      'IUPUI’s interim chancellor at the time, Andrew Klein, said IU Columbus would carry on as a regional center run through IU Indianapolis. Two of the campus’s degree programs had been Purdue’s, Wikipedia notes: biology, which IU Columbus still grants through Indiana University, and mechanical engineering, which it no longer offers.',
       '## The campus today',
+      'The campus sits at 4601 Central Avenue, in what began as the Civilian Personnel Building at the old air base, its history says. The state put $2.5 million toward science and technology labs in 1984, a renovation finished in 1985 made the building more than 60 percent bigger, and in 1987 the city deeded 11 more acres to Indiana University. Its colors are cream and crimson, its teams are the Crimson Pride and its mascot is a lion, according to Wikipedia.',
       'Wikipedia counted 1,051 students at IU Columbus in the fall of 2022. The campus history counts more than 250 faculty and staff and an average class size of 15. Its teams compete in the NAIA’s River States Conference. The Columbus Learning Center library still serves students of IU Columbus, Ivy Tech Community College and Purdue Polytechnic, and is open to the public.',
-      'The campus has had a steady line of leaders. Dr. Reinhold Hill has served as vice chancellor and dean since 2016, according to the campus history, following Dr. Marwan Wafa, who led it from 2009 to 2015.',
+      'The campus has had a steady line of leaders, and its history lists them all: Dr. Emerson Gilbert, its first director, from 1970 to 1977; Dr. Paul Bippen, director and then dean, from 1977 to 2003; Dr. Nasser Paydar, from 2004 to 2007; Dr. Marwan Wafa, from 2009 to 2015; and Dr. Reinhold Hill, vice chancellor and dean since 2016, with interim leaders between some of them.',
       'The new name is simpler, and in a town that cares about names, it matters. IU Columbus also became a partner of the city’s new professional hockey team, the Indiana Sentinels, the team announced. Fifty four years after the first classes, Columbus has a university with its own name on the door.',
     ],
     sources: [['Indiana University Columbus, Wikipedia', WP + 'Indiana_University_Columbus'], ['IU Columbus history, Indiana University Columbus', 'https://columbus.iu.edu/about/history/index.html'], ['About the library, Indiana University Columbus', 'https://columbus.iu.edu/library/about.html'], ['IU Columbus partners with Indiana Sentinels, Indiana Sentinels', HS + 'iu-columbus-partners-with-indiana-sentinels-to-str']] }),
@@ -135,5 +139,5 @@ export const A2020s = [
       'For 154 years The Republic has covered the school boards, city councils, high school games and church anniversaries of Columbus, and many of the articles in this history lean on its reporting.',
       'Its new owners have said they believe in that work. That is good news for anyone who cares about local news in Bartholomew County, and we wish the paper and its staff well in the new chapter.',
     ],
-    sources: [['HD Media to acquire 25 publications from AIM Media Management, Editor and Publisher (August 19, 2026)', 'https://www.editorandpublisher.com/stories/hd-media-to-acquire-25-publications-from-aim-media-management,263132'], ['The Republic (Columbus, Indiana), Wikipedia', WP + 'The_Republic_(Columbus,_Indiana)'], ['Sale of Home News publications closes six generation ownership by Brown family, The Republic', 'https://www.therepublic.com/?p=350633']] }),
+    sources: [['HD Media to acquire 25 publications from AIM Media Management, Editor and Publisher (August 19, 2026)', 'https://www.editorandpublisher.com/stories/hd-media-to-acquire-25-publications-from-aim-media-management,263132'], ['The Republic (Columbus, Indiana), Wikipedia', WP + 'The_Republic_(Columbus,_Indiana)'], ['Sale of Home News publications closes six generation ownership by Brown family, The Republic (November 5, 2015)', 'https://www.therepublic.com/2015/11/05/sale_of_home_news_publications_closes_sixgeneration_ownership_by_brown_family-2/']] }),
 ];

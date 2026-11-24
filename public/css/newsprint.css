@@ -1,0 +1,126 @@
+/* The newspaper page for news stories (storyPage in src/pages/news-pages.mjs).
+   History pages keep the e-reader (kindle.css); this file only applies under
+   .kd-news. Newsprint: warm gray paper with a grain, black ink, a nameplate
+   with ears, a headline over justified columns with rules between them, and
+   pictures printed as halftone. No color, no cards, no rounded corners. */
+
+.kd-news {
+  --np-paper: #ede7d8; --np-ink: #141310; --np-gray: #4a4740; --np-rule: #2a2824;
+  --np-serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --np-head: "Fraunces", var(--np-serif);
+  padding: 18px 0 44px;
+}
+.kd-news .kd-device { max-width: 1180px; }
+.kd-news .kd-screen {
+  border: 0; border-radius: 0; color: var(--np-ink);
+  background-color: var(--np-paper);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    linear-gradient(90deg, rgba(0,0,0,.05), transparent 3%, transparent 97%, rgba(0,0,0,.05));
+  box-shadow: 0 1px 2px rgba(0,0,0,.12), 0 12px 30px -18px rgba(0,0,0,.35);
+}
+.kd-news .kd-top, .kd-news .kd-bot, .kd-news .kd-progress { display: none !important; }
+.kd-news .kd-flow { padding: 22px 18px 34px; }
+@media (min-width: 768px) { .kd-news .kd-flow { padding: 30px 44px 48px; } }
+.kd-news a { color: var(--np-ink); }
+
+/* Nameplate: ears in the corners, the name, the folio line between rules. */
+.kd-news .np-plate { border-bottom: 3px double var(--np-ink); padding-bottom: 6px; margin-bottom: 18px; }
+.kd-news .np-plate-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; gap: 12px; }
+.kd-news .np-ear { font-family: var(--np-serif); font-size: 11px; line-height: 1.35; text-transform: uppercase; letter-spacing: .12em; border: 1px solid var(--np-ink); padding: 6px 8px; max-width: 150px; }
+.kd-news .np-ear-r { justify-self: end; text-align: right; }
+.kd-news .np-plate-name { font-family: var(--np-head); font-weight: 900; font-size: clamp(34px, 7.5vw, 76px); line-height: .95; letter-spacing: -.02em; text-align: center; margin: 0; }
+.kd-news .np-folio { display: flex; justify-content: center; flex-wrap: wrap; gap: 2px 14px; border-top: 1px solid var(--np-ink); margin-top: 8px; padding-top: 5px; font-family: var(--np-serif); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
+@media (max-width: 640px) {
+  .kd-news .np-plate-row { grid-template-columns: 1fr; }
+  .kd-news .np-ear { display: none; }
+}
+.kd-news .np-folio-day { display: none; }
+@media (max-width: 640px) { .kd-news .np-folio-day { display: inline; } }
+
+/* The headline block runs across every column. */
+.kd-news article { display: block; max-width: none; padding: 0; margin: 0; color: var(--np-ink); }
+.kd-news article > * + * { margin-top: 16px; }
+.kd-news .np-story-head { text-align: center; border-bottom: 1px solid var(--np-rule); padding-bottom: 14px; }
+.kd-news .np-story-kick { font-family: var(--np-serif); font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; margin: 0 0 10px; display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+.kd-news .np-story-kick a, .kd-news .np-label, .kd-news .np-series { color: var(--np-ink); background: none; border: 1px solid var(--np-ink); border-radius: 0; padding: 1px 7px; font-size: 11px; margin: 0; text-decoration: none; }
+.kd-news h1 { font-family: var(--np-head); font-weight: 900; font-size: clamp(34px, 6.2vw, 68px); line-height: .98; letter-spacing: -.025em; text-wrap: balance; color: var(--np-ink); }
+.kd-news .np-dek { font-family: var(--np-serif); font-style: italic; font-size: clamp(18px, 2.4vw, 23px); line-height: 1.35; color: var(--np-gray); margin-top: 10px; }
+.kd-news .np-byline { font-family: var(--np-serif); font-size: 14px; font-variant: small-caps; letter-spacing: .08em; margin-top: 12px; }
+.kd-news .np-meta { font-family: var(--np-serif); font-size: 12px; color: var(--np-gray); margin-top: 4px; }
+
+/* Pictures: grayscale, a little contrast, a halftone screen on top. */
+.kd-news .np-fig { position: relative; margin: 0; break-inside: avoid; }
+.kd-news .np-fig img { display: block; width: auto; max-width: 100%; height: auto; max-height: min(82vh, 860px); object-fit: contain; border: 0; border-radius: 0; aspect-ratio: auto;
+  filter: grayscale(1) contrast(1.18) brightness(1.02); mix-blend-mode: multiply; }
+.kd-news .np-fig-img { position: relative; display: table; margin: 0 auto 6px; }
+.kd-news .np-fig-img::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(rgba(20,19,16,.22) 32%, transparent 34%); background-size: 3px 3px; mix-blend-mode: multiply; opacity: .55; }
+.kd-news figcaption { font-family: var(--np-serif); font-size: 13px; line-height: 1.4; color: var(--np-ink); border-bottom: 1px solid var(--np-rule); padding-bottom: 8px; }
+.kd-news .np-credit { display: block; text-align: right; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--np-gray); margin-top: 3px; }
+.kd-news .np-credit a { text-decoration: none; }
+
+/* Stickers print as ink stamps. */
+.kd-news .np-sticker { filter: grayscale(1) contrast(1.35); mix-blend-mode: multiply; opacity: .9; }
+.kd-news .np-sticker-strip { justify-content: center; gap: 14px; }
+.kd-news .np-sticker-strip .np-sticker { width: 52px; }
+
+/* Body: justified book serif in columns with rules between them. */
+.kd-news .np-prose { font-family: var(--np-serif); font-size: var(--kd-size, 18px); line-height: 1.5; text-align: justify; hyphens: auto; -webkit-hyphens: auto; text-wrap: pretty; }
+@media (min-width: 760px) { .kd-news .np-prose { columns: 2; column-gap: 34px; column-rule: 1px solid var(--np-rule); } }
+@media (min-width: 1100px) { .kd-news .np-prose { columns: 3; } }
+.kd-news .np-prose p { margin: 0; text-indent: 1.3em; orphans: 2; widows: 2; }
+.kd-news .np-prose > p:first-child, .kd-news .np-prose h2 + p { text-indent: 0; }
+.kd-news .np-prose > p:first-child::first-letter { font-family: var(--np-head); float: left; font-size: 3.6em; line-height: .8; font-weight: 900; padding: .06em .08em 0 0; }
+.kd-news .np-prose h2 { display: flex; align-items: center; gap: 10px; font-family: var(--np-serif); font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; text-align: center; margin: 1.1em 0 .5em; break-after: avoid; break-inside: avoid; }
+.kd-news .np-prose h2::before, .kd-news .np-prose h2::after { content: ""; flex: 1; border-top: 1px solid var(--np-rule); }
+.kd-news .np-prose h2 .np-sticker { width: 34px; }
+.kd-news .np-prose h2.np-h2-sticker span { flex: 0 1 auto; min-width: 0; }
+.kd-news .np-prose h2::before, .kd-news .np-prose h2::after { min-width: 14px; }
+/* A paragraph that is only a bold line (the ratings, marked np-rating) prints as a boxed rule line. */
+.kd-news .np-prose p.np-rating { text-indent: 0; text-align: center; border-top: 1px solid var(--np-rule); border-bottom: 1px solid var(--np-rule); padding: 3px 0; margin: .6em 0; font-size: .78em; letter-spacing: .14em; text-transform: uppercase; break-inside: avoid; }
+
+/* Boxes and back matter: rules, not cards. */
+.kd-news .np-dev, .kd-news .np-disclose, .kd-news .np-corr { background: none; border: 1px solid var(--np-ink); border-radius: 0; box-shadow: none; font-family: var(--np-serif); }
+.kd-news .np-trust { border-top: 3px double var(--np-ink); font-family: var(--np-serif); font-size: 14px; }
+.kd-news .np-trust h2 { font-family: var(--np-serif); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; }
+.kd-news .btn { background: none; color: var(--np-ink); border: 1px solid var(--np-ink); border-radius: 0; box-shadow: none; font-family: var(--np-serif); }
+
+/* Photos after the story run as a spread, side by side, like a picture page. */
+.kd-news .np-figs { display: grid; gap: 18px; border-top: 3px double var(--np-ink); padding-top: 14px; }
+@media (min-width: 640px) { .kd-news .np-figs-2, .kd-news .np-figs-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1000px) { .kd-news .np-figs-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.kd-news .np-figs .np-fig { display: flex; flex-direction: column; }
+.kd-news .np-figs .np-fig-img { display: block; margin: 0 0 6px; }
+.kd-news .np-figs .np-fig img { width: 100%; max-height: none; aspect-ratio: 3 / 4; object-fit: cover; }
+.kd-news .np-figs figcaption { margin-top: auto; }
+
+/* Ink on newsprint: a hair of spread, the first line in small capitals. */
+.kd-news .np-prose, .kd-news h1, .kd-news .np-plate-name { text-shadow: 0 0 .5px rgba(20,19,16,.45); }
+.kd-news .np-prose > p:first-child::first-line { font-variant: small-caps; letter-spacing: .03em; }
+@media (max-width: 479px) { .kd-news .np-prose { text-align: left; hyphens: manual; -webkit-hyphens: manual; } }
+
+@media (max-width: 899px) { .kd-news { padding: 0 0 16px; } .kd-news .kd-screen { box-shadow: none; } }
+@media print { .kd-news .kd-screen { background: none; box-shadow: none; } .kd-news .np-fig-img::after { display: none; } }
+
+/* Back YOUR Blue: one spot color on the newsprint, the way a paper prints a
+   second ink. Blue for the rules, the drop cap and the pull quote; the words
+   are untouched. */
+.np-your { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.kd-series-back-your-blue { --np-spot: #1f3a6e; }
+.kd-series-back-your-blue .np-plate { border-bottom-color: var(--np-spot); }
+.kd-series-back-your-blue .np-folio { border-top-color: var(--np-spot); color: var(--np-spot); }
+.kd-series-back-your-blue .np-story-head { border-bottom: 3px double var(--np-spot); }
+.kd-series-back-your-blue .np-series { color: #fff; background: var(--np-spot); border-color: var(--np-spot); }
+.kd-series-back-your-blue h1 { font-size: clamp(36px, 6.6vw, 72px); }
+.kd-series-back-your-blue .np-prose > p:first-child::first-letter { color: var(--np-spot); }
+.kd-series-back-your-blue .np-prose h2 { color: var(--np-spot); }
+.kd-series-back-your-blue .np-prose h2::before, .kd-series-back-your-blue .np-prose h2::after { border-top-color: var(--np-spot); }
+.kd-series-back-your-blue .np-sticker { filter: grayscale(1) contrast(1.3) sepia(1) hue-rotate(185deg) saturate(2.2); }
+/* The pull quote runs across the columns, between blue rules. */
+.kd-news .np-prose blockquote { column-span: all; margin: 1.1em 0; padding: 14px 6%; border-top: 3px double var(--np-spot, var(--np-ink)); border-bottom: 3px double var(--np-spot, var(--np-ink)); border-left: 0; text-align: center; break-inside: avoid; }
+.kd-news .np-prose blockquote p { text-indent: 0; text-align: center; font-family: var(--np-head); font-weight: 700; font-style: italic; font-size: clamp(22px, 3.2vw, 34px); line-height: 1.2; color: var(--np-spot, var(--np-ink)); }
+/* The sign-off: the last two short lines, set like a signature. */
+.kd-series-back-your-blue .np-prose > p:nth-last-child(2), .kd-series-back-your-blue .np-prose > p:last-child { text-indent: 0; text-align: left; break-before: avoid; }
+.kd-series-back-your-blue .np-prose > p:nth-last-child(2) { margin-top: .8em; font-family: var(--np-head); font-weight: 700; font-style: italic; font-size: 1.6em; color: var(--np-spot); }
+.kd-series-back-your-blue .np-prose > p:last-child { font-style: italic; font-size: 1.15em; }

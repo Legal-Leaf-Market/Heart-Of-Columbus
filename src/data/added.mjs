@@ -21,7 +21,7 @@
 // Legal Leaf Market Cafe: from its owner, Jacob Kennedy, who also publishes
 // Heart of Columbus (2026-11-13): a cafe coming soon to Columbus, Indiana. No
 // address, hours or menu yet. Listed as coming soon, with the tie disclosed on
-// its page.
+// its page. Moved to Shopping, Smoke & Vape on 2026-11-24 (see the entry).
 //
 // Rabbit's Balloons: from its owner, Rachael Starr, in conversation with Jacob
 // Kennedy (2026-11-15): organic balloon arches, garlands and displays in all
@@ -55,7 +55,87 @@
 // chicken and vegetables"; cooking videos; 812-764-8400. Its founder's own
 // LinkedIn profile lists "Private chef, Food and Beverage consultant, Bip's
 // Bites" in Columbus, Indiana. No street address.
+//
+// Added 2026-11-23 from the Crossroads Wedding and Event Co. lead list (Jacob
+// Kennedy, who runs both: "if there's any that you find here that you don't
+// see on Heart of Columbus, go ahead and add them"). Same rule: only what a
+// public listing says. Big employers, chain hotels, events, city offices and
+// nonprofits without a business listing were left off on purpose.
+//
+// Clarity of Central Indiana (claritycares.org/locations, checked 2026-11-23):
+// the Columbus Clarity Care Hub "houses Pregnancy Services, a Testing Clinic,
+// and Administrative Offices" at 3203 Middle Road, Columbus, IN 47203; office
+// 812-378-4114, center 812-378-4730, clinic 812-418-3230. Its ECFA member
+// profile (ecfa.org/MemberProfile.aspx?ID=35721) lists pregnancy tests,
+// ultrasounds, client advocates, community referrals, material help and
+// spiritual guidance, and STI testing and treatment at the clinic.
+//
+// Centra Credit Union (centra.org/about/who-we-are, checked 2026-11-23):
+// headquarters 3801 Tupelo Drive, Columbus; 800-232-3642; started in Columbus
+// by eight Cummins Engine Company employees, chartered October 31, 1940; more
+// than 180,000 members.
+//
+// Gypsy Rose Events (its The Knot listing, checked 2026-11-23): "a premier event
+// planning and coordination company based in South Central Indiana"; Columbus,
+// IN; wedding planning, day-of coordination and design. No phone, website or
+// street address is shown, so none is listed.
+//
+// JCBank, Central Avenue (jcbank.com location page, checked 2026-11-23): 2761
+// Central Avenue, Columbus, IN 47201, in the Kroger Marketplace at Central Avenue
+// and National Road; (812) 378-0850. "Founded and headquartered in Seymour,
+// JCBank is proud to have served south-central Indiana since 1900." Its other
+// Columbus branches (400 Washington Street, 3880 West Jonathan Moore Pike) are
+// not listed yet.
+//
+// SIHO Insurance Services (The Republic, therepublic.com/?p=812300, checked
+// 2026-11-23): "Columbus-based", headquartered in the building it owns at 417
+// Washington St.; owned by Columbus Regional Health, Schneck Memorial Hospital
+// and Innovative Healthcare Collaboration of Indiana. A health plan
+// administrator for employers. (812) 378-7070 and siho.org from the City of
+// Columbus benefit guide and its BBB listing.
+//
+// QMIX 107.3 (mojo1029.com/about-us/about, a sister station's page, checked
+// 2026-11-23): one of four stations of Reising Radio Partners, Inc., established
+// 1984, serving South Central Indiana; "QMIX, KORN Country, MOJO: 812-379-1077".
+// Studios at Reising Radio's headquarters, 825 Washington Street (the FCC public
+// file and a 2020 studio tour on fybush.com). Website qmix.com.
+//
+// Bartholomew County 4-H Fairgrounds (Visit Columbus directory,
+// comeseecolumbus.com/directory/bartholomew-county-fairgrounds, checked
+// 2026-11-23): 750 West 200 South, Columbus. Home of the 4-H Fair; the fair's own
+// site (already credited in events.mjs) lists building rentals through the year.
+// No current phone found on a public listing, so none is shown.
+//
+// From the research pass of 2026-11-24 (ChatGPT's candidate list, each
+// checked by hand against the page named here; candidates whose own pages
+// did not answer were left out):
+//
+// PAQ'D Meats (paqdmeats.com, checked 2026-11-24): "a small, family-owned and
+// operated sheep and goat farm located in southern Indiana" selling "locally
+// raised, high-quality lamb, goat and beef meats", with an Order Online page;
+// 5844 Laramie Trail, Columbus, IN 47203; Tel 812-350-0100.
+//
+// Not added: M&M Sportscards & Collectibles. The visitors bureau's directory
+// still lists it at 3003 25th Street, but its own Google listing marks it
+// permanently closed (src/data/web.mjs) and its old domain no longer belongs
+// to it, so it stays off, as the landscape row already did.
+//
+// Not added: Max's Jewelry (401 Washington St). Added earlier on 2026-11-24
+// from an old YellowPages listing, then taken off the same day: Jake says the
+// store has closed and another business is in its space.
 export const ADDED = [
+  {
+    name: "PAQ'D Meats",
+    cat: 'shopping',
+    sub: 'markets',
+    type: 'Farm-raised lamb, goat and beef',
+    address: '5844 Laramie Trail',
+    phone: '(812) 350-0100',
+    website: 'https://www.paqdmeats.com/',
+    book: [],
+    source: 'https://www.paqdmeats.com/',
+    checked: '2026-11-24',
+  },
   {
     name: 'Crossroads Wedding Co.',
     cat: 'events',
@@ -96,9 +176,13 @@ export const ADDED = [
   },
   {
     name: 'Legal Leaf Market Cafe',
-    cat: 'coffee-sweets',
-    sub: 'coffee-sweets',
-    type: 'Cafe',
+    // Filed under Smoke & Vape for now (owner's call, 2026-11-24): its online
+    // store sells vapes and smoke goods today. Its coffee and tea shop isn't
+    // open yet; move it back to Coffee & Sweets (or list it in both, `also`
+    // in own-facts.mjs) once coffee and tea are on sale.
+    cat: 'smoke',
+    sub: 'smoke',
+    type: 'Vape shop',
     address: '',
     phone: '',
     website: 'https://shop.legalleafmarket.shop/',
@@ -167,5 +251,114 @@ export const ADDED = [
     book: [],
     source: 'https://www.bipsbites.com/',
     checked: '2026-11-15',
+  },  {
+    name: 'Clarity of Central Indiana',
+    cat: 'health',
+    sub: 'clinics',
+    type: 'Faith-based nonprofit: pregnancy tests, ultrasounds, material help and an STI testing clinic',
+    address: '3203 Middle Road',
+    phone: '(812) 378-4114',
+    website: 'https://www.claritycares.org/',
+    book: [],
+    source: 'https://claritycares.org/locations/',
+    checked: '2026-11-23',
+  },
+  {
+    name: 'Centra Credit Union',
+    cat: 'pros',
+    sub: 'finance',
+    type: 'Credit union, headquarters',
+    address: '3801 Tupelo Drive',
+    phone: '(800) 232-3642',
+    website: 'https://www.centra.org/',
+    book: [],
+    source: 'https://www.centra.org/about/who-we-are/',
+    checked: '2026-11-23',
+  },
+  {
+    name: 'Gypsy Rose Events',
+    cat: 'events',
+    sub: 'events',
+    type: 'Wedding and event planning, day-of coordination and design',
+    address: '',
+    phone: '',
+    website: '',
+    book: [],
+    source: 'https://www.theknot.com/marketplace/gypsy-rose-events-columbus-in-2047928',
+    checked: '2026-11-23',
+  },
+  {
+    name: 'JCBank (Central Avenue)',
+    cat: 'pros',
+    sub: 'finance',
+    type: 'Community bank branch, in the Kroger Marketplace',
+    address: '2761 Central Avenue',
+    phone: '(812) 378-0850',
+    website: 'https://www.jcbank.com/',
+    book: [],
+    source: 'https://jcbank.com/Resources/Locations/Details/Welcome-to-Community-Banking-on-Central-Avenue-in-Columbus',
+    checked: '2026-11-23',
+  },
+  {
+    name: 'SIHO Insurance Services',
+    cat: 'pros',
+    sub: 'insurance',
+    type: 'Health plan administrator for employers',
+    address: '417 Washington Street',
+    phone: '(812) 378-7070',
+    website: 'https://www.siho.org/',
+    book: [],
+    source: 'https://www.therepublic.com/?p=812300',
+    checked: '2026-11-23',
+  },
+  {
+    name: 'QMIX 107.3',
+    cat: 'pros',
+    sub: 'creative',
+    type: 'Radio station (Reising Radio Partners)',
+    address: '825 Washington Street',
+    phone: '(812) 379-1077',
+    website: 'https://www.qmix.com/',
+    book: [],
+    source: 'https://www.mojo1029.com/about-us/about/',
+    checked: '2026-11-23',
+  },
+  {
+    name: 'Bartholomew County 4-H Fairgrounds',
+    cat: 'events',
+    sub: 'events',
+    type: 'County fairgrounds, home of the 4-H Fair, with building rentals',
+    address: '750 West 200 South',
+    phone: '',
+    website: 'https://bartholomewcountyfair.com/',
+    book: [],
+    source: 'https://comeseecolumbus.com/directory/bartholomew-county-fairgrounds/',
+    checked: '2026-11-23',
+  },
+  {
+    name: 'Wild Bramble Catering',
+    cat: 'restaurants',
+    sub: 'bbq-trucks',
+    type: 'Seasonal catering for weddings, private events and corporate gatherings',
+    address: '',
+    phone: '(463) 202-6046',
+    website: 'https://www.wildbramblecatering.com/',
+    book: [],
+    source: 'https://www.wildbramblecatering.com/',
+    checked: '2026-11-24',
+  },
+  {
+    // The publisher confirmed the location and shared ownership. The public
+    // internship announcement confirms the name and city.
+    name: 'Rad Play',
+    cat: 'shopping',
+    sub: 'local-shops',
+    type: 'Local shop from the owners of Dooby’s',
+    address: 'State Street, next to Dooby’s',
+    phone: '',
+    website: '',
+    book: [],
+    source: 'https://www.linkedin.com/in/alliefpeters',
+    checked: '2026-11-24',
   },
 ];

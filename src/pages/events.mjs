@@ -6,7 +6,7 @@
 import { esc, t, json } from '../layout.mjs';
 import { svg } from '../site.mjs';
 import { directory, km } from '../data/directory.mjs';
-import { EVENTS, CALENDARS } from '../data/events.mjs';
+import { EVENTS, CALENDARS, SOURCES as SOURCE_LIST } from '../data/events.mjs';
 
 const NEAR_KM = 0.4; // about a 5-minute walk
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -64,4 +64,55 @@ export function icsFeed(now = new Date()) {
   // Lines longer than 75 characters continue on the next line after a space.
   const folded = lines.map((l) => l.match(/.{1,73}/g).join('\r\n '));
   return folded.join('\r\n') + '\r\n';
+}
+
+// The homepage events carousel: "Coming up in Columbus". A swipeable row
+// of poster cards (three across on a desktop, one and a bit on a phone) with
+// arrow buttons, a progress bar, filters, and on every card Share and Add to
+// calendar. public/js/events-week.js fills it from /api/events (library,
+// parks, Arts Council and hand-entered listings) for the next two weeks; a
+// program that repeats shows once, with its other dates counted. Without the
+// script, or if the feed fails, the cards are the signature events that have
+// not ended yet, so the row is never empty.
+const evCard = (e, i) => `<li class="evc-card" data-src="${esc(e.from || 'org')}"><a class="evc-hit" href="${esc(e.url)}" target="_blank" rel="noopener">
+  <span class="evc-date"><b>${esc(new Date(e.start + 'T12:00:00Z').toLocaleDateString('en-US', { timeZone: 'UTC', day: 'numeric' }))}</b>${esc(new Date(e.start + 'T12:00:00Z').toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short' }))}</span>
+  <span class="evc-tag">${esc(dateRange(e))}</span>
+  <strong class="evc-t">${t(e.name)}</strong>
+  <span class="evc-m">${e.times ? esc(`${fmtMin(e.times[0])} to ${fmtMin(e.times[1])}`) + '<br>' : ''}${esc(e.venue)}</span></a></li>`;
+// The same carousel on the homepage, /visit/, /holidays/, the news front
+// page and Things to do: `start` picks the filter it opens on (all, today,
+// weekend, kids, live).
+export function homeEvents({ id = 'this-week', title = 'Coming up in Columbus', kicker = 'Library, parks, arts and more', start = 'all', today = new Date().toISOString().slice(0, 10) } = {}) {
+  const upcoming = EVENTS.filter((e) => e.end >= today).sort((a, b) => a.start.localeCompare(b.start));
+  const srcNames = Object.fromEntries(SOURCE_LIST.map((s) => [s.id, s.short || s.name]));
+  return `
+<section class="wrap evc" id="${id}" aria-labelledby="${id}-h" data-evw data-evw-start="${start}" data-src-names="${esc(JSON.stringify(srcNames))}">
+  <div class="rail-head"><div><p class="kicker">${esc(kicker)}</p><h2 id="${id}-h">${esc(title)}</h2></div>
+    <a class="see-all" href="/events/">All local events ${svg('arrow', 'ic-sm')}</a></div>
+  <div class="evc-bar">
+    <div class="evw-filters" role="group" aria-label="Show" data-evw-tools hidden>
+      <button type="button" class="evw-chip" data-evw-filter="all" aria-pressed="${start === 'all'}">Everything</button>
+      <button type="button" class="evw-chip" data-evw-filter="today" aria-pressed="${start === 'today'}">Today</button>
+      <button type="button" class="evw-chip" data-evw-filter="weekend" aria-pressed="${start === 'weekend'}">This weekend</button>
+      <button type="button" class="evw-chip" data-evw-filter="kids" aria-pressed="${start === 'kids'}">Kids &amp; family</button>
+      <button type="button" class="evw-chip" data-evw-filter="live" aria-pressed="${start === 'live'}">Live music &amp; arts</button>
+    </div>
+    <div class="evc-nav"><button type="button" class="evc-btn" data-evc-prev aria-label="Earlier events">${svg('arrow', 'ic sc-flip')}</button><button type="button" class="evc-btn" data-evc-next aria-label="Later events">${svg('arrow')}</button></div>
+  </div>
+  <div class="evc-frame">
+    <ul class="evc-track" data-evc-track role="list" tabindex="0" aria-label="Upcoming events, scroll sideways">${upcoming.map(evCard).join('') || '<li class="evc-card evc-empty"><a class="evc-hit" href="/events/"><strong class="evc-t">See every local listing</strong></a></li>'}</ul>
+  </div>
+  <div class="evc-progress" aria-hidden="true"><span data-evc-progress></span></div>
+  <p class="evc-count" data-evc-count aria-live="polite"></p>
+  <dialog class="evw-pop" data-evw-pop aria-labelledby="evw-pop-h">
+    <form method="dialog"><button class="evw-x" aria-label="Close">${svg('x', 'ic-sm')}</button></form>
+    <p class="evw-pop-k" data-evw-pop-k></p>
+    <h3 id="evw-pop-h" data-evw-pop-h></h3>
+    <p class="evw-pop-m" data-evw-pop-m></p>
+    <p class="evw-pop-more" data-evw-pop-more></p>
+    <p class="evw-pop-cta"><a class="btn" data-evw-pop-go target="_blank" rel="noopener">Details from the organizer ${svg('arrow', 'ic-sm')}</a><button type="button" class="btn btn-ghost" data-evw-pop-share>${svg('share', 'ic-sm')} Share</button><a class="btn btn-ghost" data-evw-pop-ics download>Add to my calendar</a></p>
+    <p class="fine" data-evw-pop-src></p>
+  </dialog>
+  <p class="fine evw-foot">Listings come from each organizer’s own calendar and link back to it. Times can change; check before you go. <a href="/events.ics">Signature events calendar</a></p>
+</section>`;
 }

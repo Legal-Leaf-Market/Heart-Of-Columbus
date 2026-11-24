@@ -16,8 +16,6 @@ export const PAPER = {
   funding: '',
   // TODO(owner): a public newsroom address for tips, letters and corrections.
   email: '',
-  // TODO(owner): approve the AI policy on /about/standards/ (AI_POLICY below).
-  aiPolicyApproved: false,
 };
 
 // Turns the News link on in the header and lets the front page be announced.
@@ -29,20 +27,23 @@ export const NEWS_LIVE = process.env.NEWS_LIVE === '1';
 // "About our funding" lists every one; an empty list says so.
 export const FUNDERS = [];
 
-// Draft policies, shown on /about/standards/ with a "draft" note until the
-// publisher approves them. Plain sentences, no dashes.
-export const AI_POLICY = [
-  'People report and write every story, headline, quote, letter and obituary we publish. A named reporter writes it and an editor approves it.',
-  'Software helps us run the paper: it builds the pages, checks spelling and links, keeps the business directory current, and turns public data into lead lists for reporters. A lead is never a story until a person has confirmed it.',
-  'We do not publish AI written stories, recaps or summaries, and we do not use AI to create or alter news photos.',
-  'If a tool ever helps with something a reader sees, such as a translation, the page says so.',
-];
-
 // The morning newsletter. We never build email delivery: a newsletter
 // service (Buttondown, beehiiv, Ghost...) handles double opt-in, sending
 // and one-click unsubscribe. TODO(owner): pick the service, then set its
 // public signup form address here; until then /newsletter/ says it's coming.
-export const NEWSLETTER = { provider: '', signupAction: '', archive: '' };
+// The newsletter runs on Buttondown. Set HOC_BUTTONDOWN_USER (the newsletter's
+// Buttondown username) in Netlify and the signup form turns on at the next
+// build; BUTTONDOWN_API_KEY turns on the morning draft job
+// (netlify/functions/newsletter.mjs). Both unset: the page says signup opens soon.
+// Resend instead: set HOC_NEWSLETTER=resend at build (plus the RESEND_* keys for
+// the functions) and the form posts to our own /api/subscribe, double opt in.
+const BD_USER = (process.env.HOC_BUTTONDOWN_USER || '').trim().replace(/[^a-z0-9_-]/gi, '');
+const RESEND = (process.env.HOC_NEWSLETTER || '').trim().toLowerCase() === 'resend';
+export const NEWSLETTER = {
+  provider: RESEND ? 'resend' : BD_USER ? 'buttondown' : '',
+  signupAction: RESEND ? '/api/subscribe' : BD_USER ? `https://buttondown.com/api/emails/embed-subscribe/${BD_USER}` : '',
+  archive: !RESEND && BD_USER ? `https://buttondown.com/${BD_USER}/archive/` : '',
+};
 
 // TODO(owner): memberships mean taking payment, which CLAUDE.md rules out
 // for business orders but doesn't decide for the paper itself. Until you

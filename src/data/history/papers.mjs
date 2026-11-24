@@ -26,18 +26,18 @@ export const PAPERS = [
     ],
     sources: [LDS, HSC] }),
 
-  x({ slug: 'the-republican-arrives', when: '1872',
+  x({ checked: '2026-11-24', slug: 'the-republican-arrives', when: '1872',
     title: 'The Republican arrives, and stays',
     dek: 'On April 4, 1872, Isaac T. Brown published the first Columbus Republican. It became a daily in 1877, the Evening Republican in 1883 and The Republic in 1967, with a Brown in charge for 143 years.',
     body: [
       'Isaac T. Brown founded The Columbus Republican as a weekly, and its first issue came out on Thursday, April 4, 1872, according to Wikipedia. His father, Isaac M. Brown, served as editor in some of those early years. The paper’s first home was a downtown building with a later fame of its own: Wikipedia’s history of the Crump Theatre says the paper started in April 1872 in Keith’s Arcade, the building on the site where the Crump was later built.',
       'Hoosier State Chronicles has digitized the weekly Columbus Republican from August 1, 1872, to September 3, 1874. On November 12, 1877, the Browns made it a daily, the Daily Evening Republican. From 1883 it was the Evening Republican, a name it kept until 1966, and in January 1967 it became The Republic.',
-      '## Six generations',
+      '## Five or six generations',
       'The paper stayed in one family. When Isaac T. Brown died in 1917, his son Raymond took sole control. Raymond’s son Robert N. Brown started a sister paper, the Daily Journal in Johnson County, in 1963, and built the glass newspaper office on Second Street that opened in 1971. In 1994 the family formed Home News Enterprises to own the papers. Jeffrey N. Brown and his father Robert, The Republic says, grew the business into a company that published in other Indiana towns and added printing, magazine and digital work.',
-      'The name was Republican, but The Republic’s own statement of mission, quoted in its history of itself, says the paper advocates for the good of the community “irrespective of political considerations.”',
-      'In November 2015 the family sold to AIM Media Indiana, ending six generations and more than 140 years of Brown ownership. In August 2026 HD Media agreed to buy the paper. Through 154 years and three owners, the Republican has outlasted every rival on this series’ list.',
+      'The name was Republican, but The Republic’s own statement of mission, quoted in its history of itself, says the paper advocates for the good of the community “irrespective of political considerations.” The same history says Isaac Brown founded it to be “the champion of the people of Bartholomew County.”',
+      'In November 2015 the family sold to AIM Media Indiana, ending more than 140 years of Brown ownership. The paper’s 2022 history counts five generations of the family; its own 2015 report on the sale said six. In August 2026 HD Media agreed to buy the paper. Through 154 years and three owners, the Republican has outlasted every rival on this series’ list.',
     ],
-    sources: [['The Republic (Columbus, Indiana), Wikipedia', WP + 'The_Republic_(Columbus,_Indiana)'], ['A history of The Republic: 1872 to today, The Republic', 'https://www.therepublic.com/?p=482537'], ['The Crump Theatre, Wikipedia', WP + 'The_Crump_Theatre'], HSC, LDS] }),
+    sources: [['The Republic (Columbus, Indiana), Wikipedia', WP + 'The_Republic_(Columbus,_Indiana)'], ['A history of The Republic: 1872 to today, The Republic (April 4, 2022)', 'https://www.therepublic.com/2022/04/04/a-history-of-the-republic-1872-to-today/'], ['The Crump Theatre, Wikipedia', WP + 'The_Crump_Theatre'], HSC, LDS] }),
 
   x({ slug: 'the-democrats', when: '1870',
     title: 'The Democrats answer',

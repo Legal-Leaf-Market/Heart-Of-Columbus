@@ -1,6 +1,7 @@
 // Landmarks state facts about real buildings, so each one carries its source
 // and the photo credit; pages must exist and walking times must be labeled.
 import assert from 'node:assert/strict';
+import { LAUNCH } from '../src/indexing.mjs';
 import { test } from 'node:test';
 import { readFileSync } from 'node:fs';
 import { LANDMARKS } from '../src/data/landmarks.mjs';
@@ -24,7 +25,8 @@ test('every landmark has a source, a checked date, a credited photo and a source
 test('each landmark page is built, noindex, credited and labels walking times as estimates', () => {
   for (const l of LANDMARKS) {
     const html = readFileSync(new URL(`../dist/l/${l.slug}/index.html`, import.meta.url), 'utf8');
-    assert.match(html, /noindex/, l.slug);
+    // Before launch only; after it, tests/seo.test.mjs checks the page against src/indexing.mjs.
+    if (!LAUNCH) assert.match(html, /noindex/, l.slug);
     assert.ok(html.includes(l.photo.page), `${l.slug}: photo credit link`);
     if (/min walk/.test(html)) assert.match(html, /straight-line estimates/, l.slug);
   }

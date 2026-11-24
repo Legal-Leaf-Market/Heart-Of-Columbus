@@ -325,10 +325,14 @@ export function shopifyCartUrl(origin, lines) {
 }
 // WooCommerce: ?add-to-cart= adds ONE line per request. The first line rides
 // the redirect; the rest are listed so the shopper can tap them in.
+// A variation rides its own `add` query (parent id, variation id and every
+// attribute, built by wooAddQuery); a bare variation id is refused by Woo's
+// handler with "please choose product options". A line that needs choosing
+// on their site (`pick`) never gets a link.
 export function wooCartUrls(origin, lines) {
   origin = bare(origin);
-  return lines.filter((l) => l.available !== false && l.productId)
-    .map((l) => `${origin}/?add-to-cart=${encodeURIComponent(l.variantId || l.productId)}&quantity=${l.qty}`);
+  return lines.filter((l) => l.available !== false && l.productId && !l.pick)
+    .map((l) => l.add ? `${origin}/?${l.add}&quantity=${l.qty}` : `${origin}/?add-to-cart=${encodeURIComponent(l.variantId || l.productId)}&quantity=${l.qty}`);
 }
 // BigCommerce: cart.php adds one product per request, same shape as Woo.
 export function bigcommerceCartUrls(origin, lines) {
@@ -339,26 +343,226 @@ export function bigcommerceCartUrls(origin, lines) {
 
 // ---------- Catalog normalizing ----------
 const money = (v) => Math.round(Number(v || 0) * 100) / 100;
+// Shopify's catalog gives the original upload (a phone photo can be several
+// megabytes); its image CDN resizes on request, so a card asks for 480 px.
+// Only Shopify's own CDN paths are touched; anything else passes as is.
+export function shopifyImage(src, width = 480) {
+  if (!src || !/^https:\/\/(?:cdn\.shopify\.com\/|[^/]+\/cdn\/shop\/)/.test(src) || /[?&]width=/.test(src)) return src || '';
+  return `${src}${src.includes('?') ? '&' : '?'}width=${width}`;
+}
 export function mapShopify(origin, products) {
   origin = bare(origin);
   return (products || []).filter((p) => p && p.variants && p.variants.length).map((p) => ({
     id: `s${p.id}`, title: p.title, type: (p.product_type || '').trim(), url: `${origin}/products/${p.handle}`,
-    image: p.images && p.images[0] ? p.images[0].src : '',
+    image: p.images && p.images[0] ? shopifyImage(p.images[0].src) : '',
     price: money(p.variants[0].price),
     available: p.variants.some((v) => v.available !== false),
     variants: p.variants.map((v) => ({ id: String(v.id), title: v.title === 'Default Title' ? '' : v.title, price: money(v.price), available: v.available !== false })),
   }));
 }
-export function mapWoo(origin, products) {
+const wooText = (t) => String(t || '').replace(/&amp;/g, '&').replace(/&#8217;/g, '’').replace(/&#8211;/g, '-').replace(/&#038;/g, '&');
+const wooPrice = (pr) => {
+  if (!pr || pr.price == null || pr.price === '') return null;
+  return money(Number(pr.price) / 10 ** Number(pr.currency_minor_unit != null ? pr.currency_minor_unit : 2));
+};
+const wooSlug = (t) => String(t || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+// The attribute pairs of one variation, from wherever the store states them.
+// The parent's own `variations` list is the most reliable (Woo fills it for
+// every variable product); a variation row's `attributes` next; last, the
+// "Name: Value, Name: Value" string, which is all Sojourn Coffee's store
+// returns (measured live 2026-11-18: attributes empty, variation
+// "Attribute: Whole Bean").
+export function wooVariationPairs(parent, v) {
+  const fromParent = (parent && Array.isArray(parent.variations) ? parent.variations : []).find((x) => x && String(x.id) === String(v.id));
+  const list = (fromParent && fromParent.attributes && fromParent.attributes.length) ? fromParent.attributes
+    : (v && Array.isArray(v.attributes) && v.attributes.length) ? v.attributes
+      : String((v && v.variation) || '').split(/,\s*(?=[^,:]+:)/).map((part) => {
+        const i = part.indexOf(':');
+        return i > 0 ? { name: part.slice(0, i).trim(), value: part.slice(i + 1).trim() } : null;
+      }).filter(Boolean);
+  return list.map((a) => ({ name: wooText(a && a.name), value: wooText(a && a.value) }));
+}
+// The query Woo's add-to-cart handler accepts for one variation: what its
+// own product form posts (parent id, variation id, one attribute_<key> per
+// attribute). A taxonomy attribute (pa_grind) posts its term slug; a custom
+// attribute posts its option text under attribute_<sanitized name>. A value
+// that matches no declared term, or an "any" option, returns '' so the
+// shopper chooses on their site. Ported from Legal-Leaf Market.
+export function wooAddQuery(parent, v) {
+  const declared = (parent && Array.isArray(parent.attributes)) ? parent.attributes : [];
+  const parts = [`add-to-cart=${encodeURIComponent(parent.id)}`, `variation_id=${encodeURIComponent(v.id)}`];
+  for (const a of wooVariationPairs(parent, v)) {
+    if (!a.name || !a.value) return '';
+    const d = declared.find((x) => wooText(x && x.name).toLowerCase() === a.name.toLowerCase());
+    const terms = (d && Array.isArray(d.terms)) ? d.terms : [];
+    const t = terms.find((x) => x && x.slug === a.value) || terms.find((x) => wooText(x && x.name).toLowerCase() === a.value.toLowerCase());
+    if (d && d.taxonomy) {
+      if (!t) return '';
+      parts.push(`${encodeURIComponent('attribute_' + d.taxonomy)}=${encodeURIComponent(t.slug)}`);
+    } else {
+      parts.push(`${encodeURIComponent('attribute_' + wooSlug(a.name))}=${encodeURIComponent(t ? wooText(t.name) : a.value)}`);
+    }
+  }
+  return parts.join('&');
+}
+// What a shopper reads in the option list: the values, as the store names them.
+export function wooVariationLabel(parent, v) {
+  const declared = (parent && Array.isArray(parent.attributes)) ? parent.attributes : [];
+  return wooVariationPairs(parent, v).map((a) => {
+    const d = declared.find((x) => wooText(x && x.name).toLowerCase() === a.name.toLowerCase());
+    const t = d && (d.terms || []).find((x) => x && x.slug === a.value);
+    return t ? wooText(t.name) : a.value;
+  }).filter(Boolean).join(' / ');
+}
+// `variations` is the store's own type=variation collection. Without it a
+// variable product would publish its cheapest option as the only one, at a
+// price that may belong to a sold-out size, behind an add link Woo refuses.
+// So a variable product with no readable variations is marked `pick`: it
+// shows, and its button sends the shopper to choose on their site.
+export function mapWoo(origin, products, variations = []) {
   origin = bare(origin);
+  const byParent = {};
+  for (const v of variations || []) if (v && v.parent != null) (byParent[v.parent] = byParent[v.parent] || []).push(v);
   return (products || []).filter((p) => p && p.prices).map((p) => {
-    const minor = Number(p.prices.currency_minor_unit || 2);
-    const price = Number(p.prices.price || 0) / 10 ** minor;
-    return {
-      id: `w${p.id}`, title: (p.name || '').replace(/&amp;/g, '&').replace(/&#8217;/g, '’'), type: (p.categories && p.categories[0] && p.categories[0].name) || '',
+    const base = {
+      id: `w${p.id}`, title: wooText(p.name), type: (p.categories && p.categories[0] && wooText(p.categories[0].name)) || '',
       url: p.permalink || origin, image: p.images && p.images[0] ? p.images[0].thumbnail || p.images[0].src : '',
-      price: money(price), available: p.is_purchasable !== false && p.is_in_stock !== false,
-      variants: [{ id: String(p.id), title: '', price: money(price), available: p.is_in_stock !== false, simple: p.type === 'simple' }],
+    };
+    const own = wooPrice(p.prices) || 0;
+    if (p.type === 'variable') {
+      const variants = (byParent[p.id] || []).map((v) => {
+        const label = wooVariationLabel(p, v);
+        const add = wooAddQuery(p, v);
+        return { id: String(v.id), title: label, price: wooPrice(v.prices), available: v.is_in_stock !== false && v.is_purchasable !== false && !!add, ...(add ? { add } : {}) };
+      }).filter((v) => v.price != null && v.price > 0).sort((a, b) => a.price - b.price);
+      if (variants.length) {
+        const live = variants.filter((v) => v.available);
+        return { ...base, price: (live[0] || variants[0]).price, available: p.is_purchasable !== false && p.is_in_stock !== false && live.length > 0, variants };
+      }
+      return { ...base, price: own, available: p.is_in_stock !== false, pick: true, variants: [{ id: String(p.id), title: '', price: own, available: p.is_in_stock !== false, pick: true }] };
+    }
+    return {
+      ...base, price: own, available: p.is_purchasable !== false && p.is_in_stock !== false,
+      variants: [{ id: String(p.id), title: '', price: own, available: p.is_in_stock !== false, simple: p.type === 'simple' }],
     };
   });
+}
+
+// Squarespace Commerce: a store page answers ?format=json with its items.
+// Squarespace documents the format but says it "is not static", so every
+// field is read defensively and two shapes are accepted: older sites keep
+// variants under structuredContent with prices in cents, 7.1 sites put
+// variants on the item with priceMoney { value: "25.00" }. There is no cart
+// link on Squarespace, so items carry `buyOnSite`: the cart keeps them as a
+// shopping list and checkout opens each product page on their site.
+const sqMoney = (v) => {
+  if (!v) return null;
+  if (v.priceMoney && v.priceMoney.value != null) return money(v.priceMoney.value);
+  if (v.price != null && isFinite(Number(v.price))) return money(Number(v.price) / 100);
+  return null;
+};
+const sqSale = (v) => {
+  if (!v || !v.onSale) return null;
+  if (v.salePriceMoney && v.salePriceMoney.value != null) return money(v.salePriceMoney.value);
+  if (v.salePrice != null && isFinite(Number(v.salePrice))) return money(Number(v.salePrice) / 100);
+  return null;
+};
+const sqStock = (v) => {
+  if (!v) return false;
+  const st = v.stock || {};
+  if (v.unlimited || st.unlimited) return true;
+  const q = v.qtyInStock != null ? v.qtyInStock : st.quantity;
+  return q == null ? true : Number(q) > 0;
+};
+export function mapSquarespace(origin, items) {
+  const base = String(origin || '').replace(/\/+$/, '');
+  return (items || []).map((it) => {
+    const variants = (it && (it.variants || (it.structuredContent && it.structuredContent.variants))) || [];
+    if (!it || !it.title || !variants.length) return null;
+    const vs = variants.map((v, i) => {
+      const price = sqSale(v) ?? sqMoney(v);
+      const attrs = v.attributes && typeof v.attributes === 'object' ? Object.values(v.attributes).filter(Boolean).join(' / ') : '';
+      return { id: String(v.id || v.sku || i), title: attrs, price, available: sqStock(v) };
+    }).filter((v) => v.price != null && v.price > 0);
+    if (!vs.length) return null;
+    const live = vs.filter((v) => v.available);
+    const url = it.fullUrl ? (/^https?:/.test(it.fullUrl) ? it.fullUrl : base + it.fullUrl) : base;
+    return {
+      id: `q${it.id || it.urlId || it.fullUrl}`, title: String(it.title), type: (it.categories && it.categories[0]) || '',
+      url, image: it.assetUrl ? `${it.assetUrl}${/\?/.test(it.assetUrl) ? '&' : '?'}format=500w` : '',
+      price: (live[0] || vs[0]).price, available: live.length > 0, buyOnSite: true, variants: vs,
+    };
+  }).filter(Boolean);
+}
+
+// Shopify's cart permalink also takes `note` (it becomes the order note) and
+// `ref` (their conversion tracking); both are listed in Shopify's docs.
+export function shopifyCartUrlWith(origin, lines, opts = {}) {
+  const url = shopifyCartUrl(origin, lines);
+  const q = [];
+  if (opts.note) q.push(`note=${encodeURIComponent(opts.note)}`);
+  if (opts.ref) q.push(`ref=${encodeURIComponent(opts.ref)}`);
+  return q.length ? `${url}?${q.join('&')}` : url;
+}
+
+// ---------- Any platform: schema.org data in the page ----------
+// Most site builders (Wix, Square Online, GoDaddy, WordPress themes, menu
+// services) publish products and menus as JSON-LD for search engines. This
+// reads that, whatever built the site: Product (with Offer or AggregateOffer),
+// ItemList of products, and Menu / MenuSection / MenuItem. Items are bought
+// on the business's own page (buyOnSite), like Squarespace. Only what the
+// page states is kept: a name and a positive price are required; stock is
+// "available" unless the offer says otherwise; no description is copied.
+export function readJsonLd(html) {
+  const out = [];
+  for (const m of String(html || '').matchAll(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
+    try { out.push(JSON.parse(m[1].trim().replace(/^<!--|-->$/g, ''))); } catch { /* a broken block is skipped */ }
+  }
+  return out;
+}
+const ldType = (n, t) => [].concat(n && n['@type'] || []).some((x) => String(x).toLowerCase() === t);
+const ldImage = (img, base) => {
+  const one = Array.isArray(img) ? img[0] : img;
+  const src = typeof one === 'string' ? one : one && (one.url || one.contentUrl) || '';
+  try { return src ? new URL(src, base).toString() : ''; } catch { return ''; }
+};
+const ldPrice = (offers) => {
+  const list = [].concat(offers || []);
+  for (const o of list) {
+    const raw = o ? (o.price ?? o.lowPrice ?? (o.priceSpecification && o.priceSpecification.price)) : null;
+    const p = Number(String(raw ?? '').replace(/[^0-9.]/g, ''));
+    if (p > 0) return { price: money(p), available: !/OutOfStock|SoldOut|Discontinued/i.test(String(o.availability || '')) };
+  }
+  return null;
+};
+export function mapJsonLd(html, pageUrl) {
+  const items = [], seen = new Set();
+  const add = (n, kind, section) => {
+    const name = String(n && n.name || '').replace(/\s+/g, ' ').trim();
+    const offer = ldPrice(n && n.offers);
+    if (!name || !offer) return;
+    let url = pageUrl;
+    try { if (n.url) url = new URL(n.url, pageUrl).toString(); } catch { /* keep the page */ }
+    const key = (name + '|' + offer.price).toLowerCase();
+    if (seen.has(key)) return;
+    seen.add(key);
+    items.push({ id: `j${(n.sku || n.productID || n['@id'] || key).toString().slice(0, 80)}`, title: name, type: section || (kind === 'menu' ? 'Menu' : ''),
+      url, image: ldImage(n.image, pageUrl), price: offer.price, available: offer.available, buyOnSite: true, kind,
+      variants: [{ id: '0', title: '', price: offer.price, available: offer.available }] });
+  };
+  const walk = (n, section) => {
+    if (!n || typeof n !== 'object') return;
+    if (Array.isArray(n)) { n.forEach((x) => walk(x, section)); return; }
+    if (n['@graph']) walk(n['@graph'], section);
+    if (ldType(n, 'product')) add(n, 'product', section);
+    else if (ldType(n, 'menuitem')) add(n, 'menu', section);
+    if (ldType(n, 'itemlist')) walk((n.itemListElement || []).map((e) => e && (e.item || e)), section);
+    if (ldType(n, 'menu') || ldType(n, 'menusection')) {
+      const sec = ldType(n, 'menusection') ? String(n.name || section || '') : section;
+      walk(n.hasMenuSection, sec); walk(n.hasMenuItem, sec);
+    }
+    if (n.hasMenu && typeof n.hasMenu === 'object') walk(n.hasMenu, section);
+  };
+  for (const block of readJsonLd(html)) walk(block);
+  return items;
 }

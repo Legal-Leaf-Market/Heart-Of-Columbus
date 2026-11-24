@@ -2,7 +2,7 @@
 // source and a checked date. Stale ones are flagged so someone prunes them.
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { readFileSync } from 'node:fs';
+import { readFileSync, statSync } from 'node:fs';
 import { EVENTS } from '../src/data/events.mjs';
 
 const ISO = /^\d{4}-\d{2}-\d{2}$/;
@@ -36,6 +36,13 @@ test('/events.ics is a calendar with every event, and both event sections are bu
   assert.match(ics, /END:VCALENDAR\r\n$/);
   for (const e of EVENTS) assert.ok(ics.includes(`UID:${e.slug}@heartofcolumbus`), e.slug);
   for (const line of ics.split('\r\n')) assert.ok(line.length <= 75, `long line: ${line}`);
-  assert.match(readFileSync(new URL('../dist/index.html', import.meta.url), 'utf8'), /data-events="weekend"/);
+  // The homepage carries the events carousel; its no-script fallback is every
+  // signature event that has not ended by build day, and none that has.
+  const home = readFileSync(new URL('../dist/index.html', import.meta.url), 'utf8');
+  assert.match(home, /data-evw/);
+  assert.match(home, /data-evc-track/);
+  const built = new Date(statSync(new URL('../dist/index.html', import.meta.url)).mtime).toISOString().slice(0, 10);
+  const track = home.slice(home.indexOf('data-evc-track'), home.indexOf('data-evc-progress'));
+  for (const e of EVENTS) assert.equal(track.includes(e.url.replace(/&/g, '&amp;')), e.end >= built, e.slug);
   assert.match(readFileSync(new URL('../dist/visit/index.html', import.meta.url), 'utf8'), /data-events="upcoming"/);
 });

@@ -1,0 +1,79 @@
+# Checks that the one cart really hands off to the shops (scripts/check-handoff.mjs):
+# reads every live catalog through the deployed site, follows our add-to-cart
+# links on WooCommerce shops and reads back that session's cart from the shop.
+# Leaves at most two items in an anonymous cart per Woo shop; never checks out.
+#
+# Nightly: compares the run with the last one (scripts/handoff-verdict.mjs),
+# keeps the results on the checks/handoff branch (never main), and when a shop
+# is broken opens or updates one "Cart check" issue and goes red. A clean run
+# closes that issue.
+# By hand: edit scripts/data/handoff-request.txt on a claude branch, or run it
+# from the Actions tab; results are committed to that branch as before.
+name: Check cart handoff
+on:
+  schedule:
+    - cron: '41 10 * * *' # 5:41 AM in Columbus (EST), after the store crawl
+  workflow_dispatch:
+  push:
+    branches: ['claude/**']
+    paths: ['scripts/data/handoff-request.txt']
+permissions:
+  contents: write
+  issues: write
+concurrency:
+  group: check-handoff
+  cancel-in-progress: false
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Last run's results
+        run: git fetch --depth 1 origin checks/handoff && git show FETCH_HEAD:handoff-check.json > "$RUNNER_TEMP/last.json" || echo "No earlier run."
+      - run: node scripts/check-handoff.mjs scripts/data/handoff-check.json
+      - name: Verdict
+        id: verdict
+        run: |
+          set +e
+          node scripts/handoff-verdict.mjs scripts/data/handoff-check.json "$RUNNER_TEMP/last.json" "$RUNNER_TEMP/report.md"
+          echo "broken=$?" >> "$GITHUB_OUTPUT"
+          cat "$RUNNER_TEMP/report.md" >> "$GITHUB_STEP_SUMMARY"
+      - name: Commit results to this branch (manual runs)
+        if: github.event_name == 'push'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/data/handoff-check.json
+          git diff --cached --quiet || git commit -m "Handoff check from the Check cart handoff workflow"
+          git push
+      - name: Keep results on checks/handoff
+        if: github.event_name != 'push'
+        run: |
+          cp scripts/data/handoff-check.json "$RUNNER_TEMP/now.json"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan checks/handoff
+          git rm -rq --cached .
+          cp "$RUNNER_TEMP/now.json" handoff-check.json
+          cp "$RUNNER_TEMP/report.md" report.md
+          git add handoff-check.json report.md
+          git commit -qm "Cart check $(date -u +%F)"
+          git push -f origin checks/handoff
+      - name: Open, update or close the Cart check issue
+        if: github.event_name != 'push'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BROKEN: ${{ steps.verdict.outputs.broken }}
+        run: |
+          N=$(gh issue list --state open --search 'in:title "Cart check:"' --json number --jq '.[0].number')
+          if [ "$BROKEN" != "0" ]; then
+            if [ -n "$N" ]; then gh issue comment "$N" --body-file "$RUNNER_TEMP/report.md"
+            else gh issue create --title "Cart check: shops in the one cart are broken" --body-file "$RUNNER_TEMP/report.md"; fi
+            exit 1
+          elif [ -n "$N" ]; then
+            gh issue close "$N" --comment "$(cat "$RUNNER_TEMP/report.md")"
+          fi

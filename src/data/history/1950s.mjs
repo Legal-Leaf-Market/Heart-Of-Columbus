@@ -2,7 +2,7 @@
 // listed with it; see src/data/history/index.mjs for the rules.
 const CHECKED = '2026-10-26';
 const WP = 'https://en.wikipedia.org/wiki/';
-const CRH_100 = ['Tracing 100 years of history for Columbus Regional Hospital, The Republic', 'https://www.therepublic.com/?p=366731'];
+const CRH_100 = ['Tracing 100 years of history for Columbus Regional Hospital, The Republic (February 3, 2017)', 'https://www.therepublic.com/2017/02/03/tracing_100_years_of_history_for_columbus_regional_hospital/'];
 const PHIL = ['How 70 years of design philanthropy transformed a Midwestern city, The Chronicle of Philanthropy', 'https://www.philanthropy.com/news/how-70-years-of-design-philanthropy-transformed-a-midwestern-city/'];
 
 const x = (o) => ({ checked: CHECKED, ...o });
@@ -16,12 +16,17 @@ export const A1950s = [
       'Cinema Treasures records the opening feature as “So Dear to My Heart,” the Walt Disney film starring Burl Ives. The drive-in was run by Trueman T. Rembusch’s Syndicate Theatres, part of the same family business that ran the Crump downtown. Historic Columbus Indiana says the Rembusch family owned the drive-in and the other movie theaters in Columbus.',
       'At first the drive-in opened only on warm weekends. By 1956, the same history says, it was operating year round, and on busy nights cars were sometimes turned away when the lot filled. Cinema Treasures also holds a 1957 photograph of a Sunday morning church service held on the lot.',
       'One commenter on Cinema Treasures, Rick Thompson, wrote in 2017 that his father managed the drive-in along with the Crump and Rio theaters.',
+      '## Buck Nite and the back row',
+      'Historic Columbus Indiana, whose author grew up going there, fills in what a night out looked like. The marquee advertised double features and sometimes triple features; a mid 1950s ad offered a triple feature on Buck Nite. On special occasions the drive-in ran movies from dusk to dawn, and for a number of years, the site says, it was the only place in Columbus to watch the Fourth of July fireworks.',
+      'The pitch was family entertainment at a fair price: no babysitter, no dressing up, just load the kids in the car with pillows and a blanket. By the mid 1950s the crowd was changing too. With parents at home watching television, teenagers drove out on dates, and the Rembusch family bought ads in the Columbus High School yearbook, the Log. Among teenagers, the site says, the drive-in became known as the Passion Pit.',
+      'Year round meant cold nights. The site mentions the Arvin In-A-Car heaters that warmed the cars on the lot; Arvin, as another article in this series tells, was a Columbus company. And it passes along one more claim worth repeating: the Columbus Drive-In was the first place in town where you could buy pizza.',
+      'When word came in 1992 that the drive-in was coming down, the author drove home to walk the lot one last time before demolition, and kept a heater check as a souvenir.',
       'The Columbus Drive-In closed after 42 years. In 1992 the owners sold the property and the screen came down. Commenters on Cinema Treasures say the site is now a large pond with Omega Drive circling it.',
       'For 42 summers, it was part of growing up in Columbus.',
     ],
     sources: [['Columbus Drive-In, Cinema Treasures', 'https://www.cinematreasures.org/theaters/48928'], ['History of the Columbus Drive In, Historic Columbus Indiana', 'https://www.historiccolumbusindiana.org/drivein/drivein.html']] }),
 
-  x({ slug: 'korea-brings-soldiers-back', when: '1950', section: 'service',
+  x({ checked: '2026-11-24', slug: 'korea-brings-soldiers-back', when: '1950', section: 'service',
     title: 'Korea fills the camp and the air base again',
     dek: 'Four years after the Army shut down Camp Atterbury, the Korean War brought it back. The reserve airmen at the base north of town were called up too.',
     body: [
@@ -30,9 +35,9 @@ export const A1950s = [
       'Then war broke out in Korea in June 1950. On September 14, 1950, Camp Atterbury was reactivated when the 28th Infantry Division arrived to train.',
       'The 434th was called to active duty too. The airport history says it trained at Atterbury, moved to Lawson Air Force Base in Georgia, and served 21 months before returning to reserve status in Indiana. Wikipedia’s history of the airport lists the wing at the base from 1949 to 1952 and again from 1953 to 1969. The Indiana Historical Bureau marker at the old base chapel notes that, as in World War II, the field received wounded soldiers during the Korean War.',
       'On November 13, 1954, the air field was renamed Bakalar Air Force Base, honoring First Lieutenant John Edmond Bakalar of Hammond, Indiana, who was killed in action over France on September 1, 1944. Air Force reservists kept training there until the late 1960s.',
-      'The base closed in 1970 and was given to the City of Columbus in 1972, according to the marker. It became Columbus Municipal Airport. Camp Atterbury remains a National Guard training post.',
+      'The base closed in 1970, the marker says, and the City of Columbus received the title to the property in 1972, according to Wikipedia’s history of the base. It became Columbus Municipal Airport. Camp Atterbury remains a National Guard training post.',
     ],
-    sources: [['Camp Atterbury, Wikipedia', WP + 'Camp_Atterbury'], ['Airport history, City of Columbus', 'https://www.columbus.in.gov/airport/about/history'], ['Columbus Municipal Airport (Indiana), Wikipedia', WP + 'Columbus_Municipal_Airport_(Indiana)'], ['Atterbury Army Air Field historical marker, Indiana Historical Bureau', 'https://www.in.gov/history/markers/528.htm']] }),
+    sources: [['Camp Atterbury, Wikipedia', WP + 'Camp_Atterbury'], ['Airport history, City of Columbus', 'https://www.columbus.in.gov/airport/about/history'], ['Columbus Municipal Airport (Indiana), Wikipedia', WP + 'Columbus_Municipal_Airport_(Indiana)'], ['Atterbury Army Air Field historical marker, Indiana Historical Bureau', 'https://www.in.gov/history/state-historical-markers/find-a-marker/atterbury-army-air-field/'], ['Bakalar Air Force Base, Wikipedia', WP + 'Bakalar_Air_Force_Base']] }),
 
   x({ slug: 'a-diesel-on-the-pole', when: '1952', section: 'sports',
     title: 'A diesel on the pole at Indianapolis',
@@ -47,28 +52,34 @@ export const A1950s = [
     ],
     sources: [['Cummins Diesel Indy 500 Racers, Old Machine Press (2019)', 'https://oldmachinepress.com/2019/01/20/cummins-diesel-indy-500-racers/'], ['Cummins Starts Up History With 1952 Indy Car, Transport Topics (2016)', 'https://www.ttnews.com/articles/cummins-starts-history-1952-indy-car']] }),
 
-  x({ slug: 'county-hospital-grows', when: '1953', section: 'civic',
+  x({ checked: '2026-11-24', slug: 'county-hospital-grows', when: '1953', section: 'civic',
     title: 'The county hospital keeps adding wings',
     dek: 'Bartholomew County Hospital opened with 32 beds in 1917. As Columbus grew after the war, the county kept building on.',
     body: [
-      'Bartholomew County Hospital opened in 1917 as a three story building with 32 beds and 25 employees. The first patients were admitted on February 6, according to a 100 year history published by The Republic. In 1930 the Hattie S. Kirkpatrick Memorial Nurses Home was set up on the northwest side to house the nursing staff.',
+      'The county borrowed $100,000 in 1915 to build a hospital north of 17th Street and east of Haw Creek, The Republic’s timeline records. Bartholomew County Hospital opened in 1917 as a three story building with 32 beds and 25 employees. The first patients were admitted on February 6, according to a 100 year history published by The Republic. In 1930 the Hattie S. Kirkpatrick Memorial Nurses Home was set up on the northwest side to house the nursing staff.',
       'Then the town started to grow. Columbus counted 11,738 people in the 1940 census and 18,370 in 1950, an increase of more than half in ten years. The hospital grew with it.',
       'A south wing in 1945 raised capacity to 75 beds. In 1949 the county commissioners approved a $780,000 expansion that brought the hospital to 129 beds. In 1953 a $1.7 million project added two three story wings and raised the count to 142. In 1959 another 39 beds were added, along with remodeling of the second floor and the emergency room, at a cost of $911,000.',
       'Wikipedia notes one birth in that era that later made national news: Mike Pence, who would become governor of Indiana and vice president of the United States, was born at Bartholomew County Hospital on June 7, 1959.',
-      'The building kept changing. In 1968, $3.7 million in bonds paid for the five story, 108 bed Murphy Pavilion, named for administrator Olive Murphy. The hospital was renamed Columbus Regional Hospital in 1992. In June 2008 a record flood closed it for months, and the system that runs it took the name Columbus Regional Health in 2011.',
+      '## The building since',
+      'The building kept changing. In 1968, $3.7 million in bonds paid for the five story, 108 bed Murphy Pavilion, named for Olive Murphy, who had run the hospital for 28 years until 1967. The hospital was renamed Columbus Regional Hospital in 1992.',
+      'Its hardest day came on June 7, 2008, when a record flood swamped the campus. Wikipedia reports that 157 patients were evacuated and the hospital shut down, with damage of more than $180 million; the laboratory, pharmacy, kitchens and the mechanical and electrical systems were wrecked. An interim emergency department opened that August, and the rebuilt hospital reopened on October 27, 2008.',
+      'In 2011 the system that runs it took the name Columbus Regional Health. In 2012, with backing from the Federal Emergency Management Agency, 15 flood gates were installed around the campus to keep the water out next time. Wikipedia describes it today as a 225 bed not for profit hospital serving a ten county region, with about 1,650 employees.',
       'In the 1950s, though, the story was simpler. A growing factory town needed more hospital beds, and the county kept pouring concrete to provide them.',
     ],
     sources: [CRH_100, ['Columbus Regional Health, Wikipedia', WP + 'Columbus_Regional_Health'], ['Columbus, Indiana (census figures), Wikipedia', WP + 'Columbus,_Indiana']] }),
 
-  x({ slug: 'memorial-gym', when: '1954', section: 'sports',
+  x({ checked: '2026-11-24', slug: 'memorial-gym', when: '1954', section: 'sports',
     title: 'Nearly $1 million in two weeks for a gym',
     dek: 'In December 1952 Columbus set out to build a new gym for its high school with no government money and no professional fundraisers. It opened in 1954 with more than 7,000 seats.',
     body: [
-      'Indiana in the 1950s was in the middle of what everyone called Hoosier Hysteria, and towns all over the state were building big gyms for high school basketball. Columbus wanted one too.',
-      'Stadium Journey, which reviews sports venues, tells the story of how it was paid for. In December 1952, Columbus began raising money for a new physical education building for its high school, without outside organizations, professional fundraisers or government aid. Within two weeks, nearly $1 million had been pledged, more than half of it in cash. In the words Stadium Journey quotes, “a total of 6,952 individuals, firms, and civic organizations” responded.',
-      'The building used 173,000 face bricks and 50,000 other masonry units, steel roof trusses and 116 tons of reinforcing steel in its concrete bleachers. Its stage door is a folding door 72 feet long and 24 feet high.',
+      'Indiana in the 1950s was in the middle of what everyone called Hoosier Hysteria. Stadium Journey, which reviews sports venues, describes a wave of bigger, modern gyms built across the state in that decade, to meet the demand for tickets and to bring home the sectional and regional games that brought money into a town. It names New Castle, Muncie and Kokomo as nearby towns whose people also pledged money to build theirs. Columbus wanted one too.',
+      'In December 1952, Columbus set out to build a new physical education building for its high school, and Stadium Journey says the city did it “the old-fashion way”: without outside organizations, professional fundraisers or government assistance. Within two weeks, nearly $1 million had been pledged, more than half of it in cash. In Stadium Journey’s words, “6,952 individuals, firms, and civic organizations had responded to the challenge.”',
+      'The building used 173,000 face bricks and 50,000 other masonry units, steel roof trusses and 116 tons of reinforcing steel in its concrete bleachers. The stage sits on the north end of the gym behind a folding door 72 feet long and 24 feet high.',
       'Columbus Memorial Gymnasium was dedicated on November 23, 1954, with 7,046 unobstructed seats. Its arrival brought the high school basketball sectional and regional back to Columbus for the first time since 1926.',
-      'Visit Indiana, the state tourism office, lists the gym on its trail of historic Indiana basketball venues. It is now home to the Columbus North High School Bulldogs. The original playing floor lasted 60 years and was not replaced until 2014, and the listed capacity today is 6,547.',
+      'Inside, the seats wrap around the court in a horseshoe on two levels, modern hard plastic seats below and the traditional hardwood seats in the upper sections, with banners from the school’s championships on display. The first thing a visitor notices, Stadium Journey writes, is that 24 foot stage door, which reads Bulldogs.',
+      'The lobby outside the playing floor has since been remodeled, with a hospitality room and an entrance to the natatorium where the Columbus North Bullfrogs swim. The hallways outside the main entrances are lined with trophy cases, photographs and memorabilia from the school’s sports history, and Stadium Journey tells visitors to take a few minutes to look.',
+      'Visit Indiana, the state tourism office, lists the gym on its trail of historic Indiana basketball venues. It is home to the Columbus North High School Bulldogs. The original playing floor lasted 60 years and was not replaced until 2014, and the listed capacity today is 6,547.',
+      'Stadium Journey admits the crowds do not pack the house the way they used to. It also says the pep band and the student section still make life a little uneasy for an opponent standing at the free throw line.',
       'Plenty of Indiana towns built big gyms in the 1950s. Few can say that nearly 7,000 people and businesses chipped in to build theirs in two weeks.',
     ],
     sources: [['Columbus Memorial Gymnasium, Stadium Journey', 'https://stadiumjourney.com/stadiums/columbus-memorial-gymnasium-columbus-north-hs-bulldogs'], ['Columbus Memorial Gymnasium, Visit Indiana basketball trail', 'https://www.visitindiana.com/basketball/locations/columbus-memorial-gymnasium/']] }),
@@ -103,11 +114,15 @@ export const A1950s = [
     title: 'Clessie steps down and Cummins goes abroad',
     dek: 'In the mid 1950s Cummins sales passed $100 million, its founder retired, and the company opened its first factory overseas, in Scotland.',
     body: [
-      'By the middle of the 1950s Cummins Engine Company had come a long way from its money losing early years. Company histories say sales reached $20 million in 1946 and topped $100 million about a decade later.',
-      'The company had a new kind of engine to sell. In 1952, a company history says, Cummins unveiled a turbocharged diesel that raised horsepower by 50 percent without burning more fuel. The same idea had been tested at the Indianapolis 500 that year.',
-      'Then the founder left. In 1955 Clessie Cummins retired as chairman of the company he had started in 1919. Wikipedia’s biography says he formed Cummins Enterprises Company later that year and went to work with the Allison Engine Company in California. He kept inventing. A compression release engine brake he patented went on sale in 1960 under the Jake Brake name, from Jacobs Vehicle Systems. He died on August 17, 1968, at 79.',
-      'With Clessie gone, the company looked outward. In 1956, according to a Cummins history published by Visit Columbus, Cummins opened a manufacturing plant in Scotland. By the 1960s, the same history says, Cummins had a presence in 98 countries.',
-      'That growth paid for a great deal back home. In 1954 J. Irwin Miller had set up the Cummins Foundation, and in 1957 it would make its first architectural grant. The money that built Columbus’s modern schools came from engines sold all over the world.',
+      'By the middle of the 1950s Cummins Engine Company had come a long way from its money losing early years. The company history in the International Directory of Company Histories says the company kept doubling its sales every five years into the 1960s: $20 million in 1946, more than $100 million a decade later.',
+      'The best seller was a 2,590 pound diesel for trucks of 13 tons or more. The same history says Cummins held up to 60 percent of the heavy duty truck market in North America during the 1950s, against rivals including Mack, Caterpillar and General Motors’ Detroit Diesel. Its in line six cylinder engines were known for power and long life, and its distributors, who sold nothing but Cummins engines and parts, were trusted for knowing that one product well. The company also began selling engines for off road construction machines. “We’ll build the roads and then we’ll run on them,” Miller said.',
+      '## Failure to failure',
+      'The company had a new kind of engine to sell. In 1952 Cummins unveiled a turbocharged diesel, using exhaust gas to spin a supercharger, that raised horsepower by 50 percent without burning more fuel. That year Cummins showed it at the Indianapolis Motor Speedway, where it malfunctioned. Miller’s answer, as the history quotes it: “We have progressed from failure to failure.” He predicted the engine would soon be perfected and sold. It was.',
+      'Then the founder left. In 1955 Clessie Cummins retired as chairman of the company he had started in 1919. He held 33 United States patents and had set five world records for speed and endurance, Wikipedia’s biography says, and he kept some key patents when he left. He formed Cummins Enterprises Company later that year and went to work with the Allison Engine Company in California.',
+      'He kept inventing. Seeing that truck brakes overheated and failed on long, steep downhill runs, he designed and patented the first compression release engine brake. He offered it to Cummins first, but partnered with Jacobs, and it went on sale in 1960 under the Jake Brake name. He died on August 17, 1968, at 79. In 2022, Wikipedia notes, Cummins Inc. bought Jacobs Vehicle Systems, bringing the invention back to the company he founded.',
+      '## Abroad and at home',
+      'With Clessie gone, the company looked outward. In 1956, according to a Cummins history published by Visit Columbus, Cummins opened a manufacturing plant in Scotland. By the 1960s, the same history says, Cummins had a presence in 98 countries. Starting in the late 1950s it also began buying stakes in companies that made diesel related products.',
+      'That growth paid for a great deal back home. In 1954 Miller had set up the Cummins Foundation, and three years later it offered to pay architects’ fees for new public buildings in Columbus. The money that built the town’s modern schools came from engines sold all over the world.',
     ],
     sources: [['Clessie Cummins, Wikipedia', WP + 'Clessie_Cummins'], ['A Quick History of Cummins, Visit Columbus Indiana', 'https://columbus.in.us/cummins-history/'], ['Cummins Engine Company, Inc. (company history), Encyclopedia.com', 'https://www.encyclopedia.com/books/politics-and-business-magazines/cummins-engine-company-inc']] }),
 
@@ -128,12 +143,17 @@ export const A1950s = [
     title: 'A house that started with a letter',
     dek: 'In March 1957 the Miller family moved into a house by Eero Saarinen, with interiors by Alexander Girard and a garden by Dan Kiley.',
     body: [
-      'The Miller House began, according to Xenia Miller’s biography, with a letter she wrote to her husband about ten years before it was built, describing the kind of modern house she had in mind.',
-      'J. Irwin Miller bought the site in September 1953. Eero Saarinen designed the house, with Kevin Roche as his associate, in a process Wikipedia says took about two years. Taylor Brothers Construction Company got the contract on April 18, 1955, and the family began moving in on March 15, 1957.',
-      'Alexander Girard designed the furnishings and worked closely with the Millers. His best known touch is the conversation pit, a sunken square in the living room about 15 feet on a side and a foot and a half below the floor. Dan Kiley, who had worked with Saarinen on the Gateway Arch, designed the landscape around it.',
-      'It was a family home for half a century. On May 16, 2000, it was added to the National Register of Historic Places and designated a National Historic Landmark on the same day. Xenia Miller died in 2008. That November the family agreed to give the house to the Indianapolis Museum of Art, which formally took ownership in May 2009. The house opened to the public on May 12, 2011.',
-      'The house cannot be seen from the street. Visitors go by tour from the Columbus Visitors Center.',
-      'In 1957, it was simply where the Millers lived.',
+      'The Miller House began with a letter. In 1943, while J. Irwin Miller was serving in the Navy, his new wife, Xenia, wrote to him: “Can you picture a very, very modern house with huge front windows, a flat rooftop built of something beige color coming out from under the trees at the edge of the woods on our hill?” Her Wikipedia biography quotes it, and notes that the house was begun nearly ten years later.',
+      'Miller bought the site in September 1953 for about $30,000: 13.5 acres between Washington Street and the Flatrock River. Eero Saarinen designed the house, with Kevin Roche as his associate, in a process Wikipedia says took about two years and a dozen versions. Xenia shaped it at every turn. She turned down a site down by the river, joking that her children would have to row to school, and sent back a first design on stilts because she worried about mosquitoes. When she said she did not want to live in the same house forever, Saarinen answered, as Wikipedia quotes him, “We’ve built you a neutral house that can be changed.”',
+      'Taylor Brothers Construction Company got the contract on April 18, 1955, for $352,800. Material shortages and the Millers’ demand for fine craftsmanship slowed the work. The family began moving in on March 15, 1957, a move that took three weeks. They had five children, from 11 months to 13 years old.',
+      '## Inside and out',
+      'The house is one story, 6,838 square feet with six bedrooms, under a flat roof about 100 by 120 feet. Sixteen white, cross shaped steel columns hold up the roof, and bands of skylights light the rooms, since Xenia disliked too much natural light. The outer walls are concrete block faced with slate. Four zones, for the parents, the children, guests and staff, and the kitchen and laundry, wrap around a central living room.',
+      'Alexander Girard designed the furnishings and worked closely with the Millers. His best known touch is the conversation pit, a sunken square about 15 feet on a side and a foot and a half below the floor, reached by five steps. Before it was built, Wikipedia says, he set up a mockup in a New York storefront and asked passersby to sit in it. Along one side of the living room runs his 50 foot storage wall, which held the family’s books, instruments and folk art from Mexico, Asia and Eastern Europe.',
+      'Dan Kiley, who had worked with Saarinen on the Gateway Arch, laid out the grounds as a grid of outdoor rooms, inspired by the patches of farmland he saw flying in to Columbus. A long allée of honey locusts runs along the west side of the house. Its north end held Henry Moore’s sculpture Draped Reclining Woman, acquired in 1971.',
+      '## A family home, then a museum',
+      'It was a family home for half a century. The children held sleepovers in the pit; Irwin played his violin. Saarinen, Girard, Harry Weese and Jean Tinguely all visited, and Lady Bird Johnson stayed overnight in 1967. On May 16, 2000, the house was added to the National Register of Historic Places and designated a National Historic Landmark on the same day.',
+      'Irwin Miller died in the house in 2004, and Xenia on February 21, 2008. That November the family agreed to give the house to the Indianapolis Museum of Art, which formally took ownership in May 2009. The house opened to the public on May 12, 2011, and drew 2,600 visitors in its first three months.',
+      'It still cannot be seen from the street. Tickets are sold at the Columbus Area Visitors Center at 506 Fifth Street, and a shuttle takes visitors to the house, since there is no parking near it.',
     ],
     sources: [['Miller House (Columbus, Indiana), Wikipedia', WP + 'Miller_House_(Columbus,_Indiana)'], ['Xenia Miller, Wikipedia', WP + 'Xenia_Miller']] }),
 ];

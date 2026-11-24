@@ -5,10 +5,18 @@
 
 [build.environment]
   NODE_VERSION = "22"
-
-# Deploy previews show the newspaper's News link; production waits for launch.
-[context.deploy-preview.environment]
+  # The paper is launched (Jake, 2026-11-24): the News link shows in the main
+  # menu everywhere. Search indexing is a separate switch (HOC_INDEX).
   NEWS_LIVE = "1"
+  # Launched (Jake, 2026-11-24): search engines may index the site. Deploy
+  # previews and branch deploys stay noindex (src/indexing.mjs checks CONTEXT).
+  HOC_INDEX = "1"
+  # The site's own address (Jake, 2026-11-24: heartofcolumbus.shop is live).
+  # Canonical links, share images, the sitemap and every QR code in the
+  # print edition are built from it. src/jsonld.mjs and the functions fall
+  # back to the same address when it is unset.
+  HOC_ORIGIN = "https://heartofcolumbus.shop"
+
 
 [[headers]]
   for = "/fonts/*"
@@ -43,3 +51,10 @@
 
 [functions]
   directory = "netlify/functions"
+
+# Smoke & Vape became its own section (2026-11-24); its old address under
+# Shopping goes to the new one.
+[[redirects]]
+  from = "/c/shopping/smoke/*"
+  to = "/c/smoke/:splat"
+  status = 301

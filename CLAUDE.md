@@ -196,9 +196,26 @@ Indiana. A pitch, not a live service. See README.md.
   unknown. `/visit/accessibility/` and the /explore/ `attr=` filter read them.
 - **We never take payment or orders for a business that hasn't signed on.**
   "Order online" and "Book online" link to the business's own provider page
-  (Toast, Square, Vagaro...). "Shop online" reads a public Shopify or
-  WooCommerce catalog through `/api/shop` and hands the cart to the shop's own
-  checkout (`src/commerce-core.mjs`). Marketplaces that take a cut (DoorDash
+  (Toast, Square, Vagaro...). "Shop online" reads a public Shopify,
+  WooCommerce or Squarespace catalog through `/api/shop` and hands the cart to
+  the shop's own checkout (`src/commerce-core.mjs`, `public/js/cart.js`):
+  Shopify by one cart permalink (with `note` asking for pickup and `ref`),
+  WooCommerce by walking one tab of their store through each `?add-to-cart=`
+  link (Woo takes one item per visit; variations carry parent id, variation id
+  and every attribute, read from the parent's `variations`, the variation, or
+  its "Name: Value" text), Squarespace as a list that opens each product page
+  (no cart link exists). The cart groups lines by shop with each shop's
+  address, open-now status and a pickup choice, and routes every pickup stop
+  in one Google Maps link. Square and Wix catalogs need the owner's OAuth, so
+  they stay links until an owner connects. `scripts/check-handoff.mjs` (the
+  "Check cart handoff" workflow, triggered by editing
+  `scripts/data/handoff-request.txt` on a claude branch) proves it on the real
+  shops: it reads each catalog from the deployed site, follows our Woo add
+  links in a fresh session and reads that cart back from the shop. It also
+  runs nightly: `scripts/handoff-verdict.mjs` compares the run with the last
+  one, results live on the `checks/handoff` branch (never main), and a broken
+  shop (unreadable, empty, a failed Woo add, or a catalog that halved) opens
+  or updates one "Cart check:" issue; a clean run closes it. Marketplaces that take a cut (DoorDash
   marketplace, Grubhub, Uber Eats) are never linked as "direct".
 - **Pickup tickets** (`/api/pickup`, `netlify/functions/pickup.mjs`, adapted
   from Herbal Leaf Market's local-order route). A ticket is a record, never a
@@ -230,6 +247,21 @@ Indiana. A pitch, not a live service. See README.md.
 - **Claude never writes news.** No stories, quotes, headlines, obituaries,
   letters or newsletters about real people, businesses or events. Build the
   templates, tools and tests; a named person writes and the editor approves.
+  Exception, granted by the owner on 2026-11-24: Claude may write and expand
+  history articles (`src/data/history/`) and guide-page copy, but only from
+  sources it has actually read in that session, cited with the article. Never
+  from memory; a source it cannot reach stays out. The editor's sign-off
+  still applies, and news, obituaries and quotes not printed in a source are
+  still off limits.
+  Second exception, granted by the owner on 2026-11-24: the morning
+  newsletter. The publisher directs every piece (angle, commentary, sources)
+  at the writing desk (`/newsroom/desk/`, `src/news/desk.mjs`,
+  `netlify/functions/desk.mjs`), the model drafts in the publisher's voice
+  from those alone, and nothing reaches an edition until the publisher
+  approves it (`blockers()` refuses a `[CHECK]`, a missing source or a
+  dash). The model never invents a quote, a person, a number or a source.
+  The morning job drafts the approved desk edition when there is one, and
+  never sends. docs/morning-paper.md is the routine.
 - **Sample content must look fake** (Sampleton, "Sample Reporter") and carry
   `sample: true`; it never appears in a published section.
 - **Automation makes leads, not stories.** Directory diffs and public-record

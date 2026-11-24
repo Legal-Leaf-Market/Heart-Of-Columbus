@@ -12,7 +12,7 @@
   };
   var CAT = {
     restaurants: ['Restaurants', '🍽️', '#f5e4dd', 'restaurants'], 'coffee-sweets': ['Coffee & Sweets', '☕', '#f7ecd1', 'coffee-pastry'], bars: ['Bars & Breweries', '🍺', '#f7ecd1', 'beer-hops'],
-    beauty: ['Beauty & Grooming', '💈', '#e1edf3', 'barber'], shopping: ['Shopping', '🛍️', '#f5e4dd', 'shopping'], health: ['Health & Wellness', '🩺', '#e5ecdf', 'health'],
+    beauty: ['Beauty & Grooming', '💈', '#e1edf3', 'barber'], shopping: ['Shopping', '🛍️', '#f5e4dd', 'shopping'], smoke: ['Smoke & Vape', '💨', '#ece6f3', 'storefront'], health: ['Health & Wellness', '🩺', '#e5ecdf', 'health'],
     fitness: ['Fitness', '🏋️', '#e5ecdf', 'fitness'], pets: ['Pets', '🐾', '#f7ecd1', 'pets'], 'home-services': ['Home Services', '🛠️', '#e1edf3', 'home-services'],
     auto: ['Auto', '🚗', '#e1edf3', 'auto'], pros: ['Professional Services', '💼', '#e5ecdf', 'professional-services'], events: ['Events & Weddings', '💍', '#f5e4dd', 'weddings'],
     kids: ['Kids & Learning', '🎨', '#f7ecd1', 'kids-art'], 'things-to-do': ['Things to Do', '🎳', '#e1edf3', 'things-to-do'], makers: ['Makers & Industry', '🏭', '#e5ecdf', 'makers'],
@@ -151,7 +151,8 @@
       var st = window.HoCOpen(JSON.parse(el.getAttribute('data-open-now') || 'null'));
       if (!st) return;
       el.textContent = st.label;
-      el.className = 'open-badge ' + (st.open ? 'is-open' : 'is-closed');
+      el.classList.toggle('is-open', st.open);
+      el.classList.toggle('is-closed', !st.open);
       el.hidden = false;
     });
     $$('[data-today]').forEach(function (tr) { if (Number(tr.getAttribute('data-today')) === nowParts().day) tr.classList.add('today'); });
@@ -314,4 +315,16 @@
     });
     document.addEventListener('click', function (e) { if (d.open && !d.contains(e.target)) d.open = false; });
   });
+})();
+
+// Order tracking, step 1 (docs/order-tracking.md): one count per tap on a
+// link marked data-hoc="<slug>|<kind>" (order, book, shop, website, gift).
+// sendBeacon survives the page closing; it carries no cookie or id.
+(function () {
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[data-hoc]');
+    if (!a || !navigator.sendBeacon) return;
+    var p = a.getAttribute('data-hoc').split('|');
+    try { navigator.sendBeacon('/api/handoff', JSON.stringify({ slug: p[0], kind: p[1] })); } catch (x) { /* counting is best effort */ }
+  }, true);
 })();

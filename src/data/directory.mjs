@@ -8,6 +8,8 @@
 import { businesses } from './businesses.mjs';
 import { landscape } from './landscape.mjs';
 import { WEB } from './web.mjs';
+import { BUSINESS_SOCIALS } from './business-socials.mjs';
+import { socialProfile } from '../social-profiles.mjs';
 import { COMMERCE } from './commerce.mjs';
 import { HOURS } from './hours.mjs';
 import { ATTRS } from './attrs.mjs';
@@ -15,8 +17,10 @@ import { DORA_SLUGS } from './dora.mjs';
 import { GEO } from './geo.mjs';
 import { ADDED } from './added.mjs';
 import { MEMBERS } from './members.mjs';
+import { CATALOGS } from './catalogs.mjs';
 import { OWN_FACTS } from './own-facts.mjs';
 import { excludedForOwnership } from './ownership.mjs';
+import { buildingFor } from './building-history.mjs';
 
 // Top-level categories, in display order. `subs` map to the landscape's
 // vertical/filter pairs. Emoji are the fallback icon until /art/ assets land.
@@ -54,6 +58,13 @@ export const CATEGORIES = [
       { slug: 'home-garden', label: 'Flowers, Home & Garden', emoji: '💐', from: ['shop', 'home'] },
       { slug: 'markets', label: 'Markets & Specialty Food', emoji: '🧺', from: ['shop', 'market'] },
       { slug: 'hobbies', label: 'Sports, Games & Hobbies', emoji: '🎲', from: ['shop', 'outdoors'] },
+      { slug: 'local-shops', label: 'Other Local Shops', emoji: '🛍️', from: ['shop', 'other'] },
+    ] },
+  // Its own section in the header (owner's call, 2026-11-24), not a corner of
+  // Shopping. Old /c/shopping/smoke/ links redirect here (netlify.toml).
+  { slug: 'smoke', label: 'Smoke & Vape', emoji: '💨', color: '#6b4fa0', tint: '#ece6f3',
+    blurb: 'Smoke shops, vape shops and tobacco shops. 21 and up.',
+    subs: [
       { slug: 'smoke', label: 'Smoke & Vape', emoji: '💨', from: ['shop', 'smoke'] },
     ] },
   { slug: 'health', label: 'Health & Wellness', emoji: '🩺', color: '#0f7b6c', tint: '#e5ecdf',
@@ -221,6 +232,8 @@ for (const b of all) {
   b.order = c ? c.order || [] : [];
   b.book = c ? c.book || [] : b.added ? b.added.book || [] : [];
   b.feed = !!(c && c.feed);
+  // A saved catalog or menu from the daily store crawl (public/catalogs/).
+  b.snap = CATALOGS[b.slug] || null;
   b.store = c && c.store ? c.store : '';
   b.gift = c && c.gift ? c.gift : null;
   b.platform = c ? c.platform || '' : '';
@@ -240,12 +253,24 @@ for (const b of all) {
   b.own = own ? { where: own.where || '', source: own.source, checked: own.checked } : null;
   // Buttons to its own pages, and sections its own pages show it also serves.
   b.links = own?.links || [];
+  const profiles = [
+    ...b.links.map(({ url }) => url), ...(BUSINESS_SOCIALS[b.slug] || []), b.website, w?.website,
+  ].map(socialProfile).filter(Boolean);
+  b.socials = [...new Set(profiles.map(({ label }) => label))]
+    .map((label) => profiles.find((profile) => profile.label === label));
   b.also = own?.also || [];
   b.kin = own?.kin || [];
   if (own) {
     if (own.address) b.address = own.address;
     if (own.hours) { b.hours = own.hours; b.hoursFrom = 'own'; }
   }
+  // The building's history (src/data/building-history.mjs): its historic
+  // name and year, and the business that was at this address just before.
+  const bh = buildingFor(b.address);
+  b.building = bh.historic;
+  // Never "before X, X was here" on X's own page.
+  const nm = (s) => String(s).toLowerCase().replace(/[’']/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+  b.before = bh.before && nm(bh.before.was) !== nm(b.name) ? bh.before : null;
 }
 
 // Neighborhood for places the listings did not tag: the most common area

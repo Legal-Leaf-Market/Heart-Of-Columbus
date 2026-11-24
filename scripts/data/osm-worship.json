@@ -1,0 +1,872 @@
+{
+ "pulled": "2026-11-24",
+ "source": "https://www.openstreetmap.org/",
+ "license": "ODbL",
+ "bbox": "39.05,-86.10,39.40,-85.68",
+ "elements": [
+  {
+   "id": "node/358648764",
+   "ll": [
+    39.1304292,
+    -85.6863854
+   ],
+   "tags": {
+    "name": "Bear Creek Church",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/358650015",
+   "ll": [
+    39.0574613,
+    -85.7808744
+   ],
+   "tags": {
+    "name": "Browns Corner Church",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/358653508",
+   "ll": [
+    39.2394958,
+    -85.7855403
+   ],
+   "tags": {
+    "name": "Enon Church",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/358660598",
+   "ll": [
+    39.1981163,
+    -86.0438627
+   ],
+   "tags": {
+    "name": "Mount Carmel Church",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/358660794",
+   "ll": [
+    39.2196,
+    -86.036887
+   ],
+   "tags": {
+    "name": "Mount Olive Church",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/358660944",
+   "ll": [
+    39.1924618,
+    -85.9772809
+   ],
+   "tags": {
+    "name": "Mount Pleasant Church",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/358661732",
+   "ll": [
+    39.157192,
+    -86.012619
+   ],
+   "tags": {
+    "name": "New Zion Church",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/358662520",
+   "ll": [
+    39.2843319,
+    -85.9850918
+   ],
+   "tags": {
+    "name": "Old Bethel Church",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/358665029",
+   "ll": [
+    39.0952624,
+    -85.7794726
+   ],
+   "tags": {
+    "name": "Rock Creek Church",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/358665740",
+   "ll": [
+    39.0592189,
+    -85.9599841
+   ],
+   "tags": {
+    "name": "Saint Johns Church",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/358665751",
+   "ll": [
+    39.2653291,
+    -86.0005531
+   ],
+   "tags": {
+    "name": "Saint Johns Church",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/358666260",
+   "ll": [
+    39.1750518,
+    -85.8569301
+   ],
+   "tags": {
+    "name": "Saint Pauls Church",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/358667429",
+   "ll": [
+    39.2187671,
+    -86.0415201
+   ],
+   "tags": {
+    "name": "Shiloh Church",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/358669259",
+   "ll": [
+    39.2101128,
+    -85.7913053
+   ],
+   "tags": {
+    "name": "Trinity Church",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/358669887",
+   "ll": [
+    39.1138349,
+    -85.9289724
+   ],
+   "tags": {
+    "name": "Walker Chapel",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/358670182",
+   "ll": [
+    39.2018777,
+    -85.8484595
+   ],
+   "tags": {
+    "name": "Wesley Chapel",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/358670436",
+   "ll": [
+    39.0639063,
+    -85.9937283
+   ],
+   "tags": {
+    "name": "White Creek Church",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/358670639",
+   "ll": [
+    39.121107,
+    -85.7620214
+   ],
+   "tags": {
+    "name": "Wilson Chapel",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/358677907",
+   "ll": [
+    39.1244954,
+    -86.084434
+   ],
+   "tags": {
+    "name": "Grandview Church",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/358678121",
+   "ll": [
+    39.0867939,
+    -86.0360581
+   ],
+   "tags": {
+    "name": "Mount Healthy Church",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/358678170",
+   "ll": [
+    39.1151182,
+    -86.0242514
+   ],
+   "tags": {
+    "name": "Ogilville Church",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/358678175",
+   "ll": [
+    39.1172736,
+    -86.0430451
+   ],
+   "tags": {
+    "name": "Ohio Chapel",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/358678309",
+   "ll": [
+    39.0622739,
+    -86.046653
+   ],
+   "tags": {
+    "name": "Saint Peters Church",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/566912442",
+   "ll": [
+    39.2264376,
+    -85.8188336
+   ],
+   "tags": {
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/570582888",
+   "ll": [
+    39.3753139,
+    -86.0689318
+   ],
+   "tags": {
+    "name": "Italian Prisoner of War Chapel",
+    "religion": "christian",
+    "denomination": "catholic"
+   }
+  },
+  {
+   "id": "node/895265558",
+   "ll": [
+    39.2356393,
+    -85.7513586
+   ],
+   "tags": {
+    "name": "Newbern United Methodist Church",
+    "religion": "christian",
+    "denomination": "methodist"
+   }
+  },
+  {
+   "id": "node/1873964648",
+   "ll": [
+    39.1352023,
+    -85.8145328
+   ],
+   "tags": {}
+  },
+  {
+   "id": "node/1873964676",
+   "ll": [
+    39.1363923,
+    -85.8122476
+   ],
+   "tags": {}
+  },
+  {
+   "id": "node/1873964677",
+   "ll": [
+    39.1364173,
+    -85.8125372
+   ],
+   "tags": {
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/11268257941",
+   "ll": [
+    39.1709679,
+    -85.9689779
+   ],
+   "tags": {
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/11292109246",
+   "ll": [
+    39.3520069,
+    -85.9676442
+   ],
+   "tags": {
+    "name": "Edinburgh Methodist",
+    "religion": "christian",
+    "denomination": "methodist"
+   }
+  },
+  {
+   "id": "node/11456162921",
+   "ll": [
+    39.2865031,
+    -85.7701432
+   ],
+   "tags": {
+    "religion": "christian",
+    "denomination": "baptist"
+   }
+  },
+  {
+   "id": "node/11711255173",
+   "ll": [
+    39.1501777,
+    -85.9206754
+   ],
+   "tags": {
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "node/12017346668",
+   "ll": [
+    39.3620727,
+    -86.0800877
+   ],
+   "tags": {
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "way/279687399",
+   "ll": [
+    39.2032313,
+    -85.9164823
+   ],
+   "tags": {
+    "name": "Saint Peter Church",
+    "religion": "christian",
+    "denomination": "lutheran",
+    "building": "yes",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "way/444501051",
+   "ll": [
+    39.3906784,
+    -85.7203325
+   ],
+   "tags": {
+    "name": "Geneva United Methodist Church",
+    "religion": "christian",
+    "denomination": "methodist"
+   }
+  },
+  {
+   "id": "way/444676179",
+   "ll": [
+    39.3092233,
+    -85.7148992
+   ],
+   "tags": {
+    "name": "Rugby Chapel",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "way/479975156",
+   "ll": [
+    39.2290854,
+    -85.9117812
+   ],
+   "tags": {
+    "name": "Saint Bartholomew Catholic Church",
+    "religion": "christian",
+    "denomination": "roman_catholic",
+    "building": "yes"
+   }
+  },
+  {
+   "id": "way/533813369",
+   "ll": [
+    39.2318607,
+    -85.9032342
+   ],
+   "tags": {
+    "name": "Grace Lutheran Church",
+    "religion": "christian",
+    "denomination": "lutheran",
+    "building": "yes"
+   }
+  },
+  {
+   "id": "way/533925375",
+   "ll": [
+    39.2261223,
+    -85.90584
+   ],
+   "tags": {
+    "name": "Asbury United Methodist Church",
+    "religion": "christian",
+    "denomination": "united_methodist",
+    "building": "yes"
+   }
+  },
+  {
+   "id": "way/534177431",
+   "ll": [
+    39.2117752,
+    -85.8887878
+   ],
+   "tags": {
+    "name": "Columbus First Church of the Nazarene",
+    "religion": "christian",
+    "denomination": "nazarene",
+    "building": "church",
+    "website": "http://www.firstnazcolumbus.org/",
+    "phone": "+1-812-372-1411",
+    "addr:housenumber": "1245",
+    "addr:street": "McClure Rd",
+    "addr:city": "Columbus",
+    "addr:postcode": "47201"
+   }
+  },
+  {
+   "id": "way/536070426",
+   "ll": [
+    39.224478,
+    -85.8722561
+   ],
+   "tags": {
+    "religion": "christian",
+    "denomination": "presbyterian",
+    "building": "yes"
+   }
+  },
+  {
+   "id": "way/536095283",
+   "ll": [
+    39.2386321,
+    -85.906283
+   ],
+   "tags": {
+    "name": "Parkside Baptist Church",
+    "religion": "christian",
+    "denomination": "baptist",
+    "building": "yes"
+   }
+  },
+  {
+   "id": "way/536095287",
+   "ll": [
+    39.2440787,
+    -85.9033805
+   ],
+   "tags": {
+    "name": "The Sanctuary",
+    "religion": "christian",
+    "building": "yes",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "way/539299256",
+   "ll": [
+    39.2594136,
+    -85.9409096
+   ],
+   "tags": {
+    "name": "New Hope Church",
+    "religion": "christian",
+    "building": "yes"
+   }
+  },
+  {
+   "id": "way/543106552",
+   "ll": [
+    39.2826889,
+    -85.871859
+   ],
+   "tags": {
+    "name": "Clifford Methodist Church",
+    "religion": "christian",
+    "denomination": "methodist",
+    "building": "yes"
+   }
+  },
+  {
+   "id": "way/543106561",
+   "ll": [
+    39.2819934,
+    -85.8663869
+   ],
+   "tags": {
+    "name": "Clifford Christian Church",
+    "religion": "christian",
+    "building": "yes"
+   }
+  },
+  {
+   "id": "way/545085661",
+   "ll": [
+    39.3356091,
+    -85.742742
+   ],
+   "tags": {
+    "name": "Haw Creek Church",
+    "religion": "christian",
+    "building": "yes"
+   }
+  },
+  {
+   "id": "way/546370075",
+   "ll": [
+    39.3643776,
+    -85.8947456
+   ],
+   "tags": {
+    "name": "St George's Church",
+    "religion": "christian",
+    "building": "church"
+   }
+  },
+  {
+   "id": "way/546632336",
+   "ll": [
+    39.2396858,
+    -85.8807646
+   ],
+   "tags": {
+    "religion": "christian",
+    "building": "yes"
+   }
+  },
+  {
+   "id": "way/553551804",
+   "ll": [
+    39.13631,
+    -85.8112718
+   ],
+   "tags": {
+    "religion": "christian",
+    "denomination": "methodist",
+    "building": "church"
+   }
+  },
+  {
+   "id": "way/568353055",
+   "ll": [
+    39.1986347,
+    -85.8903428
+   ],
+   "tags": {
+    "name": "Berea Church",
+    "religion": "christian",
+    "building": "yes"
+   }
+  },
+  {
+   "id": "way/588236547",
+   "ll": [
+    39.3052659,
+    -85.8417539
+   ],
+   "tags": {
+    "name": "Chapel of the Good Shepherd",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "way/588516760",
+   "ll": [
+    39.3045956,
+    -85.8741057
+   ],
+   "tags": {
+    "name": "Faith Chapel",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "way/588826725",
+   "ll": [
+    39.3180707,
+    -85.9232093
+   ],
+   "tags": {
+    "name": "Old Union United C(?) Church",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "way/589107435",
+   "ll": [
+    39.3644845,
+    -85.8956736
+   ],
+   "tags": {
+    "name": "Saint Georges Lutheran Church",
+    "religion": "christian",
+    "denomination": "lutheran"
+   }
+  },
+  {
+   "id": "way/589477963",
+   "ll": [
+    39.3931306,
+    -85.8915186
+   ],
+   "tags": {
+    "name": "Mount Auburn Christian Church",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "way/655085498",
+   "ll": [
+    39.1743324,
+    -85.7919394
+   ],
+   "tags": {
+    "name": "Shiloh Church",
+    "religion": "christian"
+   }
+  },
+  {
+   "id": "way/683465386",
+   "ll": [
+    39.3642164,
+    -85.827335
+   ],
+   "tags": {
+    "name": "Flat Rock United Methodist Church",
+    "religion": "christian",
+    "denomination": "methodist"
+   }
+  },
+  {
+   "id": "way/684693181",
+   "ll": [
+    39.3186551,
+    -85.8515976
+   ],
+   "tags": {
+    "name": "Saint Louis Crossing Independent Methodist Church",
+    "religion": "christian",
+    "denomination": "methodist"
+   }
+  },
+  {
+   "id": "way/684693182",
+   "ll": [
+    39.3184252,
+    -85.8506602
+   ],
+   "tags": {
+    "name": "Saint Louis Crossing Baptist Church",
+    "religion": "christian",
+    "denomination": "baptist"
+   }
+  },
+  {
+   "id": "way/700595882",
+   "ll": [
+    39.206553,
+    -85.8981788
+   ],
+   "tags": {
+    "religion": "christian",
+    "building": "yes"
+   }
+  },
+  {
+   "id": "way/700595883",
+   "ll": [
+    39.208944,
+    -85.9010603
+   ],
+   "tags": {
+    "name": "First Assembly of God",
+    "religion": "christian",
+    "denomination": "assemblies_of_god",
+    "building": "yes"
+   }
+  },
+  {
+   "id": "way/876371324",
+   "ll": [
+    39.2035986,
+    -85.8641986
+   ],
+   "tags": {
+    "religion": "christian",
+    "denomination": "jehovahs_witness",
+    "building": "yes"
+   }
+  },
+  {
+   "id": "way/876371325",
+   "ll": [
+    39.2027056,
+    -85.8649635
+   ],
+   "tags": {
+    "name": "Columbus Reformed Presbyterian Church",
+    "religion": "christian",
+    "denomination": "reformed",
+    "building": "church",
+    "website": "https://columbusrpc.org",
+    "phone": "+1-812-378-3003",
+    "addr:housenumber": "550",
+    "addr:street": "North National Road",
+    "addr:city": "Columbus",
+    "addr:postcode": "47201",
+    "service_times": "Su 10:30, Su[2-5] 18:00"
+   }
+  },
+  {
+   "id": "way/876371326",
+   "ll": [
+    39.2021055,
+    -85.8618485
+   ],
+   "tags": {
+    "name": "Friendship Church",
+    "religion": "christian",
+    "building": "yes"
+   }
+  },
+  {
+   "id": "way/913003653",
+   "ll": [
+    39.0863822,
+    -85.8445497
+   ],
+   "tags": {
+    "name": "Friends Meetinghouse"
+   }
+  },
+  {
+   "id": "way/927671453",
+   "ll": [
+    39.2072035,
+    -85.9182411
+   ],
+   "tags": {
+    "name": "First United Methodist",
+    "religion": "christian",
+    "building": "yes"
+   }
+  },
+  {
+   "id": "way/960202114",
+   "ll": [
+    39.2386814,
+    -85.8620819
+   ],
+   "tags": {
+    "name": "Calvary Church of the Nazarene",
+    "religion": "christian",
+    "denomination": "nazarene",
+    "building": "church",
+    "addr:housenumber": "5400",
+    "addr:street": "Rocky Ford Road",
+    "addr:city": "Columbus",
+    "addr:postcode": "47203-2562"
+   }
+  },
+  {
+   "id": "way/1124441554",
+   "ll": [
+    39.135584,
+    -85.9451275
+   ],
+   "tags": {
+    "name": "Aposento",
+    "religion": "christian",
+    "building": "yes"
+   }
+  },
+  {
+   "id": "way/1341357440",
+   "ll": [
+    39.302348,
+    -85.7638961
+   ],
+   "tags": {
+    "name": "Hope House of Prayer",
+    "religion": "christian",
+    "building": "yes",
+    "addr:housenumber": "514",
+    "addr:street": "Market Street`",
+    "addr:city": "Hope",
+    "addr:postcode": "47246",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "id": "relation/8797394",
+   "ll": [
+    39.2251145,
+    -85.913774
+   ],
+   "tags": {
+    "religion": "christian",
+    "denomination": "episcopal",
+    "building": "yes"
+   }
+  },
+  {
+   "id": "relation/9357836",
+   "ll": [
+    39.2334615,
+    -85.8721065
+   ],
+   "tags": {
+    "name": "First Baptist Columbus",
+    "religion": "christian",
+    "denomination": "baptist",
+    "building": "church",
+    "website": "https://firstbaptistcolumbus.org/",
+    "addr:housenumber": "3300",
+    "addr:street": "Fairlawn Drive",
+    "addr:city": "Columbus",
+    "addr:postcode": "47203"
+   }
+  }
+ ]
+}

@@ -1,0 +1,122 @@
+# History sources Claude Code cannot read automatically
+
+Written 2026-11-24 for a Claude in Chrome crawl. These sites refuse automated reads from the build environment (The Republic answers 403), have moved (Indiana Public Media's Columbus history now 404s at both indianapublicmedia.org and ipm.org), or failed to load. Shortest articles first, since they gain the most.
+
+## What to bring back
+
+For each page: the URL as loaded, the date read, and the facts it states (names, dates, numbers, places), with any sentence we might quote copied exactly. If a page has moved, record the new address. Do not commit whole articles to this repository: the text belongs to the publisher, and we cite and link it, never republish it. Paste the notes into the chat, or save them as notes under docs/research/sources/<article-slug>.md.
+
+**Skip the /history/blair/ pieces.** They are summaries of Brian Blair's reporting and are kept short on purpose, so they only need a link check.
+
+- /history/blair/second-baptist-plans-ahead/ (178 words)
+  - Columbus’ historic Second Baptist Church launching Phase 2 of renovation plan, by Brian Blair, The Republic: https://www.therepublic.com/2023/07/22/columbus-historic-second-baptist-church-launching-phase-2-of-renovation-plan/
+- /history/blair/north-christian-last-service/ (185 words)
+  - ‘It’s bittersweet’: North Christian Church congregation hosts final worship service today, by Brian Blair, The Republic: https://www.therepublic.com/2022/07/16/its-bittersweet-north-christian-church-congregation-hosts-final-worship-service-today/
+- /history/blair/sandy-hook-at-125/ (186 words)
+  - One church, many friends, by Brian Blair, The Republic: https://www.therepublic.com/2017/09/23/one_church_many_friends/
+- /history/blair/gospel-goodbyes/ (186 words)
+  - Columbus missionary couple off to Appalachian outreach, by Brian Blair, The Republic: https://www.therepublic.com/2017/12/30/people_of_faith_helping_the_least_of_these_b1_sat_faith_cover_centerpiece/
+- /history/blair/first-presbyterian-at-200/ (186 words)
+  - First Presbyterian prepping to celebrate its 200th anniversary throughout the year, by Brian Blair, The Republic: https://www.therepublic.com/2024/02/17/first-presbyterian-prepping-to-celebrate-its-200th-anniversary-throughout-the-year/
+- /history/blair/thy-kingdom-come-in-columbus/ (188 words)
+  - People of Faith: New Sandy Hook pastor passionate as a teacher and equipper, by Brian Blair, The Republic: https://www.therepublic.com/2020/09/26/people_of_faith_new_sandy_hook_pastor_passionate_as_a_teacher_and_equipper/
+- /history/blair/faith-ministries-new-shepherd/ (191 words)
+  - ‘The Lord prepares you’, by Brian Blair, The Republic: https://www.therepublic.com/2015/02/28/the_lord_prepares_you/
+- /history/blair/called-to-come-home/ (192 words)
+  - A native son ‘called to come home’, by Brian Blair, The Republic: https://www.therepublic.com/2024/03/30/a-native-son-called-to-come-home-pastor-evan-guse-looks-to-the-future-of-an-older-congregation-seeking-new-growth/
+- /history/blair/st-bartholomew-comes-down/ (197 words)
+  - A service concluded: Vacant former Catholic church ends lengthy life of faith, by Brian Blair, The Republic: https://www.therepublic.com/2020/12/13/a_service_concluded_vacant_former_catholic_church_ends_lengthy_life_of_faith/
+- /history/blair/not-representatives-of-islam/ (225 words)
+  - ‘These people are not representatives of Islam’, by Brian Blair, The Republic: https://www.therepublic.com/2015/12/23/these_people_are_not_representatives_of_islam/
+- /history/2020s/the-republic-new-owners/ (257 words)
+  - Sale of Home News publications closes six generation ownership by Brown family, The Republic: https://www.therepublic.com/?p=350633
+- /history/2020s/the-eclipse/ (268 words)
+  - BCSC approves calendar change for solar eclipse, The Republic: https://www.therepublic.com/?p=567638
+- /history/1970s/arts-council-begins/ (274 words)
+  - About the Columbus Area Arts Council: https://artsincolumbus.org/about
+  - Columbus Area Arts Council, GuideStar (Candid): https://www.guidestar.org/profile/35-1303466
+- /history/1990s/memorial-for-veterans/ (290 words)
+  - Bartholomew County Memorial for Veterans, Charles Rose Architects project data: https://archive.charlesrosearchitects.com/wp-content/uploads/2012/06/Memorial_Columbus_Data_Pages.pdf
+- /history/1970s/sandy-hook-moves-to-taylor-road/ (291 words)
+  - One church, many friends: Congregation members look forward to 125th anniversary, by Brian Blair, The Republic (2017): https://www.therepublic.com/2017/09/23/one_church_many_friends/
+  - Religion news, September 16, The Republic: https://www.therepublic.com/?p=374291
+- /history/1950s/korea-brings-soldiers-back/ (296 words)
+  - Atterbury Army Air Field historical marker, Indiana Historical Bureau: https://www.in.gov/history/markers/528.htm
+- /history/1960s/evening-republican-becomes-the-republic/ (301 words)
+  - A history of The Republic: 1872 to today, The Republic: https://www.therepublic.com/?p=482537
+- /history/1980s/ethnic-expo-begins/ (302 words)
+  - Story on the 33rd Ethnic Expo, The Republic: https://www.therepublic.com/?p=351137
+- /history/1960s/cleo-rogers-library/ (303 words)
+  - Columbus, Indiana: Different by Design, 1969, Indiana Public Media: https://indianapublicmedia.org/columbus/text1969.html
+- /history/1980s/ntn-comes-to-walesboro/ (305 words)
+  - Story on NTN Driveshaft’s 25th anniversary in Columbus, The Republic: https://www.therepublic.com/?p=359410
+  - Story on NTN Driveshaft’s 25 years and the city’s foreign investment, The Republic: https://www.therepublic.com/?p=359665
+  - Story on NTN’s 100th anniversary celebration, The Republic: https://www.therepublic.com/?p=382262
+- /history/2000s/north-cross-country/ (306 words)
+  - North wins state cross-country title, The Republic: https://www.therepublic.com/?p=416228
+- /history/1990s/visitors-center-chandelier/ (313 words)
+  - Columbus Visitors Center to celebrate 30th anniversary, The Republic: https://www.therepublic.com/?p=833009
+- /history/2010s/cummins-turns-100/ (314 words)
+  - Appreciating the past: Display of early Cummins engines at anniversary event to highlight company’s roots, The Republic: https://www.therepublic.com/?p=395679
+- /history/1960s/bakalar-reservists-go-to-vietnam/ (315 words)
+  - Atterbury Army Air Field historical marker, Indiana Historical Bureau: https://www.in.gov/history/markers/528.htm
+- /history/2000s/philharmonic-salute/ (320 words)
+  - Conductor embarks on 30th season with the Philharmonic, The Republic: https://www.therepublic.com/?p=360985
+- /history/2010s/new-commons/ (325 words)
+  - Story on The Commons playground upgrades, The Republic: https://www.therepublic.com/?p=366855
+- /history/2010s/infidels-and-friends/ (326 words)
+  - Story on St. Bartholomew’s 175th anniversary, The Republic: https://www.therepublic.com/?p=360597
+  - Story on the Christian and Muslim friendship after the Sri Lanka bombings, The Republic: https://www.therepublic.com/?p=395822
+- /history/1940s/atterbury-army-air-field/ (327 words)
+  - Atterbury Army Air Field historical marker, Indiana Historical Bureau: https://www.in.gov/history/markers/528.htm
+- /history/2020s/sri-ganesh-mandir/ (328 words)
+  - New Hindu temple dedication brings together community to celebrate, The Republic (August 2022): https://www.therepublic.com/?p=543919
+  - That dream is finally coming true, The Republic: https://www.therepublic.com/?p=399735
+- /history/2010s/mill-race-marathon/ (333 words)
+  - It’s marathon day, The Republic (September 2022): https://www.therepublic.com/?p=592897
+- /history/2010s/crump-endangered/ (333 words)
+  - Spelling progress: Crump illuminates new letters in another refurbishing step, The Republic: https://www.therepublic.com/?p=434089
+- /history/papers/the-republican-arrives/ (339 words)
+  - A history of The Republic: 1872 to today, The Republic: https://www.therepublic.com/?p=482537
+- /history/1980s/the-japan-strategy/ (340 words)
+  - Story on NTN Driveshaft’s 25 years and the city’s foreign investment, The Republic: https://www.therepublic.com/?p=359665
+  - City celebrates 30th anniversary of sister city status with Miyoshi, The Republic: https://www.therepublic.com/?p=696525
+- /history/2010s/republic-changes-hands/ (340 words)
+  - Sale of Home News publications closes six generation ownership by Brown family, The Republic: https://www.therepublic.com/?p=350633
+- /history/1960s/north-christian-church-dedicated/ (343 words)
+  - Columbus, Indiana: Different by Design, 1964, Indiana Public Media: https://indianapublicmedia.org/columbus/text1964.html
+- /history/1980s/cummins-headquarters-on-the-rail-yard/ (350 words)
+  - $50 million renovation: Preservation conference gets a peek inside Cummins headquarters, The Republic: https://www.therepublic.com/?p=381709
+  - Roche’s spirit endures in Columbus with designs, The Republic: https://www.therepublic.com/?p=394138
+- /history/2000s/flood-of-2008/ (351 words)
+  - Hectic, fast-paced and chaotic: Officials recall 2008 flood, The Republic: https://www.therepublic.com/?p=572192
+- /history/2000s/st-bartholomew-new-church/ (353 words)
+  - Story on the demolition of the old St. Bartholomew church, The Republic: https://www.therepublic.com/?p=417838
+  - Story on St. Bartholomew’s 175th anniversary, The Republic: https://www.therepublic.com/?p=360597
+- /history/1990s/columbus-regional-hospital/ (380 words)
+  - Tracing 100 years of history for Columbus Regional Hospital, The Republic: https://www.therepublic.com/?p=366731
+- /history/1960s/cummins-technical-center/ (382 words)
+  - Cummins Technical Center at 50, The Republic: https://www.therepublic.com/?p=375160
+- /history/1950s/county-hospital-grows/ (394 words)
+  - Tracing 100 years of history for Columbus Regional Hospital, The Republic: https://www.therepublic.com/?p=366731
+- /history/2020s/columbus-passes-fifty-thousand/ (403 words)
+  - Story on the 33rd Ethnic Expo, The Republic: https://www.therepublic.com/?p=351137
+- /history/1970s/kevin-roche-post-office/ (418 words)
+  - Columbus, Indiana: Different by Design, 1970, Indiana Public Media: https://indianapublicmedia.org/columbus/text1970.html
+  - Roche’s spirit endures in Columbus with designs, The Republic: https://www.therepublic.com/?p=394138
+- /history/1970s/air-base-becomes-airport/ (462 words)
+  - Atterbury Army Air Field historical marker, Indiana Historical Bureau: https://www.in.gov/history/markers/528.htm
+- /history/1950s/memorial-gym/ (477 words)
+  - Columbus Memorial Gymnasium, Stadium Journey: https://stadiumjourney.com/stadiums/columbus-memorial-gymnasium-columbus-north-hs-bulldogs
+  - Columbus Memorial Gymnasium, Visit Indiana basketball trail: https://www.visitindiana.com/basketball/locations/columbus-memorial-gymnasium/
+- /history/1970s/cummins-billion-dollar-year/ (505 words)
+  - Cummins Says Farewell to a Legend, Truck News: https://www.trucknews.com/features/cummins-says-farewell-to-a-legend/
+- /history/1960s/lincoln-elementary-and-lady-bird/ (526 words)
+  - Lincoln’s 5 decades of history worth celebrating, The Republic: https://www.therepublic.com/?p=374360
+  - Columbus, Indiana: Different by Design, 1967, Indiana Public Media: https://indianapublicmedia.org/columbus/text1967.html
+- /history/1990s/kidscommons-opens/ (557 words)
+  - kidscommons to celebrate 20 years of fun with anniversary party, The Republic: https://www.therepublic.com/?p=829248
+- /history/1960s/otter-creek-golf-course/ (598 words)
+  - Otter Creek golf course history, The Republic: https://www.therepublic.com/?p=354106
+
+49 articles.

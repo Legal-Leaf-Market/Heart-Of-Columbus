@@ -107,3 +107,170 @@ test('a stored origin ending in a slash never doubles it in product or cart link
   assert.equal(mapShopify('https://shop.example/', [{ id: 1, title: 'Mug', handle: 'mug', variants: [{ id: 9, price: '1', available: true }] }])[0].url, 'https://shop.example/products/mug');
   assert.match(wooCartUrls('https://shop.example/', [{ productId: 3, qty: 1 }])[0], /^https:\/\/shop\.example\/\?add-to-cart=3/);
 });
+
+// Sojourn Coffee's coffees are variable products (size, grind). Woo's handler
+// refuses a bare variation id, so each option carries the query its own form posts.
+test('Woo variable products: every option with its own price, stock and add query', async () => {
+  const { mapWoo, wooCartUrls } = await import('../src/commerce-core.mjs');
+  const parent = {
+    id: 10, type: 'variable', name: 'Organic Signature Blend', permalink: 'https://w.example/product/sig/', prices: { price: '1400', currency_minor_unit: 2 },
+    is_in_stock: true, images: [{ src: 'b.jpg' }],
+    attributes: [{ name: 'Grind', taxonomy: 'pa_grind', terms: [{ slug: 'whole-bean', name: 'Whole Bean' }, { slug: 'drip', name: 'Drip' }] }, { name: 'Size', taxonomy: null, terms: [] }],
+  };
+  const vars = [
+    { id: 11, parent: 10, prices: { price: '1400', currency_minor_unit: 2 }, is_in_stock: false, attributes: [{ name: 'Grind', value: 'whole-bean' }, { name: 'Size', value: '12 oz' }] },
+    { id: 12, parent: 10, prices: { price: '1500', currency_minor_unit: 2 }, is_in_stock: true, attributes: [{ name: 'Grind', value: 'Drip' }, { name: 'Size', value: '12 oz' }] },
+    { id: 99, parent: 77, prices: { price: '100' }, attributes: [] },
+  ];
+  const [it] = mapWoo('https://w.example', [parent], vars);
+  assert.equal(it.variants.length, 2);
+  assert.equal(it.variants[0].title, 'Whole Bean / 12 oz');
+  assert.equal(it.variants[0].available, false);
+  assert.equal(it.price, 15, 'the price shown is the cheapest option you can buy');
+  assert.equal(it.available, true);
+  assert.equal(it.variants[1].add, 'add-to-cart=10&variation_id=12&attribute_pa_grind=drip&attribute_size=12%20oz');
+  assert.deepEqual(wooCartUrls('https://w.example', [{ productId: '10', variantId: '12', add: it.variants[1].add, qty: 2 }]),
+    ['https://w.example/?add-to-cart=10&variation_id=12&attribute_pa_grind=drip&attribute_size=12%20oz&quantity=2']);
+  // A value that matches no declared term, or an "any" option, gets no link.
+  const [odd] = mapWoo('https://w.example', [parent], [{ id: 13, parent: 10, prices: { price: '900' }, is_in_stock: true, attributes: [{ name: 'Grind', value: 'espresso' }] }]);
+  assert.equal(odd.variants[0].add, undefined);
+  assert.equal(odd.available, false);
+  // No variations read at all: shown, but chosen on their site.
+  const [blind] = mapWoo('https://w.example', [parent], []);
+  assert.equal(blind.pick, true);
+  assert.deepEqual(wooCartUrls('https://w.example', [{ productId: '10', pick: true, qty: 1 }]), []);
+});
+
+test('the Woo sweep dedupes a store that ignores page, and fans out the rest', async () => {
+  const { wooCollection } = await import('../netlify/functions/shop.mjs');
+  const page = (from) => Array.from({ length: 100 }, (_, i) => ({ id: from + i }));
+  const asked = [];
+  const stuck = async (url) => { asked.push(url); return { body: page(1), pages: 3 }; };
+  assert.equal((await wooCollection('https://w.example', '', 4, stuck)).length, 100);
+  assert.equal(asked.length, 3);
+  assert.ok(asked.every((u) => /orderby=id&order=asc/.test(u)));
+  const good = async (url) => { const p = Number(url.match(/&page=(\d+)/)[1]); return { body: p < 3 ? page(p * 100) : [{ id: 999 }], pages: 3 }; };
+  assert.equal((await wooCollection('https://w.example', 'type=variation', 6, good)).length, 201);
+});
+
+// Square's shared assets on Gramz Bakery's own square.site page named a
+// different restaurant's store; the import kept it as a second "Square
+// Online" button that went to someone else.
+test('a Square Online business links only its own store, once', async () => {
+  const { COMMERCE } = await import('../src/data/commerce.mjs');
+  assert.deepEqual(COMMERCE['gramz-bakery-and-cafe'].order, [{ label: 'Square Online', url: 'https://gramz-bakery.square.site/' }]);
+  for (const [slug, c] of Object.entries(COMMERCE)) {
+    const labels = c.order.map((o) => o.label);
+    assert.equal(new Set(labels).size, labels.length, `${slug} lists one provider twice`);
+  }
+});
+
+// The shape Sojourn Coffee's live Store API returned (2026-11-18): the
+// variation row carries no attributes, only "Attribute: Whole Bean". The
+// option list must read "Whole Bean" and the add link must carry the
+// attribute, from the parent's own variations list or from that string.
+test('Woo variations whose attributes are only on the parent or in the text', async () => {
+  const { mapWoo } = await import('../src/commerce-core.mjs');
+  const parent = {
+    id: 692, type: 'variable', name: 'Organic Black Magic', prices: { price: '1650' }, is_in_stock: true, images: [{ src: 'b.jpg' }],
+    attributes: [{ name: 'Attribute', taxonomy: null, has_variations: true, terms: [{ name: 'Whole Bean', slug: 'whole-bean' }, { name: 'Ground', slug: 'ground' }] }],
+    variations: [{ id: 1909, attributes: [{ name: 'Attribute', value: 'Whole Bean' }] }],
+  };
+  const vars = [
+    { id: 1909, parent: 692, prices: { price: '1650' }, is_in_stock: true, attributes: [], variation: 'Attribute: Whole Bean' },
+    { id: 1955, parent: 692, prices: { price: '1650' }, is_in_stock: true, attributes: [], variation: 'Attribute: Ground' },
+  ];
+  const [it] = mapWoo('https://w.example', [parent], vars);
+  assert.deepEqual(it.variants.map((v) => v.title), ['Whole Bean', 'Ground']);
+  assert.equal(it.variants[0].add, 'add-to-cart=692&variation_id=1909&attribute_attribute=Whole%20Bean');
+  assert.equal(it.variants[1].add, 'add-to-cart=692&variation_id=1955&attribute_attribute=Ground', 'from the text when the parent list lacks it');
+  // Two attributes in one string, a taxonomy one among them.
+  const two = { ...parent, attributes: [{ name: 'Size', taxonomy: 'pa_size', terms: [{ name: '12 oz', slug: '12-oz' }] }, { name: 'Grind', taxonomy: null, terms: [] }], variations: [] };
+  const [t2] = mapWoo('https://w.example', [two], [{ id: 5, parent: 692, prices: { price: '100' }, attributes: [], variation: 'Size: 12 oz, Grind: Drip, fine' }]);
+  assert.equal(t2.variants[0].add, 'add-to-cart=692&variation_id=5&attribute_pa_size=12-oz&attribute_grind=Drip%2C%20fine');
+  assert.equal(t2.variants[0].title, '12 oz / Drip, fine');
+});
+
+test('Squarespace: both item shapes, stock, sale price, buy on their site', async () => {
+  const { mapSquarespace } = await import('../src/commerce-core.mjs');
+  const items = mapSquarespace('https://sq.example/', [
+    // 7.1 shape: variants on the item, money as strings.
+    { id: 'a1', title: 'Sage Bundle', fullUrl: '/shop/p/sage', assetUrl: 'https://images.squarespace-cdn.com/x.jpg', categories: ['Herbs'],
+      variants: [{ id: 'v1', priceMoney: { value: '12.00' }, stock: { quantity: 0 }, attributes: { Size: 'Small' } },
+        { id: 'v2', priceMoney: { value: '20.00' }, onSale: true, salePriceMoney: { value: '15.00' }, stock: { unlimited: true }, attributes: { Size: 'Large' } }] },
+    // Older shape: structuredContent, cents.
+    { id: 'b2', title: 'Candle', fullUrl: '/shop/p/candle', assetUrl: 'https://images.squarespace-cdn.com/y.jpg?v=1',
+      structuredContent: { variants: [{ sku: 'C1', price: 1800, qtyInStock: 3 }] } },
+    { id: 'c3', title: 'No price', variants: [{ id: 'z', priceMoney: { value: '0' } }] },
+    { id: 'd4', title: 'Blog post' },
+  ]);
+  assert.equal(items.length, 2);
+  assert.equal(items[0].url, 'https://sq.example/shop/p/sage');
+  assert.equal(items[0].image, 'https://images.squarespace-cdn.com/x.jpg?format=500w');
+  assert.deepEqual(items[0].variants.map((v) => [v.title, v.price, v.available]), [['Small', 12, false], ['Large', 15, true]]);
+  assert.equal(items[0].price, 15, 'the price shown is the cheapest option in stock');
+  assert.equal(items[0].buyOnSite, true);
+  assert.equal(items[1].price, 18);
+  assert.equal(items[1].image, 'https://images.squarespace-cdn.com/y.jpg?v=1&format=500w');
+});
+
+test('Shopify permalink carries the pickup note and Shopify ref tracking', async () => {
+  const { shopifyCartUrlWith } = await import('../src/commerce-core.mjs');
+  assert.equal(shopifyCartUrlWith('https://s.example', [{ variantId: '7', qty: 2 }], { note: 'Pickup, please.', ref: 'heartofcolumbus' }),
+    'https://s.example/cart/7:2?note=Pickup%2C%20please.&ref=heartofcolumbus');
+  assert.equal(shopifyCartUrlWith('https://s.example', [{ variantId: '7', qty: 1 }]), 'https://s.example/cart/7:1');
+});
+
+test('a store that refuses the sorted query is read without it', async () => {
+  const { wooCollection } = await import('../netlify/functions/shop.mjs');
+  const asked = [];
+  const picky = async (url) => { asked.push(url); return /orderby=/.test(url) ? null : { body: [{ id: 1 }, { id: 2 }], pages: 1 }; };
+  assert.equal((await wooCollection('https://w.example', '', 4, picky)).length, 2);
+  assert.equal(asked.length, 2);
+  assert.ok(!/orderby/.test(asked[1]));
+});
+
+test('Shopify card photos ask the CDN for 480 px; other hosts pass as is', async () => {
+  const { shopifyImage } = await import('../src/commerce-core.mjs');
+  assert.equal(shopifyImage('https://cdn.shopify.com/s/files/1/a.jpg?v=1'), 'https://cdn.shopify.com/s/files/1/a.jpg?v=1&width=480');
+  assert.equal(shopifyImage('https://shop.example/cdn/shop/files/a.jpg'), 'https://shop.example/cdn/shop/files/a.jpg?width=480');
+  assert.equal(shopifyImage('https://cdn.shopify.com/a.jpg?width=200'), 'https://cdn.shopify.com/a.jpg?width=200');
+  assert.equal(shopifyImage('https://images.example/a.jpg'), 'https://images.example/a.jpg');
+  assert.equal(shopifyImage(''), '');
+});
+
+test('/api/shop ?top sends only the grid: in stock with a photo, plus counts', async () => {
+  const { gridView } = await import('../netlify/functions/shop.mjs');
+  const items = [
+    { id: 'a', available: true, image: 'a.jpg' }, { id: 'b', available: false, image: 'b.jpg' },
+    { id: 'c', available: true, image: '' }, { id: 'd', available: true, image: 'd.jpg' }, { id: 'e', available: true, image: 'e.jpg' },
+  ];
+  assert.deepEqual(gridView(items, null), { items });
+  const v = gridView(items, '2');
+  assert.deepEqual(v.items.map((i) => i.id), ['a', 'd']);
+  assert.equal(v.stock, 4);
+  assert.equal(v.pictured, 3);
+  assert.equal(gridView(items, '9999').top, 96);
+});
+
+test('/api/shop answers go to the shared (durable) CDN cache', async () => {
+  const src = (await import('node:fs')).readFileSync(new URL('../netlify/functions/shop.mjs', import.meta.url), 'utf8');
+  assert.match(src, /netlify-cdn-cache-control': 'public, durable,/);
+});
+
+test('JSON-LD reader: products, item lists and menus from any site builder', async () => {
+  const { mapJsonLd } = await import('../src/commerce-core.mjs');
+  const page = (o) => `<html><script type="application/ld+json">${JSON.stringify(o)}</script></html>`;
+  const p = mapJsonLd(page({ '@context': 'https://schema.org', '@type': 'Product', name: 'Walnut Cutting Board', sku: 'WB1', image: ['/img/board.jpg'], offers: { '@type': 'Offer', price: '45.00', availability: 'https://schema.org/InStock' } }), 'https://shop.example/p/board');
+  assert.equal(p.length, 1);
+  assert.deepEqual([p[0].title, p[0].price, p[0].available, p[0].image, p[0].buyOnSite], ['Walnut Cutting Board', 45, true, 'https://shop.example/img/board.jpg', true]);
+  const sold = mapJsonLd(page({ '@type': 'Product', name: 'Mug', offers: [{ price: 12, availability: 'OutOfStock' }] }), 'https://s.example/');
+  assert.equal(sold[0].available, false);
+  // No price, no item: nothing is guessed.
+  assert.equal(mapJsonLd(page({ '@type': 'Product', name: 'Mystery' }), 'https://s.example/').length, 0);
+  const list = mapJsonLd(page({ '@graph': [{ '@type': 'ItemList', itemListElement: [{ '@type': 'ListItem', item: { '@type': 'Product', name: 'A', url: '/a', offers: { '@type': 'AggregateOffer', lowPrice: '9.5' } } }, { '@type': 'ListItem', item: { '@type': 'Product', name: 'B', offers: { price: 3 } } }] }] }), 'https://s.example/shop');
+  assert.deepEqual(list.map((i) => [i.title, i.price, i.url]), [['A', 9.5, 'https://s.example/a'], ['B', 3, 'https://s.example/shop']]);
+  const menu = mapJsonLd(page({ '@type': 'Restaurant', name: 'Diner', hasMenu: { '@type': 'Menu', hasMenuSection: [{ '@type': 'MenuSection', name: 'Breakfast', hasMenuItem: [{ '@type': 'MenuItem', name: 'Two Eggs', offers: { '@type': 'Offer', price: '6.50' } }, { '@type': 'MenuItem', name: 'Toast' }] }] } }), 'https://diner.example/menu');
+  assert.deepEqual(menu.map((i) => [i.title, i.price, i.type, i.kind]), [['Two Eggs', 6.5, 'Breakfast', 'menu']]);
+  assert.equal(mapJsonLd('<script type="application/ld+json">{broken</script>', 'https://x.example/').length, 0);
+});

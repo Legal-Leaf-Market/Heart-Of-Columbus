@@ -4,18 +4,22 @@
 import { esc, t } from '../layout.mjs';
 import { newsPage, setBarLinks } from '../news/frame.mjs';
 import { aboutPages } from './about-pages.mjs';
-import { readerPages } from './reader-pages.mjs';
+import { readerPages, field, form } from './reader-pages.mjs';
 import { civicPages } from './civic-pages.mjs';
 import { habitPages, storyAsk } from './habit-pages.mjs';
 import { sponsorSlot } from '../news/sponsor-slot.mjs';
 import { cmsPage } from '../news/cms.mjs';
-import { ALL_STORIES, SAMPLES, stories, storiesIn, storiesBy, correctionsLog } from '../news/content.mjs';
+import { ALL_STORIES, SAMPLES, stories, storiesIn, storiesInSeries, storiesBy, correctionsLog } from '../news/content.mjs';
+import { SERIES, seriesBySlug, seriesHref } from '../news/series.mjs';
+import { stickerImg } from '../news/stickers.mjs';
+import { signupBox, shareBar, followStrip } from '../news/share.mjs';
+import { historyBanner } from '../banners.mjs';
 import { SECTIONS, sectionBySlug, sectionHref } from '../news/sections.mjs';
 import { disclosures } from '../news/disclosure.mjs';
 import { storyList, storyCard, label, byline, editorLine, fmtWhen, fmtDate } from '../news/render.mjs';
 import { card, svg, rail, PHOTOS } from '../site.mjs';
 import { directory, areaBySlug, AREAS } from '../data/directory.mjs';
-import { eventsSection } from './events.mjs';
+import { eventsSection, homeEvents } from './events.mjs';
 import { ALERT, activeAlert, LEVELS } from '../news/alert.mjs';
 import { BODIES } from '../data/civic.mjs';
 import { reader, nameplate } from '../kindle.mjs';
@@ -87,7 +91,13 @@ export function inThisStory(s) {
 </section>`;
 }
 
-setBarLinks(() => SECTIONS.filter((s) => s.bar !== false).map((s) => [sectionHref(s), s.name]));
+setBarLinks(() => {
+  const inBar = SECTIONS.filter((s) => s.bar !== false);
+  return {
+    features: inBar.filter((s) => s.feature).map((s) => [sectionHref(s), s.name, `np-feat np-feat-${s.slug}`]),
+    sections: inBar.filter((s) => !s.feature).map((s) => [sectionHref(s), s.name]),
+  };
+});
 
 const host = (u) => new URL(u).hostname.replace(/^www\./, '');
 
@@ -105,6 +115,26 @@ const meetingBox = (m, sample) => {
   ${body?.url ? `<p class="np-wx-src"><a href="${esc(body.url)}" target="_blank" rel="noopener">Official agendas and minutes</a></p>` : ''}</aside>`;
 };
 
+// A game story's box score: final, both teams, where and when. Every value
+// comes from the writer's front matter; nothing here looks a score up.
+const gameBox = (g) => {
+  const row = (side) => `<tr${g.final[side] > g.final[side === 'home' ? 'away' : 'home'] ? ' class="np-win"' : ''}><th scope="row">${t(g[side])}</th><td>${g.final[side]}</td></tr>`;
+  return `<aside class="np-dev np-game" aria-label="Final score"><p class="kicker">Final${g.note ? `, ${t(g.note)}` : ''}</p>
+  <table class="np-score"><tbody>${row('away')}${row('home')}</tbody></table>
+  <p class="np-game-where">${t(g.venue)}, ${fmtDate(g.date)}</p></aside>`;
+};
+
+// A photo credit, linked to the photographer's own page when the story gives one.
+const credit = (im) => `${im.creditUrl ? `<a href="${esc(im.creditUrl)}" target="_blank" rel="noopener">${esc(im.credit)}</a>` : esc(im.credit)}, ${esc(im.license)}`;
+
+// Stickers: the ones with a heading sit beside that ## heading, the rest in a
+// strip under the byline. Decorative only, never over a photo.
+// A paragraph that is nothing but bold (the ratings) is marked so it can print
+// as a boxed rule line; a paragraph with some bold in it is left alone.
+const stickerProse = (s) => s.stickers.filter((x) => x.heading).reduce((html, x) =>
+  html.replace(`<h2>${t(x.heading)}</h2>`, `<h2 class="np-h2-sticker">${stickerImg(x.sticker)}<span>${t(x.heading)}</span></h2>`), s.html)
+  .replace(/<p><strong>([^<]*)<\/strong><\/p>/g, '<p class="np-rating"><strong>$1</strong></p>');
+
 export function storyBody(s) {
   const major = s.corrections.filter((c) => c.major);
   const minor = s.corrections.filter((c) => !c.major);
@@ -113,19 +143,21 @@ export function storyBody(s) {
   return `
 <article class="wrap np-story">
   <header class="np-story-head">
-    <p class="np-story-kick">${label(s)} <a href="${sectionHref(sectionBySlug[s.section])}">${esc(sectionBySlug[s.section].name)}</a></p>
+    <p class="np-story-kick">${label(s)} <a href="${sectionHref(sectionBySlug[s.section])}">${esc(sectionBySlug[s.section].name)}</a>${s.series && seriesBySlug[s.series] ? ` <a class="np-series" href="${seriesHref(seriesBySlug[s.series])}">${seriesName(seriesBySlug[s.series])}</a>` : ''}</p>
     <h1>${t(s.headline)}</h1>
     ${s.dek ? `<p class="np-dek">${t(s.dek)}</p>` : ''}
     <p class="np-byline">${byline(s)}</p>
     <p class="np-meta">${editorLine(s)}${s.editor ? ' · ' : ''}Published <time datetime="${esc(s.published)}">${fmtWhen(s.published)}</time>${s.updated ? ` · Updated <time datetime="${esc(s.updated)}">${fmtWhen(s.updated)}</time>` : ''}</p>
+    ${s.stickers.some((x) => !x.heading) ? `<p class="np-sticker-strip" aria-hidden="true">${s.stickers.filter((x) => !x.heading).map((x) => stickerImg(x.sticker)).join('')}</p>` : ''}
   </header>
   ${disc.map((d) => `<p class="np-disclose" data-kind="${d.kind}"><strong>Disclosure:</strong> ${esc(d.text)}</p>`).join('')}
   ${major.length ? `<aside class="np-corr np-corr-top" aria-label="Corrections"><h2>Correction</h2><ul>${major.map(correction).join('')}</ul></aside>` : ''}
-  ${img ? `<figure class="np-fig"><img src="${esc(img.file)}" alt="${esc(img.alt)}"><figcaption>${img.caption ? `${t(img.caption)} ` : ''}<span class="np-credit">${esc(img.credit)}, ${esc(img.license)}</span></figcaption></figure>` : ''}
+  ${img ? `<figure class="np-fig"><span class="np-fig-img"><img src="${esc(img.file)}" alt="${esc(img.alt)}"></span><figcaption>${img.caption ? `${t(img.caption)} ` : ''}<span class="np-credit">${credit(img)}</span></figcaption></figure>` : ''}
   ${s.developing ? `<aside class="np-dev" aria-label="Developing story"><p class="kicker">Developing story</p><div><h2>What we know</h2><ul>${s.developing.know.map((x) => `<li>${t(x)}</li>`).join('')}</ul></div><div><h2>What we don’t know yet</h2><ul>${s.developing.dontKnow.map((x) => `<li>${t(x)}</li>`).join('')}</ul></div></aside>` : ''}
   ${s.meeting ? meetingBox(s.meeting, s.sample) : ''}
-  <div class="np-prose">${s.html}</div>
-  ${s.images.slice(1).map((im) => `<figure class="np-fig"><img src="${esc(im.file)}" alt="${esc(im.alt)}" loading="lazy"><figcaption>${im.caption ? `${t(im.caption)} ` : ''}<span class="np-credit">${esc(im.credit)}, ${esc(im.license)}</span></figcaption></figure>`).join('')}
+  ${s.game ? gameBox(s.game) : ''}
+  <div class="np-prose">${stickerProse(s)}</div>
+  ${s.images.length > 1 ? `<div class="np-figs np-figs-${Math.min(s.images.length - 1, 3)}">${s.images.slice(1).map((im) => `<figure class="np-fig"><span class="np-fig-img"><img src="${esc(im.file)}" alt="${esc(im.alt)}" loading="lazy"></span><figcaption>${im.caption ? `${t(im.caption)} ` : ''}<span class="np-credit">${credit(im)}</span></figcaption></figure>`).join('')}</div>` : ''}
   <footer class="np-trust">
     ${s.sources.length ? `<section id="references"><h2>References</h2><ul>${s.sources.map((x) => `<li>${x.url ? `<a href="${esc(x.url)}" target="_blank" rel="noopener">${t(x.name)}</a> <span class="np-host">${esc(host(x.url))}</span>` : t(x.name)}${x.note ? `, ${t(x.note)}` : ''}</li>`).join('')}</ul></section>` : ''}
     ${s.methods ? `<section id="methods"><h2>How we reported this</h2><p>${t(s.methods)}</p></section>` : ''}
@@ -135,6 +167,32 @@ export function storyBody(s) {
 </article>`;
 }
 
+// A series name, with YOUR in Back YOUR Blue set off the way the series writes it.
+const seriesName = (sr) => esc(sr.name).replace(/\bYOUR\b/, '<span class="np-your">YOUR</span>');
+
+// The newspaper nameplate on a story: town and date in the ears, the folio
+// line under the name. Every value comes from the story or the paper.
+const plateDay = (iso) => new Intl.DateTimeFormat('en-US', { timeZone: 'America/Indiana/Indianapolis', weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }).format(new Date(iso));
+const newsPlate = (s, sec) => {
+  const sr = s.series && seriesBySlug[s.series];
+  return `
+<div class="np-plate">
+  <div class="np-plate-row">
+    <p class="np-ear">Columbus, Indiana</p>
+    <p class="np-plate-name">${esc(PAPER.name)}</p>
+    <p class="np-ear np-ear-r">${esc(plateDay(s.published))}</p>
+  </div>
+  <p class="np-folio"><span class="np-folio-day">${esc(plateDay(s.published))}</span><span>${esc(sec.name)}${sr ? ` · ${seriesName(sr)}` : ''} · ${esc(s.label)}</span></p>
+</div>`;
+};
+
+// The shootaround card: on the front page and at the end of sports stories.
+const playCta = (small = false) => `<a class="np-play-cta${small ? ' np-play-cta-sm' : ''}" href="/games/shootaround/">${stickerImg('basketball', 'np-sticker')}<span><strong>Take a 30-second shootaround</strong><span>A quick basketball game. Pull back, let it fly.</span></span></a>`;
+
+// The 1200 x 630 card a share shows: cut from the story's lead photo by
+// build.mjs (writeShareCards). Stories without a photo use the site card.
+export const shareCard = (s) => (s.images?.[0]?.file?.startsWith('/') ? { src: `/og/news/${s.slug}.jpg`, alt: s.images[0].alt } : null);
+
 function storyPage(ctx, s) {
   const sec = sectionBySlug[s.section];
   const banner = s.sample
@@ -143,8 +201,10 @@ function storyPage(ctx, s) {
   return newsPage({
     ...ctx, path: s.href, title: s.headline, description: s.dek || s.headline, banner,
     crumbs: [['/news/', 'News'], [sectionHref(sec), sec.name], ['', s.headline]],
-    styles: ['kindle.css'], scripts: ['kindle.js'],
-    body: reader({ section: sec.name, inner: nameplate(['News', sec.name]) + storyBody(s) }) + inThisStory(s) + `<div class="wrap np-story-end">${storyAsk()}</div>`,
+    styles: ['kindle.css', 'newsprint.css'],
+    body: reader({ section: sec.name, variant: 'news', cls: s.series ? `kd-series-${s.series}` : '', inner: newsPlate(s, sec) + storyBody(s) }) + `<div class="wrap np-story-end">${shareBar({ path: s.href, title: s.headline, text: s.dek })}${signupBox({ compact: true })}</div>` + inThisStory(s) + `<div class="wrap np-story-end">${s.section === 'sports' ? playCta(true) : ''}${storyAsk()}${followStrip({ feeds: s.series && seriesBySlug[s.series] ? [[`${seriesHref(seriesBySlug[s.series])}feed.xml`, seriesBySlug[s.series].name]] : [] })}</div>`,
+    feeds: s.series && seriesBySlug[s.series] ? [[`${seriesHref(seriesBySlug[s.series])}feed.xml`, seriesBySlug[s.series].name]] : [],
+    shareImage: shareCard(s),
     ld: s.sample || s.draft ? [] : [newsArticleLd({ ...s, sectionName: sec.name }, { people: s.bylines.map((b) => person(b)), paper: PAPER })],
   });
 }
@@ -157,9 +217,70 @@ function sectionPage(ctx, sec) {
   ${sec.links ? `<nav class="chips np-sec-links" aria-label="Related">${sec.links.map(([h, l]) => `<a class="pill" href="${h}">${esc(l)}</a>`).join('')}</nav>` : ''}
   ${sec.areas ? `<nav class="chips np-sec-links" aria-label="Neighborhoods">${AREAS.map((a) => `<a class="pill" href="/n/${a.slug}/">${esc(a.label)}</a>`).join('')}</nav>` : ''}
   ${storyList(items, { showSection: false, empty: 'No stories in this section yet.' })}
+  ${followStrip({ feeds: [[`/news/${sec.slug}/feed.xml`, sec.name]] })}
 </section>
-${sec.events ? eventsSection({ mode: 'upcoming', id: 'whats-on', title: 'What’s on', kicker: 'Signature events' }) : ''}`;
-  return newsPage({ ...ctx, path: sectionHref(sec), title: sec.name, description: sec.blurb, crumbs: [['/news/', 'News'], ['', sec.name]], body, scripts: sec.events ? ['hub.js', 'events.js'] : [] });
+${sec.events ? homeEvents({ id: 'whats-on', title: 'What’s on', kicker: 'Library, parks, arts and live music' }) : ''}`;
+  return newsPage({ ...ctx, path: sectionHref(sec), title: sec.name, description: sec.blurb, crumbs: [['/news/', 'News'], ['', sec.name]], body, scripts: sec.events ? ['hub.js', 'events.js', 'events-week.js'] : [], feeds: [[`/news/${sec.slug}/feed.xml`, sec.name]] });
+}
+
+// A series that takes reader stories (`invite` in src/news/series.mjs) leads
+// with its newest story as a big feature, then asks for yours: the form goes
+// to /api/newsroom for the editor, who talks with every writer before a
+// story runs.
+const seriesLead = (sr, s) => `
+<article class="sr-lead">
+  <a class="sr-lead-art" href="${s.href}" aria-hidden="true" tabindex="-1">
+    <span class="sr-lead-name">${seriesName(sr)}</span>
+    ${(s.stickers || []).slice(0, 2).map((x, i) => stickerImg(x.sticker, `sr-lead-stk sr-lead-stk-${i}`)).join('')}
+    <span class="sr-lead-line"></span>
+  </a>
+  <div class="sr-lead-copy">
+    <p class="kicker">The newest story</p>
+    <h2><a href="${s.href}">${esc(s.headline)}</a></h2>
+    ${s.dek ? `<p class="sr-lead-dek">${esc(s.dek)}</p>` : ''}
+    <p class="sr-lead-by">${byline(s)} · ${esc(fmtDate(s.published))}</p>
+    <a class="btn" href="${s.href}">Read the story ${svg('arrow', 'ic-sm')}</a>
+  </div>
+</article>`;
+
+const seriesInvite = (sr) => `
+<section class="sr-invite" id="tell-us" aria-labelledby="tell-us-h">
+  <div class="sr-invite-head">
+    <p class="kicker">Your turn</p>
+    <h2 id="tell-us-h">Tell us about your person</h2>
+    <p>${esc(sr.invite)}</p>
+    <ul class="sr-steps">
+      <li><b>1</b><span>Write it the way you would say it. A few lines is plenty; a few pages is fine too.</span></li>
+      <li><b>2</b><span>The editor reads every story and calls or emails you before anything runs. Add an email or a phone so we can.</span></li>
+      <li><b>3</b><span>It runs in ${seriesName(sr)} with your name, and you get the link to share.</span></li>
+    </ul>
+  </div>
+  <div class="pk-card">${form('blue', 'Send my story', [
+    `<div class="ow-two">${field('Who is this about?', 'person', { req: true, hint: 'Their name, the way you want it printed.' })}<label>How did they serve?<select name="role"><option value="">Choose one</option><option>Police officer</option><option>Sheriff’s deputy</option><option>Firefighter</option><option>EMT or paramedic</option><option>Dispatcher</option><option>Veteran or service member</option><option>Corrections officer</option><option>Something else</option></select></label></div>`,
+    field('Where they served', 'agency', { hint: 'A department, a station, a branch of the military. Optional.' }),
+    field('Your story', 'story', { area: true, req: true, rows: 10, max: 6000, hint: 'What did they do? What do you want them, and Columbus, to know?' }),
+    `<div class="ow-two">${field('Your name', 'name', { auto: 'name', req: true })}${field('You are their…', 'relation', { hint: 'Son, neighbor, partner, coworker…' })}</div>`,
+    `<div class="ow-two">${field('Email', 'email', { type: 'email', auto: 'email' })}${field('Phone', 'phone', { type: 'tel', auto: 'tel' })}</div>`,
+    field('Your town', 'town', { auto: 'address-level2' }),
+    '<label class="sr-check"><input type="checkbox" name="photo"> I have a photo of them I could share. The editor will ask for it.</label>',
+    '<label class="sr-check"><input type="checkbox" name="ok" required> Heart of Columbus may publish my story with my name, after the editor talks with me. We never publish your email or phone.</label>',
+  ])}</div>
+</section>`;
+
+function seriesPage(ctx, sr) {
+  const items = storiesInSeries(sr.slug);
+  const [lead, ...rest] = sr.invite ? items : [];
+  const body = `
+<section class="wrap np-section${sr.invite ? ` sr-page sr-${sr.slug}` : ''}">
+  <header class="np-doc-head"><p class="kicker">A series</p><h1>${sr.invite ? seriesName(sr) : esc(sr.name)}</h1><p class="np-dek">${esc(sr.blurb)}</p>${sr.invite ? `<p><a class="btn sr-cta" href="#tell-us">Tell us about your person ${svg('arrow', 'ic-sm')}</a></p>` : ''}</header>
+  ${lead ? seriesLead(sr, lead) : ''}
+  ${sr.invite ? (rest.length ? `<h2 class="sr-more-h">More stories</h2>${storyList(rest)}` : '') : storyList(items, { empty: `The first ${sr.name} story is on its way.` })}
+  ${sr.invite ? seriesInvite(sr) : ''}
+  ${shareBar({ path: seriesHref(sr), title: `${sr.name}, from ${PAPER.name}`, text: sr.blurb, label: 'Share this series' })}
+  ${signupBox({ compact: true })}
+  ${followStrip({ feeds: [[`${seriesHref(sr)}feed.xml`, sr.name]] })}
+</section>`;
+  return newsPage({ ...ctx, path: seriesHref(sr), title: sr.name, description: sr.blurb, crumbs: [['/news/', 'News'], ['', sr.name]], body, scripts: sr.invite ? ['newsroom.js'] : [], styles: sr.invite ? ['newsprint.css'] : [], feeds: [[`${seriesHref(sr)}feed.xml`, sr.name]] });
 }
 
 function samplesPage(ctx) {
@@ -195,15 +316,18 @@ function frontPage(ctx) {
   </div>
   <aside class="np-front-side">
     ${weatherBox()}
+    ${signupBox({ compact: true })}
+    ${playCta()}
     ${sponsorSlot('front')}
     ${changes.length ? `<section class="np-box"><h2>Openings and closings</h2>${changes.map((s) => storyCard(s, { size: 'line', showSection: false })).join('')}<a class="np-more" href="/news/business/">More business news</a></section>` : ''}
     <figure class="np-box np-photo"><img src="${esc(photo.src)}" alt="${esc(photo.title)}" loading="lazy"><figcaption>${esc(photo.title)}. Photo: ${esc(photo.credit)}, ${esc(photo.license)}. <a href="/credits/">Credits</a></figcaption></figure>
   </aside>
 </div>
 ${rail('Open right now', '/explore/?open=1', directory.filter((b) => b.hours && !b.tempClosed && ['restaurants', 'coffee-sweets', 'bars'].includes(b.cat)).slice(0, 150), { kicker: 'From the directory', openOnly: true, id: 'open-now' })}
-${eventsSection({ mode: 'weekend', id: 'this-weekend', title: 'This weekend in Columbus', kicker: 'Happening Friday to Sunday' })}
+${homeEvents({ id: 'this-weekend', title: 'This weekend in Columbus', kicker: 'Swipe through what’s on', start: 'weekend' })}
+${historyBanner()}
 ${bySection.length ? `<div class="wrap np-sections">${bySection.map(([sec, xs]) => `<section class="np-sec-block"><h2><a href="${sectionHref(sec)}">${esc(sec.name)}</a></h2>${xs.map((s) => storyCard(s, { size: 'line', showSection: false })).join('')}</section>`).join('')}</div>` : ''}`;
-  return newsPage({ ...ctx, path: '/news/', title: 'News', description: 'Local news for Columbus, Indiana: the city, the county, schools, business, food, architecture, sports and things to do.', body, scripts: ['hub.js', 'events.js', 'news.js'] });
+  return newsPage({ ...ctx, path: '/news/', title: 'News', description: 'Local news for Columbus, Indiana: the city, the county, schools, business, food, architecture, sports and things to do.', body, scripts: ['hub.js', 'events.js', 'events-week.js', 'news.js'] });
 }
 
 export function newsPages(ctx) {
@@ -212,6 +336,7 @@ export function newsPages(ctx) {
     ...SECTIONS.filter((s) => !s.href).map((s) => ({ path: `news/${s.slug}/index.html`, html: sectionPage(ctx, s) })),
     ...ALL_STORIES.map((s) => ({ path: `${s.href.slice(1)}index.html`, html: storyPage(ctx, s) })),
     { path: 'news/samples/index.html', html: samplesPage(ctx) },
+    ...SERIES.map((sr) => ({ path: `${seriesHref(sr).slice(1)}index.html`, html: seriesPage(ctx, sr) })),
     { path: 'news/alert/index.html', html: alertPage(ctx) },
     { path: 'admin/index.html', html: cmsPage() },
     ...SAMPLES.map((s) => ({ path: `${s.href.slice(1)}index.html`, html: storyPage(ctx, s) })),

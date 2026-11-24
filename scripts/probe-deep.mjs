@@ -11,7 +11,7 @@
 //     provider rules without fetching again
 //   - feed sizes for catalogs we can read (Shopify, WooCommerce, Squarespace)
 // It never posts anything and only reads public pages, a handful per site.
-import { writeFileSync } from 'node:fs';
+import { writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { WEB } from '../src/data/web.mjs';
 import { directory } from '../src/data/directory.mjs';
 import { detectPlatform, detectStack, findProviderLinks, findOwnPages, findGiftLinks, EMBEDS, tidyUrl } from '../src/commerce-core.mjs';
@@ -22,7 +22,7 @@ const SITES = { ...WEB };
 for (const b of directory) if (b.added && b.website && !SITES[b.slug]) SITES[b.slug] = { website: b.website };
 const OUT = process.argv[2] || new URL('./data/probe-results.json', import.meta.url).pathname;
 const ONLY = new Set((process.argv[3] || '').split(',').filter(Boolean));
-const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36 HeartOfColumbusBot/1.1 (+https://heartofcolumbus.netlify.app)';
+const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36 HeartOfColumbusBot/1.1 (+https://heartofcolumbus.shop)';
 const MAX_PAGES = 8;
 
 async function get(url, ms = 12000, accept = 'text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8') {
@@ -163,6 +163,18 @@ console.log('retrying', again.length);
 for (const r of again) {
   await new Promise((ok) => setTimeout(ok, 1500));
   try { const x = await probeDeep(r.slug); if (x.ok) results[results.indexOf(r)] = x; } catch { /* keep the first answer */ }
+}
+// A site that answered before and fails today (a 403 from bot protection,
+// a timeout, a host having a bad morning) keeps its last good result, marked
+// with the day it was last read, so one bad run doesn't drop its links.
+// After 14 days of failing it is reported as unreachable like any other.
+const TODAY = new Date().toISOString().slice(0, 10);
+const before = existsSync(OUT) ? Object.fromEntries(JSON.parse(readFileSync(OUT, 'utf8')).map((r) => [r.slug, r])) : {};
+for (let i = 0; i < results.length; i++) {
+  const r = results[i], old = before[r.slug];
+  if (r.ok) { r.read = TODAY; continue; }
+  const last = old && old.ok && (old.read || TODAY);
+  if (last && (Date.parse(TODAY) - Date.parse(last)) / 864e5 <= 14) results[i] = { ...old, read: last, stale: r.reason || 'failed' };
 }
 results.sort((a, b) => a.slug.localeCompare(b.slug));
 writeFileSync(OUT, JSON.stringify(results, null, 0).replace(/\},\{"slug"/g, '},\n{"slug"') + '\n');

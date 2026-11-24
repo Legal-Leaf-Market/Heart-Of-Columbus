@@ -1,5 +1,6 @@
 // Columbus history: ten sourced articles a decade, no dashes, nothing unsourced.
 import assert from 'node:assert/strict';
+import { LAUNCH } from '../src/indexing.mjs';
 import { test } from 'node:test';
 import { readFileSync, existsSync } from 'node:fs';
 import { DECADES, SERIES, ARTICLES, DECADE_ARTICLES, sectionBySlug } from '../src/data/history/index.mjs';
@@ -69,7 +70,8 @@ test('there is a Faith story in every decade', () => {
 test('pages and the print manifest are built', () => {
   for (const a of ARTICLES) assert.ok(existsSync(dist(a.path.slice(1) + 'index.html')), a.path);
   const html = readFileSync(dist('history/index.html'), 'utf8');
-  assert.ok(html.includes('noindex'));
+  // Before launch only; after it, tests/seo.test.mjs checks the page against src/indexing.mjs.
+  if (!LAUNCH) assert.ok(html.includes('noindex'));
   for (const d of LANDED) assert.ok(html.includes(`href="/history/${d.slug}/"`), d.slug);
   const m = JSON.parse(readFileSync(dist('history/articles.json'), 'utf8'));
   assert.equal(m.articles.length, ARTICLES.length);

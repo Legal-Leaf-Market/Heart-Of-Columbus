@@ -1,0 +1,13 @@
+.review-page { padding-bottom: 4rem; }
+.review-page h1 { margin: 1rem 0 .75rem; }
+.review-page > p { max-width: 62ch; }
+.review-page label { display: block; font-weight: 700; margin: 1rem 0 .35rem; }
+.review-page input { width: 100%; max-width: 28rem; padding: .6rem .8rem; border: 1px solid var(--field); border-radius: var(--r-ctl); background: var(--surface); }
+.review-page [data-review-status] { margin: .5rem 0; color: var(--muted); }
+.review-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: 1rem; margin: 1rem 0; padding: 0; list-style: none; }
+.review-card { background: var(--surface); border: 1px solid var(--edge); border-radius: var(--r-ctl); padding: 1rem; }
+.review-card:target { outline: 2px solid var(--ink); outline-offset: 2px; scroll-margin-top: 8rem; }
+.review-card h2 { font-size: 1.2rem; margin: 0 0 .35rem; }
+.review-card p { margin: .35rem 0; }
+.review-rating small a { text-decoration: underline; }
+.review-card .biz-actions { margin-top: .8rem; }

@@ -179,3 +179,12 @@ export const helpPages = (ctx) => [
   { path: 'help/qr.svg', html: qrSvg },
   ...STORIES.map((s) => ({ path: `help/${s.slug}/index.html`, html: storyPage(ctx, s) })),
 ];
+
+// The help dock's search index (/help/index.json): every sourced resource,
+// short. Fetched only when someone opens the dock and types.
+export function helpDockJson() {
+  return JSON.stringify({ checked: CHECKED, items: HELP.flatMap((g) => g.items.map((i) => ({
+    s: i.slug, n: i.name, w: i.what || '', g: g.title, e: g.emoji,
+    p: (i.phones || [])[0] || null, h: i.hours || '', a: i.address || '',
+  }))) });
+}

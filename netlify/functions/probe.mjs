@@ -9,7 +9,7 @@ import { WEB } from '../../src/data/web.mjs';
 import { detectPlatform, findProviderLinks, findOwnPages, findGiftLinks, EMBEDS } from '../../src/commerce-core.mjs';
 
 export const config = { path: '/api/probe' };
-const UA = 'Mozilla/5.0 (compatible; HeartOfColumbusBot/1.0; +https://heartofcolumbus.netlify.app)';
+const UA = 'Mozilla/5.0 (compatible; HeartOfColumbusBot/1.0; +https://heartofcolumbus.shop)';
 
 async function get(url, ms = 4500) {
   const ctl = new AbortController();

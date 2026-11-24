@@ -130,29 +130,35 @@ Every piece carries one label, shown above the headline.
 
 ## Artificial intelligence
 
-[OWNER: approve or change this section. It follows AP's August 2023
-standards: generative AI output is treated as unvetted source material and
-isn't used to create publishable content.]
+Internal newsroom guidance approved by the publisher, Jake Kennedy, on
+2026-11-24. Public reporting standards are at /about/standards/.
 
-- **We don't use AI to write or edit stories, headlines, quotes,
-  obituaries, letters or newsletters.** A person writes everything we
-  publish, and an editor approves it.
-- **We don't publish AI-generated or AI-altered photos, video or audio**
-  of real people, places or events. If an AI-made image is itself the
-  subject of a story, we label it clearly.
-- **Allowed with a human check:**
-  - Transcribing interviews and meetings. A person checks every quote
-    against the recording.
-  - Spelling and grammar checks.
-  - Software that compares our directory data between updates and lists
-    possible openings, closings and hours changes for a reporter to verify.
-    Nothing from it is published until a person confirms it.
-  - First drafts of translations, reviewed by a fluent speaker before
-    publishing.
-  - Tools that help build and test the website itself.
-- Anything an AI tool tells us is a lead, not a fact, until we confirm it.
-- We review this policy every [OWNER: six months] and publish a short
-  plain-language summary on every page that links here.
+- **A named person is behind every story.** Reporting, facts, opinions and
+  ratings come from the reporter, and an editor who is not the byline
+  approves every piece.
+- **Reporters may use AI writing tools** (ChatGPT, Claude) to help shape
+  their own words. The reporter decides what stays and the editor checks
+  every fact. The public `methods` note covers sourcing, reporting and review.
+- **The morning newsletter is drafted with AI, directed and approved by the
+  publisher** (owner decision, 2026-11-24). The publisher picks every item,
+  writes the angle and commentary, and lists the public sources; the writing
+  desk (`/newsroom/desk/`) drafts and tightens in the publisher's voice from
+  those alone, marks anything unsure `[CHECK]`, and cannot put a piece in an
+  edition until the publisher approves it. The publisher is both byline and
+  approver for the newsletter, so the "editor who is not the byline" rule
+  above applies to the website's stories, not to the newsletter. Every item
+  links its sources, and the email links the public reporting standards.
+- **History articles are drafted with the help of AI**, only from the
+  public sources listed with each one, and an editor checks them against
+  those sources. A fact that can't be sourced stays out.
+- **AI never invents a quote, a person, a number or a source.** Anything a
+  tool tells us is a lead until a person confirms it.
+- **We don't publish AI made or AI altered photos, video or audio** of real
+  people, places or events. If an AI made image is itself the subject of a
+  story, we label it clearly.
+- Translations drafted with a tool are reviewed by a fluent speaker before
+  publishing, and the page says so.
+- We review this policy every [OWNER: six months].
 
 ## Conflicts of interest
 

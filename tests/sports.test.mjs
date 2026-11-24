@@ -1,6 +1,7 @@
 // Sports and the Sentinels dashboard: every fact and game has a source,
 // scores only for games already played, and the app installs.
 import assert from 'node:assert/strict';
+import { LAUNCH } from '../src/indexing.mjs';
 import { test } from 'node:test';
 import { readFileSync, existsSync } from 'node:fs';
 import { TEAM, FACTS, GAMEDAY, GAMES, NEWS, SPORTS, STORIES, record } from '../src/data/sports.mjs';
@@ -52,7 +53,8 @@ test('the dashboard installs: manifest, icons, worker, calendar', () => {
 
 test('the pages read as ours: noindex, not affiliated, no team logo, linked from the footer', () => {
   const app = read('sports/sentinels/index.html');
-  assert.ok(app.includes('noindex'));
+  // Before launch only; after it, tests/seo.test.mjs checks the page against src/indexing.mjs.
+  if (!LAUNCH) assert.ok(app.includes('noindex'));
   assert.ok(app.includes('rel="manifest"'));
   assert.match(app, /not affiliated with or endorsed by the Indiana Sentinels/);
   assert.ok(!/<img[^>]+(logo|hockeyshift)/i.test(app), 'no team logo');
