@@ -1,0 +1,59 @@
+---
+draft: true
+headline: "[YOUR HEADLINE: your verdict on the night, in one line]"
+dek: "[YOUR ONE SENTENCE under the headline]"
+label: Opinion
+section: sports
+series: jake-takes-the-town
+bylines: [jacob-kennedy]
+editor: terry-winchester-ii
+published: 2026-11-24T12:00:00-05:00
+images:
+  - file: /news-media/2026/11/pacers-thunder-upper-level.jpg
+    alt: A packed arena seen from the upper level, with the Pacers and Thunder on the court and a player in an Indiana number 32 jersey raising his arms on the center video board.
+    caption: "[YOUR CAPTION: where you sat and what was happening]"
+    credit: Jake Kennedy
+    license: Staff photo
+  - file: /news-media/2026/11/pacers-thunder-intros.jpg
+    alt: Flame cannons fire on the court during player introductions, with a player in an Indiana number 32 jersey shouting on the center video board and the scoreboard still at 0 to 0.
+    caption: "[YOUR CAPTION: for example, the starting lineup intros]"
+    credit: Eli Wire
+    creditUrl: https://www.instagram.com/eliwire/
+    license: Used with permission
+methods: "[ONE LINE: for example, I bought my own ticket and paid for my own food.]"
+---
+[YOUR OPENING: two sentences on the best moment of the night.]
+
+## Getting there
+
+[Drive time from Columbus, where you parked, what it cost, how long it took to get in.]
+
+## The view from my seat
+
+Jake's note so far: pleased with the seat view.
+
+[Section or level, what you could see, what you paid, worth it or not. Your rating: __ out of 5]
+
+## Food and drink
+
+Jake's note so far: pleased with the concession prices.
+
+[What you bought and what each item cost. Your rating: __ out of 5]
+
+## The people working the building
+
+Jake's note so far: staff were friendly.
+
+[One moment that showed it. Your rating: __ out of 5]
+
+## The show
+
+[Intros, lights, music, the video board, timeouts, halftime. What landed and what didn't. Your rating: __ out of 5]
+
+## The game
+
+[The play you'll still talk about tomorrow, and the final score from the official box score.]
+
+## Worth the drive?
+
+[Who should go, and your one tip for next time. Overall: __ out of 5]
