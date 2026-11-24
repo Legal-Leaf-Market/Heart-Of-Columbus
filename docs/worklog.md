@@ -95,6 +95,26 @@ and no apartment buildings.
   - "Columbus Rental Property" did not turn up under that name; get its
     website or phone from the publisher
 
+### December 2026 print edition (proof live at /print/2026-12/, 11 x 17)
+Drafts of every slot are in `content/print/2026-12/` (status: draft, no
+byline, `drafted:` and `sources:` on each; CLAUDE.md third exception).
+- [ ] Research: when `docs/research/december-print-chrome-brief.md` comes back
+      from Claude in Chrome, clear the matching `[CHECK]` marks, citing sources
+- [ ] Jake, in person: Jill (last name, history, Sunday hours); Amy (hours,
+      Love Chapel, coupon end date); Crossroads coupon terms; phone-confirm
+      every Christmas service time
+- [ ] Election: fill `votes` in `election.md` once the canvass is certified
+- [ ] Photos: page 14's Chaos photo is hotlinked and fails. It is "2015
+      Chaotic Tuesday" by RichardMcCoy, CC BY-SA 4.0 (Wikimedia Commons), so a
+      local copy in `public/print-media/` with that credit is fine; this
+      sandbox can't reach Wikimedia, so save it by hand or through a workflow.
+      Front aerial prints at 180 ppi: swap in Eli Wire's riverfront photo.
+      Kevin's photo for page 8
+- [ ] Printing quotes for a true 11 x 17 newsprint run (brief Task 6): target
+      under $2 a copy, $5 fine for the first run
+- [ ] White space on pages 2 and 13 the fillers don't close: revisit once the
+      drafts are at their real lengths
+
 ## Bugs found along the way
 - [x] `/newsroom/inbox/` sent the admin key as `?k=` in the address, against
       the house rule. Fixed in #129: #k=, session storage, `x-hoc-key` header
