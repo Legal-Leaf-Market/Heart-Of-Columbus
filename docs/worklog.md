@@ -29,12 +29,15 @@ congregation in town, of every faith, by area and by faith, plus nonprofits.
 - [ ] Rerun the import once Google data lands; mark rows Google did not
       confirm as "not yet confirmed" (many OSM-only rows are old rural chapels)
 - [ ] `src/data/nonprofits.mjs` from the IRS list (505 rows pulled)
-- [ ] Pages: `/worship/` by faith and by area, one page per congregation;
-      `/nonprofits/` by kind. Service times only as a link to the
-      congregation's own schedule page, never typed by us (house rule: never
-      invent facts about a real place)
-- [ ] Map layer, search and visit-page links
-- [ ] Tests, then PR
+- [x] `/worship/` page: 111 congregations grouped by faith, town, street
+      address when known, website ("Service times on ..."), map pin, sources
+      and dates, "not yet confirmed on Google Maps" where so, and a correction
+      link. Linked from /visit/. No service times typed by us. Tests in
+      tests/worship.test.mjs
+- [ ] Known gap until Google runs: only St. Bartholomew under Catholic
+      (St. Columba and others are not in OSM or the IRS list)
+- [ ] Later: one page per congregation, a map layer, search entries
+- [ ] `/nonprofits/` by kind
 
 ### The desk: morning newsletter writing (`claude/newsroom-desk`, [#129](https://github.com/Legal-Leaf-Market/Heart-Of-Columbus/pull/129))
 - [x] Owner decision: AI drafts newsletter pieces from the publisher's angle,

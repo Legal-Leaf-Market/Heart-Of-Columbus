@@ -72,10 +72,15 @@ for (const p of (google && google.places) || []) {
   add({ name: p.name, address: (p.address || '').replace(/, USA$/, ''), town: townOf(p.address), ll: p.ll, website: p.website || '', phone: p.phone || '',
     hint: `${p.name} ${p.type} ${(p.types || []).join(' ')}`, sources: [{ name: 'Google Maps', url: p.maps || 'https://www.google.com/maps', checked: google.pulled }] });
 }
+// Names the maps carry that are not congregations a visitor can attend.
+// Italian Prisoner of War Chapel: a WWII memorial chapel at Camp Atterbury,
+// outside Columbus, not a parish holding services.
+const NOT_HERE = /italian prisoner of war chapel/i;
+
 // 2. OpenStreetMap: a pin, a religion and a denomination.
 for (const e of (osm && osm.elements) || []) {
   const t = e.tags || {};
-  if (!t.name || /[?()]/.test(t.name)) continue;
+  if (!t.name || /[?()]/.test(t.name) || NOT_HERE.test(t.name)) continue;
   const hint = `${t.name} religion:${t.religion || ''} ${t.denomination || ''}`;
   const src = { name: 'OpenStreetMap', url: `https://www.openstreetmap.org/${e.id}`, checked: osm.pulled };
   const was = findMatch(t.name, e.ll);
