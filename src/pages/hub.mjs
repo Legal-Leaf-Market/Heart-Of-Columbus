@@ -254,7 +254,7 @@ ${yourWay({ id: 'trip-ideas' })}
         <label><span><span id="k-avg-l">Average order</span><output data-out="avg"></output></span>
           <input type="range" min="10" max="60" step="1" value="24" data-in="avg" id="k-avg" aria-labelledby="k-avg-l"></label>
         <label><span><span id="k-rate-l">App pickup commission</span><output data-out="rate"></output></span>
-          <input type="range" min="1" max="10" step="1" value="6" data-in="rate" id="k-rate" aria-labelledby="k-rate-l"></label>
+          <input type="range" min="1" max="10" step="1" value="6" autocomplete="off" data-in="rate" id="k-rate" aria-labelledby="k-rate-l"></label>
         <label><span><span id="k-biz-l">Restaurants that switch</span><output data-out="biz"></output></span>
           <input type="range" min="1" max="${count((b) => b.cat === 'restaurants')}" step="1" value="10" data-in="biz" id="k-biz" aria-labelledby="k-biz-l"></label>
       </div>
