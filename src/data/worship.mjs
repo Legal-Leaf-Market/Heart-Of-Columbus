@@ -507,8 +507,8 @@ export const WORSHIP = [
   "town": "Columbus",
   "address": "",
   "ll": [
-   39.3520069,
-   -85.9676442
+   39.3520087,
+   -85.9675485
   ],
   "website": "",
   "phone": "",
@@ -1119,26 +1119,6 @@ export const WORSHIP = [
    {
     "name": "IRS exempt organizations list",
     "url": "https://www.irs.gov/charities-non-profits/exempt-organizations-business-master-file-extract-eo-bmf",
-    "checked": "2026-11-24"
-   }
-  ]
- },
- {
-  "slug": "italian-prisoner-of-war-chapel",
-  "name": "Italian Prisoner of War Chapel",
-  "faith": "catholic",
-  "town": "Columbus",
-  "address": "",
-  "ll": [
-   39.3753139,
-   -86.0689318
-  ],
-  "website": "",
-  "phone": "",
-  "sources": [
-   {
-    "name": "OpenStreetMap",
-    "url": "https://www.openstreetmap.org/node/570582888",
     "checked": "2026-11-24"
    }
   ]
