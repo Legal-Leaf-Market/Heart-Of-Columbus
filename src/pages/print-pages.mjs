@@ -409,7 +409,7 @@ const BOX = {
 
   where: () => {
     const ph = PHOTOS.library;
-    return `<section class="pe-box pe-where"><h3>Where in Columbus?</h3><p class="pe-dek">A close look at something downtown. Where is it? <a href="#${pageAnchor(16)}">Answer on page 16</a>.</p><div class="pe-crop"><img src="${esc(ph.src)}" alt="A close crop of a Columbus landmark" style="object-position:62% 55%"></div><p class="pe-fine">Photo: ${t(ph.credit)}, ${t(ph.license)}, via Wikimedia Commons.</p></section>`;
+    return `<section class="pe-box pe-where"><h3>Where in Columbus?</h3><p class="pe-dek">A close look at something downtown. Where is it? <a href="#${pageAnchor(16)}">Answer on page 16</a>.</p><div class="pe-crop"><img src="${esc(psrc('library'))}" alt="A close crop of a Columbus landmark" style="object-position:62% 55%"></div><p class="pe-fine">Photo: ${t(ph.credit)}, ${t(ph.license)}, via Wikimedia Commons.</p></section>`;
   },
 
   wallet: () => `<section class="pe-box pe-wallet"><p class="pe-scissors">✂ Cut out and keep</p><div class="pe-card">
