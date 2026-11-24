@@ -19,7 +19,7 @@ import { sameKey } from '../../src/pixel-key.mjs';
 import { syncAll } from '../../src/woo-orders.mjs';
 
 export const config = { path: '/api/woo-connect' };
-const SITE = (process.env.HOC_ORIGIN || 'https://heartofcolumbus.netlify.app').replace(/\/+$/, '');
+const SITE = (process.env.HOC_ORIGIN || 'https://heartofcolumbus.shop').replace(/\/+$/, '');
 const json = (body, status = 200) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
 export const signSlug = (slug, secret = process.env.HOC_ADMIN_KEY || '') => createHmac('sha256', secret).update('woo:' + slug).digest('hex').slice(0, 16);
 export const userIdFor = (slug, secret) => `${slug}.${signSlug(slug, secret)}`;
@@ -54,7 +54,7 @@ async function getJson(url, auth) {
   const ctl = new AbortController();
   const t = setTimeout(() => ctl.abort(), 15000);
   try {
-    const r = await fetch(url, { headers: { Authorization: auth, Accept: 'application/json', 'User-Agent': 'HeartOfColumbus/1.0 (+https://heartofcolumbus.netlify.app)' }, signal: ctl.signal });
+    const r = await fetch(url, { headers: { Authorization: auth, Accept: 'application/json', 'User-Agent': 'HeartOfColumbus/1.0 (+https://heartofcolumbus.shop)' }, signal: ctl.signal });
     return r.ok ? await r.json() : null;
   } catch { return null; } finally { clearTimeout(t); }
 }

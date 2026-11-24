@@ -14,8 +14,8 @@
 import { writeFileSync } from 'node:fs';
 import { COMMERCE } from '../src/data/commerce.mjs';
 
-const SITE = process.env.HOC_SITE || 'https://heartofcolumbus.netlify.app';
-const UA = 'Mozilla/5.0 (compatible; HeartOfColumbusBot/1.0; +https://heartofcolumbus.netlify.app)';
+const SITE = process.env.HOC_SITE || 'https://heartofcolumbus.shop';
+const UA = 'Mozilla/5.0 (compatible; HeartOfColumbusBot/1.0; +https://heartofcolumbus.shop)';
 const out = { checked: new Date().toISOString(), site: SITE, shops: {} };
 
 async function fetchJar(url, jar, hops = 6) {

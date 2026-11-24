@@ -14,7 +14,7 @@ import { getStore } from '@netlify/blobs';
 import { blobStore } from '../../src/blobs.mjs';
 import { pixelKey, sameKey } from '../../src/pixel-key.mjs';
 import { COMMERCE } from '../../src/data/commerce.mjs';
-const SITE = (process.env.HOC_ORIGIN || 'https://heartofcolumbus.netlify.app').replace(/\/+$/, '');
+const SITE = (process.env.HOC_ORIGIN || 'https://heartofcolumbus.shop').replace(/\/+$/, '');
 const connectLink = (slug) => (COMMERCE[slug] && COMMERCE[slug].platform === 'woocommerce' ? `${SITE}/api/woo-connect?b=${slug}` : '');
 
 export const config = { path: '/api/handoff' };

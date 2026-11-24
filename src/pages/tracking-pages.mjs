@@ -6,7 +6,7 @@ import { page, esc } from '../layout.mjs';
 import { header, footer } from '../site.mjs';
 
 const styles = ['hoc.css'];
-const ORIGIN = 'https://heartofcolumbus.netlify.app';
+const ORIGIN = 'https://heartofcolumbus.shop';
 
 const code = (s) => `<pre class="tk-code"><code>${esc(s.trim())}</code></pre>`;
 
@@ -95,7 +95,7 @@ ${header('')}
   <h2 id="woocommerce">WooCommerce</h2>
   <h3>One click (easiest)</h3>
   <ol>
-    <li>Open the link we send you. It looks like <code>heartofcolumbus.netlify.app/api/woo-connect?b=your-shop</code>.</li>
+    <li>Open the link we send you. It looks like <code>heartofcolumbus.shop/api/woo-connect?b=your-shop</code>.</li>
     <li>Log in to your WordPress admin if it asks. WooCommerce shows <b>Heart of Columbus would like to connect to your store</b>, with <b>Read</b> access only.</li>
     <li>Press <b>Approve</b>. That’s it. Once a day we read your recent orders and keep only the ones we sent you: the order number, total, status and whether it’s completed. We can’t change anything in your store.</li>
     <li>To disconnect any time: WooCommerce, Settings, Advanced, REST API, and revoke the Heart of Columbus key.</li>

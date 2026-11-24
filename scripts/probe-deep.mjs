@@ -22,7 +22,7 @@ const SITES = { ...WEB };
 for (const b of directory) if (b.added && b.website && !SITES[b.slug]) SITES[b.slug] = { website: b.website };
 const OUT = process.argv[2] || new URL('./data/probe-results.json', import.meta.url).pathname;
 const ONLY = new Set((process.argv[3] || '').split(',').filter(Boolean));
-const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36 HeartOfColumbusBot/1.1 (+https://heartofcolumbus.netlify.app)';
+const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36 HeartOfColumbusBot/1.1 (+https://heartofcolumbus.shop)';
 const MAX_PAGES = 8;
 
 async function get(url, ms = 12000, accept = 'text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8') {

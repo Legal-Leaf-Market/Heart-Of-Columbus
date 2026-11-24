@@ -14,7 +14,7 @@ import { mapShopify, mapWoo, mapSquarespace } from '../../src/commerce-core.mjs'
 import { SHOP_RULES } from '../../src/data/shop-rules.mjs';
 
 export const config = { path: '/api/shop' };
-const UA = 'Mozilla/5.0 (compatible; HeartOfColumbusBot/1.0; +https://heartofcolumbus.netlify.app)';
+const UA = 'Mozilla/5.0 (compatible; HeartOfColumbusBot/1.0; +https://heartofcolumbus.shop)';
 const json = (status, body, cache) =>
   new Response(JSON.stringify(body), {
     status,

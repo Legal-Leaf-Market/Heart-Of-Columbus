@@ -304,7 +304,7 @@ export function inWindow(items, from, to) {
 }
 
 // ---------- Fetching ----------
-const UA = 'Mozilla/5.0 (compatible; HeartOfColumbusBot/1.0; +https://heartofcolumbus.netlify.app)';
+const UA = 'Mozilla/5.0 (compatible; HeartOfColumbusBot/1.0; +https://heartofcolumbus.shop)';
 async function get(url, accept, fetchImpl, ms = 9000) {
   const ctl = new AbortController();
   const timer = setTimeout(() => ctl.abort(), ms);
