@@ -10,10 +10,17 @@ each list.
 Visitors ask hotels for a Mass schedule; the site should list every
 congregation in town, of every faith, by area and by faith, plus nonprofits.
 - [x] Check what exists: no section; only 4 false matches in the directory
-- [ ] Pull the source data on GitHub (this sandbox can't reach it):
-  - OpenStreetMap `amenity=place_of_worship`, with `religion` and `denomination`
-  - IRS Exempt Organizations list for Indiana, filtered to Columbus ZIPs
-    (nonprofits, plus congregations that registered)
+- [x] Pull the source data on GitHub ("Pull places of worship" workflow):
+  - OpenStreetMap: 73 places, all tagged Christian, 59 named, only 5 with a
+    street address, 24 with a denomination (`scripts/data/osm-worship.json`)
+  - IRS exempt organizations, Columbus area ZIPs: 505, about 113 religious,
+    including the Hindu Society of Southern Indiana, the Islamic Society of
+    Columbus and Great Wind Zendo (`scripts/data/irs-eo.json`). Many
+    addresses are PO boxes, and some religious rows are trusts or
+    associations, not congregations
+- [ ] A third source with street addresses and websites: the Google Maps
+      lookup that made `maps-lookup.json` was run outside this repo, so the
+      same pass is needed for congregations (or a person checks the list)
 - [ ] Merge the two by name and address into `src/data/worship.mjs` and
       `src/data/nonprofits.mjs`, each row with `source` and `checked`
 - [ ] Pages: `/worship/` by faith and by area, one page per congregation;
@@ -33,6 +40,12 @@ congregation in town, of every faith, by area and by faith, plus nonprofits.
       "automation makes leads, not stories". A generator that WRITES stories
       would break that rule; one that gathers leads and fills the edition from
       stories people wrote fits it
+
+## Bugs found along the way
+- [ ] `/newsroom/inbox/` sends the admin key as `?k=` in the address
+      (`public/js/newsroom.js`), against the house rule that private keys never
+      ride in a query string. `public/js/owners.js` `adminKey()` is the right
+      pattern (#k=, session storage, `x-hoc-key` header)
 
 ## Waiting on a merge
 - [ ] Nightly cart check, [#127](https://github.com/Legal-Leaf-Market/Heart-Of-Columbus/pull/127)
