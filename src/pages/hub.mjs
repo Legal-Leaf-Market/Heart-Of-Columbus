@@ -234,14 +234,14 @@ ${yourWay({ id: 'trip-ideas' })}
     <div>
       <p class="kicker">The math</p>
       <h2 id="keep-h">Keep it in Columbus</h2>
-      <p class="keep-sub">Delivery apps commonly charge restaurants 15 to 30 percent of each order. Move the sliders to see what direct ordering could keep in local pockets.</p>
+      <p class="keep-sub">Ordering apps take a cut even when you pick the food up yourself. DoorDash charges restaurants 6 percent on pickup orders. Move the sliders to see what ordering direct could keep in local pockets.</p>
       <div class="sliders">
-        <label><span><span id="k-orders-l">App orders per week, per business</span><output data-out="orders"></output></span>
+        <label><span><span id="k-orders-l">App pickup orders per week, per business</span><output data-out="orders"></output></span>
           <input type="range" min="10" max="300" step="10" value="60" data-in="orders" id="k-orders" aria-labelledby="k-orders-l"></label>
         <label><span><span id="k-avg-l">Average order</span><output data-out="avg"></output></span>
           <input type="range" min="10" max="60" step="1" value="24" data-in="avg" id="k-avg" aria-labelledby="k-avg-l"></label>
-        <label><span><span id="k-rate-l">App commission</span><output data-out="rate"></output></span>
-          <input type="range" min="15" max="30" step="1" value="25" data-in="rate" id="k-rate" aria-labelledby="k-rate-l"></label>
+        <label><span><span id="k-rate-l">App pickup commission</span><output data-out="rate"></output></span>
+          <input type="range" min="1" max="10" step="1" value="6" data-in="rate" id="k-rate" aria-labelledby="k-rate-l"></label>
         <label><span><span id="k-biz-l">Restaurants that switch</span><output data-out="biz"></output></span>
           <input type="range" min="1" max="${count((b) => b.cat === 'restaurants')}" step="1" value="10" data-in="biz" id="k-biz" aria-labelledby="k-biz-l"></label>
       </div>
@@ -249,7 +249,7 @@ ${yourWay({ id: 'trip-ideas' })}
     <div class="keep-out">
       <div class="keep-card"><p>Kept in Columbus each year</p><p class="keep-big" data-year>$0</p><p data-week></p></div>
       <div class="keep-card"><p>Your demo orders on this device</p><p class="keep-mid" data-ledger>$0.00 ordered</p><p data-ledger-kept>Place an order in any demo storefront and it shows up here.</p></div>
-      <p class="keep-fine">An estimate from the numbers above, not real sales data. Commission range from common delivery-app restaurant plans.</p>
+      <p class="keep-fine">An estimate from the numbers above, not real sales data. Pickup commission runs 1 to 10 percent here; 6 percent is DoorDash’s pickup rate for restaurants.</p>
     </div>
   </div>
 </section>
