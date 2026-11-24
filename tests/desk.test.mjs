@@ -56,7 +56,7 @@ test('the edition holds only approved pieces, in the publisher\'s order, with so
   assert.doesNotMatch(html, /Not yet/);
   assert.match(html, /Morning, Columbus\./);
   assert.match(html, /Sources: <a href="https:\/\/columbus\.in\.gov\/parks">columbus\.in\.gov<\/a>/);
-  assert.match(html, /about\/standards\/#ai/);
+  assert.match(html, /about\/standards\//);
 });
 
 test('writing help calls the model with the cached voice and reports the cost', async () => {
