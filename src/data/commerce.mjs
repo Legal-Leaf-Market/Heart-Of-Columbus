@@ -1583,7 +1583,10 @@ export const COMMERCE = {
  },
  "digitalaim-media": {
   "platform": "wordpress",
-  "origin": "https://www.digitalaimmedia.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.digitalaimmedia.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -3163,7 +3166,10 @@ export const COMMERCE = {
  },
  "matlock-plumbing-inc": {
   "platform": "wordpress",
-  "origin": "https://www.matlockplumbing.com",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.matlockplumbing.com/",
   "feed": false,
   "store": "",
   "order": [],
@@ -4853,6 +4859,17 @@ export const COMMERCE = {
   "order": [],
   "book": []
  },
+ "tom-picketts-music-center": {
+  "platform": "godaddy",
+  "stack": [
+   "godaddy"
+  ],
+  "origin": "https://www.hugedomains.com/",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": []
+ },
  "tony-london-co": {
   "platform": "godaddy",
   "stack": [
@@ -4989,7 +5006,12 @@ export const COMMERCE = {
  },
  "upland-columbus-pump-house": {
   "platform": "wordpress",
-  "origin": "https://uplandbeer.com",
+  "stack": [
+   "opentable",
+   "toast",
+   "wordpress"
+  ],
+  "origin": "https://uplandbeer.com/",
   "feed": false,
   "store": "",
   "order": [
@@ -5003,7 +5025,11 @@ export const COMMERCE = {
     "label": "OpenTable",
     "url": "https://www.opentable.com/r/upland-brewing-co-columbus-reservations-columbus?restref=1278787&lang=en-US&ot_source=Restaurant%20website"
    }
-  ]
+  ],
+  "gift": {
+   "label": "Toast",
+   "url": "https://www.toasttab.com/upland-brewing-brewpub-woodshop-350-west-11th-street/giftcards"
+  }
  },
  "uwba-design-llc": {
   "platform": "woocommerce",
@@ -5298,7 +5324,11 @@ export const COMMERCE = {
  },
  "wolf-creek-nursery-and-landscaping": {
   "platform": "square-online",
-  "origin": "https://www.wolfcreeknursery.com",
+  "stack": [
+   "square-online",
+   "weebly"
+  ],
+  "origin": "https://www.wolfcreeknursery.com/",
   "feed": false,
   "store": "",
   "order": [],

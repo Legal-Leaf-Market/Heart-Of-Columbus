@@ -11,7 +11,7 @@
 //     provider rules without fetching again
 //   - feed sizes for catalogs we can read (Shopify, WooCommerce, Squarespace)
 // It never posts anything and only reads public pages, a handful per site.
-import { writeFileSync } from 'node:fs';
+import { writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { WEB } from '../src/data/web.mjs';
 import { directory } from '../src/data/directory.mjs';
 import { detectPlatform, detectStack, findProviderLinks, findOwnPages, findGiftLinks, EMBEDS, tidyUrl } from '../src/commerce-core.mjs';
@@ -163,6 +163,18 @@ console.log('retrying', again.length);
 for (const r of again) {
   await new Promise((ok) => setTimeout(ok, 1500));
   try { const x = await probeDeep(r.slug); if (x.ok) results[results.indexOf(r)] = x; } catch { /* keep the first answer */ }
+}
+// A site that answered before and fails today (a 403 from bot protection,
+// a timeout, a host having a bad morning) keeps its last good result, marked
+// with the day it was last read, so one bad run doesn't drop its links.
+// After 14 days of failing it is reported as unreachable like any other.
+const TODAY = new Date().toISOString().slice(0, 10);
+const before = existsSync(OUT) ? Object.fromEntries(JSON.parse(readFileSync(OUT, 'utf8')).map((r) => [r.slug, r])) : {};
+for (let i = 0; i < results.length; i++) {
+  const r = results[i], old = before[r.slug];
+  if (r.ok) { r.read = TODAY; continue; }
+  const last = old && old.ok && (old.read || TODAY);
+  if (last && (Date.parse(TODAY) - Date.parse(last)) / 864e5 <= 14) results[i] = { ...old, read: last, stale: r.reason || 'failed' };
 }
 results.sort((a, b) => a.slug.localeCompare(b.slug));
 writeFileSync(OUT, JSON.stringify(results, null, 0).replace(/\},\{"slug"/g, '},\n{"slug"') + '\n');
