@@ -69,9 +69,9 @@
 // permanently closed (src/data/web.mjs) and its old domain no longer belongs
 // to it, so it stays off, as the landscape row already did.
 //
-// Max's Jewelry (yellowpages.com listing, checked 2026-11-24): jewelers and
-// jewelry repairing, 401 Washington St, Columbus, IN 47201, (812) 379-4572.
-// Not the store's own page; hours there are not shown here until confirmed.
+// Not added: Max's Jewelry (401 Washington St). Added earlier on 2026-11-24
+// from an old YellowPages listing, then taken off the same day: Jake says the
+// store has closed and another business is in its space.
 export const ADDED = [
   {
     name: "PAQ'D Meats",
@@ -83,18 +83,6 @@ export const ADDED = [
     website: 'https://www.paqdmeats.com/',
     book: [],
     source: 'https://www.paqdmeats.com/',
-    checked: '2026-11-24',
-  },
-  {
-    name: "Max's Jewelry",
-    cat: 'shopping',
-    sub: 'gifts',
-    type: 'Jewelry',
-    address: '401 Washington St',
-    phone: '(812) 379-4572',
-    website: '',
-    book: [],
-    source: 'https://www.yellowpages.com/columbus-in/mip/maxs-jewelry-7632076',
     checked: '2026-11-24',
   },
   {
