@@ -1,6 +1,13 @@
 // GET /api/shop?slug=...  A business's live catalog, from its own store.
 // Shopify: /products.json. WooCommerce: the public Store API. Cached at the
-// CDN for six hours so we don't lean on the shop's server.
+// CDN for six hours so we don't lean on the shop's server. `durable` puts the
+// answer in Netlify's shared cache: without it each edge node kept its own
+// copy, so almost every visitor missed and waited on the shop (measured
+// 2026-11-24: 0.4 to 6.7 seconds a store, every request a miss).
+//
+// ?top=N (1 to 96) answers with only what a grid shows: the first N items
+// that are in stock and have a photo (the owner's rule), plus the counts the
+// grid prints. A 1,000 item catalog is ~280 KB whole and a few KB this way.
 import { COMMERCE } from '../../src/data/commerce.mjs';
 import { mapShopify, mapWoo, mapSquarespace } from '../../src/commerce-core.mjs';
 
@@ -9,7 +16,7 @@ const UA = 'Mozilla/5.0 (compatible; HeartOfColumbusBot/1.0; +https://heartofcol
 const json = (status, body, cache) =>
   new Response(JSON.stringify(body), {
     status,
-    headers: { 'content-type': 'application/json', 'cache-control': 'public, max-age=300', ...(cache ? { 'netlify-cdn-cache-control': 'public, s-maxage=21600, stale-while-revalidate=86400' } : {}) },
+    headers: { 'content-type': 'application/json', 'cache-control': 'public, max-age=300', ...(cache ? { 'netlify-cdn-cache-control': 'public, durable, s-maxage=21600, stale-while-revalidate=86400' } : {}) },
   });
 
 async function getJson(url) {
@@ -78,5 +85,15 @@ export default async (req) => {
     }
   }
   if (!items.length) return json(502, { ok: false, error: 'Their store did not answer. Try their website directly.', origin });
-  return json(200, { ok: true, slug, platform: c.platform, origin, items }, true);
+  return json(200, { ok: true, slug, platform: c.platform, origin, ...gridView(items, new URL(req.url).searchParams.get('top')) }, true);
 };
+
+// The whole catalog, or with ?top=N just the grid's share of it and the
+// counts it prints ("120 items in stock", "See all").
+export function gridView(items, top) {
+  const n = Math.min(96, Math.max(0, Math.floor(Number(top) || 0)));
+  if (!n) return { items };
+  const stock = items.filter((i) => i.available);
+  const pictured = stock.filter((i) => i.image);
+  return { items: pictured.slice(0, n), stock: stock.length, pictured: pictured.length, top: n };
+}

@@ -222,3 +222,31 @@ test('a store that refuses the sorted query is read without it', async () => {
   assert.equal(asked.length, 2);
   assert.ok(!/orderby/.test(asked[1]));
 });
+
+test('Shopify card photos ask the CDN for 480 px; other hosts pass as is', async () => {
+  const { shopifyImage } = await import('../src/commerce-core.mjs');
+  assert.equal(shopifyImage('https://cdn.shopify.com/s/files/1/a.jpg?v=1'), 'https://cdn.shopify.com/s/files/1/a.jpg?v=1&width=480');
+  assert.equal(shopifyImage('https://shop.example/cdn/shop/files/a.jpg'), 'https://shop.example/cdn/shop/files/a.jpg?width=480');
+  assert.equal(shopifyImage('https://cdn.shopify.com/a.jpg?width=200'), 'https://cdn.shopify.com/a.jpg?width=200');
+  assert.equal(shopifyImage('https://images.example/a.jpg'), 'https://images.example/a.jpg');
+  assert.equal(shopifyImage(''), '');
+});
+
+test('/api/shop ?top sends only the grid: in stock with a photo, plus counts', async () => {
+  const { gridView } = await import('../netlify/functions/shop.mjs');
+  const items = [
+    { id: 'a', available: true, image: 'a.jpg' }, { id: 'b', available: false, image: 'b.jpg' },
+    { id: 'c', available: true, image: '' }, { id: 'd', available: true, image: 'd.jpg' }, { id: 'e', available: true, image: 'e.jpg' },
+  ];
+  assert.deepEqual(gridView(items, null), { items });
+  const v = gridView(items, '2');
+  assert.deepEqual(v.items.map((i) => i.id), ['a', 'd']);
+  assert.equal(v.stock, 4);
+  assert.equal(v.pictured, 3);
+  assert.equal(gridView(items, '9999').top, 96);
+});
+
+test('/api/shop answers go to the shared (durable) CDN cache', async () => {
+  const src = (await import('node:fs')).readFileSync(new URL('../netlify/functions/shop.mjs', import.meta.url), 'utf8');
+  assert.match(src, /netlify-cdn-cache-control': 'public, durable,/);
+});

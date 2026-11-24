@@ -203,20 +203,34 @@
     });
     write(cart);
   }
-  $$('[data-shop]').forEach(function (box) {
+  // A store's grid loads as it nears the screen, so a page of many stores
+  // (/order/ has 18) fetches the first ones first instead of all at once.
+  function whenNear(el, fn) {
+    if (!('IntersectionObserver' in window)) { fn(); return; }
+    var io = new IntersectionObserver(function (es) {
+      if (es.some(function (e) { return e.isIntersecting; })) { io.disconnect(); fn(); }
+    }, { rootMargin: '900px 0px' });
+    io.observe(el);
+  }
+  $$('[data-shop]').forEach(function (box) { whenNear(box, function () { loadShop(box); }); });
+  function loadShop(box) {
     var slug = box.dataset.shop, name = box.dataset.name, limit = Number(box.dataset.limit || 48);
     var hours = null;
     try { hours = JSON.parse(box.dataset.hours || 'null'); } catch (e) { hours = null; }
-    fetch('/api/shop?slug=' + encodeURIComponent(slug)).then(function (r) { return r.json(); }).then(function (d) {
+    // ?top asks the server for only the grid's items and the counts.
+    fetch('/api/shop?slug=' + encodeURIComponent(slug) + '&top=' + limit).then(function (r) { return r.json(); }).then(function (d) {
       if (!d.ok) { box.innerHTML = '<p class="muted">' + esc(d.error || 'Their store did not answer.') + '</p>'; return; }
       var store = { slug: slug, name: name, platform: d.platform, origin: d.origin, address: box.dataset.address || '', hours: hours };
       // Pristine and in stock only (owner's rule): a product that is sold out or
       // has no photo in the shop's own catalog stays off the grid. The link
-      // below still reaches every item on the shop's own site.
+      // below still reaches every item on the shop's own site. The server
+      // applies the same rule for ?top; filtering again keeps an older cached
+      // answer (the whole catalog) right.
       var items = d.items.filter(function (i) { return i.available && i.image; });
-      var stock = d.items.filter(function (i) { return i.available; });
-      var unseen = stock.length - items.length;
-      box.innerHTML = '<p class="shop-count">' + stock.length + ' items in stock at ' + esc(name) + '’s own store</p><div class="prod-grid">' + items.slice(0, limit).map(function (it, idx) {
+      var stockN = d.stock != null ? d.stock : d.items.filter(function (i) { return i.available; }).length;
+      var picturedN = d.pictured != null ? d.pictured : items.length;
+      var unseen = stockN - picturedN;
+      box.innerHTML = '<p class="shop-count">' + stockN + ' items in stock at ' + esc(name) + '’s own store</p><div class="prod-grid">' + items.slice(0, limit).map(function (it, idx) {
         var fl = firstLive(it);
         return '<article class="prod"><img src="' + esc(it.image) + '" alt="" loading="lazy">' +
           '<div class="prod-b"><a href="' + esc(it.url) + '" target="_blank" rel="noopener" class="prod-t">' + esc(it.title) + '</a><p class="prod-p">' + money(it.price) + '</p>' +
@@ -225,7 +239,7 @@
           // their site: an add link without the options adds nothing there.
           (it.pick ? '<a class="btn btn-sm btn-ghost" href="' + esc(it.url) + '" target="_blank" rel="noopener">Choose options ↗</a>'
             : '<button type="button" class="btn btn-sm" data-add="' + idx + '">' + (it.buyOnSite ? 'Add to my list' : 'Add to cart') + '</button>') + '</div></article>';
-      }).join('') + '</div>' + (items.length > limit || unseen ? '<a class="btn btn-ghost" href="' + esc(d.origin) + '" target="_blank" rel="noopener">See all ' + stock.length + ' on their site ↗</a>' : '');
+      }).join('') + '</div>' + (picturedN > limit || unseen ? '<a class="btn btn-ghost" href="' + esc(d.origin) + '" target="_blank" rel="noopener">See all ' + stockN + ' on their site ↗</a>' : '');
       box.addEventListener('click', function (e) {
         var b = e.target.closest('[data-add]');
         if (!b) return;
@@ -236,5 +250,5 @@
         setTimeout(function () { b.textContent = label; }, 1400);
       });
     }).catch(function () { box.innerHTML = '<p class="muted">Their store did not answer. Try their website.</p>'; });
-  });
+  }
 })();

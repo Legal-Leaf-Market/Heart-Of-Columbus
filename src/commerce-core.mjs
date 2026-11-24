@@ -338,10 +338,17 @@ export function bigcommerceCartUrls(origin, lines) {
 
 // ---------- Catalog normalizing ----------
 const money = (v) => Math.round(Number(v || 0) * 100) / 100;
+// Shopify's catalog gives the original upload (a phone photo can be several
+// megabytes); its image CDN resizes on request, so a card asks for 480 px.
+// Only Shopify's own CDN paths are touched; anything else passes as is.
+export function shopifyImage(src, width = 480) {
+  if (!src || !/^https:\/\/(?:cdn\.shopify\.com\/|[^/]+\/cdn\/shop\/)/.test(src) || /[?&]width=/.test(src)) return src || '';
+  return `${src}${src.includes('?') ? '&' : '?'}width=${width}`;
+}
 export function mapShopify(origin, products) {
   return (products || []).filter((p) => p && p.variants && p.variants.length).map((p) => ({
     id: `s${p.id}`, title: p.title, type: (p.product_type || '').trim(), url: `${origin}/products/${p.handle}`,
-    image: p.images && p.images[0] ? p.images[0].src : '',
+    image: p.images && p.images[0] ? shopifyImage(p.images[0].src) : '',
     price: money(p.variants[0].price),
     available: p.variants.some((v) => v.available !== false),
     variants: p.variants.map((v) => ({ id: String(v.id), title: v.title === 'Default Title' ? '' : v.title, price: money(v.price), available: v.available !== false })),
