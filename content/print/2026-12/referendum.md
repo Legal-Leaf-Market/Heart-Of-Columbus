@@ -19,6 +19,8 @@ sources:
     url: https://www.in.gov/doe/it/data-center-and-reports/Data-Files/2026-iread-corporation-and-school-results.xlsx
   - name: Indiana Department of Education, Data Center and Reports
     url: https://www.in.gov/doe/it/data-center-and-reports/
+  - name: Local News Digital, November 19 update on the 2027 referendum levy
+    url: https://www.localnewsdigital.com/news/latest-news-test/bcsc-referendum-renewal-triggers-400000-levy-reduction-for-2027/
   - name: Local News Digital, BCSC’s election-night statement
     url: https://www.localnewsdigital.com/news/top-story/bcsc-operating-referendum-passes-with-local-voters/
 box:
@@ -51,7 +53,7 @@ For the owner of a median $250,000 home, the district estimates the referendum's
 
 Referendum money can pay only for day to day costs, the district says: staff pay, programs and student safety. It is not used for construction, bond payments, administrator salaries or capital projects.
 
-The district credits the 2020 referendum with 94 percent staff retention, a STEM lab in every elementary school and 11 new school safety staff. The Indiana Department of Education’s 2026 IREAD results show that 736 of 806 students in the district’s third-grade cohort passed, or 91.3 percent. BCSC projected a 98 percent graduation rate for 2026. [CHECK: verify the final 2026 graduation rate when the state releases it.]
+The district credits the 2020 referendum with 94 percent staff retention, a STEM lab in every elementary school and 11 new school safety staff. The Indiana Department of Education’s 2026 IREAD results show that 736 of 806 students in the district’s third-grade cohort passed, or 91.3 percent. BCSC projected a 98 percent graduation rate for 2026. The state data page still lists 2025 as its latest final graduation year.
 
 Had the renewal failed, the district says, it would have lost about $9.5 million to $10.5 million a year once the old referendum ran out, and would have had to cut teacher and staff pay and eliminate its School Safety Officers.
 
@@ -59,4 +61,4 @@ Had the renewal failed, the district says, it would have lost about $9.5 million
 
 Superintendent Chad Phillips thanked voters in a statement the district released on election night. "Strong public schools are an anchor for our community and this result reflects a shared understanding that the success of our schools and community are connected," he said. He added that the district remains "committed to transparency and accountability in how these funds support our staff and schools."
 
-The board's adopted spending plan estimates $9.28 million for teacher and staff compensation and $820,000 for student safety in 2027. The district says it expects to revise the plan in future years as revenue and needs change. [CHECK: ask BCSC’s finance office whether families should expect any changes in 2027.]
+The spending plan estimates $9.28 million for staff pay and $820,000 for student safety in 2027. Local News Digital reported after the election that the 2027 levy cap fell from $10.505 million to $10.1 million. The estimated rate is 14.77 cents per $100 of assessed value, down from 15.35 cents.

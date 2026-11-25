@@ -29,7 +29,7 @@ box:
     - "About $11.58 million: tax increment financing (READI)"
     - "$1.72 million: Next Level Trails (READI)"
     - "$105,000: private money (READI)"
-    - "Late November 2026: completion target reported November 16"
+    - "Late November 2026: target for most construction"
     - "April through June 2027: anticipated ribbon-cutting window"
 ---
 For decades, the stretch of the East Fork of the White River between the Second Street and Third Street bridges has been on the city's list of places that needed fixing. This fall, the work finally reached the water.
@@ -48,11 +48,11 @@ The state's summary of the project adds native plants, accessible overlooks, mor
 
 Work began on the west bank in early 2025, clearing the tree line for a staging area and access point while the redesign was finished and permits were amended. By the middle of 2025 the city had picked a contractor for the east bank, where the work includes armoring the bank, the trail connection and an amphitheater.
 
-At the November 16 Redevelopment Commission meeting, the update listed landscaping, fencing, bike racks and railing as work in progress and put expected completion at the end of November. The ribbon cutting is planned for April through June 2027. [CHECK: confirm the completion date and the exact ribbon-cutting date with Columbus Redevelopment.]
+At its November 16 meeting, the Redevelopment Commission heard that landscaping, fencing, bike racks and railing were still being installed. Most construction was expected to wrap up by month’s end. The commission is aiming for an April through June 2027 ribbon cutting.
 
 ## Who is paying for it
 
-The state’s READI project page lists a $17.29 million funding total, including $5.6 million in READI funds. Its written overview separately mentions a $1.72 million Next Level Trails award, but the funding table does not say whether the award is included in its public funding subtotal. [CHECK: confirm that accounting and the final cost with Columbus Redevelopment.]
+The state’s READI funding table lists $17.29 million, including $5.6 million in READI funds. Its overview also lists a $1.72 million Next Level Trails award without showing how it fits into the table. [CHECK: confirm the grant accounting and final cost with Columbus Redevelopment.]
 
 ## What it is for
 
