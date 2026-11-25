@@ -140,7 +140,7 @@
   }
 
   // Fill existing reading gaps without making a row taller or affecting the proof.
-  const readerFillers = [...paper.querySelectorAll('.pe-color-preview, .pe-reader-trivia')];
+  const readerFillers = [...paper.querySelectorAll('.pe-reader-trivia')];
   const wideReader = matchMedia('screen and (min-width: 901px)');
   function fitReadingExtras() {
     if (!wideReader.matches || !paper.classList.contains('pe-reading') || paper.classList.contains('pe-fitting')) return;
@@ -167,6 +167,18 @@
     return out;
   }
 
+  function fitColoring(card, container, fits) {
+    const room = gapIn(container);
+    if (room >= 250) {
+      card.classList.add('pe-color-fit');
+      const caption = card.offsetHeight - card.querySelector('img').offsetHeight;
+      card.style.setProperty('--pe-color-height', `${Math.floor(room - caption - 15)}px`);
+      if (gapIn(container) >= -1 && fits()) return true;
+      card.classList.remove('pe-color-fit');
+    }
+    return false;
+  }
+
   function fillers() {
     const tpl = document.getElementById('pe-fillers');
     if (!tpl) return;
@@ -176,17 +188,10 @@
     const trivia = pool.filter((item) => item.dataset.trivia);
     const notices = pool.filter((item) => item.dataset.house);
     const ad = pool.find((item) => item.dataset.printAd);
-    const coloring = pool.filter((item) => item.dataset.coloring);
-    for (const rail of paper.querySelectorAll('.pe-wide-rail')) {
-      const art = coloring.find((item) => item.dataset.colorPage === pageOf(rail));
-      if (!art) continue;
+    for (const card of paper.querySelectorAll('.pe-wide-rail > .pe-color-portrait')) {
+      const rail = card.parentElement;
       const before = rail.getBoundingClientRect().height;
-      const room = gapIn(rail);
-      if (room < 250) continue;
-      const card = art.cloneNode(true);
-      rail.append(card);
-      card.style.setProperty('--pe-color-height', `${Math.floor(room - (card.offsetHeight - card.querySelector('img').offsetHeight) - 15)}px`);
-      if (rail.getBoundingClientRect().height > before + 1 || gapIn(rail) < -1) card.remove();
+      fitColoring(card, rail, () => rail.getBoundingClientRect().height <= before + 1);
     }
     const uses = new Map();
     const gaps = gapsNow().sort((a, b) => b[1] - a[1]);
@@ -197,9 +202,7 @@
       const body = sheet.querySelector('.pe-body');
       const relatedFirst = (items) => [...items.filter((item) => topics.includes(item.dataset.topic)), ...items.filter((item) => !topics.includes(item.dataset.topic))];
       const printAd = ad && !sheet.querySelector('.pe-business-ad, .pe-ad, [data-print-ad]:not(.pe-reader-extra)') ? [ad] : [];
-      const color = !cell.nextElementSibling && cell.previousElementSibling && !sheet.querySelector('[data-coloring]')
-        ? coloring.find((item) => item.dataset.colorPage === sheet.dataset.page) : null;
-      const order = [...(color ? [color] : []), ...architecture, ...printAd, ...relatedFirst(history), ...relatedFirst(trivia), ...notices];
+      const order = [...architecture, ...printAd, ...relatedFirst(history), ...relatedFirst(trivia), ...notices];
       const before = row.getBoundingClientRect().height;
       const fits = () => !squeezed(cell) && !over(body) && row.getBoundingClientRect().height <= before + 1;
       const pageNotices = new Set([...sheet.querySelectorAll('[data-house]')].map((item) => item.dataset.house.replace(/-slim$/, '')));
@@ -207,11 +210,12 @@
       let hasGuide = Boolean(sheet.querySelector('[data-landmark]'));
       let hasTrivia = Boolean(sheet.querySelector('[data-trivia]'));
       cell.classList.add('pe-filled');
+      const card = cell.querySelector(':scope > .pe-color-portrait');
+      if (card) placed = fitColoring(card, cell, fits);
       for (const item of order) {
         const gap = gapIn(cell);
         if (gap < MIN) break;
-        if (item.dataset.coloring && gap < 250) continue;
-        const id = item.dataset.landmark || item.dataset.hist || item.dataset.trivia || item.dataset.house || item.dataset.printAd || item.dataset.coloring;
+        const id = item.dataset.landmark || item.dataset.hist || item.dataset.trivia || item.dataset.house || item.dataset.printAd;
         const cap = item.dataset.house || item.dataset.printAd ? 2 : 1;
         const notice = item.dataset.house?.replace(/-slim$/, '');
         if ((uses.get(id) || 0) >= cap || (notice && pageNotices.has(notice))) continue;
@@ -222,10 +226,6 @@
         if (!item.dataset.landmark && !item.dataset.trivia) copy.classList.add('pe-print-filler');
         copy.classList.toggle('pe-architecture-feature', item.hasAttribute('data-landscape'));
         cell.append(copy);
-        if (item.dataset.coloring) {
-          const captionHeight = copy.offsetHeight - copy.querySelector('img').offsetHeight;
-          copy.style.setProperty('--pe-color-height', `${Math.floor(gap - captionHeight - 15)}px`);
-        }
         if (copy.classList.contains('pe-architecture-feature') && !fits()) copy.classList.remove('pe-architecture-feature');
         if (!fits()) {
           copy.remove();
@@ -407,6 +407,9 @@
       trims();
       balance();
       fillers();
+      for (const card of paper.querySelectorAll('.pe-color-portrait:not(.pe-color-fit)')) {
+        issues.push(`Page ${pageOf(card)}: ${card.querySelector('h3').textContent} needs more room in the print column.`);
+      }
       report();
     } finally {
       paper.classList.remove('pe-fitting');

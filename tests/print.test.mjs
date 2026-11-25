@@ -129,3 +129,16 @@ test('the readiness page lists every slot and every history piece', () => {
   const status = readFileSync(dist('print/2026-12/status/index.html'), 'utf8');
   for (const s of slots) assert.ok(status.includes(`<code>${s}</code>`), `status page is missing ${s}`);
 });
+
+test('the five coloring portraits are part of the edition before JavaScript runs', () => {
+  const placements = { 2: 'turtle', 3: 'anderson', 8: 'cardinal', 10: 'dunes', 15: 'cataract' };
+  const pages = html.split(/<section class="pe-sheet[^"]*" data-page="/).slice(1);
+  for (const [number, illustration] of Object.entries(placements)) {
+    const page = pages.find((source) => source.startsWith(number + '"'));
+    assert.ok(page, `Missing page ${number}`);
+    const body = page.split('</section>\n<template')[0].split('<template id="pe-fillers">')[0];
+    assert.match(body, new RegExp(`class="pe-color-card pe-color-portrait" data-coloring="${illustration}"`));
+    assert.ok(body.includes(`/print-media/coloring-${illustration}-portrait.webp`));
+  }
+  assert.doesNotMatch(html, /class="[^"]*pe-color-preview|>Print Indiana coloring sheets<|>Color this scene</);
+});

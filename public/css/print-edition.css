@@ -733,29 +733,28 @@ body:has(.pe-status) { background: var(--paper, #fbf7f0); }
   .pe-sheet:last-child { break-after: auto; page-break-after: auto; }
 }
 
-/* Printable Hoosier scenes and their small reading-view invitations. */
-.pe-color-card { flex: none; min-width: 0; margin: 10pt 0 0; }
-.pe-color-card > img { display: block; width: min(100%, 3.62in); height: auto; margin: 0 auto 5pt; }
-.pe-color-card.pe-color-portrait > img {
-  width: auto; height: clamp(0px, var(--pe-color-height, 5in), 7.25in); max-width: 100%;
-  object-fit: contain;
+/* Coloring panels live in the page. The fitter measures their tabloid size. */
+.pe-color-card { flex: none; min-width: 0; margin: 10pt 0 0; padding-inline: 4pt; }
+.pe-color-card > img {
+  display: block; width: auto; height: clamp(0px, var(--pe-color-height, 5in), 7.25in);
+  max-width: 100%; object-fit: contain; margin: 0 auto 5pt;
 }
-.pe-color-portrait { padding-inline: 4pt; }
 .pe-color-card h3 { margin: 2pt 0 3pt; font: 780 14pt/1.1 var(--pe-head); }
 .pe-color-card p { font: 9pt/1.25 var(--pe-serif); }
-.pe-color-more { display: none; }
-@media screen {
-  .pe-reading:not(.pe-fitting) .pe-color-more { display: block; margin: 2px 0 12px; font: 750 14px var(--pe-sans); }
-  .pe-reading:not(.pe-fitting) .pe-color-more a { color: var(--pe-teal); text-decoration: underline; text-underline-offset: 3px; }
+.pe-fitting .pe-color-portrait:not(.pe-color-fit),
+.pe-paper:not(.pe-reading) .pe-color-portrait:not(.pe-color-fit) { display: none; }
+@media print {
+  .pe-color-portrait:not(.pe-color-fit) { display: none; }
 }
-@media screen and (min-width: 901px) {
-  .pe-reading:not(.pe-fitting) .pe-color-preview:not([hidden]) {
-    display: grid; grid-template-columns: minmax(0, min(35%, 100px)) minmax(0, 1fr);
-    align-items: center; gap: 12px; margin-top: 7px; padding: 5px 10px; border: 1px solid var(--pe-hair);
-    border-radius: 4px; background: var(--pe-tint);
+@media screen {
+  .pe-reading:not(.pe-fitting) .pe-color-portrait {
+    padding-top: 12px; margin-top: 18px; border-top: 1px solid var(--pe-hair);
   }
-  .pe-color-preview > img { width: 100%; margin: 0; }
-  .pe-color-preview a { font: 700 12px var(--pe-sans); text-decoration: underline; text-underline-offset: 3px; }
+  .pe-reading:not(.pe-fitting) .pe-color-portrait > img {
+    width: min(100%, 230px); height: auto; margin: 0 auto 12px;
+  }
+  .pe-reading:not(.pe-fitting) .pe-color-portrait h3 { font-size: 22px; }
+  .pe-reading:not(.pe-fitting) .pe-color-portrait p { font-size: 15px; }
 }
 
 .pe-color-gallery { max-width: 1020px; margin: 0 auto; padding: 24px clamp(12px, 3vw, 36px); color: var(--pe-ink); }
