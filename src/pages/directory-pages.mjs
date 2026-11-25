@@ -397,7 +397,7 @@ ${b.snap && b.snap.kind === 'menu' ? `<section class="wrap shop-sec" id="menu"><
   <p class="sub">Dishes and prices as their own website lists them, saved ${longDate(b.snap.checked)}. Prices can change; their menu is the final word.</p>
   <div data-menu="${b.slug}" data-order="${esc((b.order[0] && b.order[0].url) || b.website || '')}" data-order-label="${esc(b.order[0] ? 'Order on their site' : 'Their website')}"><p class="muted">Loading their menu…</p></div></section>` : ''}
 ${inSection(b, 'events') ? rail('Plan the rest of the day', '/plan/', planTheDay(b), { kicker: `${catBySlug.events.emoji} Events & Weddings`, id: 'plan-the-day' }) : ''}
-${b.cat === 'events' ? '' : rail(`More ${sub.label.toLowerCase()}`, `/c/${cat.slug}/${cat.subs.length > 1 ? sub.slug + '/' : ''}`, same.slice(0, 14))}
+${b.cat === 'events' ? '' : rail(`More ${sub.label.toLowerCase()}`, `/c/${cat.slug}/${cat.subs.length > 1 ? sub.slug + '/' : ''}`, cisco ? same : same.slice(0, 14), cisco ? { id: 'more-barbershops' } : {})}
 ${rail('Close by', area ? `/n/${area.slug}/` : '', near)}
 </main>
 ${footer()}`;
