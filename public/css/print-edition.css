@@ -726,7 +726,7 @@ body:has(.pe-status) { background: var(--paper, #fbf7f0); }
 /* ---------- Print ---------- */
 @media print {
   html, body { background: #fff !important; margin: 0 !important; }
-  body > :not(.pe-paper) { display: none !important; }
+  body > :not(.pe-paper, .pe-color-gallery) { display: none !important; }
   .pe-paper { display: block; padding: 0; gap: 0; zoom: 1 !important; }
   .pe-sheet { box-shadow: none; break-after: page; page-break-after: always; margin: 0; }
   .pe-sheet:last-child { break-after: auto; page-break-after: auto; }
