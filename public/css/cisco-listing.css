@@ -91,8 +91,8 @@
 .cisco-scene-note {
   position: absolute;
   z-index: 1;
-  left: clamp(16px, 3vw, 32px);
-  bottom: 22px;
+  top: 14px;
+  right: 16px;
   padding: 2px 5px;
   background: #210f18bb;
   color: #ffe5cd;
@@ -125,5 +125,5 @@
   .cisco-room .prop-shears { right: -8px; }
   .cisco-room .prop-pole { top: 13%; right: -20px; }
   .cisco-room .prop-clipper { left: -21px; right: auto; bottom: -2%; opacity: .42; }
-  .cisco-scene-note { bottom: 19px; }
+  .cisco-scene-note { top: 10px; }
 }

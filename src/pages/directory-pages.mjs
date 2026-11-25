@@ -310,9 +310,9 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
         ${b.store ? `<a class="btn${b.order.length || b.book.length ? ' btn-ghost' : ''}" href="${esc(tagFor(b, b.store, 'shop'))}"${hocAttr(b.slug, 'shop')} target="_blank" rel="noopener">${svg('store')} Shop their online store</a>` : ''}
         ${b.demo ? `<a class="btn btn-ghost" href="${b.demo}">${svg('store')} ${b.cat === 'beauty' ? 'Book' : 'Order'} (demo)</a>` : ''}
         ${b.phone ? `<a class="btn ${b.demo || b.order.length || b.book.length || b.feed || b.store ? 'btn-ghost' : ''}" href="${tel(b.phone)}">${svg('phone')} Call ${esc(b.phone)}</a>` : ''}
+        ${cisco ? `<a class="btn cisco-preview-link" href="${CISCO_PREVIEW}">${svg('arrow')} View shop preview</a>` : ''}
         ${b.added && !b.address ? '' : `<a class="btn btn-ghost" href="${mapsLink(b)}" target="_blank" rel="noopener">${svg('pin')} Directions</a>`}
         ${b.website && !websiteAction(b) && !b.socials.some((profile) => profile.url === socialProfile(b.website)?.url) ? `<a class="btn btn-ghost" href="${esc(b.website)}"${hocAttr(b.slug, 'website')} target="_blank" rel="noopener">${svg('globe')} Website</a>` : ''}
-        ${cisco ? `<a class="btn cisco-preview-link" href="${CISCO_PREVIEW}">${svg('arrow')} View shop preview</a>` : ''}
         ${b.gift ? `<a class="btn btn-ghost" href="${esc(tagFor(b, b.gift.url, 'gift'))}"${hocAttr(b.slug, 'gift')} target="_blank" rel="noopener">${svg('heart')} Gift cards</a>` : ''}
       </div>
       <div class="biz-actions biz-extra-actions" role="group" aria-label="More ways to connect">
