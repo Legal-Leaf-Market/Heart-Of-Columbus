@@ -1663,7 +1663,7 @@ a.tag:not(.tag-member):hover { filter: brightness(.96); }
 .pl-bar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 10px; padding-bottom: 10px; }
 .pl-bar p { margin: 0; }
 .pl-bar .btn { background: var(--accent); color: var(--ink); border-color: var(--accent); box-shadow: none; }
-.pl-team { border: 1px solid var(--edge); border-radius: 22px; box-shadow: var(--pop); padding: 22px; width: min(560px, calc(100vw - 32px)); background: var(--surface); color: var(--ink); }
+.pl-team { margin: auto; max-height: calc(100dvh - 48px); overflow: auto; border: 1px solid var(--edge); border-radius: 22px; box-shadow: var(--pop); padding: 22px; width: min(560px, calc(100vw - 32px)); background: var(--surface); color: var(--ink); }
 .pl-team::backdrop { background: rgba(27, 26, 23, .45); }
 .pl-team-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .pl-team h2 { margin: 0; }

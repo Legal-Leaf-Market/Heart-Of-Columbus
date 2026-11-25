@@ -127,7 +127,7 @@ ${pole}
 </section>
 </main>
 
-<dialog data-book-dialog class="w-full max-w-md rounded-3xl border-2 border-ink p-0 bg-surface text-ink backdrop:bg-black/60"></dialog>
+<dialog data-book-dialog class="m-auto w-full max-w-md rounded-3xl border-2 border-ink p-0 bg-surface text-ink backdrop:bg-black/60"></dialog>
 ${footer()}`,
     }),
 };
