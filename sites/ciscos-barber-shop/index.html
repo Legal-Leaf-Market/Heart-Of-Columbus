@@ -46,12 +46,9 @@
   - His Wix site also has a "Tattoo Booking" page (tattoo session, consultation)
     that is not in its menu. Left out until he says whether it is current.
 
-  Photo: the arch frame shows img/cisco.webp once Cisco sends one (see
-  img/README.md). A photo on his Wix site is not permission, and nothing here
-  loads an image from another server.
-
-  Booking: every "Book a cut" button reads BOOK_URL at the bottom of this file.
-  The newsletter form only checks the address and sends nothing (see README.md).
+  The hero uses editorial artwork for the review draft. Replace it with a
+  photo that Cisco approves before publishing the standalone site.
+  The main booking buttons use the confirmed shop phone number.
 -->
 <html lang="en">
 <head>
@@ -60,317 +57,238 @@
 <title>Cisco's Barbershop | Columbus, Indiana</title>
 <meta name="description" content="Cisco's Barbershop in Columbus, Indiana. Everyday walk ins and appointments, cuts, shaves, beard work and private event makeup and hair.">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#F2F4F3" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0E1830" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f4ede0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#20211c" media="(prefers-color-scheme: dark)">
 <meta property="og:title" content="Cisco's Barbershop | Columbus, Indiana">
 <meta property="og:description" content="Elevating, fostering culture, and exceeding expectations. Walk ins and appointments every day the shop is open.">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2313213C'/%3E%3CclipPath id='c'%3E%3Crect x='22' y='8' width='20' height='48' rx='10'/%3E%3C/clipPath%3E%3Cg clip-path='url(%23c)'%3E%3Crect x='22' y='8' width='20' height='48' fill='%23fff'/%3E%3Cpath d='M10 20l44-14v8L10 28zM10 38l44-14v8L10 46zM10 56l44-14v8L10 64z' fill='%23C1272D'/%3E%3C/g%3E%3Crect x='19' y='5' width='26' height='6' rx='3' fill='%23C9A35B'/%3E%3Crect x='19' y='53' width='26' height='6' rx='3' fill='%23C9A35B'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23282923'/%3E%3CclipPath id='c'%3E%3Crect x='22' y='8' width='20' height='48' rx='10'/%3E%3C/clipPath%3E%3Cg clip-path='url(%23c)'%3E%3Crect x='22' y='8' width='20' height='48' fill='%23fff'/%3E%3Cpath d='M10 20l44-14v8L10 28zM10 38l44-14v8L10 46zM10 56l44-14v8L10 64z' fill='%2391352C'/%3E%3C/g%3E%3Crect x='19' y='5' width='26' height='6' rx='3' fill='%23F2E4CD'/%3E%3Crect x='19' y='53' width='26' height='6' rx='3' fill='%23F2E4CD'/%3E%3C/svg%3E">
 <script>
   // Remembered theme, set before paint so the page never flashes the wrong one.
   try { var t = localStorage.getItem('ciscos-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&family=Yellowtail&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  /* Porcelain chair, navy ink, pole red, gold leaf. */
-  :root {
-    color-scheme: light;
-    --bg: #F2F4F3;
-    --surface: #FFFFFF;
-    --ink: #13213C;
-    --muted: #4A566B;
-    --rule: #D3D9DF;
-    --red: #B8202B;
-    --red-ink: #FFFFFF;
-    --leaf: #C9A35B;
-    --leaf-hi: #E9D49A;
-    --leaf-lo: #8F6A2E;
-    --brass: #8A6630;
-    --board: #13213C;
-    --board-ink: #F2F0EA;
-    --board-muted: #AEB8C8;
-    --board-rule: #34466B;
-    --pole-white: #FFFFFF;
-    --open: #1E7A4E;
-    --tag-bg: #FFE9A8;
-    --tag-ink: #5E4300;
-    --script: 'Yellowtail', 'Brush Script MT', cursive;
-    --cond: 'Barlow Condensed', 'Arial Narrow', sans-serif;
-    --body: 'Barlow', 'Helvetica Neue', Arial, sans-serif;
-  }
-  :root[data-theme="dark"] {
+:root {
+  color-scheme: light;
+  --paper: #f4ede0;
+  --card: #fbf6ec;
+  --ink: #25241e;
+  --muted: #605b4f;
+  --line: #d2c6b3;
+  --accent: #8a3029;
+  --accent-text: #fff6e7;
+  --board: #822e27;
+  --chalk: #fff3dc;
+  --board-line: #bc7468;
+  --open: #446442;
+  --display: 'Barlow Condensed', Impact, 'Arial Narrow', sans-serif;
+  --body: 'DM Sans', system-ui, sans-serif;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #21221c;
+  --card: #2b2b24;
+  --ink: #f4ebda;
+  --muted: #c8bdab;
+  --line: #5e574a;
+  --accent: #f1aa93;
+  --accent-text: #311e18;
+  --board: #642b25;
+  --board-line: #a5685d;
+  --open: #abc59e;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
     color-scheme: dark;
-    --bg: #0E1830;
-    --surface: #15223F;
-    --ink: #EEF1F5;
-    --muted: #A7B2C4;
-    --rule: #2A3A5C;
-    --red: #D7353E;
-    --leaf: #D6B266;
-    --leaf-hi: #F1DEA6;
-    --leaf-lo: #A27B38;
-    --brass: #D6B266;
-    --board: #1B2B4E;
-    --board-rule: #34466B;
-    --pole-white: #E9ECF1;
-    --open: #4CC38A;
-    --tag-bg: #4A3B12;
-    --tag-ink: #FFE6A0;
+    --paper: #21221c;
+    --card: #2b2b24;
+    --ink: #f4ebda;
+    --muted: #c8bdab;
+    --line: #5e574a;
+    --accent: #f1aa93;
+    --accent-text: #311e18;
+    --board: #642b25;
+    --board-line: #a5685d;
+    --open: #abc59e;
   }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      color-scheme: dark;
-      --bg: #0E1830;
-      --surface: #15223F;
-      --ink: #EEF1F5;
-      --muted: #A7B2C4;
-      --rule: #2A3A5C;
-      --red: #D7353E;
-      --leaf: #D6B266;
-      --leaf-hi: #F1DEA6;
-      --leaf-lo: #A27B38;
-      --brass: #D6B266;
-      --board: #1B2B4E;
-      --board-rule: #34466B;
-      --pole-white: #E9ECF1;
-      --open: #4CC38A;
-      --tag-bg: #4A3B12;
-      --tag-ink: #FFE6A0;
-    }
-  }
-
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-  body { margin: 0; background: var(--bg); color: var(--ink); font: 400 18px/1.6 var(--body); overflow-x: hidden; }
-  a { color: inherit; }
-  img { display: block; max-width: 100%; }
-  .wrap { max-width: 1160px; margin: 0 auto; padding: 0 22px; }
-  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-  :focus-visible { outline: 3px solid var(--leaf); outline-offset: 3px; border-radius: 2px; }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-
-  /* The pole: a moving band of red, white and navy across the very top. */
-  .pole {
-    height: 12px;
-    background: linear-gradient(45deg,
-      var(--red) 0 12.5%, var(--pole-white) 12.5% 25%, #1A2C52 25% 37.5%, var(--pole-white) 37.5% 50%,
-      var(--red) 50% 62.5%, var(--pole-white) 62.5% 75%, #1A2C52 75% 87.5%, var(--pole-white) 87.5% 100%);
-    background-size: 48px 48px;
-    animation: spin 2.4s linear infinite;
-    border-bottom: 2px solid var(--leaf);
-  }
-  @keyframes spin { to { background-position: 48px 0; } }
-  @media (prefers-reduced-motion: reduce) { .pole { animation: none; } }
-
-  .draft { background: var(--ink); color: var(--bg); font-size: 14px; text-align: center; padding: 8px 16px; }
-  .draft b { color: var(--leaf); }
-  .tag { display: inline-block; font: 600 12px/1.4 var(--body); letter-spacing: .3px; padding: 2px 8px; border-radius: 3px; background: var(--tag-bg); color: var(--tag-ink); vertical-align: 2px; white-space: nowrap; }
-  .note { font-size: 15px; color: var(--muted); max-width: 62ch; }
-
-  /* Header */
-  header.top { position: sticky; top: 0; z-index: 20; background: var(--bg); border-bottom: 1px solid var(--rule); }
-  header.top .wrap { display: flex; align-items: center; gap: 22px; height: 70px; }
-  .mark { font: 400 34px/1 var(--script); color: var(--brass); text-decoration: none; padding-top: 4px; }
-  nav.links { display: flex; gap: 24px; margin-left: auto; }
-  nav.links a { font: 600 17px var(--cond); letter-spacing: .4px; text-decoration: none; color: var(--muted); }
-  nav.links a:hover { color: var(--ink); }
-  .theme { display: inline-grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--rule); background: var(--surface); color: var(--ink); cursor: pointer; padding: 0; }
-  .theme svg { width: 20px; height: 20px; }
-  .theme .sun { display: none; }
-  [data-mode="dark"] .theme .sun { display: block; }
-  [data-mode="dark"] .theme .moon { display: none; }
-
-  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; font: 700 18px/1 var(--cond); letter-spacing: .5px; text-decoration: none; padding: 15px 24px; border-radius: 6px; border: 2px solid var(--red); background: var(--red); color: var(--red-ink); white-space: nowrap; cursor: pointer; }
-  .btn:hover { filter: brightness(1.08); }
-  .btn.quiet { background: transparent; color: var(--ink); border-color: var(--ink); }
-  .btn.quiet:hover { background: var(--ink); color: var(--bg); filter: none; }
-  .btn.sm { padding: 11px 18px; font-size: 16px; }
-  .btn svg { width: 20px; height: 20px; flex: none; }
-  @media (max-width: 860px) { nav.links { display: none; } .theme { margin-left: auto; } header.top .btn { display: none; } }
-
-  /* Hero */
-  .hero { padding: 56px 0 72px; }
-  .hero .wrap { display: grid; grid-template-columns: 1.15fr .85fr; gap: 56px; align-items: center; }
-  .hero .wrap > * { min-width: 0; }
-  h1 { margin: 0 0 10px; font-weight: 400; }
-  .welcome { display: block; font: 600 clamp(24px, 3.2vw, 34px)/1.1 var(--cond); letter-spacing: .5px; color: var(--muted); }
-  /* Gold leaf lettering with a red sign painter's shade. */
-  .leaf {
-    display: inline-block; font: 400 clamp(104px, 17vw, 210px)/.92 var(--script);
-    padding: .06em .12em .14em .02em; margin-left: -.04em;
-    background: linear-gradient(176deg, var(--leaf-hi) 0%, var(--leaf) 38%, var(--leaf-lo) 62%, var(--leaf) 80%, var(--leaf-hi) 100%);
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-    filter: drop-shadow(.035em .035em 0 var(--red));
-  }
-  @supports not ((-webkit-background-clip: text) or (background-clip: text)) { .leaf { color: var(--leaf); } }
-  .tagline { font: 600 clamp(20px, 2.4vw, 26px)/1.3 var(--cond); letter-spacing: .3px; margin: 6px 0 6px; max-width: 30ch; }
-  .lede { color: var(--muted); margin: 0 0 26px; }
-  .status { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 9px 16px 9px 14px; border-radius: 999px; border: 1px solid var(--rule); background: var(--surface); font-size: 16px; margin: 0 0 26px; }
-  .status[hidden] { display: none; }
-  .status .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--muted); flex: none; }
-  .status.is-open .dot { background: var(--open); box-shadow: 0 0 0 4px color-mix(in srgb, var(--open) 22%, transparent); }
-  .status.is-closed .dot { background: var(--red); }
-  .status b { font-weight: 600; }
-  .cta { display: flex; flex-wrap: wrap; gap: 12px; }
-
-  .arch-wrap { position: relative; max-width: 420px; margin-left: auto; width: 100%; }
-  .arch { position: relative; aspect-ratio: 4 / 5; border-radius: 50% 50% 6px 6px / 40% 40% 6px 6px; overflow: hidden; background: var(--surface); box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px var(--leaf); }
-  .arch .empty { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 30px; color: var(--muted); font-size: 15px;
-    background: repeating-linear-gradient(90deg, transparent 0 22px, color-mix(in srgb, var(--rule) 55%, transparent) 22px 23px); }
-  .arch .empty b { display: block; font: 600 24px var(--cond); color: var(--ink); margin: 10px 0 4px; }
-  .arch .empty svg { width: 40px; height: 40px; color: var(--brass); margin: 0 auto; }
-  .arch img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2; }
-  @media (max-width: 900px) {
-    .hero { padding: 36px 0 56px; }
-    .hero .wrap { grid-template-columns: 1fr; gap: 40px; }
-    .arch-wrap { margin: 0 auto; max-width: 340px; }
-  }
-
-  /* Sections */
-  section { padding: 84px 0; }
-  h2 { font: 700 clamp(38px, 5.4vw, 58px)/1 var(--cond); letter-spacing: .2px; margin: 0 0 14px; }
-  .intro { color: var(--muted); max-width: 58ch; margin: 0 0 40px; }
-  .band { background: var(--surface); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
-
-  /* How to come in: three ways, from his home page. */
-  .ways { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 2px solid var(--ink); margin-bottom: 64px; }
-  .ways > div { padding: 22px 26px 4px 0; }
-  .ways > div + div { padding-left: 26px; border-left: 1px solid var(--rule); }
-  .ways h3 { font: 700 26px/1.1 var(--cond); margin: 0 0 6px; }
-  .ways p { margin: 0; color: var(--muted); font-size: 16px; }
-  @media (max-width: 760px) { .ways { grid-template-columns: 1fr; } .ways > div + div { padding-left: 0; border-left: 0; border-top: 1px solid var(--rule); } .ways > div { padding: 18px 0; } }
-
-  /* The price board */
-  .board { background: var(--board); color: var(--board-ink); border-radius: 10px; padding: 40px 44px 36px; box-shadow: inset 0 0 0 1px var(--board-rule), inset 0 0 0 8px var(--board), inset 0 0 0 9px color-mix(in srgb, var(--leaf) 55%, transparent); }
-  .board-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 64px; }
-  .board h3 { font: 400 40px/1 var(--script); color: var(--leaf); margin: 0 0 14px; }
-  .board ul { list-style: none; margin: 0 0 26px; padding: 0; }
-  .board li { display: flex; align-items: baseline; gap: 10px; padding: 9px 0; }
-  .board .svc { font: 600 20px/1.25 var(--cond); letter-spacing: .3px; }
-  .board .svc small { display: block; font: 400 14px var(--body); letter-spacing: 0; color: var(--board-muted); }
-  .board .lead { flex: 1; min-width: 20px; border-bottom: 2px dotted var(--board-rule); transform: translateY(-5px); }
-  .board .price { font: 700 24px/1 var(--cond); color: var(--leaf); white-space: nowrap; }
-  .board .price.ask { font-size: 17px; color: var(--board-muted); font-weight: 600; }
-  .board-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; border-top: 1px solid var(--board-rule); padding-top: 22px; color: var(--board-muted); font-size: 15px; }
-  .board-foot p { margin: 0; max-width: 60ch; }
-  .board .btn.quiet { color: var(--board-ink); border-color: var(--board-ink); }
-  .board .btn.quiet:hover { background: var(--board-ink); color: var(--board); }
-  @media (max-width: 820px) { .board { padding: 30px 22px 26px; } .board-cols { grid-template-columns: 1fr; gap: 0; } }
-
-  /* Crew roster */
-  .roster { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); border-top: 2px solid var(--ink); }
-  .roster li { padding: 22px 20px 22px 0; border-bottom: 1px solid var(--rule); display: grid; grid-template-rows: auto auto 1fr; }
-  .roster .name { font: 700 28px/1.05 var(--cond); margin: 0; }
-  .roster .role { font-size: 15px; color: var(--brass); font-weight: 600; margin: 2px 0 0; min-height: 1.6em; }
-  .roster .acts { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: end; margin-top: 10px; font-size: 16px; }
-  .roster .acts a { font-weight: 600; text-decoration-thickness: 2px; text-underline-offset: 4px; text-decoration-color: var(--leaf); }
-  .roster .acts a:hover { color: var(--red); }
-  .roster .role .hint { color: var(--muted); font-weight: 400; }
-
-  /* Visit */
-  .visit { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: stretch; }
-  .visit > * { min-width: 0; }
-  .panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 30px; }
-  .addr { font: 700 32px/1.05 var(--cond); margin: 0; }
-  .city { margin: 2px 0 0; color: var(--muted); }
-  .lines { list-style: none; padding: 0; margin: 22px 0 0; display: grid; gap: 8px; font-size: 17px; }
-  .lines a { font-weight: 600; text-decoration-color: var(--leaf); text-underline-offset: 4px; text-decoration-thickness: 2px; overflow-wrap: anywhere; }
-  .panel h3 { font: 700 24px var(--cond); margin: 28px 0 8px; }
-  .hours { width: 100%; border-collapse: collapse; font-size: 17px; }
-  .hours th, .hours td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--rule); font-weight: 400; }
-  .hours td { text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
-  .hours tr.today th, .hours tr.today td { font-weight: 600; color: var(--ink); background: color-mix(in srgb, var(--leaf) 18%, transparent); }
-  .hours tr.today th { box-shadow: inset 4px 0 0 var(--leaf); }
-  .panel .cta { margin-top: 24px; }
-  .map { border-radius: 10px; overflow: hidden; border: 1px solid var(--rule); min-height: 380px; background: var(--surface); }
-  .map iframe { width: 100%; height: 100%; min-height: 380px; border: 0; display: block; }
-  :root[data-mode="dark"] .map iframe { filter: invert(.9) hue-rotate(180deg) saturate(.6); }
-  @media (max-width: 900px) { .visit { grid-template-columns: 1fr; } .panel { padding: 24px; } }
-
-  /* Newsletter */
-  .news { background: var(--board); color: var(--board-ink); }
-  .news .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
-  .news h2 { margin-bottom: 8px; }
-  .news p { color: var(--board-muted); margin: 0; }
-  .news form { display: flex; flex-wrap: wrap; gap: 10px; }
-  .news label { flex: 1 1 100%; font: 600 16px var(--cond); letter-spacing: .4px; }
-  .news input { flex: 1 1 240px; min-width: 0; font: 400 18px var(--body); padding: 13px 16px; border-radius: 6px; border: 2px solid var(--board-rule); background: color-mix(in srgb, var(--board) 70%, #000); color: var(--board-ink); }
-  .news input::placeholder { color: var(--board-muted); }
-  .news input[aria-invalid="true"] { border-color: var(--red); }
-  .news .msg { flex: 1 1 100%; min-height: 1.6em; margin: 4px 0 0; font-size: 15px; color: var(--board-muted); }
-  .news .msg.bad { color: #FFB3B7; }
-  @media (max-width: 820px) { .news .wrap { grid-template-columns: 1fr; gap: 24px; } }
-
-  footer { background: var(--bg); padding: 44px 0 110px; font-size: 15px; color: var(--muted); border-top: 1px solid var(--rule); }
-  footer .wrap { display: flex; flex-wrap: wrap; gap: 24px 48px; align-items: center; justify-content: space-between; }
-  footer .mark { font-size: 46px; }
-  footer p { margin: 0; }
-
-  .sticky-book { display: none; }
-  @media (max-width: 860px) { .sticky-book { display: flex; position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 30; box-shadow: 0 10px 28px rgba(14, 24, 48, .35); } }
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-padding-top: 24px; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 1rem/1.55 var(--body); }
+h1, h2, h3, p, figure { margin: 0; }
+a { color: inherit; text-underline-offset: .22em; }
+a:hover { color: var(--accent); }
+button { font: inherit; }
+:focus-visible { outline: 3px solid currentColor; outline-offset: 4px; }
+.wrap { width: min(1180px, calc(100% - 2 * clamp(20px, 5vw, 76px))); margin-inline: auto; }
+.skip { position: fixed; top: 8px; left: 8px; z-index: 5; padding: 12px; background: var(--card); transform: translateY(-150%); }
+.skip:focus { transform: none; }
+.sr { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.draft { background: #282923; color: #efe4d0; padding: 6px 12px; font-size: .73rem; text-align: center; }
+.top { border-bottom: 1px solid var(--line); }
+.header-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 76px; }
+.mark { display: inline-block; font: 800 1.8rem/.8 var(--display); text-transform: uppercase; text-decoration: none; }
+.mark span { display: block; margin-top: 7px; font: 700 .59rem/1 var(--body); letter-spacing: .19em; }
+.links, .header-actions, .cta { display: flex; align-items: center; gap: clamp(13px, 2.8vw, 38px); }
+.links a { display: inline-flex; align-items: center; min-height: 44px; font-size: .91rem; font-weight: 700; text-decoration: none; }
+.header-actions, .cta { gap: 10px; }
+.btn, .theme { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; border: 1px solid transparent; }
+.btn { gap: 8px; padding: 10px 17px; background: var(--accent); color: var(--accent-text); font-size: .88rem; font-weight: 700; text-decoration: none; }
+.btn:hover { color: var(--accent-text); filter: brightness(.92); }
+.btn.quiet, .theme { border-color: var(--line); background: transparent; color: var(--ink); }
+.btn.quiet:hover, .theme:hover { border-color: var(--accent); color: var(--accent); }
+.btn svg, .theme svg { flex: none; width: 18px; height: 18px; }
+.theme { width: 46px; cursor: pointer; }
+.theme .sun, [data-mode="dark"] .theme .moon { display: none; }
+[data-mode="dark"] .theme .sun { display: block; }
+.hero { padding-block: clamp(32px, 5vw, 76px); }
+.hero-grid { display: grid; grid-template-columns: 1.03fr 1fr; gap: clamp(22px, 5vw, 76px); align-items: center; }
+.eyebrow { display: flex; gap: 10px; align-items: center; font-size: .77rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+.stripes { width: 37px; height: 13px; background: repeating-linear-gradient(125deg, #91352c 0 5px, #f2e4cd 5px 10px, #343b3a 10px 15px, #f2e4cd 15px 20px); border: 1px solid var(--line); }
+h1 { margin: 15px 0 24px; font: 800 clamp(5.5rem, 12vw, 11rem)/.75 var(--display); letter-spacing: -.025em; text-transform: uppercase; }
+h1 span { display: block; margin-top: .19em; color: var(--accent); font-size: .45em; letter-spacing: .015em; }
+.welcome { font: italic 700 clamp(1.5rem, 3vw, 2.2rem)/1.2 Georgia, serif; }
+.lede { max-width: 33ch; margin: 10px 0 22px; color: var(--muted); }
+.cta { flex-wrap: wrap; }
+.location { display: inline-block; margin-top: 15px; font-weight: 700; }
+.location span { margin-left: 3px; }
+.status { margin-top: 5px; color: var(--muted); font-size: .84rem; }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-right: 7px; }
+.is-open .dot { background: var(--open); }
+.hero-photo { position: relative; background: #463b31; }
+.hero-photo img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1.02; object-fit: cover; object-position: 50% 46%; }
+.hero-photo figcaption { position: absolute; right: 10px; bottom: 10px; padding: 4px 8px; background: #282923; color: #fff3dc; font-size: .69rem; }
+main section:not(.hero) { padding-block: clamp(42px, 6vw, 78px); border-top: 1px solid var(--line); }
+.band { background: var(--card); }
+.section-head { display: flex; gap: 8px 24px; flex-wrap: wrap; align-items: baseline; margin-bottom: 24px; }
+h2 { font: 800 clamp(2.7rem, 6vw, 5rem)/.92 var(--display); text-transform: uppercase; }
+.section-head p { color: var(--muted); }
+h3 { font: 700 1.8rem/1 var(--display); }
+.ways { display: grid; grid-template-columns: repeat(3, 1fr); margin-bottom: 24px; border-block: 1px solid var(--line); }
+.ways > div { padding: 19px clamp(14px, 3vw, 30px); }
+.ways > div:first-child { padding-left: 0; }
+.ways > div + div { border-left: 1px solid var(--line); }
+.ways p { margin-block: 5px; color: var(--muted); }
+.ways a, .acts a { font-size: .89rem; font-weight: 700; }
+.board { padding: clamp(20px, 4vw, 48px); background: var(--board); color: var(--chalk); }
+.board-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 5vw, 70px); }
+.board h3 { text-transform: uppercase; }
+.board ul, .roster, .lines { margin: 0; padding: 0; list-style: none; }
+.board ul { margin: 9px 0 24px; }
+.board li { display: flex; align-items: baseline; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--board-line); }
+.svc { line-height: 1.35; }
+.svc small { display: block; margin-top: 2px; color: #f4d0b9; }
+.price { margin-left: auto; flex: none; font-weight: 700; }
+.ask { font-size: .82rem; }
+.board-foot { font-size: .86rem; color: #f4d0b9; }
+.roster { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.roster li { display: flex; flex-direction: column; gap: 5px; padding: 16px; border-bottom: 1px solid var(--line); }
+.name { font: 700 1.65rem/1.04 var(--display); }
+.role { color: var(--muted); font-size: .86rem; }
+.acts { display: flex; flex-wrap: wrap; gap: 8px 15px; margin-top: auto; }
+.acts a { display: inline-flex; align-items: center; min-height: 34px; color: var(--accent); }
+.visit { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+.panel { border: 1px solid var(--line); padding: clamp(18px, 4vw, 32px); }
+.addr { font: 800 2.4rem/1 var(--display); }
+.city, .note { color: var(--muted); }
+.lines { margin-block: 11px 20px; overflow-wrap: anywhere; }
+.hours { width: 100%; border-collapse: collapse; margin-top: 9px; font-size: .92rem; }
+.hours th, .hours td { padding: 5px 8px; border-bottom: 1px solid var(--line); text-align: left; }
+.hours td { text-align: right; }
+.hours .today { background: var(--paper); color: var(--accent); font-weight: 700; }
+.note { margin-top: 10px; font-size: .83rem; }
+.panel .cta { margin-top: 15px; }
+.map { display: flex; flex-direction: column; min-height: 320px; border: 1px solid var(--line); }
+.map-title { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 3px 12px; padding: 12px; font-weight: 700; }
+.map-title span { font-weight: 400; color: var(--muted); }
+.map iframe { flex: 1; width: 100%; min-height: 275px; border: 0; }
+.review { padding-block: 16px; color: var(--muted); font-size: .86rem; }
+.review summary { cursor: pointer; font-weight: 700; }
+footer { background: #282923; color: #efe4d0; padding-block: 28px; }
+footer a:hover { color: #ffb49a; }
+.footer-inner { display: flex; justify-content: space-between; gap: 15px; flex-wrap: wrap; }
+.footer-inner p { margin-top: 9px; }
+.mobile-actions { display: none; }
+@media (max-width: 740px) {
+  .header-inner { gap: 10px; min-height: 64px; }
+  .header-book { display: none; }
+  .hero-grid, .visit { grid-template-columns: 1fr; }
+  .hero-grid { gap: 22px; }
+  h1 { font-size: clamp(5rem, 19vw, 8.2rem); }
+  .hero-photo img { aspect-ratio: 1.23; }
+  .board-cols { gap: 0; grid-template-columns: 1fr; }
+  .roster { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ways { grid-template-columns: 1fr; }
+  .ways > div { padding-inline: 0; }
+  .ways > div + div { border-left: 0; border-top: 1px solid var(--line); }
+  body { padding-bottom: calc(67px + env(safe-area-inset-bottom)); }
+  .mobile-actions { position: fixed; inset: auto 0 0; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 8px 12px calc(8px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); background: var(--paper); }
+}
+@media (max-width: 365px) {
+  .mark { font-size: 1.5rem; }
+  .mark span { font-size: .5rem; }
+  .links { gap: 10px; }
+  .links a { font-size: .81rem; }
+}
 </style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
-    <symbol id="i-cal" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M8 3v4M16 3v4M3.5 10h17"/></g></symbol>
     <symbol id="i-phone" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M5 3.5h3.2l1.6 4.4-2.2 1.5a11 11 0 0 0 7 7l1.5-2.2 4.4 1.6V19a1.8 1.8 0 0 1-2 1.8A16.5 16.5 0 0 1 3.2 5.5 1.8 1.8 0 0 1 5 3.5Z"/></symbol>
     <symbol id="i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 21s-7-6.4-7-12a7 7 0 0 1 14 0c0 5.6-7 12-7 12Z"/><circle cx="12" cy="9" r="2.5"/></g></symbol>
-    <symbol id="i-cam" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M4 7.5h3l1.6-2.5h6.8L17 7.5h3a1 1 0 0 1 1 1V18a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8.5a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="3.6"/></g></symbol>
   </defs>
 </svg>
-
-<div class="pole" aria-hidden="true"></div>
-<div class="draft"><b>Draft website for Cisco to review.</b> Built by Heart of Columbus. Anything tagged <span class="tag">please confirm</span> or <span class="tag">placeholder</span> waits on Cisco.</div>
-
-<header class="top">
-  <div class="wrap">
-    <a class="mark" href="#top">Cisco&rsquo;s</a>
-    <nav class="links" aria-label="Sections">
-      <a href="#services">Services</a>
-      <a href="#crew">Crew</a>
-      <a href="#visit">Visit</a>
+<a class="skip" href="#main">Skip to content</a>
+<div class="draft">Draft website for Cisco to review</div>
+<header class="top" id="top">
+  <div class="wrap header-inner">
+    <a class="mark" href="#top">Cisco&rsquo;s <span>Barbershop</span></a>
+    <nav class="links" aria-label="Main navigation">
+      <a href="#services">Services</a><a href="#crew">Crew</a><a href="#visit">Visit</a>
     </nav>
+    <div class="header-actions">
     <button class="theme" type="button" aria-pressed="false" aria-label="Dark mode">
       <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/></svg>
       <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></g></svg>
     </button>
-    <a class="btn sm" data-book href="tel:+18127991858">Book a cut</a>
+      <a class="btn header-book" href="tel:+18127991858">Call to book</a>
+    </div>
   </div>
 </header>
 
-<main id="top">
-  <section class="hero">
-    <div class="wrap">
-      <div>
-        <h1><span class="welcome">Welcome, my friend, to</span> <span class="leaf">Cisco&rsquo;s</span></h1>
-        <p class="tagline">Elevating, Fostering Culture, &amp; Exceeding Expectations.</p>
-        <p class="lede">Known for everyday walk ins and appointments, on Central Avenue in Columbus, Indiana.</p>
-        <p class="status" id="status" role="status" hidden><span class="dot" aria-hidden="true"></span><span id="status-text"></span></p>
+<main id="main" tabindex="-1">
+  <section class="hero" aria-labelledby="shop-name">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="stripes" aria-hidden="true"></span> Columbus, Indiana</p>
+        <h1 id="shop-name">Cisco&rsquo;s <span>Barbershop</span></h1>
+        <p class="welcome">Welcome, my friend.</p>
+        <p class="lede">Come in for a cut, a beard trim or a hot towel shave. Walk in or call to book a chair.</p>
         <div class="cta">
-          <a class="btn" data-book href="tel:+18127991858"><svg aria-hidden="true"><use href="#i-phone"/></svg>Book a cut</a>
-          <a class="btn quiet" href="https://www.google.com/maps/dir/?api=1&amp;destination=1719+Central+Ave+Columbus+IN+47201" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pin"/></svg>Directions</a>
+          <a class="btn" href="tel:+18127991858"><svg aria-hidden="true"><use href="#i-phone"/></svg>Call to book</a>
+          <a class="btn quiet" href="https://www.google.com/maps/dir/?api=1&amp;destination=1719+Central+Ave+Columbus+IN+47201" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pin"/></svg>Get directions</a>
         </div>
+        <a class="location" href="#visit">1719 Central Ave <span aria-hidden="true">↗</span></a>
+        <p class="status" id="status" role="status" hidden><span class="dot" aria-hidden="true"></span><span id="status-text"></span></p>
       </div>
-      <div class="arch-wrap">
-        <div class="arch">
-          <div class="empty"><div><svg aria-hidden="true"><use href="#i-cam"/></svg><b>Cisco&rsquo;s photo</b>Goes here once he sends one. <span class="tag">placeholder</span></div></div>
-          <img src="img/cisco.webp" alt="Francisco Jimenez, owner of Cisco's Barbershop" width="800" height="1000" fetchpriority="high" onerror="this.remove()">
-        </div>
-      </div>
+      <figure class="hero-photo">
+        <img src="img/barbering.webp" alt="Illustration of a barber finishing a fade with clippers" width="900" height="1125" fetchpriority="high">
+        <figcaption>Barbering illustration</figcaption>
+      </figure>
     </div>
   </section>
 
   <section class="band" id="services">
     <div class="wrap">
-      <h2>Come in your way</h2>
-      <p class="intro">Book a time with your barber, or just walk in.</p>
+      <div class="section-head"><h2>Services &amp; prices</h2><p>Haircuts, beard work, shaves and styling.</p></div>
       <div class="ways">
-        <div><h3>Appointments</h3><p>Call the shop to set a time, or book your barber on Booksy.</p></div>
-        <div><h3>Everyday walk ins</h3><p>No booking needed. Come by any day the shop is open.</p></div>
-        <div><h3>Private event makeup &amp; hairstyle</h3><p>Makeup and hair for your event. Call the shop to set it up.</p></div>
+        <div><h3>Walk in</h3><p>Stop by during shop hours.</p><a href="#visit">See hours <span aria-hidden="true">↗</span></a></div>
+        <div><h3>Book a chair</h3><p>Call the shop to set a time.</p><a href="tel:+18127991858">(812) 799-1858</a></div>
+        <div><h3>Private events</h3><p>Call to ask about event hair and makeup.</p><a href="tel:+18127991858">Call about an event <span aria-hidden="true">↗</span></a></div>
       </div>
 
       <div class="board">
@@ -378,67 +296,62 @@
           <div>
             <h3>Cuts</h3>
             <ul>
-              <li><span class="svc">Haircut<small>40 min</small></span><span class="lead"></span><span class="price">$35</span></li>
-              <li><span class="svc">Haircut and beard<small>50 min</small></span><span class="lead"></span><span class="price">$45</span></li>
-              <li><span class="svc">Haircut and eyebrows<small>40 min</small></span><span class="lead"></span><span class="price">$40</span></li>
-              <li><span class="svc">Haircut, beard trim and eyebrows<small>50 min</small></span><span class="lead"></span><span class="price">$45</span></li>
-              <li><span class="svc">Haircut, hot towel shave and eyebrows<small>50 min</small></span><span class="lead"></span><span class="price">$50</span></li>
+              <li><span class="svc">Haircut<small>40 min</small></span><span class="price">$35</span></li>
+              <li><span class="svc">Haircut and beard<small>50 min</small></span><span class="price">$45</span></li>
+              <li><span class="svc">Haircut and eyebrows<small>40 min</small></span><span class="price">$40</span></li>
+              <li><span class="svc">Haircut, beard trim and eyebrows<small>50 min</small></span><span class="price">$45</span></li>
+              <li><span class="svc">Haircut, hot towel shave and eyebrows<small>50 min</small></span><span class="price">$50</span></li>
             </ul>
             <h3>Kids</h3>
             <ul>
-              <li><span class="svc">Kids cut, 10 and under<small>40 min</small></span><span class="lead"></span><span class="price">$30</span></li>
-              <li><span class="svc">Kids skin fade<small>40 min</small></span><span class="lead"></span><span class="price">$35</span></li>
+              <li><span class="svc">Kids cut, 10 and under<small>40 min</small></span><span class="price">$30+</span></li>
+              <li><span class="svc">Kids skin fade<small>40 min</small></span><span class="price">$35</span></li>
             </ul>
           </div>
           <div>
             <h3>Shave &amp; beard</h3>
             <ul>
-              <li><span class="svc">Hot towel shave<small>30 min</small></span><span class="lead"></span><span class="price">$30</span></li>
-              <li><span class="svc">Shave<small>30 min</small></span><span class="lead"></span><span class="price">$30</span></li>
-              <li><span class="svc">Beard trim<small>30 min</small></span><span class="lead"></span><span class="price">$30</span></li>
-              <li><span class="svc">Line up<small>30 min</small></span><span class="lead"></span><span class="price">$30</span></li>
+              <li><span class="svc">Hot towel shave<small>30 min</small></span><span class="price">$30</span></li>
+              <li><span class="svc">Shave<small>30 min</small></span><span class="price">$30</span></li>
+              <li><span class="svc">Beard trim<small>30 min</small></span><span class="price">$30</span></li>
+              <li><span class="svc">Line up<small>30 min</small></span><span class="price">$30</span></li>
             </ul>
             <h3>Women&rsquo;s &amp; beauty</h3>
             <ul>
-              <li><span class="svc">Women&rsquo;s haircut</span><span class="lead"></span><span class="price">$35</span></li>
-              <li><span class="svc">Wash and style</span><span class="lead"></span><span class="price">$45</span></li>
-              <li><span class="svc">Perm</span><span class="lead"></span><span class="price ask">Ask for price</span></li>
-              <li><span class="svc">Makeup</span><span class="lead"></span><span class="price ask">Ask for price</span></li>
-              <li><span class="svc">Brow lamination</span><span class="lead"></span><span class="price ask">Ask for price</span></li>
+              <li><span class="svc">Women&rsquo;s haircut</span><span class="price">$35</span></li>
+              <li><span class="svc">Wash and style</span><span class="price">$45</span></li>
+              <li><span class="svc">Perm</span><span class="price ask">Ask for price</span></li>
+              <li><span class="svc">Makeup</span><span class="price ask">Ask for price</span></li>
+              <li><span class="svc">Brow lamination</span><span class="price ask">Ask for price</span></li>
             </ul>
           </div>
         </div>
-        <div class="board-foot">
-          <p>Barber prices from Cisco&rsquo;s Booksy page. <span class="tag">please confirm</span> Cisco, your website still shows older prices (haircut $30), and the women&rsquo;s and beauty list is only on the website.</p>
-          <a class="btn quiet sm" data-book href="tel:+18127991858">Book a cut</a>
-        </div>
+        <p class="board-foot">Call the shop to confirm current prices.</p>
       </div>
     </div>
   </section>
 
   <section id="crew">
     <div class="wrap">
-      <h2>Meet our crew, your future friend &amp; barber</h2>
-      <p class="intro"><span class="tag">please confirm</span> Cisco, this is the crew on your current website. Jose&rsquo;s, Dariel&rsquo;s and Demetreus&rsquo;s Booksy pages now list other shops, so their cards have no booking link. Tell us who&rsquo;s in the chairs and we&rsquo;ll match it.</p>
+      <div class="section-head"><h2>Meet the crew</h2><p>Find your barber and take a look at their work.</p></div>
       <ul class="roster">
-        <li><p class="name">Francisco Jimenez</p><p class="role">Owner</p><p class="acts"><a href="tel:+18127991858">Call to book</a><a href="https://www.ciscos.site/blank-page" target="_blank" rel="noopener">Portfolio</a></p></li>
-        <li><p class="name">Enrique Jimenez</p><p class="role"></p><p class="acts"><a href="tel:+18127991858">Call to book</a><a href="https://www.ciscos.site/blank-page-copy" target="_blank" rel="noopener">Portfolio</a></p></li>
-        <li><p class="name">Marisela Jimenez</p><p class="role"></p><p class="acts"><a href="https://mariselajimenez2988.booksy.com/" target="_blank" rel="noopener">Book</a><a href="https://www.ciscos.site/enrique-copy" target="_blank" rel="noopener">Portfolio</a></p></li>
-        <li><p class="name">Klenny</p><p class="role"></p><p class="acts"><a href="https://booksy.com/en-us/895570_klennycuts_barber-shop_19373_columbus" target="_blank" rel="noopener">Book</a><a href="https://www.ciscos.site/klenny-copy" target="_blank" rel="noopener">Portfolio</a></p></li>
-        <li><p class="name">Daniel</p><p class="role"></p><p class="acts"><a href="https://shantybarber.booksy.com/a/" target="_blank" rel="noopener">Book</a><a href="https://www.ciscos.site/copy-of-klenny-s-portfolio" target="_blank" rel="noopener">Portfolio</a></p></li>
-        <li><p class="name">Dariel</p><p class="role"><span class="tag">please confirm</span></p><p class="acts"><a href="https://www.ciscos.site/copy-of-demetreus-portfolio" target="_blank" rel="noopener">Portfolio</a></p></li>
-        <li><p class="name">Jose</p><p class="role"><span class="tag">please confirm</span></p><p class="acts"><a href="https://www.ciscos.site/copy-of-base" target="_blank" rel="noopener">Portfolio</a></p></li>
-        <li><p class="name">Demetreus Weiler</p><p class="role"><span class="tag">please confirm</span></p><p class="acts"><a href="https://www.ciscos.site/marisela-s-portfolio-copy" target="_blank" rel="noopener">Portfolio</a></p></li>
-        <li><p class="name">Pedro Hernandez</p><p class="role"></p><p class="acts"><a href="tel:+18127991858">Call the shop</a></p></li>
-        <li><p class="name">Eva</p><p class="role"></p><p class="acts"><a href="https://booksy.com/en-us/1890131_eva_hair-salon_19373_columbus" target="_blank" rel="noopener">Book</a></p></li>
+        <li><p class="name">Francisco Jimenez</p><p class="role">Owner</p><p class="acts"><a href="tel:+18127991858">Call to book</a><a href="https://www.ciscos.site/blank-page" target="_blank" rel="noopener">View work</a></p></li>
+        <li><p class="name">Enrique Jimenez</p><p class="acts"><a href="tel:+18127991858">Call to book</a><a href="https://www.ciscos.site/blank-page-copy" target="_blank" rel="noopener">View work</a></p></li>
+        <li><p class="name">Marisela Jimenez</p><p class="acts"><a href="https://mariselajimenez2988.booksy.com/" target="_blank" rel="noopener">Book online</a><a href="https://www.ciscos.site/enrique-copy" target="_blank" rel="noopener">View work</a></p></li>
+        <li><p class="name">Klenny</p><p class="acts"><a href="https://booksy.com/en-us/895570_klennycuts_barber-shop_19373_columbus" target="_blank" rel="noopener">Book online</a><a href="https://www.ciscos.site/klenny-copy" target="_blank" rel="noopener">View work</a></p></li>
+        <li><p class="name">Daniel</p><p class="acts"><a href="https://shantybarber.booksy.com/a/" target="_blank" rel="noopener">Book online</a><a href="https://www.ciscos.site/copy-of-klenny-s-portfolio" target="_blank" rel="noopener">View work</a></p></li>
+        <li><p class="name">Dariel</p><p class="acts"><a href="https://www.ciscos.site/copy-of-demetreus-portfolio" target="_blank" rel="noopener">View work</a></p></li>
+        <li><p class="name">Jose</p><p class="acts"><a href="https://www.ciscos.site/copy-of-base" target="_blank" rel="noopener">View work</a></p></li>
+        <li><p class="name">Demetreus Weiler</p><p class="acts"><a href="https://www.ciscos.site/marisela-s-portfolio-copy" target="_blank" rel="noopener">View work</a></p></li>
+        <li><p class="name">Pedro Hernandez</p><p class="acts"><a href="tel:+18127991858">Call the shop</a></p></li>
+        <li><p class="name">Eva</p><p class="acts"><a href="https://booksy.com/en-us/1890131_eva_hair-salon_19373_columbus" target="_blank" rel="noopener">Book online</a></p></li>
       </ul>
     </div>
   </section>
 
   <section class="band" id="visit">
     <div class="wrap">
-      <h2>Find the shop</h2>
-      <p class="intro">Walk in or call ahead. Today&rsquo;s hours are highlighted.</p>
+      <div class="section-head"><h2>Find the shop</h2><p>Walk in or call ahead.</p></div>
       <div class="visit">
         <div class="panel">
           <p class="addr">1719 Central Ave</p>
@@ -448,7 +361,7 @@
             <li><a href="mailto:franciscojimenezdedios@gmail.com">franciscojimenezdedios@gmail.com</a></li>
             <li>Pay with cash, Cash App, Venmo or PayPal.</li>
           </ul>
-          <h3>Hours <span class="tag">please confirm</span></h3>
+          <h3>Hours</h3>
           <table class="hours" id="hours">
             <caption class="sr">Opening hours, Columbus time</caption>
             <tr data-day="1"><th scope="row">Monday</th><td>9 AM to 8 PM</td></tr>
@@ -459,60 +372,47 @@
             <tr data-day="6"><th scope="row">Saturday</th><td>9 AM to 4 PM</td></tr>
             <tr data-day="0"><th scope="row">Sunday</th><td>Closed</td></tr>
           </table>
-          <p class="note" style="margin:10px 0 0">Hours from your website. Google lists weekdays until 7 PM.</p>
+          <p class="note">Hours are from Cisco&rsquo;s website. Call ahead to confirm.</p>
           <div class="cta">
-            <a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=1719+Central+Ave+Columbus+IN+47201" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pin"/></svg>Directions</a>
-            <a class="btn quiet" data-book href="tel:+18127991858">Book a cut</a>
+            <a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=1719+Central+Ave+Columbus+IN+47201" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pin"/></svg>Get directions</a>
+            <a class="btn quiet" href="tel:+18127991858">Call to book</a>
           </div>
         </div>
         <div class="map">
+          <div class="map-title">1719 Central Ave <span>Columbus, Indiana</span></div>
           <iframe title="Map of 1719 Central Ave, Columbus, Indiana" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=-85.9098%2C39.2134%2C-85.8978%2C39.2194&amp;layer=mapnik&amp;marker=39.21641%2C-85.90384"></iframe>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="news" id="news">
-    <div class="wrap">
-      <div>
-        <h2>Get Cisco&rsquo;s news</h2>
-        <p>Sign up for email from the shop.</p>
-      </div>
-      <form id="news-form" novalidate>
-        <label for="news-email">Your email</label>
-        <input id="news-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required aria-describedby="news-msg">
-        <button class="btn" type="submit">Sign up</button>
-        <p class="msg" id="news-msg" aria-live="polite"></p>
-      </form>
-    </div>
-  </section>
+  <aside class="review wrap" aria-label="Owner review notes">
+    <details>
+      <summary>Notes for Cisco</summary>
+      <ul>
+        <li>Confirm current prices and weekday closing time.</li>
+        <li>Confirm Dariel, Jose and Demetreus are still on the crew. Their booking profiles list other addresses.</li>
+        <li>Confirm the shop address on Booksy before enabling Cisco&rsquo;s online booking.</li>
+        <li>Replace the illustrative photo with a shop photo approved for the standalone site.</li>
+      </ul>
+    </details>
+  </aside>
 </main>
 
 <footer>
-  <div class="wrap">
-    <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap">
-      <span class="mark" aria-hidden="true">Cisco&rsquo;s</span>
-      <p>1719 Central Ave, Columbus, IN 47201<br><a href="tel:+18127991858">(812) 799-1858</a></p>
-    </div>
-    <p style="max-width:420px">Also listed on <a href="https://heartofcolumbus.shop/b/ciscos-barber-shop/">Heart of Columbus</a>, the guide to local businesses in Columbus, Indiana.</p>
+  <div class="wrap footer-inner">
+    <div><a class="mark" href="#top">Cisco&rsquo;s <span>Barbershop</span></a><p>1719 Central Ave, Columbus, IN 47201</p></div>
+    <div><a href="tel:+18127991858">(812) 799-1858</a><br><a href="https://heartofcolumbus.shop/b/ciscos-barber-shop/">Heart of Columbus listing</a></div>
   </div>
 </footer>
 
-<a class="btn sticky-book" data-book href="tel:+18127991858"><svg aria-hidden="true"><use href="#i-phone"/></svg>Book a cut</a>
+<div class="mobile-actions">
+  <a class="btn" href="tel:+18127991858"><svg aria-hidden="true"><use href="#i-phone"/></svg>Call to book</a>
+  <a class="btn quiet" href="https://www.google.com/maps/dir/?api=1&amp;destination=1719+Central+Ave+Columbus+IN+47201"><svg aria-hidden="true"><use href="#i-pin"/></svg>Directions</a>
+</div>
 
 <script>
 (() => {
-  // Booking: every "Book a cut" button goes here. Paste a new link to move them all.
-  // Calls the shop for now. His Booksy page (below) still lists 1521 17th St, which is
-  // another shop; once Cisco fixes the address there, use it instead:
-  // https://booksy.com/en-us/256160_ciscos-barbershop_barber-shop_19373_columbus
-  const BOOK_URL = 'tel:+18127991858';
-  for (const a of document.querySelectorAll('[data-book]')) {
-    a.href = BOOK_URL;
-    if (BOOK_URL.startsWith('tel:')) { a.removeAttribute('target'); a.removeAttribute('rel'); }
-    else { a.target = '_blank'; a.rel = 'noopener'; }
-  }
-
   // Hours in Columbus time: day (0 is Sunday) to [opens, closes], minutes after midnight.
   // Keep in step with the hours table above.
   const TZ = 'America/Indiana/Indianapolis';
@@ -584,20 +484,6 @@
   media.addEventListener('change', show);
   show();
 
-  // Newsletter: checks the address only. Nothing is sent until a list service is connected.
-  const form = document.getElementById('news-form');
-  const input = document.getElementById('news-email');
-  const msg = document.getElementById('news-msg');
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const ok = input.value.trim() !== '' && input.checkValidity();
-    input.setAttribute('aria-invalid', String(!ok));
-    msg.classList.toggle('bad', !ok);
-    msg.textContent = ok
-      ? 'That address works. This draft isn’t connected to a mailing list yet, so nothing was sent.'
-      : 'Enter an email address like name@example.com.';
-    if (!ok) input.focus();
-  });
 })();
 </script>
 </body>
