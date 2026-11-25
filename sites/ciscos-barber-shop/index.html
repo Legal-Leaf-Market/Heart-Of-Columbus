@@ -246,6 +246,8 @@ footer a:hover { color: #ffb49a; }
   .links a { font-size: .81rem; }
 }
 </style>
+<link rel="stylesheet" href="motion/atmosphere.css">
+<script src="motion/atmosphere.js" type="module"></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -274,6 +276,16 @@ footer a:hover { color: #ffb49a; }
 
 <main id="main" tabindex="-1">
   <section class="hero" aria-labelledby="shop-name">
+    <div class="hero-atmosphere" aria-hidden="true">
+      <div class="hero-props">
+        <img class="prop prop-shears" src="img/floating-shears.webp" width="280" height="280" alt="">
+        <img class="prop prop-pole" src="img/floating-pole.webp" width="280" height="280" alt="">
+        <img class="prop prop-clipper" src="img/floating-clipper.webp" width="280" height="280" alt="">
+        <img class="prop prop-razor" src="img/floating-razor.webp" width="280" height="280" alt="">
+      </div>
+      <div class="hero-glints"></div>
+      <div class="hero-haze"></div>
+    </div>
     <div class="wrap hero-grid">
       <div class="hero-copy">
         <p class="eyebrow"><span class="stripes" aria-hidden="true"></span> Columbus, Indiana</p>
@@ -291,9 +303,10 @@ footer a:hover { color: #ffb49a; }
         <img src="img/cisco-at-work.webp" alt="A barber shaping a client’s beard at Cisco’s Barbershop" width="850" height="1000" fetchpriority="high">
       </figure>
     </div>
+    <button class="motion-control" type="button" hidden>Pause effects</button>
   </section>
 
-  <section class="band" id="services">
+  <section class="band service-menu" id="services">
     <div class="wrap">
       <div class="section-head"><h2>Services &amp; prices</h2><p>Haircuts, beard work, shaves and styling.</p></div>
       <div class="ways">
