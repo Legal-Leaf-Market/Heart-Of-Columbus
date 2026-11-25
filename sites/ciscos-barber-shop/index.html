@@ -1,0 +1,515 @@
+<!doctype html>
+<!--
+  Cisco's Barbershop, Columbus, Indiana. Draft website, built by Heart of Columbus
+  for Cisco to review. Nothing here is live until he approves it.
+
+  Facts and where they came from (checked 2026-11-25):
+  - Name, tagline "Elevating, Fostering Culture, & Exceeding Expectations.",
+    "Welcome My Friend to Cisco's!", "Known for everyday Walk-Ins & Appointments.",
+    the three services (Appointments, Everyday Walk-Ins, Private Event Make Up &
+    Hairstyle), phone (812) 799-1858, email franciscojimenezdedios@gmail.com,
+    address 1719 Central Ave and hours (Monday to Friday 9 AM to 8 PM, Saturday
+    9 AM to 4 PM, Sunday closed): his own website, https://www.ciscos.site/
+  - The crew, "MEET OUR CREW, YOUR FUTURE FRIEND & BARBER!", Francisco Jimenez
+    as Owner, and each barber's Booksy link: https://www.ciscos.site/our-barbers
+    On that page Dariel's links sit under a second "Klenny" heading; the menu
+    calls that portfolio Dariel's, so the card says Dariel.
+    Each barber's own phone number is on that page too. We left them off: the
+    shop number covers calls until Cisco says which to show.
+  - Portfolio pages: the menu on https://www.ciscos.site/ (eight portfolios;
+    Pedro and Eva have none).
+  - Barber prices and times: Cisco's own Booksy page, "Cisco's Barbershop",
+    staff Francisco Jimenez De Dios,
+    https://booksy.com/en-us/256160_ciscos-barbershop_barber-shop_19373_columbus
+    His website's Services page (https://www.ciscos.site/premium-services) still
+    shows older, lower prices (Mens Haircut $30), so the board follows Booksy and
+    is tagged "please confirm".
+  - Women's and beauty prices (Womens Haircut $35, Wash & style $45, Perm,
+    Makeup and Brow Lamination "Request Price"): his Services page. Booksy does
+    not list them.
+  - Payment (cash, Cash App, Venmo, PayPal): the about text on his Booksy page.
+  - ZIP 47201: the Booksy pages of Eva and Klennycuts at 1719 Central Ave. His
+    website writes 47203.
+
+  Address confirmed by Jake Kennedy on 2026-11-25: Cisco's is and always has
+  been at 1719 Central Ave. 1521 17th St is TJ's ChopShop. Cisco's Booksy page
+  (above) wrongly lists 1521 17th St, so booking calls the shop until it is
+  fixed; an older Booksy listing, "Cisco's Barber & Tattoo", showed 1719 Central
+  Avenue with the same prices.
+
+  Open questions for Cisco, all tagged on the page:
+  - Booksy address, as above. Jose's and Dariel's Booksy pages also list
+    1521 17th St, so their cards have no booking link.
+  - Hours. Google lists weekdays until 7 PM; his website says 8 PM.
+  - Crew. Demetreus Weiler's Booksy page lists 3335 Marilyn St, so his card has
+    no booking link either.
+  - His Wix site also has a "Tattoo Booking" page (tattoo session, consultation)
+    that is not in its menu. Left out until he says whether it is current.
+
+  Hero photo from the homepage of https://www.ciscos.site/ for owner review.
+  The main booking buttons use the confirmed shop phone number.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cisco's Barbershop | Columbus, Indiana</title>
+<meta name="description" content="Cisco's Barbershop in Columbus, Indiana. Everyday walk ins and appointments, cuts, shaves, beard work and private event makeup and hair.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#f4ede0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#20211c" media="(prefers-color-scheme: dark)">
+<meta property="og:title" content="Cisco's Barbershop | Columbus, Indiana">
+<meta property="og:description" content="Elevating, fostering culture, and exceeding expectations. Walk ins and appointments every day the shop is open.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23282923'/%3E%3CclipPath id='c'%3E%3Crect x='22' y='8' width='20' height='48' rx='10'/%3E%3C/clipPath%3E%3Cg clip-path='url(%23c)'%3E%3Crect x='22' y='8' width='20' height='48' fill='%23fff'/%3E%3Cpath d='M10 20l44-14v8L10 28zM10 38l44-14v8L10 46zM10 56l44-14v8L10 64z' fill='%2391352C'/%3E%3C/g%3E%3Crect x='19' y='5' width='26' height='6' rx='3' fill='%23F2E4CD'/%3E%3Crect x='19' y='53' width='26' height='6' rx='3' fill='%23F2E4CD'/%3E%3C/svg%3E">
+<script>
+  // Remembered theme, set before paint so the page never flashes the wrong one.
+  try { var t = localStorage.getItem('ciscos-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+<style>
+@font-face {
+  font-family: 'Barlow Condensed';
+  src: url('brand/barlow-condensed-latin-700-normal.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  src: url('brand/barlow-condensed-latin-800-normal.woff2') format('woff2');
+  font-weight: 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'DM Sans';
+  src: url('brand/dm-sans-latin-wght-normal.woff2') format('woff2');
+  font-weight: 100 1000;
+  font-display: swap;
+}
+:root {
+  color-scheme: light;
+  --paper: #f4ede0;
+  --card: #fbf6ec;
+  --ink: #25241e;
+  --muted: #605b4f;
+  --line: #d2c6b3;
+  --accent: #8a3029;
+  --accent-text: #fff6e7;
+  --board: #822e27;
+  --chalk: #fff3dc;
+  --board-line: #bc7468;
+  --open: #446442;
+  --display: 'Barlow Condensed', Impact, 'Arial Narrow', sans-serif;
+  --body: 'DM Sans', system-ui, sans-serif;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #21221c;
+  --card: #2b2b24;
+  --ink: #f4ebda;
+  --muted: #c8bdab;
+  --line: #5e574a;
+  --accent: #f1aa93;
+  --accent-text: #311e18;
+  --board: #642b25;
+  --board-line: #a5685d;
+  --open: #abc59e;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --paper: #21221c;
+    --card: #2b2b24;
+    --ink: #f4ebda;
+    --muted: #c8bdab;
+    --line: #5e574a;
+    --accent: #f1aa93;
+    --accent-text: #311e18;
+    --board: #642b25;
+    --board-line: #a5685d;
+    --open: #abc59e;
+  }
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-padding-top: 24px; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 1rem/1.55 var(--body); }
+h1, h2, h3, p, figure { margin: 0; }
+a { color: inherit; text-underline-offset: .22em; }
+a:hover { color: var(--accent); }
+button { font: inherit; }
+:focus-visible { outline: 3px solid currentColor; outline-offset: 4px; }
+.wrap { width: min(1180px, calc(100% - 2 * clamp(20px, 5vw, 76px))); margin-inline: auto; }
+.skip { position: fixed; top: 8px; left: 8px; z-index: 5; padding: 12px; background: var(--card); transform: translateY(-150%); }
+.skip:focus { transform: none; }
+.sr { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.draft { background: #282923; color: #efe4d0; padding: 6px 12px; font-size: .73rem; text-align: center; }
+.top { border-bottom: 1px solid var(--line); }
+.header-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 76px; }
+.mark { display: inline-block; font: 800 1.8rem/.8 var(--display); text-transform: uppercase; text-decoration: none; }
+.mark span { display: block; margin-top: 7px; font: 700 .59rem/1 var(--body); letter-spacing: .19em; }
+.links, .header-actions, .cta { display: flex; align-items: center; gap: clamp(13px, 2.8vw, 38px); }
+.links a { display: inline-flex; align-items: center; min-height: 44px; font-size: .91rem; font-weight: 700; text-decoration: none; }
+.header-actions, .cta { gap: 10px; }
+.btn, .theme { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; border: 1px solid transparent; }
+.btn { gap: 8px; padding: 10px 17px; background: var(--accent); color: var(--accent-text); font-size: .88rem; font-weight: 700; text-decoration: none; }
+.btn:hover { color: var(--accent-text); filter: brightness(.92); }
+.btn.quiet, .theme { border-color: var(--line); background: transparent; color: var(--ink); }
+.btn.quiet:hover, .theme:hover { border-color: var(--accent); color: var(--accent); }
+.btn svg, .theme svg { flex: none; width: 18px; height: 18px; }
+.theme { width: 46px; cursor: pointer; }
+.theme .sun, [data-mode="dark"] .theme .moon { display: none; }
+[data-mode="dark"] .theme .sun { display: block; }
+.hero { padding-block: clamp(32px, 5vw, 76px); }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1.03fr) minmax(0, 1fr); gap: clamp(22px, 5vw, 76px); align-items: center; }
+.eyebrow { display: flex; gap: 10px; align-items: center; font-size: .77rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+.stripes { width: 37px; height: 13px; background: repeating-linear-gradient(125deg, #91352c 0 5px, #f2e4cd 5px 10px, #343b3a 10px 15px, #f2e4cd 15px 20px); border: 1px solid var(--line); }
+h1 { margin: 15px 0 24px; font: 800 clamp(4.5rem, 10.5vw, 9.25rem)/.75 var(--display); letter-spacing: -.025em; text-transform: uppercase; }
+h1 span { display: block; margin-top: .19em; color: var(--accent); font-size: .45em; letter-spacing: .015em; }
+.welcome { font: italic 700 clamp(1.5rem, 3vw, 2.2rem)/1.2 Georgia, serif; }
+.lede { max-width: 33ch; margin: 10px 0 22px; color: var(--muted); }
+.cta { flex-wrap: wrap; }
+.location { display: inline-block; margin-top: 15px; font-weight: 700; }
+.status { margin-top: 5px; color: var(--muted); font-size: .84rem; }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-right: 7px; }
+.is-open .dot { background: var(--open); }
+.hero-photo { position: relative; background: #463b31; }
+.hero-photo img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1.02; object-fit: cover; object-position: 50% 60%; }
+main section:not(.hero) { padding-block: clamp(42px, 6vw, 78px); border-top: 1px solid var(--line); }
+.band { background: var(--card); }
+.section-head { display: flex; gap: 8px 24px; flex-wrap: wrap; align-items: baseline; margin-bottom: 24px; }
+h2 { font: 800 clamp(2.7rem, 6vw, 5rem)/.92 var(--display); text-transform: uppercase; }
+.section-head p { color: var(--muted); }
+h3 { font: 700 1.8rem/1 var(--display); }
+.ways { display: grid; grid-template-columns: repeat(3, 1fr); margin-bottom: 24px; border-block: 1px solid var(--line); }
+.ways > div { padding: 19px clamp(14px, 3vw, 30px); }
+.ways > div:first-child { padding-left: 0; }
+.ways > div + div { border-left: 1px solid var(--line); }
+.ways p { margin-block: 5px; color: var(--muted); }
+.ways a, .acts a { font-size: .89rem; font-weight: 700; }
+.board { padding: clamp(20px, 4vw, 48px); background: var(--board); color: var(--chalk); }
+.board-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 5vw, 70px); }
+.board h3 { text-transform: uppercase; }
+.board ul, .roster, .lines { margin: 0; padding: 0; list-style: none; }
+.board ul { margin: 9px 0 24px; }
+.board li { display: flex; align-items: baseline; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--board-line); }
+.svc { line-height: 1.35; }
+.svc small { display: block; margin-top: 2px; color: #f4d0b9; }
+.price { margin-left: auto; flex: none; font-weight: 700; }
+.ask { font-size: .82rem; }
+.board-foot { font-size: .86rem; color: #f4d0b9; }
+.roster { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.roster li { display: flex; flex-direction: column; gap: 5px; padding: 16px; border-bottom: 1px solid var(--line); }
+.name { font: 700 1.65rem/1.04 var(--display); }
+.role { color: var(--muted); font-size: .86rem; }
+.acts { display: flex; flex-wrap: wrap; gap: 8px 15px; margin-top: auto; }
+.acts a { display: inline-flex; align-items: center; min-height: 34px; color: var(--accent); }
+.visit { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+.panel { border: 1px solid var(--line); padding: clamp(18px, 4vw, 32px); }
+.addr { font: 800 2.4rem/1 var(--display); }
+.city, .note { color: var(--muted); }
+.lines { margin-block: 11px 20px; overflow-wrap: anywhere; }
+.hours { width: 100%; border-collapse: collapse; margin-top: 9px; font-size: .92rem; }
+.hours th, .hours td { padding: 5px 8px; border-bottom: 1px solid var(--line); text-align: left; }
+.hours td { text-align: right; }
+.hours .today { background: var(--paper); color: var(--accent); font-weight: 700; }
+.note { margin-top: 10px; font-size: .83rem; }
+.panel .cta { margin-top: 15px; }
+.map { display: flex; flex-direction: column; min-height: 320px; border: 1px solid var(--line); }
+.map-title { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 3px 12px; padding: 12px; font-weight: 700; }
+.map-title span { font-weight: 400; color: var(--muted); }
+.map iframe { flex: 1; width: 100%; min-height: 275px; border: 0; }
+.review { padding-block: 16px; color: var(--muted); font-size: .86rem; }
+.review summary { cursor: pointer; font-weight: 700; }
+footer { background: #282923; color: #efe4d0; padding-block: 28px; }
+footer a:hover { color: #ffb49a; }
+.footer-inner { display: flex; justify-content: space-between; gap: 15px; flex-wrap: wrap; }
+.footer-inner p { margin-top: 9px; }
+.mobile-actions { display: none; }
+@media (max-width: 740px) {
+  .header-inner { gap: 10px; min-height: 64px; }
+  .header-book { display: none; }
+  .hero-grid, .visit { grid-template-columns: minmax(0, 1fr); }
+  .hero-grid { gap: 22px; }
+  h1 { font-size: clamp(4rem, 19vw, 8.2rem); }
+  .hero-photo img { aspect-ratio: 1.23; }
+  .board-cols { gap: 0; grid-template-columns: 1fr; }
+  .roster { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ways { grid-template-columns: 1fr; }
+  .ways > div { padding-inline: 0; }
+  .ways > div + div { border-left: 0; border-top: 1px solid var(--line); }
+  body { padding-bottom: calc(67px + env(safe-area-inset-bottom)); }
+  .mobile-actions { position: fixed; inset: auto 0 0; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 8px 12px calc(8px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); background: var(--paper); }
+}
+@media (max-width: 365px) {
+  .mark { font-size: 1.5rem; }
+  .mark span { font-size: .5rem; }
+  .links { gap: 10px; }
+  .links a { font-size: .81rem; }
+}
+</style>
+<link rel="stylesheet" href="motion/room.css">
+<link rel="stylesheet" href="motion/atmosphere.css">
+<script src="motion/atmosphere.js" type="module"></script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M5 3.5h3.2l1.6 4.4-2.2 1.5a11 11 0 0 0 7 7l1.5-2.2 4.4 1.6V19a1.8 1.8 0 0 1-2 1.8A16.5 16.5 0 0 1 3.2 5.5 1.8 1.8 0 0 1 5 3.5Z"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 21s-7-6.4-7-12a7 7 0 0 1 14 0c0 5.6-7 12-7 12Z"/><circle cx="12" cy="9" r="2.5"/></g></symbol>
+  </defs>
+</svg>
+<a class="skip" href="#main">Skip to content</a>
+<div class="draft">Draft website for Cisco to review</div>
+<header class="top" id="top">
+  <div class="wrap header-inner">
+    <a class="mark" href="#top">Cisco&rsquo;s <span>Barbershop</span></a>
+    <nav class="links" aria-label="Main navigation">
+      <a href="#services">Services</a><a href="#crew">Crew</a><a href="#visit">Visit</a>
+    </nav>
+    <div class="header-actions">
+    <button class="theme" type="button" aria-pressed="false" aria-label="Dark mode">
+      <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/></svg>
+      <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></g></svg>
+    </button>
+      <a class="btn header-book" href="tel:+18127991858">Call to book</a>
+    </div>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+  <section class="hero" data-cisco-room aria-labelledby="shop-name">
+    <div class="hero-atmosphere" aria-hidden="true">
+      <div class="hero-props">
+        <img class="prop prop-shears" src="img/floating-shears.webp" width="280" height="280" alt="">
+        <img class="prop prop-pole" src="img/floating-pole.webp" width="280" height="280" alt="">
+        <img class="prop prop-clipper" src="img/floating-clipper.webp" width="280" height="280" alt="">
+        <img class="prop prop-razor" src="img/floating-razor.webp" width="280" height="280" alt="">
+      </div>
+      <div class="hero-glints"></div>
+      <div class="hero-haze"></div>
+    </div>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="stripes" aria-hidden="true"></span> Columbus, Indiana</p>
+        <h1 id="shop-name">Cisco&rsquo;s <span>Barbershop</span></h1>
+        <p class="welcome">Welcome, my friend.</p>
+        <p class="lede">Come in for a cut, a beard trim or a hot towel shave. Walk in or call to book a chair.</p>
+        <div class="cta">
+          <a class="btn" href="tel:+18127991858"><svg aria-hidden="true"><use href="#i-phone"/></svg>Call to book</a>
+          <a class="btn quiet" href="https://www.google.com/maps/dir/?api=1&amp;destination=1719+Central+Ave+Columbus+IN+47201" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pin"/></svg>Get directions</a>
+        </div>
+        <a class="location" href="#visit">1719 Central Ave</a>
+        <p class="status" id="status" role="status" hidden><span class="dot" aria-hidden="true"></span><span id="status-text"></span></p>
+      </div>
+      <figure class="hero-photo">
+        <img src="img/cisco-at-work.webp" alt="A barber shaping a client’s beard at Cisco’s Barbershop" width="850" height="1000" fetchpriority="high">
+      </figure>
+    </div>
+    <button class="motion-control" type="button" hidden>Pause effects</button>
+  </section>
+
+  <section class="band service-menu" id="services">
+    <div class="wrap">
+      <div class="section-head"><h2>Services &amp; prices</h2><p>Haircuts, beard work, shaves and styling.</p></div>
+      <div class="ways">
+        <div><h3>Walk in</h3><p>Stop by during shop hours.</p><a href="#visit">See hours</a></div>
+        <div><h3>Book a chair</h3><p>Call the shop to set a time.</p><a href="tel:+18127991858">(812) 799-1858</a></div>
+        <div><h3>Private events</h3><p>Call to ask about event hair and makeup.</p><a href="tel:+18127991858">Call about an event</a></div>
+      </div>
+
+      <div class="board">
+        <div class="board-cols">
+          <div>
+            <h3>Cuts</h3>
+            <ul>
+              <li><span class="svc">Haircut<small>40 min</small></span><span class="price">$35</span></li>
+              <li><span class="svc">Haircut and beard<small>50 min</small></span><span class="price">$45</span></li>
+              <li><span class="svc">Haircut and eyebrows<small>40 min</small></span><span class="price">$40</span></li>
+              <li><span class="svc">Haircut, beard trim and eyebrows<small>50 min</small></span><span class="price">$45</span></li>
+              <li><span class="svc">Haircut, hot towel shave and eyebrows<small>50 min</small></span><span class="price">$50</span></li>
+            </ul>
+            <h3>Kids</h3>
+            <ul>
+              <li><span class="svc">Kids cut, 10 and under<small>40 min</small></span><span class="price">$30+</span></li>
+              <li><span class="svc">Kids skin fade<small>40 min</small></span><span class="price">$35</span></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Shave &amp; beard</h3>
+            <ul>
+              <li><span class="svc">Hot towel shave<small>30 min</small></span><span class="price">$30</span></li>
+              <li><span class="svc">Shave<small>30 min</small></span><span class="price">$30</span></li>
+              <li><span class="svc">Beard trim<small>30 min</small></span><span class="price">$30</span></li>
+              <li><span class="svc">Line up<small>30 min</small></span><span class="price">$30</span></li>
+            </ul>
+            <h3>Women&rsquo;s &amp; beauty</h3>
+            <ul>
+              <li><span class="svc">Women&rsquo;s haircut</span><span class="price">$35</span></li>
+              <li><span class="svc">Wash and style</span><span class="price">$45</span></li>
+              <li><span class="svc">Perm</span><span class="price ask">Ask for price</span></li>
+              <li><span class="svc">Makeup</span><span class="price ask">Ask for price</span></li>
+              <li><span class="svc">Brow lamination</span><span class="price ask">Ask for price</span></li>
+            </ul>
+          </div>
+        </div>
+        <p class="board-foot">Call the shop to confirm current prices.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="crew">
+    <div class="wrap">
+      <div class="section-head"><h2>Meet the crew</h2><p>Find your barber and take a look at their work.</p></div>
+      <ul class="roster">
+        <li><p class="name">Francisco Jimenez</p><p class="role">Owner</p><p class="acts"><a href="tel:+18127991858">Call to book</a><a href="https://www.ciscos.site/blank-page" target="_blank" rel="noopener">View work</a></p></li>
+        <li><p class="name">Enrique Jimenez</p><p class="acts"><a href="tel:+18127991858">Call to book</a><a href="https://www.ciscos.site/blank-page-copy" target="_blank" rel="noopener">View work</a></p></li>
+        <li><p class="name">Marisela Jimenez</p><p class="acts"><a href="https://mariselajimenez2988.booksy.com/" target="_blank" rel="noopener">Book online</a><a href="https://www.ciscos.site/enrique-copy" target="_blank" rel="noopener">View work</a></p></li>
+        <li><p class="name">Klenny</p><p class="acts"><a href="https://booksy.com/en-us/895570_klennycuts_barber-shop_19373_columbus" target="_blank" rel="noopener">Book online</a><a href="https://www.ciscos.site/klenny-copy" target="_blank" rel="noopener">View work</a></p></li>
+        <li><p class="name">Daniel</p><p class="acts"><a href="https://shantybarber.booksy.com/a/" target="_blank" rel="noopener">Book online</a><a href="https://www.ciscos.site/copy-of-klenny-s-portfolio" target="_blank" rel="noopener">View work</a></p></li>
+        <li><p class="name">Dariel</p><p class="acts"><a href="https://www.ciscos.site/copy-of-demetreus-portfolio" target="_blank" rel="noopener">View work</a></p></li>
+        <li><p class="name">Jose</p><p class="acts"><a href="https://www.ciscos.site/copy-of-base" target="_blank" rel="noopener">View work</a></p></li>
+        <li><p class="name">Demetreus Weiler</p><p class="acts"><a href="https://www.ciscos.site/marisela-s-portfolio-copy" target="_blank" rel="noopener">View work</a></p></li>
+        <li><p class="name">Pedro Hernandez</p><p class="acts"><a href="tel:+18127991858">Call the shop</a></p></li>
+        <li><p class="name">Eva</p><p class="acts"><a href="https://booksy.com/en-us/1890131_eva_hair-salon_19373_columbus" target="_blank" rel="noopener">Book online</a></p></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band" id="visit">
+    <div class="wrap">
+      <div class="section-head"><h2>Find the shop</h2><p>Walk in or call ahead.</p></div>
+      <div class="visit">
+        <div class="panel">
+          <p class="addr">1719 Central Ave</p>
+          <p class="city">Columbus, IN 47201</p>
+          <ul class="lines">
+            <li><a href="tel:+18127991858">(812) 799-1858</a></li>
+            <li><a href="mailto:franciscojimenezdedios@gmail.com">franciscojimenezdedios@gmail.com</a></li>
+            <li>Pay with cash, Cash App, Venmo or PayPal.</li>
+          </ul>
+          <h3>Hours</h3>
+          <table class="hours" id="hours">
+            <caption class="sr">Opening hours, Columbus time</caption>
+            <tr data-day="1"><th scope="row">Monday</th><td>9 AM to 8 PM</td></tr>
+            <tr data-day="2"><th scope="row">Tuesday</th><td>9 AM to 8 PM</td></tr>
+            <tr data-day="3"><th scope="row">Wednesday</th><td>9 AM to 8 PM</td></tr>
+            <tr data-day="4"><th scope="row">Thursday</th><td>9 AM to 8 PM</td></tr>
+            <tr data-day="5"><th scope="row">Friday</th><td>9 AM to 8 PM</td></tr>
+            <tr data-day="6"><th scope="row">Saturday</th><td>9 AM to 4 PM</td></tr>
+            <tr data-day="0"><th scope="row">Sunday</th><td>Closed</td></tr>
+          </table>
+          <p class="note">Hours are from Cisco&rsquo;s website. Call ahead to confirm.</p>
+          <div class="cta">
+            <a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=1719+Central+Ave+Columbus+IN+47201" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pin"/></svg>Get directions</a>
+            <a class="btn quiet" href="tel:+18127991858">Call to book</a>
+          </div>
+        </div>
+        <div class="map">
+          <div class="map-title">1719 Central Ave <span>Columbus, Indiana</span></div>
+          <iframe title="Map of 1719 Central Ave, Columbus, Indiana" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=-85.9098%2C39.2134%2C-85.8978%2C39.2194&amp;layer=mapnik&amp;marker=39.21641%2C-85.90384"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <aside class="review wrap" aria-label="Owner review notes">
+    <details>
+      <summary>Notes for Cisco</summary>
+      <ul>
+        <li>Confirm current prices and weekday closing time.</li>
+        <li>Confirm Dariel, Jose and Demetreus are still on the crew. Their booking profiles list other addresses.</li>
+        <li>Confirm the shop address on Booksy before enabling Cisco&rsquo;s online booking.</li>
+        <li>Confirm the homepage photo for the standalone site.</li>
+      </ul>
+    </details>
+  </aside>
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div><a class="mark" href="#top">Cisco&rsquo;s <span>Barbershop</span></a><p>1719 Central Ave, Columbus, IN 47201</p></div>
+    <div><a href="tel:+18127991858">(812) 799-1858</a><br><a href="https://heartofcolumbus.shop/b/ciscos-barber-shop/">Heart of Columbus listing</a></div>
+  </div>
+</footer>
+
+<div class="mobile-actions">
+  <a class="btn" href="tel:+18127991858"><svg aria-hidden="true"><use href="#i-phone"/></svg>Call to book</a>
+  <a class="btn quiet" href="https://www.google.com/maps/dir/?api=1&amp;destination=1719+Central+Ave+Columbus+IN+47201"><svg aria-hidden="true"><use href="#i-pin"/></svg>Directions</a>
+</div>
+
+<script>
+(() => {
+  // Hours in Columbus time: day (0 is Sunday) to [opens, closes], minutes after midnight.
+  // Keep in step with the hours table above.
+  const TZ = 'America/Indiana/Indianapolis';
+  const HOURS = { 1: [540, 1200], 2: [540, 1200], 3: [540, 1200], 4: [540, 1200], 5: [540, 1200], 6: [540, 960] };
+  const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+  const clock = (m) => {
+    const h = Math.floor(m / 60) % 24, min = m % 60;
+    const h12 = h % 12 || 12, ap = h < 12 ? 'AM' : 'PM';
+    return min ? `${h12}:${String(min).padStart(2, '0')} ${ap}` : `${h12} ${ap}`;
+  };
+  const now = () => {
+    const parts = new Intl.DateTimeFormat('en-US', { timeZone: TZ, weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }).formatToParts(new Date());
+    const get = (t) => parts.find((p) => p.type === t).value;
+    return { day: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(get('weekday')), min: (Number(get('hour')) % 24) * 60 + Number(get('minute')) };
+  };
+  // Exposed so the state can be checked at any time of week: status({ day, min }).
+  const status = ({ day, min }) => {
+    const today = HOURS[day];
+    if (today && min >= today[0] && min < today[1]) {
+      const left = today[1] - min;
+      return { open: true, text: left <= 60 ? `<b>Open now</b>, closing soon at ${clock(today[1])}` : `<b>Open now</b> until ${clock(today[1])}` };
+    }
+    if (today && min < today[0]) return { open: false, text: `<b>Closed</b>, opens today at ${clock(today[0])}` };
+    for (let i = 1; i <= 7; i++) {
+      const d = (day + i) % 7;
+      if (HOURS[d]) return { open: false, text: `<b>Closed</b>, opens ${i === 1 ? 'tomorrow' : DAYS[d]} at ${clock(HOURS[d][0])}` };
+    }
+    return { open: false, text: '<b>Closed</b>' };
+  };
+  window.ciscosStatus = status;
+
+  const badge = document.getElementById('status');
+  const label = document.getElementById('status-text');
+  const rows = document.querySelectorAll('#hours tr[data-day]');
+  const paint = () => {
+    const t = now();
+    const s = status(t);
+    if (label.innerHTML !== s.text) label.innerHTML = s.text;
+    badge.classList.toggle('is-open', s.open);
+    badge.classList.toggle('is-closed', !s.open);
+    badge.hidden = false;
+    for (const r of rows) {
+      const on = Number(r.dataset.day) === t.day;
+      r.classList.toggle('today', on);
+      if (on) r.setAttribute('aria-current', 'date'); else r.removeAttribute('aria-current');
+    }
+  };
+  paint();
+  setInterval(paint, 30000);
+
+  // Light and dark: follows the device until someone picks, then remembers the pick.
+  const root = document.documentElement;
+  const btn = document.querySelector('.theme');
+  const media = matchMedia('(prefers-color-scheme: dark)');
+  const mode = () => root.dataset.theme || (media.matches ? 'dark' : 'light');
+  const show = () => {
+    const m = mode();
+    root.dataset.mode = m;
+    btn.setAttribute('aria-pressed', String(m === 'dark'));
+    btn.setAttribute('aria-label', m === 'dark' ? 'Light mode' : 'Dark mode');
+  };
+  btn.addEventListener('click', () => {
+    const next = mode() === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    try { localStorage.setItem('ciscos-theme', next); } catch (e) {}
+    show();
+  });
+  media.addEventListener('change', show);
+  show();
+
+})();
+</script>
+</body>
+</html>

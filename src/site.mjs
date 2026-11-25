@@ -34,6 +34,29 @@ export const sticker = (id, { size = 96, cls = '', alt = '', lazy = true } = {})
 export const catSticker = (slug, opts) => sticker(CAT_STICKER[slug] || 'storefront', opts);
 import { BUSINESS_ART_SHARDS } from './data/business-art.mjs';
 const ILLUSTRATED_BUSINESSES = new Set([
+  // Barbershops and independent barbers.
+  'bad-boys-barbershop',
+  'bob-condons-barber-shop',
+  'central-avenue-barber-stylist',
+  'ciscos-barber-shop',
+  'coachs-cutz',
+  'columbus-uppercuts',
+  'daniel-shanti-barber',
+  'ejblends',
+  'esquire-hair-design',
+  'gills-barber-shop',
+  'lhs-and-barbershop',
+  'nomad-barber-shop',
+  'ofelias-fades',
+  'really-the-barbers',
+  'saner-barbershop',
+  'studio-55',
+  'stylez-by-nette',
+  'tjs-chopshop',
+  'turners-barber-styling',
+  'tyler-thompson-barber',
+
+  // Tattoo & Piercing and Tech & IT.
   'advanced-business-computing',
   'advanced-computer-solutions',
   'bankai-tattoo-collective',
@@ -51,6 +74,7 @@ const ILLUSTRATED_BUSINESSES = new Set([
   'shaggy-inks',
   'skeleton-crew-tattoo',
   'williams-electronics',
+
   '124-smoke-shop',
   'adaptive-nursing-and-healthcare-services',
   'cloud-13-vape-and-smoke-shop',

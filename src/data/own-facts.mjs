@@ -37,6 +37,12 @@
 //   The Chamber row had 3346 Cox Ln; Google's listing pins 3950 25th St with
 //   shorter hours (Tuesday to Friday 11 AM to 5:30 PM). The owner's own page wins.
 export const OWN_FACTS = {
+  'ciscos-barber-shop': {
+    address: '1719 Central Ave',
+    hours: [[1, 540, 1200], [2, 540, 1200], [3, 540, 1200], [4, 540, 1200], [5, 540, 1200], [6, 540, 960]],
+    source: 'https://www.ciscos.site/',
+    checked: '2026-11-25',
+  },
   'cookie-paradise-llc': {
     address: '3950 25th St',
     where: 'Trailer in the Holiday Center parking lot',

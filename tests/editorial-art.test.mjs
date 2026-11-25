@@ -13,6 +13,8 @@ const root = new URL('../', import.meta.url);
 const html = (p) => readFileSync(new URL(`dist/${p}index.html`, root), 'utf8');
 const barbers = directory.filter((b) => b.sub === 'barbers');
 const files = Object.values(EDITORIAL).flatMap((e) => [...e.scenes, e.hero]);
+const hasBusinessSticker = (html, slug) => html.includes(`/art/business-scenes/${slug}.webp`)
+  || html.includes(`/assets/images/art-business-scenes-${slug}-`);
 
 test('editorial art is keyed by real type slugs and every file is the size it claims', async () => {
   for (const sub of Object.keys(EDITORIAL)) assert.ok(subBySlug[sub], `${sub}: not a type slug`);
@@ -45,6 +47,7 @@ test('the barbershops page: the painted header in the intro, text-first cards be
   for (const c of cards.map((x) => x.slice(0, x.indexOf('</article>')))) {
     const slug = c.match(/data-slug="([^"]+)"/)[1];
     assert.doesNotMatch(c, /art-editorial|ed-tag|ed-art|bz-stk|art-sticker|art-cover/, `${slug}: no art on a business card`);
+    assert.ok(hasBusinessSticker(c, slug), `${slug}: individual painted sticker`);
     assert.match(c, /bz-save/, `${slug}: save button kept`);
   }
   assert.match(page, /<section class="band band-ed"/);
@@ -52,6 +55,17 @@ test('the barbershops page: the painted header in the intro, text-first cards be
   assert.match(page, new RegExp(`<figcaption class="ed-tag">${EDITORIAL_CAPTION}</figcaption>`));
   assert.match(page, /See them on the map/);
   assert.match(page, /<section class="(?:wrap )?list list-ed"/);
+});
+
+test('Cisco’s related rail has a painted card for every other barbershop', () => {
+  const page = html('b/ciscos-barber-shop/');
+  const rail = page.match(/<section class="rail" id="more-barbershops">[\s\S]*?<\/section>/)?.[0];
+  assert.ok(rail);
+  assert.equal((rail.match(/<article class="bz/g) || []).length, barbers.length - 1);
+  for (const { slug } of barbers.filter((b) => b.slug !== 'ciscos-barber-shop')) {
+    assert.ok(rail.includes(`data-slug="${slug}"`), slug);
+    assert.ok(hasBusinessSticker(rail, slug), slug);
+  }
 });
 
 test('each category and subcategory has its own or inherited banner', () => {
@@ -83,6 +97,7 @@ test('category scenes stay out of business slots and the search index', () => {
     const page = html(`b/${b.slug}/`);
     const top = page.slice(page.indexOf('<section class="wrap biz">'), page.indexOf('</aside>'));
     assert.doesNotMatch(top, /ed-tag|ed-art|art-editorial|biz-cover/, b.slug);
+    if (b.slug !== 'ciscos-barber-shop') assert.ok(hasBusinessSticker(top, b.slug), b.slug);
   }
   assert.ok(!searchIndex().some((x) => x.w || x.v), 'the index sends no scene and no cover flag');
   const js = readFileSync(new URL('public/js/explore.js', root), 'utf8');
