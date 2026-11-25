@@ -11,12 +11,12 @@ export const DECADES = ['1930s', '1940s', '1950s', '1960s', '1970s', '1980s', '1
 export const THREADS = [
   {
     month: '2026-12', title: 'Where Columbus gathers',
-    idea: 'In winter a town shows where it comes together: a theatre, churches, a gym, a mall, a park, a downtown.',
+    idea: 'In winter a town shows where it comes together: a theatre, churches, a bank plaza, a mall, a park, a downtown.',
     stops: {
       '1930s': '1930s/the-crump-gets-sound', '1940s': '1940s/first-christian-church-dedicated',
-      '1950s': '1950s/memorial-gym', '1960s': '1960s/north-christian-church-dedicated',
+      '1950s': '1950s/irwin-union-bank-opens', '1960s': '1960s/north-christian-church-dedicated',
       '1970s': '1970s/the-commons-and-chaos', '1980s': '1980s/city-hall-triangle',
-      '1990s': '1990s/mill-race-park', '2000s': '2000s/st-bartholomew-new-church',
+      '1990s': '1990s/mill-race-park', '2000s': '2000s/flood-of-2008',
       '2010s': '2010s/columbus-the-movie', '2020s': '2020s/yes-and',
     },
   },

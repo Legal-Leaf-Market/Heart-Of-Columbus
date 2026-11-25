@@ -213,16 +213,16 @@ export const EDITION = {
 
   // December's thread through the decades (docs/paper/december-2026-prototype.md).
   gathers: [
-    ['1930s/the-crump-gets-sound', 'The Crump Theatre', null],
+    ['1930s/the-crump-gets-sound', 'The Crump Theatre', 'crump'],
     ['1940s/first-christian-church-dedicated', 'First Christian Church', 'firstchristian'],
-    ['1950s/memorial-gym', 'Memorial Gym', null],
+    ['1950s/irwin-union-bank-opens', 'Irwin Union Bank', 'irwin'],
     ['1960s/north-christian-church-dedicated', 'North Christian Church', 'northchristian'],
     ['1970s/the-commons-and-chaos', 'The Commons', 'commons'],
     ['1980s/city-hall-triangle', 'City Hall', 'cityhall'],
-    ['1990s/mill-race-park', 'Mill Race Park', null],
-    ['2000s/st-bartholomew-new-church', 'St. Bartholomew Church', null],
-    ['2010s/columbus-the-movie', 'A film of the town', null],
-    ['2020s/yes-and', 'Yes And, downtown', null],
+    ['1990s/mill-race-park', 'Mill Race Park', 'millrace'],
+    ['2000s/flood-of-2008', 'The flood of 2008', 'flood2008'],
+    ['2010s/columbus-the-movie', 'A film of the town', 'library', 'The library plaza, a filming location for Columbus.'],
+    ['2020s/yes-and', 'Yes And, downtown', 'yesand'],
   ],
 
   // History never offered as a filler card: it would give away a puzzle answer.

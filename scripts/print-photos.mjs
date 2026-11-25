@@ -9,8 +9,10 @@
 // these are the 1280 pixel versions, the same files the site shows. One
 // request every few seconds, with a user agent that says who is asking.
 import { writeFile, mkdir } from 'node:fs/promises';
+import sharp from 'sharp';
 import { existsSync } from 'node:fs';
 import { PHOTOS } from '../src/site.mjs';
+import { DECADE_PHOTOS } from '../src/print/decade-photos.mjs';
 import { EDITION } from '../src/print/edition-2026-12.mjs';
 
 const UA = 'HeartOfColumbusBot/1.0 (print edition photos; https://heartofcolumbus.shop)';
@@ -25,11 +27,16 @@ const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 for (const k of keys) {
   const file = new URL(`${k}.jpg`, dir);
   if (existsSync(file)) { console.log(`have ${k}`); continue; }
-  const url = thumb(PHOTOS[k].src);
+  const url = DECADE_PHOTOS[k]?.src || thumb(PHOTOS[k].src);
   for (let attempt = 1; attempt <= 6; attempt++) {
     const r = await fetch(url, { headers: { 'User-Agent': UA } });
     const type = r.headers.get('content-type') || '';
-    if (r.ok && type.startsWith('image/')) { await writeFile(file, Buffer.from(await r.arrayBuffer())); console.log(`saved ${k}`); break; }
+    if (r.ok && type.startsWith('image/')) {
+      const bytes = Buffer.from(await r.arrayBuffer());
+      await writeFile(file, type.includes('jpeg') ? bytes : await sharp(bytes).jpeg({ quality: 86 }).toBuffer());
+      console.log(`saved ${k}`);
+      break;
+    }
     console.log(`${k}: HTTP ${r.status}, waiting`);
     await wait(15000 * attempt);
   }

@@ -27,7 +27,8 @@ import { FREE } from '../data/free.mjs';
 import { VISITORS_CENTER, TOURS } from '../data/visit.mjs';
 import { LANDMARKS, landmarkBySlug } from '../data/landmarks.mjs';
 import { MEMBERS, PRICE, SPOTS } from '../data/members.mjs';
-import { PHOTOS } from '../site.mjs';
+import { PHOTOS as SITE_PHOTOS } from '../site.mjs';
+import { DECADE_PHOTOS } from '../print/decade-photos.mjs';
 import { handEntered, inWindow } from '../event-feeds.mjs';
 import { SOURCES as EVENT_SOURCES } from '../data/events.mjs';
 import { dashes } from '../visible.mjs';
@@ -41,6 +42,7 @@ import { buildCrossword, buildWordSearch, WORDSEARCH } from '../print/puzzles.mj
 import { EDITION } from '../print/edition-2026-12.mjs';
 
 const E = EDITION;
+const PHOTOS = { ...SITE_PHOTOS, ...DECADE_PHOTOS };
 const BASE = `/print/${E.slug}/`;
 const pageAnchor = (n) => `page-${n}`;
 const SLOT_DIR = new URL(`../../content/print/${E.slug}/`, import.meta.url);
@@ -450,11 +452,16 @@ const BOX = {
       <p class="pe-fine">From the Heart of Columbus directory, which links each one’s ordering page. No business paid to be on this list.</p></section>`;
   },
 
-  gathers: () => `<section class="pe-box pe-gathers"><ol>${E.gathers.map(([path, place, photo]) => {
+  gathers: () => `<section class="pe-box pe-gathers"><ol>${E.gathers.map(([path, place, photo, caption]) => {
     const a = historyBy[path];
+    const image = PHOTOS[photo];
+    const src = `/print-media/${photo}.jpg`;
     if (!a) throw new Error(`print: no history article ${path}`);
-    return `<li class="pe-stop${a.status === 'approved' ? '' : ' pe-unapproved'}"><p class="pe-decade">${esc(path.split('/')[0])}</p>${photo && PHOTOS[photo] ? `<img src="${esc(psrc(photo))}" srcset="${esc(psrc(photo))} 1280w" alt="${esc(PHOTOS[photo].title)}" style="object-position:${esc(PHOTOS[photo].pos || '50% 50%')}">` : `<div class="pe-titlecard" aria-hidden="true"><span>${esc(a.when)}</span><b>${t(place)}</b></div>`}<h4>${t(place)}</h4><p class="pe-stop-title">${t(a.title)}</p><p>${t(a.dek)}</p>${qr(a.path, 'The whole story')}</li>`;
-  }).join('')}</ol><p class="pe-fine">Ten approved articles from our history, one per decade. Photos via Wikimedia Commons; credits on the back page.</p></section>`,
+    if (!image?.credit || !existsSync(new URL(`../../public${src}`, import.meta.url))) throw new Error(`print: missing credited decade photo for ${path}`);
+    return `<li class="pe-stop${a.status === 'approved' ? '' : ' pe-unapproved'}"><p class="pe-decade">${esc(path.split('/')[0])}</p>
+      <img src="${esc(src)}" alt="${esc(image.title)}" style="object-position:${esc(image.pos || '50% 50%')}">${caption ? `<p class="pe-decade-caption">${t(caption)}</p>` : ''}
+      <h4>${t(place)}</h4><p class="pe-stop-title">${t(a.title)}</p><p>${t(a.dek)}</p>${qr(a.path, 'The whole story')}</li>`;
+  }).join('')}</ol><p class="pe-fine">Ten articles from our history, one per decade. Photo credits and sources on the back page.</p></section>`,
 
   meals: () => `<section class="pe-box pe-meals"><h3>Free community meals</h3><p class="pe-dek">Hot meals by day. Anyone who comes is welcome.</p><ul>${MEALS.filter(([, , w]) => !/closed[^)]*December/i.test(w)).map(([d, p, w]) => `<li><b>${t(d)}</b><span>${t(p)}</span><em>${t(w)}</em></li>`).join('')}</ul><p class="pe-fine">From United Way of Bartholomew County’s guide, as listed on our help page. Three meals that close in December are left off. Holiday hours change: call first.</p></section>`,
 
@@ -486,8 +493,13 @@ const BOX = {
   founders: () => `<section class="pe-box pe-ad"><p class="pe-ad-tag">From Heart of Columbus, an ad for ourselves</p><h3>Own a local business? Be a Founder.</h3><p>The Founders Club is the local owners launching Heart of Columbus with us: your own website, kept current, and every new tool we build, for $${PRICE} a month. ${Math.max(0, SPOTS - Object.keys(MEMBERS).length)} of ${SPOTS} founding spots open. Cancel any time.</p><p><b>Your free listing never depends on it.</b></p>${qr('/founders-club/', 'Learn more')}</section>`,
 
   colophon: () => {
-    const credits = [...new Set([...E.gathers.map((g) => g[2]).filter(Boolean), 'aerial', 'library', ...E.pages.flatMap((p) => p.rows.flatMap((r) => r.mods.flatMap((x) => x.photos && Array.isArray(x.photos) ? x.photos : [])))])].filter((k) => PHOTOS[k]).map((k) => `${t(PHOTOS[k].title)}: ${t(PHOTOS[k].credit)}, ${t(PHOTOS[k].license)}`);
-    return `<section class="pe-box pe-colophon"><h3>About this edition</h3><p>${t(E.title)}, Volume ${E.volume}, Number ${E.number}, ${t(E.date)}. ${t(E.line)} Printed in a short run to see what a paper for Columbus should be. Everything in it is also online at ${esc(short(ORIGIN))}, with its sources.</p><p><b>Photo credits.</b> Wikimedia Commons: ${credits.join('; ')}. Story photos are credited where they appear.</p></section>`;
+    const credits = [...new Set([...E.gathers.map((g) => g[2]).filter(Boolean), 'aerial', 'library', ...E.pages.flatMap((p) => p.rows.flatMap((r) => r.mods.flatMap((x) => x.photos && Array.isArray(x.photos) ? x.photos : [])))])].filter((k) => PHOTOS[k]).map((k) => {
+      const photo = PHOTOS[k];
+      const license = photo.license.match(/^CC BY(-SA)? ([0-9.]+)$/);
+      const licenseText = license ? `<a href="https://creativecommons.org/licenses/${license[1] ? 'by-sa' : 'by'}/${license[2]}/">${t(photo.license)}</a>` : t(photo.license);
+      return `<a href="${esc(photo.page)}">${t(photo.title)}</a>: ${t(photo.credit)}, ${licenseText}`;
+    });
+    return `<section class="pe-box pe-colophon"><h3>About this edition</h3><p>${t(E.title)}, Volume ${E.volume}, Number ${E.number}, ${t(E.date)}. ${t(E.line)} Printed in a short run to see what a paper for Columbus should be. Everything in it is also online at ${esc(short(ORIGIN))}, with its sources.</p><p><b>Photo credits.</b> ${credits.join('; ')}. Photos may be resized or cropped for layout. Story photos are credited where they appear.</p></section>`;
   },
 };
 
