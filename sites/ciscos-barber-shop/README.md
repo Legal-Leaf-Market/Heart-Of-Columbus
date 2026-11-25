@@ -7,7 +7,9 @@ directory pages, but served with the other drafts at
 
 Sources for every fact are at the top of `index.html`: his Wix site
 (ciscos.site) for the words, hours, address, crew and portfolio pages, and his
-own Booksy page for current prices and payment methods. Nothing is invented.
+own Booksy page for current prices and payment methods. Jake confirmed the
+address on 2026-11-25: Cisco's has always been at 1719 Central Ave. Nothing is
+invented.
 
 ## What is on it
 
@@ -24,18 +26,17 @@ own Booksy page for current prices and payment methods. Nothing is invented.
 
 ## Open questions for Cisco (tagged on the page)
 
-1. **Address.** His Booksy page ("Cisco's Barbershop", staff Francisco Jimenez
-   De Dios) now lists 1521 17th St, as do Jose's and Dariel's. His website,
-   Google and the Chamber still say 1719 Central Ave. 1521 17th St is also the
-   address on the TJ's ChopShop draft. The page keeps 1719 Central Ave until he
-   answers. If he has moved, change the address in the hero line, the visit
-   panel, the directions link, the map and the footer.
+1. **Booksy address.** His Booksy page ("Cisco's Barbershop", staff Francisco
+   Jimenez De Dios) lists 1521 17th St, which is TJ's ChopShop. Until he fixes
+   it there, "Book a cut" calls the shop (see Booking below). Jose's and
+   Dariel's Booksy pages list 1521 17th St too, so their cards have no booking
+   link.
 2. **Prices.** The board follows Booksy (haircut $35). His website still shows
    2023 prices (haircut $30).
 3. **Hours.** His website says weekdays 9 AM to 8 PM; Google says until 7 PM.
    Change the table and the `HOURS` line in the script together.
 4. **Crew.** Taken from his Our Barbers page. Demetreus Weiler's Booksy page
-   lists 3335 Marilyn St, so his card has no booking button. Each barber's own
+   lists 3335 Marilyn St, so his card has no booking link. Each barber's own
    cell number is on his site; the draft leaves them off until he says which
    to show.
 5. **Tattoos.** His Wix site has a hidden "Tattoo Booking" page. Left out until
@@ -44,10 +45,13 @@ own Booksy page for current prices and payment methods. Nothing is invented.
 
 ## Booking
 
-Every "Book a cut" button points at `BOOK_URL` near the bottom of `index.html`,
-set to his own Booksy page. Paste a different link there and they all follow.
-The same link is also written into each button so the page works without
-JavaScript; update those too if the link changes for good.
+Every "Book a cut" button points at `BOOK_URL` near the bottom of `index.html`.
+It calls the shop for now. Once Cisco's Booksy page shows 1719 Central Ave,
+paste his Booksy link (it is in the comment above that line) and every button
+follows, opening in a new tab. The phone link is also written into each button
+so the page works without JavaScript; swap those too when the change is for
+good. Francisco's and Enrique's crew cards say "Call to book" and call the shop
+directly.
 
 ## Newsletter
 
