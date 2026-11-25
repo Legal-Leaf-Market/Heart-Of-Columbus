@@ -628,7 +628,8 @@ export const TODO = [
   ['Domain', `Every QR code points to ${ORIGIN}. Scan a few from the proof with a phone before ordering the run.`],
   ['Calendar', 'Open the edition on the live site so page 11 fills from the library and parks calendars, then read every listing against its source.'],
   ['Coupons', 'Confirm the expiration dates and eligible services for Crossroads, and the expiration date and per-visit limit for Amy’s Closet.'],
-  ['Meals', 'Page 14’s meal list comes from United Way’s guide. Call each church for Christmas week hours.'],
+  ['Holiday hours', 'Page 14 uses published Christmas Eve times and the United Way meal guide. Confirm Christmas Day meals and any holiday changes with Love Chapel.'],
+  ['Riverfront', 'Confirm the final construction date and any exact ribbon-cutting date with Columbus Redevelopment before printing.'],
   ['Proof', 'Print one proof copy and read every page on paper before ordering the run.'],
 ];
 

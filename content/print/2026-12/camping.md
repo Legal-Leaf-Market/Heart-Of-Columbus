@@ -17,6 +17,10 @@ sources:
     url: https://legiscan.com/IN/bill/SB0285/2026
   - name: City of Columbus, Program Year 2025 housing report submitted for review
     url: https://www.columbus.in.gov/wp-content/uploads/2026/11/PY-2025-CAPER-Submitted-for-Review-11.16.pdf
+  - name: Love Chapel, Brighter Days shelter
+    url: https://columbuslovechapel.com/get-help/shelter/
+  - name: Human Services Inc., Horizon House
+    url: https://www.hsi-indiana.com/horizon-house/
   - name: City of Columbus, Encampment Task Force named United Way's Advocate of the Year, April 29, 2026
     url: https://www.columbus.in.gov/columbus-encampment-task-force-honored-as-united-way-of-bartholomew-countys-advocate-of-the-year/
 ---
@@ -50,6 +54,6 @@ Mayor Mary Ferdon said Columbus faces the same problems other cities do: homeles
 
 ## Local shelter
 
-The city’s annual housing report says Brighter Days, an adult emergency shelter at 421 S. Mapleton Street, averaged 28.2 guests a night in the year before September 15, 2026. Horizon House at 724 Chestnut Street can house four families at a time. [CHECK: ask the task force for Columbus warnings and citations since July, and ask both providers about current capacity and winter needs.]
+The city’s annual housing report says Brighter Days, an adult emergency shelter at 421 S. Mapleton Street, averaged 28.2 guests a night in the year before September 15, 2026. Human Services Inc. operates Horizon House, a four-bedroom family shelter at 724 Chestnut Street. Call the providers listed on this page for current openings. [CHECK: ask the task force for Columbus warnings and citations since July, and ask providers about winter needs.]
 
 The box on this page lists shelter numbers and where to look for help.
