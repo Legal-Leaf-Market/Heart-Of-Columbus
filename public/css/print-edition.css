@@ -174,7 +174,8 @@ body:has(.pe-paper) :where(a, button, summary):focus-visible { outline: 2px soli
 .pe-lead-text .pe-text { flex: 1 1 0; min-height: 0; column-fill: auto; overflow: hidden; }
 .pe-wide { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); column-gap: var(--pe-gap); }
 .pe-wide > .pe-text, .pe-wide > .pe-brief { grid-column: span 3; }
-.pe-sidebar { grid-column: span 2; background: var(--pe-tint); padding: 8pt 10pt; font: 8pt/1.35 var(--pe-sans); align-self: start; }
+.pe-wide-rail { grid-column: span 2; min-width: 0; }
+.pe-sidebar { background: var(--pe-tint); padding: 8pt 10pt; font: 8pt/1.35 var(--pe-sans); align-self: start; }
 .pe-sidebar h3 { font: 800 12pt/1.1 var(--pe-head); margin: 0 0 4pt; }
 .pe-sidebar ul { padding-left: 1em; }
 .pe-empty { color: var(--pe-gray); font-style: italic; }
@@ -726,8 +727,54 @@ body:has(.pe-status) { background: var(--paper, #fbf7f0); }
 /* ---------- Print ---------- */
 @media print {
   html, body { background: #fff !important; margin: 0 !important; }
-  body > :not(.pe-paper) { display: none !important; }
+  body > :not(.pe-paper, .pe-color-gallery) { display: none !important; }
   .pe-paper { display: block; padding: 0; gap: 0; zoom: 1 !important; }
   .pe-sheet { box-shadow: none; break-after: page; page-break-after: always; margin: 0; }
   .pe-sheet:last-child { break-after: auto; page-break-after: auto; }
+}
+
+/* Coloring panels live in the page. The fitter measures their tabloid size. */
+.pe-color-card { flex: none; min-width: 0; margin: 10pt 0 0; padding-inline: 4pt; }
+.pe-color-card > img {
+  display: block; width: auto; height: clamp(0px, var(--pe-color-height, 5in), 7.25in);
+  max-width: 100%; object-fit: contain; margin: 0 auto 5pt;
+}
+.pe-color-card h3 { margin: 2pt 0 3pt; font: 780 14pt/1.1 var(--pe-head); }
+.pe-color-card p { font: 9pt/1.25 var(--pe-serif); }
+.pe-fitting .pe-color-portrait:not(.pe-color-fit),
+.pe-paper:not(.pe-reading) .pe-color-portrait:not(.pe-color-fit) { display: none; }
+@media print {
+  .pe-color-portrait:not(.pe-color-fit) { display: none; }
+}
+@media screen {
+  .pe-reading:not(.pe-fitting) .pe-color-portrait {
+    padding-top: 12px; margin-top: 18px; border-top: 1px solid var(--pe-hair);
+  }
+  .pe-reading:not(.pe-fitting) .pe-color-portrait > img {
+    width: min(100%, 230px); height: auto; margin: 0 auto 12px;
+  }
+  .pe-reading:not(.pe-fitting) .pe-color-portrait h3 { font-size: 22px; }
+  .pe-reading:not(.pe-fitting) .pe-color-portrait p { font-size: 15px; }
+}
+
+.pe-color-gallery { max-width: 1020px; margin: 0 auto; padding: 24px clamp(12px, 3vw, 36px); color: var(--pe-ink); }
+.pe-color-toolbar { padding: 3px 0 25px; }
+.pe-color-toolbar h1 { margin: 10px 0 3px; font: 800 clamp(34px, 6vw, 66px)/1.05 var(--pe-head); }
+.pe-color-toolbar a, .pe-color-sources a { text-decoration: underline; text-underline-offset: 3px; }
+.pe-color-toolbar button { margin-top: 10px; padding: 10px 15px; border-radius: 4px; color: white; background: var(--pe-teal); font-weight: 700; }
+.pe-color-sheet { margin: 0 0 26px; padding: clamp(12px, 2.6vw, 27px); border: 1px solid var(--pe-hair); background: white; }
+.pe-color-sheet h2 { margin: 3px 0 9px; font: 780 clamp(25px, 4vw, 42px)/1.08 var(--pe-head); }
+.pe-color-sheet img { display: block; width: 100%; height: auto; }
+.pe-color-sheet > p:not(.pe-card-label) { margin: 6px auto 0; font: 400 17px/1.25 var(--pe-serif); }
+.pe-color-sheet .pe-color-sources { font: 600 13px var(--pe-sans) !important; }
+@page pe-coloring { size: letter landscape; margin: .33in; }
+@media print {
+  .pe-color-gallery { page: pe-coloring; max-width: none; margin: 0; padding: 0; }
+  .pe-color-toolbar { display: none; }
+  .pe-color-sheet { padding: 0; margin: 0; border: 0; break-inside: avoid; }
+  .pe-color-sheet + .pe-color-sheet { break-before: page; }
+  .pe-color-sheet h2 { font-size: 20pt; }
+  .pe-color-sheet img { width: auto; height: 6.2in; max-width: 100%; margin-inline: auto; }
+  .pe-color-sheet > p:not(.pe-card-label) { font-size: 11pt; }
+  .pe-color-sheet .pe-color-sources { font-size: 8pt !important; }
 }

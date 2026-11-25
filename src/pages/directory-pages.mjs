@@ -23,6 +23,7 @@ import { attrBlock, ANY_ATTRS, ATTR_FILTERS } from '../attrs.mjs';
 import { SPOTLIGHT_SLUGS } from '../data/spotlight.mjs';
 import { storiesTagged } from '../news/content.mjs';
 import { storyList } from '../news/render.mjs';
+import { CISCO_PREVIEW, ciscoRoomHead, ciscoRoomBackdrop, ciscoRoomControl } from './cisco-room.mjs';
 
 // Weekly hours table, Monday first, with today highlighted by site.js.
 const hoursTable = (rows) => {
@@ -268,6 +269,7 @@ function buildingNote(b) {
 }
 
 function bizPage(b, { assets }) {
+  const cisco = b.slug === 'ciscos-barber-shop';
   const ageRestricted = b.cat === 'smoke';
   const cat = catBySlug[b.cat];
   const sub = subBySlug[b.sub];
@@ -288,15 +290,16 @@ function bizPage(b, { assets }) {
   const q = encodeURIComponent(`${b.name}, ${b.address ? b.address + ', ' : ''}Columbus, IN`);
   const body = `
 ${header(cat.slug)}
-<main id="main" class="tier-${tier}"${pal ? ` style="--b:${pal.brand};--b-on:${pal.on};--b-deep:${pal.deep};--b-paper:${pal.paper};--b-acc:${pal.accent}${pal.font ? `;--b-font:'${pal.font}'` : ''}"` : ''}>
+<main id="main" class="tier-${tier}${cisco ? ' cisco-listing' : ''}"${pal ? ` style="--b:${pal.brand};--b-on:${pal.on};--b-deep:${pal.deep};--b-paper:${pal.paper};--b-acc:${pal.accent}${pal.font ? `;--b-font:'${pal.font}'` : ''}"` : ''}>
 ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.length > 1 ? [[`/c/${cat.slug}/${sub.slug}/`, sub.label]] : []), ['', b.name]])}
 <section class="wrap biz">
   <div class="biz-main">
-    <div class="biz-head">
+    <div class="biz-head${cisco ? ' cisco-room' : ''}"${cisco ? ' data-cisco-room' : ''}>
+      ${cisco ? ciscoRoomBackdrop() + '<div class="cisco-copy">' : ''}
       <p class="kicker"><a href="/c/${cat.slug}/${cat.subs.length > 1 ? sub.slug + '/' : ''}">${esc(sub.label)}</a>${area ? ` · <a href="/n/${area.slug}/">${esc(area.label)}</a>` : ''}</p>
       ${tier === 'member' ? `<p class="brand-line"><a class="brand-ribbon" href="/founders-club/">★ Founding Member #${fnum}</a></p>` : ''}
-      <div class="biz-id">${logo}${businessIllustration(b.slug)}<h1>${t(b.name)}</h1></div>
-      <p class="biz-type">${t(b.type)}</p>
+      <div class="biz-id">${cisco ? '<h1>Cisco’s <span>Barber Shop</span></h1>' : `${logo}${businessIllustration(b.slug)}<h1>${t(b.name)}</h1>`}</div>
+      ${cisco ? '<p class="biz-type">Haircuts, beard trims and hot towel shaves. Walk in or call to book.</p>' : `<p class="biz-type">${t(b.type)}</p>`}
       <div class="bz-tags">${b.member ? '<a class="tag tag-member" href="#member-note">★ Founding Member</a>' : ''}${tier === 'claimed' ? '<span class="tag tag-claimed">✓ Claimed by the owner</span>' : ''}${tier === 'listed' ? '<a class="tag tag-outline" href="#claim-card">Outline listing</a>' : ''}${SPOTLIGHT_SLUGS.has(b.slug) ? (spotFor(b.slug)?.picks.length ? '<a class="tag tag-spot" href="#owners-picks">★ Spotlight</a>' : '<span class="tag tag-spot">★ Spotlight</span>') : ''}${b.demo ? '<span class="tag tag-hot">Order direct (demo)</span>' : ''}${b.heritage ? '<span class="tag">Columbus original</span>' : ''}${b.dora ? '<span class="tag tag-dora">Social District: drinks to go</span>' : ''}${b.building ? `<a class="tag tag-history" href="#building">🏛 ${esc(b.building.name)}, ${esc(b.building.built)}</a>` : ''}${b.before ? `<a class="tag tag-history" href="#building">Before: ${esc(b.before.was)}</a>` : ''}${b.also.map((a) => `<a class="tag tag-go" href="#also-${a.cat}">${catBySlug[a.cat].emoji} ${esc(a.title)}</a>`).join('')}<span class="tag tag-plain">Independent</span></div>
       ${b.hours ? `<p class="open-badge biz-open" data-open-now='${JSON.stringify(b.hours)}' hidden></p>` : ''}
       ${reviews ? `<div class="biz-reviews">${reviews}<a href="/reviews/#${b.slug}">Review links</a></div>` : ''}
@@ -309,6 +312,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
         ${b.phone ? `<a class="btn ${b.demo || b.order.length || b.book.length || b.feed || b.store ? 'btn-ghost' : ''}" href="${tel(b.phone)}">${svg('phone')} Call ${esc(b.phone)}</a>` : ''}
         ${b.added && !b.address ? '' : `<a class="btn btn-ghost" href="${mapsLink(b)}" target="_blank" rel="noopener">${svg('pin')} Directions</a>`}
         ${b.website && !websiteAction(b) && !b.socials.some((profile) => profile.url === socialProfile(b.website)?.url) ? `<a class="btn btn-ghost" href="${esc(b.website)}"${hocAttr(b.slug, 'website')} target="_blank" rel="noopener">${svg('globe')} Website</a>` : ''}
+        ${cisco ? `<a class="btn cisco-preview-link" href="${CISCO_PREVIEW}">${svg('arrow')} View shop preview</a>` : ''}
         ${b.gift ? `<a class="btn btn-ghost" href="${esc(tagFor(b, b.gift.url, 'gift'))}"${hocAttr(b.slug, 'gift')} target="_blank" rel="noopener">${svg('heart')} Gift cards</a>` : ''}
       </div>
       <div class="biz-actions biz-extra-actions" role="group" aria-label="More ways to connect">
@@ -325,6 +329,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
       ${boostNote(b)}
       ${b.member ? `<p class="direct-note member-note" id="member-note">★ <span>${esc(b.name)} is a Founding Member. It pays Heart of Columbus $${PRICE} a month for a website we keep up to date and a featured spot in its category, and has no say in what we write. <a href="/founders-club/">About the Founders Club</a></span></p>` : ''}
       ${b.order.length || b.book.length ? `<p class="direct-note">${svg('store', 'ic-sm')} ${b.order.length ? 'Ordering' : 'Booking'} opens ${esc(b.name)}’s own ${esc((b.order[0] || b.book[0]).label)} page, the one they chose and pay for themselves. Heart of Columbus takes no cut.</p>` : ''}
+      ${cisco ? '</div><small class="cisco-scene-note">Barbershop illustration</small>' + ciscoRoomControl : ''}
     </div>
     ${bm.state === 'photo' ? `<figure class="biz-figure" data-media="photo">
       <img class="biz-photo" src="${bm.src}" width="${bm.width}" height="${bm.height}" alt="${esc(bm.alt)}" fetchpriority="high" decoding="async" onerror="${MEDIA_FAIL}">
@@ -332,7 +337,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
     </figure>` : ''}
   </div>
   <aside class="biz-side">
-    <div class="side-card">
+    <div class="side-card${cisco ? ' cisco-visit' : ''}">
       <iframe title="Map of ${esc(b.name)}" loading="lazy" src="https://www.google.com/maps?q=${q}&output=embed" referrerpolicy="no-referrer-when-downgrade"></iframe>
       <div class="side-body">
         ${b.address ? `<p class="side-addr">${svg('pin', 'ic-sm')} ${t(b.address)}${b.own?.where ? `<br><span>${esc(b.own.where)}</span>` : ''}<br><span>Columbus, Indiana</span></p>` : '<p class="side-addr">Columbus, Indiana. Address not listed publicly.</p>'}
@@ -396,7 +401,7 @@ ${b.cat === 'events' ? '' : rail(`More ${sub.label.toLowerCase()}`, `/c/${cat.sl
 ${rail('Close by', area ? `/n/${area.slug}/` : '', near)}
 </main>
 ${footer()}`;
-  return page({ title: `${b.name} | ${sub.label} in Columbus, Indiana`, description: bizDescription(b), body: ageRestricted ? smokeAgeGate(body) : body, scripts: ['site.js', 'hub.js', 'cart.js', ...(ageRestricted ? ['smoke-age-gate.js'] : [])], styles, assets, ld: [businessLd(b)] });
+  return page({ title: `${b.name} | ${sub.label} in Columbus, Indiana`, description: bizDescription(b), body: ageRestricted ? smokeAgeGate(body) : body, scripts: ['site.js', 'hub.js', 'cart.js', ...(ageRestricted ? ['smoke-age-gate.js'] : [])], styles: cisco ? [...styles, 'cisco-listing.css'] : styles, assets, ld: [businessLd(b)], head: cisco ? ciscoRoomHead : '' });
 }
 
 // Saved page extras: share a list, pick a day, print it. Landmarks and events

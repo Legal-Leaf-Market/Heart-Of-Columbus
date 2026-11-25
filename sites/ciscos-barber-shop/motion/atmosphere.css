@@ -20,30 +20,6 @@
   background: #210f18;
   color: var(--stage-cream);
 }
-.hero-atmosphere {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  overflow: hidden;
-  pointer-events: none;
-  background:
-    linear-gradient(94deg, #2b102156 0%, #381323c9 21%, #371323a8 48%, #3e12241c 100%),
-    radial-gradient(ellipse at 74% 70%, #8a274f8c, transparent 68%),
-    url('../img/shop-atmosphere.webp') center / cover;
-}
-.hero-atmosphere::before {
-  content: '';
-  position: absolute;
-  inset: 10px;
-  border: 1px solid #e7a77940;
-  pointer-events: none;
-}
-.hero-atmosphere::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 66% 30%, transparent 36%, #1b091463 100%);
-}
 .hero-grid {
   position: relative;
   grid-template-columns: minmax(0, 1fr) minmax(0, .96fr);
@@ -96,112 +72,6 @@
   background: linear-gradient(160deg, #ffd9aa25, transparent 33%, transparent 72%, #230b1459);
   pointer-events: none;
 }
-.hero-props {
-  position: absolute;
-  z-index: 1;
-  inset: 0;
-  transition: transform 500ms ease-out;
-  transform: translate(var(--drift-x, 0px), var(--drift-y, 0px));
-}
-.prop {
-  position: absolute;
-  width: var(--prop-size);
-  height: auto;
-  opacity: var(--prop-opacity);
-  filter: drop-shadow(0 10px 13px #0e070ba0);
-  transform: rotate(var(--prop-angle));
-}
-.prop-shears {
-  --prop-angle: -25deg;
-  --prop-size: clamp(100px, 15vw, 235px);
-  --prop-opacity: .64;
-  top: 1%;
-  left: clamp(-80px, -3vw, -37px);
-}
-.prop-pole {
-  --prop-angle: -15deg;
-  --prop-size: clamp(77px, 11vw, 168px);
-  --prop-opacity: .89;
-  top: 33%;
-  right: max(-36px, calc((100vw - 1480px) / 2));
-}
-.prop-clipper {
-  --prop-angle: 27deg;
-  --prop-size: clamp(78px, 12vw, 187px);
-  --prop-opacity: .66;
-  bottom: -4%;
-  right: clamp(-35px, 2vw, 58px);
-}
-.prop-razor {
-  --prop-angle: -9deg;
-  --prop-size: clamp(96px, 15vw, 220px);
-  --prop-opacity: .53;
-  bottom: -6%;
-  left: clamp(-55px, -1.8vw, -26px);
-}
-.hero-haze {
-  position: absolute;
-  z-index: 2;
-  width: 115%;
-  height: 75%;
-  left: -12%;
-  bottom: -49%;
-  background: radial-gradient(ellipse at center, #d55f3a50, transparent 68%);
-  transform: rotate(-12deg);
-}
-.hero-glints {
-  position: absolute;
-  z-index: 2;
-  inset: -8%;
-  opacity: .55;
-  background:
-    radial-gradient(circle at 6% 54%, #f6c38c 0 1px, transparent 3px),
-    radial-gradient(circle at 15% 82%, #f6c38c 0 1px, transparent 3px),
-    radial-gradient(circle at 39% 85%, #e9926c 0 1px, transparent 3px),
-    radial-gradient(circle at 48% 21%, #ffd29d 0 1px, transparent 3px),
-    radial-gradient(circle at 55% 43%, #ffd29d 0 1px, transparent 3px),
-    radial-gradient(circle at 70% 7%, #ffd29d 0 1px, transparent 3px),
-    radial-gradient(circle at 92% 35%, #ffd29d 0 1px, transparent 3px),
-    radial-gradient(circle at 90% 78%, #e9926c 0 1px, transparent 3px),
-    radial-gradient(circle at 96% 61%, #f6c38c 0 1px, transparent 3px);
-}
-.motion-control {
-  position: absolute;
-  z-index: 2;
-  right: max(16px, env(safe-area-inset-right));
-  bottom: 16px;
-  min-height: 42px;
-  padding: 6px 12px;
-  border: 1px solid #e5ae8a70;
-  background: #210f18ed;
-  color: var(--stage-cream);
-  font-size: .76rem;
-  cursor: pointer;
-}
-.motion-control:hover { border-color: var(--stage-gold); }
-@keyframes float-tool {
-  0%, 100% { transform: translate3d(0, 0, 0) rotate(var(--prop-angle)); }
-  50% { transform: translate3d(var(--float-x, 11px), var(--float-y, -23px), 0) rotate(calc(var(--prop-angle) + 9deg)); }
-}
-@keyframes drift-glints {
-  0%, 100% { transform: translate3d(-1%, 2%, 0); opacity: .48; }
-  50% { transform: translate3d(2%, -4%, 0); opacity: .75; }
-}
-@keyframes drift-haze {
-  0%, 100% { transform: translate3d(-5%, 0, 0) rotate(-12deg); }
-  50% { transform: translate3d(10%, -10%, 0) rotate(-8deg); }
-}
-@media (prefers-reduced-motion: no-preference) {
-  .hero[data-motion] .prop { animation: float-tool var(--float-time, 8s) ease-in-out infinite; animation-delay: var(--float-delay, 0s); }
-  .hero[data-motion] .hero-glints { animation: drift-glints 10s ease-in-out infinite; }
-  .hero[data-motion] .hero-haze { animation: drift-haze 13s ease-in-out infinite; }
-  .hero[data-motion="paused"] .prop,
-  .hero[data-motion="paused"] .hero-glints,
-  .hero[data-motion="paused"] .hero-haze { animation-play-state: paused; }
-}
-.prop-pole { --float-time: 7s; --float-x: -9px; --float-delay: -2s; }
-.prop-clipper { --float-time: 8.8s; --float-x: -14px; --float-delay: -5s; }
-.prop-razor { --float-time: 9s; --float-delay: -3s; }
 main section.service-menu {
   position: relative;
   background:
@@ -232,34 +102,16 @@ main section.service-menu {
   width: 4px;
   background: repeating-linear-gradient(145deg, #8d354c 0 6px, #ebcfac 6px 12px);
 }
-@media (max-width: 900px) {
-  .prop-pole { right: -28px; }
-}
 @media (max-width: 740px) {
   .hero { padding: 35px 0 64px; }
   .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 29px; }
   .hero h1 { font-size: clamp(4.25rem, 18vw, 8rem); }
-  .hero-atmosphere {
-    background-image:
-      linear-gradient(110deg, #321323e8 4%, #371323a8 64%, #47192d4f 100%),
-      radial-gradient(ellipse at 74% 70%, #8a274f8c, transparent 68%),
-      url('../img/shop-atmosphere.webp');
-    background-position: 74% center;
-  }
   .hero-photo {
     --arch: 49% 49% 4px 4px / 29% 29% 4px 4px;
     width: calc(100% - 15px);
   }
   .hero-photo img { aspect-ratio: 1.13; }
-  .prop-shears { --prop-size: 96px; --prop-opacity: .45; left: auto; right: -12px; top: 4%; }
-  .prop-pole { --prop-size: 83px; --prop-opacity: .57; right: -24px; top: 44%; }
-  .prop-clipper { --prop-size: 96px; right: auto; left: -33px; bottom: -2%; }
-  .prop-razor { display: none; }
-  .motion-control { bottom: 12px; }
   .mobile-actions { background: #391724; border-top-color: #b87958; }
   .mobile-actions .btn { background: #f6cea8; color: #30191a; }
   .mobile-actions .btn.quiet { background: transparent; border-color: #edbb99a0; color: #fff0d3; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .hero-props { transition: none; transform: none; }
 }

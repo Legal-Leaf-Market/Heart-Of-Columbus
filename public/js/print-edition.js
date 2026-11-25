@@ -11,6 +11,11 @@
 //      and listed in the toolbar, so nothing is cut off silently.
 // Fitting runs at full tabloid size before the reading view is restored.
 (() => {
+  const colorPrint = document.querySelector('[data-pe-color-print]');
+  if (colorPrint) {
+    colorPrint.hidden = false;
+    colorPrint.addEventListener('click', () => window.print());
+  }
   const paper = document.querySelector('.pe-paper');
   if (!paper) return;
   const statusEl = document.querySelector('[data-pe-status]');
@@ -135,12 +140,12 @@
   }
 
   // Fill existing reading gaps without making a row taller or affecting the proof.
-  const readerTrivia = [...paper.querySelectorAll('.pe-reader-trivia')];
+  const readerFillers = [...paper.querySelectorAll('.pe-reader-trivia')];
   const wideReader = matchMedia('screen and (min-width: 901px)');
-  function fitReadingTrivia() {
+  function fitReadingExtras() {
     if (!wideReader.matches || !paper.classList.contains('pe-reading') || paper.classList.contains('pe-fitting')) return;
-    for (const card of readerTrivia) card.hidden = true;
-    for (const card of readerTrivia) {
+    for (const card of readerFillers) card.hidden = true;
+    for (const card of readerFillers) {
       const cell = card.parentElement;
       if (gapIn(cell) < 64) continue;
       const row = cell.parentElement;
@@ -162,6 +167,18 @@
     return out;
   }
 
+  function fitColoring(card, container, fits) {
+    const room = gapIn(container);
+    if (room >= 250) {
+      card.classList.add('pe-color-fit');
+      const caption = card.offsetHeight - card.querySelector('img').offsetHeight;
+      card.style.setProperty('--pe-color-height', `${Math.floor(room - caption - 15)}px`);
+      if (gapIn(container) >= -1 && fits()) return true;
+      card.classList.remove('pe-color-fit');
+    }
+    return false;
+  }
+
   function fillers() {
     const tpl = document.getElementById('pe-fillers');
     if (!tpl) return;
@@ -171,6 +188,11 @@
     const trivia = pool.filter((item) => item.dataset.trivia);
     const notices = pool.filter((item) => item.dataset.house);
     const ad = pool.find((item) => item.dataset.printAd);
+    for (const card of paper.querySelectorAll('.pe-wide-rail > .pe-color-portrait')) {
+      const rail = card.parentElement;
+      const before = rail.getBoundingClientRect().height;
+      fitColoring(card, rail, () => rail.getBoundingClientRect().height <= before + 1);
+    }
     const uses = new Map();
     const gaps = gapsNow().sort((a, b) => b[1] - a[1]);
     for (const [cell] of gaps) {
@@ -188,8 +210,11 @@
       let hasGuide = Boolean(sheet.querySelector('[data-landmark]'));
       let hasTrivia = Boolean(sheet.querySelector('[data-trivia]'));
       cell.classList.add('pe-filled');
+      const card = cell.querySelector(':scope > .pe-color-portrait');
+      if (card) placed = fitColoring(card, cell, fits);
       for (const item of order) {
-        if (gapIn(cell) < MIN) break;
+        const gap = gapIn(cell);
+        if (gap < MIN) break;
         const id = item.dataset.landmark || item.dataset.hist || item.dataset.trivia || item.dataset.house || item.dataset.printAd;
         const cap = item.dataset.house || item.dataset.printAd ? 2 : 1;
         const notice = item.dataset.house?.replace(/-slim$/, '');
@@ -364,7 +389,7 @@
       const reading = paper.classList.toggle('pe-reading');
       proof.setAttribute('aria-pressed', String(!reading));
       zoomProof();
-      fitReadingTrivia();
+      fitReadingExtras();
       if (current) window.scrollBy(0, current.getBoundingClientRect().top - headerBottom - 12);
     });
     tb.querySelector('[data-pe-clean]').addEventListener('change', (event) => paper.classList.toggle('pe-clean', event.target.checked));
@@ -382,13 +407,16 @@
       trims();
       balance();
       fillers();
+      for (const card of paper.querySelectorAll('.pe-color-portrait:not(.pe-color-fit)')) {
+        issues.push(`Page ${pageOf(card)}: ${card.querySelector('h3').textContent} needs more room in the print column.`);
+      }
       report();
     } finally {
       paper.classList.remove('pe-fitting');
     }
-    fitReadingTrivia();
-    addEventListener('resize', fitReadingTrivia);
-    if (document.readyState !== 'complete') addEventListener('load', fitReadingTrivia, { once: true });
+    fitReadingExtras();
+    addEventListener('resize', fitReadingExtras);
+    if (document.readyState !== 'complete') addEventListener('load', fitReadingExtras, { once: true });
     const ok = !issues.length;
     if (statusEl) {
       statusEl.classList.add(ok ? 'ok' : 'bad');

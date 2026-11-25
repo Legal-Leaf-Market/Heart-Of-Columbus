@@ -39,11 +39,13 @@ import { seriesBySlug, seriesHref } from '../news/series.mjs';
 import { BRIEFS } from '../print/briefs.mjs';
 import { almanac } from '../print/almanac.mjs';
 import { buildCrossword, buildWordSearch, WORDSEARCH } from '../print/puzzles.mjs';
+import { COLORING } from '../print/coloring.mjs';
 import { EDITION } from '../print/edition-2026-12.mjs';
 
 const E = EDITION;
 const PHOTOS = { ...SITE_PHOTOS, ...DECADE_PHOTOS };
 const BASE = `/print/${E.slug}/`;
+const COLORING_PATH = `${BASE}coloring/`;
 const pageAnchor = (n) => `page-${n}`;
 const SLOT_DIR = new URL(`../../content/print/${E.slug}/`, import.meta.url);
 const historyBy = Object.fromEntries(ARTICLES.map((a) => [`${a.group}/${a.slug}`, a]));
@@ -275,7 +277,7 @@ function writerMod(m) {
   const side = layout === 'wide' && m.sidebar ? `<aside class="pe-sidebar"><h3>${t(c?.box?.title || m.sidebar)}</h3>${c?.box?.items ? `<ul>${c.box.items.map((i) => `<li>${t(i)}</li>`).join('')}</ul>` : '<p class="pe-empty">The writer fills this box with checked numbers.</p>'}</aside>` : '';
   const factBox = `<aside class="pe-sidebar pe-factbox"><h3>${t(c?.box?.title || m.sidebar || 'The project in numbers')}</h3>${c?.box?.items ? `<ul>${c.box.items.map((i) => `<li>${t(i)}</li>`).join('')}</ul>` : '<p class="pe-empty">The writer fills this box with checked numbers: the final cost, the money from each source, the opening dates.</p>'}</aside>`;
   const inner = layout === 'lead' ? `<div class="pe-lead"><div class="pe-lead-l">${photo}${factBox}${m.architecture ? architectureHtml(m.architecture) : ''}${readingCoupon(m.readerCoupon)}</div><div class="pe-lead-text">${text}</div></div>`
-    : layout === 'wide' ? `<div class="pe-wide">${text}${side}</div>`
+    : layout === 'wide' ? `<div class="pe-wide">${text}<div class="pe-wide-rail">${side}${coloringCard(m.coloring)}</div></div>`
     : layout === 'theme' ? `<div class="pe-theme-intro">${text}</div>`
     : `${photo}${text}`;
   const ties = c ? discloseFor(c.tags) : '';
@@ -536,7 +538,7 @@ function sheet(pg) {
   const folio = pg.n === 1 ? '' : `<div class="pe-folio"><span>${pg.n % 2 ? `<i class="pe-sec">${t(pg.section)}</i>` : `<b class="pe-pn">${pg.n}</b>`}</span><span>Heart of Columbus · ${t(E.date)}</span><span>${pg.n % 2 ? `<b class="pe-pn">${pg.n}</b>` : `<i class="pe-sec">${t(pg.section)}</i>`}</span></div>`;
   return `<section class="pe-sheet${pg.spread ? ` pe-spread-${pg.spread}` : ''}" data-page="${pg.n}" data-topics="${esc((pg.topics || []).join(' '))}" id="${pageAnchor(pg.n)}" tabindex="-1" aria-label="Page ${pg.n}, ${esc(pg.section)}">
   ${folio}
-  <div class="pe-body">${pg.rows.map((row) => `<div class="pe-row${row.fill ? ' pe-fill' : ''}${row.readerColumns ? ' pe-reader-pair' : ''}"${row.readerColumns ? ` style="--pe-reader-columns:${row.readerColumns.map((width) => `minmax(0,${width}fr)`).join(' ')}"` : ''}>${row.mods.map((m) => `<div class="pe-cell" style="grid-column:span ${m.span}">${mod(m)}${m.layout === 'lead' ? '' : readingExtras(m)}</div>`).join('')}</div>`).join('')}</div>
+  <div class="pe-body">${pg.rows.map((row) => `<div class="pe-row${row.fill ? ' pe-fill' : ''}${row.readerColumns ? ' pe-reader-pair' : ''}"${row.readerColumns ? ` style="--pe-reader-columns:${row.readerColumns.map((width) => `minmax(0,${width}fr)`).join(' ')}"` : ''}>${row.mods.map((m) => `<div class="pe-cell" style="grid-column:span ${m.span}">${mod(m)}${m.layout === 'wide' ? '' : coloringCard(m.coloring)}${m.layout === 'lead' ? '' : readingExtras(m)}</div>`).join('')}</div>`).join('')}</div>
   <nav class="pe-page-turn" aria-label="Around page ${pg.n}">
     ${previous ? `<a href="#${pageAnchor(previous.n)}"><span>← Page ${previous.n}</span>${t(previous.section)}</a>` : ''}
     ${next ? `<a href="#${pageAnchor(next.n)}"><span>Page ${next.n} →</span>${t(next.section)}</a>` : `<a href="#${pageAnchor(1)}"><span>Back to page 1 ↑</span>Front page</a>`}
@@ -618,6 +620,17 @@ function printCoupon(id, className = '') {
   </aside>`;
 }
 const readingCoupon = (id) => id ? printCoupon(id, 'pe-reader-extra') : '';
+function coloringCard(id) {
+  if (!id) return '';
+  const art = COLORING[id];
+  if (!art) throw new Error(`print: unknown coloring panel ${id}`);
+  const portrait = `/print-media/coloring-${id}-portrait.webp`;
+  return `<aside class="pe-color-card pe-color-portrait" data-coloring="${id}">
+    <img src="${portrait}" srcset="${portrait} 1x" width="880" height="1760" alt="${esc(art.alt)}">
+    <div><p class="pe-card-label">Color Indiana · ${t(art.place)}</p><h3>${t(art.title)}</h3><p>${t(art.note)}</p></div>
+  </aside>`;
+}
+
 function readingExtras(m) {
   const landmark = m.readerLandmark ? architectureHtml(m.readerLandmark, 'pe-reader-extra pe-architecture-feature') : '';
   const trivia = (m.readerTrivia || []).map(([path, fact, source]) => {
@@ -753,6 +766,26 @@ The story, in plain paragraphs.</pre>
   });
 };
 
+const coloringPage = ({ assets }) => page({
+  title: 'Color Indiana | Heart of Columbus', description: 'Printable Hoosier coloring sheets, from Anderson Falls to the Indiana Dunes.',
+  path: COLORING_PATH, styles: ['print-edition.css'], scripts: ['print-edition.js'], assets,
+  body: `<main id="main" class="pe-color-gallery">
+    <header class="pe-color-toolbar">
+      <a href="${BASE}#${pageAnchor(15)}">Back to the December edition</a>
+      <h1>Color Indiana</h1>
+      <p>${Object.keys(COLORING).length} Hoosier scenes to print and color.</p>
+      <button type="button" data-pe-color-print hidden>Print coloring sheets</button>
+    </header>
+    ${Object.entries(COLORING).map(([id, art]) => `<article class="pe-color-sheet" id="${id}">
+      <p class="pe-card-label">Heart of Columbus · ${t(art.place)}</p>
+      <h2>${t(art.title)}</h2>
+      <img src="/print-media/coloring-${id}.webp" srcset="/print-media/coloring-${id}.webp 1x" width="1536" height="1024" alt="${esc(art.alt)}">
+      <p>${t(art.note)}</p>
+      <p class="pe-color-sources"><a href="${esc(art.href)}">${t(art.source)}</a>${art.extraSource ? ` · <a href="${esc(art.extraSource[1])}">${t(art.extraSource[0])}</a>` : ''}</p>
+    </article>`).join('')}
+  </main>`,
+});
+
 const indexPage = ({ assets }) => page({
   title: 'The print edition | Heart of Columbus', description: 'Heart of Columbus in print.', path: '/print/', styles: ['print-edition.css'], assets,
   body: `<main id="main" class="pe-status"><p class="pe-kicker">In print</p><h1>Heart of Columbus in print</h1><ul class="pe-todo"><li><a href="${BASE}"><b>${t(E.date)}</b></a>: ${t(E.line)} <a href="${BASE}status/">What’s left before printing</a>.</li></ul></main>`,
@@ -763,6 +796,7 @@ export function printPages(ctx) {
     { path: 'print/index.html', html: indexPage(ctx) },
     { path: `print/${E.slug}/index.html`, html: editionPage(ctx) },
     { path: `print/${E.slug}/status/index.html`, html: statusPage(ctx) },
+    { path: `print/${E.slug}/coloring/index.html`, html: coloringPage(ctx) },
   ];
   // A writer's file with a dash in it would only fail at the end of the
   // build; name the file instead.

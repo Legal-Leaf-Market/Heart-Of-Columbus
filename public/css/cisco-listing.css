@@ -1,0 +1,129 @@
+@font-face {
+  font-family: 'Cisco Display';
+  src: url('/preview/ciscos-barber-shop/brand/barlow-condensed-latin-800-normal.woff2') format('woff2');
+  font-weight: 800;
+  font-display: swap;
+}
+
+.cisco-listing .biz {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+}
+.cisco-listing .cisco-room {
+  --stage-cream: #fff0d3;
+  --stage-gold: #edbc86;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  min-height: 550px;
+  margin: 0;
+  padding: clamp(32px, 7vw, 92px) clamp(28px, 7vw, 95px) clamp(58px, 8vw, 92px);
+  border: 1px solid #98614b;
+  border-radius: 18px;
+  background: #2a111f;
+  color: var(--stage-cream);
+}
+.cisco-listing .hero-atmosphere {
+  background-image:
+    linear-gradient(90deg, #30111dc0, #35121fc2 46%, #32101922 80%),
+    radial-gradient(ellipse at 65% 73%, #74304760, transparent 70%),
+    url('/preview/ciscos-barber-shop/img/shop-atmosphere.webp');
+}
+.cisco-listing .cisco-copy {
+  z-index: 1;
+  width: min(100%, 39rem);
+}
+.cisco-room .kicker, .cisco-room .kicker a { color: var(--stage-gold); }
+.cisco-listing .cisco-room h1 {
+  width: 100%;
+  margin: 12px 0 0;
+  color: var(--stage-cream);
+  font: 800 clamp(4rem, 10.5vw, 8.65rem)/.77 'Cisco Display', 'Arial Narrow', sans-serif;
+  text-transform: uppercase;
+  text-shadow: 0 3px 14px #18070c;
+  overflow-wrap: normal;
+}
+.cisco-room h1 span {
+  display: block;
+  margin-top: .19em;
+  color: #faad98;
+  font-size: .48em;
+  letter-spacing: .015em;
+  line-height: .93;
+}
+.cisco-listing .cisco-room .biz-type {
+  max-width: 31ch;
+  margin-top: 18px;
+  color: #f8decd;
+}
+.cisco-room .tag {
+  background: #291019ce;
+  border-color: #d9ac9b;
+  color: var(--stage-cream);
+}
+.cisco-room .biz-reviews {
+  width: fit-content;
+  background: #28121cde;
+  border-color: #ad776a;
+}
+.cisco-room .biz-actions .btn {
+  background: #f6cea8;
+  color: #30191a;
+  border-color: #f0b998;
+}
+.cisco-room .biz-actions .btn-ghost {
+  background: #24131ae6;
+  color: var(--stage-cream);
+  border-color: #c799895e;
+}
+.cisco-room .biz-actions .cisco-preview-link {
+  background: #7c2d47;
+  color: #fff5e6;
+  border-color: #e4af9e;
+}
+.cisco-room .biz-actions .btn:hover { filter: brightness(1.12); }
+.cisco-room .biz-extra-actions { border-color: #c799896e; }
+.cisco-room .prop-clipper { bottom: 8%; right: 2%; }
+.cisco-room .prop-pole { right: 3%; }
+.cisco-room .prop-razor { left: -40px; }
+.cisco-scene-note {
+  position: absolute;
+  z-index: 1;
+  left: clamp(16px, 3vw, 32px);
+  bottom: 22px;
+  padding: 2px 5px;
+  background: #210f18bb;
+  color: #ffe5cd;
+  font-size: 11px;
+}
+.cisco-listing .cisco-visit {
+  border-color: #cf9c8b;
+  background: #fff7ec;
+  color: #321724;
+}
+.cisco-visit .side-body { padding: clamp(16px, 3vw, 28px); }
+.cisco-visit .side-addr { font-family: 'Cisco Display', sans-serif; font-size: 1.75rem; }
+.cisco-visit .side-addr span { font-family: var(--body); font-size: .95rem; }
+.cisco-visit caption { color: #712746; }
+.cisco-listing .biz-side > .fine { margin: 0; }
+@media (min-width: 960px) {
+  .cisco-listing .biz-side {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: 16px 24px;
+    align-items: start;
+  }
+  .cisco-listing .cisco-visit { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .cisco-visit iframe { height: 100%; min-height: 320px; border: 0; }
+  .cisco-listing .biz-side > .fine { grid-column: 1 / -1; }
+}
+@media (max-width: 740px) {
+  .cisco-listing .cisco-room { min-height: 525px; }
+  .cisco-listing .hero-atmosphere { background-position: 88% center; }
+  .cisco-room .prop-shears { right: -8px; }
+  .cisco-room .prop-pole { top: 13%; right: -20px; }
+  .cisco-room .prop-clipper { left: -21px; right: auto; bottom: -2%; opacity: .42; }
+  .cisco-scene-note { bottom: 19px; }
+}

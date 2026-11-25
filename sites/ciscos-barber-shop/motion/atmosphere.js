@@ -1,4 +1,4 @@
-const stage = document.querySelector('.hero');
+const stage = document.querySelector('[data-cisco-room]');
 const control = stage.querySelector('.motion-control');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const finePointer = matchMedia('(hover: hover) and (pointer: fine)');

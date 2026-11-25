@@ -47,7 +47,7 @@ export const EDITION = {
       { fill: true, readerColumns: [68, 32], mods: [
         { span: 3, type: 'writer', id: 'publisher', brief: null, writer: 'jacob-kennedy', editor: 'eli-wire', words: 650, kicker: 'From the publisher',
           working: 'Why a paper?', guide: 'Jake’s own column: why Heart of Columbus prints a paper, who it is for, and what readers can expect from it. About 650 words, in his voice.' },
-        { span: 2, type: 'stack', readerLandmark: 'library', readerCoupon: 'publisher',
+        { span: 2, type: 'stack', readerLandmark: 'library', readerCoupon: 'publisher', coloring: 'turtle',
           readerTrivia: [
             ['1970s/the-republic-glass-newsroom', 'People on Second Street could watch The Republic’s printing press run through the windows.'],
             ['papers/columbus-argues-in-print', 'You can read issues of the Columbus Weekly Union from the 1860s in the Indiana State Library’s digital archive.'],
@@ -62,7 +62,7 @@ export const EDITION = {
 
     { n: 3, section: 'Schools', topics: ['schools'], rows: [
       { mods: [{ span: 5, type: 'writer', id: 'referendum', layout: 'wide', brief: 'B', writer: null, editor: 'jacob-kennedy', words: 650,
-        sidebar: 'What it costs, what it pays for' }] },
+        sidebar: 'What it costs, what it pays for', coloring: 'anderson' }] },
       { fill: true, mods: [{ span: 5, type: 'history', path: '1960s/lincoln-elementary-and-lady-bird', fit: 'trim', label: 'From our history: a school built for every child', cols: 5 }] },
     ] },
 
@@ -128,7 +128,7 @@ export const EDITION = {
       { fill: true, mods: [
         { span: 3, type: 'story', slug: 'my-father-my-hero', cols: 2, big: true,
           photo: { key: null, note: 'Photo wanted: Kevin Lee Kennedy, from the family, with permission. In uniform, or today.' } },
-        { span: 2, type: 'stack', mods: [
+        { span: 2, type: 'stack', coloring: 'cardinal', mods: [
           { type: 'box', box: 'byb-quote', quote: 'My father has broken generational curses. Several. On his own back.' },
           { type: 'box', box: 'byb-coupon' },
         ] },
@@ -146,7 +146,7 @@ export const EDITION = {
       { mods: [{ span: 5, type: 'box', box: 'free' }] },
       { fill: true, mods: [
         { span: 3, type: 'box', box: 'sidewalk', photos: ['irwin', 'courthouse', 'miller'] },
-        { span: 2, type: 'stack', mods: [{ type: 'box', box: 'visitors' }, { type: 'box', box: 'tours' }] },
+        { span: 2, type: 'stack', coloring: 'dunes', mods: [{ type: 'box', box: 'visitors' }, { type: 'box', box: 'tours' }] },
       ] },
     ] },
 
@@ -195,7 +195,7 @@ export const EDITION = {
       ] },
       { fill: true, mods: [
         { span: 3, type: 'box', box: 'wordsearch' },
-        { span: 2, type: 'box', box: 'where' },
+        { span: 2, type: 'box', box: 'where', coloring: 'cataract' },
       ] },
     ] },
 
