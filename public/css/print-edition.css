@@ -174,7 +174,8 @@ body:has(.pe-paper) :where(a, button, summary):focus-visible { outline: 2px soli
 .pe-lead-text .pe-text { flex: 1 1 0; min-height: 0; column-fill: auto; overflow: hidden; }
 .pe-wide { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); column-gap: var(--pe-gap); }
 .pe-wide > .pe-text, .pe-wide > .pe-brief { grid-column: span 3; }
-.pe-sidebar { grid-column: span 2; background: var(--pe-tint); padding: 8pt 10pt; font: 8pt/1.35 var(--pe-sans); align-self: start; }
+.pe-wide-rail { grid-column: span 2; min-width: 0; }
+.pe-sidebar { background: var(--pe-tint); padding: 8pt 10pt; font: 8pt/1.35 var(--pe-sans); align-self: start; }
 .pe-sidebar h3 { font: 800 12pt/1.1 var(--pe-head); margin: 0 0 4pt; }
 .pe-sidebar ul { padding-left: 1em; }
 .pe-empty { color: var(--pe-gray); font-style: italic; }
@@ -735,12 +736,13 @@ body:has(.pe-status) { background: var(--paper, #fbf7f0); }
 /* Printable Hoosier scenes and their small reading-view invitations. */
 .pe-color-card { flex: none; min-width: 0; margin: 10pt 0 0; }
 .pe-color-card > img { display: block; width: min(100%, 3.62in); height: auto; margin: 0 auto 5pt; }
-.pe-color-card[data-coloring="anderson"] > img { width: min(100%, 3in); }
+.pe-color-card.pe-color-portrait > img {
+  width: auto; height: clamp(0px, var(--pe-color-height, 5in), 7.25in); max-width: 100%;
+  object-fit: contain;
+}
+.pe-color-portrait { padding-inline: 4pt; }
 .pe-color-card h3 { margin: 2pt 0 3pt; font: 780 14pt/1.1 var(--pe-head); }
 .pe-color-card p { font: 9pt/1.25 var(--pe-serif); }
-.pe-color-card .pe-qr { margin-top: 4pt; }
-.pe-color-card .pe-qr-code { width: .43in; height: .43in; }
-.pe-color-card .pe-qr span { display: none; }
 .pe-color-more { display: none; }
 @media screen {
   .pe-reading:not(.pe-fitting) .pe-color-more { display: block; margin: 2px 0 12px; font: 750 14px var(--pe-sans); }
