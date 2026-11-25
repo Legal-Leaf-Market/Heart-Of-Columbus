@@ -70,4 +70,11 @@ ${footer()}`;
   });
 }
 
+// What the header search reads (/data/worship.json): just enough to find a
+// congregation by name, faith or town and send the reader to its row here.
+export const worshipIndex = () => ({
+  faiths: Object.fromEntries(worshipGroups().map((g) => [g.id, g.name])),
+  rows: WORSHIP.map((r) => ({ s: r.slug, n: clean(r.name), f: r.faith, t: r.town, ...(r.address ? { a: r.address } : {}) })),
+});
+
 export const worshipPages = (ctx) => [{ path: 'worship/index.html', html: worshipPage(ctx) }];

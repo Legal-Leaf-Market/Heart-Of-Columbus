@@ -179,11 +179,38 @@
   }
 
   // ---------- Typeahead ----------
+  // Places of worship live on /worship/, not in the business index. The search
+  // offers that page when a query is about worship, and up to three
+  // congregations whose name, faith or town matches every word.
+  var worshipPromise = null;
+  var HoCWorship = function () {
+    if (!worshipPromise) worshipPromise = fetch('/data/worship.json').then(function (r) { return r.ok ? r.json() : { faiths: {}, rows: [] }; }).catch(function () { return { faiths: {}, rows: [] }; });
+    return worshipPromise;
+  };
+  var WORSHIP_WORDS = /\b(worship|church|churches|chapel|mass|masses|parish|catholic|mosque|masjid|islam|islamic|muslim|temple|hindu|synagogue|jewish|buddhist|zen|zendo|gurdwara|sikh|baptist|methodist|lutheran|presbyterian|pentecostal|nazarene|quaker|friends meeting|episcopal|orthodox|congregation|service times|sunday service)\b/;
+  // The word a visitor types for a faith's place, mapped to the faith's own name.
+  var WORSHIP_SYN = { mosque: ['islam'], masjid: ['islam'], muslim: ['islam'], mass: ['catholic'], parish: ['catholic'], synagogue: ['judaism'], jewish: ['judaism'], temple: ['hindu', 'buddh'] };
+  var CHURCH_SVG = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v4M10 4h4M6 21V11l6-5 6 5v10M3 21h18M10 21v-4a2 2 0 0 1 4 0v4"/></svg>';
+  var worshipRows = function (w, q) {
+    var qn = norm(q), words = tokens(q);
+    var html = WORSHIP_WORDS.test(qn) ? '<a href="/worship/"><span class="ta-e">' + CHURCH_SVG + '</span><span><strong>Places of worship</strong><small>Every congregation in town, by faith</small></span></a>' : '';
+    if (qn.length < 3) return html;
+    var hits = (w.rows || []).filter(function (r) {
+      var hay = r._h || (r._h = norm([r.n, (w.faiths || {})[r.f], r.t, r.a].join(' ')));
+      return words.every(function (x) { return hay.indexOf(x) !== -1 || (WORSHIP_SYN[x] || []).some(function (y) { return hay.indexOf(y) !== -1; }); });
+    });
+    // Most specific first: a name match beats a faith or town match.
+    hits.sort(function (a, b) { return (norm(b.n).indexOf(qn) !== -1) - (norm(a.n).indexOf(qn) !== -1) || a.n.localeCompare(b.n); });
+    return html + hits.slice(0, 3).map(function (r) {
+      return '<a href="/worship/#' + encodeURIComponent(r.s) + '"><span class="ta-e">' + CHURCH_SVG + '</span><span><strong>' + esc(r.n) + '</strong><small>' + esc((w.faiths || {})[r.f] || 'Place of worship') + ' · ' + esc(r.a || r.t) + '</small></span></a>';
+    }).join('');
+  };
   $$('[data-typeahead]').forEach(function (form) {
     var input = $('input', form), list = $('[data-ta-list]', form), sel = -1;
     function render(q) {
       if (!q) { list.hidden = true; return; }
-      window.HoCDir().then(function (all) {
+      Promise.all([window.HoCDir(), HoCWorship()]).then(function (got) {
+        var all = got[0];
         var hits = window.HoCRank(all, q);
         var cats = Object.keys(CAT).filter(function (k) { return norm(CAT[k][0]).indexOf(norm(q)) !== -1; }).slice(0, 2);
         var html = cats.map(function (k) {
@@ -195,7 +222,9 @@
           var extra = (st ? ' · <em class="' + (st.open ? 'ta-open' : 'ta-closed') + '">' + (st.open ? 'Open now' : 'Closed') + '</em>' : '') + (b.o ? ' · Order online' : b.k ? ' · Book online' : b.f ? ' · Shop online' : '');
           return '<a href="/b/' + b.s + '/"><span class="ta-e" style="--t:' + c[2] + '"><img src="/art/icon-' + b.c + '.svg" width="22" height="22" alt=""></span><span><strong>' + esc(b.n) + '</strong><small>' + esc(b.y) + (b.a ? ' · ' + esc(b.a) : '') + extra + '</small></span></a>';
         }).join('');
-        html += '<a href="/explore/?q=' + encodeURIComponent(q) + '" class="ta-all"><span class="ta-e"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span><span><strong>See all ' + hits.length + ' results</strong><small>for “' + esc(q) + '”</small></span></a>';
+        var wr = worshipRows(got[1], q);
+        html += wr;
+        if (hits.length || !wr) html += '<a href="/explore/?q=' + encodeURIComponent(q) + '" class="ta-all"><span class="ta-e"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span><span><strong>See all ' + hits.length + ' results</strong><small>for “' + esc(q) + '”</small></span></a>';
         list.innerHTML = html;
         list.hidden = false;
         sel = -1;
