@@ -618,7 +618,17 @@ function printCoupon(id, className = '') {
   </aside>`;
 }
 const readingCoupon = (id) => id ? printCoupon(id, 'pe-reader-extra') : '';
-const readingExtras = (m) => (m.readerLandmark ? architectureHtml(m.readerLandmark, 'pe-reader-extra pe-architecture-feature') : '') + readingCoupon(m.readerCoupon);
+function readingExtras(m) {
+  const landmark = m.readerLandmark ? architectureHtml(m.readerLandmark, 'pe-reader-extra pe-architecture-feature') : '';
+  const trivia = (m.readerTrivia || []).map(([path, fact, source]) => {
+    const article = historyBy[path];
+    if (article?.status !== 'approved') throw new Error(`print: reader trivia needs approved history for ${path}`);
+    return `<aside class="pe-reader-extra pe-reader-trivia" hidden>
+      <p class="pe-card-label">Did you know? · Columbus</p><p><a href="${esc(source || article.path)}">${t(fact)}</a></p>
+    </aside>`;
+  }).join('');
+  return landmark + readingCoupon(m.readerCoupon) + trivia;
+}
 
 const HOUSE = [
   ['tips', 'Know something we should?', 'Tell us. A reporter reads every tip, and we never print your name without asking.', '/tips/', 'Send a tip'],
