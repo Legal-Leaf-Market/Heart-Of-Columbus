@@ -154,6 +154,7 @@
     const history = pool.filter((item) => item.dataset.hist);
     const trivia = pool.filter((item) => item.dataset.trivia);
     const notices = pool.filter((item) => item.dataset.house);
+    const ad = pool.find((item) => item.dataset.printAd);
     const uses = new Map();
     const gaps = gapsNow().sort((a, b) => b[1] - a[1]);
     for (const [cell] of gaps) {
@@ -162,7 +163,8 @@
       const row = cell.closest('.pe-row');
       const body = sheet.querySelector('.pe-body');
       const relatedFirst = (items) => [...items.filter((item) => topics.includes(item.dataset.topic)), ...items.filter((item) => !topics.includes(item.dataset.topic))];
-      const order = [...architecture, ...relatedFirst(history), ...relatedFirst(trivia), ...notices];
+      const printAd = ad && !sheet.querySelector('.pe-business-ad, .pe-ad, [data-print-ad]:not(.pe-reader-extra)') ? [ad] : [];
+      const order = [...architecture, ...printAd, ...relatedFirst(history), ...relatedFirst(trivia), ...notices];
       const before = row.getBoundingClientRect().height;
       const fits = () => !squeezed(cell) && !over(body) && row.getBoundingClientRect().height <= before + 1;
       const pageNotices = new Set([...sheet.querySelectorAll('[data-house]')].map((item) => item.dataset.house.replace(/-slim$/, '')));
@@ -172,8 +174,8 @@
       cell.classList.add('pe-filled');
       for (const item of order) {
         if (gapIn(cell) < MIN) break;
-        const id = item.dataset.landmark || item.dataset.hist || item.dataset.trivia || item.dataset.house;
-        const cap = item.dataset.house ? 2 : 1;
+        const id = item.dataset.landmark || item.dataset.hist || item.dataset.trivia || item.dataset.house || item.dataset.printAd;
+        const cap = item.dataset.house || item.dataset.printAd ? 2 : 1;
         const notice = item.dataset.house?.replace(/-slim$/, '');
         if ((uses.get(id) || 0) >= cap || (notice && pageNotices.has(notice))) continue;
         if (item.dataset.landmark && hasGuide) continue;

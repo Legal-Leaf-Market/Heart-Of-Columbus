@@ -124,6 +124,7 @@ const PLANNED_ARCHITECTURE = new Set(E.pages.flatMap((pg) => pg.rows.flatMap((ro
 
 // ---------- QR codes ----------
 // Every story ends with a code to its page online, where the sources are.
+const PRINT_AD_INQUIRY = '/owners/?want=printad#claim';
 const qrUrls = new Set([`${ORIGIN}/help/`, `${ORIGIN}/newsletter/`, `${ORIGIN}/letters/`, `${ORIGIN}/tips/`, `${ORIGIN}/events/`, `${ORIGIN}/founders-club/`, `${ORIGIN}${BYB_HREF}`, `${ORIGIN}/order/`, `${ORIGIN}/history/`, `${ORIGIN}${BASE}`, `${ORIGIN}/about/standards/`, `${ORIGIN}/ask/`]);
 for (const pg of E.pages) for (const m of pg.rows.flatMap((r) => r.mods.flatMap((x) => (x.type === 'stack' ? x.mods : [x])))) {
   if (m.type === 'history' && historyBy[m.path]) qrUrls.add(abs(historyBy[m.path].path));
@@ -134,6 +135,7 @@ for (const [path] of E.gathers) if (historyBy[path]) qrUrls.add(abs(historyBy[pa
 for (const a of CARDS) qrUrls.add(abs(a.path));
 for (const guide of Object.values(ARCHITECTURE)) qrUrls.add(abs(guide.path));
 for (const slug of ['crossroads-wedding-co', 'amys-closet']) qrUrls.add(abs(`/b/${slug}/`));
+qrUrls.add(abs(PRINT_AD_INQUIRY));
 const QR = Object.fromEntries(await Promise.all([...qrUrls].map(async (u) => [u, await QRCode.toString(u, { type: 'svg', margin: 0, errorCorrectionLevel: 'M', color: { dark: '#141310', light: '#ffffff00' } })])));
 const qr = (url, label = 'Read it online, with its sources') => {
   const u = abs(url);
@@ -157,14 +159,14 @@ const FIELD_ART = {
   commons: ['Chaos I at The Commons', 37, 608],
 };
 
-function architectureHtml(slug) {
+function architectureHtml(slug, className = '') {
   const l = landmarkBySlug[slug];
   const guide = ARCHITECTURE[slug];
   if (!l || !guide) throw new Error(`print: no approved illustrated field guide for ${slug}`);
   const [name, top, bottom] = FIELD_ART[slug];
   const height = bottom - top;
   const artStyle = `--art-height:${height};--art-top:${(-100 * top / height).toFixed(2)}%`;
-  return `<aside class="pe-architecture" data-landmark="${esc(slug)}"${height < 300 ? ' data-landscape' : ''}>
+  return `<aside class="pe-architecture${className ? ' ' + className : ''}" data-landmark="${esc(slug)}"${height < 300 ? ' data-landscape' : ''}>
     <div class="pe-architecture-art" style="${artStyle}"><img src="${esc(guide.art)}" alt="Illustration of ${esc(l.name)}" width="512" height="608"></div>
     <div class="pe-architecture-copy"><p class="pe-card-label">Columbus architecture</p><h3>${t(name)}</h3>
       <p class="pe-architecture-location">${t(l.address)}</p><p>${t(guide.dek)}</p>
@@ -272,7 +274,7 @@ function writerMod(m) {
   const photo = c?.photo ? photoFig(c.photo, 'pe-fig-lead') : media?.state === 'photo' ? `<figure class="pe-fig pe-fig-lead"><img src="${esc(media.src)}" srcset="${esc(media.src)} ${media.width}w" alt="${esc(media.alt || '')}"><figcaption><span class="pe-credit">Photo: ${t(media.credit || '')}</span></figcaption></figure>` : m.photo ? photoFig(m.photo, 'pe-fig-lead') : '';
   const side = layout === 'wide' && m.sidebar ? `<aside class="pe-sidebar"><h3>${t(c?.box?.title || m.sidebar)}</h3>${c?.box?.items ? `<ul>${c.box.items.map((i) => `<li>${t(i)}</li>`).join('')}</ul>` : '<p class="pe-empty">The writer fills this box with checked numbers.</p>'}</aside>` : '';
   const factBox = `<aside class="pe-sidebar pe-factbox"><h3>${t(c?.box?.title || m.sidebar || 'The project in numbers')}</h3>${c?.box?.items ? `<ul>${c.box.items.map((i) => `<li>${t(i)}</li>`).join('')}</ul>` : '<p class="pe-empty">The writer fills this box with checked numbers: the final cost, the money from each source, the opening dates.</p>'}</aside>`;
-  const inner = layout === 'lead' ? `<div class="pe-lead"><div class="pe-lead-l">${photo}${factBox}${m.architecture ? architectureHtml(m.architecture) : ''}</div><div class="pe-lead-text">${text}</div></div>`
+  const inner = layout === 'lead' ? `<div class="pe-lead"><div class="pe-lead-l">${photo}${factBox}${m.architecture ? architectureHtml(m.architecture) : ''}${readingCoupon(m.readerCoupon)}</div><div class="pe-lead-text">${text}</div></div>`
     : layout === 'wide' ? `<div class="pe-wide">${text}${side}</div>`
     : layout === 'theme' ? `<div class="pe-theme-intro">${text}</div>`
     : `${photo}${text}`;
@@ -534,7 +536,7 @@ function sheet(pg) {
   const folio = pg.n === 1 ? '' : `<div class="pe-folio"><span>${pg.n % 2 ? `<i class="pe-sec">${t(pg.section)}</i>` : `<b class="pe-pn">${pg.n}</b>`}</span><span>Heart of Columbus · ${t(E.date)}</span><span>${pg.n % 2 ? `<b class="pe-pn">${pg.n}</b>` : `<i class="pe-sec">${t(pg.section)}</i>`}</span></div>`;
   return `<section class="pe-sheet${pg.spread ? ` pe-spread-${pg.spread}` : ''}" data-page="${pg.n}" data-topics="${esc((pg.topics || []).join(' '))}" id="${pageAnchor(pg.n)}" tabindex="-1" aria-label="Page ${pg.n}, ${esc(pg.section)}">
   ${folio}
-  <div class="pe-body">${pg.rows.map((row) => `<div class="pe-row${row.fill ? ' pe-fill' : ''}">${row.mods.map((m) => `<div class="pe-cell" style="grid-column:span ${m.span}">${mod(m)}</div>`).join('')}</div>`).join('')}</div>
+  <div class="pe-body">${pg.rows.map((row) => `<div class="pe-row${row.fill ? ' pe-fill' : ''}${row.readerEven ? ' pe-reader-even' : ''}">${row.mods.map((m) => `<div class="pe-cell" style="grid-column:span ${m.span}">${mod(m)}${m.layout === 'lead' ? '' : readingExtras(m)}</div>`).join('')}</div>`).join('')}</div>
   <nav class="pe-page-turn" aria-label="Around page ${pg.n}">
     ${previous ? `<a href="#${pageAnchor(previous.n)}"><span>← Page ${previous.n}</span>${t(previous.section)}</a>` : ''}
     ${next ? `<a href="#${pageAnchor(next.n)}"><span>Page ${next.n} →</span>${t(next.section)}</a>` : `<a href="#${pageAnchor(1)}"><span>Back to page 1 ↑</span>Front page</a>`}
@@ -597,6 +599,27 @@ function businessAd(id) {
 // ---------- House ads ----------
 // The fitter uses illustrated field guides first, then history, trivia and compact
 // house notices. Business ads are part of the page plan.
+const PRINT_COUPONS = {
+  front: ['Reach Columbus from the front page', 'Put your shop, counter or studio in front of Columbus readers.', 'A winter special, with a reason to stop in.'],
+  publisher: ['Put your name in the paper', 'Tell neighbors what you do, where to find you and what makes a visit worthwhile.', 'A first-visit perk or a seasonal offer.'],
+  civic: ['Make a local introduction', 'Give readers your address, opening hours and a reason to walk through the door.', 'A midweek special or an open house.'],
+  community: ['Give neighbors a reason to stop in', 'Use the space for a short introduction to your business, then add an offer readers can bring to the counter.', 'A service special, tasting or workshop.'],
+  shop: ['Give readers something to clip', 'Feature a best seller, a gift card or a holiday special in the next edition.', 'A gift with purchase or a shop special.'],
+  sports: ['Make it a game-day stop', 'Let families know what’s nearby before tipoff or after the final whistle.', 'A team-night or after-game special.'],
+  puzzles: ['', '', 'A coffee, lunch or bookshop special.'],
+};
+function printCoupon(id, className = '') {
+  const [kicker, copy, idea] = PRINT_COUPONS[id];
+  return `<aside class="pe-space-ad ${className}" data-print-ad="${id}" aria-label="Heart of Columbus house advertisement">
+    <div class="pe-space-ad-main"><p class="pe-card-label">House ad · Print space</p>
+      <h3>Your business here</h3>${kicker ? `<p class="pe-space-ad-kicker">${t(kicker)}</p><p>${t(copy)}</p>` : ''}
+      <p class="pe-space-ad-example"><b>Example offer</b> ${t(idea)}</p></div>
+    ${qr(PRINT_AD_INQUIRY, 'Ask about a print ad')}
+  </aside>`;
+}
+const readingCoupon = (id) => id ? printCoupon(id, 'pe-reader-extra') : '';
+const readingExtras = (m) => (m.readerLandmark ? architectureHtml(m.readerLandmark, 'pe-reader-extra pe-architecture-feature') : '') + readingCoupon(m.readerCoupon);
+
 const HOUSE = [
   ['tips', 'Know something we should?', 'Tell us. A reporter reads every tip, and we never print your name without asking.', '/tips/', 'Send a tip'],
   ['byb', 'Back YOUR Blue', 'Tell Columbus about the person who served you: an officer, an EMT, a dispatcher, a veteran.', BYB_HREF, 'Tell us about your Blue'],
@@ -609,7 +632,7 @@ const HOUSE = [
   ['letters', 'Write to the editor', 'Agree, disagree or tell us what we missed. We print letters with the writer’s name.', '/letters/', 'Write a letter'],
   ['order', 'Order direct, skip the app fee', 'Local restaurants and shops that take orders and bookings on their own pages.', '/order/', 'Order and book direct'],
 ];
-const houseAds = () => `<template id="pe-fillers">${Object.keys(ARCHITECTURE).filter((slug) => !PLANNED_ARCHITECTURE.has(slug)).map(architectureHtml).join('')}${CARDS.map((a) => `<aside class="pe-hcard" data-hist="${esc(a.group + '/' + a.slug)}" data-topic="${esc(a.section)}"><div><p class="pe-kicker">From our history · ${t(a.when)}</p><h3>${t(a.title)}</h3><p>${t(a.dek)}</p></div>${qr(a.path, 'The whole story')}</aside>`).join('')}${TRIVIA.map(({ path, fact, article }) => `<aside class="pe-trivia" data-trivia="${esc(path)}" data-topic="${esc(article.section)}"><p><b>Did you know?</b> <a href="${esc(article.path)}">${t(fact)}</a></p></aside>`).join('')}${HOUSE.map(([id, h, p, path, label]) => `<aside class="pe-house" data-house="${id}"><div><p class="pe-house-tag">From Heart of Columbus</p><h3>${t(h)}</h3><p>${t(p)}</p></div>${qr(path, label)}</aside>`).join('')}${HOUSE.map(([id, h, , path, label]) => `<aside class="pe-house pe-house-slim" data-house="${id}-slim" data-max="8"><p><b>${t(h)}</b> ${t(label)}: ${esc(short(ORIGIN))}${esc(path)}</p></aside>`).join('')}</template>`;
+const houseAds = () => `<template id="pe-fillers">${printCoupon('shop', 'pe-print-filler')}${Object.keys(ARCHITECTURE).filter((slug) => !PLANNED_ARCHITECTURE.has(slug)).map(architectureHtml).join('')}${CARDS.map((a) => `<aside class="pe-hcard" data-hist="${esc(a.group + '/' + a.slug)}" data-topic="${esc(a.section)}"><div><p class="pe-kicker">From our history · ${t(a.when)}</p><h3>${t(a.title)}</h3><p>${t(a.dek)}</p></div>${qr(a.path, 'The whole story')}</aside>`).join('')}${TRIVIA.map(({ path, fact, article }) => `<aside class="pe-trivia" data-trivia="${esc(path)}" data-topic="${esc(article.section)}"><p><b>Did you know?</b> <a href="${esc(article.path)}">${t(fact)}</a></p></aside>`).join('')}${HOUSE.map(([id, h, p, path, label]) => `<aside class="pe-house" data-house="${id}"><div><p class="pe-house-tag">From Heart of Columbus</p><h3>${t(h)}</h3><p>${t(p)}</p></div>${qr(path, label)}</aside>`).join('')}${HOUSE.map(([id, h, , path, label]) => `<aside class="pe-house pe-house-slim" data-house="${id}-slim" data-max="8"><p><b>${t(h)}</b> ${t(label)}: ${esc(short(ORIGIN))}${esc(path)}</p></aside>`).join('')}</template>`;
 
 // ---------- Readiness ----------
 export function readiness() {
