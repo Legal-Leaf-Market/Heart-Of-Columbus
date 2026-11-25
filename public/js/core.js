@@ -151,7 +151,7 @@
     document.body.appendChild(fab);
 
     var dlg = document.createElement('dialog');
-    dlg.className = 'hoc-dialog w-full max-w-lg p-0 rounded-t-3xl sm:rounded-3xl border-2 border-ink bg-surface text-ink backdrop:bg-black/60 mt-auto sm:mt-auto mb-0 sm:mb-auto';
+    dlg.className = 'hoc-dialog mx-auto w-full max-w-lg p-0 rounded-t-3xl sm:rounded-3xl border-2 border-ink bg-surface text-ink backdrop:bg-black/60 mt-auto sm:mt-auto mb-0 sm:mb-auto';
     dlg.setAttribute('aria-label', 'Your order');
     document.body.appendChild(dlg);
 
