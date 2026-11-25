@@ -14,7 +14,7 @@ links. The hours indicator uses Columbus time and the schedule on Cisco's site.
 - Confirm weekday closing time, service prices, and the crew with Cisco.
 - Main booking links call (812) 799-1858. Check that Cisco's Booksy profile shows
   1719 Central Ave before changing these links to online booking.
-- Replace the editorial image with a shop photo approved by Cisco.
+- Confirm the homepage photo for standalone use with Cisco.
 - Remove the owner review notes, draft banner, noindex meta tag, and robots
   header in `netlify.toml` after approval.
 

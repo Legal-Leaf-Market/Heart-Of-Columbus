@@ -1,9 +1,8 @@
 # Hero image
 
-`barbering.webp` is an illustrative image for the owner review draft and is
-labeled in the hero. Use a photo approved by Cisco for the standalone site.
-The hero uses a portrait image with a wider crop on phones. When replacing the
-image, update the source, dimensions, alternative text and caption in
-`../index.html` to match.
+`cisco-at-work.webp` comes from the homepage at https://www.ciscos.site/.
+The hero crops the image to a square on desktop and slightly wider on phones.
+When replacing it, update the source, dimensions and alternative text in
+`../index.html`.
 
-The build copies this folder's image assets to `/preview/ciscos-barber-shop/img/`.
+The build copies this folder's assets to `/preview/ciscos-barber-shop/img/`.
