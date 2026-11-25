@@ -69,6 +69,7 @@ ${header('')}
       <label class="ow-biz">Your business<input name="business" autocomplete="off" placeholder="Start typing the name" required><input type="hidden" name="slug"><span class="ow-pick" data-pick></span></label>
       <fieldset><legend>What would you like?</legend>
         ${TIERS.map(([k, e, h]) => `<label class="ow-check"><input type="checkbox" name="wants" value="${k}"> ${e} ${h}</label>`).join('')}
+        <label class="ow-check"><input type="checkbox" name="wants" value="printad"> Ask about a print ad or coupon</label>
         <label class="ow-check"><input type="checkbox" name="wants" value="remove"> 🚫 Take my business off the site</label>
       </fieldset>
       <div class="ow-two"><label>Your name<input name="name" autocomplete="name" required></label><label>Your role<input name="role" placeholder="Owner, manager…"></label></div>
@@ -80,7 +81,7 @@ ${header('')}
         <label>In your words <span class="muted">A few lines about your place, shown as yours</span><textarea name="story" rows="3" maxlength="800"></textarea></label>
         <div class="ow-two"><label>A deal <span class="muted">What it is</span><input name="deal" maxlength="200"></label><label>Deal ends<input name="dealEnds" type="date"></label></div>
       </fieldset>
-      <label>Anything else? <span class="muted">Hours, what’s wrong, what you use now</span><textarea name="message" rows="4" maxlength="1500"></textarea></label>
+      <label>Anything else? <span class="muted">Hours, listing updates or an offer you’d like to print</span><textarea name="message" rows="4" maxlength="1500"></textarea></label>
       <label class="ow-hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
       <p class="ow-err" data-err role="alert" hidden></p>
       <p class="fine">We use what you send only to reply to you about this listing. We don’t sell it or add you to a mailing list.</p>

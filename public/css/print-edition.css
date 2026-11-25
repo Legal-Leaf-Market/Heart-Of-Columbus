@@ -521,6 +521,21 @@ mark.pe-check { background: #ffe58a; color: #5c3b00; font: 700 0.86em/1.3 var(--
 
 .pe-cal-dl { display: none; }
 
+/* House coupons share the paper’s palette and use a perforated inquiry stub. */
+.pe-reader-extra { display: none; }
+.pe-space-ad {
+  flex: none; margin-top: 0.14in; padding: 8pt; border: 1pt dashed var(--pe-red);
+  background: var(--pe-butter); color: var(--pe-ink); font: 8.5pt/1.35 var(--pe-sans);
+}
+.pe-space-ad h3 { font: 800 17pt/1.02 var(--pe-head); margin: 3pt 0 4pt; }
+.pe-space-ad-kicker { font-weight: 750; }
+.pe-space-ad-kicker + p { margin-top: 2pt; }
+.pe-space-ad-example { margin-top: 5pt !important; }
+.pe-space-ad-example b { color: var(--pe-red); margin-right: .24em; }
+.pe-space-ad > .pe-qr { border-top: 1pt dashed var(--pe-hair); padding-top: 6pt; margin-top: 6pt; }
+.pe-space-ad .pe-qr-code { flex: none; width: .43in; height: .43in; }
+.pe-space-ad .pe-qr p span { display: none; }
+
 /* ---------- Screen reading view ----------
    The fitter briefly uses the tabloid geometry. Print media always does. */
 @media screen {
@@ -611,7 +626,36 @@ mark.pe-check { background: #ffe58a; color: #5c3b00; font: 700 0.86em/1.3 var(--
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (min-width: 901px) {
+  .pe-reading:not(.pe-fitting) .pe-reader-pair { grid-template-columns: var(--pe-reader-columns); }
+  .pe-reading:not(.pe-fitting) .pe-reader-pair > .pe-cell { grid-column: auto !important; }
+  .pe-reading:not(.pe-fitting) .pe-lead-l > .pe-fig img { aspect-ratio: 4 / 3; }
+  .pe-reading:not(.pe-fitting) :is(#page-3, #page-9, #page-13) .pe-cell:only-child > .pe-mod > .pe-text {
+    max-width: none; column-count: 2; column-gap: clamp(24px, 4vw, 42px); column-fill: balance;
+  }
+  .pe-reading:not(.pe-fitting) .pe-architecture.pe-reader-extra { display: grid; }
+  .pe-reading:not(.pe-fitting) .pe-space-ad.pe-reader-extra { display: block; }
+  .pe-reading:not(.pe-fitting) .pe-reader-extra.pe-architecture .pe-architecture-copy { order: 0; }
+  .pe-reading:not(.pe-fitting) .pe-reader-extra.pe-architecture .pe-architecture-art { max-width: 345px; }
+}
+
+@media screen {
+  .pe-reading:not(.pe-fitting) .pe-reader-extra[data-print-ad="shop"] { display: block; }
+  .pe-reading:not(.pe-fitting) .pe-space-ad.pe-reader-extra {
+    margin-top: 16px; padding: clamp(13px, 1.8vw, 22px);
+    border-width: 1px; border-radius: 4px; font-size: 14px;
+  }
+  .pe-reading:not(.pe-fitting) .pe-space-ad h3 { font-size: clamp(25px, 2.8vw, 36px); margin-bottom: 8px; }
+  .pe-reading:not(.pe-fitting) .pe-space-ad > .pe-qr { margin-top: 12px; padding-top: 11px; }
+  .pe-reading:not(.pe-fitting) .pe-space-ad .pe-qr-code { width: 42px; height: 42px; }
+  .pe-reading:not(.pe-fitting) .pe-space-ad:nth-child(2n) { background: var(--pe-mint); border-color: var(--pe-teal); }
+  .pe-reading:not(.pe-fitting) [data-print-ad="publisher"], .pe-reading:not(.pe-fitting) [data-print-ad="puzzles"] { background: var(--pe-blush); border-color: var(--pe-red); }
+  .pe-reading:not(.pe-fitting) [data-print-ad="shop"] { background: var(--pe-butter); border-color: var(--pe-red); }
+  .pe-reading:not(.pe-fitting) [data-print-ad="puzzles"].pe-reader-extra { padding: 12px 14px; }
+  .pe-reading:not(.pe-fitting) [data-print-ad="puzzles"] h3 { font-size: 25px; }
+}
+
+@media screen and (max-width: 900px) {
   .pe-reading:not(.pe-fitting) .pe-folio { grid-template-columns: 1fr 1fr; }
   .pe-reading:not(.pe-fitting) .pe-folio span:nth-child(2) { display: none; }
   .pe-reading:not(.pe-fitting) .pe-row { display: block; }

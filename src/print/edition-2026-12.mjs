@@ -33,7 +33,7 @@ export const EDITION = {
   pages: [
     { n: 1, section: 'Front page', topics: ['civic', 'river'], rows: [
       { mods: [{ span: 5, type: 'box', box: 'masthead' }] },
-      { fill: true, mods: [{ span: 5, type: 'writer', id: 'river', layout: 'lead', brief: 'A', writer: 'jacob-kennedy', editor: 'eli-wire', words: 600, flow: 'river-jump', architecture: 'cityhall',
+      { fill: true, mods: [{ span: 5, type: 'writer', id: 'river', layout: 'lead', brief: 'A', writer: 'jacob-kennedy', editor: 'eli-wire', words: 600, flow: 'river-jump', architecture: 'cityhall', readerCoupon: 'front',
         photo: { key: 'aerial', note: 'Stand in from Wikimedia Commons until Eli Wire shoots the riverfront this month.' } }] },
       { mods: [
         { span: 2, type: 'box', box: 'teaser-referendum' },
@@ -44,10 +44,10 @@ export const EDITION = {
     ] },
 
     { n: 2, section: 'From the publisher', topics: ['media'], rows: [
-      { fill: true, mods: [
+      { fill: true, readerColumns: [68, 32], mods: [
         { span: 3, type: 'writer', id: 'publisher', brief: null, writer: 'jacob-kennedy', editor: 'eli-wire', words: 650, kicker: 'From the publisher',
           working: 'Why a paper?', guide: 'Jake’s own column: why Heart of Columbus prints a paper, who it is for, and what readers can expect from it. About 650 words, in his voice.' },
-        { span: 2, type: 'stack', mods: [
+        { span: 2, type: 'stack', readerLandmark: 'library', readerCoupon: 'publisher', mods: [
           { type: 'box', box: 'staff' },
           { type: 'box', box: 'reach' },
           { type: 'box', box: 'next-theme' },
@@ -63,9 +63,9 @@ export const EDITION = {
     ] },
 
     { n: 4, section: 'Election 2026', topics: ['civic'], rows: [
-      { mods: [
+      { readerColumns: [40, 60], mods: [
         { span: 2, type: 'writer', id: 'election', brief: 'C', writer: null, editor: 'jacob-kennedy', words: 500 },
-        { span: 3, type: 'box', box: 'results' },
+        { span: 3, type: 'box', box: 'results', readerLandmark: 'firstchristian', readerCoupon: 'civic' },
       ] },
       { mods: [{ span: 5, type: 'box', box: 'civic' }] },
       { fill: true, mods: [
@@ -75,9 +75,9 @@ export const EDITION = {
     ] },
 
     { n: 5, section: 'Community', topics: ['civic', 'river'], rows: [
-      { mods: [
+      { readerColumns: [65, 35], mods: [
         { span: 3, type: 'writer', id: 'camping', brief: 'D', writer: null, editor: 'jacob-kennedy', words: 750 },
-        { span: 2, type: 'stack', mods: [
+        { span: 2, type: 'stack', readerLandmark: 'commons', readerCoupon: 'community', mods: [
           { type: 'box', box: 'help' },
           { type: 'box', box: 'architecture', landmark: 'firestation' },
         ] },
@@ -154,7 +154,7 @@ export const EDITION = {
     { n: 12, section: 'Shop small', topics: ['industry'], rows: [
       { mods: [
         { span: 3, type: 'box', box: 'shop-guide' },
-        { span: 2, type: 'box', box: 'keep-math' },
+        { span: 2, type: 'box', box: 'keep-math', readerCoupon: 'shop' },
       ] },
       { mods: [{ span: 5, type: 'box', box: 'gift-cards' }] },
       { fill: true, mods: [{ span: 5, type: 'box', box: 'order-direct' }] },
@@ -162,7 +162,7 @@ export const EDITION = {
 
     { n: 13, section: 'Sports', topics: ['sports'], rows: [
       { mods: [
-        { span: 3, type: 'writer', id: 'sports', brief: null, writer: null, editor: 'jacob-kennedy', words: 550, kicker: 'Winter sports',
+        { span: 3, type: 'writer', readerCoupon: 'sports', id: 'sports', brief: null, writer: null, editor: 'jacob-kennedy', words: 550, kicker: 'Winter sports',
           working: 'North and East this winter', guide: 'A roundup of Columbus North and Columbus East winter sports: basketball, swimming, wrestling. Schedules from the schools and IHSAA, results through the press date.' },
         { span: 2, type: 'history', path: '2020s/indiana-sentinels', fit: 'trim' },
       ] },
@@ -183,7 +183,7 @@ export const EDITION = {
     { n: 15, section: 'Puzzles', topics: ['architecture'], rows: [
       { mods: [
         { span: 3, type: 'box', box: 'crossword' },
-        { span: 2, type: 'box', box: 'clues' },
+        { span: 2, type: 'box', box: 'clues', readerCoupon: 'puzzles' },
       ] },
       { fill: true, mods: [
         { span: 3, type: 'box', box: 'wordsearch' },

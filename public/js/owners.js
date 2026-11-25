@@ -3,7 +3,7 @@
   'use strict';
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
-  var WANT = { fix: 'Fix listing', link: 'Link ordering', pickup: 'Pickup orders', storefront: 'Storefront', photos: 'Photos', story: 'In their words', deal: 'Deal', remove: 'REMOVE' };
+  var WANT = { fix: 'Fix listing', link: 'Link ordering', pickup: 'Pickup orders', storefront: 'Storefront', photos: 'Photos', story: 'In their words', deal: 'Deal', printad: 'Print ad or coupon', remove: 'REMOVE' };
 
   // The private key arrives in the link's #fragment, which browsers never send
   // to a server. An older ?k= link still works once. Either way it is moved to

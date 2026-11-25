@@ -28,14 +28,14 @@ test('honeypot is accepted silently and stored nowhere', async () => {
 });
 
 test('lead is stored and only the right key can read the inbox', async () => {
-  const r = await post({ business: 'Somewhere New', name: 'Ann', phone: '812-555-0100', wants: ['pickup', 'hack'] });
+  const r = await post({ business: 'Somewhere New', name: 'Ann', phone: '812-555-0100', wants: ['pickup', 'printad', 'unknown'] });
   assert.equal(r.status, 200);
   const bad = await claim(new Request('https://h/api/claim', { headers: { 'x-hoc-key': 'nope' } }));
   assert.equal(bad.status, 403);
   assert.equal((await claim(new Request('https://h/api/claim?k=' + 'k'.repeat(24)))).status, 403, 'a key in the query string is not accepted');
   const ok = await (await claim(new Request('https://h/api/claim', { headers: { 'x-hoc-key': 'k'.repeat(24) } }))).json();
   assert.equal(ok.leads.length, 1);
-  assert.deepEqual(ok.leads[0].wants, ['pickup']);
+  assert.deepEqual(ok.leads[0].wants, ['pickup', 'printad']);
 });
 
 test('a form sent without its script is a POST that answers with a page, not a URL full of details', async () => {
