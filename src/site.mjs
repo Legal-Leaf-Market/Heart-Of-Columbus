@@ -479,6 +479,12 @@ const ILLUSTRATED_BUSINESSES = new Set([
   'options-case-management-llc',
   'ripple-counseling-llc',
   'therafi',
+  'bartholomew-county-4-h-fairgrounds',
+  'gypsy-rose-events',
+  'a-step-ahead-pediatric-therapy',
+  'active-physical-therapy',
+  'align-columbus-chiropractic',
+  'clear-choice-chiropractic',
 ]);
 export const businessIllustration = (slug, { size = 82 } = {}) => {
   if (ILLUSTRATED_BUSINESSES.has(slug)) {
