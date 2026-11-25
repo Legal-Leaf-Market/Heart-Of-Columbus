@@ -33,7 +33,7 @@ export const EDITION = {
   pages: [
     { n: 1, section: 'Front page', topics: ['civic', 'river'], rows: [
       { mods: [{ span: 5, type: 'box', box: 'masthead' }] },
-      { fill: true, mods: [{ span: 5, type: 'writer', id: 'river', layout: 'lead', brief: 'A', writer: 'jacob-kennedy', editor: 'terry-winchester-ii', words: 600, flow: 'river-jump', architecture: 'cityhall',
+      { fill: true, mods: [{ span: 5, type: 'writer', id: 'river', layout: 'lead', brief: 'A', writer: 'jacob-kennedy', editor: 'eli-wire', words: 600, flow: 'river-jump', architecture: 'cityhall',
         photo: { key: 'aerial', note: 'Stand in from Wikimedia Commons until Eli Wire shoots the riverfront this month.' } }] },
       { mods: [
         { span: 2, type: 'box', box: 'teaser-referendum' },
@@ -45,7 +45,7 @@ export const EDITION = {
 
     { n: 2, section: 'From the publisher', topics: ['media'], rows: [
       { fill: true, mods: [
-        { span: 3, type: 'writer', id: 'publisher', brief: null, writer: 'jacob-kennedy', editor: 'terry-winchester-ii', words: 650, kicker: 'From the publisher',
+        { span: 3, type: 'writer', id: 'publisher', brief: null, writer: 'jacob-kennedy', editor: 'eli-wire', words: 650, kicker: 'From the publisher',
           working: 'Why a paper?', guide: 'Jake’s own column: why Heart of Columbus prints a paper, who it is for, and what readers can expect from it. About 650 words, in his voice.' },
         { span: 2, type: 'stack', mods: [
           { type: 'box', box: 'staff' },

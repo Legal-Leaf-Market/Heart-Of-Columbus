@@ -6,7 +6,7 @@ site, order direct, the daily store crawl and order tracking.
 for The Republic, which articles were rechecked), staff and the AI policy.
 Read both, then `CLAUDE.md`. The 2026-11-13 handoff is `HANDOFF-2026-11-13.md`;
 its open items still stand unless marked below.
-Jacob Kennedy (Jake) is Co-Founder and Chief Editor; he owns Legal Leaf Market
+Jacob Kennedy (Jake) is the Founder; he owns Legal Leaf Market
 and Crossroads Wedding Co. Everything below is on `main` and live at
 `heartofcolumbus.netlify.app` (Netlify deploys `main`, about a minute).
 

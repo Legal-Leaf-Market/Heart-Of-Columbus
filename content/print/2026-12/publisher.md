@@ -3,7 +3,7 @@ headline: Why a paper?
 kicker: From the publisher
 dek: A town this size deserves more than one voice, and some news belongs on paper you can hold.
 bylines: []
-editor: terry-winchester-ii
+editor: eli-wire
 status: draft
 drafted: First draft by Claude on 2026-11-24 for Jake Kennedy to rewrite in his own voice, built only from his published essays on the site (Why we're called the Heart of Columbus; I've been making things work since I was 8; We're bringing the faith section back).
 sources:

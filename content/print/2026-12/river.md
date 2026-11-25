@@ -3,7 +3,7 @@ headline: The river gets its riverfront back
 kicker: Riverfront
 dek: After years of delays, the century old low head dam downtown is gone, and a trail and a gathering place are taking shape along the East Fork of the White River.
 bylines: []
-editor: terry-winchester-ii
+editor: eli-wire
 status: draft
 drafted: First draft by Claude on 2026-11-24 for Jake Kennedy to rewrite, from the sources below only.
 sources:

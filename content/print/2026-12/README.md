@@ -12,8 +12,8 @@ on it and checked by a different person, the editor.
 
 | File | Page | What | About | Writer | Editor |
 |---|---|---|---|---|---|
-| `river.md` | 1 | The river comes back (brief A) | 600 words | Jake Kennedy | Terry Winchester II |
-| `publisher.md` | 2 | From the publisher: why a paper | 650 words | Jake Kennedy | Terry Winchester II |
+| `river.md` | 1 | The river comes back (brief A) | 600 words | Jake Kennedy | Eli Wire |
+| `publisher.md` | 2 | From the publisher: why a paper | 650 words | Jake Kennedy | Eli Wire |
 | `referendum.md` | 3 | The BCSC referendum (brief B) | 650 words | to be named | Jake Kennedy |
 | `election.md` | 4 | Election results (brief C) | 500 words | to be named | Jake Kennedy |
 | `camping.md` | 5 | The state camping law (brief D) | 750 words | to be named | Jake Kennedy |
@@ -33,7 +33,7 @@ headline: The river comes back
 dek: One sentence under the headline.
 kicker: Riverfront
 bylines: [jacob-kennedy]
-editor: terry-winchester-ii
+editor: eli-wire
 status: draft
 photo:
   file: /news-media/2026/12/riverfront.jpg
