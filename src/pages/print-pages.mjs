@@ -699,7 +699,7 @@ const statusPage = ({ assets }) => {
 headline: The river comes back
 dek: One sentence under the headline.
 bylines: [jacob-kennedy]
-editor: terry-winchester-ii
+editor: eli-wire
 status: draft
 photo:
   file: /news-media/2026/12/riverfront.jpg

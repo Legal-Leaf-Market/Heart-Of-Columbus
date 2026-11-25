@@ -1,7 +1,8 @@
 // Editor sign-off for history pieces, one line per article: "group/slug": editor.
-// Approved 2026-11-13: Jake Kennedy, Co-Founder and Chief Editor, for everything
-// he did not write; Terry Winchester II, Co-Founder, for Jake's own pieces (the
-// two-person rule). A piece not listed here is a draft until an editor signs.
+// Approved 2026-11-13 by Jake Kennedy, Founder, for everything he did not
+// write. Jake's own pieces are approved by Eli Wire, Chief Editor (the
+// two-person rule). Eli reread every history piece on 2026-11-25, including
+// the ones changed after Jake's 2026-11-24 reread. A piece not listed here is a draft until an editor signs.
 export const APPROVED_ON = '2026-11-13';
 export const SIGNOFF = {
   '1930s/noblitt-sparks-moves-to-columbus': 'jacob-kennedy',
@@ -131,7 +132,7 @@ export const SIGNOFF = {
   'buildings/miller-house-today': 'jacob-kennedy',
   'buildings/fire-station-4-today': 'jacob-kennedy',
   'buildings/a-downtown-walk': 'jacob-kennedy',
-  'publisher/the-heart-of-columbus': 'terry-winchester-ii',
-  'publisher/my-first-paper-route': 'terry-winchester-ii',
-  'publisher/bringing-faith-back': 'terry-winchester-ii',
+  'publisher/the-heart-of-columbus': 'eli-wire',
+  'publisher/my-first-paper-route': 'eli-wire',
+  'publisher/bringing-faith-back': 'eli-wire',
 };

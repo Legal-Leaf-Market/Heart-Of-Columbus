@@ -12,34 +12,25 @@
 //   },
 
 export const STAFF = {
-  'terry-winchester-ii': {
-    name: 'Terry Winchester II',
-    role: 'Co-Founder and Editor',
-    beat: '',
-    // Named by Jake Kennedy, 2026-11-13. TODO(owner): a bio in Terry's own words.
-    bio: 'Co-Founder and editor of Heart of Columbus.',
-    email: '',
-    editor: true,
-  },
   'jacob-kennedy': {
     name: 'Jake Kennedy',
-    role: 'Co-Founder and Chief Editor',
+    role: 'Founder',
     beat: '',
     // TODO(owner): a bio in your own words, and the public newsroom email.
-    bio: 'Co-Founder of Heart of Columbus and its Chief Editor.',
+    bio: 'Founder of Heart of Columbus.',
     email: '',
-    // Acting editor until one is hired, so other people's stories can be
-    // approved. The publisher's own pieces still need a second person.
-    // TODO(owner): name an editor, then set this back to false if you like.
+    // Still an editor who may approve other people's stories. His own pieces
+    // need a second person (Eli Wire, the Chief Editor).
     editor: true,
   },
   'eli-wire': {
     name: 'Eli Wire',
-    role: 'Official Photographer and Editor',
+    role: 'Chief Editor and Chief Photographer',
     beat: '',
-    // Named by Jake Kennedy, 2026-11-24, as photographer and an editor who
-    // may approve stories. TODO(owner): a bio in Eli's own words.
-    bio: 'The official photographer of Heart of Columbus, and one of its editors. Her work is on Instagram at @eliwire.',
+    // Named by Jake Kennedy, 2026-11-24, as photographer and an editor; made
+    // Chief Editor and Chief Photographer on 2026-11-25. TODO(owner): a bio in
+    // Eli's own words.
+    bio: 'The Chief Editor and Chief Photographer of Heart of Columbus. Her work is on Instagram at @eliwire.',
     email: '',
     editor: true,
   },
