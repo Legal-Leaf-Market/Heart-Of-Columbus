@@ -635,6 +635,13 @@ mark.pe-check { background: #ffe58a; color: #5c3b00; font: 700 0.86em/1.3 var(--
   }
   .pe-reading:not(.pe-fitting) .pe-architecture.pe-reader-extra { display: grid; }
   .pe-reading:not(.pe-fitting) .pe-space-ad.pe-reader-extra { display: block; }
+  .pe-reading:not(.pe-fitting) .pe-reader-trivia:not([hidden]) {
+    display: grid; gap: 5px; flex: none; margin-top: 13px; padding: 10px 13px;
+    border: 1px solid var(--pe-hair); border-left: 3px double var(--pe-teal);
+    border-radius: 3px; background: var(--pe-mint); font: 400 16px/1.28 var(--pe-serif);
+  }
+  .pe-reading:not(.pe-fitting) .pe-reader-trivia .pe-card-label { color: var(--pe-teal); }
+  .pe-reading:not(.pe-fitting) .pe-reader-trivia a { text-decoration: underline; text-underline-offset: 3px; }
   .pe-reading:not(.pe-fitting) .pe-reader-extra.pe-architecture .pe-architecture-copy { order: 0; }
   .pe-reading:not(.pe-fitting) .pe-reader-extra.pe-architecture .pe-architecture-art { max-width: 345px; }
 }

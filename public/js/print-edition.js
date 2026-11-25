@@ -134,6 +134,22 @@
     return cell.getBoundingClientRect().bottom - bottom;
   }
 
+  // Fill existing reading gaps without making a row taller or affecting the proof.
+  const readerTrivia = [...paper.querySelectorAll('.pe-reader-trivia')];
+  const wideReader = matchMedia('screen and (min-width: 901px)');
+  function fitReadingTrivia() {
+    if (!wideReader.matches || !paper.classList.contains('pe-reading') || paper.classList.contains('pe-fitting')) return;
+    for (const card of readerTrivia) card.hidden = true;
+    for (const card of readerTrivia) {
+      const cell = card.parentElement;
+      if (gapIn(cell) < 64) continue;
+      const row = cell.parentElement;
+      const height = row.getBoundingClientRect().height;
+      card.hidden = false;
+      if (row.getBoundingClientRect().height > height + 1) card.hidden = true;
+    }
+  }
+
   function gapsNow() {
     paper.classList.add('pe-measure');
     const out = [];
@@ -348,6 +364,7 @@
       const reading = paper.classList.toggle('pe-reading');
       proof.setAttribute('aria-pressed', String(!reading));
       zoomProof();
+      fitReadingTrivia();
       if (current) window.scrollBy(0, current.getBoundingClientRect().top - headerBottom - 12);
     });
     tb.querySelector('[data-pe-clean]').addEventListener('change', (event) => paper.classList.toggle('pe-clean', event.target.checked));
@@ -369,6 +386,9 @@
     } finally {
       paper.classList.remove('pe-fitting');
     }
+    fitReadingTrivia();
+    addEventListener('resize', fitReadingTrivia);
+    if (document.readyState !== 'complete') addEventListener('load', fitReadingTrivia, { once: true });
     const ok = !issues.length;
     if (statusEl) {
       statusEl.classList.add(ok ? 'ok' : 'bad');
