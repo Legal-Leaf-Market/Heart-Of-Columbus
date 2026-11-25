@@ -138,7 +138,6 @@ for (const a of CARDS) qrUrls.add(abs(a.path));
 for (const guide of Object.values(ARCHITECTURE)) qrUrls.add(abs(guide.path));
 for (const slug of ['crossroads-wedding-co', 'amys-closet']) qrUrls.add(abs(`/b/${slug}/`));
 qrUrls.add(abs(PRINT_AD_INQUIRY));
-qrUrls.add(abs(COLORING_PATH));
 const QR = Object.fromEntries(await Promise.all([...qrUrls].map(async (u) => [u, await QRCode.toString(u, { type: 'svg', margin: 0, errorCorrectionLevel: 'M', color: { dark: '#141310', light: '#ffffff00' } })])));
 const qr = (url, label = 'Read it online, with its sources') => {
   const u = abs(url);
@@ -278,7 +277,7 @@ function writerMod(m) {
   const side = layout === 'wide' && m.sidebar ? `<aside class="pe-sidebar"><h3>${t(c?.box?.title || m.sidebar)}</h3>${c?.box?.items ? `<ul>${c.box.items.map((i) => `<li>${t(i)}</li>`).join('')}</ul>` : '<p class="pe-empty">The writer fills this box with checked numbers.</p>'}</aside>` : '';
   const factBox = `<aside class="pe-sidebar pe-factbox"><h3>${t(c?.box?.title || m.sidebar || 'The project in numbers')}</h3>${c?.box?.items ? `<ul>${c.box.items.map((i) => `<li>${t(i)}</li>`).join('')}</ul>` : '<p class="pe-empty">The writer fills this box with checked numbers: the final cost, the money from each source, the opening dates.</p>'}</aside>`;
   const inner = layout === 'lead' ? `<div class="pe-lead"><div class="pe-lead-l">${photo}${factBox}${m.architecture ? architectureHtml(m.architecture) : ''}${readingCoupon(m.readerCoupon)}</div><div class="pe-lead-text">${text}</div></div>`
-    : layout === 'wide' ? `<div class="pe-wide">${text}${side}</div>`
+    : layout === 'wide' ? `<div class="pe-wide">${text}<div class="pe-wide-rail">${side}</div></div>`
     : layout === 'theme' ? `<div class="pe-theme-intro">${text}</div>`
     : `${photo}${text}`;
   const ties = c ? discloseFor(c.tags) : '';
@@ -628,12 +627,15 @@ const coloringImage = (id, art, preview = false) => {
 
 function coloringCard(id, preview = false) {
   const art = COLORING[id];
-  return `<aside class="pe-color-card ${preview ? 'pe-reader-extra pe-color-preview' : 'pe-print-filler'}"${preview ? ' hidden' : ` data-color-page="${art.page}" data-coloring="${id}"`}>
-    ${coloringImage(id, art, preview)}
-    <div><p class="pe-card-label">Color Indiana${preview ? '' : ` · ${t(art.place)}`}</p><h3>${t(art.title)}</h3>
-    ${preview ? '' : `<p>${t(art.note)}</p>`}
-    ${preview ? `<a href="${COLORING_PATH}#${id}">Color this scene</a>` : qr(COLORING_PATH, 'Full size sheets and sources')}
-    </div>
+  if (preview) return `<aside class="pe-color-card pe-reader-extra pe-color-preview" hidden>
+    ${coloringImage(id, art, true)}
+    <div><p class="pe-card-label">Color Indiana</p><h3>${t(art.title)}</h3>
+      <a href="${COLORING_PATH}#${id}">Color this scene</a></div>
+  </aside>`;
+  const portrait = `/print-media/coloring-${id}-portrait.webp`;
+  return `<aside class="pe-color-card pe-print-filler pe-color-portrait" data-color-page="${art.page}" data-coloring="${id}">
+    <img src="${portrait}" srcset="${portrait} 1x" width="880" height="1760" alt="${esc(art.alt)}">
+    <div><p class="pe-card-label">Color Indiana · ${t(art.place)}</p><h3>${t(art.title)}</h3><p>${t(art.note)}</p></div>
   </aside>`;
 }
 

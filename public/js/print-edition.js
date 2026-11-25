@@ -177,6 +177,17 @@
     const notices = pool.filter((item) => item.dataset.house);
     const ad = pool.find((item) => item.dataset.printAd);
     const coloring = pool.filter((item) => item.dataset.coloring);
+    for (const rail of paper.querySelectorAll('.pe-wide-rail')) {
+      const art = coloring.find((item) => item.dataset.colorPage === pageOf(rail));
+      if (!art) continue;
+      const before = rail.getBoundingClientRect().height;
+      const room = gapIn(rail);
+      if (room < 250) continue;
+      const card = art.cloneNode(true);
+      rail.append(card);
+      card.style.setProperty('--pe-color-height', `${Math.floor(room - (card.offsetHeight - card.querySelector('img').offsetHeight) - 15)}px`);
+      if (rail.getBoundingClientRect().height > before + 1 || gapIn(rail) < -1) card.remove();
+    }
     const uses = new Map();
     const gaps = gapsNow().sort((a, b) => b[1] - a[1]);
     for (const [cell] of gaps) {
@@ -186,8 +197,9 @@
       const body = sheet.querySelector('.pe-body');
       const relatedFirst = (items) => [...items.filter((item) => topics.includes(item.dataset.topic)), ...items.filter((item) => !topics.includes(item.dataset.topic))];
       const printAd = ad && !sheet.querySelector('.pe-business-ad, .pe-ad, [data-print-ad]:not(.pe-reader-extra)') ? [ad] : [];
-      const color = coloring.filter((item) => item.dataset.colorPage === sheet.dataset.page);
-      const order = [...color, ...architecture, ...printAd, ...relatedFirst(history), ...relatedFirst(trivia), ...notices];
+      const color = !cell.nextElementSibling && cell.previousElementSibling && !sheet.querySelector('[data-coloring]')
+        ? coloring.find((item) => item.dataset.colorPage === sheet.dataset.page) : null;
+      const order = [...(color ? [color] : []), ...architecture, ...printAd, ...relatedFirst(history), ...relatedFirst(trivia), ...notices];
       const before = row.getBoundingClientRect().height;
       const fits = () => !squeezed(cell) && !over(body) && row.getBoundingClientRect().height <= before + 1;
       const pageNotices = new Set([...sheet.querySelectorAll('[data-house]')].map((item) => item.dataset.house.replace(/-slim$/, '')));
@@ -196,7 +208,9 @@
       let hasTrivia = Boolean(sheet.querySelector('[data-trivia]'));
       cell.classList.add('pe-filled');
       for (const item of order) {
-        if (gapIn(cell) < MIN) break;
+        const gap = gapIn(cell);
+        if (gap < MIN) break;
+        if (item.dataset.coloring && gap < 250) continue;
         const id = item.dataset.landmark || item.dataset.hist || item.dataset.trivia || item.dataset.house || item.dataset.printAd || item.dataset.coloring;
         const cap = item.dataset.house || item.dataset.printAd ? 2 : 1;
         const notice = item.dataset.house?.replace(/-slim$/, '');
@@ -208,6 +222,10 @@
         if (!item.dataset.landmark && !item.dataset.trivia) copy.classList.add('pe-print-filler');
         copy.classList.toggle('pe-architecture-feature', item.hasAttribute('data-landscape'));
         cell.append(copy);
+        if (item.dataset.coloring) {
+          const captionHeight = copy.offsetHeight - copy.querySelector('img').offsetHeight;
+          copy.style.setProperty('--pe-color-height', `${Math.floor(gap - captionHeight - 15)}px`);
+        }
         if (copy.classList.contains('pe-architecture-feature') && !fits()) copy.classList.remove('pe-architecture-feature');
         if (!fits()) {
           copy.remove();
