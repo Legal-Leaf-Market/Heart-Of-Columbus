@@ -38,7 +38,12 @@ if (!url) {
     if (u.pathname === '/api/events') {
       try {
         const { collect } = await import('../src/event-feeds.mjs');
-        const data = await collect({ from: u.searchParams.get('from'), days: Number(u.searchParams.get('days')) || 31 });
+        let data = await collect({ from: u.searchParams.get('from'), days: Number(u.searchParams.get('days')) || 31 }).catch(() => null);
+        // A machine that cannot reach the feeds (a sandbox) reads the live site's answer instead.
+        if (!data?.events?.length || data.sources?.some((x) => x.live && !x.ok)) {
+          const r = await fetch(`https://heartofcolumbus.netlify.app/api/events${u.search}`).catch(() => null);
+          if (r?.ok) { data = await r.json(); console.log('  (calendar read from the live site: the feeds were out of reach)'); }
+        }
         res.writeHead(200, { 'content-type': 'application/json' }); res.end(JSON.stringify(data));
       } catch (e) { res.writeHead(502); res.end(String(e)); }
       return;
@@ -74,7 +79,12 @@ const photos = await page.evaluate(async () => {
 if (args.shots) {
   await mkdir(args.shots, { recursive: true });
   await page.emulateMedia({ media: 'screen' });
-  await page.evaluate(() => { document.querySelector('.pe-paper').style.zoom = '1'; document.querySelector('[data-pe-toolbar]')?.remove(); });
+  await page.evaluate(() => {
+    const paper = document.querySelector('.pe-paper');
+    paper.classList.remove('pe-reading');
+    paper.style.zoom = '1';
+    document.querySelector('[data-pe-toolbar]')?.remove();
+  });
   const sheets = await page.$$('.pe-sheet');
   for (const [i, s] of sheets.entries()) await s.screenshot({ path: join(args.shots, `page-${String(i + 1).padStart(2, '0')}.png`) });
   await page.emulateMedia({ media: 'print' });

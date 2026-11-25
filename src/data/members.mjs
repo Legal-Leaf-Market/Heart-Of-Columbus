@@ -26,7 +26,7 @@ export const MEMBERS = {
   // number in the order they are listed here, so add new ones at the end.
   'amys-closet': { since: '2026-11-15', contact: 'the owner, via Jacob Kennedy' },
   'jills-diner': { since: '2026-11-15', contact: 'the owner, via Jacob Kennedy' },
-  'rabbits-balloons': { since: '2026-11-15', contact: 'Rachael Starr, owner. Draft website: sites/rabbits-balloons/' },
+  'rabbits-balloons': { since: '2026-11-15', contact: 'Rachael Starr, owner. Standalone website preview' },
   'salon-aura-hair-color-studio': { since: '2026-11-15', contact: 'the owner, via Jacob Kennedy' },
   'tjs-chopshop': { since: '2026-11-15', contact: 'TJ, owner, via Jacob Kennedy. Draft website: sites/tjs-chopshop/' },
   'turtles-flowers': { since: '2026-11-15', contact: 'Tiffany, owner, via Jacob Kennedy' },

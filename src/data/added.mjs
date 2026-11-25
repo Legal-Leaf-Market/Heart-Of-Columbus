@@ -26,10 +26,8 @@
 // Rabbit's Balloons: from its owner, Rachael Starr, in conversation with Jacob
 // Kennedy (2026-11-15): organic balloon arches, garlands and displays in all
 // natural latex (Sempertex) for corporate events, weddings, showers and
-// private parties in Columbus. She has no public page yet, so `source` is the
-// draft website Heart of Columbus built from what she told us for her to
-// review (sites/rabbits-balloons/). No address, phone or prices yet. She owns
-// a domain; put it in `website` when it goes live.
+// private parties in Columbus. The standalone site hosts the preview built
+// from those details for her review. No address, phone or prices are published.
 //
 // Love Me Wildly Photography (facebook.com/lovemewildlyphotography, checked
 // 2026-11-15): page name "love.me.wildly", "Specializing in weddings and
@@ -201,9 +199,9 @@ export const ADDED = [
     type: 'Organic balloon arches, garlands and installs in all natural latex',
     address: '',
     phone: '',
-    website: '',
+    website: 'https://rabbits-balloons.netlify.app/',
     book: [],
-    source: 'https://heartofcolumbus.netlify.app/preview/rabbits-balloons/',
+    source: 'https://rabbits-balloons.netlify.app/',
     checked: '2026-11-15',
   },
   {

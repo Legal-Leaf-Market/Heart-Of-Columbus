@@ -58,3 +58,14 @@
   from = "/c/shopping/smoke/*"
   to = "/c/smoke/:splat"
   status = 301
+
+# Rabbit's Balloons now deploys from its own repository.
+[[redirects]]
+  from = "/preview/rabbits-balloons"
+  to = "https://rabbits-balloons.netlify.app/"
+  status = 301
+
+[[redirects]]
+  from = "/preview/rabbits-balloons/*"
+  to = "https://rabbits-balloons.netlify.app/:splat"
+  status = 301

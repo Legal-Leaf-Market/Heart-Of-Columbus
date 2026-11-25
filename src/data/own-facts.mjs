@@ -26,7 +26,7 @@
 //   Balloons, per its owner Rachael Starr (2026-11-15).
 //
 // Rabbit's Balloons (checked 2026-11-15): from its owner, Rachael Starr; see
-// added.mjs. Its draft website is the page it has for now.
+// added.mjs. Its standalone website hosts the preview and Color Studio.
 //
 // Cookie Paradise (checked 2026-11-13):
 //   - https://cookieparadise.co/pages/contact : "Address: 3950 25th St,
@@ -130,9 +130,9 @@ export const OWN_FACTS = {
     ],
   },
   'rabbits-balloons': {
-    source: 'https://heartofcolumbus.netlify.app/preview/rabbits-balloons/',
+    source: 'https://rabbits-balloons.netlify.app/',
     checked: '2026-11-15',
-    links: [{ label: 'Draft website and Color Studio', url: '/preview/rabbits-balloons/' }],
+    links: [{ label: 'Color Studio', url: 'https://rabbits-balloons.netlify.app/#studio' }],
     kin: [{ slug: 'turtles-flowers', label: 'Sister business', about: 'artisan florist' }],
   },
 };

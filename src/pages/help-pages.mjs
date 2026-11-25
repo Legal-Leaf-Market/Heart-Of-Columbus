@@ -77,12 +77,12 @@ ${breadcrumbs([['/', 'Home'], ['', 'Get help']])}
       <input type="search" name="q" autocomplete="off" placeholder="What do you need? Food, rent, ID, a doctor…" aria-label="Search the resources on this page">
       <output data-help-count aria-live="polite"></output>
     </form>
-    <nav class="chips vs-jump" aria-label="On this page">${HELP.map((g) => `<a class="pill" href="#${g.id}">${g.emoji} ${esc(g.title)}</a>`).join('')}<a class="pill" href="#meals">🍲 Hot meals by day</a><a class="pill" href="#read">📰 Read</a></nav>
+    <nav class="chips vs-jump" aria-label="On this page">${HELP.map((g) => `<a class="pill" href="#${g.id}">${g.emoji} ${esc(g.title)}</a>`).join('')}<a class="pill" href="#meals">🍲 Hot meals by day</a><a class="pill" href="/housing/">🏠 Apartments and landlords</a><a class="pill" href="/nonprofits/">🤝 Nonprofits in town</a><a class="pill" href="#read">📰 Read</a></nav>
   </div>
 </section>
 <div class="wrap fr-list">
-${HELP.map((g) => `<section class="fr-group" id="${g.id}" aria-labelledby="${g.id}-h" data-help-group><h2 id="${g.id}-h"><span aria-hidden="true">${g.emoji}</span> ${esc(g.title)}</h2>${g.lead ? `<p class="vs-lead">${t(g.lead)}</p>` : ''}${g.items.map(item).join('')}</section>`).join('')}
-<p class="hp-none" data-help-none hidden>Nothing on this page matches that. Call 211, any hour, and they will look it up with you.</p>
+${HELP.map((g) => `<section class="fr-group" id="${g.id}" aria-labelledby="${g.id}-h" data-help-group><h2 id="${g.id}-h"><span aria-hidden="true">${g.emoji}</span> ${esc(g.title)}</h2>${g.lead ? `<p class="vs-lead">${t(g.lead)}</p>` : ''}${g.id === 'find-housing' ? '<p class="vs-lead"><a href="/housing/">See apartment communities and property managers in town</a></p>' : ''}${g.items.map(item).join('')}</section>`).join('')}
+<p class="hp-none" data-help-none hidden>Nothing on this page matches that. Search <a href="https://in211.org/">Indiana 211</a> anytime or call 211 on weekdays from 7 AM to 7 PM.</p>
 ${meals()}
 ${cardBlock()}
 <section class="fr-group" id="read" aria-labelledby="read-h">
@@ -162,7 +162,7 @@ ${breadcrumbs([['/', 'Home'], ['/help/', 'Get help'], ['', s.title]])}
     ${s.body.map((b) => (b.h ? `<h2>${t(b.h)}</h2>` : `<p>${t(b.p)}${(b.src || []).length ? `<sup>${b.src.map(cite).join(' ')}</sup>` : ''}</p>`)).join('\n    ')}
   </div>
   <aside class="hs-help">
-    <p><strong>Need help now?</strong> Call 211, any hour. Every resource in Columbus is on one page.</p>
+    <p><strong>Need help now?</strong> Call 211 on weekdays from 7 AM to 7 PM or search in211.org anytime.</p>
     <p class="btns"><a class="btn btn-sm" href="/help/">Get help in Columbus ${svg('arrow', 'ic-sm')}</a><a class="btn btn-sm btn-ghost" href="/help/card/">Print wallet cards</a></p>
   </aside>
   ${used.length ? `<section class="hs-sources" aria-labelledby="src-h"><h2 id="src-h">Sources</h2><ol>${used.map((u, i) => `<li id="src-${i + 1}"><a href="${esc(u)}" target="_blank" rel="noopener">${t(SOURCE_NAMES[u] || host(u))}</a></li>`).join('')}</ol></section>` : ''}

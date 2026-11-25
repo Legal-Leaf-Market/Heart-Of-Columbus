@@ -9,7 +9,7 @@
 //      sending the reader to the QR code for the rest;
 //   4. reports anything that still doesn't fit, outlined in pink on the page
 //      and listed in the toolbar, so nothing is cut off silently.
-// Fitting runs at full size; the screen preview is zoomed afterward.
+// Fitting runs at full tabloid size before the reading view is restored.
 (() => {
   const paper = document.querySelector('.pe-paper');
   if (!paper) return;
@@ -77,7 +77,7 @@
       const dst = target?.querySelector('.pe-text');
       if (!dst) continue;
       if (!over(src)) { target.closest('.pe-cell').classList.add('pe-flow-empty'); flag(target, 'Nothing continues here: the story fits on the page before'); continue; }
-      const out = el('p', 'pe-jump-out', `Continued on page ${pageOf(target)}`);
+      const out = el('p', 'pe-jump-out', `<a href="#page-${pageOf(target)}">Continued on page ${pageOf(target)}</a>`);
       src.append(out);
       while (over(src) && src.children.length > 2) dst.prepend(out.previousElementSibling);
       const first = dst.firstElementChild;
@@ -87,7 +87,13 @@
       }
       if (over(src)) flag(src.closest('.pe-mod'), 'The story still runs long before the jump');
       const jump = target.querySelector('.pe-jump');
-      if (jump) jump.textContent = `${jump.textContent.replace(/\s*$/, '')}: ${(src.closest('.pe-mod').querySelector('.pe-hed')?.textContent || '').trim()}`;
+      if (jump) {
+        const back = el('a', '');
+        back.href = `#page-${pageOf(src)}`;
+        back.textContent = jump.textContent.trim();
+        const headline = src.closest('.pe-mod').querySelector('.pe-hed')?.textContent.trim();
+        jump.replaceChildren(back, headline ? `: ${headline}` : '');
+      }
     }
   }
 
@@ -95,6 +101,7 @@
   function trims() {
     for (const text of paper.querySelectorAll('.pe-text[data-fit="trim"]')) {
       if (!over(text)) continue;
+      const full = text.cloneNode(true);
       const more = el('p', 'pe-more', 'The rest of this story, with its sources, is online. Scan the code below.');
       text.append(more);
       let last = null;
@@ -103,6 +110,9 @@
       while (more.previousElementSibling && /^H\d$/.test(more.previousElementSibling.tagName) && text.children.length > 2) more.previousElementSibling.remove();
       if (last && last.tagName === 'P') fillBack(text, last, more, SENTENCE);
       if (over(text)) flag(text.closest('.pe-mod'), `${what(text)} does not fit even trimmed: something above it on the page runs long`);
+      text.classList.add('pe-trimmed');
+      full.classList.add('pe-full-text');
+      text.after(full);
     }
   }
 
@@ -110,76 +120,90 @@
   // A piece shorter than its space would otherwise fill one column to the
   // bottom and leave the rest empty. Balanced, it sits across all its columns.
   function balance() {
-    for (const text of paper.querySelectorAll('.pe-fill .pe-text, .pe-lead-text .pe-text')) {
-      if (text.dataset.flowTo || text.querySelector('.pe-more') || over(text)) continue;
+    for (const text of paper.querySelectorAll('.pe-fill .pe-text:not(.pe-full-text), .pe-lead-text .pe-text')) {
+      if (text.dataset.flowTo || over(text)) continue;
       text.classList.add('pe-balance');
       const mod = text.closest('.pe-mod');
       if (mod && mod.parentElement.classList.contains('pe-cell')) mod.classList.add('pe-short');
     }
   }
-  // What is left at the bottom of a column gets a card from our history on
-  // that page's topic or, failing that, an ad for ourselves. A history card
-  // runs once in the edition; an ad at most three times, once per page.
-  const MIN = 0.85 * 96;
-  const elastic = '.pe-lines';
-  function gapsNow(skipElastic) {
+  // Give unoccupied space to the field guides before using history or house notices.
+  const MIN = 0.34 * 96;
+  function gapIn(cell) {
+    const bottom = Math.max(...[...cell.children].map((child) => child.getBoundingClientRect().bottom));
+    return cell.getBoundingClientRect().bottom - bottom;
+  }
+
+  function gapsNow() {
     paper.classList.add('pe-measure');
     const out = [];
     for (const cell of paper.querySelectorAll('.pe-cell')) {
       if (cell.querySelector('.pe-waiting, .pe-calendar, .pe-masthead, .pe-spread-head, .pe-byb-head, .pe-teasers, .pe-lead')) continue;
-      if (skipElastic && cell.querySelector(elastic)) continue;
-      // A text that fills its column to the bottom leaves nothing to fill.
-      if ([...cell.querySelectorAll('.pe-text')].some((x) => x.closest('.pe-fill') && !x.classList.contains('pe-balance'))) continue;
-      const bottom = Math.max(...[...cell.children].map((k) => k.getBoundingClientRect().bottom));
-      const gap = cell.getBoundingClientRect().bottom - bottom;
+      const gap = gapIn(cell);
       if (gap > MIN) out.push([cell, gap]);
     }
     paper.classList.remove('pe-measure');
     return out;
   }
+
   function fillers() {
     const tpl = document.getElementById('pe-fillers');
     if (!tpl) return;
     const pool = [...tpl.content.children];
-    const cards = pool.filter((x) => x.dataset.hist);
-    const ads = pool.filter((x) => x.dataset.house);
+    const architecture = pool.filter((item) => item.dataset.landmark);
+    const history = pool.filter((item) => item.dataset.hist);
+    const trivia = pool.filter((item) => item.dataset.trivia);
+    const notices = pool.filter((item) => item.dataset.house);
     const uses = new Map();
-    let turn = 0;
-    for (const [cell, gap] of gapsNow(false).sort((a, b) => b[1] - a[1])) {
+    const gaps = gapsNow().sort((a, b) => b[1] - a[1]);
+    for (const [cell] of gaps) {
       const sheet = cell.closest('.pe-sheet');
       const topics = (sheet.dataset.topics || '').split(' ');
       const row = cell.closest('.pe-row');
       const body = sheet.querySelector('.pe-body');
-      const rot = (list) => list.slice(turn % Math.max(1, list.length)).concat(list.slice(0, turn % Math.max(1, list.length)));
-      const coupons = ads.filter((a) => a.dataset.cap);
-      const order = [...coupons, ...cards.filter((c) => topics.includes(c.dataset.topic)), ...rot(ads.filter((a) => !a.dataset.cap)), ...rot(cards.filter((c) => !topics.includes(c.dataset.topic)))];
-      let room = gap;
+      const relatedFirst = (items) => [...items.filter((item) => topics.includes(item.dataset.topic)), ...items.filter((item) => !topics.includes(item.dataset.topic))];
+      const order = [...architecture, ...relatedFirst(history), ...relatedFirst(trivia), ...notices];
+      const before = row.getBoundingClientRect().height;
+      const fits = () => !squeezed(cell) && !over(body) && row.getBoundingClientRect().height <= before + 1;
+      const pageNotices = new Set([...sheet.querySelectorAll('[data-house]')].map((item) => item.dataset.house.replace(/-slim$/, '')));
+      let placed = false;
+      let hasGuide = Boolean(sheet.querySelector('[data-landmark]'));
+      let hasTrivia = Boolean(sheet.querySelector('[data-trivia]'));
       cell.classList.add('pe-filled');
-      for (let n = 0; n < Math.min(3, Math.ceil(gap / (2.2 * 96))) && room > MIN; n++) {
-        let placed = false;
-        for (const item of order) {
-          const id = item.dataset.hist || item.dataset.house;
-          const cap = item.dataset.hist ? 1 : Number(item.dataset.cap) || 3;
-          if ((uses.get(id) || 0) >= cap || (item.dataset.house && sheet.querySelector(`[data-house="${id}"]`))) continue;
-          const before = row.getBoundingClientRect().height;
-          const copy = item.cloneNode(true);
-          cell.append(copy);
-          if (squeezed(cell) || over(body) || row.getBoundingClientRect().height > before + 1) { copy.remove(); continue; }
-          uses.set(id, (uses.get(id) || 0) + 1);
-          room -= copy.getBoundingClientRect().height + 14;
-          turn++;
-          placed = true;
-          break;
+      for (const item of order) {
+        if (gapIn(cell) < MIN) break;
+        const id = item.dataset.landmark || item.dataset.hist || item.dataset.trivia || item.dataset.house;
+        const cap = item.dataset.house ? 2 : 1;
+        const notice = item.dataset.house?.replace(/-slim$/, '');
+        if ((uses.get(id) || 0) >= cap || (notice && pageNotices.has(notice))) continue;
+        if (item.dataset.landmark && hasGuide) continue;
+        if (item.dataset.trivia && hasTrivia) continue;
+        const copy = item.cloneNode(true);
+        copy.classList.toggle('pe-architecture-fill', Boolean(item.dataset.landmark));
+        if (!item.dataset.landmark && !item.dataset.trivia) copy.classList.add('pe-print-filler');
+        copy.classList.toggle('pe-architecture-feature', item.hasAttribute('data-landscape'));
+        cell.append(copy);
+        if (copy.classList.contains('pe-architecture-feature') && !fits()) copy.classList.remove('pe-architecture-feature');
+        if (!fits()) {
+          copy.remove();
+          continue;
         }
-        if (!placed) break;
+        uses.set(id, (uses.get(id) || 0) + 1);
+        if (notice) pageNotices.add(notice);
+        if (item.dataset.landmark) hasGuide = true;
+        if (item.dataset.trivia) hasTrivia = true;
+        placed = true;
       }
-      if (!cell.querySelector('.pe-house, .pe-hcard')) cell.classList.remove('pe-filled');
+      if (!placed) cell.classList.remove('pe-filled');
     }
-    for (const [cell, gap] of gapsNow(true)) if (gap > 2 * 96) room_.push(`Page ${cell.closest('.pe-sheet').dataset.page}: about ${(gap / 96).toFixed(1)} inches free at the bottom of ${what(cell.firstElementChild || cell)}`);
+    for (const cell of paper.querySelectorAll('.pe-cell')) {
+      const gap = gapIn(cell);
+      if (gap > 0.9 * 96 && !cell.querySelector('.pe-lines')) room_.push(`Page ${pageOf(cell)}: about ${(gap / 96).toFixed(1)} inches free after ${what(cell.firstElementChild || cell)}`);
+    }
   }
   const room_ = [];
   // Anything in the column pushed out of its box counts, not just the column.
-  const squeezed = (cell) => over(cell) || [...cell.querySelectorAll('.pe-text, .pe-mod, .pe-box, .pe-stack, .pe-lines, .pe-cal-day')].some(over);
+  const squeezed = (cell) => over(cell) || [...cell.querySelectorAll('.pe-text, .pe-mod, .pe-box, .pe-stack, .pe-lines, .pe-cal-day, .pe-architecture, .pe-business-ad')].some(over);
 
   // ---------- 1. The calendar ----------
   const MON = ['Jan.', 'Feb.', 'March', 'April', 'May', 'June', 'July', 'Aug.', 'Sept.', 'Oct.', 'Nov.', 'Dec.'];
@@ -191,7 +215,7 @@
   const key = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
   const venue = (v) => String(v || '').replace(/,.*$/, '');
 
-  async function calendar() {
+  async function calendarData() {
     const box = paper.querySelector('[data-calendar]');
     if (!box) return;
     const from = box.dataset.from, days = Number(box.dataset.days);
@@ -203,6 +227,12 @@
       clearTimeout(timer);
       if (r.ok) { const j = await r.json(); if (Array.isArray(j.events) && j.events.length) { events = j.events; live = j.sources?.filter((s) => s.live && s.ok).map((s) => s.short) || []; } }
     } catch { /* the seed stands in */ }
+    return { box, from, events, live };
+  }
+
+  function calendar(data) {
+    if (!data) return;
+    const { box, from, events, live } = data;
     const [Y, M] = from.split('-').map(Number);
     const last = new Date(Date.UTC(Y, M, 0)).getUTCDate();
     const dates = Array.from({ length: last }, (_, i) => `${from.slice(0, 8)}${String(i + 1).padStart(2, '0')}`);
@@ -224,7 +254,7 @@
     if (lead) { const c = el('div', 'pe-cal-day blank', ongoing.length ? `<span class="hol">Running this month</span><ul>${ongoing.map((e) => `<li><b>${esc(short(e.date) === short(from) && e.date < from ? 'Now' : short(e.date))} to ${esc(short(e.until))}</b> ${esc(e.title)} <i>${esc(venue(e.venue))}</i></li>`).join('')}</ul>` : ''); c.style.gridColumn = `span ${lead}`; grid.append(c); }
     for (const d of dates) {
       const list = byDay[d].sort((a, b) => (a.start ?? -1) - (b.start ?? -1) || a.title.localeCompare(b.title));
-      const cell = el('div', 'pe-cal-day', `<span class="n">${Number(d.slice(8))}</span>${hol[d] ? `<span class="hol">${esc(hol[d])}</span>` : ''}<ul>${list.map((e) => `<li>${e.start != null ? `<b>${esc(ap(e.start))}</b> ` : ''}${esc(e.title)} <i>${esc(venue(e.venue))}</i></li>`).join('')}</ul>`);
+      const cell = el('div', 'pe-cal-day', `<span class="n">${Number(d.slice(8))}</span><span class="pe-cal-dl">${DAYS[dowOf(d)]}, ${esc(short(d))}</span>${hol[d] ? `<span class="hol">${esc(hol[d])}</span>` : ''}<ul>${list.map((e) => `<li>${e.start != null ? `<b>${esc(ap(e.start))}</b> ` : ''}${esc(e.title)} <i>${esc(venue(e.venue))}</i></li>`).join('')}</ul>`);
       grid.append(cell);
     }
     const tail = (7 - ((lead + last) % 7)) % 7;
@@ -241,9 +271,13 @@
     for (const cell of grid.querySelectorAll('.pe-cal-day')) {
       const ul = cell.querySelector('ul');
       if (!ul) continue;
-      let hidden = 0;
-      while (over(cell) && ul.children.length) { ul.lastElementChild.remove(); hidden++; }
-      if (hidden) { if (ul.children.length) { ul.lastElementChild.remove(); hidden++; } cell.append(el('span', 'more', `+${hidden} more online`)); }
+      const entries = [...ul.children];
+      let shown = entries.length;
+      while (over(cell) && shown) entries[--shown].classList.add('pe-cal-extra');
+      if (shown < entries.length) {
+        if (shown) entries[--shown].classList.add('pe-cal-extra');
+        cell.append(el('span', 'more', `+${entries.length - shown} more online`));
+      }
     }
   }
 
@@ -253,46 +287,82 @@
       const body = sh.querySelector('.pe-body');
       if (over(body)) flag(body, 'This page runs past the bottom margin');
       for (const cell of sh.querySelectorAll('.pe-fill > .pe-cell')) if (over(cell)) flag(cell, `${what(cell.firstElementChild || cell)} is cut off at the bottom`);
-      for (const text of sh.querySelectorAll('.pe-text')) {
-        if (text.dataset.fit === 'trim' || text.dataset.flowTo || text.closest('.pe-over')) continue;
+      for (const panel of sh.querySelectorAll('.pe-lead-l, .pe-architecture, .pe-business-ad')) {
+        if (over(panel)) flag(panel, 'An illustrated panel runs out of space');
+      }
+      for (const text of sh.querySelectorAll('.pe-text:not(.pe-full-text)')) {
+        if (text.dataset.flowTo || text.closest('.pe-over')) continue;
         if (over(text)) flag(text.closest('.pe-mod, .pe-box') || text, `${what(text)} runs long: cut it or give it more room`);
       }
     }
   }
 
-  function zoomToScreen() {
-    if (matchMedia('print').matches) return;
-    const w = document.documentElement.clientWidth;
-    paper.style.zoom = String(Math.min(1, (w - 16) / 1056));
+  function zoomProof() {
+    if (paper.classList.contains('pe-reading')) {
+      paper.style.zoom = '';
+      return;
+    }
+    paper.style.zoom = String(Math.min(1, (document.documentElement.clientWidth - 24) / 1056));
   }
 
   function toolbar() {
     const tb = document.querySelector('[data-pe-toolbar]');
-    if (!tb) return;
-    tb.querySelector('[data-pe-print]')?.addEventListener('click', () => window.print());
-    const label = el('label', '', '<input type="checkbox" data-pe-clean> Hide proof marks');
-    tb.querySelector('.pe-tb-actions')?.prepend(label);
-    label.querySelector('input').addEventListener('change', (e) => paper.classList.toggle('pe-clean', e.target.checked));
+    const proof = tb.querySelector('[data-pe-proof]');
+    const print = tb.querySelector('[data-pe-print]');
+    const menus = [...tb.querySelectorAll('[data-pe-menu]')];
+    for (const menu of menus) {
+      menu.addEventListener('toggle', () => {
+        if (menu.open) for (const other of menus) if (other !== menu) other.open = false;
+      });
+      menu.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape' || !menu.open) return;
+        menu.open = false;
+        menu.querySelector('summary').focus();
+      });
+    }
+    document.addEventListener('click', (event) => {
+      for (const menu of menus) {
+        if (!menu.contains(event.target) || event.target.closest('.pe-contents a')) menu.open = false;
+      }
+    });
+    print.addEventListener('click', () => window.print());
+    proof.addEventListener('click', () => {
+      const headerBottom = tb.getBoundingClientRect().bottom;
+      const current = [...sheets].reverse().find((sheet) => sheet.getBoundingClientRect().top <= headerBottom + 12);
+      const reading = paper.classList.toggle('pe-reading');
+      proof.setAttribute('aria-pressed', String(!reading));
+      zoomProof();
+      if (current) window.scrollBy(0, current.getBoundingClientRect().top - headerBottom - 12);
+    });
+    tb.querySelector('[data-pe-clean]').addEventListener('change', (event) => paper.classList.toggle('pe-clean', event.target.checked));
+    addEventListener('resize', zoomProof);
+    return { proof, print };
   }
 
   async function run() {
-    toolbar();
-    paper.style.zoom = '1';
-    try { await document.fonts.ready; } catch { /* fallback fonts still lay out */ }
-    await calendar();
-    flows();
-    trims();
-    balance();
-    fillers();
-    report();
-    zoomToScreen();
-    addEventListener('resize', zoomToScreen);
+    const { proof, print } = toolbar();
+    const [calendarInput] = await Promise.all([calendarData(), document.fonts.ready]);
+    paper.classList.add('pe-fitting');
+    try {
+      calendar(calendarInput);
+      flows();
+      trims();
+      balance();
+      fillers();
+      report();
+    } finally {
+      paper.classList.remove('pe-fitting');
+    }
     const ok = !issues.length;
     if (statusEl) {
       statusEl.classList.add(ok ? 'ok' : 'bad');
       statusEl.textContent = ok ? `All ${sheets.length} pages fit.` : `${issues.length} thing${issues.length === 1 ? '' : 's'} to fix before printing:`;
-      if (!ok) { const ul = el('ul', 'pe-tb-issues', issues.map((i) => `<li>${esc(i)}</li>`).join('')); statusEl.closest('[data-pe-toolbar]').append(ul); }
+      if (!ok) {
+        const ul = el('ul', 'pe-tb-issues', issues.map((i) => `<li>${esc(i)}</li>`).join(''));
+        statusEl.after(ul);
+      }
     }
+    proof.disabled = print.disabled = false;
     window.__peReport = { ok, pages: sheets.length, issues, room: room_ };
     document.documentElement.dataset.peReady = '1';
   }

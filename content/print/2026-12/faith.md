@@ -1,33 +1,37 @@
 ---
 headline: Christmas services and community dinners
 kicker: Faith and community
-dek: Where to worship on Christmas Eve and Christmas Day, and where anyone can get a hot meal this month.
+dek: Christmas Eve services posted by local churches, plus holiday meal resources.
 bylines: []
 editor: jacob-kennedy
 status: draft
-drafted: A frame by Claude on 2026-11-24. Every service time has to be confirmed with the church by phone before it prints; nothing below is a confirmed time.
+drafted: A frame by Claude on 2026-11-24. Christmas Eve listings checked against church websites. Christmas Day schedules are still pending.
 sources:
+  - name: First Christian Church, Christmas Eve services
+    url: https://fccoc.org/christmas/
+  - name: First United Methodist Church, Christmas Eve 2026 event flyer
+    url: https://www.fumccolumbus.org/events
+  - name: United Way of Bartholomew County, Love Chapel food resources
+    url: https://www.unitedwehelp.org/agencyname/love-chapel
+  - name: Indiana 211, annual report on phone and text hours
+    url: https://iga.in.gov/publications/agency_report/2024-Annual-Report---Indiana-211.pdf
+  - name: Love Chapel, food and hot meal schedule
+    url: https://columbuslovechapel.com/get-help/food/
   - name: Heart of Columbus help page, community meals, from United Way of Bartholomew County's guide
     url: https://heartofcolumbus.shop/help/
 ---
-Christmas falls on a Friday this year, with Christmas Eve on Thursday. Here is where Columbus congregations are gathering, and where anyone who needs a meal this month can sit down to one.
+## Christmas Eve · Thursday, Dec. 24
 
-Every time below was confirmed with the church by phone. If your congregation is not listed and you would like it to be next year, tell us at heartofcolumbus.shop/tips.
+**First Christian Church, 531 Fifth Street.** Candlelight at 5 and 7 PM.
 
-## Christmas Eve, Thursday, December 24
+**First United Methodist Church, 618 Eighth Street.** Family service at 4 PM, jazz at 6 PM and Lessons and Carols at 8 PM.
 
-[CHECK: call each church and list services as "Church name, address: times, and anything a visitor should know (candlelight, children's service, all welcome)." Start with the churches in this edition: First Christian Church, 531 Fifth Street; St. Bartholomew Catholic Church, 1306 27th Street; First Presbyterian Church, 512 Seventh Street; First United Methodist Church, 618 Eighth Street.]
+The churches posted these times. [CHECK: confirm holiday services at St. Bartholomew and First Presbyterian, plus any Christmas Day services.]
 
-[CHECK: Haven United Methodist Church, if listed, carries the line "Our publisher is Haven's music director."]
+## Holiday meals
 
-## Christmas Day, Friday, December 25
+**Love Chapel, 292 Center Street.** Holiday meal baskets for county residents through Dec. 23, Monday through Saturday, 9 to 11:45 AM. Extra hours Dec. 7 from 3 to 6 PM. Bring a pantry card or photo ID and proof of residency.
 
-[CHECK: services and Christmas Day meals, confirmed by phone.]
+For Christmas Eve or Christmas Day hot meals, confirm with Love Chapel at 812-372-9421.
 
-## Community meals this month
-
-The free community meals in the box on this page come from United Way of Bartholomew County's guide. Three of them close for December: the Monday meal at Hope Moravian Church, the Thursday meal at the Salvation Army and the fourth Friday meal at Columbus Baptist Church. Holiday weeks change schedules, so call before you go. [CHECK: Christmas week hours for each meal in the box.]
-
-## Help is open on the holidays
-
-Indiana 211 answers every day, holidays included. Call 211 or text your ZIP code to 898-211 for food, shelter and other help. The full list is on page 5 and on the wallet card on the back page.
+For other resources, call 211 on weekdays or search in211.org anytime.

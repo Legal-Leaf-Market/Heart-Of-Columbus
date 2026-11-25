@@ -1,0 +1,187 @@
+{
+ "pulled": "2026-11-24",
+ "source": "https://www.openstreetmap.org/",
+ "license": "ODbL",
+ "bbox": "39.12,-86.02,39.29,-85.80",
+ "elements": [
+  {
+   "id": "node/8219956671",
+   "ll": [
+    39.2139446,
+    -85.9045415
+   ],
+   "tags": {
+    "office": "estate_agent"
+   }
+  },
+  {
+   "id": "node/9982569448",
+   "ll": [
+    39.2033555,
+    -85.9213119
+   ],
+   "tags": {
+    "name": "Realty ONE Group Dream - Columbus",
+    "office": "estate_agent",
+    "website": "https://onedream.house/real-estate-office/379/columbus-in-office",
+    "phone": "+1-812-344-3480",
+    "addr:housenumber": "436",
+    "addr:street": "Washington Street",
+    "addr:city": "Columbus",
+    "addr:postcode": "47201"
+   }
+  },
+  {
+   "id": "way/280940237",
+   "ll": [
+    39.2007915,
+    -85.9230838
+   ],
+   "tags": {
+    "name": "The Cole",
+    "building": "apartments",
+    "website": "https://www.thecole.com/",
+    "phone": "+1-812-378-8579",
+    "addr:housenumber": "200",
+    "addr:street": "E. Jackson Street",
+    "addr:city": "Columbus",
+    "addr:postcode": "47201",
+    "building:levels": "5"
+   }
+  },
+  {
+   "id": "way/479613530",
+   "ll": [
+    39.2293723,
+    -85.9077963
+   ],
+   "tags": {
+    "name": "Columbus Village Townhomes",
+    "landuse": "residential"
+   }
+  },
+  {
+   "id": "way/538074538",
+   "ll": [
+    39.2483431,
+    -85.8981593
+   ],
+   "tags": {
+    "name": "The Annex",
+    "building": "apartments"
+   }
+  },
+  {
+   "id": "way/638616145",
+   "ll": [
+    39.21168,
+    -85.9066471
+   ],
+   "tags": {
+    "name": "United Way",
+    "building": "apartments",
+    "office": "charity"
+   }
+  },
+  {
+   "id": "way/839763399",
+   "ll": [
+    39.2406872,
+    -85.8894585
+   ],
+   "tags": {
+    "name": "Candlelight Village",
+    "residential": "trailer_park",
+    "landuse": "residential"
+   }
+  },
+  {
+   "id": "way/839763400",
+   "ll": [
+    39.2422542,
+    -85.8926985
+   ],
+   "tags": {
+    "name": "Homestead Mobile Home Park",
+    "residential": "trailer_park",
+    "landuse": "residential"
+   }
+  },
+  {
+   "id": "way/1208881521",
+   "ll": [
+    39.2000921,
+    -85.9170397
+   ],
+   "tags": {
+    "name": "The Taylor",
+    "residential": "apartments",
+    "landuse": "residential",
+    "addr:housenumber": "725",
+    "addr:street": "2nd Street",
+    "addr:city": "Columbus",
+    "addr:postcode": "47201"
+   }
+  },
+  {
+   "id": "way/1230947695",
+   "ll": [
+    39.2278167,
+    -85.9077127
+   ],
+   "tags": {
+    "name": "Townhomes at 28th",
+    "landuse": "residential"
+   }
+  },
+  {
+   "id": "way/1233642683",
+   "ll": [
+    39.2062222,
+    -85.9157401
+   ],
+   "tags": {
+    "name": "St Barts South",
+    "building": "apartments"
+   }
+  },
+  {
+   "id": "way/1233642684",
+   "ll": [
+    39.2067292,
+    -85.9157259
+   ],
+   "tags": {
+    "name": "St. Barts North",
+    "building": "apartments"
+   }
+  },
+  {
+   "id": "way/1244251983",
+   "ll": [
+    39.240096,
+    -85.942398
+   ],
+   "tags": {
+    "name": "Arbor at Water's Edge",
+    "residential": "apartments",
+    "landuse": "residential",
+    "addr:housenumber": "4060",
+    "addr:street": "County Road North 150 West",
+    "addr:city": "Columbus"
+   }
+  },
+  {
+   "id": "way/1319810483",
+   "ll": [
+    39.2245839,
+    -85.8678422
+   ],
+   "tags": {
+    "name": "Fox Pointe Apartments",
+    "residential": "apartments",
+    "landuse": "residential"
+   }
+  }
+ ]
+}

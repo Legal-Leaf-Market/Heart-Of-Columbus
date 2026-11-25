@@ -37,7 +37,11 @@ congregation in town, of every faith, by area and by faith, plus nonprofits.
 - [ ] Known gap until Google runs: only St. Bartholomew under Catholic
       (St. Columba and others are not in OSM or the IRS list)
 - [ ] Later: one page per congregation, a map layer, search entries
-- [ ] `/nonprofits/` by kind
+- [x] `/nonprofits/` (live): 332 charities, clubs and civic groups from the
+      IRS list, grouped by what they do, with a search box and each group's
+      public filings (ProPublica). Town only, never a street. Congregations
+      (on /worship/), private foundations, benefit trusts and credit unions
+      left out. Linked from /help/. Tests in tests/nonprofits.test.mjs
 
 ### The desk: morning newsletter writing (`claude/newsroom-desk`, [#129](https://github.com/Legal-Leaf-Market/Heart-Of-Columbus/pull/129))
 - [x] Owner decision: AI drafts newsletter pieces from the publisher's angle,
@@ -63,23 +67,26 @@ congregation in town, of every faith, by area and by faith, plus nonprofits.
 - [ ] Later: overnight lead gathering into the idea bank (council agendas,
       directory changes, events), and "publish to the site" for a piece
 
-### Apartments and landlords (not started; owner request 2026-11-24)
-Today the directory has one property manager (Bullet Property Management)
-and no apartment buildings.
-- [ ] Apartment buildings and complexes: pull from Google Maps (Places API,
-      same key as worship: types `apartment_building`, `apartment_complex`)
-      plus OpenStreetMap `building=apartments` with a name; address, website,
-      phone, leasing office hours from the listing only. No rents or reviews
-      unless the building publishes them
-- [ ] Property managers and landlords that operate as a business (Google
-      Maps "property management" and "real estate rental agency" around Columbus)
-- [ ] The publisher's picks: Columbus Rental Property and Travis Mauser,
-      recommended by the publisher as inexpensive. Show as the publisher's
-      own recommendation, labeled as such, not as a fact or a rating. Before
-      listing a private person by name, confirm they rent publicly as a
-      business (a business name, website or listing) and ask them
-- [ ] A `/housing/` page: buildings by area, managers, and links to tenant
-      help already in `/help/`
+### Apartments and landlords (`/housing/`, live)
+- [x] `/housing/` page: finding a place (county housing list, Indiana Housing
+      Now, Landlord Association referrals, Housing Authority, behind on rent;
+      all from the help center's sourced entries), 9 apartment and townhome
+      communities and 2 mobile home communities from OpenStreetMap, and the
+      directory's property managers. No rents or openings typed by us.
+      Linked from /help/. Tests in tests/housing.test.mjs
+- [x] "Pull housing" workflow (`scripts/pull-housing.mjs`): OpenStreetMap
+      now, Google Maps apartment complexes and property managers once
+      `GOOGLE_PLACES_API_KEY` is set; `node scripts/import-housing.mjs`
+      rebuilds `src/data/housing.mjs`
+- [ ] Owner: add the `GOOGLE_PLACES_API_KEY` secret, then edit
+      `scripts/data/housing-request.txt` on a claude branch to pull Google
+- [ ] The publisher's picks: Columbus Rental Property and Travis Mauser.
+      Need a website or phone for each; show as the publisher's own
+      recommendation, labeled. Confirm Travis Mauser rents publicly as a
+      business and ask him before listing him by name
+- [ ] Note: the Landlord Association referral line (812-376-3500, from the
+      county housing list) is the same number BBB gives for Grayson Property
+      Management; worth a call to understand who answers
 - Leads found 2026-11-24 (web search, unverified; confirm each on its own
   page or listing before it goes in):
   - **Best source:** the city's residential rental registration ordinance,

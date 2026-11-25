@@ -27,6 +27,8 @@ import { filmPages } from './src/pages/film-pages.mjs';
 import { skatePages } from './src/pages/skate-pages.mjs';
 import { freePages } from './src/pages/free-pages.mjs';
 import { worshipPages } from './src/pages/worship-pages.mjs';
+import { housingPages } from './src/pages/housing-pages.mjs';
+import { nonprofitsPages } from './src/pages/nonprofits-pages.mjs';
 import { guidePages } from './src/pages/guide-pages.mjs';
 import { djPages } from './src/pages/dj-pages.mjs';
 import { planPages } from './src/pages/plan-pages.mjs';
@@ -48,7 +50,7 @@ import { LAUNCH, indexable, ROBOTS_META, headersFile, robotsTxt, urlPath } from 
 
 const root = new URL('./', import.meta.url);
 // Owner draft sites served at /preview/<slug>/ (see the end of this file).
-const DRAFTS = ['tjs-chopshop', 'chamber-pilot', 'cookie-paradise', 'rabbits-balloons'];
+const DRAFTS = ['tjs-chopshop', 'chamber-pilot', 'cookie-paradise'];
 const out = new URL('dist/', root);
 const hash = (buf) => createHash('sha256').update(buf).digest('hex').slice(0, 10);
 
@@ -86,6 +88,8 @@ const pages = [
   ...accessPages({ assets }),
   ...freePages({ assets }),
   ...worshipPages({ assets }),
+  ...housingPages({ assets }),
+  ...nonprofitsPages({ assets }),
   ...djPages({ assets }),
   ...planPages({ assets }),
   ...agriculturePages({ assets }),
