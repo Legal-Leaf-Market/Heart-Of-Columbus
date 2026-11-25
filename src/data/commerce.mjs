@@ -296,7 +296,7 @@ export const COMMERCE = {
   "book": [
    {
     "label": "Booksy",
-    "url": "http://anokhairbraiding.booksy.com/"
+    "url": "https://eppo-proxy.booksy.com/api"
    }
   ]
  },
@@ -739,7 +739,6 @@ export const COMMERCE = {
    "square-online",
    "webflow",
    "weebly",
-   "woocommerce",
    "wordpress"
   ],
   "origin": "https://www.boudoirbynaomi.com",
@@ -1009,6 +1008,17 @@ export const COMMERCE = {
    "wix-stores"
   ],
   "origin": "https://www.clearchoicechiroportland.com",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": []
+ },
+ "cline-king-and-king-p-c": {
+  "platform": "wordpress",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://lawdogs.org",
   "feed": false,
   "store": "",
   "order": [],
@@ -1500,7 +1510,7 @@ export const COMMERCE = {
   "book": [
    {
     "label": "Booksy",
-    "url": "https://shantybarber.booksy.com/"
+    "url": "https://eppo-proxy.booksy.com/api"
    }
   ]
  },
@@ -1650,7 +1660,7 @@ export const COMMERCE = {
   "book": [
    {
     "label": "Booksy",
-    "url": "https://divinehands990.booksy.com/"
+    "url": "https://eppo-proxy.booksy.com/api"
    }
   ]
  },
@@ -1686,7 +1696,7 @@ export const COMMERCE = {
   ],
   "origin": "https://www.dorothysplayhouse.com",
   "feed": false,
-  "store": "https://dorothys-playhouse.square.site/s/order#7D5D35Y2STR2YVKZDKM54VFM",
+  "store": "https://dorothys-playhouse.square.site/s/order#most-popular",
   "order": [],
   "book": [],
   "gift": {
@@ -3187,7 +3197,7 @@ export const COMMERCE = {
   "book": []
  },
  "mccabe-orthodontics": {
-  "platform": "wordpress",
+  "platform": "woocommerce",
   "stack": [
    "woocommerce",
    "wordpress"
@@ -3262,7 +3272,7 @@ export const COMMERCE = {
   }
  },
  "misora": {
-  "platform": "wordpress",
+  "platform": "woocommerce",
   "stack": [
    "woocommerce",
    "wordpress"
@@ -3527,7 +3537,7 @@ export const COMMERCE = {
   "book": [
    {
     "label": "Booksy",
-    "url": "http://haircutsclauher.booksy.com/"
+    "url": "https://eppo-proxy.booksy.com/api"
    }
   ]
  },
@@ -3855,7 +3865,7 @@ export const COMMERCE = {
   "book": [
    {
     "label": "Booksy",
-    "url": "https://raginghairbybrandie.booksy.com/"
+    "url": "https://eppo-proxy.booksy.com/api"
    }
   ]
  },
@@ -4075,7 +4085,7 @@ export const COMMERCE = {
   "book": [
    {
     "label": "Booksy",
-    "url": "http://salonaura812.booksy.com/"
+    "url": "https://eppo-proxy.booksy.com/api"
    },
    {
     "label": "visibook.com",
@@ -4111,7 +4121,7 @@ export const COMMERCE = {
   "book": [
    {
     "label": "Booksy",
-    "url": "https://daycutz14.booksy.com/"
+    "url": "https://eppo-proxy.booksy.com/api"
    }
   ]
  },
@@ -4438,9 +4448,8 @@ export const COMMERCE = {
   ]
  },
  "southern-roofing-inc": {
-  "platform": "woocommerce",
+  "platform": "wordpress",
   "stack": [
-   "woocommerce",
    "wordpress"
   ],
   "origin": "https://www.southernroofinginc.com",
@@ -4747,9 +4756,8 @@ export const COMMERCE = {
   "book": []
  },
  "the-phillips-company-inc": {
-  "platform": "woocommerce",
+  "platform": "wordpress",
   "stack": [
-   "woocommerce",
    "wordpress"
   ],
   "origin": "https://thephillipscompany.com",
@@ -4988,7 +4996,7 @@ export const COMMERCE = {
   "book": [
    {
     "label": "Booksy",
-    "url": "http://fadedwithhonor.booksy.com/"
+    "url": "https://eppo-proxy.booksy.com/api"
    }
   ]
  },
@@ -5443,6 +5451,18 @@ export const COMMERCE = {
   "order": [],
   "book": []
  },
+ "bartholomew-county-4-h-fairgrounds": {
+  "platform": "woocommerce",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://bartholomewcountyfair.com",
+  "feed": true,
+  "store": "",
+  "order": [],
+  "book": []
+ },
  "bips-bites": {
   "platform": "woocommerce",
   "stack": [
@@ -5466,6 +5486,34 @@ export const COMMERCE = {
   "store": "",
   "order": [],
   "book": []
+ },
+ "centra-credit-union": {
+  "platform": "wordpress",
+  "stack": [
+   "wordpress"
+  ],
+  "origin": "https://www.centra.org",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": []
+ },
+ "clarity-of-central-indiana": {
+  "platform": "wordpress",
+  "stack": [
+   "woocommerce",
+   "wordpress"
+  ],
+  "origin": "https://claritycares.org",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "online booking",
+    "url": "https://claritycares.org/schedule-appointment/"
+   }
+  ]
  },
  "first-class-catering": {
   "platform": "squarespace-commerce",
@@ -5501,5 +5549,45 @@ export const COMMERCE = {
   "store": "",
   "order": [],
   "book": []
+ },
+ "paqd-meats": {
+  "platform": "wix-stores",
+  "stack": [
+   "wix",
+   "wix-stores",
+   "wordpress"
+  ],
+  "origin": "https://www.paqdmeats.com",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [],
+  "gift": {
+   "label": "their website",
+   "url": "https://www.paqdmeats.com/gift-card"
+  }
+ },
+ "rabbits-balloons": {
+  "platform": "shopify",
+  "stack": [
+   "shopify"
+  ],
+  "origin": "https://rabbits-balloons.netlify.app",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": []
+ },
+ "wild-bramble-catering": {
+  "platform": "",
+  "origin": "https://www.wildbramblecatering.com",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [],
+  "gift": {
+   "label": "their website",
+   "url": "https://www.wildbramblecatering.com/gift-cards"
+  }
  }
 };
