@@ -252,13 +252,14 @@
     grid.innerHTML = DAYS.map((d) => `<div class="dow">${d.slice(0, 3)}</div>`).join('');
     const lead = dowOf(dates[0]);
     if (lead) { const c = el('div', 'pe-cal-day blank', ongoing.length ? `<span class="hol">Running this month</span><ul>${ongoing.map((e) => `<li><b>${esc(short(e.date) === short(from) && e.date < from ? 'Now' : short(e.date))} to ${esc(short(e.until))}</b> ${esc(e.title)} <i>${esc(venue(e.venue))}</i></li>`).join('')}</ul>` : ''); c.style.gridColumn = `span ${lead}`; grid.append(c); }
+    const dayCells = [];
     for (const d of dates) {
       const list = byDay[d].sort((a, b) => (a.start ?? -1) - (b.start ?? -1) || a.title.localeCompare(b.title));
       const cell = el('div', 'pe-cal-day', `<span class="n">${Number(d.slice(8))}</span><span class="pe-cal-dl">${DAYS[dowOf(d)]}, ${esc(short(d))}</span>${hol[d] ? `<span class="hol">${esc(hol[d])}</span>` : ''}<ul>${list.map((e) => `<li>${e.start != null ? `<b>${esc(ap(e.start))}</b> ` : ''}${esc(e.title)} <i>${esc(venue(e.venue))}</i></li>`).join('')}</ul>`);
       grid.append(cell);
+      dayCells.push(cell);
     }
     const tail = (7 - ((lead + last) % 7)) % 7;
-    grid.style.gridTemplateRows = `auto repeat(${(lead + last + tail) / 7}, minmax(0, 1fr))`;
     if (tail) { const c = el('div', 'pe-cal-day blank'); c.style.gridColumn = `span ${tail}`; grid.append(c); }
     const wl = box.querySelector('.pe-cal-weekly ul');
     const byDow = DAYS.map(() => []);
@@ -267,16 +268,29 @@
     const note = box.querySelector('.pe-cal-live');
     if (note) note.textContent = live ? `Read from the ${live.join(' and ')} calendars on ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}, plus listings entered by hand` : '';
     if (!live) { const f = el('p', 'pe-flag', 'Calendar not filled yet: open this page on the live site'); box.append(f); issues.push('Page 11: the calendar shows only hand-entered listings. Open the edition on the live site so it reads the library and parks calendars.'); }
-    // Cut each day to what fits, and say how many more there are.
+    // Give busy weeks more of the fixed-height print grid. The reading
+    // view uses content-height rows and restores every event below.
+    const loads = Array((lead + last + tail) / 7).fill(0);
+    for (const [i, cell] of dayCells.entries()) {
+      const week = Math.floor((i + lead) / 7);
+      loads[week] = Math.max(loads[week], cell.querySelector('ul').scrollHeight);
+    }
+    const ongoingList = grid.querySelector('.pe-cal-day.blank ul');
+    if (ongoingList) loads[0] = Math.max(loads[0], ongoingList.scrollHeight);
+    const average = Math.max(1, loads.reduce((sum, load) => sum + load, 0) / loads.length);
+    const rows = loads.map((load) => `minmax(0, ${Math.max(0.75, Math.min(1.5, load / average)).toFixed(2)}fr)`);
+    grid.style.gridTemplateRows = `auto ${rows.join(' ')}`;
+
+    // Reserve space for the continuation line like any other listing.
     for (const cell of grid.querySelectorAll('.pe-cal-day')) {
-      const ul = cell.querySelector('ul');
-      if (!ul) continue;
-      const entries = [...ul.children];
+      const entries = [...(cell.querySelector('ul')?.children || [])];
+      if (!entries.length || !over(cell)) continue;
+      const more = el('span', 'more');
+      cell.append(more);
       let shown = entries.length;
-      while (over(cell) && shown) entries[--shown].classList.add('pe-cal-extra');
-      if (shown < entries.length) {
-        if (shown) entries[--shown].classList.add('pe-cal-extra');
-        cell.append(el('span', 'more', `+${entries.length - shown} more online`));
+      while (shown && over(cell)) {
+        entries[--shown].classList.add('pe-cal-extra');
+        more.textContent = `+${entries.length - shown} more online`;
       }
     }
   }
