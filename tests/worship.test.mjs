@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { readFileSync } from 'node:fs';
 import { WORSHIP, FAITH_NAMES } from '../src/data/worship.mjs';
-import { worshipGroups } from '../src/pages/worship-pages.mjs';
+import { worshipGroups, worshipIndex } from '../src/pages/worship-pages.mjs';
 
 test('every congregation has a faith, a town and dated sources', () => {
   assert.ok(WORSHIP.length > 50);
@@ -30,4 +30,20 @@ test('the page lists every congregation, links the visit page, and prints no ser
   assert.equal((html.match(/class="vs-sec wp-item"/g) || []).length, WORSHIP.length);
   assert.doesNotMatch(html.replace(/<[^>]+>/g, ' '), /\b\d{1,2}(:\d{2})?\s*(AM|PM)\b/i, 'no service times typed by us');
   assert.match(readFileSync(new URL('../dist/visit/index.html', import.meta.url), 'utf8'), /href="\/worship\/"/);
+});
+
+test('the header search finds congregations and every result lands on a row of /worship/', () => {
+  const page = readFileSync(new URL('../dist/worship/index.html', import.meta.url), 'utf8');
+  const built = JSON.parse(readFileSync(new URL('../dist/data/worship.json', import.meta.url), 'utf8'));
+  assert.deepEqual(built, JSON.parse(JSON.stringify(worshipIndex())));
+  assert.equal(built.rows.length, WORSHIP.length);
+  for (const r of built.rows) {
+    assert.ok(page.includes(`id="${r.s}"`), `${r.n}: no row on /worship/ for the search to land on`);
+    assert.ok(built.faiths[r.f], `${r.n}: faith name for the search line`);
+    assert.doesNotMatch(r.a || '', /\bP\.?\s*O\.?\s*BOX\b/i);
+    assert.doesNotMatch(r.n, /\s[-\u2013\u2014]\s/, `${r.n}: a dash the search would print`);
+  }
+  const js = readFileSync(new URL('../public/js/site.js', import.meta.url), 'utf8');
+  assert.match(js, /fetch\('\/data\/worship\.json'\)/);
+  assert.match(js, /href="\/worship\/#/);
 });

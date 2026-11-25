@@ -36,7 +36,11 @@ congregation in town, of every faith, by area and by faith, plus nonprofits.
       tests/worship.test.mjs
 - [ ] Known gap until Google runs: only St. Bartholomew under Catholic
       (St. Columba and others are not in OSM or the IRS list)
-- [ ] Later: one page per congregation, a map layer, search entries
+- [x] Header search: a worship word (church, Mass, mosque, temple...) offers
+      /worship/, and up to three congregations matching every word of the
+      name, faith or town link to their row (`/data/worship.json`, built from
+      `worshipIndex()`). Kept out of the business index on purpose
+- [ ] Later: one page per congregation, a map layer
 - [x] `/nonprofits/` (live): 332 charities, clubs and civic groups from the
       IRS list, grouped by what they do, with a search box and each group's
       public filings (ProPublica). Town only, never a street. Congregations

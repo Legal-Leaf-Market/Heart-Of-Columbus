@@ -26,7 +26,7 @@ import { holidayPages } from './src/pages/holiday-pages.mjs';
 import { filmPages } from './src/pages/film-pages.mjs';
 import { skatePages } from './src/pages/skate-pages.mjs';
 import { freePages } from './src/pages/free-pages.mjs';
-import { worshipPages } from './src/pages/worship-pages.mjs';
+import { worshipPages, worshipIndex } from './src/pages/worship-pages.mjs';
 import { housingPages } from './src/pages/housing-pages.mjs';
 import { nonprofitsPages } from './src/pages/nonprofits-pages.mjs';
 import { guidePages } from './src/pages/guide-pages.mjs';
@@ -107,6 +107,7 @@ const pages = [
 ];
 await mkdir(new URL('data/', out), { recursive: true });
 await writeFile(new URL('data/directory.json', out), JSON.stringify(searchIndex()));
+await writeFile(new URL('data/worship.json', out), JSON.stringify(worshipIndex()));
 await writeFile(new URL('events.ics', out), icsFeed());
 await mkdir(new URL('admin/', out), { recursive: true });
 await writeFile(new URL('admin/config.yml', out), cmsConfig());
