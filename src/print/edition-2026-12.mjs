@@ -44,7 +44,7 @@ export const EDITION = {
     ] },
 
     { n: 2, section: 'From the publisher', topics: ['media'], rows: [
-      { fill: true, mods: [
+      { fill: true, readerColumns: [68, 32], mods: [
         { span: 3, type: 'writer', id: 'publisher', brief: null, writer: 'jacob-kennedy', editor: 'eli-wire', words: 650, kicker: 'From the publisher',
           working: 'Why a paper?', guide: 'Jake’s own column: why Heart of Columbus prints a paper, who it is for, and what readers can expect from it. About 650 words, in his voice.' },
         { span: 2, type: 'stack', readerLandmark: 'library', readerCoupon: 'publisher', mods: [
@@ -63,7 +63,7 @@ export const EDITION = {
     ] },
 
     { n: 4, section: 'Election 2026', topics: ['civic'], rows: [
-      { readerEven: true, mods: [
+      { readerColumns: [40, 60], mods: [
         { span: 2, type: 'writer', id: 'election', brief: 'C', writer: null, editor: 'jacob-kennedy', words: 500 },
         { span: 3, type: 'box', box: 'results', readerLandmark: 'firstchristian', readerCoupon: 'civic' },
       ] },
@@ -75,7 +75,7 @@ export const EDITION = {
     ] },
 
     { n: 5, section: 'Community', topics: ['civic', 'river'], rows: [
-      { mods: [
+      { readerColumns: [65, 35], mods: [
         { span: 3, type: 'writer', id: 'camping', brief: 'D', writer: null, editor: 'jacob-kennedy', words: 750 },
         { span: 2, type: 'stack', readerLandmark: 'commons', readerCoupon: 'community', mods: [
           { type: 'box', box: 'help' },

@@ -536,7 +536,7 @@ function sheet(pg) {
   const folio = pg.n === 1 ? '' : `<div class="pe-folio"><span>${pg.n % 2 ? `<i class="pe-sec">${t(pg.section)}</i>` : `<b class="pe-pn">${pg.n}</b>`}</span><span>Heart of Columbus · ${t(E.date)}</span><span>${pg.n % 2 ? `<b class="pe-pn">${pg.n}</b>` : `<i class="pe-sec">${t(pg.section)}</i>`}</span></div>`;
   return `<section class="pe-sheet${pg.spread ? ` pe-spread-${pg.spread}` : ''}" data-page="${pg.n}" data-topics="${esc((pg.topics || []).join(' '))}" id="${pageAnchor(pg.n)}" tabindex="-1" aria-label="Page ${pg.n}, ${esc(pg.section)}">
   ${folio}
-  <div class="pe-body">${pg.rows.map((row) => `<div class="pe-row${row.fill ? ' pe-fill' : ''}${row.readerEven ? ' pe-reader-even' : ''}">${row.mods.map((m) => `<div class="pe-cell" style="grid-column:span ${m.span}">${mod(m)}${m.layout === 'lead' ? '' : readingExtras(m)}</div>`).join('')}</div>`).join('')}</div>
+  <div class="pe-body">${pg.rows.map((row) => `<div class="pe-row${row.fill ? ' pe-fill' : ''}${row.readerColumns ? ' pe-reader-pair' : ''}"${row.readerColumns ? ` style="--pe-reader-columns:${row.readerColumns.map((width) => `minmax(0,${width}fr)`).join(' ')}"` : ''}>${row.mods.map((m) => `<div class="pe-cell" style="grid-column:span ${m.span}">${mod(m)}${m.layout === 'lead' ? '' : readingExtras(m)}</div>`).join('')}</div>`).join('')}</div>
   <nav class="pe-page-turn" aria-label="Around page ${pg.n}">
     ${previous ? `<a href="#${pageAnchor(previous.n)}"><span>← Page ${previous.n}</span>${t(previous.section)}</a>` : ''}
     ${next ? `<a href="#${pageAnchor(next.n)}"><span>Page ${next.n} →</span>${t(next.section)}</a>` : `<a href="#${pageAnchor(1)}"><span>Back to page 1 ↑</span>Front page</a>`}

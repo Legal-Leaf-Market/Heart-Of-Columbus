@@ -627,8 +627,8 @@ mark.pe-check { background: #ffe58a; color: #5c3b00; font: 700 0.86em/1.3 var(--
 }
 
 @media screen and (min-width: 901px) {
-  .pe-reading:not(.pe-fitting) .pe-reader-even { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .pe-reading:not(.pe-fitting) .pe-reader-even > .pe-cell { grid-column: auto !important; }
+  .pe-reading:not(.pe-fitting) .pe-reader-pair { grid-template-columns: var(--pe-reader-columns); }
+  .pe-reading:not(.pe-fitting) .pe-reader-pair > .pe-cell { grid-column: auto !important; }
   .pe-reading:not(.pe-fitting) .pe-lead-l > .pe-fig img { aspect-ratio: 4 / 3; }
   .pe-reading:not(.pe-fitting) :is(#page-3, #page-9, #page-13) .pe-cell:only-child > .pe-mod > .pe-text {
     max-width: none; column-count: 2; column-gap: clamp(24px, 4vw, 42px); column-fill: balance;
