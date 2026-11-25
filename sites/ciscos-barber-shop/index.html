@@ -67,10 +67,25 @@
   // Remembered theme, set before paint so the page never flashes the wrong one.
   try { var t = localStorage.getItem('ciscos-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+@font-face {
+  font-family: 'Barlow Condensed';
+  src: url('brand/barlow-condensed-latin-700-normal.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  src: url('brand/barlow-condensed-latin-800-normal.woff2') format('woff2');
+  font-weight: 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'DM Sans';
+  src: url('brand/dm-sans-latin-wght-normal.woff2') format('woff2');
+  font-weight: 100 1000;
+  font-display: swap;
+}
 :root {
   color-scheme: light;
   --paper: #f4ede0;
@@ -145,16 +160,15 @@ button { font: inherit; }
 .theme .sun, [data-mode="dark"] .theme .moon { display: none; }
 [data-mode="dark"] .theme .sun { display: block; }
 .hero { padding-block: clamp(32px, 5vw, 76px); }
-.hero-grid { display: grid; grid-template-columns: 1.03fr 1fr; gap: clamp(22px, 5vw, 76px); align-items: center; }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1.03fr) minmax(0, 1fr); gap: clamp(22px, 5vw, 76px); align-items: center; }
 .eyebrow { display: flex; gap: 10px; align-items: center; font-size: .77rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
 .stripes { width: 37px; height: 13px; background: repeating-linear-gradient(125deg, #91352c 0 5px, #f2e4cd 5px 10px, #343b3a 10px 15px, #f2e4cd 15px 20px); border: 1px solid var(--line); }
-h1 { margin: 15px 0 24px; font: 800 clamp(5.5rem, 12vw, 11rem)/.75 var(--display); letter-spacing: -.025em; text-transform: uppercase; }
+h1 { margin: 15px 0 24px; font: 800 clamp(4.5rem, 10.5vw, 9.25rem)/.75 var(--display); letter-spacing: -.025em; text-transform: uppercase; }
 h1 span { display: block; margin-top: .19em; color: var(--accent); font-size: .45em; letter-spacing: .015em; }
 .welcome { font: italic 700 clamp(1.5rem, 3vw, 2.2rem)/1.2 Georgia, serif; }
 .lede { max-width: 33ch; margin: 10px 0 22px; color: var(--muted); }
 .cta { flex-wrap: wrap; }
 .location { display: inline-block; margin-top: 15px; font-weight: 700; }
-.location span { margin-left: 3px; }
 .status { margin-top: 5px; color: var(--muted); font-size: .84rem; }
 .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-right: 7px; }
 .is-open .dot { background: var(--open); }
@@ -215,9 +229,9 @@ footer a:hover { color: #ffb49a; }
 @media (max-width: 740px) {
   .header-inner { gap: 10px; min-height: 64px; }
   .header-book { display: none; }
-  .hero-grid, .visit { grid-template-columns: 1fr; }
+  .hero-grid, .visit { grid-template-columns: minmax(0, 1fr); }
   .hero-grid { gap: 22px; }
-  h1 { font-size: clamp(5rem, 19vw, 8.2rem); }
+  h1 { font-size: clamp(4rem, 19vw, 8.2rem); }
   .hero-photo img { aspect-ratio: 1.23; }
   .board-cols { gap: 0; grid-template-columns: 1fr; }
   .roster { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -272,7 +286,7 @@ footer a:hover { color: #ffb49a; }
           <a class="btn" href="tel:+18127991858"><svg aria-hidden="true"><use href="#i-phone"/></svg>Call to book</a>
           <a class="btn quiet" href="https://www.google.com/maps/dir/?api=1&amp;destination=1719+Central+Ave+Columbus+IN+47201" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pin"/></svg>Get directions</a>
         </div>
-        <a class="location" href="#visit">1719 Central Ave <span aria-hidden="true">↗</span></a>
+        <a class="location" href="#visit">1719 Central Ave</a>
         <p class="status" id="status" role="status" hidden><span class="dot" aria-hidden="true"></span><span id="status-text"></span></p>
       </div>
       <figure class="hero-photo">
@@ -286,9 +300,9 @@ footer a:hover { color: #ffb49a; }
     <div class="wrap">
       <div class="section-head"><h2>Services &amp; prices</h2><p>Haircuts, beard work, shaves and styling.</p></div>
       <div class="ways">
-        <div><h3>Walk in</h3><p>Stop by during shop hours.</p><a href="#visit">See hours <span aria-hidden="true">↗</span></a></div>
+        <div><h3>Walk in</h3><p>Stop by during shop hours.</p><a href="#visit">See hours</a></div>
         <div><h3>Book a chair</h3><p>Call the shop to set a time.</p><a href="tel:+18127991858">(812) 799-1858</a></div>
-        <div><h3>Private events</h3><p>Call to ask about event hair and makeup.</p><a href="tel:+18127991858">Call about an event <span aria-hidden="true">↗</span></a></div>
+        <div><h3>Private events</h3><p>Call to ask about event hair and makeup.</p><a href="tel:+18127991858">Call about an event</a></div>
       </div>
 
       <div class="board">
