@@ -62,8 +62,8 @@ export const EDITION = {
 
     { n: 3, section: 'Schools', topics: ['schools'], rows: [
       { mods: [{ span: 5, type: 'writer', id: 'referendum', layout: 'wide', brief: 'B', writer: null, editor: 'jacob-kennedy', words: 650,
-        sidebar: 'What it costs, what it pays for', coloring: 'anderson' }] },
-      { fill: true, mods: [{ span: 5, type: 'history', path: '1960s/lincoln-elementary-and-lady-bird', fit: 'trim', label: 'From our history: a school built for every child', cols: 5 }] },
+        sidebar: 'What it costs, what it pays for', coloring: 'anderson', readerNext: '1960s/lincoln-elementary-and-lady-bird' }] },
+      { fill: true, mods: [{ span: 5, type: 'history', path: '1960s/lincoln-elementary-and-lady-bird', anchor: 'lincoln-school', fit: 'trim', label: 'From our history: a school built for every child', cols: 5 }] },
     ] },
 
     { n: 4, section: 'Election 2026', topics: ['civic'], rows: [

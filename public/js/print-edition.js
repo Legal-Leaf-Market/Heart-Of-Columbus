@@ -148,7 +148,8 @@
     for (const card of readerFillers) {
       const cell = card.parentElement;
       if (gapIn(cell) < 64) continue;
-      const row = cell.parentElement;
+      const parent = cell.parentElement;
+      const row = getComputedStyle(parent).display === 'contents' ? cell.closest('.pe-body') : parent;
       const height = row.getBoundingClientRect().height;
       card.hidden = false;
       if (row.getBoundingClientRect().height > height + 1) card.hidden = true;
