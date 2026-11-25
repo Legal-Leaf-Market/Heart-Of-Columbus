@@ -34,6 +34,23 @@ export const sticker = (id, { size = 96, cls = '', alt = '', lazy = true } = {})
 export const catSticker = (slug, opts) => sticker(CAT_STICKER[slug] || 'storefront', opts);
 import { BUSINESS_ART_SHARDS } from './data/business-art.mjs';
 const ILLUSTRATED_BUSINESSES = new Set([
+  'advanced-business-computing',
+  'advanced-computer-solutions',
+  'bankai-tattoo-collective',
+  'columbus-computer',
+  'ers-wireless',
+  'expressions-ink-tattoo',
+  'ginger-ink-boutique',
+  'imechanic',
+  'kamp-technologies-llc',
+  'midwest-computer-solutions-inc',
+  'noble-network-solutions-llc',
+  'nordic-ink-tattoo',
+  'ovation-technology-group',
+  'ritual-adornment-tattoo-and-piercing',
+  'shaggy-inks',
+  'skeleton-crew-tattoo',
+  'williams-electronics',
   '124-smoke-shop',
   'adaptive-nursing-and-healthcare-services',
   'cloud-13-vape-and-smoke-shop',
