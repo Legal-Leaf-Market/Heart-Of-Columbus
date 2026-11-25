@@ -39,11 +39,13 @@ import { seriesBySlug, seriesHref } from '../news/series.mjs';
 import { BRIEFS } from '../print/briefs.mjs';
 import { almanac } from '../print/almanac.mjs';
 import { buildCrossword, buildWordSearch, WORDSEARCH } from '../print/puzzles.mjs';
+import { COLORING } from '../print/coloring.mjs';
 import { EDITION } from '../print/edition-2026-12.mjs';
 
 const E = EDITION;
 const PHOTOS = { ...SITE_PHOTOS, ...DECADE_PHOTOS };
 const BASE = `/print/${E.slug}/`;
+const COLORING_PATH = `${BASE}coloring/`;
 const pageAnchor = (n) => `page-${n}`;
 const SLOT_DIR = new URL(`../../content/print/${E.slug}/`, import.meta.url);
 const historyBy = Object.fromEntries(ARTICLES.map((a) => [`${a.group}/${a.slug}`, a]));
@@ -136,6 +138,7 @@ for (const a of CARDS) qrUrls.add(abs(a.path));
 for (const guide of Object.values(ARCHITECTURE)) qrUrls.add(abs(guide.path));
 for (const slug of ['crossroads-wedding-co', 'amys-closet']) qrUrls.add(abs(`/b/${slug}/`));
 qrUrls.add(abs(PRINT_AD_INQUIRY));
+qrUrls.add(abs(COLORING_PATH));
 const QR = Object.fromEntries(await Promise.all([...qrUrls].map(async (u) => [u, await QRCode.toString(u, { type: 'svg', margin: 0, errorCorrectionLevel: 'M', color: { dark: '#141310', light: '#ffffff00' } })])));
 const qr = (url, label = 'Read it online, with its sources') => {
   const u = abs(url);
@@ -469,7 +472,7 @@ const BOX = {
 
   crossword: () => {
     const cw = CW;
-    return `<section class="pe-box pe-crossword"><p class="pe-kicker">Puzzles</p><h2 class="pe-hed pe-hed-3">The Columbus crossword</h2><p class="pe-dek">Every answer is in our history. <a href="#${pageAnchor(16)}">Answers on page 16</a>.</p>${cwGrid(cw, false)}</section>`;
+    return `<section class="pe-box pe-crossword"><p class="pe-kicker">Puzzles</p><h2 class="pe-hed pe-hed-3">The Columbus crossword</h2><p class="pe-dek">Every answer is in our history. <a href="#${pageAnchor(16)}">Answers on page 16</a>.</p><p class="pe-color-more"><a href="${COLORING_PATH}">Print Indiana coloring sheets</a></p>${cwGrid(cw, false)}</section>`;
   },
 
   clues: () => `<section class="pe-box pe-clues"><h3>Across</h3><ol>${CW.across.map((p) => `<li value="${p.n}"><b>${p.n}</b> ${t(p.clue)} (${p.word.length})</li>`).join('')}</ol><h3>Down</h3><ol>${CW.down.map((p) => `<li value="${p.n}"><b>${p.n}</b> ${t(p.clue)} (${p.word.length})</li>`).join('')}</ol></section>`,
@@ -618,6 +621,22 @@ function printCoupon(id, className = '') {
   </aside>`;
 }
 const readingCoupon = (id) => id ? printCoupon(id, 'pe-reader-extra') : '';
+const coloringImage = (id, art, preview = false) => {
+  const src = `/print-media/coloring-${id}.webp`;
+  return `<img src="${src}"${preview ? '' : ` srcset="${src} 1x"`} alt="${esc(art.alt)}" width="1536" height="1024">`;
+};
+
+function coloringCard(id, preview = false) {
+  const art = COLORING[id];
+  return `<aside class="pe-color-card ${preview ? 'pe-reader-extra pe-color-preview' : 'pe-print-filler'}"${preview ? ' hidden' : ` data-color-page="${art.page}" data-coloring="${id}"`}>
+    ${coloringImage(id, art, preview)}
+    <div><p class="pe-card-label">Color Indiana${preview ? '' : ` · ${t(art.place)}`}</p><h3>${t(art.title)}</h3>
+    ${preview ? '' : `<p>${t(art.note)}</p>`}
+    ${preview ? `<a href="${COLORING_PATH}#${id}">Color this scene</a>` : qr(COLORING_PATH, 'Full size sheets and sources')}
+    </div>
+  </aside>`;
+}
+
 function readingExtras(m) {
   const landmark = m.readerLandmark ? architectureHtml(m.readerLandmark, 'pe-reader-extra pe-architecture-feature') : '';
   const trivia = (m.readerTrivia || []).map(([path, fact, source]) => {
@@ -627,7 +646,7 @@ function readingExtras(m) {
       <p class="pe-card-label">Did you know? · Columbus</p><p><a href="${esc(source || article.path)}">${t(fact)}</a></p>
     </aside>`;
   }).join('');
-  return landmark + readingCoupon(m.readerCoupon) + trivia;
+  return landmark + readingCoupon(m.readerCoupon) + (m.readerColor ? coloringCard(m.readerColor, true) : '') + trivia;
 }
 
 const HOUSE = [
@@ -642,7 +661,7 @@ const HOUSE = [
   ['letters', 'Write to the editor', 'Agree, disagree or tell us what we missed. We print letters with the writer’s name.', '/letters/', 'Write a letter'],
   ['order', 'Order direct, skip the app fee', 'Local restaurants and shops that take orders and bookings on their own pages.', '/order/', 'Order and book direct'],
 ];
-const houseAds = () => `<template id="pe-fillers">${printCoupon('shop', 'pe-print-filler')}${Object.keys(ARCHITECTURE).filter((slug) => !PLANNED_ARCHITECTURE.has(slug)).map(architectureHtml).join('')}${CARDS.map((a) => `<aside class="pe-hcard" data-hist="${esc(a.group + '/' + a.slug)}" data-topic="${esc(a.section)}"><div><p class="pe-kicker">From our history · ${t(a.when)}</p><h3>${t(a.title)}</h3><p>${t(a.dek)}</p></div>${qr(a.path, 'The whole story')}</aside>`).join('')}${TRIVIA.map(({ path, fact, article }) => `<aside class="pe-trivia" data-trivia="${esc(path)}" data-topic="${esc(article.section)}"><p><b>Did you know?</b> <a href="${esc(article.path)}">${t(fact)}</a></p></aside>`).join('')}${HOUSE.map(([id, h, p, path, label]) => `<aside class="pe-house" data-house="${id}"><div><p class="pe-house-tag">From Heart of Columbus</p><h3>${t(h)}</h3><p>${t(p)}</p></div>${qr(path, label)}</aside>`).join('')}${HOUSE.map(([id, h, , path, label]) => `<aside class="pe-house pe-house-slim" data-house="${id}-slim" data-max="8"><p><b>${t(h)}</b> ${t(label)}: ${esc(short(ORIGIN))}${esc(path)}</p></aside>`).join('')}</template>`;
+const houseAds = () => `<template id="pe-fillers">${Object.keys(COLORING).map((id) => coloringCard(id)).join('')}${printCoupon('shop', 'pe-print-filler')}${Object.keys(ARCHITECTURE).filter((slug) => !PLANNED_ARCHITECTURE.has(slug)).map(architectureHtml).join('')}${CARDS.map((a) => `<aside class="pe-hcard" data-hist="${esc(a.group + '/' + a.slug)}" data-topic="${esc(a.section)}"><div><p class="pe-kicker">From our history · ${t(a.when)}</p><h3>${t(a.title)}</h3><p>${t(a.dek)}</p></div>${qr(a.path, 'The whole story')}</aside>`).join('')}${TRIVIA.map(({ path, fact, article }) => `<aside class="pe-trivia" data-trivia="${esc(path)}" data-topic="${esc(article.section)}"><p><b>Did you know?</b> <a href="${esc(article.path)}">${t(fact)}</a></p></aside>`).join('')}${HOUSE.map(([id, h, p, path, label]) => `<aside class="pe-house" data-house="${id}"><div><p class="pe-house-tag">From Heart of Columbus</p><h3>${t(h)}</h3><p>${t(p)}</p></div>${qr(path, label)}</aside>`).join('')}${HOUSE.map(([id, h, , path, label]) => `<aside class="pe-house pe-house-slim" data-house="${id}-slim" data-max="8"><p><b>${t(h)}</b> ${t(label)}: ${esc(short(ORIGIN))}${esc(path)}</p></aside>`).join('')}</template>`;
 
 // ---------- Readiness ----------
 export function readiness() {
@@ -753,6 +772,26 @@ The story, in plain paragraphs.</pre>
   });
 };
 
+const coloringPage = ({ assets }) => page({
+  title: 'Color Indiana | Heart of Columbus', description: 'Printable Hoosier coloring sheets, from Anderson Falls to the Indiana Dunes.',
+  path: COLORING_PATH, styles: ['print-edition.css'], scripts: ['print-edition.js'], assets,
+  body: `<main id="main" class="pe-color-gallery">
+    <header class="pe-color-toolbar">
+      <a href="${BASE}#${pageAnchor(15)}">Back to the December edition</a>
+      <h1>Color Indiana</h1>
+      <p>${Object.keys(COLORING).length} Hoosier scenes to print and color.</p>
+      <button type="button" data-pe-color-print hidden>Print coloring sheets</button>
+    </header>
+    ${Object.entries(COLORING).map(([id, art]) => `<article class="pe-color-sheet" id="${id}">
+      <p class="pe-card-label">Heart of Columbus · ${t(art.place)}</p>
+      <h2>${t(art.title)}</h2>
+      ${coloringImage(id, art)}
+      <p>${t(art.note)}</p>
+      <p class="pe-color-sources"><a href="${esc(art.href)}">${t(art.source)}</a>${art.extraSource ? ` · <a href="${esc(art.extraSource[1])}">${t(art.extraSource[0])}</a>` : ''}</p>
+    </article>`).join('')}
+  </main>`,
+});
+
 const indexPage = ({ assets }) => page({
   title: 'The print edition | Heart of Columbus', description: 'Heart of Columbus in print.', path: '/print/', styles: ['print-edition.css'], assets,
   body: `<main id="main" class="pe-status"><p class="pe-kicker">In print</p><h1>Heart of Columbus in print</h1><ul class="pe-todo"><li><a href="${BASE}"><b>${t(E.date)}</b></a>: ${t(E.line)} <a href="${BASE}status/">What’s left before printing</a>.</li></ul></main>`,
@@ -763,6 +802,7 @@ export function printPages(ctx) {
     { path: 'print/index.html', html: indexPage(ctx) },
     { path: `print/${E.slug}/index.html`, html: editionPage(ctx) },
     { path: `print/${E.slug}/status/index.html`, html: statusPage(ctx) },
+    { path: `print/${E.slug}/coloring/index.html`, html: coloringPage(ctx) },
   ];
   // A writer's file with a dash in it would only fail at the end of the
   // build; name the file instead.
