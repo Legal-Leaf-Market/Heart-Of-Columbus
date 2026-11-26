@@ -31,15 +31,25 @@ export const MEDIA = {
     credit: "Photo: Bip's Bites",
     checked: '2026-11-15',
   },
-  // Kawaii Katz's own app icon (its cat and panda mascots), from the site's own
-  // files. Jacob Kennedy, who runs the site with his daughter Ada, asked for its
-  // full Founding Member page on 2026-11-25, logo included.
+  // Kawaii Katz is an online shop, so its pictures are its own mascot artwork,
+  // not photos of a storefront: the app icon (public/icon-512.png), the cast
+  // (public/anime/trio.webp) and sticker poses from public/anime/ and
+  // public/decora/, all files from the site's own repository. Jacob Kennedy,
+  // who runs the site with his daughter Ada, asked for its full Founding
+  // Member page on 2026-11-25 and for it to look its best. Only the plain cute
+  // poses are used; the charm-covered decora poses belong to its /decora room.
   'kawaii-katz': {
+    cover: { file: 'cover.webp', width: 1100, height: 630, alt: "Kawaii Katz's mascots: Katz the black kitten, a bunny in pink and black, and Panda, with cherry blossom petals" },
     logo: { file: 'logo.webp', width: 512, height: 512, alt: 'Kawaii Katz logo: a black kitten and a panda' },
-    gallery: [],
-    sourceUrl: 'https://github.com/Legal-Leaf-Market/KawaiiKatz/blob/main/public/icon-512.png',
+    gallery: [
+      { file: 'gallery-1.webp', width: 600, height: 600, alt: 'Panda hugging a parcel tied with a pink heart' },
+      { file: 'gallery-2.webp', width: 600, height: 600, alt: 'Katz the kitten pouncing on a pile of pink puzzle pieces' },
+      { file: 'gallery-3.webp', width: 320, height: 320, alt: 'Panda in pink headphones holding a game controller' },
+      { file: 'gallery-4.webp', width: 338, height: 320, alt: 'Katz hugging a big pink heart' },
+    ],
+    sourceUrl: 'https://github.com/Legal-Leaf-Market/KawaiiKatz/tree/main/public',
     permission: 'Jacob Kennedy, who runs Kawaii Katz with his daughter Ada, 2026-11-25',
-    credit: 'Logo: Kawaii Katz',
+    credit: 'Art: Kawaii Katz',
     checked: '2026-11-25',
   },
 };

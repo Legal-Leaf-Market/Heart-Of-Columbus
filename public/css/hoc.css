@@ -1735,6 +1735,11 @@ a.tag:not(.tag-member):hover { filter: brightness(.96); }
 .tier-member .tiers li.on::before { background: var(--b); color: var(--b-on); }
 .tier-member .shop-sec h2, .tier-member .also-sec h2 { font-family: var(--b-font, inherit), Georgia, serif; font-weight: 700; font-synthesis: none; color: var(--b-deep); }
 @media (max-width: 700px) { .tier-member .biz { padding: 14px; box-shadow: 5px 5px 0 var(--b); } }
+/* A member's own pictures sit on its paper color, so cut-out art (stickers,
+   logos with transparency) reads as part of its page rather than floating. */
+.tier-member .biz-gallery figure { background: var(--b-paper); box-shadow: 4px 4px 0 var(--b); }
+.tier-member .biz-figure .biz-photo { background: var(--b-paper); }
+@media (max-width: 600px) { .tier-member .biz-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 /* =====================================================================
    Field guide (Nov 2026). The visual system from docs/redesign/: cream

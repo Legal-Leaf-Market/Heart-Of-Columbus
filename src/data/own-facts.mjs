@@ -136,11 +136,14 @@ export const OWN_FACTS = {
     ],
   },
   // Kawaii Katz (checked 2026-11-25): buttons to sections its own site has,
-  // read from its routes (app/gifts, app/decora, app/anime) in its repository.
+  // read from its routes (app/gifts, app/decora, app/anime) and its guide list
+  // (lib/boards.ts: "Kawaii Christmas Gift Guide" at /gifts/christmas) in its
+  // repository.
   'kawaii-katz': {
     source: 'https://github.com/Legal-Leaf-Market/KawaiiKatz',
     checked: '2026-11-25',
     links: [
+      { label: 'Christmas gift guide', url: 'https://www.kawaiikatz.com/gifts/christmas' },
       { label: 'Gift guides', url: 'https://www.kawaiikatz.com/gifts' },
       { label: 'Decora', url: 'https://www.kawaiikatz.com/decora' },
       { label: 'Anime', url: 'https://www.kawaiikatz.com/anime' },

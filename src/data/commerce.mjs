@@ -5479,6 +5479,14 @@ export const COMMERCE = {
   "order": [],
   "book": []
  },
+ "kawaii-katz": {
+  "platform": "",
+  "origin": "https://www.kawaiikatz.com",
+  "feed": false,
+  "store": "https://www.kawaiikatz.com/",
+  "order": [],
+  "book": []
+ },
  "legal-leaf-market-cafe": {
   "platform": "shopify",
   "stack": [
