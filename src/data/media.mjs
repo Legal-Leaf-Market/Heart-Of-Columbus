@@ -31,6 +31,17 @@ export const MEDIA = {
     credit: "Photo: Bip's Bites",
     checked: '2026-11-15',
   },
+  // Kawaii Katz's own app icon (its cat and panda mascots), from the site's own
+  // files. Jacob Kennedy, who runs the site with his daughter Ada, asked for its
+  // full Founding Member page on 2026-11-25, logo included.
+  'kawaii-katz': {
+    logo: { file: 'logo.webp', width: 512, height: 512, alt: 'Kawaii Katz logo: a black kitten and a panda' },
+    gallery: [],
+    sourceUrl: 'https://github.com/Legal-Leaf-Market/KawaiiKatz/blob/main/public/icon-512.png',
+    permission: 'Jacob Kennedy, who runs Kawaii Katz with his daughter Ada, 2026-11-25',
+    credit: 'Logo: Kawaii Katz',
+    checked: '2026-11-25',
+  },
 };
 
 // Every image file must be a real file under public/business-media/<slug>/.

@@ -135,6 +135,17 @@ export const OWN_FACTS = {
       { label: 'Shop', url: 'https://www.bipsbites.com/shop/' },
     ],
   },
+  // Kawaii Katz (checked 2026-11-25): buttons to sections its own site has,
+  // read from its routes (app/gifts, app/decora, app/anime) in its repository.
+  'kawaii-katz': {
+    source: 'https://github.com/Legal-Leaf-Market/KawaiiKatz',
+    checked: '2026-11-25',
+    links: [
+      { label: 'Gift guides', url: 'https://www.kawaiikatz.com/gifts' },
+      { label: 'Decora', url: 'https://www.kawaiikatz.com/decora' },
+      { label: 'Anime', url: 'https://www.kawaiikatz.com/anime' },
+    ],
+  },
   'rabbits-balloons': {
     source: 'https://rabbits-balloons.netlify.app/',
     checked: '2026-11-15',
