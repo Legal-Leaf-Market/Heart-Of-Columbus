@@ -931,7 +931,7 @@ export const creatorPromo = () => `
 <section class="wrap ow-how hoc-creator" id="creator">
   <p class="kicker">Want more than the club?</p>
   <h2>Work with the person who built Heart of Columbus</h2>
-  <p>The Founders Club gets you a website and a featured place here. If you want more, like a custom site, your own ordering or booking, or to learn to run your sites with AI yourself, work one on one with Jake Kennedy, the creator of Heart of Columbus, through Ship It With AI. Jake brings 10 years of accounting and technology experience and a degree from IU Columbus, earned back when it was still IUPUC.</p>
+  <p>The Founders Club gets you a website and a featured place here. If you want more, work one on one with Jake Kennedy, the creator of Heart of Columbus, through Ship It With AI. Jake specializes in websites, custom light tools, small business ERPs and financial technology (fintech), backed by 10 years of accounting and technology experience and a degree from IU Columbus, earned back when it was still IUPUC.</p>
   <p><a class="btn" href="${CREATOR_URL}">Ask about consulting ${svg('arrow', 'ic-sm')}</a></p>
   <p class="muted">Disclosure: Ship It With AI is Jake Kennedy's own business, and he also runs Heart of Columbus. Your free listing and the Founders Club never depend on it.</p>
 </section>`;
