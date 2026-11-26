@@ -195,7 +195,8 @@ export const ADDED = [
     // in own-facts.mjs) once coffee and tea are on sale.
     cat: 'smoke',
     sub: 'smoke',
-    type: 'Vape shop',
+    // Retyped 2026-11-26 (owner): the cafe is coming, the online shop is open.
+    type: 'Cafe and market coming soon, online smoke and vape shop open now',
     address: '',
     phone: '',
     website: 'https://shop.legalleafmarket.shop/',

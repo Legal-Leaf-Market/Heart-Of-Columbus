@@ -140,6 +140,9 @@ for (const slug of new Set([...Object.keys(WEB), ...Object.keys(bySlug)])) {
 // another (its store link, from its owner via Jacob Kennedy, 2026-11-25; its
 // sampled catalogue and cart handoff, platform `kawaiikatz`, 2026-11-26).
 for (const [slug, c] of Object.entries(BEFORE)) if (!out[slug] && !bySlug[slug] && !WEB[slug]) out[slug] = c;
+// A hand-set sample size (`limit`) survives a re-import: legal-leaf-market-cafe
+// shows 12 of its catalogue on its page (owner, 2026-11-26).
+for (const [slug, c] of Object.entries(BEFORE)) if (out[slug] && c.limit && !out[slug].limit) out[slug].limit = c.limit;
 const head = `// What each business's own website can do: its cart engine and the ordering
 // or booking pages it chose. Built by scripts/import-commerce.mjs from the
 // /api/probe results and owner-set Google action links. \`feed: true\` means

@@ -40,10 +40,15 @@ export const MEMBERS = {
   // his daughter Ada's site to be "a proper founding member". Family tie
   // disclosed on its page (`tie` in added.mjs).
   'kawaii-katz': { since: '2026-11-25', contact: 'Ada, owner, via Jacob Kennedy (her father)' },
+  // Founder #11. Jacob Kennedy asked on 2026-11-26 for his own Legal Leaf Market
+  // and Cafe to be a Founding Member so it can be marketed before it opens, and
+  // chose to grow the founding group from 10 to 11 rather than take a spot from
+  // anyone. Ownership tie disclosed on its page (`tie` in added.mjs).
+  'legal-leaf-market-cafe': { since: '2026-11-26', contact: 'Jacob Kennedy, owner' },
 };
 
 export const PRICE = 20; // dollars a month, locked for founding members
-export const SPOTS = 10; // size of the founding pilot group
+export const SPOTS = 11; // size of the founding pilot group (10, grown to 11 on 2026-11-26 for Legal Leaf, owner's call)
 
 export const isMember = (slug, members = MEMBERS) => Object.hasOwn(members, slug);
 

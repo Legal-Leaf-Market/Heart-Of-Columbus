@@ -5490,6 +5490,7 @@ export const COMMERCE = {
  },
  "legal-leaf-market-cafe": {
   "platform": "shopify",
+  "limit": 12,
   "stack": [
    "shopify"
   ],

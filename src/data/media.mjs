@@ -60,6 +60,26 @@ export const MEDIA = {
     credit: 'Art: Kawaii Katz',
     checked: '2026-11-25',
   },
+  // Legal Leaf Market and Cafe is not open yet, so its pictures are its own
+  // concept art for the cafe (public/art/cafe in its repository, the art on its
+  // own cafe page), always captioned as concept art, never passed off as a
+  // photo of a room that does not exist yet. Owner's permission: Jacob Kennedy,
+  // who owns it, 2026-11-26.
+  'legal-leaf-market-cafe': {
+    cover: { file: 'cover.webp', width: 1200, height: 800, alt: 'Concept art of the planned Legal Leaf cafe: a brew bar, jars of loose tea and herbs, armchairs and a small stage with a guitar' },
+    logo: { file: 'logo.webp', width: 512, height: 512, alt: 'Legal Leaf logo: a rainbow leaf' },
+    gallery: [
+      { file: 'brew-bar.webp', width: 800, height: 533, alt: 'Concept art: an espresso machine and grinder on a wooden bar, mugs on the shelves above' },
+      { file: 'loose-leaf-tea.webp', width: 800, height: 533, alt: 'Concept art: loose-leaf tea steeping beside jars of tea' },
+      { file: 'herb-shelf.webp', width: 800, height: 533, alt: 'Concept art: a shelf of loose herbs in glass jars' },
+      { file: 'mug-wall.webp', width: 800, height: 533, alt: 'Concept art: a wall of mismatched mugs on wooden pegs' },
+      { file: 'acoustic-corner.webp', width: 800, height: 533, alt: 'Concept art: a small stage on a rug with a stool and an acoustic guitar' },
+    ],
+    sourceUrl: 'https://github.com/Legal-Leaf-Market/LegalLeafMarketShop/tree/main/public', // art/cafe and favicon.svg (the logo)
+    permission: 'Jacob Kennedy, owner, 2026-11-26',
+    credit: 'Concept art by Legal Leaf Cafe and Market (not a photo)',
+    checked: '2026-11-26',
+  },
 };
 
 // Every image file must be a real file under public/business-media/<slug>/.

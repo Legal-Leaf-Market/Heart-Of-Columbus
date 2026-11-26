@@ -48,6 +48,11 @@ export const BRANDS = {
     from: 'own', source: 'https://github.com/Legal-Leaf-Market/KawaiiKatz/blob/main/app/globals.css', checked: '2026-11-25',
     note: 'Its own colors: hot pink from its sale pink #e0227a, darkened a touch so white text on it is readable; deep is its plum ink #4f4550; accent its theme-color coral #ffb199; paper the pink of its app icon (public/icon-512.png). Its display face is Baloo 2, which we do not host; Lilita One is the nearest rounded display face we do.',
   },
+  'legal-leaf-market-cafe': {
+    brand: '#2c4a33', deep: '#22301f', accent: '#d9a441', paper: '#f7f0e0', font: 'Fraunces',
+    from: 'own', source: 'https://legalleafmarket.shop/', checked: '2026-11-26',
+    note: 'Its own cafe page (public/cafe.html in its repository): pine green #2C4A33, ink #22301F, amber #D9A441 and cream #F7F0E0, with Fraunces headings.',
+  },
 };
 
 // Color helpers: hex in, hex out.

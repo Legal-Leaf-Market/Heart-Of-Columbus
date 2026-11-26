@@ -2524,3 +2524,20 @@ main.tier-member { overflow-x: clip; } /* a sticker over an edge never makes the
 .tk-table { width: 100%; border-collapse: collapse; font-size: 14px; }
 .tk-table th, .tk-table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
 .tk-table th { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+
+/* Coming soon (own-facts.mjs `coming`): a business's own plans, with its concept art. */
+.coming-sec { margin-top: 28px; }
+.coming-sec h2 { margin: 4px 0 6px; font-size: clamp(1.6rem, 3.2vw, 2.4rem); line-height: 1.1; }
+.coming-grid { list-style: none; padding: 0; margin: 18px 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px; }
+.coming-grid li { margin: 0; display: flex; flex-direction: column; border: 1px solid var(--edge); border-radius: var(--r); overflow: hidden; background: #fff; }
+.coming-grid img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; }
+.coming-grid div { padding: 12px 14px 14px; }
+.coming-grid h3 { margin: 0 0 4px; font-size: 1.05rem; }
+.coming-grid p { margin: 0; font-size: .95rem; line-height: 1.45; }
+.coming-cta { display: flex; flex-wrap: wrap; gap: 10px; margin: 6px 0 10px; }
+.tier-member .coming-sec { background: var(--b-paper); border: 1px solid var(--edge); border-radius: var(--r-lg); padding: 22px; box-shadow: 8px 8px 0 var(--b-acc); }
+.tier-member .coming-sec .kicker { color: var(--b); }
+.tier-member .coming-sec h2, .tier-member .coming-grid h3 { font-family: var(--b-font, inherit), Georgia, serif; font-weight: 700; font-synthesis: none; color: var(--b-deep); }
+.tier-member .coming-grid li { box-shadow: 4px 4px 0 var(--b); }
+.tier-member .coming-cta .btn:not(.btn-ghost) { background: var(--b); color: var(--b-on); }
+@media (max-width: 700px) { .tier-member .coming-sec { padding: 14px; box-shadow: 5px 5px 0 var(--b-acc); } }

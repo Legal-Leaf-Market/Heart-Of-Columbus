@@ -11,6 +11,10 @@
 //            { cat, sub, type, title, points: [..], cta, url }. The business
 //            is listed there too and keeps its home section and page. `points`
 //            are plain facts from `url`, never our words about how good it is.
+//   coming   for a business not open yet: what its own pages say is planned, as
+//            { title, intro, points: [{ title, text, img }], cta: { label, url } }.
+//            `img` names a gallery file in media.mjs. Shown as "coming soon",
+//            never as something you can buy today.
 //   kin      a family business it names, as [{ slug, label, about }]: a line on its
 //            page linking the other listing (and the other one back, if that
 //            business says so too). Only what the owners told us.
@@ -149,6 +153,31 @@ export const OWN_FACTS = {
       { label: 'Decora', url: 'https://kawaiikatz.heartofcolumbus.shop/decora' },
       { label: 'Anime', url: 'https://kawaiikatz.heartofcolumbus.shop/anime' },
     ],
+  },
+  // Legal Leaf Market and Cafe (checked 2026-11-26): its own cafe page,
+  // https://legalleafmarket.shop/ (public/cafe.html in its repository). Plans
+  // only, in its own words, shortened: it says menu and offerings may change
+  // and some depend on licensing and local approvals.
+  'legal-leaf-market-cafe': {
+    source: 'https://legalleafmarket.shop/',
+    checked: '2026-11-26',
+    links: [
+      { label: 'The cafe', url: 'https://legalleafmarket.shop/' },
+      { label: 'Tell me when you open', url: 'https://legalleafmarket.shop/#join' },
+    ],
+    coming: {
+      title: 'The cafe is on its way',
+      intro: 'Part cafe, part bodega, part living room: great coffee, loose-leaf tea and a room worth staying in. No address or opening date yet; leave your email on their site and they will tell you first.',
+      points: [
+        { title: 'The brew bar', text: 'Espresso, Americanos and lattes pulled to order, plus drip coffee and whole beans to take home.', img: 'brew-bar.webp' },
+        { title: 'Loose-leaf tea', text: 'Steeped right in the cup you walk out with, including their lotus and mullein herbal tea.', img: 'loose-leaf-tea.webp' },
+        { title: 'The herb shelf', text: 'Loose herbs by the jar, like mullein and lavender, plus tea and herb blends from makers they trust.', img: 'herb-shelf.webp' },
+        { title: 'The keep-your-mug wall', text: 'Pick a mug and make it yours. Bring it back and get 50 cents off your refill.', img: 'mug-wall.webp' },
+        { title: 'Acoustic nights', text: 'A small stage with a rug under it, for solo players and duos. Musicians can get in touch before the doors open.', img: 'acoustic-corner.webp' },
+      ],
+      cta: { label: 'Tell me when you open', url: 'https://legalleafmarket.shop/#join' },
+      fine: 'Plans from their own cafe page, checked 26 November 2026. Menu and offerings may change, and some depend on licensing and local approvals. Pictures are concept art, not photographs.',
+    },
   },
   'rabbits-balloons': {
     source: 'https://rabbits-balloons.netlify.app/',

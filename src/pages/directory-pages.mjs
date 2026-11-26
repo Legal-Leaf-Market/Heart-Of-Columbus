@@ -323,7 +323,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
       </div>
       ${b.dora ? `<p class="direct-note dora-note">🥤 <span>On the city’s list of Downtown Columbus Social District businesses (checked October 2026). If you are 21 or older you can leave with a drink in a Social District cup, 10 AM to midnight. <a href="/visit/#social-district">The rules</a></span></p>` : ''}
       ${buildingNote(b)}
-      ${b.added?.soon ? `<p class="direct-note">🚧 <span>Coming soon. Not open yet; we will add hours and an address when it opens.</span></p>` : ''}
+      ${b.added?.soon ? `<p class="direct-note">🚧 <span>Coming soon. Not open yet; we will add hours and an address when it opens.${b.coming ? ' <a href="#coming">What is planned</a>' : ''}</span></p>` : ''}
       ${b.added?.tie ? `<p class="direct-note member-note">★ <span>${esc(b.added.tie)}</span></p>` : ''}
       ${b.kin.map((k) => { const o = directory.find((x) => x.slug === k.slug); return o ? `<p class="direct-note kin-note">🤝 <span>${esc(k.label)}: <a href="/b/${o.slug}/">${t(o.name)}</a>, ${esc(k.about || o.type.charAt(0).toLowerCase() + o.type.slice(1))}.</span></p>` : ''; }).join('')}
       ${boostNote(b)}
@@ -373,7 +373,8 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
 </section>
 ${inTheNews(b)}
 ${bm.state === 'photo' ? '' : `<section class="wrap biz-photo-ask" aria-label="Photos"><p class="fine">No photos of ${t(b.name)} yet. Own it? <a href="/owners/?b=${b.slug}&amp;want=photos#claim">Send us photos</a> and we will show them here with your credit. We never copy them from your website.</p></section>`}
-${media && (media.gallery || []).length ? `
+${comingSection(b, media)}
+${media && (media.gallery || []).length && !b.coming ? `
 <section class="wrap biz-gallery" aria-label="Photos from ${t(b.name)}">
   ${media.logo ? `<img class="biz-logo" src="${mediaSrc(b.slug, media.logo)}" width="${media.logo.width}" height="${media.logo.height}" alt="${esc(media.logo.alt)}" loading="lazy" decoding="async">` : ''}
   ${(media.gallery || []).map((f) => `<figure><img src="${mediaSrc(b.slug, f)}" width="${f.width}" height="${f.height}" alt="${esc(f.alt)}" loading="lazy" decoding="async"></figure>`).join('')}
@@ -540,6 +541,22 @@ ${footer()}`;
 const stickerAt = (b, media, at, anchor = false) => {
   const html = (media?.stickers || []).filter((s) => s.at === at).map((s) => `<img class="brand-sticker at-${at}" src="${mediaSrc(b.slug, s)}" width="${s.width}" height="${s.height}" alt="" aria-hidden="true" loading="lazy" decoding="async">`).join('');
   return html && anchor ? `<div class="sticker-anchor">${html}</div>` : html;
+};
+
+// A business not open yet (own-facts.mjs `coming`): what its own pages say is
+// planned, each with its own concept art from media.mjs, labeled as plans.
+const comingSection = (b, media) => {
+  const c = b.coming;
+  if (!c) return '';
+  const img = (file) => (media?.gallery || []).find((f) => f.file === file);
+  return `<section class="wrap coming-sec" id="coming" aria-labelledby="coming-h">
+  <p class="kicker">🚧 Coming soon</p>
+  <h2 id="coming-h">${esc(c.title)}</h2>
+  <p class="sub">${esc(c.intro)}</p>
+  <ul class="coming-grid">${c.points.map((p) => { const f = img(p.img); return `<li>${f ? `<img src="${mediaSrc(b.slug, f)}" width="${f.width}" height="${f.height}" alt="${esc(f.alt)}" loading="lazy" decoding="async">` : ''}<div><h3>${esc(p.title)}</h3><p>${esc(p.text)}</p></div></li>`; }).join('')}</ul>
+  <p class="coming-cta"><a class="btn" href="${esc(c.cta.url)}" target="_blank" rel="noopener">${svg('heart')} ${esc(c.cta.label)} ↗</a>${b.feed ? `<a class="btn btn-ghost" href="#shop">${svg('store')} Shop online now</a>` : ''}</p>
+  <p class="fine">${esc(c.fine)}${media ? ` ${esc(media.credit)}, shown with permission.` : ''}</p>
+</section>`;
 };
 
 // A business tied to the people who run Heart of Columbus (added.mjs `tie`)

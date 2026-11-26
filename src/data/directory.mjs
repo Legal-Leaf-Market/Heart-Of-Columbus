@@ -261,6 +261,7 @@ for (const b of all) {
     .map((label) => profiles.find((profile) => profile.label === label));
   b.also = own?.also || [];
   b.kin = own?.kin || [];
+  b.coming = own?.coming || null;
   if (own) {
     if (own.address) b.address = own.address;
     if (own.hours) { b.hours = own.hours; b.hoursFrom = 'own'; }
