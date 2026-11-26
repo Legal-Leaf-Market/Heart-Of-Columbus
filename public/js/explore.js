@@ -41,6 +41,66 @@
   var parseDay = function (x) { var a = x.split('-').map(Number); return Date.UTC(a[0], a[1] - 1, a[2]); };
   var thisWeekend = function (e) { var s = parseDay(e.start), end = parseDay(e.end); return end >= today && Math.max(s, today, fri) <= Math.min(end, fri + 2 * DAY); };
   var PAGE = 48, shown = PAGE, all = [], map = null, layer = null, me = null;
+  var entryPath = location.pathname + location.search;
+  var navigation = performance.getEntriesByType('navigation')[0];
+  var visit = window.HoCResultVisit.read();
+  var explicitReturn = visit && visit.returning && visit.path === entryPath
+    && document.referrer === location.origin + '/b/' + visit.slug + '/';
+  var returnState = explicitReturn ? visit
+    : navigation && navigation.type === 'back_forward' && history.state && history.state.hocResult;
+  if (explicitReturn) window.HoCResultVisit.write(null);
+  if (returnState && returnState.path === entryPath) {
+    shown = Math.max(PAGE, Number(returnState.shown) || PAGE);
+  } else {
+    returnState = null;
+  }
+
+  var directoryReady = false, locatingForReturn = Boolean(returnState && st.sort === 'near');
+  function finishReturn() {
+    if (!directoryReady || locatingForReturn) return;
+    returnToCard(returnState);
+    returnState = null;
+  }
+
+  function returnToCard(state) {
+    if (!state) return;
+    requestAnimationFrame(function () {
+      var card = $$('[data-ex-grid] [data-slug]').find(function (el) { return el.dataset.slug === state.slug; });
+      var link = card && $('.bz-name a', card);
+      var target = link || $('[data-ex-count]');
+      target.focus({ preventScroll: true });
+      if (link && !state.fromMap) {
+        window.scrollBy({ top: card.getBoundingClientRect().top - state.offset, behavior: 'instant' });
+      } else if (!state.fromMap) {
+        target.scrollIntoView({ block: 'center', behavior: 'instant' });
+      } else {
+        window.scrollTo({ top: state.scroll, behavior: 'instant' });
+      }
+    });
+  }
+
+  root.addEventListener('click', function (e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var link = e.target.closest('[data-ex-grid] a, [data-ex-map] .pop-name');
+    if (!link || link.origin !== location.origin) return;
+    var match = link.pathname.match(/^\/b\/([a-z0-9-]+)\/$/);
+    if (!match) return;
+    var card = link.closest('[data-ex-grid] [data-slug]');
+    var state = {
+      path: location.pathname + location.search,
+      slug: match[1],
+      shown: shown,
+      offset: card ? card.getBoundingClientRect().top : 0,
+      scroll: window.scrollY,
+      fromMap: !card,
+    };
+    history.replaceState(Object.assign({}, history.state, { hocResult: state }), '');
+    window.HoCResultVisit.write(state);
+  });
+  window.addEventListener('pageshow', function (e) {
+    if (e.persisted && history.state) returnToCard(history.state.hocResult);
+  });
+
   var dist = function (a, b) {
     var r = Math.PI / 180, dLat = (b[0] - a[0]) * r, dLng = (b[1] - a[1]) * r;
     var h = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(a[0] * r) * Math.cos(b[0] * r) * Math.sin(dLng / 2) * Math.sin(dLng / 2);
@@ -48,18 +108,25 @@
   };
   function locate() {
     var msg = $('[data-ex-near-msg]');
-    if (!navigator.geolocation) { msg.textContent = 'Your browser can’t share a location.'; msg.hidden = false; return; }
+    if (!navigator.geolocation) { msg.textContent = 'Your browser can’t share a location.'; msg.hidden = false; finishLocate(); return; }
     msg.textContent = 'Finding you…'; msg.hidden = false;
     navigator.geolocation.getCurrentPosition(function (p) {
       me = [p.coords.latitude, p.coords.longitude];
       msg.textContent = dist(me, [39.2014, -85.9214]) > 40 ? 'You look far from Columbus, so distances are from where you are now.' : 'Sorted by distance from you. Your location stays on your device.';
       nowMsg(dist(me, [39.2014, -85.9214]) > 40 ? 'Open now. You look far from Columbus, so this shows the whole town.' : 'Open now, nearest to you first. Your location stays on your device.');
       render();
+      finishLocate();
     }, function () {
       msg.textContent = 'Location is off, so we sorted by best match instead.'; st.sort = 'match'; $('[data-ex-sort]').value = 'match';
       nowMsg('Location is off, so this is everything open now, A to Z.');
       render();
+      finishLocate();
     }, { maximumAge: 300000, timeout: 10000 });
+  }
+
+  function finishLocate() {
+    locatingForReturn = false;
+    finishReturn();
   }
 
   function nowMsg(t) { var el = $('[data-now-msg]'); if (el && st.now) el.textContent = t; }
@@ -75,7 +142,8 @@
     if (st.open && !st.now) p.set('open', '1');
     if (st.now) { p.set('now', '1'); p.delete('sort'); }
     if (st.layers.join(',') !== 'b,l,e') p.set('layers', st.layers.join(','));
-    history.replaceState(null, '', location.pathname + (p.toString() ? '?' + p : ''));
+    var url = location.pathname + (p.toString() ? '?' + p : '');
+    if (url !== location.pathname + location.search) history.replaceState(null, '', url);
   }
 
   // Home section, or one its own website says it also serves (xc: [[cat, sub]]).
@@ -370,5 +438,5 @@
   });
   if (savedOnly) document.addEventListener('hoc:saved', render);
 
-  window.HoCDir().then(function (d) { all = d; render(); });
+  window.HoCDir().then(function (d) { all = d; directoryReady = true; render(); finishReturn(); });
 })();

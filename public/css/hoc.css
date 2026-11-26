@@ -2052,6 +2052,8 @@ main.tier-member { overflow-x: clip; } /* a sticker over an edge never makes the
 .biz { max-width: 1240px; } /* content area ~1,184px after the page padding */
 @media (min-width: 960px) { .biz { grid-template-columns: 7fr 5fr; gap: 40px; } }
 @media (max-width: 600px) { .wrap.biz, .wrap.biz-photo-ask { padding-left: 20px; padding-right: 20px; } }
+.biz-return { max-width: 1240px; }
+.biz-return a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
 .biz-head { margin-top: 12px; }
 .biz-id.has-profile { display: grid; grid-template-columns: 184px minmax(0, 1fr); align-items: center; gap: clamp(16px, 2.5vw, 30px); }
 .biz-profile { aspect-ratio: 1; display: grid; place-items: center; background: #f4e9d6; border: 1px solid #e6d4b8; border-radius: 24%; }
