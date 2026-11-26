@@ -1,0 +1,51 @@
+# Publish to the live site: move the `live` branch up to `main`.
+#
+# Why this exists (Jake, 2026-11-26): every production deploy on Netlify costs
+# 15 credits, the Pro plan includes 3,000 a month, and this repo alone made 159
+# production deploys between Nov 3 and Nov 26, one per merge. The team ran out
+# and Netlify paused every site. Branch deploys and Deploy Previews are free, so
+# `main` is now a free branch deploy and heartofcolumbus.shop (and Cisco's)
+# build only from `live`. One publish is one production deploy, however many
+# pull requests went into `main` since the last one.
+#
+# It runs once a day, and on demand: Actions > Publish to the live site >
+# Run workflow. It only ever fast-forwards `live`; it never rewrites it.
+name: Publish to the live site
+
+on:
+  schedule:
+    - cron: '17 11 * * *' # 6:17 AM in Columbus (EST), after the store crawl and the cart check
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-live
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Move live up to main
+        run: |
+          git fetch origin live
+          MAIN=$(git rev-parse HEAD)
+          LIVE=$(git rev-parse origin/live)
+          if [ "$MAIN" = "$LIVE" ]; then
+            echo "Nothing new on main since the last publish. No deploy, no credits."
+            exit 0
+          fi
+          if ! git merge-base --is-ancestor "$LIVE" "$MAIN"; then
+            echo "::error::live has commits that main does not. Someone committed on live by hand. Fix that before publishing."
+            exit 1
+          fi
+          echo "Publishing $(git rev-list --count "$LIVE..$MAIN") commits:"
+          git log --oneline --first-parent "$LIVE..$MAIN"
+          git push origin "$MAIN:refs/heads/live"

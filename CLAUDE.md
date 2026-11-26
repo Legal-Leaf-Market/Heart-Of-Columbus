@@ -3,6 +3,29 @@
 Directory + five storefront demos for independent businesses in Columbus,
 Indiana. A pitch, not a live service. See README.md.
 
+## Publishing: `main` is not the live site
+
+Every production deploy on Netlify costs 15 credits. The Pro plan includes
+3,000 a month, and this repo alone made 159 production deploys from Nov 3 to
+Nov 26, one per merge. The team ran out on 2026-11-26 and Netlify paused every
+site Jake runs. Deploy Previews and branch deploys cost nothing, so (Jake,
+2026-11-26):
+
+- **Merging to `main` publishes nothing.** It makes a free branch deploy at
+  `main--heartofcolumbus.netlify.app` (noindex, behind team login), and pull
+  requests still get their free Deploy Preview.
+- **heartofcolumbus.shop builds only from `live`**, and so does Cisco's
+  (`ciscos-barber-shop`). The Publish workflow (`.github/workflows/publish.yml`)
+  moves `live` up to `main` once a day at 6:17 AM, or right away from
+  Actions > Publish to the live site > Run workflow. One publish is one
+  production deploy, however many pull requests went in.
+- **Never commit on `live` or push to it by hand.** It only ever fast-forwards
+  to `main`, and the workflow refuses to publish if it cannot.
+- **Don't run Publish for a docs or tests change.** Run it when something on
+  the site must be right today: a wrong phone number, hours, a closed business.
+- A merged pull request is not live until the next publish. Say so when you
+  report one as done.
+
 ## Standing rules
 
 - **No visible dashes anywhere a person reads** (repo owner's directive): no em
