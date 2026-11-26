@@ -2053,13 +2053,15 @@ main.tier-member { overflow-x: clip; } /* a sticker over an edge never makes the
 @media (min-width: 960px) { .biz { grid-template-columns: 7fr 5fr; gap: 40px; } }
 @media (max-width: 600px) { .wrap.biz, .wrap.biz-photo-ask { padding-left: 20px; padding-right: 20px; } }
 .biz-head { margin-top: 12px; }
-.biz-id { display: flex; align-items: center; gap: 16px; }
-.biz-logo-mark { width: 84px; height: 84px; object-fit: contain; flex: none; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 6px; }
+.biz-id.has-profile { display: grid; grid-template-columns: 184px minmax(0, 1fr); align-items: center; gap: clamp(16px, 2.5vw, 30px); }
+.biz-profile { aspect-ratio: 1; display: grid; place-items: center; background: #f4e9d6; border: 1px solid #e6d4b8; border-radius: 24%; }
+.biz-profile .business-illustration { display: block; width: 100%; height: 100%; object-fit: contain; }
+.biz-name { min-width: 0; }
+.biz-logo-mark { display: block; width: 44px; height: 44px; margin-top: 10px; object-fit: contain; background: #fff; border: 1px solid var(--line); border-radius: 9px; padding: 3px; }
 .biz-head h1 { font-size: clamp(34px, 5vw, 56px); line-height: 1.05; overflow-wrap: anywhere; }
 .biz-head .biz-type { font-size: 18px; }
 .biz-actions .btn { min-height: 44px; }
-.biz-main, .biz-side, .biz-id h1 { min-width: 0; }
-.biz-id .business-illustration { flex: none; }
+.biz-main, .biz-side { min-width: 0; }
 .biz-head .bz-tags { gap: 8px 10px; }
 .biz-head .tag { max-width: 100%; padding: 5px 10px; white-space: normal; overflow-wrap: anywhere; }
 .biz-head a.tag { min-height: 28px; }
@@ -2075,10 +2077,12 @@ main.tier-member { overflow-x: clip; } /* a sticker over an edge never makes the
 .biz-reviews > a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; }
 .biz-side .attr-list { gap: 8px; }
 @media (max-width: 600px) {
-  .biz-id { flex-wrap: wrap; gap: 12px; }
-  .biz-id .business-illustration, .biz-id .biz-logo-mark { width: 64px; height: 64px; }
-  .biz-id h1 { flex: 1 1 180px; }
+  .biz-id.has-profile { grid-template-columns: 124px minmax(0, 1fr); gap: 14px; }
+  .biz-head .biz-type { font-size: 16px; }
   .biz-head .biz-actions .btn { padding-inline: 12px; }
+}
+@media (max-width: 380px) {
+  .biz-id.has-profile { grid-template-columns: 104px minmax(0, 1fr); gap: 12px; }
 }
 .biz-figure { margin: 28px 0 0; }
 .biz-figure .biz-photo { position: static; width: 100%; aspect-ratio: 3 / 2; max-height: 420px; object-fit: cover; border-radius: var(--r); border: 1px solid var(--line); }
@@ -2087,7 +2091,7 @@ main.tier-member { overflow-x: clip; } /* a sticker over an edge never makes the
 .biz-photo-ask { padding-top: 8px; padding-bottom: 8px; }
 .biz-photo-ask p { border-top: 1px solid var(--line); padding-top: 14px; max-width: 60em; }
 .biz-photo-ask a { text-decoration: underline; text-underline-offset: 3px; }
-@media (max-width: 600px) { .biz-head h1 { font-size: 34px; } body { line-height: 1.6; } }
+@media (max-width: 600px) { .biz-head h1 { font-size: clamp(26px, 6vw, 34px); } body { line-height: 1.6; } }
 
 /* Boost: paid, always labeled (src/promotions.mjs). */
 .tag-boost { background: var(--gold); color: var(--ink); }

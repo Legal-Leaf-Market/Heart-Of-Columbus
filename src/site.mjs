@@ -1041,10 +1041,13 @@ const ILLUSTRATED_BUSINESSES = new Set([
   // its media.mjs entry. An online shop has no storefront to draw.
   'kawaii-katz',
 ]);
-export const businessIllustration = (slug, { size = 82 } = {}) => {
+export const businessIllustration = (slug, { size = 82, profile = false } = {}) => {
   if (ILLUSTRATED_BUSINESSES.has(slug)) {
-    const edge = Math.round(size * 1.25);
-    return `<img class="business-illustration" src="/art/business-scenes/${slug}.webp" width="${edge}" height="${edge}" style="object-fit:contain;max-width:100%" alt="" loading="lazy" decoding="async">`;
+    const edge = profile ? 184 : Math.round(size * 1.25);
+    const loading = profile
+      ? 'fetchpriority="high" sizes="(max-width: 380px) 104px, (max-width: 600px) 124px, 184px"'
+      : `loading="lazy" sizes="${edge}px"`;
+    return `<img class="business-illustration" src="/art/business-scenes/${slug}.webp" width="${edge}" height="${edge}" style="object-fit:contain;max-width:100%" alt="" ${loading} decoding="async">`;
   }
   const shard = BUSINESS_ART_SHARDS[slug];
   if (!shard) return '';
