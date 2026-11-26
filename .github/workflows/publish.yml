@@ -11,7 +11,7 @@
 # When it publishes (whichever comes first):
 #   - BATCH_SIZE site changes are waiting on main, or
 #   - the oldest waiting site change has waited MAX_WAIT_HOURS, or
-#   - a waiting commit says [publish] (put it in the pull request title), or
+#   - a waiting merge has [publish] in its pull request title, or
 #   - someone presses Run workflow (Actions > Publish to the live site).
 # A "site change" is a merge that touches anything outside docs, tests,
 # research, .github, art-source, README.md and CLAUDE.md. Merges that touch
@@ -75,8 +75,20 @@ jobs:
               WAITING=$((WAITING + 1))
               if [ -z "$OLDEST" ]; then OLDEST=$(git log -1 --format=%ct "$c"); fi
             fi
-            MSG=$(git log -1 --format=%B "$c")
-            case "$MSG" in *"[publish]"*|*"[Publish]"*|*"[PUBLISH]"*) URGENT=1 ;; esac
+            # Only the title counts: a squash merge's subject is the pull request
+            # title; a merge commit carries the title as the first body line.
+            # A description that merely mentions the marker never publishes.
+            TITLE=$(git log -1 --format=%s "$c")
+            case "$TITLE" in
+              "Merge pull request "*)
+                BODY=$(git log -1 --format=%b "$c")
+                TITLE=""
+                while IFS= read -r line; do
+                  if [ -n "$line" ]; then TITLE=$line; break; fi
+                done <<< "$BODY"
+                ;;
+            esac
+            case "$TITLE" in *"[publish]"*|*"[Publish]"*|*"[PUBLISH]"*) URGENT=1 ;; esac
           done
           NOW=$(date +%s)
           AGE=$(( (NOW - ${OLDEST:-$NOW}) / 3600 ))
@@ -86,7 +98,7 @@ jobs:
           if [ "$EVENT" = "workflow_dispatch" ]; then
             REASON="run by hand"
           elif [ "$URGENT" = 1 ]; then
-            REASON="[publish] in a commit message"
+            REASON="[publish] in a pull request title"
           elif [ "$WAITING" -ge "$BATCH_SIZE" ]; then
             REASON="$WAITING site changes waiting"
           elif [ "$WAITING" -gt 0 ] && [ "$AGE" -ge "$MAX_WAIT_HOURS" ]; then
