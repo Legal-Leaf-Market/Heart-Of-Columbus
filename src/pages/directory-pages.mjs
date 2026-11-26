@@ -279,10 +279,11 @@ function bizPage(b, { assets }) {
   const tier = tierOf(b.slug);
   const pal = tier === 'member' ? paletteFor(b.slug, cat.color) : null;
   const fnum = tier === 'member' ? founderNumber(b.slug, (s) => directory.some((x) => x.slug === s)) : 0;
-  // Media follows businessMedia() only: a real approved photo, an approved
-  // logo in a small identity slot, or nothing. No art stands in for a business.
+  // Approved photos and logos stay separate from decorative directory art.
   const bm = businessMedia(b.slug);
   const logo = media?.logo ? `<img class="biz-logo-mark" src="${mediaSrc(b.slug, media.logo)}" width="${media.logo.width}" height="${media.logo.height}" alt="${esc(media.logo.alt)}" decoding="async">` : '';
+  const illustration = businessIllustration(b.slug);
+  const title = cisco ? 'Cisco’s <span>Barber Shop</span>' : t(b.name);
   const near = b.ll
     ? directory.filter((x) => x.slug !== b.slug && x.ll).map((x) => [km(b.ll, x.ll), x]).sort((a, c) => a[0] - c[0]).slice(0, 12).map((x) => x[1])
     : [];
@@ -298,7 +299,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
       ${cisco ? ciscoRoomBackdrop() + '<div class="cisco-copy">' : ''}
       <p class="kicker"><a href="/c/${cat.slug}/${cat.subs.length > 1 ? sub.slug + '/' : ''}">${esc(sub.label)}</a>${area ? ` · <a href="/n/${area.slug}/">${esc(area.label)}</a>` : ''}</p>
       ${tier === 'member' ? `<p class="brand-line"><a class="brand-ribbon" href="/founders-club/">★ Founding Member #${fnum}</a></p>` : ''}
-      <div class="biz-id">${cisco ? '<h1>Cisco’s <span>Barber Shop</span></h1>' : `${logo || businessIllustration(b.slug)}<h1>${t(b.name)}</h1>`}</div>
+      <div class="biz-id">${logo}${illustration}<h1>${title}</h1></div>
       ${cisco ? '<p class="biz-type">Haircuts, beard trims and hot towel shaves. Walk in or call to book.</p>' : `<p class="biz-type">${t(b.type)}</p>`}
       <div class="bz-tags">${b.member ? '<a class="tag tag-member" href="#member-note">★ Founding Member</a>' : ''}${tier === 'claimed' ? '<span class="tag tag-claimed">✓ Claimed by the owner</span>' : ''}${tier === 'listed' ? '<a class="tag tag-outline" href="#claim-card">Outline listing</a>' : ''}${SPOTLIGHT_SLUGS.has(b.slug) ? (spotFor(b.slug)?.picks.length ? '<a class="tag tag-spot" href="#owners-picks">★ Spotlight</a>' : '<span class="tag tag-spot">★ Spotlight</span>') : ''}${b.demo ? '<span class="tag tag-hot">Order direct (demo)</span>' : ''}${b.heritage ? '<span class="tag">Columbus original</span>' : ''}${b.dora ? '<span class="tag tag-dora">Social District: drinks to go</span>' : ''}${b.building ? `<a class="tag tag-history" href="#building">🏛 ${esc(b.building.name)}, ${esc(b.building.built)}</a>` : ''}${b.before ? `<a class="tag tag-history" href="#building">Before: ${esc(b.before.was)}</a>` : ''}${b.also.map((a) => `<a class="tag tag-go" href="#also-${a.cat}">${catBySlug[a.cat].emoji} ${esc(a.title)}</a>`).join('')}<span class="tag tag-plain">Independent</span></div>
       ${b.hours ? `<p class="open-badge biz-open" data-open-now='${JSON.stringify(b.hours)}' hidden></p>` : ''}
