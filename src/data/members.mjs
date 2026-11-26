@@ -43,7 +43,11 @@ export const MEMBERS = {
 };
 
 export const PRICE = 20; // dollars a month, locked for founding members
-export const SPOTS = 10; // size of the founding pilot group
+// Size of the founding pilot group. Raised from 10 to 20 on 2026-11-26 (Jacob:
+// "I want to have 15 to 20 founding members", and he may open it to every
+// Columbus business as the pilot for other cities). The badge rule is
+// unchanged: a business goes in MEMBERS only after its owner agrees and pays.
+export const SPOTS = 20;
 
 export const isMember = (slug, members = MEMBERS) => Object.hasOwn(members, slug);
 

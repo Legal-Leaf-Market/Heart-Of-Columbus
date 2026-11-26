@@ -150,6 +150,20 @@ export const OWN_FACTS = {
       { label: 'Anime', url: 'https://kawaiikatz.heartofcolumbus.shop/anime' },
     ],
   },
+  // Love Me Wildly Photography (checked 2026-11-26): its own site's menu,
+  // https://www.lovemewildly.com/ : About, Packages ("THE GOLDEN HOUR PACKAGE,
+  // 5 hours of coverage", "THE TIMELESS PACKAGE, 8 hours of coverage", "THE
+  // WILDLY IN LOVE PACKAGE, Elopement Wedding"), Portfolio (Weddings,
+  // Portraits, Newborn Lifestyle) and Contact. No prices are published.
+  'love-me-wildly-photography': {
+    source: 'https://www.lovemewildly.com/',
+    checked: '2026-11-26',
+    links: [
+      { label: 'Packages', url: 'https://www.lovemewildly.com/packages' },
+      { label: 'Portfolio', url: 'https://www.lovemewildly.com/portfolio-1' },
+      { label: 'Contact', url: 'https://www.lovemewildly.com/contact' },
+    ],
+  },
   'rabbits-balloons': {
     source: 'https://rabbits-balloons.netlify.app/',
     checked: '2026-11-15',

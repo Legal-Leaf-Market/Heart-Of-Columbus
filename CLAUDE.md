@@ -39,7 +39,7 @@ Indiana. A pitch, not a live service. See README.md.
   published as written; every deal has `ends` and comes down by itself.
 - **Founding Members pay us, so the badge is a disclosure.**
   `src/data/members.mjs` is empty until an owner agrees and pays ($20 a month,
-  10 founding spots). A member gets the "★ Founding Member" tag on its card
+  20 founding spots since 2026-11-26, up from 10). A member gets the "★ Founding Member" tag on its card
   and page, first place in its category list, and a disclosure line on its
   page and on any story tagging it (`src/news/disclosure.mjs`). Search
   ranking never reads membership, and the free listing never depends on it.
