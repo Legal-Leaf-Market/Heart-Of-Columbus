@@ -21,7 +21,7 @@
 // sticker or initials stands in for a business, and a photo that fails to
 // load drops back to that text-only layout, never to a placeholder.
 // Where a member's stickers may sit (stickerAt in src/pages/directory-pages.mjs).
-export const STICKER_SPOTS = ['card', 'cover', 'picks', 'member'];
+export const STICKER_SPOTS = ['card', 'cover', 'shop', 'member'];
 
 export const MEDIA = {
   // Bip said yes to showing his photos (via Jacob Kennedy, 2026-11-15). The
@@ -52,7 +52,7 @@ export const MEDIA = {
     stickers: [
       { file: 'mascot-1.webp', width: 600, height: 600, alt: 'Panda hugging a parcel tied with a pink heart', at: 'card' },
       { file: 'mascot-2.webp', width: 600, height: 600, alt: 'Katz the kitten pouncing on a pile of pink puzzle pieces', at: 'cover' },
-      { file: 'mascot-3.webp', width: 320, height: 320, alt: 'Panda in pink headphones holding a game controller', at: 'picks' },
+      { file: 'mascot-3.webp', width: 320, height: 320, alt: 'Panda in pink headphones holding a game controller', at: 'shop' },
       { file: 'mascot-4.webp', width: 338, height: 320, alt: 'Katz hugging a big pink heart', at: 'member' },
     ],
     sourceUrl: 'https://github.com/Legal-Leaf-Market/KawaiiKatz/tree/main/public',

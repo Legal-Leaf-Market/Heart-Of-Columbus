@@ -566,3 +566,68 @@ export function mapJsonLd(html, pageUrl) {
   for (const block of readJsonLd(html)) walk(block);
   return items;
 }
+
+// ---------- Kawaii Katz: an affiliate storefront, sampled ----------
+// Kawaii Katz (a Founding Member, Jacob Kennedy's daughter Ada's shop) is
+// not a store with a cart we can fill: it gathers products from independent
+// kawaii shops and sends each sale to the shop that makes it. Its own
+// /api/catalog lists everything it carries, so the grid here is a sample of
+// that, in this order:
+//   1. Ada's Picks (its /api/picks), the owner's own choices, in her order.
+//   2. Then products marked kid-safe at scrape time, from shops that pay
+//      Kawaii Katz (not in `debug.untracked`), shuffled by the day so the
+//      grid changes daily, dealt one shop at a time so no shop takes a row.
+// Anything Ada hid (its /api/exclusions) and its showcase shops (held out of
+// its own main grid, `debug.showcase`) never appear. Each product links to
+// its page on Kawaii Katz, and the cart hands off to Kawaii Katz's /cart.
+const fnv = (s) => { let h = 0x811c9dc5; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h; };
+const kkNoDash = (s) => String(s || '').replace(/\s+[-–—]\s+/g, ', ').replace(/[–—]/g, ', ').replace(/\s{2,}/g, ' ').trim();
+// Its images are served through its own resizing proxy (/api/img?u=<original>);
+// a card here reads the original, through Shopify's resizer when it is one.
+export function kawaiiKatzImage(origin, src) {
+  src = String(src || '').trim();
+  if (!src) return '';
+  try {
+    const u = new URL(src, bare(origin) + '/');
+    if (u.pathname === '/api/img' && u.searchParams.get('u')) src = u.searchParams.get('u');
+    else src = u.href;
+  } catch { return ''; }
+  return /^https:\/\//i.test(src) ? shopifyImage(src) : '';
+}
+export function mapKawaiiKatz(origin, catalog, { picks = [], excluded = [], day = '' } = {}) {
+  origin = bare(origin);
+  const debug = (catalog && catalog.debug) || {};
+  const showcase = new Set(debug.showcase || []);
+  const untracked = new Set(debug.untracked || []);
+  const hidden = new Set((excluded || []).map(String));
+  const all = ((catalog && catalog.products) || []).filter((p) => p && p.id && p.name && Number(p.price) > 0
+    && !hidden.has(String(p.id)) && !showcase.has(p.vendor));
+  const byId = new Map(all.map((p) => [String(p.id), p]));
+  const out = [], seen = new Set();
+  const toItem = (p) => {
+    const vs = Array.isArray(p.variants) ? p.variants : [];
+    const variants = vs.length
+      ? vs.map((v) => ({ id: v.id == null ? '' : String(v.id), title: !v.title || v.title === 'Default Title' ? '' : kkNoDash(v.title), price: money(v.price != null ? v.price : p.price), available: v.available !== false }))
+      : [{ id: '', title: '', price: money(p.price), available: true }];
+    return {
+      id: `k${p.id}`, title: kkNoDash(p.name), type: p.cat || '', vendor: p.vendor || '',
+      url: `${origin}/p/${encodeURIComponent(p.id)}`, image: kawaiiKatzImage(origin, p.image),
+      price: money(p.price), available: variants.some((v) => v.available), variants,
+    };
+  };
+  const take = (p) => { if (!p || seen.has(String(p.id))) return; seen.add(String(p.id)); out.push(toItem(p)); };
+  for (const pick of picks || []) take(byId.get(String(pick && pick.id)));
+  const pool = all.filter((p) => !seen.has(String(p.id)) && p.kidSafe === true && !untracked.has(p.vendor))
+    .map((p) => [fnv(`${day}|${p.id}`), p]).sort((a, b) => a[0] - b[0]).map((x) => x[1]);
+  const byShop = new Map();
+  for (const p of pool) { if (!byShop.has(p.vendor)) byShop.set(p.vendor, []); byShop.get(p.vendor).push(p); }
+  for (let dealt = true; dealt;) { dealt = false; for (const q of byShop.values()) { const p = q.shift(); if (p) { take(p); dealt = true; } } }
+  return out;
+}
+// Its cart page takes the lines in the address, one `i=` per line:
+// <productId>~<variantId>~<qty> (Kawaii Katz's app/cart/CartPageClient.tsx).
+export function kawaiiKatzCartUrl(origin, lines) {
+  const qs = (lines || []).filter((l) => l.productId && l.qty > 0)
+    .map((l) => 'i=' + encodeURIComponent(`${l.productId}~${l.variantId || ''}~${Math.min(99, Math.floor(l.qty))}`));
+  return `${bare(origin)}/cart${qs.length ? '?' + qs.join('&') : ''}`;
+}

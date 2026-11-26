@@ -371,7 +371,6 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
   </aside>
   ${stickerAt(b, media, 'card')}
 </section>
-${picksSection(b, media)}
 ${inTheNews(b)}
 ${bm.state === 'photo' ? '' : `<section class="wrap biz-photo-ask" aria-label="Photos"><p class="fine">No photos of ${t(b.name)} yet. Own it? <a href="/owners/?b=${b.slug}&amp;want=photos#claim">Send us photos</a> and we will show them here with your credit. We never copy them from your website.</p></section>`}
 ${media && (media.gallery || []).length ? `
@@ -389,8 +388,10 @@ ${b.also.map((a) => `<section class="wrap also-wrap" id="also-${a.cat}"><div cla
   <p><a class="btn" href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.cta)} on their site ↗</a></p>
   <p class="fine">From ${t(b.name)}’s own page, checked ${longDate(b.own?.checked || '')}. Quotes, dates and payment are handled by ${t(b.name)}, not Heart of Columbus.</p>
 </div></section>`).join('')}
-${b.feed || (b.snap && b.snap.kind === 'shop') ? `<section class="wrap shop-sec" id="shop"><p class="kicker">${b.feed ? 'Live from their store' : 'From their website'}</p><h2>Shop ${t(b.name)} online</h2>
+${b.feed || (b.snap && b.snap.kind === 'shop') ? `<section class="wrap shop-sec" id="shop">${stickerAt(b, media, 'shop')}<p class="kicker">${b.feed ? 'Live from their store' : 'From their website'}</p><h2>Shop ${t(b.name)} online</h2>
   <p class="sub">${!b.feed ? `Their products and prices as their own website lists them, saved ${longDate(b.snap.checked)}. Add what you want to your list here, then buy each one on their site; prices and stock there are the final word.`
+    : b.platform === 'kawaiikatz'
+    ? 'Ada’s Picks first, then a mix from the independent shops Kawaii Katz carries, changing every day. Add to your cart here, then go to your Kawaii Katz cart: it sorts your items by the shop that sells each one, and each shop checks you out on its own site. Kawaii Katz earns a commission from those shops.'
     : b.platform === 'squarespace-commerce'
     ? 'Their real products and prices, read from their own online store. Add what you want to your list here, then buy each one on their site: their store has no way to take a whole cart from another site.'
     : 'Their real products and prices, read from their own online store. Add to your cart here, then check out on their site with everything already in the cart. Choose pickup there if they offer it.'}</p>
@@ -404,7 +405,7 @@ ${b.cat === 'events' ? '' : rail(`More ${sub.label.toLowerCase()}`, `/c/${cat.sl
 ${rail('Close by', area ? `/n/${area.slug}/` : '', near)}
 </main>
 ${footer()}`;
-  return page({ title: `${b.name} | ${sub.label} in Columbus, Indiana`, description: bizDescription(b), body: ageRestricted ? smokeAgeGate(body) : body, scripts: ['site.js', 'hub.js', 'cart.js', ...(b.own?.picks ? ['picks.js'] : []), ...(ageRestricted ? ['smoke-age-gate.js'] : [])], styles: cisco ? [...styles, 'cisco-listing.css'] : styles, assets, ld: [businessLd(b)], head: cisco ? ciscoRoomHead : '' });
+  return page({ title: `${b.name} | ${sub.label} in Columbus, Indiana`, description: bizDescription(b), body: ageRestricted ? smokeAgeGate(body) : body, scripts: ['site.js', 'hub.js', 'cart.js', ...(ageRestricted ? ['smoke-age-gate.js'] : [])], styles: cisco ? [...styles, 'cisco-listing.css'] : styles, assets, ld: [businessLd(b)], head: cisco ? ciscoRoomHead : '' });
 }
 
 // Saved page extras: share a list, pick a day, print it. Landmarks and events
@@ -531,7 +532,7 @@ ${footer()}`;
 
 // A member's own cut-out art (media.mjs `stickers`), placed as decoration at a
 // named spot on its page: 'card' (the corner of its main card), 'cover' (the
-// corner of its cover picture), 'picks' (beside its picks heading) and
+// corner of its cover picture), 'shop' (beside its shop heading) and
 // 'member' (above its Founding Member card). Its own files, shown with its
 // permission like the rest of its media; alt is empty because they add
 // nothing a reader needs. `anchor` wraps one in a zero-height box for spots
@@ -539,21 +540,6 @@ ${footer()}`;
 const stickerAt = (b, media, at, anchor = false) => {
   const html = (media?.stickers || []).filter((s) => s.at === at).map((s) => `<img class="brand-sticker at-${at}" src="${mediaSrc(b.slug, s)}" width="${s.width}" height="${s.height}" alt="" aria-hidden="true" loading="lazy" decoding="async">`).join('');
   return html && anchor ? `<div class="sticker-anchor">${html}</div>` : html;
-};
-
-// The owner's own picks, read live from the shop's own feed (own-facts.mjs
-// `picks`, /api/picks, public/js/picks.js). Ships hidden and empty: picks.js
-// shows it only when real picks arrive, so there is never a placeholder row.
-const picksSection = (b, media) => {
-  const p = b.own?.picks;
-  if (!p) return '';
-  return `<section class="wrap shop-sec picks-sec" id="picks" data-picks="${b.slug}" hidden>
-  ${stickerAt(b, media, 'picks')}
-  <p class="kicker">From ${t(b.name)}</p><h2>${esc(p.title)}</h2>
-  <p class="sub">${esc(p.sub)}</p>
-  <div class="prod-grid"></div>
-  <p><a class="btn" href="${esc(p.site)}/" target="_blank" rel="noopener">${svg('store')} See everything at ${t(b.name)} ↗</a></p>
-</section>`;
 };
 
 // A business tied to the people who run Heart of Columbus (added.mjs `tie`)
@@ -566,7 +552,7 @@ const bare = (u) => String(u || '').toLowerCase().replace(/^https?:\/\/(www\.)?/
 const tagFor = (b, url, campaign) => (b.website && bare(url) === bare(b.website) ? url : tagUrl(url, campaign));
 
 // Pickup details for the cart: the address and hours the page already shows.
-const shopAttrs = (b) => `data-shop="${b.slug}" data-name="${esc(b.name)}"${b.snap ? ` data-snap="${b.snap.checked}"` : ''}${b.feed ? ' data-live' : ''}${b.address ? ` data-address="${esc(b.address)}"` : ''}${b.hours ? ` data-hours='${JSON.stringify(b.hours)}'` : ''}`;
+const shopAttrs = (b) => `data-shop="${b.slug}" data-name="${esc(b.name)}"${b.snap ? ` data-snap="${b.snap.checked}"` : ''}${b.feed ? ' data-live' : ''}${b.shopLimit ? ` data-limit="${b.shopLimit}"` : ''}${b.address ? ` data-address="${esc(b.address)}"` : ''}${b.hours ? ` data-hours='${JSON.stringify(b.hours)}'` : ''}`;
 
 function orderPage({ assets }) {
   const order = directory.filter((b) => b.order.length);

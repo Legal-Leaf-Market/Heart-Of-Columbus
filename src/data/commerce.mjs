@@ -5480,9 +5480,10 @@ export const COMMERCE = {
   "book": []
  },
  "kawaii-katz": {
-  "platform": "",
+  "platform": "kawaiikatz",
   "origin": "https://kawaiikatz.heartofcolumbus.shop",
-  "feed": false,
+  "feed": true,
+  "limit": 12,
   "store": "https://kawaiikatz.heartofcolumbus.shop/",
   "order": [],
   "book": []
