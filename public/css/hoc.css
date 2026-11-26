@@ -2076,10 +2076,23 @@ main.tier-member { overflow-x: clip; } /* a sticker over an edge never makes the
 .biz-reviews a { text-decoration: underline; text-underline-offset: 3px; }
 .biz-reviews > a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; }
 .biz-side .attr-list { gap: 8px; }
+.biz-visit-details { padding: clamp(18px, 2.5vw, 28px); gap: 12px; }
+.biz-visit-details h2 { font-size: clamp(23px, 3vw, 28px); line-height: 1.15; }
+.biz-visit-details .hours { margin-top: 6px; }
+.biz-map { border-top: 1px solid var(--line); margin-top: 4px; }
+.biz-map summary { min-height: 44px; cursor: pointer; align-content: center; font-weight: 700; }
+.biz-map summary .ic { margin-inline: 3px 4px; vertical-align: middle; }
+.biz-map iframe { border: 0; border-radius: var(--r-ctl); }
+.biz-map > a { display: inline-flex; align-items: center; min-height: 44px; }
+.biz-head .biz-extra-actions { row-gap: 6px; }
+.biz-head .biz-extra-actions .btn { border-color: transparent; box-shadow: none; padding-inline: 8px; text-decoration: underline; text-underline-offset: 3px; }
+.biz-head .biz-extra-actions .btn:hover { border-color: currentColor; }
 @media (max-width: 600px) {
   .biz-id.has-profile { grid-template-columns: 124px minmax(0, 1fr); gap: 14px; }
   .biz-head .biz-type { font-size: 16px; }
   .biz-head .biz-actions .btn { padding-inline: 12px; }
+  .biz-head .biz-actions:not(.biz-extra-actions) .btn { flex: 1 1 44%; }
+  .biz-head .biz-actions:not(.biz-extra-actions) .btn:not(.btn-ghost) { flex-basis: 100%; }
 }
 @media (max-width: 380px) {
   .biz-id.has-profile { grid-template-columns: 104px minmax(0, 1fr); gap: 12px; }

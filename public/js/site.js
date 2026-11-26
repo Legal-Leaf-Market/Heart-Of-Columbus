@@ -178,6 +178,18 @@
     setInterval(function () { if (!document.hidden) window.HoCPaintOpen(); }, 120000);
   }
 
+  // A listing map only contacts Google when the visitor opens it.
+  $$('[data-biz-map]').forEach(function (map) {
+    function loadMap() {
+      if (!map.open) return;
+      var template = $('template', map);
+      template.replaceWith(template.content);
+      map.removeEventListener('toggle', loadMap);
+    }
+    map.addEventListener('toggle', loadMap);
+    loadMap();
+  });
+
   // ---------- Typeahead ----------
   // Places of worship live on /worship/, not in the business index. The search
   // offers that page when a query is about worship, and up to three
