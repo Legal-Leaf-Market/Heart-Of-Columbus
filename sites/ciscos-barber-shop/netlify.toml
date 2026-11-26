@@ -3,6 +3,9 @@
 [build]
   publish = "."
   command = ""
+  # Build only when this folder changed since the last deploy (exit 0 skips).
+  # A publish of Heart of Columbus alone should not cost Cisco's a deploy too.
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- ."
 
 [[headers]]
   for = "/*"
