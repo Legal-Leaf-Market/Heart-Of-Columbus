@@ -237,6 +237,7 @@ for (const b of all) {
   b.store = c && c.store ? c.store : '';
   b.gift = c && c.gift ? c.gift : null;
   b.platform = c ? c.platform || '' : '';
+  b.shopLimit = c && c.limit ? c.limit : 0; // a sample, not the whole shop (Kawaii Katz)
   b.hours = HOURS[b.slug] || null;
   b.member = MEMBERS[b.slug] ? { since: MEMBERS[b.slug].since } : null;
   b.attrs = ATTRS[b.slug] || null;
@@ -250,7 +251,7 @@ for (const b of all) {
   b.dora = DORA_SLUGS.has(b.slug);
   // What the business says on its own website beats the sweep (own-facts.mjs).
   const own = OWN_FACTS[b.slug];
-  b.own = own ? { where: own.where || '', source: own.source, checked: own.checked, picks: own.picks || null } : null;
+  b.own = own ? { where: own.where || '', source: own.source, checked: own.checked } : null;
   // Buttons to its own pages, and sections its own pages show it also serves.
   b.links = own?.links || [];
   const profiles = [

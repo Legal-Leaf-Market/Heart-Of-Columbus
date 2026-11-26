@@ -45,6 +45,14 @@
     var q = (pickup ? 'note=' + encodeURIComponent('Pickup, please. Sent from Heart of Columbus.') + '&' : '') + 'ref=' + REF + (click ? '&attributes%5Bhoc_click%5D=' + click + '&' + utm('cart', click) : '');
     return (parts.length ? origin + '/cart/' + parts.join(',') : origin + '/cart') + '?' + q;
   }
+  // Kawaii Katz's /cart: one i=<productId>~<variantId>~<qty> per line
+  // (src/commerce-core.mjs kawaiiKatzCartUrl is the server twin; a test keeps them alike).
+  function kawaiiKatzUrl(origin, lines) {
+    var qs = lines.filter(function (l) { return l.productId && l.qty > 0; }).map(function (l) {
+      return 'i=' + encodeURIComponent(l.productId + '~' + (l.variantId || '') + '~' + Math.min(99, Math.floor(l.qty)));
+    });
+    return bare(origin) + '/cart' + (qs.length ? '?' + qs.join('&') : '');
+  }
   function wooUrls(origin, lines) {
     origin = bare(origin);
     return lines.filter(function (l) { return l.available !== false && l.productId && !l.pick; }).map(function (l) {
@@ -107,6 +115,7 @@
     return st ? '<em class="' + (st.open ? 'ta-open' : 'ta-closed') + '">' + esc(st.label) + '</em>' : '';
   }
   function checkoutLabel(first, n) {
+    if (first.platform === 'kawaiikatz') return 'Go to my ' + esc(first.store) + ' cart ↗';
     if (first.buyOnSite) return n > 1 ? 'Open their product pages ↗' : 'Buy it on their site ↗';
     if (first.platform === 'woocommerce' && n > 1) return 'Fill their cart and check out ↗';
     return 'Check out at ' + esc(first.store) + ' ↗';
@@ -140,6 +149,7 @@
         '<button type="button" class="btn cd-go" data-checkout="' + esc(slug) + '">' + checkoutLabel(first, lines.length) + '</button>' +
         (first.buyOnSite ? '<p class="cd-note">This shop’s website has no cart link, so your list opens their product pages to buy there.</p>'
           : pick ? '<p class="cd-note">Choose in-store pickup at their checkout' + (first.platform === 'shopify' ? '; your order note asks for pickup.' : '.') + '</p>' : '') +
+        (first.platform === 'kawaiikatz' ? '<p class="cd-note">' + esc(first.store) + ' gathers finds from independent shops. Its cart sorts your items by the shop that sells each one, and each shop checks you out on its own site.</p>' : '') +
         (first.platform === 'woocommerce' && lines.length > 1 ? '<p class="cd-note">Their store adds one item per visit, so one tap opens their store and adds each item in turn. Keep that tab open until it finishes.</p>' : '') +
         '<div class="cd-status" data-status="' + esc(slug) + '" aria-live="polite"></div><div class="cd-more" data-more="' + esc(slug) + '"></div>' +
         '</section>';
@@ -179,6 +189,9 @@
       more.innerHTML = ls.slice(1).map(function (l) { return '<a class="pill" href="' + esc(tag(l.url, 'cart')) + '" target="_blank" rel="noopener">Open ' + esc(l.title) + ' ↗</a>'; }).join('');
       return;
     }
+    // Kawaii Katz's own cart page reads stock from its live catalogue, so the
+    // cart goes straight there, opened on this tap.
+    if (first.platform === 'kawaiikatz') { handOff(slug, ls, first, null, co, status, more); return; }
     // In stock only (owner's rule): ask the store, this minute, before its
     // checkout opens. The tab opens now, on the tap, so the browser allows it,
     // and goes to the store once the answer is back.
@@ -219,6 +232,7 @@
     var go = function (u) { if (tab) tab.location.href = u; else window.open(u, '_blank', 'noopener'); };
     var click = visitId();
     beacon(slug, 'cart', { click: click, ids: ls.map(function (l) { return String(l.variantId || l.productId); }), items: ls.reduce(function (a, l) { return a + l.qty; }, 0), total: ls.reduce(function (a, l) { return a + l.price * l.qty; }, 0) });
+    if (first.platform === 'kawaiikatz') { go(tag(kawaiiKatzUrl(first.origin, ls), 'cart', click)); return; }
     if (first.platform === 'shopify') { go(shopifyUrl(first.origin, ls, pickupOn(slug, first), click)); return; }
     var urls = wooUrls(first.origin, ls);
     // WooCommerce's order attribution reads the UTM fields from the first page

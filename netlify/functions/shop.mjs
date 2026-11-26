@@ -10,7 +10,7 @@
 // that are in stock and have a photo (the owner's rule), plus the counts the
 // grid prints. A 1,000 item catalog is ~280 KB whole and a few KB this way.
 import { COMMERCE } from '../../src/data/commerce.mjs';
-import { mapShopify, mapWoo, mapSquarespace } from '../../src/commerce-core.mjs';
+import { mapShopify, mapWoo, mapSquarespace, mapKawaiiKatz } from '../../src/commerce-core.mjs';
 import { SHOP_RULES } from '../../src/data/shop-rules.mjs';
 
 export const config = { path: '/api/shop' };
@@ -72,6 +72,20 @@ export async function readCatalog(c, get = getJson, slug = '') {
     const products = await wooCollection(origin, '', 4, get);
     const variations = products.some((p) => p.type === 'variable') ? await wooCollection(origin, 'type=variation', 6, get) : [];
     items = mapWoo(origin, products, variations);
+  } else if (c.platform === 'kawaiikatz') {
+    // Its catalogue, its curator's picks and what she has hidden, together.
+    // The hidden list has to answer: without it we cannot know what she took
+    // down, so no sample at all rather than one that might show it.
+    const [cat, picks, hidden] = await Promise.all([
+      get(`${origin}/api/catalog`), get(`${origin}/api/picks`), get(`${origin}/api/exclusions`),
+    ]);
+    if (cat && cat.body && hidden && hidden.body) {
+      items = mapKawaiiKatz(origin, cat.body, {
+        picks: (picks && picks.body && picks.body.picks) || [],
+        excluded: hidden.body.ids || [],
+        day: new Date().toISOString().slice(0, 10),
+      });
+    }
   } else if (c.platform === 'squarespace-commerce' && c.catalog) {
     // ?format=json on their store page; later pages by the offset it gives.
     let url = `${c.catalog.replace(/[?#].*$/, '')}?format=json`;

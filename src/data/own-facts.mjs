@@ -140,14 +140,6 @@ export const OWN_FACTS = {
   // (lib/boards.ts: "Kawaii Christmas Gift Guide" at /gifts/christmas) in its
   // repository. www.kawaiikatz.com lapsed in November 2026; the shop runs at
   // https://kawaiikatz.heartofcolumbus.shop (its lib/site.ts) until it moves to its own .shop domain.
-  //
-  // `picks`: the owner's own picks, read live from the shop's own feed by
-  // /api/picks (netlify/functions/picks.mjs). These are Ada's Picks, the list
-  // she stars one product at a time on her site, so they are owner picks in
-  // the sense of the standing rule; when the feed is empty or unreachable the
-  // section stays hidden, with no placeholder rows. `feed` is the Netlify
-  // address so it answers even before the subdomain is attached; `site` is
-  // the public address every product link is rewritten onto.
   'kawaii-katz': {
     source: 'https://github.com/Legal-Leaf-Market/KawaiiKatz',
     checked: '2026-11-25',
@@ -157,13 +149,6 @@ export const OWN_FACTS = {
       { label: 'Decora', url: 'https://kawaiikatz.heartofcolumbus.shop/decora' },
       { label: 'Anime', url: 'https://kawaiikatz.heartofcolumbus.shop/anime' },
     ],
-    picks: {
-      title: "Ada's Picks",
-      sub: 'Chosen one at a time by Ada on Kawaii Katz. Each one opens on her shop, which links on to the store that sells it, so prices and stock there are the final word.',
-      feed: 'https://kawaii-katz.netlify.app/feeds/ada-picks.xml',
-      site: 'https://kawaiikatz.heartofcolumbus.shop',
-      max: 8,
-    },
   },
   'rabbits-balloons': {
     source: 'https://rabbits-balloons.netlify.app/',
