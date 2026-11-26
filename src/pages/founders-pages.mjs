@@ -4,7 +4,7 @@
 // for bringing others in. Everything it shows comes from src/data/members.mjs;
 // with nobody signed it says so and invites the first.
 import { page } from '../layout.mjs';
-import { header, footer, card, svg } from '../site.mjs';
+import { header, footer, card, svg, creatorPromo } from '../site.mjs';
 import { directory, CATEGORIES } from '../data/directory.mjs';
 import { MEMBERS, PRICE, SPOTS, AMBASSADORS, WELCOME_MONTHS, REFERRAL_TIERS } from '../data/members.mjs';
 
@@ -104,6 +104,7 @@ ${header('')}
   </ul>
   <p><a class="btn" href="/owners/?want=founders#claim">Join the Founders Club ${svg('arrow', 'ic-sm')}</a></p>
 </section>
+${creatorPromo()}
 </main>
 ${footer()}`;
   return page({ title: 'Founders Club | Heart of Columbus', description: `Local owners launching Heart of Columbus: Founding Members at $${PRICE} a month, one Ambassador per section, and a wall of founders in the order they joined.`, body, scripts: ['site.js'], styles, assets });
