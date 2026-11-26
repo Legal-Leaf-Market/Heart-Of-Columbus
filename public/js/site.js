@@ -59,7 +59,7 @@
     if (c) c.setAttribute('data-media', 'none');
     var box = img.parentNode; if (box && box.parentNode) box.parentNode.removeChild(box);
   };
-  // opts: { area: label, name: inner HTML for the name, typeExtra: HTML after the type, tags: HTML }
+  // opts: { area: label, name: inner HTML for the name, typeExtra: HTML after the type, tags: HTML, compare: show the compare control }
   window.HoCCard = function (b, opts) {
     opts = opts || {};
     var c = CAT[b.c] || ['', '', '#f4eee2'];
@@ -71,7 +71,8 @@
       '<h3 class="bz-name"><a href="/b/' + b.s + '/">' + (opts.name || escH(b.n)) + '</a></h3>' +
       '<p class="bz-type">' + escH(b.y) + (opts.typeExtra || '') + '</p>' +
       (b.a ? '<p class="bz-addr">' + escH(b.a) + '</p>' : '') +
-      '<p class="bz-status" data-open-slot></p>' + (opts.tags || '') + '</div></article>';
+      '<p class="bz-status" data-open-slot></p>' + (opts.tags || '') +
+      (opts.compare ? '<button class="bz-compare" type="button" data-compare-id="' + escH(b.s) + '" aria-pressed="false" aria-label="Compare ' + escH(b.n) + '">Compare</button>' : '') + '</div></article>';
   };
 
   var norm = function (s) {

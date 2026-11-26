@@ -17,7 +17,7 @@
     var name = (st.sort === 'walk' && b._i ? '<span class="walk-n">' + b._i + '</span>' : '') + esc(b.n);
     var extra = st.sort === 'near' && me && b._d < Infinity ? ' · <b>' + (b._d < 0.1 ? 'right here' : b._d.toFixed(1) + ' mi') + '</b>' : '';
     var tags = b.m || b.d || b.h || b.o || b.k || b.f ? '<div class="bz-tags">' + (b.m ? '<span class="tag tag-member">★ Founding Member</span>' : '') + (b.o ? '<span class="tag tag-go">Order online</span>' : '') + (b.k ? '<span class="tag tag-go">Book online</span>' : '') + (b.f ? '<span class="tag tag-go">Shop online</span>' : '') + (b.d ? '<span class="tag tag-hot">Storefront demo</span>' : '') + (b.h ? '<span class="tag">Columbus original</span>' : '') + '</div>' : '';
-    return window.HoCCard(b, { area: AREA[b.r], name: name, typeExtra: extra, tags: tags });
+    return window.HoCCard(b, { area: AREA[b.r], name: name, typeExtra: extra, tags: tags, compare: true });
   }
 
 
@@ -69,9 +69,10 @@
       var link = card && $('.bz-name a', card);
       var target = link || $('[data-ex-count]');
       target.focus({ preventScroll: true });
-      if (link && !state.fromMap) {
+      var useScroll = state.useScroll || state.fromMap;
+      if (link && !useScroll) {
         window.scrollBy({ top: card.getBoundingClientRect().top - state.offset, behavior: 'instant' });
-      } else if (!state.fromMap) {
+      } else if (!useScroll) {
         target.scrollIntoView({ block: 'center', behavior: 'instant' });
       } else {
         window.scrollTo({ top: state.scroll, behavior: 'instant' });
@@ -81,7 +82,7 @@
 
   root.addEventListener('click', function (e) {
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-    var link = e.target.closest('[data-ex-grid] a, [data-ex-map] .pop-name');
+    var link = e.target.closest('[data-ex-grid] a, [data-ex-map] .pop-name, [data-compare-dialog] thead a');
     if (!link || link.origin !== location.origin) return;
     var match = link.pathname.match(/^\/b\/([a-z0-9-]+)\/$/);
     if (!match) return;
@@ -92,7 +93,7 @@
       shown: shown,
       offset: card ? card.getBoundingClientRect().top : 0,
       scroll: window.scrollY,
-      fromMap: !card,
+      useScroll: !card,
     };
     history.replaceState(Object.assign({}, history.state, { hocResult: state }), '');
     window.HoCResultVisit.write(state);
@@ -187,6 +188,89 @@
     return out.concat(rest);
   }
 
+  var compareKey = 'hoc-compare';
+  var compared = [];
+  try {
+    var savedComparison = JSON.parse(sessionStorage.getItem(compareKey));
+    if (Array.isArray(savedComparison)) compared = Array.from(new Set(savedComparison)).slice(0, 3);
+  } catch (_) { /* Compare also works with storage disabled. */ }
+
+  var compareTray = $('[data-compare-tray]');
+  var compareOpen = $('[data-compare-open]');
+  var compareDialog = $('[data-compare-dialog]');
+
+  function comparedBusinesses() {
+    return compared.map(function (slug) { return all.find(function (b) { return b.s === slug; }); }).filter(Boolean);
+  }
+
+  function paintCompare(message, atLimit) {
+    var selected = comparedBusinesses();
+    compareTray.hidden = !selected.length;
+    root.classList.toggle('has-comparison', !!selected.length);
+    compareOpen.disabled = selected.length < 2;
+    $('[data-compare-count]').textContent = selected.length + ' of 3 selected';
+    $('[data-compare-limit]').hidden = !atLimit;
+    $('[data-compare-selection]').innerHTML = selected.map(function (b) {
+      return '<li><button type="button" data-compare-remove="' + esc(b.s) + '" aria-label="Remove ' + esc(b.n) + ' from comparison">' + esc(b.n) + ' <span aria-hidden="true">×</span></button></li>';
+    }).join('');
+    $$('[data-compare-id]').forEach(function (button) {
+      button.setAttribute('aria-pressed', String(compared.includes(button.dataset.compareId)));
+    });
+    if (message) $('[data-compare-status]').textContent = message;
+  }
+
+  function updateComparison(ids, message) {
+    compared = ids;
+    try { sessionStorage.setItem(compareKey, JSON.stringify(compared)); } catch (_) { /* The current selection remains usable. */ }
+    paintCompare(message);
+  }
+
+  root.addEventListener('click', function (event) {
+    var button = event.target.closest('[data-compare-id], [data-compare-remove], [data-compare-clear]');
+    if (!button) return;
+    var slug = button.dataset.compareId || button.dataset.compareRemove;
+    var business = all.find(function (b) { return b.s === slug; });
+    if (button.hasAttribute('data-compare-clear')) {
+      updateComparison([], 'Comparison cleared.');
+    } else if (!business) {
+      return;
+    } else if (compared.includes(slug)) {
+      updateComparison(compared.filter(function (id) { return id !== slug; }), business.n + ' removed from comparison.');
+    } else if (compared.length < 3) {
+      updateComparison(compared.concat(slug), business.n + ' added to comparison.');
+    } else {
+      paintCompare('Three businesses selected. Remove one to add another.', true);
+    }
+    // Removing a tray chip destroys its button. Keep keyboard focus on the
+    // next available tray control or return it to the results when empty.
+    if (button.hasAttribute('data-compare-remove') || button.hasAttribute('data-compare-clear')) {
+      (compareTray.hidden ? $('[data-ex-count]') : $('[data-compare-remove]')).focus({ preventScroll: true });
+    }
+  });
+
+  compareOpen.addEventListener('click', function () {
+    var selected = comparedBusinesses();
+    if (selected.length < 2) return;
+    var rows = [
+      ['Business type', function (b) { return esc(b.y); }],
+      ['Location', function (b) { return esc([b.a, AREA[b.r]].filter(Boolean).join(', ') || 'Not listed'); }],
+      ['Hours now', function (b) {
+        var status = window.HoCOpen(b.t);
+        return b.closed ? 'Temporarily closed' : status ? esc(status.label) : 'Not listed';
+      }],
+      ['Phone', function (b) { return b.p ? '<a href="tel:+1' + b.p.replace(/\D/g, '') + '">' + esc(b.p) + '</a>' : 'Not listed'; }],
+      ['Online options', function (b) {
+        return [b.o && 'Order', b.k && 'Book', b.f && 'Shop'].filter(Boolean).join(', ') || 'Not listed';
+      }],
+    ];
+    $('[data-compare-table]').innerHTML = '<table class="compare-table"><thead><tr><th scope="col">Business</th>' +
+      selected.map(function (b) { return '<th scope="col"><a href="/b/' + esc(b.s) + '/">' + esc(b.n) + '</a></th>'; }).join('') +
+      '</tr></thead><tbody>' + rows.map(function (row) {
+        return '<tr><th scope="row">' + row[0] + '</th>' + selected.map(function (b) { return '<td>' + row[1](b) + '</td>'; }).join('') + '</tr>';
+      }).join('') + '</tbody></table>';
+    compareDialog.showModal();
+  });
+
   function counts() {
     var base = all.filter(function (b) { return (!st.area || b.r === st.area) && (!st.q || window.HoCMatch(b, st.q)); });
     $$('[data-n-cat]').forEach(function (el) {
@@ -204,6 +288,7 @@
     $('[data-ex-map]').hidden = !showMap;
     var art = $('[data-ex-art]'); if (art) art.hidden = showMap;
     $('[data-ex-grid]').innerHTML = list.slice(0, shown).map(card).join('');
+    paintCompare();
     $('[data-ex-more]').hidden = list.length <= shown;
     $('[data-ex-more]').textContent = 'Show ' + Math.min(PAGE, list.length - shown) + ' more';
     $$('[data-ex-cat]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.exCat === st.cat)); });
@@ -438,5 +523,5 @@
   });
   if (savedOnly) document.addEventListener('hoc:saved', render);
 
-  window.HoCDir().then(function (d) { all = d; directoryReady = true; render(); finishReturn(); });
+  window.HoCDir().then(function (d) { all = d; compared = compared.filter(function (slug) { return all.some(function (b) { return b.s === slug; }); }); directoryReady = true; render(); finishReturn(); });
 })();

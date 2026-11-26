@@ -498,6 +498,25 @@ ${header(saved ? 'saved' : 'explore')}
       <div class="empty" data-ex-empty hidden><img src="/art/${saved ? 'empty-saved' : 'empty-search'}.webp" alt="" width="180" height="180">${saved ? '<p>Nothing saved yet. Tap the heart on any place to keep it here.</p><a class="btn" href="/explore/">Start exploring</a>' : '<p data-ex-why>Nothing matches those filters.</p><div class="btns" data-ex-recover></div>'}</div>
     </section>
   </div>
+  <div class="compare-tray" data-compare-tray role="group" aria-label="Selected businesses" hidden>
+    <div class="compare-tray-copy">
+      <strong data-compare-count></strong>
+      <ul data-compare-selection></ul>
+      <p class="fine" data-compare-limit hidden>Remove a business to add another.</p>
+    </div>
+    <div class="compare-actions">
+      <button type="button" class="btn btn-sm btn-ghost" data-compare-clear>Clear</button>
+      <button type="button" class="btn btn-sm" data-compare-open aria-haspopup="dialog" disabled>Compare businesses</button>
+    </div>
+  </div>
+  <p class="sr-only" role="status" data-compare-status></p>
+  <dialog class="compare-dialog" data-compare-dialog aria-labelledby="compare-title">
+    <div class="compare-heading">
+      <h2 id="compare-title">Compare businesses</h2>
+      <form method="dialog"><button type="submit" class="btn btn-sm btn-ghost" autofocus>Close</button></form>
+    </div>
+    <div class="compare-scroll" data-compare-table tabindex="0" role="region" aria-label="Side by side comparison"></div>
+  </dialog>
 </main>
 ${footer()}`;
   return page({
