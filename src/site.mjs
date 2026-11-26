@@ -127,6 +127,61 @@ const ILLUSTRATED_BUSINESSES = new Set([
   'venus-nails',
   'vip-nail-spa',
 
+  // Dental offices.
+  '24-7-dental-emergency-dental-care',
+  'affordable-columbus-dentistry',
+  'bardonner-dentistry',
+  'columbus-advanced-family-dentistry',
+  'columbus-dental-group',
+  'columbus-dental-smile',
+  'columbus-endodontics',
+  'columbus-family-dental-center',
+  'columbus-pediatric-dentistry',
+
+  // Business services.
+  'administrative-resources-association',
+  'circle-city-signings',
+  'focal-point-coaching',
+  'inspire-motives-llc',
+  'mcbride-cosaint-solutions-llc',
+  'partin-sales-and-associates',
+  'real-time-consulting',
+  'silent3partners-llc',
+  'taktika-consulting-llc',
+
+  // Hair salons.
+  'c-4-school-of-cosmetology',
+  'cozy-cauldron-hair-studio',
+  'creative-hair-design',
+  'divine-hair-studio',
+  'divine-hands',
+  'elan-aveda-concept-shop',
+  'genesis-salon',
+  'hair-by-alkat',
+  'the-finishing-touch',
+
+  // Contractors and home improvement.
+  'columbus-carpet-llc',
+  'creech-excavation-and-contracting',
+  'd-and-j-constructions',
+  'dcre-llc',
+  'donos-handyman-and-home-repair-llc',
+  'fine-line-painting-and-remodeling-inc',
+  'gehring-underground-inc',
+  'iler-and-associates',
+  'in-style-kitchen-and-bath',
+
+  // Creative services.
+  'columbus-signs',
+  'creative-concepts-planning-and-design-inc',
+  'digitalaim-media',
+  'gaines-creative-expressions',
+  'golden-duo-studio',
+  'good-creatives',
+  'illuminate-photo-and-design-llc',
+  'innova-marketing-solutions-llc',
+  'kat-dunn-photography',
+
   // Barbershops and independent barbers.
   'bad-boys-barbershop',
   'bob-condons-barber-shop',
