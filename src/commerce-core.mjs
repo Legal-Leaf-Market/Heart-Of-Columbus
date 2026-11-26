@@ -259,8 +259,10 @@ export function tidyUrl(raw) {
 }
 
 // Provider links that are not a booking page: "powered by" badges, static
-// assets, app downloads, directory pages, other towns' locations.
-const DENY = /static\.glossgenius|vagaro\.com\/(?:pro\b|resources|websitebuilder|js\/|images|users\/|signup|login)|booksy\.com\/(?:biz|widget|static)|(?:help|support|biz|trust|blog|www|dl|partners?)\.booksy\.com|fareharbor\.com\/(?:embeds\/(?:script|api)|static|help)|momence\.com\/(?:plugin|_next|static)|fresha\.com\/(?:for-business|assets|partners)|squareup\.com\/appointments\/?(?:["'\s]|$)|calendly\.com\/(?:assets|login|signup)|myshopify\.com\/(?:admin|cdn)|(?:www\.)?setmore\.com\/(?:pricing|features)|vagaro\.com\/?$|petdesk\.com\/download|mindbodyonline\.com\/explore|opentable\.com\/(?![^?#]*columbus)|booksy\.com\/en-us\/?$|calendly\.com\/?$/i;
+// assets, app downloads, directory pages, other towns' locations. Booksy's own page
+// scripts name its feature-flag host (eppo-proxy.booksy.com/api) before the business's
+// page, and the daily crawl of 2026-11-25 took it for the booking link at ten shops.
+const DENY = /static\.glossgenius|vagaro\.com\/(?:pro\b|resources|websitebuilder|js\/|images|users\/|signup|login)|booksy\.com\/(?:biz|widget|static)|(?:help|support|biz|trust|blog|www|dl|partners?)\.booksy\.com|[a-z0-9-]*(?:api|proxy)[a-z0-9-]*\.booksy\.com|booksy\.com\/api\b|fareharbor\.com\/(?:embeds\/(?:script|api)|static|help)|momence\.com\/(?:plugin|_next|static)|fresha\.com\/(?:for-business|assets|partners)|squareup\.com\/appointments\/?(?:["'\s]|$)|calendly\.com\/(?:assets|login|signup)|myshopify\.com\/(?:admin|cdn)|(?:www\.)?setmore\.com\/(?:pricing|features)|vagaro\.com\/?$|petdesk\.com\/download|mindbodyonline\.com\/explore|opentable\.com\/(?![^?#]*columbus)|booksy\.com\/en-us\/?$|calendly\.com\/?$/i;
 
 // Every ordering / booking link the site points at, de-duplicated by provider.
 export function findProviderLinks(html, extra = []) {
