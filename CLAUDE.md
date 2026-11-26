@@ -16,13 +16,20 @@ site Jake runs. Deploy Previews and branch deploys cost nothing, so (Jake,
   requests still get their free Deploy Preview.
 - **heartofcolumbus.shop builds only from `live`**, and so does Cisco's
   (`ciscos-barber-shop`). The Publish workflow (`.github/workflows/publish.yml`)
-  moves `live` up to `main` once a day at 6:17 AM, or right away from
-  Actions > Publish to the live site > Run workflow. One publish is one
-  production deploy, however many pull requests went in.
+  moves `live` up to `main` in batches: as soon as **5 site changes** are
+  waiting, or the oldest has waited **4 hours**, whichever comes first. One
+  publish is one production deploy, however many pull requests it carries.
+  Jake said a daily publish was too slow (2026-11-26); the two numbers are
+  `BATCH_SIZE` and `MAX_WAIT_HOURS` at the top of the workflow.
+- **Urgent fixes go out at once:** put `[publish]` in the pull request title
+  (a wrong phone number, hours, a closed business), or press Actions > Publish
+  to the live site > Run workflow. Don't use it for anything that can wait
+  four hours.
+- **Docs and tests never publish on their own.** A merge touching only docs/,
+  tests/, research/, .github/, art-source/, README.md or CLAUDE.md is not
+  counted and rides along with the next real change.
 - **Never commit on `live` or push to it by hand.** It only ever fast-forwards
   to `main`, and the workflow refuses to publish if it cannot.
-- **Don't run Publish for a docs or tests change.** Run it when something on
-  the site must be right today: a wrong phone number, hours, a closed business.
 - A merged pull request is not live until the next publish. Say so when you
   report one as done.
 

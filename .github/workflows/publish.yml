@@ -1,21 +1,36 @@
-# Publish to the live site: move the `live` branch up to `main`.
+# Publish to the live site: move the `live` branch up to `main`, in batches.
 #
 # Why this exists (Jake, 2026-11-26): every production deploy on Netlify costs
 # 15 credits, the Pro plan includes 3,000 a month, and this repo alone made 159
 # production deploys between Nov 3 and Nov 26, one per merge. The team ran out
 # and Netlify paused every site. Branch deploys and Deploy Previews are free, so
-# `main` is now a free branch deploy and heartofcolumbus.shop (and Cisco's)
-# build only from `live`. One publish is one production deploy, however many
-# pull requests went into `main` since the last one.
+# `main` is a free branch deploy and heartofcolumbus.shop (and Cisco's) build
+# only from `live`. One publish is one production deploy, however many pull
+# requests it carries.
 #
-# It runs once a day, and on demand: Actions > Publish to the live site >
-# Run workflow. It only ever fast-forwards `live`; it never rewrites it.
+# When it publishes (whichever comes first):
+#   - BATCH_SIZE site changes are waiting on main, or
+#   - the oldest waiting site change has waited MAX_WAIT_HOURS, or
+#   - a waiting merge has [publish] in its pull request title, or
+#   - someone presses Run workflow (Actions > Publish to the live site).
+# A "site change" is a merge that touches anything outside docs, tests,
+# research, .github, art-source, README.md and CLAUDE.md. Merges that touch
+# only those never publish on their own; they ride along with the next one.
+#
+# It runs on every merge to main and once an hour. It only ever fast-forwards
+# `live`; it never rewrites it.
 name: Publish to the live site
 
 on:
+  push:
+    branches: [main]
   schedule:
-    - cron: '17 11 * * *' # 6:17 AM in Columbus (EST), after the store crawl and the cart check
+    - cron: '23 * * * *' # hourly, so a small batch never waits much past MAX_WAIT_HOURS
   workflow_dispatch:
+
+env:
+  BATCH_SIZE: 5
+  MAX_WAIT_HOURS: 4
 
 permissions:
   contents: write
@@ -33,19 +48,68 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Move live up to main
+      - name: Publish if the batch is ready
+        env:
+          EVENT: ${{ github.event_name }}
         run: |
           git fetch origin live
           MAIN=$(git rev-parse HEAD)
           LIVE=$(git rev-parse origin/live)
           if [ "$MAIN" = "$LIVE" ]; then
-            echo "Nothing new on main since the last publish. No deploy, no credits."
+            echo "Nothing waiting. No deploy, no credits."
             exit 0
           fi
           if ! git merge-base --is-ancestor "$LIVE" "$MAIN"; then
             echo "::error::live has commits that main does not. Someone committed on live by hand. Fix that before publishing."
             exit 1
           fi
-          echo "Publishing $(git rev-list --count "$LIVE..$MAIN") commits:"
+
+          QUIET='^(docs/|tests/|research/|\.github/|art-source/|README\.md$|CLAUDE\.md$)'
+          WAITING=0
+          OLDEST=""
+          URGENT=0
+          for c in $(git rev-list --first-parent --reverse "$LIVE..$MAIN"); do
+            FILES=$(git diff --name-only "$c^" "$c")
+            SITE=$(printf '%s\n' "$FILES" | grep -vE "$QUIET" || true)
+            if [ -n "$SITE" ]; then
+              WAITING=$((WAITING + 1))
+              if [ -z "$OLDEST" ]; then OLDEST=$(git log -1 --format=%ct "$c"); fi
+            fi
+            # Only the title counts: a squash merge's subject is the pull request
+            # title; a merge commit carries the title as the first body line.
+            # A description that merely mentions the marker never publishes.
+            TITLE=$(git log -1 --format=%s "$c")
+            case "$TITLE" in
+              "Merge pull request "*)
+                BODY=$(git log -1 --format=%b "$c")
+                TITLE=""
+                while IFS= read -r line; do
+                  if [ -n "$line" ]; then TITLE=$line; break; fi
+                done <<< "$BODY"
+                ;;
+            esac
+            case "$TITLE" in *"[publish]"*|*"[Publish]"*|*"[PUBLISH]"*) URGENT=1 ;; esac
+          done
+          NOW=$(date +%s)
+          AGE=$(( (NOW - ${OLDEST:-$NOW}) / 3600 ))
+          echo "Site changes waiting: $WAITING (oldest waited ${AGE}h). [publish] seen: $URGENT. Ran on: $EVENT."
+
+          REASON=""
+          if [ "$EVENT" = "workflow_dispatch" ]; then
+            REASON="run by hand"
+          elif [ "$URGENT" = 1 ]; then
+            REASON="[publish] in a pull request title"
+          elif [ "$WAITING" -ge "$BATCH_SIZE" ]; then
+            REASON="$WAITING site changes waiting"
+          elif [ "$WAITING" -gt 0 ] && [ "$AGE" -ge "$MAX_WAIT_HOURS" ]; then
+            REASON="oldest site change waited ${AGE}h"
+          fi
+          if [ -z "$REASON" ]; then
+            echo "Holding for the batch. No deploy, no credits."
+            exit 0
+          fi
+
+          echo "Publishing ($REASON):"
           git log --oneline --first-parent "$LIVE..$MAIN"
           git push origin "$MAIN:refs/heads/live"
+          echo "### Published to the live site ($REASON)" >> "$GITHUB_STEP_SUMMARY"
