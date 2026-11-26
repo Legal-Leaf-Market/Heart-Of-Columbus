@@ -32,8 +32,15 @@
 // Love Me Wildly Photography (facebook.com/lovemewildlyphotography, checked
 // 2026-11-15): page name "love.me.wildly", "Specializing in weddings and
 // elopement photography", Photographer, Columbus, IN, (812) 593-5541. No
-// website or street address. Its photos stay on Facebook: we show business
-// photos only when the owner sends them with permission (media.mjs).
+// street address. Its photos stay on its own pages: we show business photos
+// only when the owner sends them with permission (media.mjs).
+// Website found 2026-11-26: www.lovemewildly.com is the link in her Instagram
+// bio (instagram.com/love.me.wildly, "Wedding + Family photographer"). Its
+// contact page gives the same phone, Lovemewildlyphotography@gmail.com and
+// "Business Hours: Monday - Friday 9-5"; its about page: "HEY, I'M DEIDRA!",
+// "behind the camera since 2010". Jacob Kennedy and Nic know her and have
+// worked a wedding with her (Jacob, 2026-11-26). Draft website and Founders
+// Club pitch for her review: sites/love-me-wildly/.
 //
 // First Class Catering (firstclasscateringin.com, checked 2026-11-15): "We are
 // a Southern Indiana based catering company" serving "Indianapolis,
@@ -224,10 +231,10 @@ export const ADDED = [
     type: 'Wedding and elopement photographer',
     address: '',
     phone: '(812) 593-5541',
-    website: 'https://www.facebook.com/lovemewildlyphotography/',
+    website: 'https://www.lovemewildly.com/',
     book: [],
-    source: 'https://www.facebook.com/lovemewildlyphotography/',
-    checked: '2026-11-15',
+    source: 'https://www.lovemewildly.com/contact',
+    checked: '2026-11-26',
   },
   {
     name: 'First Class Catering',

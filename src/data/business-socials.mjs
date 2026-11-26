@@ -207,6 +207,7 @@ export const BUSINESS_SOCIALS = {
   "lhp-engineering-solutions": ["https://www.facebook.com/lhpes/"],
   "loesch-heating-and-air-conditioning": ["https://www.facebook.com/people/Loesch-Heating-Air-Conditioning-LLC/61559731982572/"],
   "lohmeyer-plumbing-llc": ["https://www.facebook.com/lohmeyerplumbing/","https://www.instagram.com/lohmeyerplumbing/"],
+  "love-me-wildly-photography": ["https://www.facebook.com/lovemewildlyphotography/","https://www.instagram.com/love.me.wildly/"],
   "lovin-my-health-dpc-llc": ["https://www.facebook.com/lovin-my-health-dpc-104780547813955/"],
   "lovins-select-pool-and-spa": ["https://www.facebook.com/lovinsselectpoolandspa/"],
   "lucabe-coffee-co-4th-street": ["https://www.facebook.com/lucabecoffee/","https://www.instagram.com/lucabecoffeeco/"],
