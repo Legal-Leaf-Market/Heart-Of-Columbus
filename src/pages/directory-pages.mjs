@@ -334,6 +334,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
     ${bm.state === 'photo' ? `<figure class="biz-figure" data-media="photo">
       <img class="biz-photo" src="${bm.src}" width="${bm.width}" height="${bm.height}" alt="${esc(bm.alt)}" fetchpriority="high" decoding="async" onerror="${MEDIA_FAIL}">
       <figcaption class="fine biz-credit">${esc(bm.credit)}, shown with permission.</figcaption>
+      ${stickerAt(b, media, 'cover')}
     </figure>` : ''}
   </div>
   <aside class="biz-side">
@@ -359,7 +360,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
       ${ladder(tier)}
       <a class="btn btn-sm" href="/owners/?b=${b.slug}#claim">Update this page ${svg('arrow', 'ic-sm')}</a>
       <a class="fine" href="/founders-club/">What Founding Members get</a>
-    </div>` : `<div class="side-card claim brand-card" id="claim-card">
+    </div>` : `${stickerAt(b, media, 'member', true)}<div class="side-card claim brand-card" id="claim-card">
       <p class="kicker">★ Founding Member #${fnum}</p>
       <p>${t(b.name)} was one of the first businesses to back Heart of Columbus.${media?.logo ? '' : ' Its logo goes here as soon as the owner sends it.'}</p>
       ${ladder(tier)}
@@ -368,10 +369,12 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
     ${boostedSide(b)}
     <p class="fine">Details come from public listings (Chamber directory, Visit Columbus, Google Maps)${b.own ? ' and their own website' : ''} and may change. Call ahead. ${b.added?.tie ? esc(b.added.tie) : b.member ? `${esc(b.name)} is a paying Founding Member of Heart of Columbus.` : 'Heart of Columbus is not affiliated with this business.'}</p>
   </aside>
+  ${stickerAt(b, media, 'card')}
 </section>
+${picksSection(b, media)}
 ${inTheNews(b)}
 ${bm.state === 'photo' ? '' : `<section class="wrap biz-photo-ask" aria-label="Photos"><p class="fine">No photos of ${t(b.name)} yet. Own it? <a href="/owners/?b=${b.slug}&amp;want=photos#claim">Send us photos</a> and we will show them here with your credit. We never copy them from your website.</p></section>`}
-${media && (media.logo || (media.gallery || []).length) ? `
+${media && (media.gallery || []).length ? `
 <section class="wrap biz-gallery" aria-label="Photos from ${t(b.name)}">
   ${media.logo ? `<img class="biz-logo" src="${mediaSrc(b.slug, media.logo)}" width="${media.logo.width}" height="${media.logo.height}" alt="${esc(media.logo.alt)}" loading="lazy" decoding="async">` : ''}
   ${(media.gallery || []).map((f) => `<figure><img src="${mediaSrc(b.slug, f)}" width="${f.width}" height="${f.height}" alt="${esc(f.alt)}" loading="lazy" decoding="async"></figure>`).join('')}
@@ -401,7 +404,7 @@ ${b.cat === 'events' ? '' : rail(`More ${sub.label.toLowerCase()}`, `/c/${cat.sl
 ${rail('Close by', area ? `/n/${area.slug}/` : '', near)}
 </main>
 ${footer()}`;
-  return page({ title: `${b.name} | ${sub.label} in Columbus, Indiana`, description: bizDescription(b), body: ageRestricted ? smokeAgeGate(body) : body, scripts: ['site.js', 'hub.js', 'cart.js', ...(ageRestricted ? ['smoke-age-gate.js'] : [])], styles: cisco ? [...styles, 'cisco-listing.css'] : styles, assets, ld: [businessLd(b)], head: cisco ? ciscoRoomHead : '' });
+  return page({ title: `${b.name} | ${sub.label} in Columbus, Indiana`, description: bizDescription(b), body: ageRestricted ? smokeAgeGate(body) : body, scripts: ['site.js', 'hub.js', 'cart.js', ...(b.own?.picks ? ['picks.js'] : []), ...(ageRestricted ? ['smoke-age-gate.js'] : [])], styles: cisco ? [...styles, 'cisco-listing.css'] : styles, assets, ld: [businessLd(b)], head: cisco ? ciscoRoomHead : '' });
 }
 
 // Saved page extras: share a list, pick a day, print it. Landmarks and events
@@ -525,6 +528,33 @@ ${header()}
 ${footer()}`;
   return page({ title: 'Page not found | Heart of Columbus', description: 'That page is not on Heart of Columbus.', body, scripts: ['site.js'], styles, assets });
 }
+
+// A member's own cut-out art (media.mjs `stickers`), placed as decoration at a
+// named spot on its page: 'card' (the corner of its main card), 'cover' (the
+// corner of its cover picture), 'picks' (beside its picks heading) and
+// 'member' (above its Founding Member card). Its own files, shown with its
+// permission like the rest of its media; alt is empty because they add
+// nothing a reader needs. `anchor` wraps one in a zero-height box for spots
+// whose neighbor clips its overflow.
+const stickerAt = (b, media, at, anchor = false) => {
+  const html = (media?.stickers || []).filter((s) => s.at === at).map((s) => `<img class="brand-sticker at-${at}" src="${mediaSrc(b.slug, s)}" width="${s.width}" height="${s.height}" alt="" aria-hidden="true" loading="lazy" decoding="async">`).join('');
+  return html && anchor ? `<div class="sticker-anchor">${html}</div>` : html;
+};
+
+// The owner's own picks, read live from the shop's own feed (own-facts.mjs
+// `picks`, /api/picks, public/js/picks.js). Ships hidden and empty: picks.js
+// shows it only when real picks arrive, so there is never a placeholder row.
+const picksSection = (b, media) => {
+  const p = b.own?.picks;
+  if (!p) return '';
+  return `<section class="wrap shop-sec picks-sec" id="picks" data-picks="${b.slug}" hidden>
+  ${stickerAt(b, media, 'picks')}
+  <p class="kicker">From ${t(b.name)}</p><h2>${esc(p.title)}</h2>
+  <p class="sub">${esc(p.sub)}</p>
+  <div class="prod-grid"></div>
+  <p><a class="btn" href="${esc(p.site)}/" target="_blank" rel="noopener">${svg('store')} See everything at ${t(b.name)} ↗</a></p>
+</section>`;
+};
 
 // A business tied to the people who run Heart of Columbus (added.mjs `tie`)
 // says so wherever its products are shown, not only at the top of its page.

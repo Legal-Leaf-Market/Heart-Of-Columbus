@@ -1740,6 +1740,31 @@ a.tag:not(.tag-member):hover { filter: brightness(.96); }
 .tier-member .biz-gallery figure { background: var(--b-paper); box-shadow: 4px 4px 0 var(--b); }
 .tier-member .biz-figure .biz-photo { background: var(--b-paper); }
 @media (max-width: 600px) { .tier-member .biz-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* A member's own stickers (media.mjs `stickers`, stickerAt in
+   directory-pages.mjs), tucked into corners down its page. Decoration only:
+   out of the layout, never in the way of a click. */
+main.tier-member { overflow-x: clip; } /* a sticker over an edge never makes the page scroll sideways */
+.tier-member .biz, .tier-member .biz-figure, .picks-sec { position: relative; }
+.sticker-anchor { position: relative; height: 0; }
+.brand-sticker { position: absolute; z-index: 3; width: clamp(84px, 10vw, 136px); height: auto; pointer-events: none; rotate: var(--rot, 0deg); filter: drop-shadow(3px 5px 0 rgba(0, 0, 0, .12)); }
+.brand-sticker.at-card { top: -48px; right: -6px; --rot: 9deg; }
+.brand-sticker.at-cover { top: -34px; right: -16px; --rot: -9deg; }
+.brand-sticker.at-picks { top: 22px; right: 12px; --rot: 7deg; }
+.sticker-anchor .brand-sticker.at-member { top: -58px; right: -8px; --rot: -8deg; width: clamp(80px, 8vw, 112px); }
+@keyframes sticker-bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
+@media (prefers-reduced-motion: no-preference) {
+  .brand-sticker { animation: sticker-bob 6s ease-in-out infinite; }
+  .brand-sticker.at-cover { animation-delay: -1.5s; }
+  .brand-sticker.at-picks { animation-delay: -3s; }
+  .brand-sticker.at-member { animation-delay: -4.5s; }
+}
+@media (max-width: 700px) {
+  .brand-sticker.at-card { top: -20px; right: 4px; width: 76px; }
+  .brand-sticker.at-cover { top: -26px; right: 2px; }
+  .brand-sticker.at-picks { top: 14px; right: 0; }
+}
+.picks-sec .prod-t { display: block; }
+.tier-member .picks-sec .btn { background: var(--b); color: var(--b-on); border-color: var(--b); }
 
 /* =====================================================================
    Field guide (Nov 2026). The visual system from docs/redesign/: cream
