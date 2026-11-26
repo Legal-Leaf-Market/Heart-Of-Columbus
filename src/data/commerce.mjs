@@ -296,7 +296,7 @@ export const COMMERCE = {
   "book": [
    {
     "label": "Booksy",
-    "url": "https://eppo-proxy.booksy.com/api"
+    "url": "http://anokhairbraiding.booksy.com/"
    }
   ]
  },
@@ -1510,7 +1510,7 @@ export const COMMERCE = {
   "book": [
    {
     "label": "Booksy",
-    "url": "https://eppo-proxy.booksy.com/api"
+    "url": "https://shantybarber.booksy.com/"
    }
   ]
  },
@@ -1660,7 +1660,7 @@ export const COMMERCE = {
   "book": [
    {
     "label": "Booksy",
-    "url": "https://eppo-proxy.booksy.com/api"
+    "url": "https://divinehands990.booksy.com/"
    }
   ]
  },
@@ -3537,7 +3537,7 @@ export const COMMERCE = {
   "book": [
    {
     "label": "Booksy",
-    "url": "https://eppo-proxy.booksy.com/api"
+    "url": "http://haircutsclauher.booksy.com/"
    }
   ]
  },
@@ -3865,7 +3865,7 @@ export const COMMERCE = {
   "book": [
    {
     "label": "Booksy",
-    "url": "https://eppo-proxy.booksy.com/api"
+    "url": "https://raginghairbybrandie.booksy.com/"
    }
   ]
  },
@@ -4085,7 +4085,7 @@ export const COMMERCE = {
   "book": [
    {
     "label": "Booksy",
-    "url": "https://eppo-proxy.booksy.com/api"
+    "url": "http://salonaura812.booksy.com/"
    },
    {
     "label": "visibook.com",
@@ -4121,7 +4121,7 @@ export const COMMERCE = {
   "book": [
    {
     "label": "Booksy",
-    "url": "https://eppo-proxy.booksy.com/api"
+    "url": "https://daycutz14.booksy.com/"
    }
   ]
  },
@@ -4996,7 +4996,7 @@ export const COMMERCE = {
   "book": [
    {
     "label": "Booksy",
-    "url": "https://eppo-proxy.booksy.com/api"
+    "url": "http://fadedwithhonor.booksy.com/"
    }
   ]
  },
