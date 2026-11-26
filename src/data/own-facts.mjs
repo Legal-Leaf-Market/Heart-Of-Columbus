@@ -37,6 +37,12 @@
 //   The Chamber row had 3346 Cox Ln; Google's listing pins 3950 25th St with
 //   shorter hours (Tuesday to Friday 11 AM to 5:30 PM). The owner's own page wins.
 export const OWN_FACTS = {
+  'ciscos-barber-shop': {
+    address: '1719 Central Ave',
+    hours: [[1, 540, 1200], [2, 540, 1200], [3, 540, 1200], [4, 540, 1200], [5, 540, 1200], [6, 540, 960]],
+    source: 'https://www.ciscos.site/',
+    checked: '2026-11-25',
+  },
   'cookie-paradise-llc': {
     address: '3950 25th St',
     where: 'Trailer in the Holiday Center parking lot',
@@ -127,6 +133,21 @@ export const OWN_FACTS = {
       { label: 'Shop the BBQ rub', url: 'https://www.bipsbites.com/product/smoky-sweet-heat-bbq-rub/' },
       { label: 'Cooking videos', url: 'https://www.bipsbites.com/recipes/' },
       { label: 'Shop', url: 'https://www.bipsbites.com/shop/' },
+    ],
+  },
+  // Kawaii Katz (checked 2026-11-25): buttons to sections its own site has,
+  // read from its routes (app/gifts, app/decora, app/anime) and its guide list
+  // (lib/boards.ts: "Kawaii Christmas Gift Guide" at /gifts/christmas) in its
+  // repository. www.kawaiikatz.com lapsed in November 2026; the shop runs at
+  // https://kawaiikatz.heartofcolumbus.shop (its lib/site.ts) until it moves to its own .shop domain.
+  'kawaii-katz': {
+    source: 'https://github.com/Legal-Leaf-Market/KawaiiKatz',
+    checked: '2026-11-25',
+    links: [
+      { label: 'Christmas gift guide', url: 'https://kawaiikatz.heartofcolumbus.shop/gifts/christmas' },
+      { label: 'Gift guides', url: 'https://kawaiikatz.heartofcolumbus.shop/gifts' },
+      { label: 'Decora', url: 'https://kawaiikatz.heartofcolumbus.shop/decora' },
+      { label: 'Anime', url: 'https://kawaiikatz.heartofcolumbus.shop/anime' },
     ],
   },
   'rabbits-balloons': {

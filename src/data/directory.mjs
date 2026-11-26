@@ -237,6 +237,7 @@ for (const b of all) {
   b.store = c && c.store ? c.store : '';
   b.gift = c && c.gift ? c.gift : null;
   b.platform = c ? c.platform || '' : '';
+  b.shopLimit = c && c.limit ? c.limit : 0; // a sample, not the whole shop (Kawaii Katz)
   b.hours = HOURS[b.slug] || null;
   b.member = MEMBERS[b.slug] ? { since: MEMBERS[b.slug].since } : null;
   b.attrs = ATTRS[b.slug] || null;

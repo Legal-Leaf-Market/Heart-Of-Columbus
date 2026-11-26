@@ -36,6 +36,10 @@ export const MEMBERS = {
   // Founder #9. Jacob Kennedy confirmed on 2026-11-15, after #8, that the owner
   // joined as a Founding Member.
   'tribal-blend-cat-cafe': { since: '2026-11-15', contact: 'the owner, via Jacob Kennedy' },
+  // Founder #10, the last founding spot. Jacob Kennedy asked on 2026-11-25 for
+  // his daughter Ada's site to be "a proper founding member". Family tie
+  // disclosed on its page (`tie` in added.mjs).
+  'kawaii-katz': { since: '2026-11-25', contact: 'Ada, owner, via Jacob Kennedy (her father)' },
 };
 
 export const PRICE = 20; // dollars a month, locked for founding members

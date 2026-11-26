@@ -136,7 +136,9 @@ for (const slug of new Set([...Object.keys(WEB), ...Object.keys(bySlug)])) {
   out[slug] = { platform: p.platform || '', ...(p.stack && p.stack.length ? { stack: p.stack } : {}), origin: p.origin || '', feed: feed || !!sqCatalog, ...(sqCatalog ? { catalog: sqCatalog } : {}), store: sqCatalog ? '' : store, order: order.slice(0, 2), book: book.slice(0, 2), ...(gift ? { gift } : {}) };
 }
 // An entry entered by hand (no probe, no listing website) is not this
-// script's to delete: keep it as it was. bips-bites is one.
+// script's to delete: keep it as it was. bips-bites is one; kawaii-katz is
+// another (its store link, from its owner via Jacob Kennedy, 2026-11-25; its
+// sampled catalogue and cart handoff, platform `kawaiikatz`, 2026-11-26).
 for (const [slug, c] of Object.entries(BEFORE)) if (!out[slug] && !bySlug[slug] && !WEB[slug]) out[slug] = c;
 const head = `// What each business's own website can do: its cart engine and the ordering
 // or booking pages it chose. Built by scripts/import-commerce.mjs from the

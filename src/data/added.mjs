@@ -121,6 +121,19 @@
 // Not added: Max's Jewelry (401 Washington St). Added earlier on 2026-11-24
 // from an old YellowPages listing, then taken off the same day: Jake says the
 // store has closed and another business is in its space.
+//
+// Kawaii Katz: from Jacob Kennedy, who also runs Heart of Columbus
+// (2026-11-25): the site is his daughter Ada's, and he asked for it to be
+// listed and made a Founding Member. What it is comes from the site's own
+// source (github.com/Legal-Leaf-Market/KawaiiKatz, lib/site.ts, checked
+// 2026-11-25): "Curated kawaii finds: plushies, stationery, kitchen, puzzles &
+// more. Kawaii Katz discovers the best cute & clever things for every budget."
+// Every product links out to the shop that sells it; Kawaii Katz takes no
+// payment. Online only: no street address or phone, so none is shown. Its old
+// domain, www.kawaiikatz.com, lapsed in November 2026; Jacob moved the shop to
+// https://kawaiikatz.heartofcolumbus.shop until it has a .shop domain of its own.
+// The source is its repository, since the build sandbox cannot reach the site. Her first name is already public on the site ("Ada's
+// Picks"); her full name stays off.
 export const ADDED = [
   {
     name: "PAQ'D Meats",
@@ -360,5 +373,19 @@ export const ADDED = [
     book: [],
     source: 'https://www.linkedin.com/in/alliefpeters',
     checked: '2026-11-24',
+  },
+  {
+    name: 'Kawaii Katz',
+    slug: 'kawaii-katz',
+    cat: 'shopping',
+    sub: 'gifts',
+    type: 'Curated kawaii finds online: plushies, stationery, puzzles and more',
+    address: '',
+    phone: '',
+    website: 'https://kawaiikatz.heartofcolumbus.shop/',
+    book: [],
+    tie: 'Kawaii Katz is run by Ada, the daughter of Jacob Kennedy, who also runs Heart of Columbus.',
+    source: 'https://github.com/Legal-Leaf-Market/KawaiiKatz',
+    checked: '2026-11-25',
   },
 ];
