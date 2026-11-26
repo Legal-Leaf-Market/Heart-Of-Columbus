@@ -17,7 +17,8 @@ export async function prepareImages(root, out) {
       const input = await readFile(new URL(`public/${file}`, root));
       const { width, height } = await sharp(input).metadata();
       const variants = [];
-      for (const size of [...new Set([320, 640, 960, width].filter((w) => w <= width))]) {
+      const widths = file.startsWith('art/business-scenes/') ? [128, 192, 256, 320, width] : [320, 640, 960, width];
+      for (const size of [...new Set(widths.filter((w) => w <= width))]) {
         const buffer = await sharp(input).resize({ width: size, withoutEnlargement: true }).webp({ quality: 80 }).toBuffer();
         // Never make a page download a larger replacement at full resolution.
         if (buffer.length >= input.length && size === width) continue;
@@ -48,7 +49,8 @@ export function responsiveImages(html, manifest) {
     if (!image.variants.length || /\bsrcset=/.test(tag)) return tag;
     const sizes = /\bbz-art\b/.test(tag) ? '(max-width: 600px) 76vw, 320px'
       : /\bcat-|\barea-badge\b|\bfl fl-/.test(tag) ? '160px' : '(max-width: 768px) 100vw, 960px';
-    const fallback = image.variants.find((v) => v.width >= 640) || image.variants.at(-1);
+    const preferredWidth = src.startsWith('/art/business-scenes/') ? width : 640;
+    const fallback = image.variants.find((v) => v.width >= preferredWidth) || image.variants.at(-1);
     return tag.replace(`src="${src}"`, `src="${fallback.url}" srcset="${image.variants.map((v) => `${v.url} ${v.width}w`).join(', ')}"${/\bsizes=/.test(tag) ? '' : ` sizes="${sizes}"`}`);
   });
 }

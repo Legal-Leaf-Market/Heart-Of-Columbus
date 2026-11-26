@@ -121,9 +121,14 @@
 }
 @media (max-width: 740px) {
   .cisco-listing .cisco-room { min-height: 525px; }
+  .cisco-room .biz-id.has-profile { grid-template-columns: minmax(0, 1fr); justify-items: start; }
+  .cisco-room .biz-profile { width: 184px; }
   .cisco-listing .hero-atmosphere { background-position: 88% center; }
   .cisco-room .prop-shears { right: -8px; }
   .cisco-room .prop-pole { top: 13%; right: -20px; }
   .cisco-room .prop-clipper { left: -21px; right: auto; bottom: -2%; opacity: .42; }
   .cisco-scene-note { top: 10px; }
 }
+
+@media (max-width: 600px) { .cisco-room .biz-profile { width: 124px; } }
+@media (max-width: 380px) { .cisco-room .biz-profile { width: 104px; } }
