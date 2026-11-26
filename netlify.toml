@@ -1,6 +1,7 @@
 # Heart of Columbus on Netlify. The live site builds from the `live` branch,
-# which .github/workflows/publish.yml moves up to `main` once a day or on
-# demand. `main` is a free branch deploy (main--heartofcolumbus.netlify.app).
+# which .github/workflows/publish.yml moves up to `main` in batches (5 site
+# changes or 4 hours, or [publish] in a PR title). `main` is a free branch
+# deploy (main--heartofcolumbus.netlify.app).
 # See "Publishing" in CLAUDE.md for why (Netlify credits, 2026-11-26).
 [build]
   command = "npm run build"
