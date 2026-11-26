@@ -204,7 +204,7 @@ function historyMod(m) {
   const cols = m.cols || m.span;
   const body = `<div class="pe-text" style="--cols:${cols}" data-fit="${m.fit === 'trim' ? 'trim' : 'report'}">${paras(a.body)}</div>`;
   const fig = m.layout === 'with-photo' ? photoFig(m.photo, 'pe-fig-side') : '';
-  return `<article class="pe-mod pe-history${approved ? '' : ' pe-unapproved'}" data-kind="history" data-src="${esc(m.path)}">
+  return `<article class="pe-mod pe-history${approved ? '' : ' pe-unapproved'}" data-kind="history" data-src="${esc(m.path)}"${m.anchor ? ` id="${esc(m.anchor)}"` : ''}>
     ${kicker(m.label || `From our history · ${a.when}`)}
     <h2 class="pe-hed pe-hed-${m.span}">${t(a.title)}</h2>
     <p class="pe-dek">${t(a.dek)}</p>
@@ -276,8 +276,12 @@ function writerMod(m) {
   const photo = c?.photo ? photoFig(c.photo, 'pe-fig-lead') : media?.state === 'photo' ? `<figure class="pe-fig pe-fig-lead"><img src="${esc(media.src)}" srcset="${esc(media.src)} ${media.width}w" alt="${esc(media.alt || '')}"><figcaption><span class="pe-credit">Photo: ${t(media.credit || '')}</span></figcaption></figure>` : m.photo ? photoFig(m.photo, 'pe-fig-lead') : '';
   const side = layout === 'wide' && m.sidebar ? `<aside class="pe-sidebar"><h3>${t(c?.box?.title || m.sidebar)}</h3>${c?.box?.items ? `<ul>${c.box.items.map((i) => `<li>${t(i)}</li>`).join('')}</ul>` : '<p class="pe-empty">The writer fills this box with checked numbers.</p>'}</aside>` : '';
   const factBox = `<aside class="pe-sidebar pe-factbox"><h3>${t(c?.box?.title || m.sidebar || 'The project in numbers')}</h3>${c?.box?.items ? `<ul>${c.box.items.map((i) => `<li>${t(i)}</li>`).join('')}</ul>` : '<p class="pe-empty">The writer fills this box with checked numbers: the final cost, the money from each source, the opening dates.</p>'}</aside>`;
+  const nextStory = m.readerNext && historyBy[m.readerNext];
+  const nextInEdition = nextStory && E.pages.flatMap((p) => p.rows.flatMap((r) => r.mods)).find((item) => item.path === m.readerNext && item.anchor);
+  const nextLink = nextInEdition ? `<aside class="pe-school-next pe-reader-extra"><p class="pe-card-label">Next on this page</p>
+    <h3><a href="#${esc(nextInEdition.anchor)}">${t(nextStory.title)}</a></h3><p>${t(nextStory.dek)}</p></aside>` : '';
   const inner = layout === 'lead' ? `<div class="pe-lead"><div class="pe-lead-l">${photo}${factBox}${m.architecture ? architectureHtml(m.architecture) : ''}${readingCoupon(m.readerCoupon)}</div><div class="pe-lead-text">${text}</div></div>`
-    : layout === 'wide' ? `<div class="pe-wide">${text}<div class="pe-wide-rail">${side}${coloringCard(m.coloring)}</div></div>`
+    : layout === 'wide' ? `<div class="pe-wide">${text}<div class="pe-wide-rail">${side}${coloringCard(m.coloring)}${nextLink}</div></div>`
     : layout === 'theme' ? `<div class="pe-theme-intro">${text}</div>`
     : `${photo}${text}`;
   const ties = c ? discloseFor(c.tags) : '';
@@ -592,8 +596,8 @@ function businessAd(id) {
     </div>
     ${ad.impact ? `<p class="pe-ad-impact">${t(ad.impact)}</p>` : ''}
     <dl>${ad.details.map(([label, info]) => `<div><dt>${t(label)}</dt><dd>${t(info)}</dd></div>`).join('')}</dl>
-    <div class="pe-ad-contact"><p><a href="${esc(ad.cta[1])}">${t(ad.cta[0])}</a>${ad.cta[1].startsWith('https:') ? `<span>${esc(short(ad.cta[1]))}</span>` : ''}</p>${qr(`/b/${ad.slug}/`, 'Business listing')}</div>
     <div class="pe-ad-offer"><p class="pe-card-label">✂ Clip and save</p><p><b>${t(ad.offer)}</b> ${t(ad.how)}</p><p class="pe-ad-terms">${markCheck(t(ad.terms))}</p></div>
+    <div class="pe-ad-contact"><p><a href="${esc(ad.cta[1])}">${t(ad.cta[0])}</a>${ad.cta[1].startsWith('https:') ? `<span>${esc(short(ad.cta[1]))}</span>` : ''}</p>${qr(`/b/${ad.slug}/`, 'Business listing')}</div>
     ${tie ? `<p class="pe-ad-terms">${t(tie)}</p>` : ''}
   </aside>`;
 }
