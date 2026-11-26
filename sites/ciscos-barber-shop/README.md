@@ -4,7 +4,7 @@ Standalone owner review draft for Cisco's Barbershop in Columbus, Indiana.
 Heart of Columbus serves it at `/preview/ciscos-barber-shop/` with search indexing
 disabled. The source notes in `index.html` document business details and pricing.
 
-The page includes a service menu, crew portfolio and booking links, and a visit
+The page includes a service menu, crew portfolio and booking links, a Prior cuts gallery by barber, and a visit
 section with hours, a map, and directions. Theme follows the device until the
 visitor chooses a setting. Mobile visitors have persistent call and directions
 links. The hours indicator uses Columbus time and the schedule on Cisco's site.
@@ -15,6 +15,8 @@ links. The hours indicator uses Columbus time and the schedule on Cisco's site.
 - Main booking links call (812) 799-1858. Check that Cisco's Booksy profile shows
   1719 Central Ave before changing these links to online booking.
 - Confirm the homepage photo for standalone use with Cisco.
+- Confirm the Prior cuts gallery photos and style names with Cisco before
+  standalone publication. They come from the barbers' portfolios on his website.
 - Remove the owner review notes, draft banner, noindex meta tag, and robots
   header in `netlify.toml` after approval.
 
