@@ -43,6 +43,11 @@ export const BRANDS = {
     from: 'draft', source: 'https://rabbits-balloons.netlify.app/', checked: '2026-11-15',
     note: 'Coral, rose, navy and ivory with Fraunces, from its draft website.',
   },
+  'kawaii-katz': {
+    brand: '#d81f74', deep: '#4f4550', accent: '#ffb199', paper: '#fbe8f6', font: 'Lilita One',
+    from: 'own', source: 'https://github.com/Legal-Leaf-Market/KawaiiKatz/blob/main/app/globals.css', checked: '2026-11-25',
+    note: 'Its own colors: hot pink from its sale pink #e0227a, darkened a touch so white text on it is readable; deep is its plum ink #4f4550; accent its theme-color coral #ffb199; paper the pink of its app icon (public/icon-512.png). Its display face is Baloo 2, which we do not host; Lilita One is the nearest rounded display face we do.',
+  },
 };
 
 // Color helpers: hex in, hex out.

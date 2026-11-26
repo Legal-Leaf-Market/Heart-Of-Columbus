@@ -250,7 +250,7 @@ for (const b of all) {
   b.dora = DORA_SLUGS.has(b.slug);
   // What the business says on its own website beats the sweep (own-facts.mjs).
   const own = OWN_FACTS[b.slug];
-  b.own = own ? { where: own.where || '', source: own.source, checked: own.checked } : null;
+  b.own = own ? { where: own.where || '', source: own.source, checked: own.checked, picks: own.picks || null } : null;
   // Buttons to its own pages, and sections its own pages show it also serves.
   b.links = own?.links || [];
   const profiles = [

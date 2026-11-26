@@ -633,6 +633,10 @@ const ILLUSTRATED_BUSINESSES = new Set([
   'active-physical-therapy',
   'align-columbus-chiropractic',
   'clear-choice-chiropractic',
+  // Not ours: Kawaii Katz's own sticker of its mascots in a shipping box
+  // (public/decora/st-box.webp in its repository), shown with permission like
+  // its media.mjs entry. An online shop has no storefront to draw.
+  'kawaii-katz',
 ]);
 export const businessIllustration = (slug, { size = 82 } = {}) => {
   if (ILLUSTRATED_BUSINESSES.has(slug)) {
