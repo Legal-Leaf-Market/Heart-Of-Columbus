@@ -1,7 +1,7 @@
 // For business owners: what Heart of Columbus can do for a listing, and the
 // claim form (/owners/), plus the private lead inbox (/owners/inbox/#k=).
 import { page } from '../layout.mjs';
-import { header, footer, svg } from '../site.mjs';
+import { header, footer, svg, creatorPromo } from '../site.mjs';
 import { directory } from '../data/directory.mjs';
 import { MEMBERS, PRICE, SPOTS } from '../data/members.mjs';
 
@@ -39,6 +39,7 @@ ${header('')}
   <p>Your listing here is free and stays free. Founding Members pay $${PRICE} a month for their own website, kept current, and a numbered place on the Founders Wall. Every new tool we build comes with it at no extra cost. Cancel any time, and your site goes with you to any host. One owner per section is its Ambassador. ${SPOTS - Object.keys(MEMBERS).length} of ${SPOTS} founding spots open.</p>
   <p><a class="btn" href="/founders-club/">See the Founders Club ${svg('arrow', 'ic-sm')}</a></p>
 </section>
+${creatorPromo()}
 <section class="wrap ow-how">
   <h2>How pickup orders work</h2>
   <ol>

@@ -921,6 +921,21 @@ const PAPER_LINKS = [
   ['/tips/', 'Send a tip', 'Envíe un dato (en inglés)'],
 ];
 
+// Ship It With AI is Jake's own consulting business (Jake, 2026-11-26): owners
+// who want more than the Founders Club work with him there. The link opens its
+// booking form with "One-on-one consulting" already chosen. The tie is always
+// disclosed next to the offer.
+export const CREATOR_URL = 'https://shipitwithai.heartofcolumbus.shop/?session=consulting#book';
+
+export const creatorPromo = () => `
+<section class="wrap ow-how hoc-creator" id="creator">
+  <p class="kicker">Want more than the club?</p>
+  <h2>Work with the person who built Heart of Columbus</h2>
+  <p>The Founders Club gets you a website and a featured place here. If you want more, work one on one with Jake Kennedy, the creator of Heart of Columbus, through Ship It With AI. Jake specializes in websites, custom light tools, small business ERPs and financial technology (fintech), backed by 10 years of accounting and technology experience and a degree from IU Columbus, earned back when it was still IUPUC.</p>
+  <p><a class="btn" href="${CREATOR_URL}">Ask about consulting ${svg('arrow', 'ic-sm')}</a></p>
+  <p class="muted">Disclosure: Ship It With AI is Jake Kennedy's own business, and he also runs Heart of Columbus. Your free listing and the Founders Club never depend on it.</p>
+</section>`;
+
 export function footer({ lang = 'en' } = {}) {
   const es = lang === 'es';
   const cat = (c) => esc(es ? ES_CAT[c.slug] : c.label);
@@ -938,7 +953,7 @@ export function footer({ lang = 'en' } = {}) {
     <div><h3>${es ? ES.more : 'More'}</h3>${CATEGORIES.slice(8).map((c) => `<a href="/c/${c.slug}/">${cat(c)}</a>`).join('')}<a href="/djs/">${k.djs}</a><a href="/plan/">${k.plan}</a><a href="/reviews/">${es ? 'Reseñas (en inglés)' : 'Reviews'}</a></div>
     <div><h3>${es ? ES.aroundTown : 'Around town'}</h3>${AREAS.slice(0, 7).map((a) => `<a href="/n/${a.slug}/">${esc(a.label)}</a>`).join('')}<a href="${es ? '/es/visit/' : '/visit/'}">${k.visit}</a><a href="/events/">${k.events}</a><a href="${es ? '/es/free/' : '/free/'}">${k.free}</a><a href="${es ? '/es/film/' : '/film/'}">${k.film}</a><a href="/trails/">${es ? 'Rutas con sellos (en inglés)' : 'Stamp trails'}</a><a href="${es ? '/es/skate/' : '/skate/'}">${k.skate}</a><a href="/architecture/">${k.architecture}</a><a href="/arts/">${k.arts}</a><a href="/cummins/">${k.cummins}</a><a href="${es ? '/es/holidays/' : '/holidays/'}">${k.holidays}</a><a href="/agriculture/">${k.ag}</a><a href="/sports/">${k.sports}</a><a href="/help/">${es ? 'Ayuda en Columbus (en inglés)' : 'Get help in Columbus'}</a><a href="/credits/">${k.credits}</a><a href="/stickers/">${es ? 'Las calcomanías' : 'The sticker set'}</a></div>
     <div class="ftr-paper"><h3>Heart of Columbus: Newspaper</h3>${PAPER_LINKS.map(([href, en, sp]) => `<a href="${href}">${es ? sp : en}</a>`).join('')}</div>
-    <div><h3>${es ? ES.owners : 'Owners'}</h3><a href="/owners/">${k.claim}</a><a href="/owners/#claim">${k.pickup}</a><a href="/founders-club/">${k.founders}</a><a href="/order/">${k.direct}</a></div>
+    <div><h3>${es ? ES.owners : 'Owners'}</h3><a href="/owners/">${k.claim}</a><a href="/owners/#claim">${k.pickup}</a><a href="/founders-club/">${k.founders}</a><a href="/order/">${k.direct}</a><a href="${CREATOR_URL}">${es ? 'Trabaje con el creador (en inglés)' : 'Work with the creator'}</a></div>
   </div>
 </footer>${helpDock({ lang })}`;
 }
