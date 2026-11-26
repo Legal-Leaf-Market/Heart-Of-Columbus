@@ -17,6 +17,18 @@ test('finds first-party ordering and booking links, not marketplaces', () => {
   assert.equal(links.find((l) => l.id === 'toast').kind, 'order');
 });
 
+test("Booksy's own API host is never taken for a shop's booking page", () => {
+  // The 2026-11-25 crawl: Booksy's widget script names eppo-proxy.booksy.com/api ahead of the
+  // business's own page, and ten barbers' Book buttons pointed at the API.
+  const html = '<script>fetch("https://eppo-proxy.booksy.com/api")</script> <a href="https://shantybarber.booksy.com/">Book</a>';
+  const b = findProviderLinks(html).find((l) => l.id === 'booksy');
+  assert.equal(b && b.url, 'https://shantybarber.booksy.com/');
+  for (const bad of ['https://api.booksy.com/x', 'https://booksy.com/api/us/2', 'https://eppo-proxy.booksy.com/api']) {
+    assert.equal(findProviderLinks(bad).find((l) => l.id === 'booksy'), undefined, bad);
+  }
+  assert.ok(findProviderLinks('https://booksy.com/en-us/123_daycutz').find((l) => l.id === 'booksy'), 'a real Booksy page still counts');
+});
+
 test('Shopify permalink carries the whole cart and drops sold-out lines', () => {
   const url = shopifyCartUrl('https://shop.example', [
     { variantId: '11', qty: 2 }, { variantId: '22', qty: 1, available: false }, { variantId: '33', qty: 1 },
