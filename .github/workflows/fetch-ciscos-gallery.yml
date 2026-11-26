@@ -1,0 +1,35 @@
+# Downloads the portfolio photos from Cisco's own site so the gallery on
+# sites/ciscos-barber-shop can be cropped locally (scripts/fetch-ciscos-gallery.mjs).
+# The raw downloads go to the checks/ciscos-gallery-raw branch, never main;
+# only the cropped WebP files chosen for the page are committed to the site.
+# Trigger: edit scripts/data/ciscos-gallery-request.txt on a claude branch,
+# or run it by hand.
+name: Fetch Cisco's gallery
+on:
+  workflow_dispatch:
+  push:
+    branches: ['claude/**']
+    paths: ['scripts/data/ciscos-gallery-request.txt']
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/fetch-ciscos-gallery.mjs "$RUNNER_TEMP/raw"
+      - name: Keep raw photos on checks/ciscos-gallery-raw
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan checks/ciscos-gallery-raw
+          git rm -rq --cached .
+          git clean -fdxq
+          cp "$RUNNER_TEMP"/raw/* .
+          git add .
+          git commit -qm "Cisco's portfolio photos, raw, $(date -u +%F)"
+          git push -f origin checks/ciscos-gallery-raw
