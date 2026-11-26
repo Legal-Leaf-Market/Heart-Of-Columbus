@@ -47,6 +47,9 @@
     that is not in its menu. Left out until he says whether it is current.
 
   Hero photo from the homepage of https://www.ciscos.site/ for owner review.
+  Prior cuts photos: the eight portfolio pages on https://www.ciscos.site/,
+  cropped and graded by scripts/ciscos-gallery.py from the list in
+  scripts/data/ciscos-gallery.json. Style names describe each photo; Cisco to confirm.
   The main booking buttons use the confirmed shop phone number.
 -->
 <html lang="en">
@@ -223,6 +226,42 @@ footer { background: #282923; color: #efe4d0; padding-block: 28px; }
 footer a:hover { color: #ffb49a; }
 .footer-inner { display: flex; justify-content: space-between; gap: 15px; flex-wrap: wrap; }
 .footer-inner p { margin-top: 9px; }
+.cuts-filter { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 18px; scrollbar-width: thin; }
+.cuts-filter button { flex: none; min-height: 40px; padding: 8px 15px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--ink); font-size: .86rem; font-weight: 700; cursor: pointer; }
+.cuts-filter button:hover { border-color: var(--accent); color: var(--accent); }
+.cuts-filter button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
+.feed { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; margin: 0; padding: 0; list-style: none; }
+.post[hidden] { display: none; }
+.post button { position: relative; display: block; width: 100%; padding: 0; border: 0; background: #463b31; cursor: zoom-in; overflow: hidden; aspect-ratio: 1; }
+.post img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .35s ease; }
+.post-cap { position: absolute; inset: auto 0 0; display: flex; flex-direction: column; gap: 2px; padding: 26px 12px 10px; background: linear-gradient(transparent, rgba(20, 18, 14, .82)); color: #fff6e7; font-size: .78rem; text-align: left; opacity: 0; transition: opacity .25s ease; }
+.post-cap b { font: 700 1.15rem/1.05 var(--display); }
+.post-multi { position: absolute; top: 9px; right: 9px; width: 20px; height: 20px; color: #fff; filter: drop-shadow(0 1px 2px rgba(0,0,0,.6)); }
+.post button:hover img, .post button:focus-visible img { transform: scale(1.04); }
+.post button:hover .post-cap, .post button:focus-visible .post-cap { opacity: 1; }
+.post button:focus-visible { outline-offset: -3px; }
+.cuts-more { margin-top: 16px; text-align: center; }
+.cuts-more[hidden] { display: none; }
+.cuts-note { margin-top: 14px; color: var(--muted); font-size: .84rem; }
+.lightbox { width: min(560px, 100vw - 24px); max-width: none; max-height: 100vh; padding: 0; border: 0; background: var(--card); color: var(--ink); }
+.lightbox::backdrop { background: rgba(15, 14, 11, .86); }
+.lb-top { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+.lb-avatar { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--accent); color: var(--accent-text); font: 800 1rem/1 var(--display); }
+.lb-who { font-weight: 700; font-size: .92rem; line-height: 1.2; }
+.lb-who small { display: block; color: var(--muted); font-weight: 400; font-size: .76rem; }
+.lb-close { margin-left: auto; width: 40px; height: 40px; border: 0; background: transparent; color: var(--ink); font-size: 1.6rem; line-height: 1; cursor: pointer; }
+.lb-stage { position: relative; background: #1d1c18; aspect-ratio: 1; touch-action: pan-y; }
+.lb-stage img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.lb-nav { position: absolute; top: 50%; translate: 0 -50%; width: 38px; height: 38px; border: 0; border-radius: 50%; background: rgba(251, 246, 236, .9); color: #25241e; font-size: 1.3rem; line-height: 1; cursor: pointer; }
+.lb-prev { left: 10px; } .lb-next { right: 10px; }
+.lb-nav[hidden] { display: none; }
+.lb-dots { position: absolute; bottom: 10px; left: 0; right: 0; display: flex; justify-content: center; gap: 5px; }
+.lb-dots span { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.5); }
+.lb-dots span.on { background: #fff; }
+.lb-cap { padding: 12px 14px 16px; }
+.lb-cap h3 { font-size: 1.6rem; }
+.lb-cap p { margin-top: 4px; color: var(--muted); font-size: .84rem; }
+.lb-cap a { color: var(--accent); font-weight: 700; }
 .mobile-actions { display: none; }
 @media (max-width: 740px) {
   .header-inner { gap: 10px; min-height: 64px; }
@@ -233,6 +272,8 @@ footer a:hover { color: #ffb49a; }
   .hero-photo img { aspect-ratio: 1.23; }
   .board-cols { gap: 0; grid-template-columns: 1fr; }
   .roster { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .feed { gap: 2px; }
+  .post-cap { display: none; }
   .ways { grid-template-columns: 1fr; }
   .ways > div { padding-inline: 0; }
   .ways > div + div { border-left: 0; border-top: 1px solid var(--line); }
@@ -263,7 +304,7 @@ footer a:hover { color: #ffb49a; }
   <div class="wrap header-inner">
     <a class="mark" href="#top">Cisco&rsquo;s <span>Barbershop</span></a>
     <nav class="links" aria-label="Main navigation">
-      <a href="#services">Services</a><a href="#crew">Crew</a><a href="#visit">Visit</a>
+      <a href="#services">Services</a><a href="#crew">Crew</a><a href="#cuts">Cuts</a><a href="#visit">Visit</a>
     </nav>
     <div class="header-actions">
     <button class="theme" type="button" aria-pressed="false" aria-label="Dark mode">
@@ -360,21 +401,86 @@ footer a:hover { color: #ffb49a; }
     <div class="wrap">
       <div class="section-head"><h2>Meet the crew</h2><p>Find your barber and take a look at their work.</p></div>
       <ul class="roster">
-        <li><p class="name">Francisco Jimenez</p><p class="role">Owner</p><p class="acts"><a href="tel:+18127991858">Call to book</a><a href="https://www.ciscos.site/blank-page" target="_blank" rel="noopener">View work</a></p></li>
-        <li><p class="name">Enrique Jimenez</p><p class="acts"><a href="tel:+18127991858">Call to book</a><a href="https://www.ciscos.site/blank-page-copy" target="_blank" rel="noopener">View work</a></p></li>
-        <li><p class="name">Marisela Jimenez</p><p class="acts"><a href="https://mariselajimenez2988.booksy.com/" target="_blank" rel="noopener">Book online</a><a href="https://www.ciscos.site/enrique-copy" target="_blank" rel="noopener">View work</a></p></li>
-        <li><p class="name">Klenny</p><p class="acts"><a href="https://booksy.com/en-us/895570_klennycuts_barber-shop_19373_columbus" target="_blank" rel="noopener">Book online</a><a href="https://www.ciscos.site/klenny-copy" target="_blank" rel="noopener">View work</a></p></li>
-        <li><p class="name">Daniel</p><p class="acts"><a href="https://shantybarber.booksy.com/a/" target="_blank" rel="noopener">Book online</a><a href="https://www.ciscos.site/copy-of-klenny-s-portfolio" target="_blank" rel="noopener">View work</a></p></li>
-        <li><p class="name">Dariel</p><p class="acts"><a href="https://www.ciscos.site/copy-of-demetreus-portfolio" target="_blank" rel="noopener">View work</a></p></li>
-        <li><p class="name">Jose</p><p class="acts"><a href="https://www.ciscos.site/copy-of-base" target="_blank" rel="noopener">View work</a></p></li>
-        <li><p class="name">Demetreus Weiler</p><p class="acts"><a href="https://www.ciscos.site/marisela-s-portfolio-copy" target="_blank" rel="noopener">View work</a></p></li>
+        <li><p class="name">Francisco Jimenez</p><p class="role">Owner</p><p class="acts"><a href="tel:+18127991858">Call to book</a><a href="#cuts" data-show="Francisco">View work</a></p></li>
+        <li><p class="name">Enrique Jimenez</p><p class="acts"><a href="tel:+18127991858">Call to book</a><a href="#cuts" data-show="Enrique">View work</a></p></li>
+        <li><p class="name">Marisela Jimenez</p><p class="acts"><a href="https://mariselajimenez2988.booksy.com/" target="_blank" rel="noopener">Book online</a><a href="#cuts" data-show="Marisela">View work</a></p></li>
+        <li><p class="name">Klenny</p><p class="acts"><a href="https://booksy.com/en-us/895570_klennycuts_barber-shop_19373_columbus" target="_blank" rel="noopener">Book online</a><a href="#cuts" data-show="Klenny">View work</a></p></li>
+        <li><p class="name">Daniel</p><p class="acts"><a href="https://shantybarber.booksy.com/a/" target="_blank" rel="noopener">Book online</a><a href="#cuts" data-show="Daniel">View work</a></p></li>
+        <li><p class="name">Dariel</p><p class="acts"><a href="#cuts" data-show="Dariel">View work</a></p></li>
+        <li><p class="name">Jose</p><p class="acts"><a href="#cuts" data-show="Jose">View work</a></p></li>
+        <li><p class="name">Demetreus Weiler</p><p class="acts"><a href="#cuts" data-show="Demetreus">View work</a></p></li>
         <li><p class="name">Pedro Hernandez</p><p class="acts"><a href="tel:+18127991858">Call the shop</a></p></li>
         <li><p class="name">Eva</p><p class="acts"><a href="https://booksy.com/en-us/1890131_eva_hair-salon_19373_columbus" target="_blank" rel="noopener">Book online</a></p></li>
       </ul>
     </div>
   </section>
 
-  <section class="band" id="visit">
+  <section class="band" id="cuts">
+    <div class="wrap">
+      <div class="section-head"><h2>Prior cuts</h2><p>Fades, beards, designs and kids&rsquo; cuts from the crew. Tap a cut to see more.</p></div>
+      <div class="cuts-filter" role="group" aria-label="Show cuts by barber"><button type="button" data-filter="" aria-pressed="true">All</button><button type="button" data-filter="Francisco" aria-pressed="false">Francisco</button><button type="button" data-filter="Enrique" aria-pressed="false">Enrique</button><button type="button" data-filter="Marisela" aria-pressed="false">Marisela</button><button type="button" data-filter="Klenny" aria-pressed="false">Klenny</button><button type="button" data-filter="Daniel" aria-pressed="false">Daniel</button><button type="button" data-filter="Dariel" aria-pressed="false">Dariel</button><button type="button" data-filter="Jose" aria-pressed="false">Jose</button><button type="button" data-filter="Demetreus" aria-pressed="false">Demetreus</button></div>
+      <ul class="feed" id="feed">
+        <!--GALLERY-->
+        <li class="post" data-barber="Daniel" data-multi><button type="button" data-post="0" data-photos="d17 d16 d20 d15" aria-label="Slick back with low fade by Daniel, 4 photos"><img src="img/gallery/d17-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Slick back with low fade, by Daniel"><span class="post-cap" aria-hidden="true"><b>Slick back with low fade</b>Daniel</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Dariel"><button type="button" data-post="1" data-photos="r2" aria-label="Afro taper with heart design by Dariel"><img src="img/gallery/r2-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Afro taper with heart design, by Dariel"><span class="post-cap" aria-hidden="true"><b>Afro taper with heart design</b>Dariel</span></button></li>
+        <li class="post" data-barber="Enrique" data-multi><button type="button" data-post="2" data-photos="e19 e17 e18" aria-label="Wavy top, low taper with neck design by Enrique, 3 photos"><img src="img/gallery/e19-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Wavy top, low taper with neck design, by Enrique"><span class="post-cap" aria-hidden="true"><b>Wavy top, low taper with neck design</b>Enrique</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Francisco"><button type="button" data-post="3" data-photos="f5" aria-label="Skin fade with full beard by Francisco"><img src="img/gallery/f5-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Skin fade with full beard, by Francisco"><span class="post-cap" aria-hidden="true"><b>Skin fade with full beard</b>Francisco</span></button></li>
+        <li class="post" data-barber="Dariel"><button type="button" data-post="4" data-photos="r10" aria-label="Red curls with star design by Dariel"><img src="img/gallery/r10-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Red curls with star design, by Dariel"><span class="post-cap" aria-hidden="true"><b>Red curls with star design</b>Dariel</span></button></li>
+        <li class="post" data-barber="Daniel" data-multi><button type="button" data-post="5" data-photos="d18 d19" aria-label="Lightning bolt design by Daniel, 2 photos"><img src="img/gallery/d18-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Lightning bolt design, by Daniel"><span class="post-cap" aria-hidden="true"><b>Lightning bolt design</b>Daniel</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Enrique" data-multi><button type="button" data-post="6" data-photos="e5 e6" aria-label="Textured crop, taper with neck design by Enrique, 2 photos"><img src="img/gallery/e5-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Textured crop, taper with neck design, by Enrique"><span class="post-cap" aria-hidden="true"><b>Textured crop, taper with neck design</b>Enrique</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Daniel" data-multi><button type="button" data-post="7" data-photos="d13 d2 d1" aria-label="Buzz cut fade with full beard by Daniel, 3 photos"><img src="img/gallery/d13-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Buzz cut fade with full beard, by Daniel"><span class="post-cap" aria-hidden="true"><b>Buzz cut fade with full beard</b>Daniel</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Dariel"><button type="button" data-post="8" data-photos="r5" aria-label="Textured mullet, burst fade by Dariel"><img src="img/gallery/r5-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Textured mullet, burst fade, by Dariel"><span class="post-cap" aria-hidden="true"><b>Textured mullet, burst fade</b>Dariel</span></button></li>
+        <li class="post" data-barber="Klenny" data-multi><button type="button" data-post="9" data-photos="k10 k11" aria-label="Long beard with skin fade by Klenny, 2 photos"><img src="img/gallery/k10-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Long beard with skin fade, by Klenny"><span class="post-cap" aria-hidden="true"><b>Long beard with skin fade</b>Klenny</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Enrique" data-multi><button type="button" data-post="10" data-photos="e3 e1" aria-label="Twists with mid fade and beard by Enrique, 2 photos"><img src="img/gallery/e3-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Twists with mid fade and beard, by Enrique"><span class="post-cap" aria-hidden="true"><b>Twists with mid fade and beard</b>Enrique</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Marisela" data-multi><button type="button" data-post="11" data-photos="m6 m5" aria-label="Skin fade with full beard by Marisela, 2 photos"><img src="img/gallery/m6-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Skin fade with full beard, by Marisela"><span class="post-cap" aria-hidden="true"><b>Skin fade with full beard</b>Marisela</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Jose"><button type="button" data-post="12" data-photos="j5" aria-label="Textured fringe, burst taper by Jose"><img src="img/gallery/j5-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Textured fringe, burst taper, by Jose"><span class="post-cap" aria-hidden="true"><b>Textured fringe, burst taper</b>Jose</span></button></li>
+        <li class="post" data-barber="Dariel"><button type="button" data-post="13" data-photos="r4" aria-label="Short curls, skin fade and part by Dariel"><img src="img/gallery/r4-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Short curls, skin fade and part, by Dariel"><span class="post-cap" aria-hidden="true"><b>Short curls, skin fade and part</b>Dariel</span></button></li>
+        <li class="post" data-barber="Daniel" data-multi><button type="button" data-post="14" data-photos="d4 d5 d8" aria-label="Kids comb over, skin fade by Daniel, 3 photos"><img src="img/gallery/d4-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Kids comb over, skin fade, by Daniel"><span class="post-cap" aria-hidden="true"><b>Kids comb over, skin fade</b>Daniel</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Francisco" data-multi><button type="button" data-post="15" data-photos="f6 f4 f2" aria-label="High skin fade with long beard by Francisco, 3 photos"><img src="img/gallery/f6-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="High skin fade with long beard, by Francisco"><span class="post-cap" aria-hidden="true"><b>High skin fade with long beard</b>Francisco</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Francisco"><button type="button" data-post="16" data-photos="f3" aria-label="Short fade by Francisco"><img src="img/gallery/f3-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Short fade, by Francisco"><span class="post-cap" aria-hidden="true"><b>Short fade</b>Francisco</span></button></li>
+        <li class="post" data-barber="Francisco"><button type="button" data-post="17" data-photos="f1" aria-label="Hot towel shave by Francisco"><img src="img/gallery/f1-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Hot towel shave, by Francisco"><span class="post-cap" aria-hidden="true"><b>Hot towel shave</b>Francisco</span></button></li>
+        <li class="post" data-barber="Enrique" data-multi><button type="button" data-post="18" data-photos="e16 e15" aria-label="Textured fringe, mid drop fade by Enrique, 2 photos"><img src="img/gallery/e16-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Textured fringe, mid drop fade, by Enrique"><span class="post-cap" aria-hidden="true"><b>Textured fringe, mid drop fade</b>Enrique</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Enrique" data-multi><button type="button" data-post="19" data-photos="e4 e2" aria-label="Curly top, low taper by Enrique, 2 photos"><img src="img/gallery/e4-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Curly top, low taper, by Enrique"><span class="post-cap" aria-hidden="true"><b>Curly top, low taper</b>Enrique</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Enrique"><button type="button" data-post="20" data-photos="e10" aria-label="Skin fade with beard work by Enrique"><img src="img/gallery/e10-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Skin fade with beard work, by Enrique"><span class="post-cap" aria-hidden="true"><b>Skin fade with beard work</b>Enrique</span></button></li>
+        <li class="post" data-barber="Enrique" data-multi><button type="button" data-post="21" data-photos="e12 e11" aria-label="Textured fringe, low taper by Enrique, 2 photos"><img src="img/gallery/e12-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Textured fringe, low taper, by Enrique"><span class="post-cap" aria-hidden="true"><b>Textured fringe, low taper</b>Enrique</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Enrique" data-multi><button type="button" data-post="22" data-photos="e13 e14" aria-label="Sponge curls with taper by Enrique, 2 photos"><img src="img/gallery/e13-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Sponge curls with taper, by Enrique"><span class="post-cap" aria-hidden="true"><b>Sponge curls with taper</b>Enrique</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Marisela" data-multi><button type="button" data-post="23" data-photos="m8 m7" aria-label="Mid fade with beard by Marisela, 2 photos"><img src="img/gallery/m8-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Mid fade with beard, by Marisela"><span class="post-cap" aria-hidden="true"><b>Mid fade with beard</b>Marisela</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Marisela" data-multi><button type="button" data-post="24" data-photos="m2 m3" aria-label="Wash and style by Marisela, 2 photos"><img src="img/gallery/m2-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Wash and style, by Marisela"><span class="post-cap" aria-hidden="true"><b>Wash and style</b>Marisela</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Marisela"><button type="button" data-post="25" data-photos="m12" aria-label="Textured crop with taper by Marisela"><img src="img/gallery/m12-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Textured crop with taper, by Marisela"><span class="post-cap" aria-hidden="true"><b>Textured crop with taper</b>Marisela</span></button></li>
+        <li class="post" data-barber="Marisela" data-multi><button type="button" data-post="26" data-photos="m10 m9" aria-label="Short crop, taper by Marisela, 2 photos"><img src="img/gallery/m10-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Short crop, taper, by Marisela"><span class="post-cap" aria-hidden="true"><b>Short crop, taper</b>Marisela</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Marisela"><button type="button" data-post="27" data-photos="m16" aria-label="Curly top, taper by Marisela"><img src="img/gallery/m16-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Curly top, taper, by Marisela"><span class="post-cap" aria-hidden="true"><b>Curly top, taper</b>Marisela</span></button></li>
+        <li class="post" data-barber="Marisela"><button type="button" data-post="28" data-photos="m15" aria-label="Curly cut by Marisela"><img src="img/gallery/m15-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Curly cut, by Marisela"><span class="post-cap" aria-hidden="true"><b>Curly cut</b>Marisela</span></button></li>
+        <li class="post" data-barber="Klenny" data-multi><button type="button" data-post="29" data-photos="k3 k4" aria-label="Mid fade with beard by Klenny, 2 photos"><img src="img/gallery/k3-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Mid fade with beard, by Klenny"><span class="post-cap" aria-hidden="true"><b>Mid fade with beard</b>Klenny</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Klenny"><button type="button" data-post="30" data-photos="k7" aria-label="Textured top, taper fade by Klenny"><img src="img/gallery/k7-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Textured top, taper fade, by Klenny"><span class="post-cap" aria-hidden="true"><b>Textured top, taper fade</b>Klenny</span></button></li>
+        <li class="post" data-barber="Klenny" data-multi><button type="button" data-post="31" data-photos="k9 k12" aria-label="Short fade, textured top by Klenny, 2 photos"><img src="img/gallery/k9-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Short fade, textured top, by Klenny"><span class="post-cap" aria-hidden="true"><b>Short fade, textured top</b>Klenny</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Daniel" data-multi><button type="button" data-post="32" data-photos="d11 d12" aria-label="Kids textured top, skin fade by Daniel, 2 photos"><img src="img/gallery/d11-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Kids textured top, skin fade, by Daniel"><span class="post-cap" aria-hidden="true"><b>Kids textured top, skin fade</b>Daniel</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Daniel" data-multi><button type="button" data-post="33" data-photos="d6 d7" aria-label="Kids crop, high fade by Daniel, 2 photos"><img src="img/gallery/d6-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Kids crop, high fade, by Daniel"><span class="post-cap" aria-hidden="true"><b>Kids crop, high fade</b>Daniel</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Daniel" data-multi><button type="button" data-post="34" data-photos="d10 d9" aria-label="Kids spiky crop, mid fade by Daniel, 2 photos"><img src="img/gallery/d10-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Kids spiky crop, mid fade, by Daniel"><span class="post-cap" aria-hidden="true"><b>Kids spiky crop, mid fade</b>Daniel</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Daniel"><button type="button" data-post="35" data-photos="d14" aria-label="Brushed up top, taper by Daniel"><img src="img/gallery/d14-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Brushed up top, taper, by Daniel"><span class="post-cap" aria-hidden="true"><b>Brushed up top, taper</b>Daniel</span></button></li>
+        <li class="post" data-barber="Dariel"><button type="button" data-post="36" data-photos="r3" aria-label="Buzz cut, skin fade and line up by Dariel"><img src="img/gallery/r3-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Buzz cut, skin fade and line up, by Dariel"><span class="post-cap" aria-hidden="true"><b>Buzz cut, skin fade and line up</b>Dariel</span></button></li>
+        <li class="post" data-barber="Dariel"><button type="button" data-post="37" data-photos="r1" aria-label="Modern bowl cut, low taper by Dariel"><img src="img/gallery/r1-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Modern bowl cut, low taper, by Dariel"><span class="post-cap" aria-hidden="true"><b>Modern bowl cut, low taper</b>Dariel</span></button></li>
+        <li class="post" data-barber="Dariel"><button type="button" data-post="38" data-photos="r9" aria-label="Textured fringe, drop fade by Dariel"><img src="img/gallery/r9-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Textured fringe, drop fade, by Dariel"><span class="post-cap" aria-hidden="true"><b>Textured fringe, drop fade</b>Dariel</span></button></li>
+        <li class="post" data-barber="Dariel"><button type="button" data-post="39" data-photos="r8" aria-label="Textured fringe, taper by Dariel"><img src="img/gallery/r8-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Textured fringe, taper, by Dariel"><span class="post-cap" aria-hidden="true"><b>Textured fringe, taper</b>Dariel</span></button></li>
+        <li class="post" data-barber="Dariel" data-multi><button type="button" data-post="40" data-photos="r7 r6" aria-label="Crop with high fade by Dariel, 2 photos"><img src="img/gallery/r7-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Crop with high fade, by Dariel"><span class="post-cap" aria-hidden="true"><b>Crop with high fade</b>Dariel</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Dariel"><button type="button" data-post="41" data-photos="r12" aria-label="Curly top, low taper by Dariel"><img src="img/gallery/r12-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Curly top, low taper, by Dariel"><span class="post-cap" aria-hidden="true"><b>Curly top, low taper</b>Dariel</span></button></li>
+        <li class="post" data-barber="Jose" data-multi><button type="button" data-post="42" data-photos="j4 j3" aria-label="Textured crop, low taper by Jose, 2 photos"><img src="img/gallery/j4-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Textured crop, low taper, by Jose"><span class="post-cap" aria-hidden="true"><b>Textured crop, low taper</b>Jose</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Jose"><button type="button" data-post="43" data-photos="j8" aria-label="Curly top, low taper by Jose"><img src="img/gallery/j8-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Curly top, low taper, by Jose"><span class="post-cap" aria-hidden="true"><b>Curly top, low taper</b>Jose</span></button></li>
+        <li class="post" data-barber="Jose" data-multi><button type="button" data-post="44" data-photos="j13 j12" aria-label="Slick back, low taper by Jose, 2 photos"><img src="img/gallery/j13-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Slick back, low taper, by Jose"><span class="post-cap" aria-hidden="true"><b>Slick back, low taper</b>Jose</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Jose"><button type="button" data-post="45" data-photos="j11" aria-label="Buzz fade with line up by Jose"><img src="img/gallery/j11-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Buzz fade with line up, by Jose"><span class="post-cap" aria-hidden="true"><b>Buzz fade with line up</b>Jose</span></button></li>
+        <li class="post" data-barber="Jose"><button type="button" data-post="46" data-photos="j7" aria-label="Taper with beard by Jose"><img src="img/gallery/j7-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Taper with beard, by Jose"><span class="post-cap" aria-hidden="true"><b>Taper with beard</b>Jose</span></button></li>
+        <li class="post" data-barber="Jose" data-multi><button type="button" data-post="47" data-photos="j14 j15" aria-label="Kids buzz with taper by Jose, 2 photos"><img src="img/gallery/j14-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Kids buzz with taper, by Jose"><span class="post-cap" aria-hidden="true"><b>Kids buzz with taper</b>Jose</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Demetreus" data-multi><button type="button" data-post="48" data-photos="t4 t6 t2 t3 t5" aria-label="Slick back with taper by Demetreus, 5 photos"><img src="img/gallery/t4-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Slick back with taper, by Demetreus"><span class="post-cap" aria-hidden="true"><b>Slick back with taper</b>Demetreus</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Demetreus"><button type="button" data-post="49" data-photos="t1" aria-label="Low taper by Demetreus"><img src="img/gallery/t1-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Low taper, by Demetreus"><span class="post-cap" aria-hidden="true"><b>Low taper</b>Demetreus</span></button></li>
+        <li class="post" data-barber="Demetreus" data-multi><button type="button" data-post="50" data-photos="t7 t10" aria-label="Short fade with beard by Demetreus, 2 photos"><img src="img/gallery/t7-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Short fade with beard, by Demetreus"><span class="post-cap" aria-hidden="true"><b>Short fade with beard</b>Demetreus</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <li class="post" data-barber="Demetreus" data-multi><button type="button" data-post="51" data-photos="t8 t9" aria-label="Kids textured crop by Demetreus, 2 photos"><img src="img/gallery/t8-s.webp" width="480" height="480" loading="lazy" decoding="async" alt="Kids textured crop, by Demetreus"><span class="post-cap" aria-hidden="true"><b>Kids textured crop</b>Demetreus</span><svg class="post-multi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11M4 7h11a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></li>
+        <!--/GALLERY-->
+      </ul>
+      <p class="cuts-more"><button class="btn quiet" type="button" id="cuts-more">Show more cuts</button></p>
+      <p class="cuts-note">Photos from each barber&rsquo;s portfolio on Cisco&rsquo;s website. Some were taken before they joined the shop. Style names describe what each photo shows.</p>
+    </div>
+  </section>
+
+  <section id="visit">
     <div class="wrap">
       <div class="section-head"><h2>Find the shop</h2><p>Walk in or call ahead.</p></div>
       <div class="visit">
@@ -419,6 +525,7 @@ footer a:hover { color: #ffb49a; }
         <li>Confirm Dariel, Jose and Demetreus are still on the crew. Their booking profiles list other addresses.</li>
         <li>Confirm the shop address on Booksy before enabling Cisco&rsquo;s online booking.</li>
         <li>Confirm the homepage photo for the standalone site.</li>
+        <li>Confirm the Prior cuts photos and style names. They come from each barber&rsquo;s portfolio on your website.</li>
       </ul>
     </details>
   </aside>
@@ -430,6 +537,12 @@ footer a:hover { color: #ffb49a; }
     <div><a href="tel:+18127991858">(812) 799-1858</a><br><a href="https://heartofcolumbus.shop/b/ciscos-barber-shop/">Heart of Columbus listing</a></div>
   </div>
 </footer>
+
+<dialog class="lightbox" id="lightbox" aria-label="Cut photos">
+  <div class="lb-top"><span class="lb-avatar" aria-hidden="true"></span><p class="lb-who"><span id="lb-barber"></span><small>Cisco&rsquo;s Barbershop</small></p><button class="lb-close" type="button" aria-label="Close">&times;</button></div>
+  <div class="lb-stage"><img id="lb-img" alt="" width="1080" height="1080"><button class="lb-nav lb-prev" type="button" aria-label="Previous photo">&#8249;</button><button class="lb-nav lb-next" type="button" aria-label="Next photo">&#8250;</button><div class="lb-dots" aria-hidden="true"></div></div>
+  <div class="lb-cap"><h3 id="lb-style"></h3><p><span id="lb-count"></span> <a href="tel:+18127991858">Call to book this cut</a></p></div>
+</dialog>
 
 <div class="mobile-actions">
   <a class="btn" href="tel:+18127991858"><svg aria-hidden="true"><use href="#i-phone"/></svg>Call to book</a>
@@ -508,6 +621,65 @@ footer a:hover { color: #ffb49a; }
   });
   media.addEventListener('change', show);
   show();
+
+  // Prior cuts: filter by barber, open a post as a carousel.
+  const feed = document.getElementById('feed');
+  const chips = document.querySelectorAll('.cuts-filter button');
+  // All shows the first 15 posts until "Show more"; one barber shows all of theirs.
+  const FIRST = 15;
+  const more = document.getElementById('cuts-more');
+  let expanded = false;
+  const filter = (name) => {
+    for (const c of chips) c.setAttribute('aria-pressed', String(c.dataset.filter === name));
+    let i = 0;
+    for (const p of feed.children) {
+      const match = !name || p.dataset.barber === name;
+      p.hidden = !match || (!name && !expanded && i >= FIRST);
+      if (match) i++;
+    }
+    more.parentElement.hidden = Boolean(name) || expanded || i <= FIRST;
+  };
+  more.addEventListener('click', () => { expanded = true; filter(''); });
+  filter('');
+  for (const c of chips) c.addEventListener('click', () => filter(c.dataset.filter));
+  for (const a of document.querySelectorAll('a[data-show]')) a.addEventListener('click', () => filter(a.dataset.show));
+
+  const box = document.getElementById('lightbox');
+  const img = document.getElementById('lb-img');
+  const dots = box.querySelector('.lb-dots');
+  const prev = box.querySelector('.lb-prev'), next = box.querySelector('.lb-next');
+  let photos = [], at = 0, caption = '';
+  const showPhoto = () => {
+    img.src = `img/gallery/${photos[at]}.webp`;
+    img.alt = `${caption}, photo ${at + 1} of ${photos.length}`;
+    prev.hidden = at === 0;
+    next.hidden = at === photos.length - 1;
+    dots.innerHTML = photos.length > 1 ? photos.map((_, i) => `<span${i === at ? ' class="on"' : ''}></span>`).join('') : '';
+    document.getElementById('lb-count').textContent = photos.length > 1 ? `Photo ${at + 1} of ${photos.length}.` : '';
+  };
+  const go = (d) => { const n = at + d; if (n >= 0 && n < photos.length) { at = n; showPhoto(); } };
+  feed.addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-photos]');
+    if (!b) return;
+    const post = b.closest('.post');
+    photos = b.dataset.photos.split(' ');
+    at = 0;
+    caption = b.querySelector('img').alt;
+    document.getElementById('lb-style').textContent = b.querySelector('.post-cap b').textContent;
+    document.getElementById('lb-barber').textContent = post.dataset.barber;
+    box.querySelector('.lb-avatar').textContent = post.dataset.barber[0];
+    showPhoto();
+    box.showModal();
+  });
+  prev.addEventListener('click', () => go(-1));
+  next.addEventListener('click', () => go(1));
+  box.querySelector('.lb-close').addEventListener('click', () => box.close());
+  box.addEventListener('click', (e) => { if (e.target === box) box.close(); });
+  box.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') go(-1); if (e.key === 'ArrowRight') go(1); });
+  let startX = null;
+  const stage = box.querySelector('.lb-stage');
+  stage.addEventListener('pointerdown', (e) => { startX = e.clientX; });
+  stage.addEventListener('pointerup', (e) => { if (startX !== null && Math.abs(e.clientX - startX) > 40) go(e.clientX < startX ? 1 : -1); startX = null; });
 
 })();
 </script>
