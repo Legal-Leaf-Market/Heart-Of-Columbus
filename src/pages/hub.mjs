@@ -304,5 +304,6 @@ ${footer()}`;
     styles: ['hoc.css'],
     assets,
     ld: [siteLd()],
+    head: '<meta name="google-site-verification" content="P73lDKkzOXFDjsiVSzZtmt_Cwsxc9ZyNc8QS-yepbDM">',
   });
 }
