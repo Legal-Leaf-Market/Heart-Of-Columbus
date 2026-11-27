@@ -1,4 +1,5 @@
 // Category, neighborhood, business, explore, saved and credits pages.
+import { FAMILY, familyBeside, familyHref } from '../data/family.mjs';
 import { socialProfile } from '../social-profiles.mjs';
 import { reviewSnapshot, reviewsPage } from './reviews.mjs';
 import { tagUrl, hocAttr } from '../ref.mjs';
@@ -334,6 +335,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
       ${buildingNote(b)}
       ${b.added?.soon ? `<p class="direct-note">🚧 <span>Coming soon. Not open yet; we will add hours and an address when it opens.</span></p>` : ''}
       ${b.added?.tie ? `<p class="direct-note member-note">★ <span>${esc(b.added.tie)}</span></p>` : ''}
+      ${FAMILY.some((f) => f.slug === b.slug) ? `<p class="direct-note kin-note">🤝 <span>Also from the same family: ${familyBeside(b.slug).map((f) => `<a href="${esc(f.slug ? `/b/${f.slug}/` : familyHref(f))}">${esc(f.name)}</a>${f.adult ? ' (21+)' : ''}`).join(', ')}.</span></p>` : ''}
       ${b.kin.map((k) => { const o = directory.find((x) => x.slug === k.slug); return o ? `<p class="direct-note kin-note">🤝 <span>${esc(k.label)}: <a href="/b/${o.slug}/">${t(o.name)}</a>, ${esc(k.about || o.type.charAt(0).toLowerCase() + o.type.slice(1))}.</span></p>` : ''; }).join('')}
       ${boostNote(b)}
       ${b.member ? `<p class="direct-note member-note" id="member-note">★ <span>${esc(b.name)} is a Founding Member. It pays Heart of Columbus $${PRICE} a month for a website we keep up to date and a featured spot in its category, and has no say in what we write. <a href="/founders-club/">About the Founders Club</a></span></p>` : ''}

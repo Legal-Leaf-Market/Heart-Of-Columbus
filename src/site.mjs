@@ -9,6 +9,7 @@ import { NEWS_LIVE } from './data/paper.mjs';
 import { businessMedia } from './data/media.mjs';
 import { attrCodes } from './attrs.mjs';
 import { helpDock } from './help-dock.mjs';
+import { FAMILY, familyHref, FAMILY_TIE } from './data/family.mjs';
 
 // The field-guide sticker family (art-source/stickers/, cut by
 // scripts/cut-stickers.py into public/art/sticker-<id>.webp, 320 px square).
@@ -1194,6 +1195,17 @@ export const creatorPromo = () => `
   <p class="muted">Disclosure: Ship It With AI is Jake Kennedy's own business, and he also runs Heart of Columbus. Your free listing and the Founders Club never depend on it.</p>
 </section>`;
 
+// The publisher's own businesses (src/data/family.mjs), on every page with the
+// tie said in the same row. A link to a 21+ site says so.
+export function familyRow({ es = false } = {}) {
+  const item = (f) => `<li><a href="${esc(familyHref(f))}" rel="noopener">${esc(f.name)}</a>${f.adult ? ' <span class="ftr-age">21+</span>' : ''}<span>${esc(f.what)}</span></li>`;
+  return `<div class="wrap ftr-family">
+    <h3>${es ? 'También del editor (en inglés)' : 'Also from the publisher'}</h3>
+    <ul>${FAMILY.map(item).join('')}</ul>
+    <p class="ftr-small">${es ? 'Jake Kennedy, que dirige Heart of Columbus, los dirige, y Kawaii Katz es de su hija Ada. Sus fichas siguen las mismas reglas que las demás.' : `${esc(FAMILY_TIE)} Their listings here follow the same rules as everyone else's.`}</p>
+  </div>`;
+}
+
 export function footer({ lang = 'en' } = {}) {
   const es = lang === 'es';
   const cat = (c) => esc(es ? ES_CAT[c.slug] : c.label);
@@ -1205,7 +1217,7 @@ export function footer({ lang = 'en' } = {}) {
       <img class="ftr-stk" src="/art/sticker-community-heart.webp" width="72" height="72" alt="" aria-hidden="true" loading="lazy" decoding="async">
       <a href="/" class="logo logo-light">${heartLogo}<span>Heart of <em>Columbus</em></span></a>
       <p class="ftr-tag">${es ? ES.footerTag : 'Independent businesses of Columbus, Indiana. Owner-run and local. Spot a chain? Tell us and it comes off.'}</p>
-      <p class="ftr-small">${es ? ES.footerSmall : 'Details come from public listings and may change; call ahead. Not affiliated with the businesses listed.'}</p>
+      <p class="ftr-small">${es ? ES.footerSmall : 'Details come from public listings and may change; call ahead. Not affiliated with the businesses listed, apart from the publisher\'s own, named below.'}</p>
     </div>
     <div><h3>${es ? ES.browse : 'Browse'}</h3>${CATEGORIES.slice(0, 8).map((c) => `<a href="/c/${c.slug}/">${cat(c)}</a>`).join('')}</div>
     <div><h3>${es ? ES.more : 'More'}</h3>${CATEGORIES.slice(8).map((c) => `<a href="/c/${c.slug}/">${cat(c)}</a>`).join('')}<a href="/djs/">${k.djs}</a><a href="/plan/">${k.plan}</a><a href="/reviews/">${es ? 'Reseñas (en inglés)' : 'Reviews'}</a></div>
@@ -1213,6 +1225,7 @@ export function footer({ lang = 'en' } = {}) {
     <div class="ftr-paper"><h3>Heart of Columbus: Newspaper</h3>${PAPER_LINKS.map(([href, en, sp]) => `<a href="${href}">${es ? sp : en}</a>`).join('')}</div>
     <div><h3>${es ? ES.owners : 'Owners'}</h3><a href="/owners/">${k.claim}</a><a href="/owners/#claim">${k.pickup}</a><a href="/founders-club/">${k.founders}</a><a href="/order/">${k.direct}</a><a href="${CREATOR_URL}">${es ? 'Trabaje con el creador (en inglés)' : 'Work with the creator'}</a></div>
   </div>
+  ${familyRow({ es })}
 </footer>${helpDock({ lang })}`;
 }
 
