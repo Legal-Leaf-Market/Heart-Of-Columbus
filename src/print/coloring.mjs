@@ -10,6 +10,7 @@ export const COLORING = {
   },
   anderson: {
     title: 'Anderson Falls', place: 'Bartholomew County',
+    widePrint: { width: 1086, height: 1448 },
     alt: 'Water spilling in ribbons over an overhanging rock ledge in the woods',
     note: 'East of Columbus, Fall Fork of Clifty Creek drops 14 feet over a limestone ledge. The Nature Conservancy bought the property in 1977 and donated it to the county in 1981.',
     source: 'Indiana DNR',
@@ -33,6 +34,7 @@ export const COLORING = {
   },
   turtle: {
     title: 'Eastern box turtle', place: 'Indiana wildlife',
+    widePrint: { width: 1024, height: 1536 },
     alt: 'A box turtle with a domed shell among leaves and woodland ferns',
     note: 'The eastern box turtle lives in Indiana’s woodlands. Its hinged lower shell can close like a box. Look for yellow or orange markings on the dark upper shell.',
     source: 'Indiana DNR',
