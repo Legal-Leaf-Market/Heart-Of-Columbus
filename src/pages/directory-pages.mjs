@@ -14,7 +14,7 @@ import { MEDIA as MEDIA_ALL, mediaFor, mediaSrc, businessMedia } from '../data/m
 import { LANDMARKS } from '../data/landmarks.mjs';
 import { EVENTS } from '../data/events.mjs';
 import { dateRange } from './events.mjs';
-import { businessLd } from '../jsonld.mjs';
+import { businessLd, itemListLd } from '../jsonld.mjs';
 import { spotlightSection, ownersPicks, spotFor } from './spotlight.mjs';
 import { ownerWords } from './owner-words.mjs';
 import { tierOf, founderNumber } from '../data/claims.mjs';
@@ -38,7 +38,7 @@ const styles = ['hoc.css'];
 const smokeAgeGate = (body) => body.replace(/(<main\b[^>]*>)([\s\S]*?)(<\/main>)/, (_, open, content, close) => `
 ${open}
 <section class="wrap prose py-12" data-age-gate aria-labelledby="smoke-age-title">
-  <h1 id="smoke-age-title">Smoke &amp; Vape is for ages 21 and up</h1>
+  <h2 id="smoke-age-title">Smoke &amp; Vape is for ages 21 and up</h2>
   <p>Confirm that you’re at least 21 to view these listings.</p>
   <div class="flex flex-wrap gap-3">
     <button type="button" class="btn" data-age-confirm hidden>I’m 21 or older</button>
@@ -190,7 +190,7 @@ ${viewData(items)}` : ''}
 </section>
 </main>
 ${footer()}`;
-  return page({ title: `${title} in Columbus, Indiana | Heart of Columbus`, description: `${cat.blurb} ${items.length} independent ${title.toLowerCase()} in Columbus, Indiana, with phone numbers, maps and hours where listed.`, body: ageRestricted ? smokeAgeGate(body) : body, scripts: ['site.js', 'list.js', ...(views ? ['views.js'] : []), ...(ageRestricted ? ['smoke-age-gate.js'] : [])], styles, assets });
+  return page({ title: `${title} in Columbus, Indiana | Heart of Columbus`, description: `${cat.blurb} ${items.length} independent ${title.toLowerCase()} in Columbus, Indiana, with phone numbers, maps and hours where listed.`, body: ageRestricted ? smokeAgeGate(body) : body, ld: [itemListLd(`${title} in Columbus, Indiana`, items.map((b) => [b.name, `/b/${b.slug}/`]))], scripts: ['site.js', 'list.js', ...(views ? ['views.js'] : []), ...(ageRestricted ? ['smoke-age-gate.js'] : [])], styles, assets });
 }
 
 function areaPage(area, { assets }) {
@@ -225,7 +225,7 @@ ${CATEGORIES.filter((c) => cats[c.slug])
 </section>
 </main>
 ${footer()}`;
-  return page({ title: `${area.label}, Columbus, Indiana | Heart of Columbus`, description: `${area.blurb} ${items.length} independent businesses in ${area.label}, Columbus, Indiana.`, body, scripts: ['site.js', 'hub.js'], styles, assets });
+  return page({ title: `${area.label}, Columbus, Indiana | Heart of Columbus`, description: `${area.blurb} ${items.length} independent businesses in ${area.label}, Columbus, Indiana.`, body, ld: [itemListLd(`Businesses in ${area.label}, Columbus, Indiana`, items.map((b) => [b.name, `/b/${b.slug}/`]))], scripts: ['site.js', 'hub.js'], styles, assets });
 }
 
 // Stories tagged with this business, newest first (content/stories/).
@@ -615,7 +615,7 @@ ${stores.length ? `<section class="wrap list" id="stores"><div class="sec-head">
 <section class="wrap list" id="book"><div class="sec-head"><p class="kicker">Appointments</p><h2>Book online</h2></div>${listGrid(book)}</section>
 </main>
 ${footer()}`;
-  return page({ title: 'Order, book and shop direct | Heart of Columbus', description: 'Columbus, Indiana businesses you can order from, book or shop online directly, with no app in the middle.', body, scripts: ['site.js', 'cart.js'], styles, assets });
+  return page({ title: 'Order, book and shop direct | Heart of Columbus', description: 'Columbus, Indiana businesses you can order from, book or shop online directly, with no app in the middle.', body, ld: [itemListLd('Order, book and shop direct in Columbus', [...new Map([...order, ...book, ...shops, ...stores].map((b) => [b.slug, b])).values()].map((b) => [b.name, `/b/${b.slug}/`]))], scripts: ['site.js', 'cart.js'], styles, assets });
 }
 
 // The sticker set: the whole illustration family in one place, with what
