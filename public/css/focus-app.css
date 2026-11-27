@@ -108,3 +108,11 @@ body.focus-events { --focus-accent: #30516a; --focus-bg: #f1f7fb; }
   .hoc-app-launcher ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: .75rem; }
   .hoc-app-launcher li + li { border-top: 0; }
 }
+
+body.focus-weddings { --focus-accent: #67374d; --focus-bg: #fcf4f7; }
+.focus-plan-roles { display: grid; gap: .7rem; margin-top: 1rem; }
+.focus-plan-role { border: 1px solid var(--focus-border); border-radius: .7rem; padding: .65rem .8rem; }
+.focus-plan-role summary { cursor: pointer; min-height: 2.75rem; padding-block: .5rem; color: var(--focus-accent); }
+.focus-plan-role summary span { padding-left: .4rem; }
+.focus-plan-role .focus-role-note { margin: 0 0 .35rem; }
+.focus-plan-role .focus-card { flex: 1; }

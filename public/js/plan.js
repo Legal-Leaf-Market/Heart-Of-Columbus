@@ -7,6 +7,7 @@
   var main = document.querySelector('[data-plan]');
   if (!main) return;
   var track = main.getAttribute('data-plan');
+  var focused = main.hasAttribute('data-plan-focused');
   var KEY = 'hoc-plan-' + track;
   var $ = function (s, el) { return (el || document).querySelector(s); };
   var $$ = function (s, el) { return Array.prototype.slice.call((el || document).querySelectorAll(s)); };
@@ -64,7 +65,15 @@
       shown.filter(function (p) { return p.r === r.id; }).forEach(function (p) {
         var li = document.createElement('li');
         var b = document.createElement('strong'); b.textContent = r.label; li.appendChild(b);
-        var a = document.createElement('a'); a.href = '/b/' + p.s + '/'; a.textContent = nameOf(p.s); li.appendChild(a);
+        var vendor = focused && $('.pl-item[data-slug="' + p.s + '"] .focus-actions a[href]');
+        var a = document.createElement(!focused || vendor ? 'a' : 'span');
+        if (!focused) a.href = '/b/' + p.s + '/';
+        if (vendor) {
+          a.href = vendor.getAttribute('href');
+          if (vendor.target === '_blank') { a.target = '_blank'; a.rel = 'noopener'; }
+        }
+        a.textContent = nameOf(p.s);
+        li.appendChild(a);
         if (!viewing) {
           var x = document.createElement('button'); x.type = 'button'; x.className = 'pl-x'; x.textContent = '×';
           x.setAttribute('aria-label', 'Remove ' + nameOf(p.s));

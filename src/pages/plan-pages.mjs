@@ -17,15 +17,38 @@ const notes = () => `
   <p class="vs-note">♥ <span>Our picks come first: businesses our publisher recommends for that job. Nobody pays to be one.</span></p>
   <p class="vs-note">★ <span>Founding Members come next. They pay Heart of Columbus $${PRICE} a month and have no say in what we write. <a href="/founders-club/">About the Founders Club</a></span></p>`;
 
-function roleSection(role, track) {
+export function plannerControls(track, { focused = false } = {}) {
+  return `<div class="pl-bar" data-plan-bar hidden>
+  <div class="wrap"><p><strong data-plan-count>0</strong> <span data-plan-noun>picked</span> for your ${esc(track.label.toLowerCase().replace(/s$/, ''))}</p><button type="button" class="btn btn-sm" data-plan-open>See your team ${svg('arrow', 'ic-sm')}</button></div>
+</div>
+<dialog class="pl-team" data-plan-team aria-labelledby="pl-team-h">
+  <div class="pl-team-head"><h2 id="pl-team-h">Your ${esc(track.label.toLowerCase().replace(/s$/, ''))} team</h2><button type="button" class="pl-x" data-plan-close aria-label="Close">×</button></div>
+  <div class="pl-shared" data-plan-shared hidden><p>Someone shared this team with you.</p><button type="button" class="btn btn-sm" data-plan-keep>Keep it as my team</button></div>
+  <ol class="pl-list" data-plan-list></ol>
+  <p class="muted" data-plan-none>No picks yet. Tap “Pick” on a business to add it.</p>
+  <p class="pl-actions"><button type="button" class="btn btn-sm" data-plan-share>${svg('share', 'ic-sm')} <span>Share this team</span></button><button type="button" class="btn btn-sm btn-ghost" data-plan-print>Print</button><button type="button" class="btn btn-sm btn-ghost" data-plan-clear>Start over</button></p>
+  <p class="fine">Your picks stay on this device. Nothing is sent to the businesses: ${focused ? 'use the vendor’s phone or website to reach them.' : 'contact each one from its page.'}</p>
+</dialog>
+`;
+}
+
+export function roleSection(role, track, { renderVendor = null, open = false } = {}) {
   const r = ROLES[role];
   const all = vendorsFor(role);
-  const items = all.slice(0, SHOW).map((b) => `
+  const vendors = renderVendor ? all.filter((b) => !b.tempClosed) : all.slice(0, SHOW);
+  const items = vendors.map((b) => `
     <div class="pl-item${isPick(role, b.slug) ? ' is-pick' : ''}" data-slug="${b.slug}" data-name="${esc(b.name)}"${isDirect(b) ? ' data-direct' : ''}>
       ${isPick(role, b.slug) ? '<p class="pl-ourpick">♥ Our pick</p>' : ''}
-      ${card(b, { compact: true })}
+      ${renderVendor ? renderVendor(b, role, r) : card(b, { compact: true })}
       <button type="button" class="btn btn-sm btn-ghost pl-pick" data-pick aria-pressed="false" hidden>+ Pick for ${esc(r.label.toLowerCase())}</button>
     </div>`).join('');
+  if (renderVendor) return `
+<details class="pl-role focus-plan-role" id="${role}" data-role="${role}" data-role-label="${esc(r.label)}"${open ? ' open' : ''}>
+  <summary><strong>${esc(r.label)}</strong> <span>${vendors.length}</span></summary>
+  <p class="focus-role-note">${esc(r.blurb)}</p>
+  <div class="pl-row">${items}</div>
+  <p class="pl-empty" hidden>No vendors in this category have direct online ordering or booking.</p>
+</details>`;
   return `
 <section class="pl-role" id="${role}" data-role="${role}" data-role-label="${esc(r.label)}" aria-labelledby="${role}-h">
   <div class="pl-role-head">
@@ -58,17 +81,7 @@ ${breadcrumbs([['/', 'Home'], ['/plan/', 'Plan an event'], ['', track.label]])}
 <div class="wrap pl-roles">
 ${track.roles.map((r) => roleSection(r, track)).join('')}
 </div>
-<div class="pl-bar" data-plan-bar hidden>
-  <div class="wrap"><p><strong data-plan-count>0</strong> <span data-plan-noun>picked</span> for your ${esc(track.label.toLowerCase().replace(/s$/, ''))}</p><button type="button" class="btn btn-sm" data-plan-open>See your team ${svg('arrow', 'ic-sm')}</button></div>
-</div>
-<dialog class="pl-team" data-plan-team aria-labelledby="pl-team-h">
-  <div class="pl-team-head"><h2 id="pl-team-h">Your ${esc(track.label.toLowerCase().replace(/s$/, ''))} team</h2><button type="button" class="pl-x" data-plan-close aria-label="Close">×</button></div>
-  <div class="pl-shared" data-plan-shared hidden><p>Someone shared this team with you.</p><button type="button" class="btn btn-sm" data-plan-keep>Keep it as my team</button></div>
-  <ol class="pl-list" data-plan-list></ol>
-  <p class="muted" data-plan-none>No picks yet. Tap “Pick” on a business to add it.</p>
-  <p class="pl-actions"><button type="button" class="btn btn-sm" data-plan-share>${svg('share', 'ic-sm')} <span>Share this team</span></button><button type="button" class="btn btn-sm btn-ghost" data-plan-print>Print</button><button type="button" class="btn btn-sm btn-ghost" data-plan-clear>Start over</button></p>
-  <p class="fine">Your picks stay on this device. Nothing is sent to the businesses: contact each one from its page.</p>
-</dialog>
+${plannerControls(track)}
 <section class="wrap vs-sec pl-listed"><span class="vs-emoji" aria-hidden="true">📣</span><div><h3>Missing someone?</h3><p>If you make weddings, events or parties happen in Columbus and you are not here, your free listing puts you in the right list.</p><p class="btns"><a class="btn btn-sm" href="/owners/">Get listed ${svg('arrow', 'ic-sm')}</a></p></div></section>
 </main>
 ${footer()}`;
@@ -89,6 +102,7 @@ ${breadcrumbs([['/', 'Home'], ['/c/events/', 'Events & Weddings'], ['', 'Plan an
     <p class="kicker kicker-pill">🗓️ Plan an event</p>
     <h1>Everything for the day,<br><span class="hl">from down the street.</span></h1>
     <p class="lede">Pick the kind of event, then pick a local business for each job: venue, food, flowers, balloons, music and the rest. Share the list with whoever is planning with you.</p>
+    <p><a class="btn btn-ghost" href="/apps/weddings/">Open the Weddings &amp; Events app</a></p>
     ${notes()}
   </div>
 </section>

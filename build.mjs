@@ -66,6 +66,7 @@ const appIconArt = [
   ['churches', 'arch-books', '#f8f3fb'],
   ['nonprofits', 'community-heart', '#fdf4f3'],
   ['events', 'calendar', '#f1f7fb'],
+  ['weddings', 'weddings', '#fcf4f7'],
 ];
 for (const [key, sticker, background] of appIconArt) {
   const art = await readFile(new URL(`art/sticker-${sticker}.webp`, out));
