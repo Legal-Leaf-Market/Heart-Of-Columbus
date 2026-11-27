@@ -60,6 +60,13 @@ await cp(new URL('public/', root), out, { recursive: true });
 
 const images = await prepareImages(root, out);
 
+// The contractor app uses the directory's existing trade artwork.
+const contractorArt = await readFile(new URL('art/sticker-home-services.webp', out));
+await Promise.all([180, 192, 512].map((size) => sharp(contractorArt)
+  .resize(size, size, { fit: 'contain', background: '#f5f5e9' })
+  .flatten({ background: '#f5f5e9' })
+  .png().toFile(new URL(`art/contractors-app-icon-${size}.png`, out).pathname)));
+
 // Tailwind scans src/ and public/js for class names.
 await mkdir(new URL('assets/', out), { recursive: true });
 execFileSync(new URL('node_modules/.bin/tailwindcss', root).pathname,
@@ -78,7 +85,7 @@ const pages = [
   { path: 'index.html', html: renderHub({ assets }) },
   ...storefronts.map((p) => ({ path: `${p.slug}/index.html`, html: p.render({ assets }) })),
   ...directoryPages({ assets }),
-  ...appPages(),
+  ...appPages({ assets }),
   ...pickupPages({ assets }),
   ...ownersPages({ assets }),
   ...trackingPages({ assets }),

@@ -24,7 +24,7 @@ export const demoBanner = (name) => `
   </div>
 </div>`;
 
-export function page({ title, description, theme = '', body, scripts = [], styles = [], data = null, ld = [], lang = 'en', alternates = [], assets, path = '/', head = '' }) {
+export function page({ title, description, theme = '', body, scripts = [], styles = [], data = null, ld = [], lang = 'en', alternates = [], assets, path = '/', head = '', showAlert = true }) {
   return `<!doctype html>
 <html lang="${lang}">
 <head>
@@ -50,7 +50,7 @@ ${body.includes('data-help-dock') && !scripts.includes('help-dock.js') ? `<scrip
 </head>
 <body class="${theme} min-h-screen">
 <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[100] focus:rounded-lg focus:bg-ink focus:px-4 focus:py-2 focus:text-paper">${lang === 'es' ? 'Saltar al contenido' : 'Skip to content'}</a>
-${alertBanner()}
+${showAlert ? alertBanner() : ''}
 ${body}
 </body>
 </html>
