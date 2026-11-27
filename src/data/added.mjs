@@ -212,7 +212,7 @@ export const ADDED = [
     type: 'Organic balloon arches, garlands and installs in all natural latex',
     address: '',
     phone: '',
-    website: 'https://rabbits-balloons.netlify.app/',
+    website: 'https://rabbitsballoons.heartofcolumbus.shop/',
     book: [],
     source: 'https://rabbits-balloons.netlify.app/',
     checked: '2026-11-15',
