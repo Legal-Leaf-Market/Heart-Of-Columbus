@@ -7,7 +7,7 @@ const root = new URL('../', import.meta.url).pathname;
 const art = readdirSync(root + 'public/art');
 
 test('every PNG has its WebP, except the app icons that must stay PNG', () => {
-  for (const f of art.filter((f) => f.endsWith('.png') && !f.startsWith('sports-app-icon')))
+  for (const f of art.filter((f) => f.endsWith('.png') && !f.includes('-app-icon')))
     assert.ok(art.includes(f.replace(/\.png$/, '.webp')), `${f}: run python3 scripts/art-webp.py`);
 });
 

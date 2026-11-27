@@ -23,9 +23,14 @@ shout out per edition. Plus the Founders Club raised to 20 spots.
 - [ ] Jake: turn off the two temporary Claude scheduled tasks once this is live
 - [ ] Jake: make both Resend topics Public so readers see them on the preferences page
 - [ ] First real edition in Resend is the end to end proof (topic_id and scheduled_at untested live)
-- [ ] Not this PR, already red on main since #218: two missing app icon WebPs
-      (`news-app-icon-*`, `churches-app-icon-180.png`) and a duplicate title on
-      `/apps/news/2026/11/my-father-my-hero/`
+- [x] Merged as #219 (2026-11-27); waiting on the batched publish to go live
+- [x] The three tests already red on main since #218, fixed in their own PR:
+      five Columbus apps (contractors, churches, nonprofits, weddings, events)
+      named icons that did not exist, so `scripts/app-icons.py` draws them in
+      the news and order icons' style; every `*-app-icon-*` stays PNG (the WebP
+      test and `art-webp.py` had exempted only the Sentinels ones); and the
+      news app's copy of a story had the same title as the story, so its pages
+      now end in "Heart of Columbus app"
 
 ### Places of worship and nonprofits (`claude/worship-addresses`)
 Visitors ask hotels for a Mass schedule; the site should list every

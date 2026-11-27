@@ -145,7 +145,9 @@ function appPage({ assets, key, path = root(key), title, body, article = false, 
   const backLabel = article ? 'All stories' : planner && path !== root(key) ? 'All vendors' : commerce && path !== root(key) ? 'All food listings' : '';
   const back = backLabel ? `<a class="focus-back" data-app-back href="${root(key)}">← ${backLabel}</a>` : '';
   return page({
-    title: title ? `${title} | ${app.name}` : app.name,
+    // The news app shares the site's name, so its copy of a story says app,
+    // or it would carry the same title as the story page itself.
+    title: title ? `${title} | ${app.name}${key === 'news' ? ' app' : ''}` : app.name,
     description: app.description,
     assets, path, theme: `focus-app focus-${key}`, showAlert: false,
     styles: [...(article ? ['hoc.css', 'newsprint.css'] : planner || commerce ? ['hoc.css'] : []), 'focus-app.css'],
