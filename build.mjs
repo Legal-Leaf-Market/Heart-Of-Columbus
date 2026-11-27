@@ -7,6 +7,7 @@ import { execFileSync } from 'node:child_process';
 import { renderHub } from './src/pages/hub.mjs';
 import { pages as storefronts } from './src/pages/storefronts.mjs';
 import { directoryPages } from './src/pages/directory-pages.mjs';
+import { appPages } from './src/pages/app-pages.mjs';
 import { pickupPages } from './src/pages/pickup-pages.mjs';
 import { ownersPages } from './src/pages/owners-pages.mjs';
 import { trackingPages } from './src/pages/tracking-pages.mjs';
@@ -77,6 +78,7 @@ const pages = [
   { path: 'index.html', html: renderHub({ assets }) },
   ...storefronts.map((p) => ({ path: `${p.slug}/index.html`, html: p.render({ assets }) })),
   ...directoryPages({ assets }),
+  ...appPages(),
   ...pickupPages({ assets }),
   ...ownersPages({ assets }),
   ...trackingPages({ assets }),

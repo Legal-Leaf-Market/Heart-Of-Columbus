@@ -40,7 +40,12 @@ ${body}
 ${footer()}`;
   // Every newspaper page names the paper's RSS feed (and any feed of its own)
   // so readers and feed apps can find them.
-  const head = [['/news/feed.xml', PAPER.name], ...feeds].map(([h, t]) => feedLink(h, t)).join('\n')
+  const head = `<link rel="manifest" href="/news/manifest.webmanifest">
+<meta name="theme-color" content="#233a50">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Columbus Paper">
+<link rel="apple-touch-icon" href="/art/news-app-icon-180.png">\n`
+    + [['/news/feed.xml', PAPER.name], ...feeds].map(([h, t]) => feedLink(h, t)).join('\n')
     + (shareImage ? `\n<meta name="hoc:image" content="${esc(shareImage.src)}" data-alt="${esc(shareImage.alt)}" data-type="article">` : '');
-  return page({ title: `${title} | ${PAPER.name}`, description, body: html, scripts: ['site.js', 'subscribe.js', ...scripts], styles: ['hoc.css', ...styles], assets, ld, data, path, alternates, head });
+  return page({ title: `${title} | ${PAPER.name}`, description, body: html, scripts: ['site.js', 'subscribe.js', 'app-install.js', ...scripts], styles: ['hoc.css', ...styles], assets, ld, data, path, alternates, head });
 }
