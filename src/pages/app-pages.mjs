@@ -40,7 +40,7 @@ self.addEventListener('fetch', (e) => {
 });
 `;
 
-const offlineOrder = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Connect to order | Heart of Columbus</title><!--robots--><style>body{font:1.1rem/1.5 system-ui;background:#fff8eb;color:#382a20;margin:0;padding:15vh 8vw;max-width:38rem}a{color:#73412b}</style></head><body><h1>Connect to order or book</h1><p>Prices, availability and checkout links need a current connection. Your Columbus businesses are waiting when you’re back online.</p><p><a href="/order/">Try again</a></p></body></html>`;
+const offlineOrder = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Connect to order | Heart of Columbus</title><meta name="description" content="Reconnect to see current Columbus ordering and booking links."><meta property="og:title" content="Connect to order | Heart of Columbus"><!--robots--><style>body{font:1.1rem/1.5 system-ui;background:#fff8eb;color:#382a20;margin:0;padding:15vh 8vw;max-width:38rem}a{color:#73412b}</style></head><body><h1>Connect to order or book</h1><p>Prices, availability and checkout links need a current connection. Your Columbus businesses are waiting when you’re back online.</p><p><a href="/order/">Try again</a></p></body></html>`;
 
 export const appPages = () => [
   ...apps.flatMap((a) => [
