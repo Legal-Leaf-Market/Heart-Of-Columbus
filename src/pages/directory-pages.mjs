@@ -173,6 +173,7 @@ ${breadcrumbs([['/', 'Home'], ['/explore/', 'Explore'], ...(sub && multi ? [[`/c
   </div>`}
   ${multi ? `<div class="wrap subnav">${[`<a href="/c/${cat.slug}/" class="${!sub ? 'on' : ''}">All ${esc(cat.label.toLowerCase())}</a>`, ...cat.subs.map((s) => `<a href="/c/${cat.slug}/${s.slug}/" class="${sub && sub.slug === s.slug ? 'on' : ''}">${s.emoji} ${esc(s.label)} <small>${directory.filter((b) => inSection(b, cat.slug, s.slug)).length}</small></a>`)].join('')}</div>` : ''}
 </section>
+${cat.slug === 'home-services' && !sub ? '<div class="wrap"><a class="btn btn-ghost" href="/apps/contractors/">Open the Columbus Contractors app</a></div>' : ''}
 ${spotlightSection({ title: `In the spotlight: ${title.toLowerCase()}`, only: (b) => b.cat === cat.slug && (!sub || b.sub === sub.slug) })}
 ${refine(items, { subs: multi && !sub ? cat.subs : null })}
 ${views ? viewBar(title) : ''}
@@ -601,6 +602,7 @@ ${header('order')}
     <img src="/img/field-guide-stickers/order-ticket.webp" width="96" height="96" style="object-fit:contain" alt="" loading="lazy" decoding="async">
     <h1>Order straight from Columbus.<br><span class="hl">Skip the middleman.</span></h1>
     <p class="lede">These businesses already run their own online ordering, booking or store. Every button here goes to their own page, so they keep the whole ticket and the customer. No delivery-app markup, no commission to us.</p>
+    <p><a class="btn btn-ghost" href="/apps/food/">Open the Columbus Food app</a></p>
     <div class="order-stats"><a href="#order"><b>${order.length}</b> order online</a><a href="#book"><b>${book.length}</b> book online</a><a href="#shop"><b>${shops.length + stores.length}</b> shop online</a></div>
   </div>
 </section>
@@ -615,11 +617,7 @@ ${stores.length ? `<section class="wrap list" id="stores"><div class="sec-head">
 <section class="wrap list" id="book"><div class="sec-head"><p class="kicker">Appointments</p><h2>Book online</h2></div>${listGrid(book)}</section>
 </main>
 ${footer()}`;
-  return page({ title: 'Order, book and shop direct | Heart of Columbus', description: 'Columbus, Indiana businesses you can order from, book or shop online directly, with no app in the middle.', body, ld: [itemListLd('Order, book and shop direct in Columbus', [...new Map([...order, ...book, ...shops, ...stores].map((b) => [b.slug, b])).values()].map((b) => [b.name, `/b/${b.slug}/`]))], scripts: ['site.js', 'cart.js', 'app-install.js'], styles, assets, head: `<link rel="manifest" href="/order/manifest.webmanifest">
-<meta name="theme-color" content="#6b3b28">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Columbus Local">
-<link rel="apple-touch-icon" href="/art/order-app-icon-180.png">` });
+  return page({ title: 'Order, book and shop direct | Heart of Columbus', description: 'Columbus, Indiana businesses you can order from, book or shop online directly, with no app in the middle.', body, ld: [itemListLd('Order, book and shop direct in Columbus', [...new Map([...order, ...book, ...shops, ...stores].map((b) => [b.slug, b])).values()].map((b) => [b.name, `/b/${b.slug}/`]))], scripts: ['site.js', 'cart.js'], styles, assets, head: '<link rel="manifest" href="/order/manifest.webmanifest">' });
 }
 
 // The sticker set: the whole illustration family in one place, with what
