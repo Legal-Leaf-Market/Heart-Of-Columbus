@@ -6,6 +6,16 @@ each list.
 
 ## In progress
 
+### Owner deals at the newsroom desk
+- Add owner-confirmed offer wording and terms, the date received and the last
+  day of the offer through the desk's Deals tab. Offers are available as soon
+  as they are published or removed, and expire at midnight Columbus time.
+- Use the existing directory listings and publication disclosures. Link the
+  public /deals/ page from /holidays/. Include active offers from the original
+  owner-deals data on the public page and keep those entries on business profiles.
+- Keep desk-added offers on the public deals page for this change. Publishing
+  an offer there does not change a business profile or send a newsletter.
+
 ### Morning and evening editions that send (`claude/bold-franklin-leyln4`)
 Jake's decisions (2026-11-27): two editions every day, each sent on schedule
 unless he presses Hold; readers choose morning, evening or both; one IndyStar
@@ -24,7 +34,7 @@ shout out per edition. Plus the Founders Club raised to 20 spots.
 - [ ] Jake: make both Resend topics Public so readers see them on the preferences page
 - [ ] First real edition in Resend is the end to end proof (topic_id and scheduled_at untested live)
 - [x] Merged as #219 (2026-11-27); waiting on the batched publish to go live
-- [x] The three tests already red on main since #218, fixed in their own PR:
+- [x] The three tests already red on main since #218, fixed in PR #220:
       five Columbus apps (contractors, churches, nonprofits, weddings, events)
       named icons that did not exist, so `scripts/app-icons.py` draws them in
       the news and order icons' style; every `*-app-icon-*` stays PNG (the WebP

@@ -67,6 +67,8 @@ site Jake runs. Deploy Previews and branch deploys cost nothing, so (Jake,
 - **Owner words and deals come only from owners** (`src/data/owner-words.mjs`):
   sent through the claim form, entered by hand with `sent` and `confirmed`,
   published as written; every deal has `ends` and comes down by itself.
+  The authenticated Deals tab at /newsroom/desk/ can publish confirmed offers
+  to /deals/ immediately, with dates interpreted in Columbus time.
 - **Founding Members pay us, so the badge is a disclosure.**
   `src/data/members.mjs` is empty until an owner agrees and pays ($20 a month,
   20 founding spots since 2026-11-27, up from 10; every member is

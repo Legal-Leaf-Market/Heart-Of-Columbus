@@ -8,6 +8,7 @@ import { PAPER } from '../data/paper.mjs';
 import { storyList } from '../news/render.mjs';
 import { stories } from '../news/content.mjs';
 import { SHAPES } from '../news/desk.mjs';
+import { dealBusinesses } from '../deals.mjs';
 
 export const field = (label, name, { type = 'text', area = false, req = false, auto = '', hint = '', rows = 6, max = '' } = {}) => `
 <label>${esc(label)}${req ? '' : ' <span class="muted np-opt">(optional)</span>'}
@@ -102,6 +103,7 @@ function deskPage(ctx) {
 .dk-out{white-space:pre-wrap;border:1px dashed var(--line,#bbb);border-radius:6px;padding:10px;margin:8px 0;font-family:Georgia,serif}
 .dk-out li{cursor:pointer}.dk-src{display:grid;gap:4px;margin-bottom:8px}.dk-block{color:#b3261e}
 .dk-count{font-size:13px}.dk-new{font-size:11px;font-weight:700;color:#b92e2b;margin-right:4px}.dk-src-k{font-size:12px;color:var(--muted,#666)}.dk-leads li{flex-wrap:wrap}.dk-leads li>span{min-width:min(100%,260px)}.dk-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.ow-form [data-deal-fields]{border:0;padding:0;margin:0;min-width:0}[data-deal-fields] select{width:100%;font:inherit;padding:8px;border:1px solid var(--edge);border-radius:12px}[data-deal-form]{max-width:44rem}[data-deal-fields] .deal-confirm{display:flex;align-items:baseline;gap:8px}.dk-deal-copy{overflow-wrap:anywhere;white-space:pre-line}
 .dk iframe{width:100%;min-height:600px;border:1px solid var(--line,#ccc);border-radius:6px;background:#fff}
 </style>
 <section class="wrap np-section dk-wrap" data-desk>
@@ -112,6 +114,7 @@ function deskPage(ctx) {
     <button type="button" class="pill" data-tab="today" aria-pressed="true">This edition</button>
     <button type="button" class="pill" data-tab="ideas" aria-pressed="false">Idea bank</button>
     <button type="button" class="pill" data-tab="voice" aria-pressed="false">Your voice</button>
+    <button type="button" class="pill" data-tab="deals" aria-pressed="false">Deals</button>
     <button type="button" class="pill" data-tab="preview" aria-pressed="false">Preview</button>
   </nav>
 
@@ -189,6 +192,30 @@ function deskPage(ctx) {
     <label>Your writing samples <span class="muted">(up to six)</span></label>
     <div data-samples></div>
     <div class="dk-tools"><button type="button" class="btn" data-sample-add>Add a sample</button><button type="button" class="btn" data-voice-save>Save my voice</button></div>
+  </div>
+
+
+  <div data-pane="deals" hidden>
+    <h2>Publish a local deal</h2>
+    <p class="muted">Paste the offer as the business wrote it, including any terms. It appears on <a href="/deals/">Local deals</a> through the end date, Columbus time.</p>
+    <form class="ow-form np-form" data-deal-form>
+      <fieldset data-deal-fields disabled>
+        <label>Business
+          <select name="slug" required>
+            <option value="">Choose a business</option>
+            ${dealBusinesses.map((b) => `<option value="${esc(b.slug)}">${esc(b.name)}${b.address ? ` · ${esc(b.address)}` : ''}</option>`).join('')}
+          </select>
+        </label>
+        ${field('Offer and terms', 'text', { area: true, req: true, rows: 3, max: '600' })}
+        ${field('Date the business sent it', 'sent', { type: 'date', req: true })}
+        ${field('Last day of the offer', 'ends', { type: 'date', req: true })}
+        <label class="deal-confirm"><input type="checkbox" name="confirmed" required><span>I confirmed that the business supplied and authorized this offer.</span></label>
+        <button class="btn" type="submit">Publish deal</button>
+      </fieldset>
+    </form>
+    <h2>Deals added from the desk</h2>
+    <p role="status" class="muted" data-deal-status></p>
+    <ul class="dk-list dk-leads" data-desk-deals></ul>
   </div>
 
   <div data-pane="preview" hidden>

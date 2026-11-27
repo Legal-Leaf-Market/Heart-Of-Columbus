@@ -38,6 +38,7 @@
       $$('[data-tab]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
       $$('[data-pane]').forEach(function (p) { p.hidden = p.getAttribute('data-pane') !== t; });
       if (t === 'preview') preview();
+      if (t === 'deals' && KEY) updateDeals({ action: 'deals' });
     });
   });
 
@@ -281,6 +282,80 @@
   $('[data-voice-save]').addEventListener('click', function () {
     var v = { about: $('[data-voice=about]').value, rules: $('[data-voice=rules]').value.split('\n').map(function (r) { return r.trim(); }).filter(Boolean), samples: $$('[data-sample]').map(function (t) { return t.value; }) };
     api('POST', { action: 'voice', voice: v }).then(function (j) { state.voice = j.voice; renderVoice(); say('Your voice is saved. Every suggestion now reads from it.'); }).catch(function (e) { say(e.message); });
+  });
+
+
+  // ---------- Owner deals ----------
+  var dealForm = $('[data-deal-form]');
+  var dealFields = $('[data-deal-fields]');
+  var dealStatus = $('[data-deal-status]');
+  var dealList = $('[data-desk-deals]');
+  var dealBusy = false;
+  var dealBusinesses = new Map(Array.from(dealForm.elements.slug.options, function (option) {
+    return [option.value, option.textContent];
+  }));
+
+  function renderDeals(deals, today) {
+    dealForm.elements.sent.max = today;
+    dealForm.elements.ends.min = today;
+    dealList.replaceChildren();
+    deals.forEach(function (deal) {
+      var row = document.createElement('li');
+      var summary = document.createElement('span');
+      summary.style.flex = '1';
+      var title = document.createElement('strong');
+      title.textContent = dealBusinesses.get(deal.slug) || deal.slug;
+      var copy = document.createElement('span');
+      copy.className = 'dk-deal-copy';
+      copy.textContent = deal.text;
+      var dates = document.createElement('small');
+      dates.textContent = (deal.ends < today ? 'Expired ' : 'Ends ') + deal.ends;
+      summary.append(title, document.createElement('br'), copy, document.createElement('br'), dates);
+      var remove = document.createElement('button');
+      remove.type = 'button';
+      remove.className = 'pill';
+      remove.textContent = 'Remove';
+      remove.setAttribute('aria-label', 'Remove deal by ' + title.textContent + ' ending ' + deal.ends);
+      remove.addEventListener('click', function () {
+        if (!dealBusy && window.confirm('Remove this deal from Local deals?')) {
+          updateDeals({ action: 'deal-remove', id: deal.id });
+        }
+      });
+      row.append(summary, remove);
+      dealList.append(row);
+    });
+  }
+
+  function updateDeals(body) {
+    if (dealBusy) return;
+    dealBusy = true;
+    dealForm.setAttribute('aria-busy', 'true');
+    dealFields.disabled = true;
+    $$('button', dealList).forEach(function (button) { button.disabled = true; });
+    dealStatus.textContent = 'Working…';
+    api('POST', body).then(function (result) {
+      if (body.action === 'deal-save') dealForm.reset();
+      renderDeals(result.deals, result.today);
+      dealStatus.textContent = body.action === 'deal-save' ? 'Deal published.' :
+        body.action === 'deal-remove' ? 'Deal removed.' : result.deals.length ? '' : 'No deals added from the desk yet.';
+    }).catch(function (error) {
+      dealStatus.textContent = error.message;
+    }).finally(function () {
+      dealBusy = false;
+      dealForm.removeAttribute('aria-busy');
+      dealFields.disabled = false;
+      $$('button', dealList).forEach(function (button) { button.disabled = false; });
+    });
+  }
+
+  dealForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    if (!KEY || dealBusy) return;
+    var data = new FormData(dealForm);
+    updateDeals({
+      action: 'deal-save', slug: data.get('slug'), text: data.get('text'),
+      sent: data.get('sent'), ends: data.get('ends'), confirmed: data.has('confirmed'),
+    });
   });
 
   if (!KEY) { say('Open the desk from your private link (it ends in #k=…).'); return; }
