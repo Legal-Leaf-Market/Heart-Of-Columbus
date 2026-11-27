@@ -32,7 +32,7 @@
   var roleLabel = function (r) { for (var i = 0; i < roles.length; i++) if (roles[i].id === r) return roles[i].label; return r; };
   var nameOf = function (slug) { var el = $('.pl-item[data-slug="' + slug + '"]'); return el ? el.getAttribute('data-name') : slug.replace(/-/g, ' '); };
   var has = function (list, r, s) { return list.some(function (p) { return p.r === r && p.s === s; }); };
-  var items = $('.pl-item').map(function (node) {
+  var items = Array.from(document.querySelectorAll('.pl-item')).map(function (node) {
     return { node: node, button: $('[data-pick]', node), role: node.closest('.pl-role').dataset.role, slug: node.dataset.slug };
   });
   if (bulk && saved === null) {

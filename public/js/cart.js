@@ -323,7 +323,7 @@
       }).join('') + '</div>' + (picturedN > shown || unseen ? '<a class="btn btn-ghost" href="' + esc(d.origin) + '" target="_blank" rel="noopener">See all ' + stockN + ' on their site ↗</a>' : '');
       var filter = $('[data-product-filter]', box);
       if (filter) {
-        var cards = $('.prod', box);
+        var cards = Array.from(box.querySelectorAll('.prod'));
         var count = $('[data-product-count]', box);
         function searchProducts() {
           var tokens = filter.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
