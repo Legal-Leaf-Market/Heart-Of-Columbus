@@ -8,6 +8,7 @@ import { sticker, svg } from './site.mjs';
 import { DECADES } from './data/history/index.mjs';
 import { SMALL_BUSINESS_SATURDAY as SBS } from './data/holidays.mjs';
 import { signupBox } from './news/share.mjs';
+import { MEMBERS, SPOTS, PRICE } from './data/members.mjs';
 
 const dayAfter = (iso) => new Date(new Date(`${iso}T12:00:00Z`).getTime() + 86400e3).toISOString().slice(0, 10);
 const fmtDay = (iso) => new Intl.DateTimeFormat('en-US', { timeZone: 'UTC', month: 'long', day: 'numeric' }).format(new Date(`${iso}T12:00:00Z`));
@@ -17,7 +18,8 @@ const fmtDay = (iso) => new Intl.DateTimeFormat('en-US', { timeZone: 'UTC', mont
 export function slides({ news = null } = {}) {
   const decades = DECADES.filter((d) => d.items.length);
   return [
-    { id: 'newsletter', lead: [5, 11], tint: '#f3efe4', stk: 'calendar', kicker: 'The morning edition', title: 'Columbus news, before your coffee cools.', text: 'Good, honest local news, what’s open early and today’s events. Weekday mornings, free.', href: '/newsletter/', cta: 'Get the newsletter' },
+    { id: 'newsletter', lead: [5, 11], tint: '#f3efe4', stk: 'calendar', kicker: 'The newsletter', title: 'Columbus news, before your coffee cools.', text: 'Good, honest local news, a local business and what’s on. Every morning and evening, free.', href: '/newsletter/', cta: 'Get the newsletter' },
+    SPOTS > Object.keys(MEMBERS).length ? { id: 'founders', lead: [14, 17], tint: '#fff0d9', stk: 'heart-storefront', kicker: 'Founders Club', title: `${SPOTS - Object.keys(MEMBERS).length} more founding spots are open.`, text: `Own a Columbus business? $${PRICE} a month gets your own website and every feature we build, the small business ERP included. Grandfathered in, promised and guaranteed.`, href: '/founders-club/#more-spots', cta: 'Claim a spot' } : null,
     { id: 'direct', lead: [11, 14], tint: '#fde7dc', stk: 'takeaway', kicker: 'Skip the app fee', title: 'Order direct. Same food, no cut.', text: 'Apps take a cut of every pickup order. Order straight from the restaurant and the whole ticket stays in Columbus.', href: '/order/#order', cta: 'Order direct' },
     news ? { id: 'news', lead: [6, 9], tint: '#eef2f7', stk: 'arch-books', kicker: 'Today’s paper', title: news.headline, text: news.dek || '', href: news.href, cta: 'Read the story' } : null,
     { id: 'history', lead: [19, 23], tint: '#efe6d6', stk: 'modernist-tower', kicker: 'Columbus history', title: `${decades.length} decades of Columbus, told one story at a time.`, text: `From the ${decades[0]?.slug || '1930s'} to today: the engines, the architects, the churches and the people who built this town.`, href: '/history/', cta: 'Start reading' },
@@ -61,7 +63,7 @@ export const newsletterBanner = () => `
   <div class="wrap pb-grid">
     <div class="pb-copy">
       <p class="pb-k">The morning edition</p>
-      <h2 id="pb-news-h">Good news about your town, every weekday morning.</h2>
+      <h2 id="pb-news-h">Good news about your town, every morning and evening.</h2>
       <p>Heart of Columbus is local news that’s honest and on your side: the stories, what’s open early and what’s happening today, in one short email. Free, and one click to unsubscribe.</p>
       <p class="pb-cta"><a class="btn btn-ghost" href="/news/">Read today’s paper</a><a class="btn btn-ghost" href="/news/feed.xml">Follow by RSS</a></p>
     </div>

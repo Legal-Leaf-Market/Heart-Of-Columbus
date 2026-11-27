@@ -5,16 +5,19 @@
 // pieces and edition plan). The model call is plain fetch to the Claude
 // Messages API (no npm dependency, like the rest of netlify/functions):
 // ANTHROPIC_API_KEY turns it on, HOC_DESK_MODEL overrides the model.
+// Each date has two editions, morning (`day-<date>`) and evening
+// (`day-<date>-evening`); every call names one with `edition`.
 // `leads-<date>` is the overnight lead list (netlify/functions/leads.mjs);
-// "gather" runs it again on demand. Nothing here sends email: "make draft" hands the approved edition to the
-// newsletter service as a DRAFT, the same way the morning job does.
+// "gather" runs it again on demand. "draft" makes (or updates) the edition's
+// broadcast in Resend as a draft; the edition's job (6:15 AM or 5:30 PM)
+// rebuilds it from the desk, updates that same draft and schedules it to send
+// (6:45 AM or 6:00 PM) unless the publisher presses Hold (/api/hold).
 import { blobStore } from '../../src/blobs.mjs';
 import { sameKey } from '../../src/pixel-key.mjs';
-import { voicePrompt, piecePrompt, MODES, cleanPiece, blockers, planBlockers, editionHtml, approved } from '../../src/news/desk.mjs';
-import { makeDraft, resendEnv } from './newsletter.mjs';
+import { voicePrompt, piecePrompt, MODES, cleanPiece, blockers, planBlockers, approved } from '../../src/news/desk.mjs';
+import { assemble, makeBroadcast, resendEnv, usesResend } from './newsletter.mjs';
 import { gatherInto } from './leads.mjs';
-import { columbusDate } from '../../src/news/editions.mjs';
-import { PAPER } from '../../src/data/paper.mjs';
+import { columbusDate, keysFor, kindOf, cleanRoad, EDITIONS } from '../../src/news/paper-mail.mjs';
 
 export const config = { path: '/api/desk' };
 
@@ -55,7 +58,8 @@ export async function assist({ key, model, voice, piece, mode, extra = '', fetch
   return { ok: true, text, truncated: body.stop_reason === 'max_tokens', model: body.model, cost };
 }
 
-const emptyDay = (date) => ({ date, plan: { subject: '', intro: '', order: [], skip: false }, pieces: [] });
+const emptyDay = (date) => ({ date, plan: { subject: '', intro: '', order: [], skip: false, road: { url: '', headline: '', comment: '' } }, pieces: [] });
+const ORIGIN = () => env('URL') || 'https://heartofcolumbus.shop';
 
 export default async (req) => {
   if (!sameKey(env('HOC_ADMIN_KEY'), req.headers.get('x-hoc-key') || '')) return json({ ok: false, error: 'Wrong desk link.' }, 403);
@@ -65,13 +69,19 @@ export default async (req) => {
 
   if (req.method === 'GET') {
     const date = DATE.test(u.searchParams.get('date') || '') ? u.searchParams.get('date') : columbusDate(new Date());
+    const edition = kindOf(u.searchParams.get('edition'));
+    const keys = keysFor(edition, date);
     const news = blobStore('newsletter');
     const [day, voice, ideas, drafted, run, leads] = await Promise.all([
-      store.getJSON(`day-${date}`), store.getJSON('voice'), store.getJSON('ideas'), news?.getJSON(`draft-${date}`), news?.getJSON(`run-${date}`), store.getJSON(`leads-${date}`),
+      store.getJSON(keys.day), store.getJSON('voice'), store.getJSON('ideas'), news?.getJSON(keys.draft), news?.getJSON(keys.run), store.getJSON(`leads-${date}`),
     ]);
     const r = resendEnv();
-    const service = r.key && r.segment && r.from ? 'resend' : env('BUTTONDOWN_API_KEY') ? 'buttondown' : '';
-    return json({ ok: true, date, today: columbusDate(new Date()), day: day || emptyDay(date), voice: voice || { about: '', rules: [], samples: [] }, ideas: ideas || [], drafted: drafted || null, run: run || null, leads: leads || null, service, ai: !!env('ANTHROPIC_API_KEY'), model: MODEL() });
+    const service = usesResend(r) ? 'resend' : env('BUTTONDOWN_API_KEY') ? 'buttondown' : '';
+    const d = day || emptyDay(date);
+    if (!d.plan.road) d.plan.road = { url: '', headline: '', comment: '' };
+    const clock = EDITIONS[edition];
+    const { holdHash, ...draftView } = drafted || {};
+    return json({ ok: true, date, edition, today: columbusDate(new Date()), clock: { deadline: clock.deadline, draft: clock.draft, send: clock.send }, topic: !!r.topics[edition], day: d, voice: voice || { about: '', rules: [], samples: [] }, ideas: ideas || [], drafted: drafted ? draftView : null, run: run || null, leads: leads || null, service, ai: !!env('ANTHROPIC_API_KEY'), model: MODEL() });
   }
   if (req.method !== 'POST') return json({ ok: false, error: 'Use GET or POST.' }, 405);
   let b;
@@ -90,13 +100,15 @@ export default async (req) => {
   }
 
   if (b.action === 'gather') {
-    const leads = await gatherInto(store, { origin: env('URL') || 'https://heartofcolumbus.shop' });
+    const leads = await gatherInto(store, { origin: ORIGIN() });
     return json({ ok: true, leads });
   }
 
   const date = DATE.test(b.date || '') ? b.date : '';
-  if (!date) return json({ ok: false, error: 'Which morning?' }, 400);
-  const day = (await store.getJSON(`day-${date}`)) || emptyDay(date);
+  if (!date) return json({ ok: false, error: 'Which day?' }, 400);
+  const edition = kindOf(b.edition);
+  const keys = keysFor(edition, date);
+  const day = (await store.getJSON(keys.day)) || emptyDay(date);
 
   if (b.action === 'save') {
     const piece = cleanPiece(b.piece);
@@ -107,21 +119,24 @@ export default async (req) => {
     const i = day.pieces.findIndex((p) => p.id === piece.id);
     if (i === -1) day.pieces.push(piece); else day.pieces[i] = { ...piece, approvedAt: piece.status === 'approved' ? (day.pieces[i].approvedAt || piece.approvedAt) : '' };
     if (!day.plan.order.includes(piece.id)) day.plan.order.push(piece.id);
-    await store.setJSON(`day-${date}`, day);
+    await store.setJSON(keys.day, day);
     return json({ ok: true, day });
   }
   if (b.action === 'plan') {
     const p = b.plan || {};
     const ids = new Set(day.pieces.map((x) => x.id));
-    day.plan = { subject: String(p.subject || '').slice(0, 150), intro: String(p.intro || '').slice(0, 4000), order: (p.order || []).filter((id) => ids.has(id)), skip: !!p.skip };
+    day.plan = { subject: String(p.subject || '').slice(0, 150), intro: String(p.intro || '').slice(0, 4000), order: (p.order || []).filter((id) => ids.has(id)), skip: !!p.skip, road: cleanRoad(p.road || {}) };
+    // Keep what was typed even when it is not a usable IndyStar link yet, so
+    // the publisher can see and fix it; the edition leaves it out until then.
+    if (p.road && String(p.road.url || '').trim() && !day.plan.road.url) day.plan.road.typedUrl = String(p.road.url).trim().slice(0, 500);
     for (const id of ids) if (!day.plan.order.includes(id)) day.plan.order.push(id);
-    await store.setJSON(`day-${date}`, day);
+    await store.setJSON(keys.day, day);
     return json({ ok: true, day });
   }
   if (b.action === 'remove') {
     day.pieces = day.pieces.filter((p) => p.id !== b.id);
     day.plan.order = day.plan.order.filter((id) => id !== b.id);
-    await store.setJSON(`day-${date}`, day);
+    await store.setJSON(keys.day, day);
     return json({ ok: true, day });
   }
   if (b.action === 'assist') {
@@ -132,18 +147,14 @@ export default async (req) => {
     return json(r, r.ok ? 200 : 502);
   }
   if (b.action === 'preview' || b.action === 'draft') {
-    const pieces = approved(day);
-    const html = editionHtml({ name: PAPER.name, date, intro: day.plan.intro, pieces, origin: env('URL') || 'https://heartofcolumbus.shop' });
-    if (b.action === 'preview') return json({ ok: true, html, count: pieces.length });
-    if (!pieces.length) return json({ ok: false, error: 'Approve at least one piece first.' }, 422);
-    if (!day.plan.subject.trim()) return json({ ok: false, error: 'Write a subject line first.' }, 422);
+    const news = blobStore('newsletter');
+    const ed = await assemble({ kind: edition, date, deskStore: store, store: news, origin: ORIGIN() });
+    if (b.action === 'preview') return json({ ok: true, skip: !!ed.skip, html: ed.html || '', subject: ed.subject || '', count: approved(day).length, notes: ed.notes, substance: ed.substance || 0 });
+    if (ed.skip) return json({ ok: false, error: 'This edition is marked "No edition".' }, 422);
     const why = planBlockers(day.plan);
     if (why.length) return json({ ok: false, error: why.join(' '), blockers: why }, 422);
-    const r = await makeDraft({
-      key: env('BUTTONDOWN_API_KEY'), resend: resendEnv(),
-      date, store: blobStore('newsletter'), edition: { subject: day.plan.subject, html, fresh: pieces.length, from: 'desk' }, force: !!b.force,
-    });
-    return json(r, r.ok ? 200 : 502);
+    const r = await makeBroadcast({ kind: edition, date, store: news, resend: resendEnv(), key: env('BUTTONDOWN_API_KEY'), subject: ed.subject, html: ed.html });
+    return json(r, r.ok ? 200 : (r.reason === 'already-scheduled' ? 409 : 502));
   }
   return json({ ok: false, error: 'Unknown action.' }, 400);
 };

@@ -1,163 +1,248 @@
-// The morning newsletter job. On weekdays at 6:45 AM in Columbus it makes
-// the day's newsletter DRAFT. An editor reads the draft and presses send:
-// the paper's rule is that nothing goes out without a person reading it, so
-// this job never sends.
+// The newsletter jobs: the morning edition (this file's schedule) and the
+// evening edition (newsletter-evening.mjs), every day of the week. Jake's
+// decision (2026-11-27): each edition SENDS on schedule unless he presses
+// Hold. The job builds the edition, makes the Resend broadcast for the
+// edition's topic, schedules it for the send time, and emails him a note
+// with the subject, a preview link and the Hold link.
 //
-// Which edition: when the writing desk (/newsroom/desk/) has approved pieces
-// for today, those are the draft. A morning the publisher marked "No edition"
-// gets none. Otherwise the automatic edition the build wrote to
-// /newsletter/editions/<date>.json from stories already published; a morning
-// with no story from the last 36 hours is skipped rather than resending old
-// news. If the desk already made today's draft, the job leaves it alone.
+// Columbus time (src/news/paper-mail.mjs, EDITIONS):
+//   morning  desk deadline 6:10 AM, draft and note 6:15, send 6:45
+//   evening  desk deadline 5:25 PM, draft and note 5:30, send 6:00 PM
+// Netlify schedules in UTC and Columbus moves between UTC-5 and UTC-4, so each
+// job wakes at both possible UTC hours and acts at the first wake at or after
+// its draft time. Each run is recorded in Netlify Blobs (store "newsletter",
+// `run-<date>` for the morning, `run-<date>-evening` for the evening), so a
+// retry or the second wake never makes a second edition.
 //
-// The clock: Netlify schedules in UTC, and Columbus moves between UTC-5 and
-// UTC-4, so the job wakes at 10:45 and 11:45 UTC and only the first wake
-// at or after 6:30 AM Columbus time does anything. That is 6:45 AM all year,
-// after the desk's 6:30 deadline (docs/morning-paper.md). Each day's run is
-// recorded in Netlify Blobs (store "newsletter", `run-<date>`), so a retry
-// or the second wake never makes a second draft.
+// What goes in: the desk's approved pieces and "Up the road" for that edition
+// (/newsroom/desk/), or, with nothing approved, the automatic edition built
+// only from published stories, the site's own data and first hand public
+// sources. No writing help runs here. An edition needs the weather plus at
+// least one other section, or it is skipped and the note says why. A day the
+// publisher marked "No edition" gets none.
 //
-// Resend (preferred): RESEND_API_KEY, HOC_NEWSLETTER_FROM and the segment
-// /api/subscribe fills (RESEND_SEGMENT_ID; RESEND_AUDIENCE_ID still works,
-// since Resend renamed Audiences to Segments in November 2025 and kept the
-// ids) make a broadcast DRAFT. Resend sends a broadcast only when someone
-// presses send. Buttondown works too: BUTTONDOWN_API_KEY makes a Buttondown
-// draft. With neither the job logs that it is off and does nothing.
+// Resend: RESEND_API_KEY, HOC_NEWSLETTER_FROM and the segment /api/subscribe
+// fills (RESEND_SEGMENT_ID, or the older RESEND_AUDIENCE_ID). Each edition is
+// scoped to its topic, RESEND_TOPIC_MORNING or RESEND_TOPIC_EVENING, so a
+// reader gets only the editions they chose. The morning goes to the whole
+// segment if its topic is unset; the evening is skipped without one, so it
+// never reaches readers who chose the morning only. BUTTONDOWN_API_KEY makes
+// a Buttondown draft instead (never sent: Buttondown has no Hold here).
 //
-// HOC_NEWSLETTER_NOTIFY (one or more addresses, comma separated) gets a short
-// note from the job each weekday morning: the draft is waiting, or why there
-// is none today. It needs the Resend settings above.
-//
-// To run it by hand after 6:30 AM: Netlify > Functions > newsletter > Run now.
-// Before then, use "Make the newsletter draft" at the desk.
+// HOC_NEWSLETTER_NOTIFY (comma separated) gets the note for each edition.
+// To run it by hand: Netlify > Functions > newsletter > Run now.
 import { blobStore } from '../../src/blobs.mjs';
-import { columbusDate, columbusMinutes, prettyDate } from '../../src/news/editions.mjs';
-import { approved, editionHtml, planBlockers } from '../../src/news/desk.mjs';
+import { approved, planBlockers } from '../../src/news/desk.mjs';
+import {
+  EDITIONS, kindOf, keysFor, plan, composeEdition, subjectFor, clean, pickSpotlight, pickDesign,
+  listingChanges, lookout, addDays, hoursOn, roadBlockers, fmtClock, prettyDate,
+} from '../../src/news/paper-mail.mjs';
 import { PAPER } from '../../src/data/paper.mjs';
 
-export const config = { schedule: '45 10,11 * * 1-5' };
+export const config = { schedule: '15 10,11 * * *' };
 
 const API = 'https://api.buttondown.com/v1/emails';
 const RESEND = 'https://api.resend.com';
-export const START = 6 * 60 + 30; // 6:30 AM in Columbus
-
 const env = (k) => ((globalThis.Netlify?.env?.get(k)) ?? process.env[k] ?? '').trim();
 
-// The Resend settings from the environment, shared with /api/desk.
 export const resendEnv = () => ({
   key: env('RESEND_API_KEY'), segment: env('RESEND_SEGMENT_ID') || env('RESEND_AUDIENCE_ID'),
   from: env('HOC_NEWSLETTER_FROM'), replyTo: env('HOC_NEWSLETTER_REPLY_TO'),
+  topics: { morning: env('RESEND_TOPIC_MORNING'), evening: env('RESEND_TOPIC_EVENING') },
 });
+export const usesResend = (r) => !!(r && r.key && r.segment && r.from);
 
-const withUnsubscribe = (html) => html.replace('</body>', '<p style="font-size:12px;color:#666"><a href="{{{RESEND_UNSUBSCRIBE_URL}}}">Unsubscribe</a></p></body>');
+const hex = (bytes) => [...bytes].map((b) => b.toString(16).padStart(2, '0')).join('');
+export const holdToken = () => hex(crypto.getRandomValues(new Uint8Array(24)));
+export const sha = async (s) => hex(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(String(s)))));
 
-// `edition` (subject, html, fresh) skips the fetch: the writing desk passes
-// the publisher's approved edition. `force` replaces a draft already made
-// that day (the desk's "make it again" after an edit): on Resend the old
-// draft is updated in place, so there is never a stale second draft to send
-// by mistake. If the old one was already sent, a new draft is made.
-export async function makeDraft({ key, resend = null, origin, date, store, fetchFn = fetch, log = console.log, edition = null, force = false }) {
-  const useResend = !!(resend && resend.key && (resend.segment || resend.audience) && resend.from);
-  if (!key && !useResend) { log('[newsletter] no RESEND_* or BUTTONDOWN_API_KEY set; the morning job is off.'); return { ok: false, reason: 'no-key' }; }
-  const before = store ? await store.getJSON(`draft-${date}`) : null;
-  if (!force && before) { log(`[newsletter] draft for ${date} already made`); return { ok: true, reason: 'already', from: before.from }; }
-  let ed = edition;
-  if (!ed) {
-    const res = await fetchFn(`${origin}/newsletter/editions/${date}.json`);
-    if (!res.ok) { log(`[newsletter] no edition for ${date} (${res.status})`); return { ok: false, reason: 'no-edition' }; }
-    ed = await res.json();
-  }
-  if (!ed.fresh) { log(`[newsletter] no new stories for ${date}; skipped`); return { ok: true, reason: 'nothing-new' }; }
-  const authR = resend ? { authorization: `Bearer ${resend.key}`, 'content-type': 'application/json' } : null;
-  const content = useResend ? {
-    from: resend.from, subject: ed.subject, name: `Morning edition ${date}`, html: withUnsubscribe(ed.html),
-    ...(resend.replyTo ? { reply_to: resend.replyTo } : {}),
-  } : null;
-  let sent = null;
-  let updated = false;
-  if (useResend && force && before && before.id && before.via === 'resend') {
-    const up = await fetchFn(`${RESEND}/broadcasts/${encodeURIComponent(before.id)}`, { method: 'PATCH', headers: authR, body: JSON.stringify(content) });
-    if (up.ok) { sent = up; updated = true; } else log(`[newsletter] could not update the earlier draft (${up.status}); making a new one`);
-  }
-  if (!sent) {
-    sent = useResend
-      ? await fetchFn(`${RESEND}/broadcasts`, { method: 'POST', headers: authR, body: JSON.stringify({ segment_id: resend.segment || resend.audience, ...content }) })
-      : await fetchFn(API, {
-        method: 'POST',
-        headers: { authorization: `Token ${key}`, 'content-type': 'application/json' },
-        body: JSON.stringify({ subject: ed.subject, body: ed.html, status: 'draft' }),
-      });
-  }
-  if (!sent.ok) { log(`[newsletter] the newsletter service refused the draft: ${sent.status} ${(await sent.text()).slice(0, 300)}`); return { ok: false, reason: 'refused', status: sent.status }; }
-  const made = await sent.json().catch(() => ({}));
-  const id = made.id || (updated ? before.id : '');
-  if (store) await store.setJSON(`draft-${date}`, { id, via: useResend ? 'resend' : 'buttondown', at: new Date().toISOString(), subject: ed.subject, from: edition ? (edition.from || 'desk') : 'auto', replaced: before ? (updated ? 'updated' : before.id || 'yes') : '' });
-  log(`[newsletter] draft ${updated ? 'updated' : 'made'} for ${date}: ${ed.subject}`);
-  return { ok: true, reason: updated ? 'updated' : 'drafted', id };
+async function getJSON(url, fetchFn) {
+  try { const r = await fetchFn(url); return r.ok ? await r.json() : null; } catch { return null; }
 }
 
-// The publisher's morning: the desk's approved pieces, in the chosen order.
-// `skip` when the publisher marked "No edition". With approved pieces but no
-// subject yet, the paper's plain dated subject stands in; an open that still
-// has a [CHECK] or a dash is left out rather than sent unchecked. `notes`
-// says what was changed, for the morning note.
-export async function deskEdition(deskStore, date, origin) {
-  const day = deskStore && (await deskStore.getJSON(`day-${date}`));
-  if (!day) return null;
-  if (day.plan && day.plan.skip) return { skip: true };
-  const pieces = approved(day);
-  if (!pieces.length) return null;
+// Gathers everything an edition needs and builds it. Shared by the job and
+// the desk's preview, so the desk shows exactly what will go out. `record`
+// false (the desk) leaves the spotlight and listing histories alone.
+export async function assemble({ kind = 'morning', date, deskStore, store, origin, fetchFn = fetch }) {
+  const k = kindOf(kind);
+  const keys = keysFor(k, date);
+  const day = deskStore ? await deskStore.getJSON(keys.day) : null;
+  if (day && day.plan && day.plan.skip) return { skip: true, notes: [] };
   const notes = [];
-  let subject = String(day.plan.subject || '').trim();
-  let intro = day.plan.intro || '';
-  if (planBlockers({ intro }).length) { intro = ''; notes.push('Your open was left out: it still has a [CHECK] or a dash.'); }
-  if (!subject || planBlockers({ subject }).length) { subject = `${PAPER.name}, ${prettyDate(date)}`; notes.push(`The subject line was ${String(day.plan.subject || '').trim() ? 'not usable (a [CHECK] or a dash)' : 'empty'}, so the draft says "${subject}".`); }
-  return { subject, html: editionHtml({ name: PAPER.name, date, intro, pieces, origin }), fresh: pieces.length, from: 'desk', notes };
+  const pieces = day ? approved(day) : [];
+  let intro = (day && day.plan && day.plan.intro) || '';
+  if (intro && planBlockers({ intro }).length) { intro = ''; notes.push('Your open was left out: it still has a [CHECK] or a dash.'); }
+  const typed = (day && day.plan && day.plan.subject) || '';
+  if (typed.trim() && !clean(typed)) notes.push('Your subject line had a [CHECK] or a dash, so the plain dated subject was used.');
+  let road = (day && day.plan && day.plan.road) || null;
+  if (road && (road.url || road.headline) && roadBlockers(road).length) { notes.push(`Up the road was left out: ${roadBlockers(road).join(' ')}`); road = null; }
+
+  const evening = k === 'evening';
+  const [parts, daily, events] = await Promise.all([
+    evening ? null : getJSON(`${origin}/newsletter/editions/${date}.json`, fetchFn),
+    getJSON(`${origin}/newsletter/daily.json`, fetchFn),
+    getJSON(`${origin}/api/events?format=json&from=${evening ? addDays(date, 1) : date}&days=${evening ? 4 : 1}`, fetchFn),
+  ]);
+  const leads = deskStore ? await deskStore.getJSON(`leads-${date}`) : null;
+  const [spotHist, designHist, snap] = store ? await Promise.all([store.getJSON('spotlight-history'), store.getJSON('design-history'), store.getJSON('dirsnap')]) : [null, null, null];
+
+  const dow = new Date(`${date}T12:00:00Z`).getUTCDay();
+  const spot = !evening && daily ? pickSpotlight(daily.spotlight, spotHist || {}, date) : null;
+  const design = evening && daily ? pickDesign(daily.design, designHist || {}, date) : null;
+  const changes = daily && snap && snap.snapshot ? listingChanges(snap.snapshot, daily.snapshot) : null;
+  const lookoutItems = lookout(k, date, { events: (events && events.events) || [], leads });
+  if (!daily) notes.push('The site\'s daily file was missing, so the spotlight, Columbus by Design and listing changes were left out.');
+
+  const ed = composeEdition({
+    kind: k, date, name: PAPER.name, origin, intro, pieces, road,
+    stories: (parts && parts.stories) || [], early: (parts && parts.early) || [], business: (parts && parts.business) || null, sponsors: (parts && parts.sponsors) || [],
+    spotlight: spot ? { ...spot, today: hoursOn(spot.hours, dow) } : null, design, changes, lookoutItems,
+  });
+  return {
+    skip: false, notes, html: ed.html, substance: ed.substance, sections: ed.sections,
+    subject: subjectFor(k, date, PAPER.name, typed), from: pieces.length ? 'desk' : 'auto', pieces: pieces.length,
+    picks: { spotlight: spot ? spot.slug : '', design: design ? design.id : '', snapshot: daily ? daily.snapshot : null },
+  };
 }
 
-const WHY = {
-  drafted: 'The draft is waiting in the newsletter service. Read it and press send.',
-  updated: 'The draft is waiting in the newsletter service. Read it and press send.',
-  already: 'A draft was already made this morning. It is waiting in the newsletter service.',
-  'nothing-new': 'No draft today: no approved desk pieces and no new story in the last 36 hours.',
-  skip: 'No draft today: you marked this morning "No edition" at the desk.',
-  'no-edition': 'No draft today: the site has no edition file for this morning. A publish of the site writes the next fourteen.',
-  refused: 'No draft today: the newsletter service refused it. Check the function log (Netlify > Logs > Functions > newsletter).',
-};
+// Makes (or updates in place) the edition's broadcast. A draft made earlier
+// at the desk is updated rather than duplicated; one already sent is not.
+export async function makeBroadcast({ kind = 'morning', date, store, resend, key = '', subject, html, fetchFn = fetch, log = console.log }) {
+  const k = kindOf(kind);
+  const keys = keysFor(k, date);
+  const useResend = usesResend(resend);
+  if (!useResend && !key) { log('[newsletter] no RESEND_* or BUTTONDOWN_API_KEY set; the newsletter is off.'); return { ok: false, reason: 'no-key' }; }
+  const before = store ? await store.getJSON(keys.draft) : null;
+  if (!useResend) {
+    if (before && before.id) return { ok: true, reason: 'already', id: before.id, via: 'buttondown' };
+    const r = await fetchFn(API, { method: 'POST', headers: { authorization: `Token ${key}`, 'content-type': 'application/json' }, body: JSON.stringify({ subject, body: html, status: 'draft' }) });
+    if (!r.ok) { log(`[newsletter] Buttondown refused the draft: ${r.status}`); return { ok: false, reason: 'refused', status: r.status }; }
+    const made = await r.json().catch(() => ({}));
+    if (store) await store.setJSON(keys.draft, { id: made.id || '', via: 'buttondown', at: new Date().toISOString(), subject });
+    return { ok: true, reason: 'drafted', id: made.id || '', via: 'buttondown' };
+  }
+  // Never a second scheduled broadcast for one edition: hold the first.
+  if (before && before.scheduled && !before.held) { log(`[newsletter] ${k} ${date} is already scheduled; hold it first`); return { ok: false, reason: 'already-scheduled', id: before.id, via: 'resend' }; }
+  const topic = resend.topics && resend.topics[k];
+  const auth = { authorization: `Bearer ${resend.key}`, 'content-type': 'application/json' };
+  const content = {
+    from: resend.from, subject, html, name: `${EDITIONS[k].label} edition ${date}`,
+    ...(resend.replyTo ? { reply_to: resend.replyTo } : {}), ...(topic ? { topic_id: topic } : {}),
+  };
+  let id = '';
+  let updated = false;
+  if (before && before.id && before.via === 'resend' && !before.scheduled) {
+    const up = await fetchFn(`${RESEND}/broadcasts/${encodeURIComponent(before.id)}`, { method: 'PATCH', headers: auth, body: JSON.stringify(content) });
+    if (up.ok) { id = before.id; updated = true; } else log(`[newsletter] could not update the earlier draft (${up.status}); making a new one`);
+  }
+  if (!id) {
+    const made = await fetchFn(`${RESEND}/broadcasts`, { method: 'POST', headers: auth, body: JSON.stringify({ segment_id: resend.segment, ...content }) });
+    if (!made.ok) { log(`[newsletter] Resend refused the broadcast: ${made.status} ${(await made.text()).slice(0, 300)}`); return { ok: false, reason: 'refused', status: made.status }; }
+    id = ((await made.json().catch(() => ({}))).id) || '';
+  }
+  if (store) await store.setJSON(keys.draft, { ...(before || {}), id, via: 'resend', at: new Date().toISOString(), subject, topic: topic || '', scheduled: '', held: '' });
+  return { ok: true, reason: updated ? 'updated' : 'drafted', id, via: 'resend' };
+}
 
-export async function notify({ resend, to, date, result, notes = [], fetchFn = fetch, log = console.log }) {
-  const list = String(to || '').split(',').map((s) => s.trim()).filter((s) => /^[^\s@<>"]+@[^\s@<>"]+\.[a-z]{2,}$/i.test(s)).slice(0, 5);
-  if (!list.length || !resend || !resend.key || !resend.from) return false;
-  const why = WHY[result.reason] || `The morning job ended with "${result.reason}".`;
-  const lines = [why, ...notes, result.subject ? `Subject: ${result.subject}` : '', 'Resend broadcasts: https://resend.com/broadcasts', 'The desk: open your private desk link.'].filter(Boolean);
-  const r = await fetchFn(`${RESEND}/emails`, {
-    method: 'POST', headers: { authorization: `Bearer ${resend.key}`, 'content-type': 'application/json' },
-    body: JSON.stringify({ from: resend.from, to: list, subject: `Morning edition ${date}: ${result.ok && /drafted|updated|already/.test(result.reason) ? 'draft ready' : 'no draft'}`, text: lines.join('\n\n') }),
+// Schedules a broadcast made above. Resend sends it at `at` unless it is
+// cancelled first (Hold), which turns it back into a draft.
+export async function scheduleBroadcast({ id, at, resend, fetchFn = fetch, log = console.log }) {
+  const r = await fetchFn(`${RESEND}/broadcasts/${encodeURIComponent(id)}/send`, {
+    method: 'POST', headers: { authorization: `Bearer ${resend.key}`, 'content-type': 'application/json' }, body: JSON.stringify({ scheduled_at: at }),
   });
-  if (!r.ok) log(`[newsletter] the morning note was not sent (${r.status})`);
+  if (!r.ok) log(`[newsletter] Resend would not schedule ${id}: ${r.status} ${(await r.text()).slice(0, 300)}`);
   return r.ok;
 }
 
-// One morning's run. `now` decides the Columbus clock; `force` ignores it
-// and the once-a-day record (tests, and a deliberate second run).
-export async function morningRun({ now = new Date(), deskStore, store, origin, key, resend, notifyTo = '', fetchFn = fetch, log = console.log, force = false }) {
-  const date = columbusDate(now);
-  if (!force && columbusMinutes(now) < START) { log(`[newsletter] ${date}: before 6:30 AM in Columbus; the next wake makes the draft`); return { ok: true, reason: 'early' }; }
-  if (!force && store && (await store.getJSON(`run-${date}`))) { log(`[newsletter] ${date}: already ran this morning`); return { ok: true, reason: 'ran' }; }
-  const desk = await deskEdition(deskStore, date, origin);
-  let result;
-  if (desk && desk.skip) { log(`[newsletter] the publisher skipped ${date}`); result = { ok: true, reason: 'skip' }; }
-  else result = await makeDraft({ key, resend, origin, date, store, fetchFn, log, edition: desk });
-  const subject = desk && !desk.skip ? desk.subject : '';
-  if (store) await store.setJSON(`run-${date}`, { at: now.toISOString(), reason: result.reason, ok: result.ok, from: desk && !desk.skip ? 'desk' : (result.from || 'auto'), notes: (desk && desk.notes) || [] });
-  await notify({ resend, to: notifyTo, date, result: { ...result, subject }, notes: (desk && desk.notes) || [], fetchFn, log }).catch((e) => log(`[newsletter] the morning note failed: ${e.message}`));
-  return result;
+const WHY = {
+  scheduled: (k, at) => `It goes out at ${fmtClock(EDITIONS[k].send)} unless you press Hold.`,
+  late: () => 'It was NOT sent: the job ran more than an hour after the send time. The draft is waiting in Resend; send it from there if you still want it.',
+  drafted: () => 'The Buttondown draft is waiting. Read it there and press send.',
+  already: () => 'The draft was already made. It is waiting in the newsletter service.',
+  skip: () => 'No edition: you marked it "No edition" at the desk.',
+  thin: () => 'No edition: nothing to put in it besides the weather.',
+  'no-topic': () => 'No edition: RESEND_TOPIC_EVENING is not set, and without it the evening would go to readers who chose the morning only.',
+  'not-scheduled': () => 'The broadcast was made but Resend would not schedule it, so it was NOT sent. Check the function log (Netlify > Logs > Functions).',
+  refused: () => 'No edition: Resend refused it. Check the function log (Netlify > Logs > Functions).',
+  'already-scheduled': () => 'This edition is already scheduled in Resend. Hold it first to remake it.',
+  'no-key': () => 'No edition: no newsletter service is set in Netlify.',
+};
+
+// One note per edition: what happened, the subject, a preview link and, when
+// it is scheduled, the Hold link. The edition itself follows, as a preview.
+export async function notify({ resend, to, kind = 'morning', date, result, notes = [], hold = '', html = '', fetchFn = fetch, log = console.log }) {
+  const k = kindOf(kind);
+  const list = String(to || '').split(',').map((s) => s.trim()).filter((s) => /^[^\s@<>"]+@[^\s@<>"]+\.[a-z]{2,}$/i.test(s)).slice(0, 5);
+  if (!list.length || !resend || !resend.key || !resend.from) return false;
+  const why = (WHY[result.reason] || (() => `The ${k} job ended with "${result.reason}".`))(k, result.at);
+  const preview = result.id && result.via === 'resend' ? `https://resend.com/broadcasts/${result.id}` : '';
+  const lines = [why, ...notes, result.subject ? `Subject: ${result.subject}` : '', preview ? `Preview: ${preview}` : '', hold ? `Hold it: ${hold}` : ''].filter(Boolean);
+  const status = result.reason === 'scheduled' ? `goes out at ${fmtClock(EDITIONS[k].send)}` : result.reason === 'late' ? 'not sent' : /drafted|already|updated/.test(result.reason) ? 'draft ready' : 'no edition';
+  const e = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const top = `<div style="font-family:Georgia,serif;max-width:600px;margin:auto;padding:16px;color:#1b1a17">${lines.map((l) => `<p>${e(l).replace(/(https:\/\/\S+)/g, '<a href="$1">$1</a>')}</p>`).join('')}${hold ? `<p><a href="${e(hold)}" style="display:inline-block;background:#b92e2b;color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none">Hold this edition</a></p>` : ''}</div>`;
+  const body = html ? (html.match(/<body[^>]*>([\s\S]*)<\/body>/) || [, ''])[1].replace(/\{\{\{RESEND_UNSUBSCRIBE_URL\}\}\}/g, '#') : '';
+  const r = await fetchFn(`${RESEND}/emails`, {
+    method: 'POST', headers: { authorization: `Bearer ${resend.key}`, 'content-type': 'application/json' },
+    body: JSON.stringify({ from: resend.from, to: list, subject: `${EDITIONS[k].label} edition ${prettyDate(date)}: ${status}`, text: lines.join('\n\n'), html: `${top}${body ? `<hr><div style="max-width:600px;margin:auto">${body}</div>` : ''}` }),
+  });
+  if (!r.ok) log(`[newsletter] the ${k} note was not sent (${r.status})`);
+  return r.ok;
 }
 
-export default async () => {
-  await morningRun({
-    deskStore: blobStore('desk'), store: blobStore('newsletter'),
+// One edition's run. `now` decides the Columbus clock; `force` ignores it and
+// the once a day record (tests, and a deliberate second run).
+export async function editionRun({ kind = 'morning', now = new Date(), deskStore, store, origin, key = '', resend, notifyTo = '', fetchFn = fetch, log = console.log, force = false }) {
+  const k = kindOf(kind);
+  const p = plan(k, now);
+  const { date } = p;
+  const keys = keysFor(k, date);
+  if (!force && p.step === 'early') { log(`[newsletter] ${k} ${date}: before ${fmtClock(EDITIONS[k].draft)}; the next wake runs it`); return { ok: true, reason: 'early' }; }
+  if (!force && store && (await store.getJSON(keys.run))) { log(`[newsletter] ${k} ${date}: already ran`); return { ok: true, reason: 'ran' }; }
+  const finish = async (result, extra = {}) => {
+    if (store) await store.setJSON(keys.run, { at: now.toISOString(), reason: result.reason, ok: result.ok, from: extra.from || '', notes: extra.notes || [], subject: result.subject || '', sendAt: result.at || '' });
+    await notify({ resend, to: notifyTo, kind: k, date, result, notes: extra.notes || [], hold: extra.hold || '', html: extra.html || '', fetchFn, log }).catch((e) => log(`[newsletter] the ${k} note failed: ${e.message}`));
+    log(`[newsletter] ${k} ${date}: ${result.reason}`);
+    return result;
+  };
+  if (k === 'evening' && usesResend(resend) && !(resend.topics && resend.topics.evening)) return finish({ ok: true, reason: 'no-topic' });
+  const ed = await assemble({ kind: k, date, deskStore, store, origin, fetchFn });
+  if (ed.skip) return finish({ ok: true, reason: 'skip' });
+  if (!ed.substance) return finish({ ok: true, reason: 'thin' }, { notes: ed.notes });
+  const made = await makeBroadcast({ kind: k, date, store, resend, key, subject: ed.subject, html: ed.html, fetchFn, log });
+  if (!made.ok) return finish({ ...made, subject: ed.subject }, { notes: ed.notes, from: ed.from });
+  let result = { ...made, subject: ed.subject };
+  let hold = '';
+  if (made.via === 'resend') {
+    if (p.step === 'late' && !force) result = { ...result, reason: 'late' };
+    else {
+      const at = p.step === 'send' ? p.at : new Date(now.getTime() + 2 * 60e3).toISOString();
+      const ok = await scheduleBroadcast({ id: made.id, at, resend, fetchFn, log });
+      if (ok) {
+        const t = holdToken();
+        hold = `${origin}/newsroom/hold/#t=${t}&d=${date}&e=${k}`;
+        const rec = (store && (await store.getJSON(keys.draft))) || {};
+        if (store) await store.setJSON(keys.draft, { ...rec, scheduled: at, holdHash: await sha(t), from: ed.from });
+        result = { ...result, reason: 'scheduled', at };
+      } else result = { ...result, reason: 'not-scheduled' };
+    }
+  }
+  // The rotations move on only for an edition that was actually made.
+  if (store) {
+    const cut = addDays(date, -60);
+    const prune = (o) => Object.fromEntries(Object.entries(o || {}).filter(([, d]) => d >= cut));
+    if (ed.picks.spotlight) await store.setJSON('spotlight-history', { ...prune(await store.getJSON('spotlight-history')), [ed.picks.spotlight]: date });
+    if (ed.picks.design) await store.setJSON('design-history', { ...prune(await store.getJSON('design-history')), [ed.picks.design]: date });
+    if (ed.picks.snapshot) await store.setJSON('dirsnap', { date, kind: k, snapshot: ed.picks.snapshot });
+  }
+  return finish(result, { notes: ed.notes, hold, html: ed.html, from: ed.from });
+}
+
+export const runFor = (kind) => async () => {
+  await editionRun({
+    kind, deskStore: blobStore('desk'), store: blobStore('newsletter'),
     origin: env('URL') || 'https://heartofcolumbus.shop',
     key: env('BUTTONDOWN_API_KEY'), resend: resendEnv(), notifyTo: env('HOC_NEWSLETTER_NOTIFY'),
   });
 };
+
+export default runFor('morning');

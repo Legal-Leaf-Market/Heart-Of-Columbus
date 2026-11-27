@@ -110,3 +110,21 @@ test('the Founders Club is cancelable, portable, alongside the Chamber, and name
   assert.match(html, /never against it/);
   assert.match(html, /printed newspaper hand delivered to neighbors 55 and up/);
 });
+
+test('the Founders Club has 20 spots, and the open ones are advertised with the founding promise', async () => {
+  const { FIRST_SPOTS, FOUNDER_PROMISE } = await import('../src/data/members.mjs');
+  assert.equal(SPOTS, 20, 'Jake raised it from 10 to 20 on 2026-11-27');
+  assert.equal(FIRST_SPOTS, 10);
+  assert.match(FOUNDER_PROMISE, /grandfathered in/);
+  assert.match(FOUNDER_PROMISE, /small business ERP/);
+  assert.match(FOUNDER_PROMISE, /Promised and guaranteed/);
+  const open = SPOTS - Object.keys(MEMBERS).length;
+  const club = dist('founders-club/index.html');
+  if (open > 0) {
+    assert.ok(club.includes('id="more-spots"'), 'the open spots are advertised');
+    assert.ok(club.includes(`${open} of ${SPOTS} founding spots are open`));
+    assert.ok(dist('index.html').includes('data-sc-slide="founders"'), 'a home page slide points at them');
+  }
+  assert.ok(club.includes('Promised and guaranteed'));
+  assert.ok(dist('owners/index.html').includes(`of ${SPOTS} founding spots open`));
+});

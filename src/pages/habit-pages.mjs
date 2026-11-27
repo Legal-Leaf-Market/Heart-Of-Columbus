@@ -20,30 +20,31 @@ export const storyAsk = () => `
 
 function newsletterPage(ctx) {
   const on = !!NEWSLETTER.signupAction;
-  const body = doc('Newsletter', 'The morning edition', 'Weather, three to five stories, what’s open early, today’s events and one business change. Every weekday morning, free.', `
-${signupBox({ heading: 'Sign up free' })}
-${shareBar({ path: '/newsletter/', title: `The ${PAPER.name} morning edition`, text: 'Good, honest Columbus news in your inbox on weekday mornings. Free.', label: 'Share the newsletter' })}
-<section><h2>How it’s made</h2><p>The morning edition is put together from stories we have already published, then an editor reads it before it goes out. It never contains anything that hasn’t run on the site.</p></section>`);
-  return newsPage({ ...ctx, path: '/newsletter/', title: 'Newsletter', description: 'The morning edition: Columbus news in your inbox every weekday.', crumbs: [['/news/', 'News'], ['', 'Newsletter']], body });
+  const body = doc('Newsletter', 'The morning and evening editions', 'Two short emails a day, every day, free. Pick one or both.', `
+${signupBox({ heading: 'Sign up free', choice: true })}
+<section><h2>The morning edition, 6:45 AM</h2><p>The weather for today and tonight, new stories, a Shop Local Spotlight on one Columbus business, openings, closings and new hours, what opens early, what’s on today, and one story from up the road.</p></section>
+<section><h2>The evening edition, 6:00 PM</h2><p>About a two minute read: tonight’s and tomorrow’s weather, a piece or two from the publisher, any listing changes, one Columbus building in Columbus by Design, what’s coming up in the next few days, and one story from up the road.</p></section>
+${shareBar({ path: '/newsletter/', title: `The ${PAPER.name} newsletter`, text: 'Good, honest Columbus news in your inbox every morning and evening. Free.', label: 'Share the newsletter' })}
+<section><h2>How it’s made</h2><p>The publisher picks and approves every piece in an edition. On a day without one, the edition is put together from stories we have already published, our own listings and events, and public notices, and nothing new is written for it. Every email links to a page where you can switch editions or unsubscribe.</p></section>`);
+  return newsPage({ ...ctx, path: '/newsletter/', title: 'Newsletter', description: 'Columbus news in your inbox every morning and evening.', crumbs: [['/news/', 'News'], ['', 'Newsletter']], body });
 }
 
-// The editor's look at the next editions, the same HTML the morning job puts
-// in the draft. Kept out of search (src/indexing.mjs). Days with nothing new
-// say so: the job skips them.
+// The editor's look at the next mornings as the build knows them. Kept out
+// of search (src/indexing.mjs).
 function nextEditionsPage(ctx) {
   const eds = upcomingEditions(new Date(), 4);
   const inner = (html) => (html.match(/<body[^>]*>([\s\S]*)<\/body>/) || [, html])[1];
-  const body = doc('For the editor', 'The next morning editions', 'What each weekday draft will hold, built from stories already published. The draft lands in the newsletter service each weekday morning; read it there and press send.', eds.map((ed) => `
+  const body = doc('For the editor', 'The next morning editions', 'What the build knows about each morning: new stories, what opens early and the sponsors. The job adds the desk’s pieces, the spotlight, listing changes, today’s events and Up the road at 6:15 AM, and sends at 6:45 unless you press Hold.', eds.map((ed) => `
 <section class="np-edition">
   <h2>${esc(ed.subject)}</h2>
-  ${ed.fresh ? `<p class="fine">${ed.fresh} new ${ed.fresh === 1 ? 'story' : 'stories'} since the last edition.</p><div class="np-edition-mail">${inner(ed.html)}</div>` : '<p><strong>No new stories for this morning, so no draft is made.</strong> Publish a story and it shows up here.</p>'}
+  <p class="fine">${ed.fresh ? `${ed.fresh} new ${ed.fresh === 1 ? 'story' : 'stories'} since the last edition.` : 'No new stories for this morning yet; the rest of the edition still goes out.'}</p><div class="np-edition-mail">${inner(ed.html)}</div>
 </section>`).join(''));
   return newsPage({ ...ctx, path: '/newsletter/next/', title: 'Next morning editions', description: 'The editor’s preview of the next newsletter drafts.', crumbs: [['/newsletter/', 'Newsletter'], ['', 'Next editions']], body });
 }
 
 function privacyPage(ctx) {
   const body = doc('Privacy', 'What we keep, and why', 'Short version: as little as we can.', `
-<section><h2>Newsletter</h2><p>If you sign up, the newsletter service keeps your email address to send you the newsletter. You confirm once, and every email has a one-click unsubscribe. We never sell or share your address.</p></section>
+<section><h2>Newsletter</h2><p>If you sign up, the newsletter service keeps your email address and which editions you chose, to send you the newsletter. You confirm once, and every email has a one-click unsubscribe. We never sell or share your address.</p></section>
 <section><h2>Questions, letters and tips</h2><p>We keep what you type into those forms and nothing else: no IP address, no browser details. Only the editor can read them. Letters run with your name and town; we never publish your email or phone.</p></section>
 <section><h2>Saved places and games</h2><p>Your saved places, game scores and streaks stay in your own browser. They are never sent to us.</p></section>
 <section><h2>Weather and maps</h2><p>The weather box asks the National Weather Service and the USGS for the latest readings, and maps come from Google Maps. Those services see the request, as with any website.</p></section>`);

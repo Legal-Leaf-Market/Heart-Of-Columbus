@@ -9,6 +9,7 @@
 // in an edition until the publisher approves it. The model never invents a
 // quote, a person, a number or a source, and marks anything unsure [CHECK].
 import { markdown } from './markdown.mjs';
+import { roadBlockers } from './paper-mail.mjs';
 
 export const STATUSES = ['idea', 'drafting', 'approved', 'spiked'];
 
@@ -84,13 +85,15 @@ export function blockers(piece = {}) {
   return out;
 }
 
-// The subject line and the publisher's open go out too, so they meet the
-// same bar as a piece: no [CHECK] left in, no dash used as punctuation.
+// The subject line, the publisher's open and "Up the road" go out too, so
+// they meet the same bar as a piece: no [CHECK] left in, no dash used as
+// punctuation, and Up the road links only to indystar.com.
 export function planBlockers(plan = {}) {
   const out = [];
   const text = `${plan.subject || ''} ${plan.intro || ''}`;
   if (/\[CHECK/i.test(text)) out.push('The subject or your open still has a [CHECK] to resolve.');
   if (/[–—]| - /.test(text)) out.push('The subject or your open has a dash used as punctuation; the paper does not use them.');
+  if (plan.road) out.push(...roadBlockers({ ...plan.road, url: plan.road.url || plan.road.typedUrl || '' }));
   return out;
 }
 

@@ -37,10 +37,12 @@ export const LISTINGS = [
     venue: 'Studio C', from: 'arts', url: 'https://www.artsincolumbus.org/studio-c', source: 'https://www.artsincolumbus.org/calendar', checked: CHECKED },
   { slug: 'wheel-throwing-2026-11-16', name: 'One-Night Wheel Throwing with Jaye Lahee and Abigail Moses', start: '2026-11-16', end: '2026-11-16', times: [1080, 1200],
     venue: 'Studio C', from: 'arts', url: 'https://www.artsincolumbus.org/studio-c', source: 'https://www.artsincolumbus.org/calendar', checked: CHECKED },
-  { slug: 'wheel-throwing-2026-11-28-a', name: 'One-Night Wheel Throwing with Ben Eckert', start: '2026-11-28', end: '2026-11-28', times: [840, 960],
-    venue: 'Studio C', from: 'arts', url: 'https://www.artsincolumbus.org/studio-c', source: 'https://www.artsincolumbus.org/calendar', checked: CHECKED },
-  { slug: 'wheel-throwing-2026-11-28-b', name: 'One-Night Wheel Throwing with Ben Eckert', start: '2026-11-28', end: '2026-11-28', times: [1020, 1140],
-    venue: 'Studio C', from: 'arts', url: 'https://www.artsincolumbus.org/studio-c', source: 'https://www.artsincolumbus.org/calendar', checked: CHECKED },
+  // Moved from Nov 28 to Dec 5 and Dec 12 per the Studio C page (Studio C,
+  // 4760 Ray Boll Blvd), checked 2026-11-27.
+  { slug: 'wheel-throwing-2026-12-05', name: 'One-Night Wheel Throwing with Ben Eckert', start: '2026-12-05', end: '2026-12-05', times: [1020, 1140],
+    venue: 'Studio C, 4760 Ray Boll Blvd', from: 'arts', url: 'https://www.artsincolumbus.org/studio-c', source: 'https://www.artsincolumbus.org/studio-c', checked: '2026-11-27' },
+  { slug: 'wheel-throwing-2026-12-12', name: 'One-Night Wheel Throwing with Ben Eckert', start: '2026-12-12', end: '2026-12-12', times: [840, 960],
+    venue: 'Studio C, 4760 Ray Boll Blvd', from: 'arts', url: 'https://www.artsincolumbus.org/studio-c', source: 'https://www.artsincolumbus.org/studio-c', checked: '2026-11-27' },
   // The official page says only "Returning December 5, 2026": no time, route
   // or place yet, so it is listed by date (it was downtown in 2025) and kept
   // off the map until the 2026 details are posted there.

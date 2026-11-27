@@ -14,7 +14,7 @@ is unconfirmed, and the page only asks.
 ## The offer (pitch.html)
 
 * Free listing stays free for everyone (the /owners/ page promises it).
-* Founding Member: $20 a month, locked, no contract, 10 spots.
+* Founding Member: $20 a month, locked, no contract, 20 spots (raised from 10 on 2026-11-27), grandfathered into every feature including the small business ERP.
   Website built, hosted and updated within two business days, domain in the
   owner's name, featured and labeled "Founding Member" on Heart of Columbus.
 * Referral: each business they bring in that joins takes one month off.

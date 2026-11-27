@@ -69,7 +69,9 @@ site Jake runs. Deploy Previews and branch deploys cost nothing, so (Jake,
   published as written; every deal has `ends` and comes down by itself.
 - **Founding Members pay us, so the badge is a disclosure.**
   `src/data/members.mjs` is empty until an owner agrees and pays ($20 a month,
-  10 founding spots). A member gets the "★ Founding Member" tag on its card
+  20 founding spots since 2026-11-27, up from 10; every member is
+  grandfathered into every feature, the small business ERP included,
+  "promised and guaranteed" in Jake's words: `FOUNDER_PROMISE`). A member gets the "★ Founding Member" tag on its card
   and page, first place in its category list, and a disclosure line on its
   page and on any story tagging it (`src/news/disclosure.mjs`). Search
   ranking never reads membership, and the free listing never depends on it.
@@ -298,10 +300,19 @@ site Jake runs. Deploy Previews and branch deploys cost nothing, so (Jake,
   from those alone, and nothing reaches an edition until the publisher
   approves it (`blockers()` refuses a `[CHECK]`, a missing source or a
   dash). The model never invents a quote, a person, a number or a source.
-  The morning job (6:45 AM Columbus time) drafts the approved desk edition
-  when there is one, and never sends. Overnight leads (`src/news/gather.mjs`)
-  keep only a title, link and date from first-hand public sources, never
-  another newsroom. docs/morning-paper.md is the routine.
+  Two editions a day, every day, and they SEND on schedule unless the
+  publisher presses Hold (Jake's decision, 2026-11-27): the morning (draft
+  and note 6:15 AM, sent 6:45) and the evening (draft and note 5:30 PM, sent
+  6:00), each to its own Resend topic so readers choose morning, evening or
+  both (`src/news/paper-mail.mjs`, `netlify/functions/newsletter.mjs` and
+  `newsletter-evening.mjs`, Hold at `/api/hold`). An edition carries the
+  desk's approved pieces and its "Up the road" IndyStar link (pasted by the
+  publisher, never fetched), or with nothing approved the automatic edition,
+  built only from published stories, our own data and first-hand public
+  sources, with no writing help unattended. It needs the weather plus one
+  more section or it is skipped. Overnight leads (`src/news/gather.mjs`) keep
+  only a title, link and date from first-hand public sources, never another
+  newsroom. docs/morning-paper.md is the routine.
   Third exception, granted by the owner on 2026-11-24: first drafts of the
   news slots in the print edition (`content/print/<edition>/`), for the
   publisher to read, rewrite and approve. Only from sources read in that

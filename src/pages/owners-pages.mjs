@@ -3,7 +3,7 @@
 import { page } from '../layout.mjs';
 import { header, footer, svg, creatorPromo } from '../site.mjs';
 import { directory } from '../data/directory.mjs';
-import { MEMBERS, PRICE, SPOTS } from '../data/members.mjs';
+import { MEMBERS, PRICE, SPOTS, FOUNDER_PROMISE } from '../data/members.mjs';
 
 const styles = ['hoc.css'];
 
@@ -36,7 +36,7 @@ ${header('')}
 <section class="wrap ow-how ow-members" id="members">
   <p class="kicker">Founders Club</p>
   <h2>Launch Heart of Columbus with us</h2>
-  <p>Your listing here is free and stays free. Founding Members pay $${PRICE} a month for their own website, kept current, and a numbered place on the Founders Wall. Every new tool we build comes with it at no extra cost. Cancel any time, and your site goes with you to any host. One owner per section is its Ambassador. ${SPOTS - Object.keys(MEMBERS).length} of ${SPOTS} founding spots open.</p>
+  <p>Your listing here is free and stays free. Founding Members pay $${PRICE} a month for their own website, kept current, and a numbered place on the Founders Wall. Every new tool we build comes with it at no extra cost. Cancel any time, and your site goes with you to any host. One owner per section is its Ambassador. <b>${Math.max(0, SPOTS - Object.keys(MEMBERS).length)} of ${SPOTS} founding spots open.</b> ${FOUNDER_PROMISE}</p>
   <p><a class="btn" href="/founders-club/">See the Founders Club ${svg('arrow', 'ic-sm')}</a></p>
 </section>
 ${creatorPromo()}

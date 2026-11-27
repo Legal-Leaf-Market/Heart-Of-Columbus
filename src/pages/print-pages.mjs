@@ -494,13 +494,13 @@ const BOX = {
     <div class="pe-card-r"><p class="pe-card-t">Need help? <b>Call 211</b></p><ul>${FIRST.slice(2).map((f) => `<li><span>${t(f.label.replace(/, single adults|, families with kids/, (m) => (m.includes('adults') ? ', adults' : ', families')))}</span><b>${esc(f.number)}</b></li>`).join('')}</ul><p class="pe-card-f">Text your ZIP to 898-211 · Emergency 911</p></div>
   </div></section>`,
 
-  newsletter: () => `<section class="pe-box pe-newsletter"><h3>The paper, every morning</h3><p>A short email on weekday mornings: weather, stories and what’s on. Free.</p>${qr('/newsletter/', 'Sign up')}</section>`,
+  newsletter: () => `<section class="pe-box pe-newsletter"><h3>The paper, morning and evening</h3><p>A short email every morning and evening: weather, stories and what’s on. Free.</p>${qr('/newsletter/', 'Sign up')}</section>`,
 
   letters: () => `<section class="pe-box pe-letters"><h3>Write to us</h3><p>This is a prototype. Tell us what you would keep, what you would cut and what you would pay for. Letters to the editor, tips and corrections are welcome.</p><ul class="pe-plain"><li><b>Letters</b> ${esc(short(ORIGIN))}/letters</li><li><b>Tips</b> ${esc(short(ORIGIN))}/tips</li></ul>${qr('/letters/', 'Write a letter')}</section>`,
 
   answers: () => `<section class="pe-box pe-answers"><h3>Answers</h3><div class="pe-ans-row"><div><h4>Crossword</h4>${cwGrid(CW, true)}</div><div><h4>Word search</h4>${wsGrid(WS, true)}</div></div><p><b>Where in Columbus?</b> ${t(PHOTOS.library.title)}, 536 Fifth Street.</p></section>`,
 
-  founders: () => `<section class="pe-box pe-ad"><p class="pe-ad-tag">From Heart of Columbus, an ad for ourselves</p><h3>Own a local business? Be a Founder.</h3><p>The Founders Club is the local owners launching Heart of Columbus with us: your own website, kept current, and every new tool we build, for $${PRICE} a month. ${Math.max(0, SPOTS - Object.keys(MEMBERS).length)} of ${SPOTS} founding spots open. Cancel any time.</p><p><b>Your free listing never depends on it.</b></p>${qr('/founders-club/', 'Learn more')}</section>`,
+  founders: () => `<section class="pe-box pe-ad"><p class="pe-ad-tag">From Heart of Columbus, an ad for ourselves</p><h3>Own a local business? Be a Founder.</h3><p>The Founders Club is the local owners launching Heart of Columbus with us: your own website, kept current, and every new tool we build, for $${PRICE} a month. ${Math.max(0, SPOTS - Object.keys(MEMBERS).length)} of ${SPOTS} founding spots open, grandfathered into every feature we build, the small business ERP included. Cancel any time.</p><p><b>Your free listing never depends on it.</b></p>${qr('/founders-club/', 'Learn more')}</section>`,
 
   colophon: () => {
     const credits = [...new Set([...E.gathers.map((g) => g[2]).filter(Boolean), 'aerial', 'library', ...E.pages.flatMap((p) => p.rows.flatMap((r) => r.mods.flatMap((x) => x.photos && Array.isArray(x.photos) ? x.photos : [])))])].filter((k) => PHOTOS[k]).map((k) => {
@@ -654,7 +654,7 @@ function readingExtras(m) {
 const HOUSE = [
   ['tips', 'Know something we should?', 'Tell us. A reporter reads every tip, and we never print your name without asking.', '/tips/', 'Send a tip'],
   ['byb', 'Back YOUR Blue', 'Tell Columbus about the person who served you: an officer, an EMT, a dispatcher, a veteran.', BYB_HREF, 'Tell us about your Blue'],
-  ['newsletter', 'The paper, every morning', 'A short free email on weekday mornings: weather, stories and what’s on.', '/newsletter/', 'Sign up'],
+  ['newsletter', 'The paper, morning and evening', 'A short free email every morning and evening: weather, stories and what’s on.', '/newsletter/', 'Sign up'],
   ['history', 'Every story here is online', 'With its sources, its writer and its editor, and corrections when we make them.', '/history/', 'Read our history'],
   ['help', 'Find help in Columbus', 'Find local food, shelter and rent resources. Indiana 211’s online directory is available anytime.', '/help/', 'Help in Columbus'],
   ['events', 'What’s on this week', 'The library, the parks and the season’s big nights, kept current every day.', '/events/', 'See this week'],

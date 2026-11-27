@@ -2226,6 +2226,11 @@ main.tier-member { overflow-x: clip; } /* a sticker over an edge never makes the
 .np-signup-form input[type=email] { flex: 1 1 200px; min-height: 46px; border: 1px solid var(--edge); border-radius: 10px; padding: 0 12px; font-size: 16px; }
 .np-signup-form button { min-height: 46px; padding: 0 18px; border: 0; border-radius: 10px; background: var(--brand); color: #fff; font-weight: 800; font-size: 15px; cursor: pointer; }
 .np-signup-form button:disabled { opacity: .6; }
+.np-signup-choice { flex: 1 1 100%; border: 0; padding: 0; margin: 4px 0 0; display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 15px; }
+.np-signup-choice legend { font-weight: 800; font-size: 14px; padding: 0; margin-bottom: 4px; }
+.np-signup-choice label { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; cursor: pointer; }
+.fc-more ul { list-style: disc; padding-left: 1.3em; margin: 10px 0 14px; }
+.fc-more li { margin: 6px 0; }
 .np-hp { position: absolute; left: -9999px; width: 1px; height: 1px; }
 .np-signup-msg { font-weight: 700; min-height: 1.2em; margin: 0; }
 .np-signup-msg[data-ok="0"] { color: var(--brand); }
