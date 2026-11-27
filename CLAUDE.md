@@ -122,8 +122,9 @@ site Jake runs. Deploy Previews and branch deploys cost nothing, so (Jake,
   most hours and hides closed cards (never removes them), so they return when
   they open.
 - **Art loads as WebP.** Export the PNG as art-source/README.md says, then run
-  `python3 scripts/art-webp.py`; pages point at the `.webp`. The Sentinels app
-  icons stay PNG. JS and CSS are cached for a year because every reference
+  `python3 scripts/art-webp.py`; pages point at the `.webp`. App icons
+  (`*-app-icon-*`) stay PNG; `python3 scripts/app-icons.py` draws the Columbus
+  app icons that had none. JS and CSS are cached for a year because every reference
   carries `?v=<hash>`; a test fails on one that doesn't.
 - **No art stands in for a business.** Cards, business pages, spotlight,
   explore, saved, map/table views and Spin show a real approved photo or no

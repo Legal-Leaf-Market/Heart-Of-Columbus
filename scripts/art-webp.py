@@ -12,7 +12,7 @@ from PIL import Image
 
 ART = os.path.join(os.path.dirname(__file__), '..', 'public', 'art')
 for name in sorted(os.listdir(ART)):
-    if not name.endswith('.png') or name.startswith('sports-app-icon'):
+    if not name.endswith('.png') or '-app-icon' in name:
         continue
     png = os.path.join(ART, name)
     out = png[:-4] + '.webp'
