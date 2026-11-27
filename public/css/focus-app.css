@@ -63,3 +63,48 @@ body.focus-contractors { --focus-accent: #2b4539; --focus-bg: #f5f5e9; }
 @media (max-width: 30rem) {
   .focus-filter { grid-template-columns: minmax(0, 1fr); }
 }
+
+body.focus-churches { --focus-accent: #51405f; --focus-bg: #f8f3fb; }
+body.focus-nonprofits { --focus-accent: #793b4b; --focus-bg: #fdf4f3; }
+body.focus-events { --focus-accent: #30516a; --focus-bg: #f1f7fb; }
+.focus-source { margin-top: 1rem; font-size: .85rem; }
+.focus-source .focus-action { border: 0; padding: 0; text-decoration: underline; }
+
+.hoc-app-browse {
+  display: grid;
+  grid-template-columns: minmax(10rem, 13rem) minmax(0, 1fr);
+  gap: clamp(1rem, 3vw, 2rem);
+  align-items: start;
+  margin-block: 1.5rem;
+}
+.hoc-app-browse .cats { width: 100%; margin: 0; }
+.hoc-app-launcher {
+  padding: 1rem;
+  background: #faf6ed;
+  border: 1px solid #29251c2b;
+  border-radius: .9rem;
+}
+.hoc-app-launcher h2 { margin: 0 0 .65rem; font-size: 1.1rem; font-weight: 750; }
+.hoc-app-launcher ul { margin: 0; padding: 0; list-style: none; }
+.hoc-app-launcher li + li { border-top: 1px solid #29251c25; }
+.hoc-app-launcher a {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  align-items: center;
+  gap: .55rem;
+  min-height: 3.6rem;
+  padding: .4rem 0;
+  color: #25251f;
+  line-height: 1.25;
+  text-decoration: none;
+}
+.hoc-app-launcher a:hover strong { text-decoration: underline; }
+.hoc-app-launcher a:focus-visible { outline: 2px solid #233a50; outline-offset: 2px; }
+.hoc-app-launcher img { border-radius: .4rem; }
+.hoc-app-launcher :is(strong, small) { display: block; }
+.hoc-app-launcher small { margin-top: .18rem; }
+@media (max-width: 49rem) {
+  .hoc-app-browse { grid-template-columns: 1fr; }
+  .hoc-app-launcher ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: .75rem; }
+  .hoc-app-launcher li + li { border-top: 0; }
+}

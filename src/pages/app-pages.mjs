@@ -4,6 +4,11 @@ import { stories } from '../news/content.mjs';
 import { sectionBySlug } from '../news/sections.mjs';
 import { storyBody } from './news-pages.mjs';
 import { ORIGIN } from '../jsonld.mjs';
+import { worshipGroups } from './worship-pages.mjs';
+import { nonprofitGroups } from './nonprofits-pages.mjs';
+import { NONPROFITS_SOURCE } from '../data/nonprofits.mjs';
+import { SOURCES } from '../data/events.mjs';
+import { addDays, handEntered, inWindow, today, webDate } from '../event-feeds.mjs';
 
 const apps = {
   news: {
@@ -21,9 +26,43 @@ const apps = {
     name: 'Columbus Contractors', description: 'Find and contact local tradespeople in Columbus, Indiana.',
     theme: '#2b4539', background: '#f5f5e9',
   },
+  churches: {
+    id: '/apps/churches/', manifest: '/apps/churches/manifest.webmanifest', icon: 'churches',
+    name: 'Columbus Churches', description: 'Find churches and places of worship near Columbus, Indiana.',
+    theme: '#51405f', background: '#f8f3fb',
+  },
+  nonprofits: {
+    id: '/apps/nonprofits/', manifest: '/apps/nonprofits/manifest.webmanifest', icon: 'nonprofits',
+    name: 'Columbus Nonprofits', description: 'Find charities and civic groups serving the Columbus area.',
+    theme: '#793b4b', background: '#fdf4f3',
+  },
+  events: {
+    id: '/apps/events/', manifest: '/apps/events/manifest.webmanifest', icon: 'events',
+    name: 'Columbus Events', description: 'Find upcoming library, parks, arts and community events around Columbus.',
+    theme: '#30516a', background: '#f1f7fb',
+  },
 };
+
+const APP_LINKS = [
+  ['news', 'News', 'Read the local paper'],
+  ['food', 'Food', 'Find a menu or order pickup'],
+  ['contractors', 'Contractors', 'Find a trade and call'],
+  ['churches', 'Churches', 'Find a place of worship'],
+  ['nonprofits', 'Nonprofits', 'Find charities and civic groups'],
+  ['events', 'Events', 'See what’s coming up'],
+];
 const root = (key) => `/apps/${key}/`;
 const iconPath = (app, size) => `/art/${app.icon}-app-icon-${size}.png`;
+
+export function appLauncher() {
+  return `<nav class="hoc-app-launcher" aria-labelledby="columbus-apps-title">
+  <h2 id="columbus-apps-title">Columbus apps</h2>
+  <ul>${APP_LINKS.map(([key, label, description]) => `<li><a href="${root(key)}">
+    <img src="${iconPath(apps[key], 180)}" width="32" height="32" alt="" loading="lazy">
+    <span><strong>${label}</strong><small>${description}</small></span>
+  </a></li>`).join('')}</ul>
+</nav>`;
+}
 
 function manifest(key, app) {
   return JSON.stringify({
@@ -128,14 +167,16 @@ function searchForm(label, options) {
 </div>`;
 }
 
-function listing({ heading, description, placeholder, filters, cards }) {
+function listing({ heading, description, placeholder, filters, cards, events = false, source = '' }) {
   return `<div class="focus-wrap focus-content">
   <h1>${esc(heading)}</h1>
   <p class="focus-intro">${esc(description)}</p>
   ${searchForm(placeholder, filters)}
   <p class="focus-count" role="status" data-app-count>${cards.length} results</p>
-  <div class="focus-grid">${cards.join('')}</div>
+  ${events ? '<p class="focus-count" role="status" data-app-event-status>Checking the latest event listings…</p>' : ''}
+  <div class="focus-grid"${events ? ' data-app-events' : ''}>${cards.join('')}</div>
   <p class="focus-empty" data-app-empty hidden>No matches. Try another search or category.</p>
+  ${source ? `<p class="focus-source">${source}</p>` : ''}
 </div>`;
 }
 
@@ -189,6 +230,50 @@ function contractorsPage(assets) {
   return appPage({ assets, key: 'contractors', body: listing({
     heading: 'Find a local contractor', description: 'Search by trade, then call or visit the contractor’s own website.',
     placeholder: 'Roofing, plumbing or business name', filters, cards,
+  }) });
+}
+
+const cleanName = (name) => String(name || '').replace(/\s+[-–—]\s+/g, ', ');
+
+function churchesPage(assets) {
+  const groups = worshipGroups();
+  const cards = groups.flatMap(({ id, name, rows }) => rows.map((church) => {
+    const address = church.address || church.town;
+    const map = church.ll ? `https://www.google.com/maps/search/?api=1&query=${church.ll.join(',')}` : '';
+    return directoryCard({ name: cleanName(church.name), address }, id, name,
+      external(church.website, 'Service times', true) + call(church.phone) + external(map, 'Directions'));
+  }));
+  return appPage({ assets, key: 'churches', body: listing({
+    heading: 'Find a place of worship', description: 'Browse local congregations by tradition or town. Check with the congregation for current service times.',
+    placeholder: 'Congregation, tradition or town',
+    filters: groups.map(({ id, name }) => ({ slug: id, label: name })), cards,
+    source: 'Map data © OpenStreetMap contributors.',
+  }) });
+}
+
+function nonprofitsPage(assets) {
+  const groups = nonprofitGroups();
+  const cards = groups.flatMap(({ id, name, rows }) => rows.map((org) =>
+    directoryCard({ name: cleanName(org.name), address: org.town }, id, name,
+      external(`https://projects.propublica.org/nonprofits/organizations/${encodeURIComponent(org.ein)}`, 'View public filings'))));
+  return appPage({ assets, key: 'nonprofits', body: listing({
+    heading: 'Find a local nonprofit', description: 'Search local charities, clubs and civic groups by the work they do.',
+    placeholder: 'Organization, cause or town',
+    filters: groups.map(({ id, name }) => ({ slug: id, label: name })), cards,
+    source: 'Source: ' + external(NONPROFITS_SOURCE, 'IRS Exempt Organizations Business Master File'),
+  }) });
+}
+
+function eventsPage(assets) {
+  const filters = SOURCES.map(({ id, name }) => ({ slug: id, label: name }));
+  const names = new Map(filters.map(({ slug, label }) => [slug, label]));
+  const start = today();
+  const cards = inWindow(handEntered(), start, addDays(start, 30)).filter((event) => event.access === 'public').map((event) =>
+    directoryCard({ name: event.title, type: `${webDate(event.date)} · ${event.when}`, address: event.venue },
+      event.src, names.get(event.src) || 'Events', external(event.url, 'Event details', true)));
+  return appPage({ assets, key: 'events', body: listing({
+    heading: 'What’s on in Columbus', description: 'Browse the next 31 days and open event details from the organizer.',
+    placeholder: 'Event, venue or organizer', filters, cards, events: true,
   }) });
 }
 
@@ -246,6 +331,9 @@ export function appPages({ assets }) {
     ...paperPages(assets),
     { path: 'apps/food/index.html', html: foodPage(assets) },
     { path: 'apps/contractors/index.html', html: contractorsPage(assets) },
+    { path: 'apps/churches/index.html', html: churchesPage(assets) },
+    { path: 'apps/nonprofits/index.html', html: nonprofitsPage(assets) },
+    { path: 'apps/events/index.html', html: eventsPage(assets) },
     { path: 'apps/food/offline.html', html: appPage({
       assets, key: 'food', title: 'Offline', path: '/apps/food/offline.html',
       body: '<section class="focus-wrap focus-content"><h1>You’re offline</h1><p>Reconnect for current menus and ordering links.</p><p><a class="focus-action" href="/apps/food/">Try again</a></p></section>',

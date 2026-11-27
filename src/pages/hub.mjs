@@ -10,6 +10,7 @@ import { eventsSection, homeEvents } from './events.mjs';
 import { yourWay } from './trip-pages.mjs';
 import { spotlightSection } from './spotlight.mjs';
 import { boostedRow } from '../promotions.mjs';
+import { appLauncher } from './app-pages.mjs';
 
 // Each demo keeps its business's own colors; the sticker says what it sells.
 const featuredStyle = {
@@ -119,7 +120,9 @@ ${header()}
 
 ${smartCarousel(slides({ news: stories[0] }))}
 
-<section class="cats wrap" aria-labelledby="cats-h">
+<div class="wrap hoc-app-browse">
+${appLauncher()}
+<section class="cats" aria-labelledby="cats-h">
   <div class="fg-head"><div><p class="kicker">Browse by category</p><h2 id="cats-h">What are you after today?</h2></div>
     <p class="fg-head-note">Every category, every count, straight from the directory. Hungry, fixing something, or booking a cut.</p></div>
   <ul class="cat-grid" role="list">
@@ -130,6 +133,7 @@ ${smartCarousel(slides({ news: stories[0] }))}
       </a></li>`).join('')}
   </ul>
 </section>
+</div>
 
 ${boostedRow('home', { title: 'Boosted local businesses', id: 'boosted' })}
 ${newsletterBanner()}
@@ -301,7 +305,7 @@ ${footer()}`;
     description: `${total} independent restaurants, shops, salons and trades in Columbus, Indiana. Browse by category or neighborhood, and order direct.`,
     body,
     scripts: ['site.js', 'hub.js', 'events-week.js', 'banners.js', 'subscribe.js', 'counter-activity.js'],
-    styles: ['hoc.css'],
+    styles: ['hoc.css', 'focus-app.css'],
     assets,
     ld: [siteLd()],
     head: '<meta name="google-site-verification" content="P73lDKkzOXFDjsiVSzZtmt_Cwsxc9ZyNc8QS-yepbDM">',

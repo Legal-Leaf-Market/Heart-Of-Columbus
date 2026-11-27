@@ -60,12 +60,20 @@ await cp(new URL('public/', root), out, { recursive: true });
 
 const images = await prepareImages(root, out);
 
-// The contractor app uses the directory's existing trade artwork.
-const contractorArt = await readFile(new URL('art/sticker-home-services.webp', out));
-await Promise.all([180, 192, 512].map((size) => sharp(contractorArt)
-  .resize(size, size, { fit: 'contain', background: '#f5f5e9' })
-  .flatten({ background: '#f5f5e9' })
-  .png().toFile(new URL(`art/contractors-app-icon-${size}.png`, out).pathname)));
+// App icons use the site’s existing Columbus artwork.
+const appIconArt = [
+  ['contractors', 'home-services', '#f5f5e9'],
+  ['churches', 'arch-books', '#f8f3fb'],
+  ['nonprofits', 'community-heart', '#fdf4f3'],
+  ['events', 'calendar', '#f1f7fb'],
+];
+for (const [key, sticker, background] of appIconArt) {
+  const art = await readFile(new URL(`art/sticker-${sticker}.webp`, out));
+  await Promise.all([180, 192, 512].map((size) => sharp(art)
+    .resize(size, size, { fit: 'contain', background })
+    .flatten({ background })
+    .png().toFile(new URL(`art/${key}-app-icon-${size}.png`, out).pathname)));
+}
 
 // Tailwind scans src/ and public/js for class names.
 await mkdir(new URL('assets/', out), { recursive: true });
