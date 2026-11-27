@@ -116,3 +116,37 @@ body.focus-weddings { --focus-accent: #67374d; --focus-bg: #fcf4f7; }
 .focus-plan-role summary span { padding-left: .4rem; }
 .focus-plan-role .focus-role-note { margin: 0 0 .35rem; }
 .focus-plan-role .focus-card { flex: 1; }
+
+.focus-install { background: #fff; color: var(--focus-accent); font-weight: 700; }
+.focus-filter-tracks { margin-top: 1rem; grid-template-columns: minmax(0, 2fr) repeat(2, minmax(0, 1fr)); }
+.focus-results-row { display: flex; align-items: center; justify-content: space-between; gap: .65rem; margin-block: .7rem; }
+.focus-bulk, .focus-pick { cursor: pointer; }
+.focus-bulk:disabled { opacity: .6; cursor: default; }
+.focus-pick { justify-self: start; }
+.focus-pick[aria-pressed="true"] { background: var(--focus-accent); color: #fff; }
+.focus-weddings .focus-grid .focus-card { display: grid; }
+@media (max-width: 42rem) {
+  .focus-filter-tracks { grid-template-columns: 1fr; }
+}
+
+.focus-brand { display: inline-flex; align-items: center; gap: .6rem; }
+.focus-brand img { border-radius: .45rem; }
+.focus-food .focus-card-art { overflow: hidden; }
+.focus-food-art {
+  display: grid;
+  place-items: center;
+  height: 8rem;
+  background: radial-gradient(ellipse at center, #fff8e3 0%, var(--food-tint) 80%);
+  overflow: hidden;
+}
+.focus-card-art .focus-food-art { margin: -1rem -1rem .35rem; }
+.focus-food-art :is(img, svg) { width: auto; height: 100%; max-height: 7.25rem; object-fit: contain; }
+.focus-catalog-head { display: grid; grid-template-columns: minmax(7rem, 12rem) minmax(0, 1fr); gap: 1rem; align-items: center; margin-bottom: 1.25rem; }
+.focus-catalog-head .focus-food-art { border-radius: .75rem; }
+.focus-product-filter { max-width: 32rem; }
+.focus-food .prod-grid { align-items: stretch; }
+.focus-news-image { display: block; width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: .45rem; }
+@media (max-width: 30rem) {
+  .focus-catalog-head { grid-template-columns: 1fr; }
+  .focus-catalog-head .focus-food-art { height: 6rem; }
+}

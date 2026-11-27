@@ -8,19 +8,42 @@
   if (!main) return;
   var track = main.getAttribute('data-plan');
   var focused = main.hasAttribute('data-plan-focused');
+  var bulk = main.querySelector('[data-plan-select-all]');
   var KEY = 'hoc-plan-' + track;
   var $ = function (s, el) { return (el || document).querySelector(s); };
   var $$ = function (s, el) { return Array.prototype.slice.call((el || document).querySelectorAll(s)); };
 
-  var load = function () { try { var v = JSON.parse(localStorage.getItem(KEY) || '[]'); return Array.isArray(v) ? v : []; } catch (e) { return []; } };
+  function load(key) {
+    try {
+      var raw = localStorage.getItem(key);
+      if (raw === null) return null;
+      var value = JSON.parse(raw);
+      return Array.isArray(value) ? value.filter(function (pick) {
+        return pick && typeof pick.r === 'string' && typeof pick.s === 'string' && /^[a-z0-9-]+$/.test(pick.s);
+      }) : [];
+    } catch { return []; }
+  }
   var store = function (v) { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) { /* private mode: picks last this visit */ } };
-  var picks = load();
+  var saved = load(KEY);
+  var picks = saved || [];
   var viewing = null; // a shared team being looked at, not yet kept
 
   var roles = $$('.pl-role').map(function (s) { return { id: s.getAttribute('data-role'), label: s.getAttribute('data-role-label') }; });
   var roleLabel = function (r) { for (var i = 0; i < roles.length; i++) if (roles[i].id === r) return roles[i].label; return r; };
   var nameOf = function (slug) { var el = $('.pl-item[data-slug="' + slug + '"]'); return el ? el.getAttribute('data-name') : slug.replace(/-/g, ' '); };
   var has = function (list, r, s) { return list.some(function (p) { return p.r === r && p.s === s; }); };
+  var items = $('.pl-item').map(function (node) {
+    return { node: node, button: $('[data-pick]', node), role: node.closest('.pl-role').dataset.role, slug: node.dataset.slug };
+  });
+  if (bulk && saved === null) {
+    var known = new Set(items.map(function (item) { return item.slug; }));
+    var previous = new Set(main.dataset.planImport.split(' ').flatMap(function (name) {
+      return (load('hoc-plan-' + name) || []).map(function (pick) { return pick.s; });
+    }));
+    picks = Array.from(previous).filter(function (slug) { return known.has(slug); })
+      .map(function (slug) { return { r: 'vendors', s: slug }; });
+    if (picks.length) store(picks);
+  }
 
   // Shared link
   var q = new URLSearchParams(location.search).get('team');
@@ -31,31 +54,62 @@
   }
 
   // Pick buttons
-  $$('.pl-item').forEach(function (item) {
-    var btn = $('[data-pick]', item);
-    var role = item.closest('.pl-role').getAttribute('data-role');
-    var slug = item.getAttribute('data-slug');
-    btn.hidden = false;
-    btn.addEventListener('click', function () {
-      if (has(picks, role, slug)) picks = picks.filter(function (p) { return !(p.r === role && p.s === slug); });
-      else picks.push({ r: role, s: slug });
+  items.forEach(function (item) {
+    item.button.hidden = false;
+    item.button.addEventListener('click', function () {
+      if (has(picks, item.role, item.slug)) {
+        picks = picks.filter(function (pick) { return !(pick.r === item.role && pick.s === item.slug); });
+      } else {
+        picks.push({ r: item.role, s: item.slug });
+      }
       store(picks);
       render();
     });
   });
+
+  function visiblePicks() {
+    return items.filter(function (item) { return !item.node.hidden; });
+  }
+
+  function updateBulk() {
+    if (!bulk) return;
+    var visible = visiblePicks();
+    var selected = new Set(picks.map(function (pick) { return pick.s; }));
+    bulk.disabled = !visible.length;
+    bulk.textContent = visible.length && visible.every(function (item) { return selected.has(item.slug); })
+      ? 'Deselect all results' : 'Select all results';
+  }
+
+  if (bulk) {
+    bulk.hidden = false;
+    document.addEventListener('planner:results', updateBulk);
+    bulk.addEventListener('click', function () {
+      var visible = visiblePicks();
+      var selected = new Set(picks.map(function (pick) { return pick.s; }));
+      if (visible.every(function (item) { return selected.has(item.slug); })) {
+        var visibleSlugs = new Set(visible.map(function (item) { return item.slug; }));
+        picks = picks.filter(function (pick) { return !visibleSlugs.has(pick.s); });
+      } else {
+        picks = picks.concat(visible.filter(function (item) { return !selected.has(item.slug); })
+          .map(function (item) { return { r: item.role, s: item.slug }; }));
+      }
+      store(picks);
+      render();
+    });
+  }
 
   var bar = $('[data-plan-bar]'), dlg = $('[data-plan-team]'), list = $('[data-plan-list]'), none = $('[data-plan-none]');
   var openDlg = function () { if (dlg.showModal) { if (!dlg.open) dlg.showModal(); } else dlg.setAttribute('open', ''); };
   var closeDlg = function () { if (dlg.close) dlg.close(); else dlg.removeAttribute('open'); };
 
   function render() {
-    $$('.pl-item').forEach(function (item) {
-      var btn = $('[data-pick]', item);
-      var role = item.closest('.pl-role').getAttribute('data-role');
-      var on = has(picks, role, item.getAttribute('data-slug'));
-      btn.setAttribute('aria-pressed', String(on));
-      btn.textContent = on ? '✓ Picked' : '+ Pick for ' + roleLabel(role).toLowerCase();
+    var selected = new Set(picks.map(function (pick) { return pick.r + '.' + pick.s; }));
+    items.forEach(function (item) {
+      var on = selected.has(item.role + '.' + item.slug);
+      item.button.setAttribute('aria-pressed', String(on));
+      item.button.textContent = bulk ? (on ? 'Selected' : 'Select vendor') : (on ? '✓ Picked' : '+ Pick for ' + roleLabel(item.role).toLowerCase());
     });
+    updateBulk();
     var shown = viewing || picks;
     $('[data-plan-count]').textContent = String(picks.length);
     bar.hidden = !picks.length;
@@ -116,7 +170,7 @@
 
   // Only businesses you can order, book or shop with online.
   var filter = $('[data-plan-direct]');
-  filter.addEventListener('change', function () {
+  if (filter) filter.addEventListener('change', function () {
     main.classList.toggle('pl-direct-only', filter.checked);
     $$('.pl-role').forEach(function (s) {
       var any = $$('.pl-item[data-direct]', s).length > 0;
