@@ -153,7 +153,7 @@ export const OWN_FACTS = {
   'rabbits-balloons': {
     source: 'https://rabbits-balloons.netlify.app/',
     checked: '2026-11-15',
-    links: [{ label: 'Color Studio', url: 'https://rabbits-balloons.netlify.app/#studio' }],
+    links: [{ label: 'Color Studio', url: 'https://rabbitsballoons.heartofcolumbus.shop/#studio' }],
     kin: [{ slug: 'turtles-flowers', label: 'Sister business', about: 'artisan florist' }],
   },
 };
