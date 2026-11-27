@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { voicePrompt, piecePrompt, blockers, cleanPiece, editionHtml, approved, SHAPES, MODES } from '../src/news/desk.mjs';
 import { assist } from '../netlify/functions/desk.mjs';
-import { makeDraft, deskEdition } from '../netlify/functions/newsletter.mjs';
+import { makeBroadcast, assemble } from '../netlify/functions/newsletter.mjs';
 
 const memStore = () => { const m = new Map(); return { m, getJSON: async (k) => (m.has(k) ? JSON.parse(m.get(k)) : null), setJSON: async (k, v) => { m.set(k, JSON.stringify(v)); } }; };
 const good = { id: 'p-one', status: 'drafting', shape: 'brief', headline: 'Mill Race Park lights go up Friday', body: 'The lights go up Friday at 6 PM.', sources: [{ url: 'https://columbus.in.gov/parks', note: 'Lighting Friday 6 PM' }] };
@@ -75,24 +75,25 @@ test('writing help calls the model with the cached voice and reports the cost', 
   assert.match((await assist({ key: 'k', voice: {}, piece: good, mode: 'draft', fetchFn: refused })).error, /declined/);
 });
 
-test('the morning job drafts the approved desk edition, and skips a skipped morning', async () => {
+test('the edition carries the approved desk pieces, and a skipped edition makes none', async () => {
   const desk = memStore();
   const date = '2026-11-25';
-  assert.equal(await deskEdition(desk, date, 'https://x.test'), null, 'no desk day, no desk edition');
+  const none = async () => new Response('', { status: 404 });
+  const auto = await assemble({ kind: 'morning', date, deskStore: desk, store: memStore(), origin: 'https://x.test', fetchFn: none });
+  assert.equal(auto.from, 'auto', 'no desk day, the automatic edition');
   await desk.setJSON(`day-${date}`, { date, plan: { subject: 'Lights up Friday', intro: '', order: ['p-one'], skip: false }, pieces: [{ ...good, status: 'approved' }] });
-  const ed = await deskEdition(desk, date, 'https://x.test');
+  const ed = await assemble({ kind: 'morning', date, deskStore: desk, store: memStore(), origin: 'https://x.test', fetchFn: none });
   assert.equal(ed.subject, 'Lights up Friday');
-  assert.equal(ed.fresh, 1);
+  assert.equal(ed.pieces, 1);
+  assert.match(ed.html, /Mill Race Park lights go up Friday/);
   const store = memStore();
   let posted;
   const fetchFn = async (url, init) => { posted = JSON.parse(init.body); return { ok: true, json: async () => ({ id: 'd1' }) }; };
-  const r = await makeDraft({ key: 'k', origin: 'https://x.test', date, store, fetchFn, log: () => {}, edition: ed });
+  const r = await makeBroadcast({ key: 'k', date, store, fetchFn, log: () => {}, subject: ed.subject, html: ed.html });
   assert.equal(r.reason, 'drafted');
   assert.equal(posted.subject, 'Lights up Friday');
-  assert.equal(posted.status, 'draft', 'never sends');
-  assert.equal((await store.getJSON(`draft-${date}`)).from, 'desk');
-  assert.equal((await makeDraft({ key: 'k', origin: 'https://x.test', date, store, fetchFn, log: () => {}, edition: ed })).reason, 'already');
-  assert.equal((await makeDraft({ key: 'k', origin: 'https://x.test', date, store, fetchFn, log: () => {}, edition: ed, force: true })).reason, 'drafted', 'the desk can make it again after an edit');
+  assert.equal(posted.status, 'draft', 'Buttondown only ever gets a draft');
+  assert.equal((await makeBroadcast({ key: 'k', date, store, fetchFn, log: () => {}, subject: ed.subject, html: ed.html })).reason, 'already');
   await desk.setJSON(`day-${date}`, { date, plan: { subject: 'x', order: [], skip: true }, pieces: [] });
-  assert.deepEqual(await deskEdition(desk, date, 'https://x.test'), { skip: true });
+  assert.equal((await assemble({ kind: 'morning', date, deskStore: desk, origin: 'https://x.test', fetchFn: none })).skip, true);
 });

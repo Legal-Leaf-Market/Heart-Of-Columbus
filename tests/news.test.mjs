@@ -371,31 +371,28 @@ test('news stories print as a newspaper page; history keeps the e-reader', () =>
   if (stories[0] === s) assert.ok(front.includes('np-lead-sticker'), 'the lead carries its first sticker');
 });
 
-// ---------- The newsletter morning job (netlify/functions/newsletter.mjs) ----------
-import { makeDraft } from '../netlify/functions/newsletter.mjs';
+// ---------- The newsletter jobs (netlify/functions/newsletter.mjs) ----------
+import { makeBroadcast } from '../netlify/functions/newsletter.mjs';
 
-test('the morning job makes one Buttondown draft per day, never sends, and fails closed', async () => {
+test('Buttondown gets one draft per edition and is never sent; with no service the job is off', async () => {
   const calls = [];
   const kv = new Map();
   const store = { getJSON: async (k) => kv.get(k) ?? null, setJSON: async (k, v) => { kv.set(k, v); } };
-  const fake = (edition) => async (url, init) => {
-    calls.push({ url, init });
-    if (url.includes('/newsletter/editions/')) return edition ? new Response(JSON.stringify(edition)) : new Response('', { status: 404 });
-    return new Response(JSON.stringify({ id: 'em_1' }), { status: 201 });
-  };
-  const ed = { date: '2026-11-24', subject: 'Heart of Columbus, Tuesday, November 24', html: '<p>Hi</p>', fresh: 2 };
+  const fake = async (url, init) => { calls.push({ url, init }); return new Response(JSON.stringify({ id: 'em_1' }), { status: 201 }); };
   const quiet = () => {};
-  assert.equal((await makeDraft({ key: '', origin: 'https://x', date: ed.date, store, fetchFn: fake(ed), log: quiet })).reason, 'no-key');
+  const base = { date: '2026-11-24', store, fetchFn: fake, log: quiet, subject: 'Heart of Columbus, Tuesday, November 24', html: '<p>Hi</p>' };
+  assert.equal((await makeBroadcast({ ...base, key: '' })).reason, 'no-key');
   assert.equal(calls.length, 0, 'no key, no requests');
-  const r = await makeDraft({ key: 'k', origin: 'https://x', date: ed.date, store, fetchFn: fake(ed), log: quiet });
-  assert.equal(r.reason, 'drafted');
+  assert.equal((await makeBroadcast({ ...base, key: 'k' })).reason, 'drafted');
   const post = calls.find((c) => c.init?.method === 'POST');
-  assert.equal(JSON.parse(post.init.body).status, 'draft', 'drafts only, never sends');
+  assert.equal(JSON.parse(post.init.body).status, 'draft', 'Buttondown drafts only');
   assert.equal(post.init.headers.authorization, 'Token k');
-  assert.equal((await makeDraft({ key: 'k', origin: 'https://x', date: ed.date, store, fetchFn: fake(ed), log: quiet })).reason, 'already', 'a retry makes no second draft');
-  assert.equal((await makeDraft({ key: 'k', origin: 'https://x', date: '2026-11-25', store, fetchFn: fake({ ...ed, date: '2026-11-25', fresh: 0 }), log: quiet })).reason, 'nothing-new');
-  assert.equal((await makeDraft({ key: 'k', origin: 'https://x', date: '2026-11-26', store, fetchFn: fake(null), log: quiet })).reason, 'no-edition');
+  assert.equal((await makeBroadcast({ ...base, key: 'k' })).reason, 'already', 'a retry makes no second draft');
+  assert.equal((await makeBroadcast({ ...base, key: 'k', kind: 'evening' })).reason, 'drafted', 'the evening is its own edition');
   assert.ok(existsSync(new URL('newsletter/editions/', dist)), 'the build writes editions');
+  assert.ok(existsSync(new URL('newsletter/daily.json', dist)), 'the build writes the daily file');
+  const daily = JSON.parse(readFileSync(new URL('newsletter/daily.json', dist), 'utf8'));
+  assert.ok(daily.spotlight.length && daily.design.length && Object.keys(daily.snapshot).length);
 });
 
 // ---------- Subscribing and sharing (2026-11-24) ----------

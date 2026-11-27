@@ -1,7 +1,8 @@
 // Readers talk to the newsroom: questions (/ask/), letters to the editor
 // (/letters/) and tips (/tips/), all stored by /api/newsroom for an editor.
 // No comment section, on purpose (docs/newspaper-plan.md, item 9).
-import { esc } from '../layout.mjs';
+import { esc, page } from '../layout.mjs';
+import { header, footer } from '../site.mjs';
 import { newsPage } from '../news/frame.mjs';
 import { PAPER } from '../data/paper.mjs';
 import { storyList } from '../news/render.mjs';
@@ -82,8 +83,9 @@ function inboxPage(ctx) {
 }
 
 
-// The publisher's writing desk: craft, approve and send the morning edition
-// to the newsletter service as a draft (src/news/desk.mjs, /api/desk).
+// The publisher's writing desk: craft and approve the morning and evening
+// editions (src/news/desk.mjs, /api/desk). Each edition's job builds it from
+// the desk and schedules it; Hold (/api/hold) stops a scheduled send.
 function deskPage(ctx) {
   const shapes = Object.entries(SHAPES).map(([k, v]) => `<option value="${k}">${esc(v.label)}</option>`).join('');
   const body = `
@@ -104,10 +106,10 @@ function deskPage(ctx) {
 </style>
 <section class="wrap np-section dk-wrap" data-desk>
   <header class="np-doc-head"><p class="kicker">Private</p><h1>The desk</h1>
-  <p class="muted">Your morning edition. You set the angle and the take, the desk helps you write it in your voice, and nothing goes out until you approve it and press send in the newsletter service.</p></header>
+  <p class="muted">Your morning and evening editions. You set the angle and the take, the desk helps you write it in your voice, and only pieces you approve go in. Each edition sends on its own at its time (6:45 AM and 6:00 PM) unless you press Hold.</p></header>
   <p class="muted" data-desk-status>Loading…</p>
   <nav class="dk-tabs" aria-label="Desk">
-    <button type="button" class="pill" data-tab="today" aria-pressed="true">This morning</button>
+    <button type="button" class="pill" data-tab="today" aria-pressed="true">This edition</button>
     <button type="button" class="pill" data-tab="ideas" aria-pressed="false">Idea bank</button>
     <button type="button" class="pill" data-tab="voice" aria-pressed="false">Your voice</button>
     <button type="button" class="pill" data-tab="preview" aria-pressed="false">Preview</button>
@@ -115,18 +117,25 @@ function deskPage(ctx) {
 
   <div class="dk" data-pane="today">
     <aside class="dk-side">
-      <label for="dk-date">Morning</label><input id="dk-date" type="date" data-date>
+      <label for="dk-date">Day</label><input id="dk-date" type="date" data-date>
+      <div class="dk-tabs" role="group" aria-label="Edition" style="margin:10px 0 0"><button type="button" class="pill" data-edition="morning" aria-pressed="true">Morning</button><button type="button" class="pill" data-edition="evening" aria-pressed="false">Evening</button></div>
+      <p class="muted dk-count" data-clock></p>
       <label for="dk-subject">Subject line</label><input id="dk-subject" data-plan="subject" maxlength="150">
       <div class="dk-tools"><button type="button" class="btn" data-assist="subject">Suggest subjects</button></div>
-      <label for="dk-intro">Your open <span class="muted">(Markdown, in your words)</span></label><textarea id="dk-intro" data-plan="intro" rows="5"></textarea>
-      <label><input type="checkbox" data-plan="skip" style="width:auto"> No edition this morning</label>
+      <label for="dk-intro">Your open <span class="muted">(Markdown, in your words; the evening uses one line)</span></label><textarea id="dk-intro" data-plan="intro" rows="5"></textarea>
+      <h2>Up the road</h2>
+      <p class="muted dk-count">One IndyStar story for this edition. Paste the link and type the headline; we never open their site, so it goes out as you typed it, credited "via IndyStar".</p>
+      <label for="dk-road-url">IndyStar link</label><input id="dk-road-url" type="url" data-road="url" placeholder="https://www.indystar.com/story/...">
+      <label for="dk-road-h">Headline <span class="muted">(as you type it)</span></label><input id="dk-road-h" data-road="headline" maxlength="200">
+      <label for="dk-road-c">Your comment <span class="muted">(optional, labeled as yours)</span></label><textarea id="dk-road-c" data-road="comment" rows="2" maxlength="600"></textarea>
+      <label><input type="checkbox" data-plan="skip" style="width:auto"> No edition this time</label>
       <div class="dk-tools"><button type="button" class="btn" data-save-plan>Save plan</button></div>
       <h2>Pieces</h2>
       <ol class="dk-list" data-pieces></ol>
       <div class="dk-tools"><button type="button" class="btn" data-new>New piece</button></div>
       <h2>Send</h2>
       <p class="muted dk-count" data-ready></p>
-      <div class="dk-tools"><button type="button" class="btn" data-draft>Make the newsletter draft</button></div>
+      <div class="dk-tools"><button type="button" class="btn" data-draft>Make the draft now</button><button type="button" class="btn" data-hold hidden>Hold this edition</button></div>
       <p class="muted dk-count" data-drafted></p>
       <p class="muted dk-count" data-run></p>
     </aside>
@@ -161,7 +170,7 @@ function deskPage(ctx) {
 
   <div data-pane="ideas" hidden>
     <h2>Overnight leads</h2>
-    <p class="muted">Gathered before dawn from public notices: city and county news, agendas and minutes, the county calendar, weather alerts and today's events. Leads, not stories: read each one at its source before you use it.</p>
+    <p class="muted">Gathered before dawn from public notices: city and county news, agendas and minutes, the county calendar and today's events. Leads, not stories: read each one at its source before you use it.</p>
     <p class="muted dk-count" data-leads-meta></p>
     <ul class="dk-list dk-leads" data-leads></ul>
     <div class="dk-tools"><button type="button" class="btn" data-gather>Gather now</button></div>
@@ -190,7 +199,26 @@ function deskPage(ctx) {
   return newsPage({ ...ctx, path: '/newsroom/desk/', title: 'The desk', description: 'Private.', body, scripts: ['desk.js'] });
 }
 
+// Hold a scheduled edition (/api/hold). The link in each edition's note
+// carries a one time code after #; the page moves it to this tab, wipes the
+// address bar, and holds only when the button is pressed, so a mail scanner
+// opening the link stops nothing.
+function holdPage({ assets }) {
+  const body = `
+${header('')}
+<main id="main" class="wrap prose" data-hold-page>
+  <p class="kicker">Private</p>
+  <h1>Hold an edition</h1>
+  <p data-hold-status>Loading…</p>
+  <p><button type="button" class="btn" data-hold-go hidden>Hold this edition</button></p>
+  <p class="muted">Holding turns the scheduled email back into a draft in Resend. Nothing is sent. You can fix it and send it from Resend, or leave it.</p>
+</main>
+${footer()}`;
+  return page({ title: 'Hold an edition | Heart of Columbus', description: 'Private.', body, scripts: ['hold.js'], styles: ['hoc.css'], assets, head: '<meta name="referrer" content="no-referrer">', path: '/newsroom/hold/' });
+}
+
 export const readerPages = (ctx) => [
+  { path: 'newsroom/hold/index.html', html: holdPage(ctx) },
   { path: 'ask/index.html', html: askPage(ctx) },
   { path: 'letters/index.html', html: lettersPage(ctx) },
   { path: 'tips/index.html', html: tipsPage(ctx) },

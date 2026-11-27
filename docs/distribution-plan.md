@@ -42,7 +42,7 @@ Mirror Indy and others, with sources there).
 
 ## The weekly rhythm (start here)
 
-- **Weekday mornings:** read the draft in Resend, fix anything, press send.
+- **Every morning and evening:** the editions send on their own at 6:45 AM and 6:00 PM. Read the note each one emails you (6:15 AM and 5:30 PM) and press Hold if anything is wrong.
 - **Every story day:** post it once to the Heart of Columbus Facebook page
   with "Copy for a post", then share that post into the two or three local
   groups where it fits (check each group's rules on links first).

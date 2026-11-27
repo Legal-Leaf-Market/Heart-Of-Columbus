@@ -1,7 +1,6 @@
 // Overnight lead gathering for the morning newsletter. Reads the public,
 // first-hand sources that publish facts nobody turns into news (city and
-// county notices, meeting agendas and minutes, weather alerts, today's
-// events) and lists what is new for the publisher at the writing desk.
+// county notices, meeting agendas and minutes, today's events) and lists what is new for the publisher at the writing desk.
 //
 // Leads, never stories (CLAUDE.md, "Automation makes leads, not stories"):
 // only a title, a link, a date and who published it are kept. No article
@@ -43,11 +42,9 @@ export const SOURCES = [
     url: 'https://www.bartholomew.in.gov/index.php?option=com_jevents&task=modlatest.rss&format=feed&type=rss&Itemid=111&modid=0',
     home: 'https://www.bartholomew.in.gov/', checked: '2026-11-27',
   },
-  {
-    id: 'nws', name: 'National Weather Service, alerts for Columbus', kind: 'nws',
-    url: 'https://api.weather.gov/alerts/active?point=39.2014,-85.9214',
-    home: 'https://forecast.weather.gov/MapClick.php?lat=39.2014&lon=-85.9214', checked: '2026-11-27',
-  },
+  // The National Weather Service alerts (api.weather.gov) were here until
+  // 2026-11-27, when a recheck found its robots.txt disallows every path.
+  // The editions link the forecast page instead; check alerts there by hand.
   {
     // Our own merged events feed (library, parks, hand-entered listings).
     id: 'events', name: 'Today in Columbus (our events feed)', kind: 'events',

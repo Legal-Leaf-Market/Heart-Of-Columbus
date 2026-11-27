@@ -6,6 +6,27 @@ each list.
 
 ## In progress
 
+### Morning and evening editions that send (`claude/bold-franklin-leyln4`)
+Jake's decisions (2026-11-27): two editions every day, each sent on schedule
+unless he presses Hold; readers choose morning, evening or both; one IndyStar
+shout out per edition. Plus the Founders Club raised to 20 spots.
+- [x] Clock for both editions across daylight time, one run per date and edition
+- [x] Broadcast per topic, scheduled in Resend; Hold (`/api/hold`, `/newsroom/hold/`)
+- [x] One note per edition with the subject, preview link, Hold link and the edition
+- [x] Desk: Morning / Evening switch, Up the road, Hold button, full edition preview
+- [x] Shop Local Spotlight, Columbus by Design, Open, Closed, New Hours, Lookout
+- [x] Signup choice (Morning, Evening, Both) sets the two Resend topics
+- [x] Weather is a link: api.weather.gov's robots.txt disallows every path, so
+      the NWS alerts source left the overnight leads too
+- [x] Studio C wheel throwing moved to Dec 5 and Dec 12
+- [x] Founders Club: 20 spots, the "grandfathered in, promised and guaranteed" offer
+- [ ] Jake: turn off the two temporary Claude scheduled tasks once this is live
+- [ ] Jake: make both Resend topics Public so readers see them on the preferences page
+- [ ] First real edition in Resend is the end to end proof (topic_id and scheduled_at untested live)
+- [ ] Not this PR, already red on main since #218: two missing app icon WebPs
+      (`news-app-icon-*`, `churches-app-icon-180.png`) and a duplicate title on
+      `/apps/news/2026/11/my-father-my-hero/`
+
 ### Places of worship and nonprofits (`claude/worship-addresses`)
 Visitors ask hotels for a Mass schedule; the site should list every
 congregation in town, of every faith, by area and by faith, plus nonprofits.

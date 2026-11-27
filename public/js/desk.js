@@ -18,12 +18,13 @@
     return k;
   }
   var KEY = adminKey();
-  var state = { date: '', day: null, voice: null, ideas: [], leads: null, current: null, ai: false, out: '' };
+  var state = { date: '', edition: 'morning', day: null, voice: null, ideas: [], leads: null, current: null, ai: false, out: '', drafted: null };
   var status = $('[data-desk-status]');
   var say = function (t) { status.textContent = t; };
 
-  function api(method, body, query) {
-    return fetch('/api/desk' + (query || ''), {
+  function api(method, body, query, path) {
+    if (body && !body.edition) body.edition = state.edition;
+    return fetch((path || '/api/desk') + (query || ''), {
       method: method, cache: 'no-store',
       headers: { 'x-hoc-key': KEY, 'content-type': 'application/json' },
       body: body ? JSON.stringify(body) : undefined,
@@ -40,28 +41,41 @@
     });
   });
 
-  // ---------- Loading a morning ----------
+  // ---------- Loading a day's edition ----------
+  var clock = function (m) { var h = Math.floor(m / 60), mm = m % 60; return (h % 12 || 12) + ':' + (mm < 10 ? '0' : '') + mm + (h < 12 ? ' AM' : ' PM'); };
+  var NAME = { morning: 'morning edition', evening: 'evening edition' };
+  var RUN = { scheduled: 'scheduled it', late: 'made a draft but did not send it (it ran too late)', drafted: 'made the draft', updated: 'updated the draft', already: 'found the draft already made', skip: 'made none (No edition)', thin: 'made none (nothing but the weather)', 'no-topic': 'made none (no evening topic set)', 'not-scheduled': 'could not schedule it', 'already-scheduled': 'found it already scheduled', refused: 'was refused by the newsletter service', 'no-key': 'is off (no newsletter service set)' };
   function load(date) {
     say('Loading…');
-    return api('GET', null, date ? '?date=' + date : '').then(function (j) {
-      state.date = j.date; state.day = j.day; state.voice = j.voice; state.ideas = j.ideas; state.ai = j.ai; state.leads = j.leads;
+    return api('GET', null, '?edition=' + state.edition + (date ? '&date=' + date : '')).then(function (j) {
+      state.date = j.date; state.day = j.day; state.voice = j.voice; state.ideas = j.ideas; state.ai = j.ai; state.leads = j.leads; state.drafted = j.drafted;
       $('[data-date]').value = j.date;
+      $$('[data-edition]').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-edition') === state.edition ? 'true' : 'false'); });
+      $('[data-clock]').textContent = 'Approve by ' + clock(j.clock.deadline) + '. The draft is made at ' + clock(j.clock.draft) + ' and goes out at ' + clock(j.clock.send) + ' unless you press Hold.' + (state.edition === 'evening' ? ' The evening takes up to two pieces and a one line open.' : '') + (j.topic ? '' : (state.edition === 'evening' ? ' No evening topic is set in Netlify, so the evening is skipped.' : ' No morning topic is set in Netlify, so it goes to the whole list.'));
       $('[data-plan=subject]').value = j.day.plan.subject || '';
       $('[data-plan=intro]').value = j.day.plan.intro || '';
       $('[data-plan=skip]').checked = !!j.day.plan.skip;
-      $('[data-drafted]').textContent = j.drafted ? 'Draft made ' + new Date(j.drafted.at).toLocaleString() + (j.drafted.from ? ' (' + (j.drafted.from === 'desk' ? 'from the desk' : 'automatic') + ')' : '') + '. Open your newsletter service to read it and press send.' : 'No draft yet for this morning.';
-      var RUN = { drafted: 'made the draft', updated: 'updated the draft', already: 'found the draft already made', 'nothing-new': 'made no draft (nothing approved, no new story)', skip: 'made no draft (No edition)', 'no-edition': 'made no draft (no edition file)', refused: 'was refused by the newsletter service', 'no-key': 'is off (no newsletter service set)' };
-      $('[data-run]').textContent = (j.service ? '' : 'No newsletter service is set in Netlify, so no draft can be made. ') + (j.run ? 'The 6:45 AM job ' + (RUN[j.run.reason] || j.run.reason) + ' at ' + new Date(j.run.at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) + '.' + ((j.run.notes || []).length ? ' ' + j.run.notes.join(' ') : '') : (j.date === j.today ? 'The morning job runs at 6:45 AM; approve pieces before then and it uses yours.' : ''));
+      var road = j.day.plan.road || {};
+      $('[data-road=url]').value = road.url || road.typedUrl || '';
+      $('[data-road=headline]').value = road.headline || '';
+      $('[data-road=comment]').value = road.comment || '';
+      var d = j.drafted;
+      $('[data-drafted]').textContent = d ? (d.held ? 'Held ' + new Date(d.held).toLocaleString() + '. It is a draft in Resend and will not go out.' : d.scheduled ? 'Scheduled to go out ' + new Date(d.scheduled).toLocaleString([], { timeZone: 'America/Indiana/Indianapolis', weekday: 'short', hour: 'numeric', minute: '2-digit' }) + ' Columbus time' + '. Press Hold to stop it.' : 'Draft made ' + new Date(d.at).toLocaleString() + '. The ' + clock(j.clock.draft) + ' job updates it from the desk and schedules it.') : 'No draft yet for this ' + NAME[state.edition] + '.';
+      $('[data-hold]').hidden = !(d && d.scheduled && !d.held);
+      $('[data-run]').textContent = (j.service ? '' : 'No newsletter service is set in Netlify, so nothing can be made or sent. ') + (j.run ? 'The ' + clock(j.clock.draft) + ' job ' + (RUN[j.run.reason] || j.run.reason) + ' at ' + new Date(j.run.at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) + '.' + (j.run.held ? ' You held it.' : '') + ((j.run.notes || []).length ? ' ' + j.run.notes.join(' ') : '') : (j.date === j.today ? 'The job runs at ' + clock(j.clock.draft) + ' and uses what you approved by then.' : ''));
       renderPieces(); renderIdeas(); renderVoice(); renderLeads();
       openPiece(null);
-      say((j.date === j.today ? 'This morning, ' : '') + j.date + (j.ai ? '. Writing help is on (' + j.model + ').' : '. Writing help is off until ANTHROPIC_API_KEY is set in Netlify.'));
+      say((j.date === j.today ? 'Today, ' : '') + j.date + ', the ' + NAME[state.edition] + (j.ai ? '. Writing help is on (' + j.model + ').' : '. Writing help is off until ANTHROPIC_API_KEY is set in Netlify.'));
     }).catch(function (e) { say(e.message); });
   }
   $('[data-date]').addEventListener('change', function (e) { load(e.target.value); });
+  $$('[data-edition]').forEach(function (b) {
+    b.addEventListener('click', function () { state.edition = b.getAttribute('data-edition'); load(state.date); });
+  });
 
   // ---------- The edition plan ----------
   function plan() {
-    return { subject: $('[data-plan=subject]').value, intro: $('[data-plan=intro]').value, skip: $('[data-plan=skip]').checked, order: state.day.plan.order };
+    return { subject: $('[data-plan=subject]').value, intro: $('[data-plan=intro]').value, skip: $('[data-plan=skip]').checked, order: state.day.plan.order, road: { url: $('[data-road=url]').value.trim(), headline: $('[data-road=headline]').value, comment: $('[data-road=comment]').value } };
   }
   function savePlan(order) {
     var p = plan(); if (order) p.order = order;
@@ -128,7 +142,7 @@
       var mine = j.day.pieces.filter(function (x) { return x.id === p.id; })[0] || saved;
       state.current = JSON.parse(JSON.stringify(mine));
       $('[data-f=status]').value = state.current.status;
-      renderPieces(); $('[data-blockers]').textContent = ''; say(status === 'approved' ? 'Approved. It will be in this morning\'s edition.' : 'Saved.');
+      renderPieces(); $('[data-blockers]').textContent = ''; say(status === 'approved' ? 'Approved. It will be in the ' + NAME[state.edition] + '.' : 'Saved.');
     }).catch(function (e) { $('[data-blockers]').textContent = e.message; say('Not saved.'); });
   }
   $('[data-save]').addEventListener('click', function () { save(); });
@@ -181,16 +195,18 @@
   // ---------- Preview and the draft ----------
   function preview() {
     api('POST', { action: 'preview', date: state.date }).then(function (j) {
-      $('[data-preview]').srcdoc = j.html;
-      $('[data-preview-note]').textContent = j.count + ' approved piece' + (j.count === 1 ? '' : 's') + '. Save the plan to see a new subject or open here.';
+      $('[data-preview]').srcdoc = j.html || '<p style="font-family:Georgia,serif">No edition: this one is marked "No edition".</p>';
+      $('[data-preview-note]').textContent = (j.subject ? 'Subject: ' + j.subject + '. ' : '') + j.count + ' approved piece' + (j.count === 1 ? '' : 's') + (j.count ? '' : ', so the automatic edition goes out') + '. ' + (j.notes || []).join(' ') + (j.html && !j.substance ? ' Nothing but the weather yet, so this edition would be skipped.' : '') + ' Save the plan to see a new subject, open or Up the road here.';
     }).catch(function (e) { say(e.message); });
   }
   $('[data-draft]').addEventListener('click', function () {
-    var again = /Draft made/.test($('[data-drafted]').textContent);
-    if (again && !confirm('A draft was already made for this morning. Replace it with this one?')) return;
-    savePlan().then(function () { return api('POST', { action: 'draft', date: state.date, force: again }); })
-      .then(function (j) { say(j.reason === 'drafted' ? 'Draft made. Open your newsletter service, read it and press send.' : j.reason === 'updated' ? 'The earlier draft was replaced with this one. Open your newsletter service, read it and press send.' : 'Done: ' + j.reason); return load(state.date); })
+    savePlan().then(function () { return api('POST', { action: 'draft', date: state.date }); })
+      .then(function (j) { say(j.reason === 'drafted' ? 'Draft made in Resend. The scheduled job updates it from the desk and sends it at its time.' : j.reason === 'updated' ? 'The draft in Resend was updated with this one.' : 'Done: ' + j.reason); return load(state.date); })
       .catch(function (e) { say(e.message); });
+  });
+  $('[data-hold]').addEventListener('click', function () {
+    if (!confirm('Hold the ' + NAME[state.edition] + ' for ' + state.date + '? It turns back into a draft in Resend and is not sent.')) return;
+    api('POST', { date: state.date, edition: state.edition }, '', '/api/hold').then(function () { say('Held. Nothing will be sent.'); return load(state.date); }).catch(function (e) { say(e.message); });
   });
 
   // ---------- Idea bank ----------

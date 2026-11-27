@@ -43,7 +43,15 @@ export const MEMBERS = {
 };
 
 export const PRICE = 20; // dollars a month, locked for founding members
-export const SPOTS = 10; // size of the founding pilot group
+// Size of the founding group. Jacob Kennedy raised it from 10 to 20 on
+// 2026-11-27, once the first ten were taken.
+export const SPOTS = 20;
+export const FIRST_SPOTS = 10; // the original pilot, full since 2026-11-25
+// The founding promise, Jacob Kennedy's words (2026-11-27): every Founding
+// Member is grandfathered into every feature, the small business ERP
+// included, promised and guaranteed. Shown on /founders-club/, /owners/ and
+// the home page slide; change it only on his say so.
+export const FOUNDER_PROMISE = `Every Founding Member is grandfathered in: every feature we build, the small business ERP included, at $${PRICE} a month for as long as you stay. Promised and guaranteed.`;
 
 export const isMember = (slug, members = MEMBERS) => Object.hasOwn(members, slug);
 

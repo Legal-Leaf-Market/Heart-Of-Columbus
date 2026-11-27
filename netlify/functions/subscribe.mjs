@@ -3,8 +3,9 @@
 // POST { email } (JSON from the signup script, or a plain form post) stores a
 // pending signup in Netlify Blobs and emails a confirmation link. Opening
 // that link (GET /api/subscribe?confirm=<token>) shows one button; pressing
-// it (POST confirm=<token>) adds the address to the Resend segment the
-// morning newsletter goes to. The button is there because mail scanners open
+// it (POST confirm=<token>) adds the address to the Resend segment and sets
+// its two topics, Morning edition and Evening edition, to what the reader
+// chose on the form (`choice`: morning, evening or both; both when absent). The button is there because mail scanners open
 // every link in an email before the reader does: a link that confirmed on
 // its own was used up by the scanner, and the reader then saw "expired"
 // (seen in the logs on 2026-11-24). A confirmed link keeps saying "You're
@@ -17,7 +18,8 @@
 // Resend renamed Audiences to Segments in November 2025 and kept the ids)
 // and HOC_NEWSLETTER_FROM (an address on a domain verified in Resend, such as
 // "Heart of Columbus <news@...>"). Without them it answers 503 and says
-// signup isn't open yet.
+// signup isn't open yet. RESEND_TOPIC_MORNING and RESEND_TOPIC_EVENING are
+// the topic ids; without them a reader gets whatever the segment is sent.
 import { blobStore } from '../../src/blobs.mjs';
 
 export const config = { path: '/api/subscribe' };
@@ -37,16 +39,31 @@ const RESEND = 'https://api.resend.com';
 // A new address is created in the segment; one Resend already knows (it
 // signed up before, or unsubscribed and has now confirmed again) is added to
 // the segment and marked subscribed, since this confirmation is their say so.
-export async function addContact(email, cfg, fetchFn = fetch) {
+export const CHOICES = ['both', 'morning', 'evening'];
+export const cleanChoice = (c) => (CHOICES.includes(String(c || '').toLowerCase()) ? String(c).toLowerCase() : 'both');
+// The topic settings for a choice: opted in to what they picked, out of the other.
+export function topicsFor(choice, topics = {}) {
+  const c = cleanChoice(choice);
+  return [['morning', topics.morning], ['evening', topics.evening]].filter(([, id]) => id)
+    .map(([k, id]) => ({ id, subscription: c === 'both' || c === k ? 'opt_in' : 'opt_out' }));
+}
+
+export async function addContact(email, cfg, fetchFn = fetch, choice = 'both') {
   const headers = { authorization: `Bearer ${cfg.key}`, 'content-type': 'application/json' };
-  const made = await fetchFn(`${RESEND}/contacts`, { method: 'POST', headers, body: JSON.stringify({ email, unsubscribed: false, segments: [{ id: cfg.audience }] }) });
+  const topics = topicsFor(choice, cfg.topics);
+  const made = await fetchFn(`${RESEND}/contacts`, { method: 'POST', headers, body: JSON.stringify({ email, unsubscribed: false, segments: [{ id: cfg.audience }], ...(topics.length ? { topics } : {}) }) });
   if (made.ok) return true;
   const e = encodeURIComponent(email);
   const into = await fetchFn(`${RESEND}/contacts/${e}/segments/${encodeURIComponent(cfg.audience)}`, { method: 'POST', headers });
   if (!into.ok && into.status !== 409) return false;
   const back = await fetchFn(`${RESEND}/contacts/${e}`, { method: 'PATCH', headers, body: JSON.stringify({ unsubscribed: false }) });
-  return back.ok;
+  if (!back.ok) return false;
+  if (!topics.length) return true;
+  const set = await fetchFn(`${RESEND}/contacts/${e}/topics`, { method: 'PATCH', headers, body: JSON.stringify(topics) });
+  return set.ok;
 }
+
+const WHICH = { both: 'the morning and evening editions', morning: 'the morning edition', evening: 'the evening edition' };
 
 export async function handle(req, { store, fetchFn = fetch, cfg }) {
   const url = new URL(req.url);
@@ -54,7 +71,7 @@ export async function handle(req, { store, fetchFn = fetch, cfg }) {
   const reply = (ok, msg, status) => (req.method === 'POST' && isForm ? page(ok ? 'Check your email' : 'Not yet', esc(msg), status) : json({ ok, message: msg }, status));
   if (!cfg.key || !cfg.audience || !cfg.from || !store) return reply(false, 'Newsletter signup opens soon.', 503);
 
-  const IN = ["You're in", 'Thanks for reading. The morning edition arrives on weekdays, and every email has a one click unsubscribe.'];
+  const IN = ["You're in", 'Thanks for reading. The morning edition comes at 6:45 AM and the evening edition at 6:00 PM, every day, for whichever you chose. Every email has a link to change that or unsubscribe.'];
   const pendingFor = async (raw) => {
     const t = String(raw || '').replace(/[^0-9a-f]/g, '');
     const p = t.length === 48 ? await store.getJSON(`pending-${t}`) : null;
@@ -66,7 +83,7 @@ export async function handle(req, { store, fetchFn = fetch, cfg }) {
     const got = await pendingFor(url.searchParams.get('confirm'));
     if (!got) return expired();
     if (got.p.confirmed) return page(...IN);
-    return page('One more click', `Press the button to send the morning edition to ${esc(got.p.email)}.</p><form method="post" action="/api/subscribe"><input type="hidden" name="confirm" value="${got.t}"><button type="submit" style="font:inherit;background:#b92e2b;color:#fff;border:0;padding:12px 20px;border-radius:8px;cursor:pointer">Yes, sign me up</button></form><p style="font-size:14px">If you didn't ask for it, close this page and nothing happens.`);
+    return page('One more click', `Press the button to send ${WHICH[cleanChoice(got.p.choice)]} to ${esc(got.p.email)}.</p><form method="post" action="/api/subscribe"><input type="hidden" name="confirm" value="${got.t}"><button type="submit" style="font:inherit;background:#b92e2b;color:#fff;border:0;padding:12px 20px;border-radius:8px;cursor:pointer">Yes, sign me up</button></form><p style="font-size:14px">If you didn't ask for it, close this page and nothing happens.`);
   }
 
   if (req.method !== 'POST') return json({ ok: false }, 405);
@@ -76,7 +93,7 @@ export async function handle(req, { store, fetchFn = fetch, cfg }) {
     const got = await pendingFor(body.confirm);
     if (!got) return expired();
     if (got.p.confirmed) return page(...IN);
-    if (!(await addContact(got.p.email, cfg, fetchFn))) return page('Something went wrong', 'We could not finish your signup. Please open the link from the email again in a minute.', 502);
+    if (!(await addContact(got.p.email, cfg, fetchFn, got.p.choice))) return page('Something went wrong', 'We could not finish your signup. Please open the link from the email again in a minute.', 502);
     await store.setJSON(`pending-${got.t}`, { ...got.p, confirmed: new Date().toISOString() });
     return page(...IN);
   }
@@ -88,13 +105,14 @@ export async function handle(req, { store, fetchFn = fetch, cfg }) {
   if (asked && Date.now() - new Date(asked.at).getTime() < WAIT) return reply(true, 'Check your email and click the link to confirm.', 200);
   await store.setJSON(askKey, { at: new Date().toISOString() });
   const t = token();
-  await store.setJSON(`pending-${t}`, { email, at: new Date().toISOString() });
+  const choice = cleanChoice(body.choice);
+  await store.setJSON(`pending-${t}`, { email, choice, at: new Date().toISOString() });
   const link = `${cfg.origin}/api/subscribe?confirm=${t}`;
   const sent = await fetchFn(`${RESEND}/emails`, {
     method: 'POST', headers: { authorization: `Bearer ${cfg.key}`, 'content-type': 'application/json' },
     body: JSON.stringify({
       from: cfg.from, to: [email], subject: 'Confirm your Heart of Columbus newsletter',
-      html: `<div style="font-family:Georgia,serif;max-width:520px;margin:auto;color:#1b1a17"><h1 style="font-size:24px">Confirm your signup</h1><p>Confirm you want the Heart of Columbus morning edition: Columbus news, what's open early and today's events, on weekdays.</p><p><a href="${link}" style="display:inline-block;background:#b92e2b;color:#fff;padding:12px 20px;border-radius:8px;text-decoration:none">Yes, sign me up</a></p><p style="font-size:13px;color:#555">If you didn't ask for this, ignore this email and nothing happens.</p></div>`,
+      html: `<div style="font-family:Georgia,serif;max-width:520px;margin:auto;color:#1b1a17"><h1 style="font-size:24px">Confirm your signup</h1><p>Confirm you want ${WHICH[choice]} of Heart of Columbus: Columbus news, a local business, what's on and the weather, every day.</p><p><a href="${link}" style="display:inline-block;background:#b92e2b;color:#fff;padding:12px 20px;border-radius:8px;text-decoration:none">Yes, sign me up</a></p><p style="font-size:13px;color:#555">If you didn't ask for this, ignore this email and nothing happens.</p></div>`,
       text: `Confirm your Heart of Columbus newsletter: ${link}\n\nIf you didn't ask for this, ignore this email.`,
     }),
   });
@@ -104,5 +122,5 @@ export async function handle(req, { store, fetchFn = fetch, cfg }) {
 
 export default async (req) => handle(req, {
   store: blobStore('newsletter'),
-  cfg: { key: env('RESEND_API_KEY'), audience: env('RESEND_SEGMENT_ID') || env('RESEND_AUDIENCE_ID'), from: env('HOC_NEWSLETTER_FROM'), origin: env('URL') || 'https://heartofcolumbus.shop' },
+  cfg: { key: env('RESEND_API_KEY'), audience: env('RESEND_SEGMENT_ID') || env('RESEND_AUDIENCE_ID'), from: env('HOC_NEWSLETTER_FROM'), origin: env('URL') || 'https://heartofcolumbus.shop', topics: { morning: env('RESEND_TOPIC_MORNING'), evening: env('RESEND_TOPIC_EVENING') } },
 });

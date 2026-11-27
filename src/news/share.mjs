@@ -9,8 +9,11 @@ import { NEWSLETTER, PAPER } from '../data/paper.mjs';
 const abs = (h) => (h.startsWith('http') ? h : ORIGIN + h);
 const enc = encodeURIComponent;
 
-export function signupBox({ heading = 'Get the morning edition', compact = false } = {}) {
-  const pitch = 'Good, honest Columbus news, what’s open early and today’s events. Weekday mornings, free.';
+// `choice` adds the Morning, Evening or Both picker (the /newsletter/ page);
+// every other box signs a reader up for both, and every email links to the
+// page where they can change it.
+export function signupBox({ heading = 'Get the newsletter', compact = false, choice = false } = {}) {
+  const pitch = 'Good, honest Columbus news, a local business, what’s on and the weather. Every morning and evening, free.';
   if (!NEWSLETTER.signupAction) return `<aside class="np-signup${compact ? ' np-signup-sm' : ''}"><p class="np-signup-k">Newsletter</p><h2>${esc(heading)}</h2><p>${pitch}</p><p class="fine">Signup opens soon. <a href="/news/feed.xml">Follow by RSS</a> in the meantime.</p></aside>`;
   const ours = NEWSLETTER.provider === 'resend';
   return `<aside class="np-signup${compact ? ' np-signup-sm' : ''}">
@@ -19,6 +22,7 @@ export function signupBox({ heading = 'Get the morning edition', compact = false
     <label class="sr-only" for="nl-${compact ? 's' : 'l'}">Email</label>
     <input id="nl-${compact ? 's' : 'l'}" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
     ${ours ? '<input class="np-hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">' : '<input type="hidden" name="embed" value="1">'}
+    ${ours && choice ? `<fieldset class="np-signup-choice"><legend>Which editions?</legend>${[['morning', 'Morning, 6:45 AM'], ['evening', 'Evening, 6:00 PM'], ['both', 'Both']].map(([v, l]) => `<label><input type="radio" name="choice" value="${v}"${v === 'both' ? ' checked' : ''}> ${l}</label>`).join(' ')}</fieldset>` : ''}
     <button type="submit">Sign up</button>
   </form>
   <p class="np-signup-msg" data-subscribe-msg role="status"></p>

@@ -6,7 +6,7 @@
 import { page } from '../layout.mjs';
 import { header, footer, card, svg, creatorPromo } from '../site.mjs';
 import { directory, CATEGORIES } from '../data/directory.mjs';
-import { MEMBERS, PRICE, SPOTS, AMBASSADORS, WELCOME_MONTHS, REFERRAL_TIERS } from '../data/members.mjs';
+import { MEMBERS, PRICE, SPOTS, FIRST_SPOTS, FOUNDER_PROMISE, AMBASSADORS, WELCOME_MONTHS, REFERRAL_TIERS } from '../data/members.mjs';
 
 const styles = ['hoc.css'];
 const bySlug = Object.fromEntries(directory.map((b) => [b.slug, b]));
@@ -39,6 +39,18 @@ ${header('')}
     <div class="order-stats"><a href="/explore/"><b>${directory.length}</b> local businesses listed</a><a href="/order/"><b>${direct}</b> book or order direct</a><a href="#wall"><b>${open}</b> of ${SPOTS} founding spots open</a></div>
   </div>
 </section>
+${open > 0 ? `<section class="wrap ow-how fc-more" id="more-spots">
+  <p class="kicker kicker-pill">More founding spots</p>
+  <h2>The first ${FIRST_SPOTS} filled up. We opened ${SPOTS - FIRST_SPOTS} more.</h2>
+  <p><b>${open} of ${SPOTS} founding spots are open.</b> ${FOUNDER_PROMISE}</p>
+  <ul>
+    <li><b>Your own website,</b> built and kept current, on a domain in your name.</li>
+    <li><b>A featured, numbered place</b> on the Founders Wall, first in your category and marked ★ Founding Member.</li>
+    <li><b>Every new feature, grandfathered in:</b> booking of our own, bookkeeping for your trade and the full small business ERP, the day each one is ready, with no upgrade fees.</li>
+    <li><b>Your $${PRICE} a month, locked</b> for as long as you stay. Cancel any time, and your site goes with you.</li>
+  </ul>
+  <p><a class="btn" href="/owners/?want=founders#claim">Claim a founding spot ${svg('arrow', 'ic-sm')}</a></p>
+</section>` : ''}
 
 <section class="wrap fc-tiers" aria-label="Ways to join">
   ${tiers.map(([name, price, blurb, perks, cls]) => `<div class="fc-tier ${cls}">
@@ -58,7 +70,7 @@ ${header('')}
     <div><b>Bookkeeping for your trade</b><span>We are already building accounting software for the wedding industry. We will adapt it industry by industry, barbershops included.</span></div>
     <div><b>A full back office</b><span>The goal: an ERP for every industry, software so complete you do not need any other software to run your business.</span></div>
   </div>
-  <p class="muted">Your price stays where it is. Each new tool is yours the day it is ready.</p>
+  <p class="muted">Your price stays where it is. Each new tool is yours the day it is ready. ${FOUNDER_PROMISE}</p>
 </section>
 
 <section class="wrap ow-how" id="refer">
@@ -100,7 +112,7 @@ ${header('')}
     <li><b>What we write.</b> Members and ambassadors have no say in our coverage, and every member is labeled so readers know.</li>
     <li><b>Your money.</b> We never take a cut of your bookings, orders or sales.</li>
     <li><b>Your site.</b> Cancel any time. Your website is yours: we hand over every file and help you move it to any host.</li>
-    <li><b>Your price.</b> New tools and features come with your membership. No upgrade fees, no add on tiers.</li>
+    <li><b>Your price.</b> New tools and features come with your membership, the small business ERP included. No upgrade fees, no add on tiers. Promised and guaranteed.</li>
   </ul>
   <p><a class="btn" href="/owners/?want=founders#claim">Join the Founders Club ${svg('arrow', 'ic-sm')}</a></p>
 </section>

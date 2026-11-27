@@ -17,7 +17,7 @@ import { landmarkPages } from './src/pages/landmark-pages.mjs';
 import { icsFeed } from './src/pages/events.mjs';
 import { finalizeSeo } from './src/seo.mjs';
 import { ORIGIN } from './src/jsonld.mjs';
-import { upcomingEditions } from './src/news/editions.mjs';
+import { upcomingEditions, dailyData } from './src/news/editions.mjs';
 import { allFeeds } from './src/news/feeds.mjs';
 import { stories as publishedStories } from './src/news/content.mjs';
 import { shareCard } from './src/pages/news-pages.mjs';
@@ -137,6 +137,7 @@ await writeFile(new URL('help/index.json', out), helpDockJson());
 // The newsletter's next fourteen editions, for the morning job (src/news/editions.mjs).
 await mkdir(new URL('newsletter/editions/', out), { recursive: true });
 for (const ed of upcomingEditions()) await writeFile(new URL(`newsletter/editions/${ed.date}.json`, out), JSON.stringify(ed));
+await writeFile(new URL('newsletter/daily.json', out), JSON.stringify(dailyData()));
 // RSS: the whole paper, each series and each section (src/news/feeds.mjs).
 for (const [file, xml] of allFeeds()) { const u = new URL(file, out); await mkdir(new URL('./', u), { recursive: true }); await writeFile(u, xml); }
 // Share cards: each story's lead photo cut to 1200 x 630 for Facebook, texts

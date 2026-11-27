@@ -1,22 +1,65 @@
-# How the morning paper gets made
+# How the morning and evening editions get made
 
-The publisher's routine for the morning newsletter, and the rules that keep
-it original. The tool is the writing desk at `/newsroom/desk/#k=<HOC_ADMIN_KEY>`
+The publisher's routine for the newsletter, and the rules that keep it
+original. There are two editions, every day of the week, and each one SENDS
+on its own at its time unless the publisher presses Hold (Jake's decision,
+2026-11-27). Readers choose the morning, the evening or both. The tool is the writing desk at `/newsroom/desk/#k=<HOC_ADMIN_KEY>`
 (open it from the private link; the key never goes in the address bar).
 
-## The clock (Columbus time)
+## The clock (Columbus time, every day)
 
 | When | What happens | Who |
 | --- | --- | --- |
 | All day before | Ideas go in the desk's **Idea bank** as they come: a link, something overheard, a reader tip from `/newsroom/inbox/`, a question | Publisher |
 | About 4:15 AM | The overnight gathering reads the public sources below and puts what is new in the desk's **Idea bank** under **Overnight leads**. Nothing is written from them automatically | Automation |
-| 5:00 to 6:30 AM | Pick 3 to 5 items. For each one write **your take and direction**, add the sources, press **Draft it**, then edit until it sounds like you. **Check facts** before you approve | Publisher |
-| By 6:30 AM | Write the subject line (or press **Suggest subjects**), write your open, check the **Preview**, press **Make the newsletter draft** | Publisher |
-| 6:45 AM, every season | The scheduled job makes a draft if you have not. If you approved pieces at the desk, it uses yours (with the plain dated subject if you left the subject empty, and without your open if it still has a `[CHECK]` or a dash); if you marked the morning "No edition", it makes none; otherwise it drafts the automatic edition, or none when no story is new. If you already pressed **Make the newsletter draft**, it leaves yours alone. It never sends, and it emails you a one line note either way (`HOC_NEWSLETTER_NOTIFY`) | Automation |
-| 6:45 to 7 AM | Open the newsletter service, read the draft once more, press send | Publisher |
+| By 6:10 AM | **Morning** at the desk: approve the pieces you want, write the subject and open, paste an IndyStar story into **Up the road** if you have one, check the **Preview** | Publisher |
+| 6:15 AM | The morning job builds the edition (yours, or the automatic one), makes the Resend broadcast for the Morning topic, schedules it for 6:45 and emails you a note: the subject, a preview link, a **Hold** link and the edition itself | Automation |
+| 6:15 to 6:45 AM | Read the note. To stop it, press **Hold** (in the note or at the desk): it turns back into a draft in Resend and nothing is sent | Publisher |
+| 6:45 AM | Resend sends the morning edition | Automation |
+| By 5:25 PM | **Evening** at the desk: up to two pieces, a one line open, Up the road | Publisher |
+| 5:30 PM | The evening job does the same for the Evening topic and schedules it for 6:00 | Automation |
+| 6:00 PM | Resend sends the evening edition unless you held it | Automation |
 
-Write the night before when you can. A piece approved at 10 PM is in the
-next morning's edition the same as one approved at 6 AM.
+What the job does when: a day marked **No edition** gets none; with no
+approved pieces the automatic edition goes out; an edition with nothing but
+the weather is skipped and the note says why. Your subject is used unless it
+has a `[CHECK]` or a dash (then the plain dated subject is), and your open and
+Up the road are left out if they do. A wake more than an hour after the send
+time makes a draft only and does not send. Each edition runs once a day,
+recorded in Netlify Blobs (`run-<date>`, `run-<date>-evening`).
+
+Write ahead when you can. A piece approved the night before is in the next
+morning's edition the same as one approved at 6 AM.
+
+## What is in each edition
+
+**Morning** ("The morning edition"): the weather for today and tonight (a
+link to the National Weather Service forecast for Columbus); your pieces, or
+new stories from the last 36 hours; the **Shop Local Spotlight** (one
+directory business a day, never the same one twice in 30 days, Founding
+Members, then claimed listings, then the featured ones first, every paid or
+family tie said in the box); **Open, Closed, New Hours** (changes in our
+listings since the last edition, left out when there are none, always "call
+ahead"); what opens early; **Lookout** for today (our events feed plus the
+city and county meetings in the leads); a business story; **Up the road**;
+labeled sponsors.
+
+**Evening** ("The evening edition", about two minutes): your one line open;
+the weather for tonight and tomorrow (link); up to two of your pieces; Open,
+Closed, New Hours if anything changed; **Columbus by Design** (one building or
+landmark a night from `landmarks.mjs`, `architecture.mjs` and
+`building-history.mjs`: what it is, architect, year, street; photos only from
+Wikimedia Commons, credited as `/credits/` does); **Lookout** for tomorrow and
+the next three days; Up the road.
+
+**Up the road** is one IndyStar story per edition: paste the link, type the
+headline as you want it, add a comment if you like. It prints with "via
+IndyStar" and your comment labeled as yours. We never open indystar.com (it
+refuses automated reading), so nothing is copied from it.
+
+Why the weather is a link: `api.weather.gov/robots.txt` disallows every path
+(checked 2026-11-27), so neither the editions nor the overnight leads read the
+weather API any more. Check alerts on the forecast page by hand.
 
 ## What we gather, and what we never do
 
@@ -31,7 +74,7 @@ from places that publish facts and nobody turns into news:
 | School board agendas | bcsc.k12.in.us (BoardDocs) | Not yet: BoardDocs refuses automated reads, so check it by hand |
 | Business openings, closings, new hours, new online ordering | Our own directory, compared night to night | `src/news/leads.mjs`, the store crawl |
 | Today's events | Library, parks and hand-entered listings | `/api/events`, `src/data/events.mjs` |
-| Weather alerts | National Weather Service (api.weather.gov) | Overnight leads, plus the weather link in every edition |
+| Weather alerts | National Weather Service | By hand on the forecast page: api.weather.gov's robots.txt disallows every path. Every edition links the forecast |
 | Road work, closures | INDOT, city notices | City notices are in the overnight leads; INDOT by hand |
 | Reader questions, tips and letters | `/ask/`, `/tips/`, `/letters/` | `/newsroom/inbox/` |
 | Public records: permits, property transfers, restaurant inspections | City and county portals | Not yet (worklog) |
@@ -69,11 +112,13 @@ the typing.
    samples. **Check facts** lists anything the sources do not support.
 6. **Approve**. The desk refuses while there is a `[CHECK]`, no source (unless
    it is The take), or a dash.
-7. Order the pieces with the arrows, write the subject and your open,
-   **Preview**, **Make the newsletter draft**, then send it from the service.
-   The subject and the open get the same `[CHECK]` and dash check. Pressing
-   it again after an edit replaces the draft in Resend rather than adding a
-   second one.
+7. Pick **Morning** or **Evening** next to the date: each has its own plan,
+   pieces and Up the road. Order the pieces with the arrows, write the
+   subject and your open, check the **Preview** (it shows the whole edition as
+   it will go out). **Make the draft now** puts it in Resend early; the job
+   updates that same draft at its time and schedules it, so there is never a
+   second copy. The subject, the open and Up the road get the same `[CHECK]`
+   and dash check. **Hold this edition** shows once it is scheduled.
 
 ## Overnight leads
 
@@ -94,13 +139,28 @@ Netlify (Site configuration > Environment variables, scoped to Functions):
 | `ANTHROPIC_API_KEY` | Turns writing help on at the desk |
 | `HOC_DESK_MODEL` | Changes the model (default `claude-opus-5-5`) |
 | `HOC_ADMIN_KEY` | The desk's private key (`#k=` in the link) |
-| `RESEND_API_KEY` | Resend, for drafts, signup and the morning note |
+| `RESEND_API_KEY` | Resend, for the editions, signup and the notes |
 | `RESEND_SEGMENT_ID` | The Resend segment the newsletter goes to. `RESEND_AUDIENCE_ID` still works: Resend renamed Audiences to Segments in November 2025 and kept the ids |
 | `HOC_NEWSLETTER_FROM` | The sender, on a domain verified in Resend, like `Heart of Columbus <news@...>` |
 | `HOC_NEWSLETTER_REPLY_TO` | Optional: where replies to the newsletter go |
-| `HOC_NEWSLETTER_NOTIFY` | Who gets the 6:45 AM note (comma separated) |
+| `RESEND_TOPIC_MORNING` | The Resend topic id for the morning edition. Unset, the morning goes to the whole segment |
+| `RESEND_TOPIC_EVENING` | The Resend topic id for the evening edition. Unset, the evening is skipped (so it never reaches morning only readers) |
+| `HOC_NEWSLETTER_NOTIFY` | Who gets each edition's note with the Hold link (comma separated) |
 | `HOC_NEWSLETTER=resend` | Build setting: turns the signup form on, posting to `/api/subscribe` |
 | `BUTTONDOWN_API_KEY` | Buttondown instead of Resend |
 
 Signup is double opt in: the email links to a page with one button, so a
 mail scanner opening the link first cannot use it up (or sign someone up).
+The `/newsletter/` form asks Morning, Evening or Both (Both is preselected;
+every other signup box means Both), and confirming sets the reader's two
+topics. Every edition's footer links to Resend's preferences page
+(`{{{RESEND_UNSUBSCRIBE_URL}}}`), where readers switch editions or leave.
+Make both topics **Public** in Resend, or readers who are not opted in to one
+will not see it there.
+
+**Hold** (`/api/hold`, page `/newsroom/hold/`): the note's link carries a one
+time code after `#` that can hold only that edition, so the note never
+carries the desk key; the desk's own button uses the desk key. Only the
+button holds (a POST), never opening the link, because mail scanners open
+every link. Holding cancels the scheduled broadcast in Resend, which turns it
+back into a draft.

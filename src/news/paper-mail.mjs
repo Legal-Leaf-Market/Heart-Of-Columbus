@@ -129,7 +129,7 @@ export function spotlightHtml(b, origin) {
   if (!b) return '';
   const today = b.today ? `<br><small>Hours today: ${h(b.today)}. Call ahead.</small>` : '';
   const tie = b.member ? '<p><small>★ Founding Member: this business pays Heart of Columbus for its website and a labeled spot here. It has no say in what we write.</small></p>' : '';
-  const own = b.family ? `<p><small>${h(b.family)}</small></p>` : '';
+  const own = b.family ? `<p><small>${h(b.family)}${b.adult ? ' For adults 21 and over.' : ''}</small></p>` : (b.adult ? '<p><small>For adults 21 and over.</small></p>' : '');
   return `<p><strong><a href="${h(origin + '/b/' + b.slug + '/')}">${h(b.name)}</a></strong>${b.kind ? `, ${h(b.kind)}` : ''}${b.address ? `<br>${h(b.address)}` : ''}${today}</p>${b.type ? `<p>${h(b.type)}</p>` : ''}${tie}${own}`;
 }
 
