@@ -18,7 +18,7 @@
     return k;
   }
   var KEY = adminKey();
-  var state = { date: '', day: null, voice: null, ideas: [], current: null, ai: false, out: '' };
+  var state = { date: '', day: null, voice: null, ideas: [], leads: null, current: null, ai: false, out: '' };
   var status = $('[data-desk-status]');
   var say = function (t) { status.textContent = t; };
 
@@ -44,13 +44,15 @@
   function load(date) {
     say('Loading…');
     return api('GET', null, date ? '?date=' + date : '').then(function (j) {
-      state.date = j.date; state.day = j.day; state.voice = j.voice; state.ideas = j.ideas; state.ai = j.ai;
+      state.date = j.date; state.day = j.day; state.voice = j.voice; state.ideas = j.ideas; state.ai = j.ai; state.leads = j.leads;
       $('[data-date]').value = j.date;
       $('[data-plan=subject]').value = j.day.plan.subject || '';
       $('[data-plan=intro]').value = j.day.plan.intro || '';
       $('[data-plan=skip]').checked = !!j.day.plan.skip;
       $('[data-drafted]').textContent = j.drafted ? 'Draft made ' + new Date(j.drafted.at).toLocaleString() + (j.drafted.from ? ' (' + (j.drafted.from === 'desk' ? 'from the desk' : 'automatic') + ')' : '') + '. Open your newsletter service to read it and press send.' : 'No draft yet for this morning.';
-      renderPieces(); renderIdeas(); renderVoice();
+      var RUN = { drafted: 'made the draft', updated: 'updated the draft', already: 'found the draft already made', 'nothing-new': 'made no draft (nothing approved, no new story)', skip: 'made no draft (No edition)', 'no-edition': 'made no draft (no edition file)', refused: 'was refused by the newsletter service', 'no-key': 'is off (no newsletter service set)' };
+      $('[data-run]').textContent = (j.service ? '' : 'No newsletter service is set in Netlify, so no draft can be made. ') + (j.run ? 'The 6:45 AM job ' + (RUN[j.run.reason] || j.run.reason) + ' at ' + new Date(j.run.at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) + '.' + ((j.run.notes || []).length ? ' ' + j.run.notes.join(' ') : '') : (j.date === j.today ? 'The morning job runs at 6:45 AM; approve pieces before then and it uses yours.' : ''));
+      renderPieces(); renderIdeas(); renderVoice(); renderLeads();
       openPiece(null);
       say((j.date === j.today ? 'This morning, ' : '') + j.date + (j.ai ? '. Writing help is on (' + j.model + ').' : '. Writing help is off until ANTHROPIC_API_KEY is set in Netlify.'));
     }).catch(function (e) { say(e.message); });
@@ -185,9 +187,9 @@
   }
   $('[data-draft]').addEventListener('click', function () {
     var again = /Draft made/.test($('[data-drafted]').textContent);
-    if (again && !confirm('A draft was already made for this morning. Make a new one?')) return;
+    if (again && !confirm('A draft was already made for this morning. Replace it with this one?')) return;
     savePlan().then(function () { return api('POST', { action: 'draft', date: state.date, force: again }); })
-      .then(function (j) { say(j.reason === 'drafted' ? 'Draft made. Open your newsletter service, read it and press send.' : 'Done: ' + j.reason); return load(state.date); })
+      .then(function (j) { say(j.reason === 'drafted' ? 'Draft made. Open your newsletter service, read it and press send.' : j.reason === 'updated' ? 'The earlier draft was replaced with this one. Open your newsletter service, read it and press send.' : 'Done: ' + j.reason); return load(state.date); })
       .catch(function (e) { say(e.message); });
   });
 
@@ -212,6 +214,39 @@
       p.angle = i.text; if (i.url) p.sources = [{ url: i.url, label: '', note: '' }];
       $('[data-tab=today]').click(); openPiece(null, p);
     }
+  });
+
+  // ---------- Overnight leads ----------
+  function renderLeads() {
+    var L = state.leads;
+    var bad = L ? L.sources.filter(function (s) { return !s.ok; }) : [];
+    $('[data-leads-meta]').textContent = L ? 'Gathered ' + new Date(L.at).toLocaleString([], { weekday: 'short', hour: 'numeric', minute: '2-digit' }) + ' from ' + (L.sources.length - bad.length) + ' of ' + L.sources.length + ' sources.' + (bad.length ? ' Could not read: ' + bad.map(function (s) { return s.name + ' (' + s.error + ')'; }).join('; ') + '.' : '') : 'Nothing gathered for this morning yet. The gathering runs at about 4:15 AM, or press Gather now.';
+    var items = L ? L.items : [];
+    $('[data-leads]').innerHTML = items.length ? items.map(function (x, n) {
+      var when = x.on ? ' · ' + x.on + (x.time ? ' ' + x.time : '') : '';
+      return '<li><span style="flex:1">' + (x.new ? '<span class="dk-new">NEW</span>' : '') + '<a href="' + esc(x.url) + '" target="_blank" rel="noopener noreferrer">' + esc(x.title) + '</a><br><span class="dk-src-k">' + esc(x.source) + esc(when) + '</span></span>' +
+        '<button type="button" class="pill" data-lead-idea="' + n + '">To ideas</button><button type="button" class="pill" data-lead-use="' + n + '">Start a piece</button></li>';
+    }).join('') : (L ? '<li class="muted">Nothing new in the sources this morning.</li>' : '');
+  }
+  function leadSeed(x) {
+    var p = blank();
+    p.angle = 'Lead from ' + x.source + ': ' + x.title + (x.on ? ' (' + x.on + (x.time ? ' ' + x.time : '') + ')' : '') + '. Read it at the source first. What does it mean for Columbus, and what do you think?';
+    p.sources = [{ url: x.url, label: x.source, note: '' }];
+    return p;
+  }
+  $('[data-leads]').addEventListener('click', function (e) {
+    var a = e.target.closest('[data-lead-idea]'), u = e.target.closest('[data-lead-use]');
+    if (!a && !u) return;
+    var x = state.leads.items[+(a || u).getAttribute(a ? 'data-lead-idea' : 'data-lead-use')];
+    if (a) { state.ideas.unshift({ text: x.source + ': ' + x.title, url: x.url, added: new Date().toISOString() }); saveIdeas(); say('Added to your ideas.'); }
+    if (u) { $('[data-tab=today]').click(); openPiece(null, leadSeed(x)); }
+  });
+  $('[data-gather]').addEventListener('click', function (e) {
+    var b = e.target; b.disabled = true; say('Gathering…');
+    api('POST', { action: 'gather' }).then(function (j) {
+      if (j.leads.date === state.date) { state.leads = j.leads; renderLeads(); }
+      say('Gathered ' + j.leads.items.length + ' leads for ' + j.leads.date + '.');
+    }).catch(function (er) { say(er.message); }).then(function () { b.disabled = false; });
   });
 
   // ---------- Voice ----------

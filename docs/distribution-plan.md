@@ -31,7 +31,7 @@ Mirror Indy and others, with sources there).
 
 | Tool | Where |
 | --- | --- |
-| Morning edition, drafted each weekday at about 5:30 AM for an editor to read and send | Resend Broadcasts (once the settings below are in) |
+| Morning edition, drafted each weekday at 6:45 AM for an editor to read and send | Resend Broadcasts (once the settings below are in) |
 | Editor preview of the next editions | `/newsletter/next/` |
 | Double opt-in signup | Every story, series page, front page, `/newsletter/` |
 | Share bar: phone share sheet, text, email, Facebook, X, WhatsApp, copy link, copy for a post | Every story, series page, `/newsletter/` |

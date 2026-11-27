@@ -290,8 +290,10 @@ site Jake runs. Deploy Previews and branch deploys cost nothing, so (Jake,
   from those alone, and nothing reaches an edition until the publisher
   approves it (`blockers()` refuses a `[CHECK]`, a missing source or a
   dash). The model never invents a quote, a person, a number or a source.
-  The morning job drafts the approved desk edition when there is one, and
-  never sends. docs/morning-paper.md is the routine.
+  The morning job (6:45 AM Columbus time) drafts the approved desk edition
+  when there is one, and never sends. Overnight leads (`src/news/gather.mjs`)
+  keep only a title, link and date from first-hand public sources, never
+  another newsroom. docs/morning-paper.md is the routine.
   Third exception, granted by the owner on 2026-11-24: first drafts of the
   news slots in the print edition (`content/print/<edition>/`), for the
   publisher to read, rewrite and approve. Only from sources read in that

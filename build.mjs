@@ -116,7 +116,7 @@ await writeFile(new URL('history/articles.json', out), articlesJson());
 // The floating help dock's search (public/js/help-dock.js) reads this.
 await mkdir(new URL('help/', out), { recursive: true });
 await writeFile(new URL('help/index.json', out), helpDockJson());
-// The newsletter's next seven editions, for the morning job (src/news/editions.mjs).
+// The newsletter's next fourteen editions, for the morning job (src/news/editions.mjs).
 await mkdir(new URL('newsletter/editions/', out), { recursive: true });
 for (const ed of upcomingEditions()) await writeFile(new URL(`newsletter/editions/${ed.date}.json`, out), JSON.stringify(ed));
 // RSS: the whole paper, each series and each section (src/news/feeds.mjs).
