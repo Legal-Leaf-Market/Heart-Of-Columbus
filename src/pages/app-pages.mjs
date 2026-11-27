@@ -167,28 +167,57 @@ function appPage({ assets, key, path = root(key), title, body, article = false, 
   });
 }
 
-function searchForm(label, options, tracks = []) {
-  return `<div class="focus-filter${tracks.length ? ' focus-filter-tracks' : ''}">
-  <label class="focus-field"><span>Search</span><input type="search" data-app-search placeholder="${esc(label)}"></label>
-  <label class="focus-field"><span>Category</span><select data-app-category>
-    <option value="">All categories</option>
-    ${options.map(({ slug, label, tracks }) => `<option value="${esc(slug)}"${tracks ? ` data-tracks="${esc(tracks.join(' '))}"` : ''}>${esc(label)}</option>`).join('')}
-  </select></label>
-  ${tracks.length ? `<label class="focus-field"><span>Event type</span><select data-app-track>
-    <option value="">All event types</option>
-    ${tracks.map(({ slug, label }) => `<option value="${esc(slug)}">${esc(label)}</option>`).join('')}
-  </select></label>` : ''}
-</div>`;
+const filterConfig = {
+  news: { category: 'Section', quick: true, sorts: [['date', 'Newest first']] },
+  food: { category: 'Cuisine or shop type', quick: ['restaurants', 'coffee-sweets', 'bars', 'markets'],
+    facets: [['online', 'Order online'], ['catalog', 'Has products or menu']], sorts: [['rank', 'Catalogs and ordering first']] },
+  contractors: { category: 'Trade', quick: true, facets: [['phone', 'Has phone'], ['website', 'Has website']],
+    sorts: [['rank', 'More contact options first']] },
+  churches: { category: 'Tradition', facets: [['services', 'Service information'], ['directions', 'Has directions']],
+    sorts: [['rank', 'Service information first']] },
+  nonprofits: { category: 'Cause', quick: ['help', 'health', 'youth', 'arts', 'community'], facets: [['columbus', 'Columbus only']] },
+  events: { category: 'Organizer', facets: [['today', 'Today'], ['weekend', 'This weekend'], ['music', 'Live music']],
+    sorts: [['date', 'Soonest first']] },
+  weddings: { category: 'Vendor service', facets: [['booking', 'Book online'], ['phone', 'Has phone']],
+    sorts: [['rank', 'Online booking first']] },
+};
+
+function searchForm(key, label, options, tracks = []) {
+  const config = filterConfig[key];
+  const chips = config.quick === true ? options.slice(0, 5) : (config.quick || []).flatMap((slug) => options.filter((option) => option.slug === slug));
+  const chip = (type, value, title, pressed = false) =>
+    `<button type="button" class="focus-chip" data-app-chip="${type}" data-value="${esc(value)}" aria-pressed="${pressed}">${esc(title)}</button>`;
+  return `<section class="focus-search-panel" aria-label="Search and filters" data-app-filters="${key}">
+  <label class="focus-field focus-search-box"><span>Search</span><input type="search" data-app-search placeholder="${esc(label)}"></label>
+  <div class="focus-filter-heading"><h2>Filters</h2><button type="button" class="focus-clear" data-app-clear hidden>Clear filters</button></div>
+  ${tracks.length || chips.length ? `<div class="focus-chips" role="group" aria-label="${tracks.length ? 'Event type' : config.category}">
+    ${tracks.length ? chip('track', '', 'All event types', true) + tracks.map(({ slug, label }) => chip('track', slug, label)).join('')
+      : chip('category', '', 'All', true) + chips.map(({ slug, label }) => chip('category', slug, label)).join('')}
+  </div>` : ''}
+  ${config.facets?.length ? `<div class="focus-chips" role="group" aria-label="Quick filters">${config.facets.map(([value, label]) => chip('facet', value, label)).join('')}</div>` : ''}
+  <div class="focus-filter">
+    <label class="focus-field"><span>${config.category}</span><select data-app-category>
+      <option value="">Any ${config.category.toLowerCase()}</option>
+      ${options.map(({ slug, label, tracks }) => `<option value="${esc(slug)}"${tracks ? ` data-tracks="${esc(tracks.join(' '))}"` : ''}>${esc(label)}</option>`).join('')}
+    </select></label>
+    <label class="focus-field"><span>Sort by</span><select data-app-sort>
+      <option value="">Best match</option>
+      ${(config.sorts || []).map(([value, title]) => `<option value="${value}">${title}</option>`).join('')}
+      <option value="az">A to Z</option>
+      <option value="za">Z to A</option>
+    </select></label>
+  </div>
+</section>`;
 }
 
-function listing({ heading, description, placeholder, filters, cards, events = false, source = '' }) {
+function listing({ key, heading, description, placeholder, filters, cards, events = false, source = '' }) {
   return `<div class="focus-wrap focus-content">
   <h1>${esc(heading)}</h1>
   <p class="focus-intro">${esc(description)}</p>
-  ${searchForm(placeholder, filters)}
+  ${searchForm(key, placeholder, filters)}
   <p class="focus-count" role="status" data-app-count>${cards.length} results</p>
   ${events ? '<p class="focus-count" role="status" data-app-event-status>Checking the latest event listings…</p>' : ''}
-  <div class="focus-grid"${events ? ' data-app-events' : ''}>${cards.join('')}</div>
+  <div class="focus-grid" data-app-results${events ? ' data-app-events' : ''}>${cards.join('')}</div>
   <p class="focus-empty" data-app-empty hidden>No matches. Try another search or category.</p>
   ${source ? `<p class="focus-source">${source}</p>` : ''}
 </div>`;
@@ -205,10 +234,10 @@ function call(phone) {
     ? `<a class="focus-action" href="tel:+${number.length === 10 ? '1' : ''}${number}">Call</a>` : '';
 }
 
-function directoryCard(business, category, categoryLabel, actions, { content = '', tracks = null, art = '' } = {}) {
+function directoryCard(business, category, categoryLabel, actions, { content = '', tracks = null, art = '', facets = [], rank = 0, date = '', until = '' } = {}) {
   const planner = tracks ? ` data-slug="${esc(business.slug)}" data-name="${esc(business.name)}" data-tracks="${esc(tracks.join(' '))}"` : '';
   const pick = tracks ? '<button type="button" class="focus-action focus-pick" data-pick aria-pressed="false" hidden>Select vendor</button>' : '';
-  return `<article class="focus-card${tracks ? ' pl-item' : ''}${art ? ' focus-card-art' : ''}"${planner} data-app-item data-category="${esc(category)}" data-search="${esc([business.name, business.type, business.address, categoryLabel].filter(Boolean).join(' '))}">
+  return `<article class="focus-card${tracks ? ' pl-item' : ''}${art ? ' focus-card-art' : ''}"${planner} data-app-item data-title="${esc(business.name)}" data-tags="${esc(categoryLabel)}" data-category="${esc(category)}" data-facets="${esc(facets.join(' '))}" data-rank="${rank}"${date ? ` data-date="${esc(date)}" data-until="${esc(until || date)}"` : ''} data-search="${esc([business.name, business.type, business.address, categoryLabel].filter(Boolean).join(' '))}">
   ${art}
   <p class="focus-category">${esc(categoryLabel)}</p>
   <h2>${t(business.name)}</h2>
@@ -239,7 +268,7 @@ function foodActions(business) {
 
 function foodPages(assets) {
   const categories = ['restaurants', 'coffee-sweets', 'bars', 'markets'];
-  const filters = categories.map((slug) => ({ slug, label: slug === 'markets' ? 'Specialty food' : catBySlug[slug].label }));
+  const filters = [...categories.map((slug) => ({ slug, label: slug === 'markets' ? 'Specialty food' : catBySlug[slug].label })), ...catBySlug.restaurants.subs];
   const entries = directory.filter((b) => !b.tempClosed && (categories.includes(b.cat) || b.sub === 'markets'))
     .map((business) => ({
       business, kind: foodCatalog(business), category: business.sub === 'markets' ? 'markets' : business.cat,
@@ -249,10 +278,15 @@ function foodPages(assets) {
   entries.sort((x, y) => Number(Boolean(y.kind)) - Number(Boolean(x.kind)));
   const cards = entries.map(({ business, kind, category, info, actions }) => {
     const link = kind ? `<a class="focus-action focus-primary" href="${root('food')}${esc(business.slug)}/">${kind === 'products' ? 'Browse products' : 'See menu'}</a>` : '';
-    return directoryCard(business, category, info, link + actions, { art: foodArtwork(business, catBySlug[business.cat].tint) });
+    const online = business.order.some(({ url }) => /^https?:\/\//i.test(url || ''));
+    return directoryCard(business, [...new Set([category, business.sub].filter(Boolean))].join(' '), info, link + actions, {
+      art: foodArtwork(business, catBySlug[business.cat].tint), facets: [online && 'online', kind && 'catalog'].filter(Boolean),
+      rank: Number(Boolean(kind)) * 2 + Number(online),
+    });
   });
   return [
     { path: 'apps/food/index.html', html: appPage({ assets, key: 'food', commerce: true, body: listing({
+      key: 'food',
       heading: 'Find food in Columbus', description: 'Browse local restaurants and shops, see what they sell, and order directly.',
       placeholder: 'Restaurant, cuisine or address', filters, cards,
     }) }) },
@@ -275,16 +309,22 @@ function foodPages(assets) {
   ];
 }
 
+function contactFacets(business) {
+  return [call(business.phone) && 'phone', external(business.website, 'Website') && 'website'].filter(Boolean);
+}
+
 function contractorsPage(assets) {
   const filters = catBySlug['home-services'].subs.filter(({ slug }) => slug !== 'laundry');
   const cards = directory.filter((b) => !b.tempClosed).flatMap((b) => {
     const trades = filters.filter(({ slug }) => inSection(b, 'home-services', slug));
     if (!trades.length) return [];
     const contact = call(b.phone) + external(b.website, 'Website');
+    const facets = contactFacets(b);
     return contact ? [directoryCard(b, trades.map((trade) => trade.slug).join(' '),
-      trades.map((trade) => trade.label).join(' · '), contact)] : [];
+      trades.map((trade) => trade.label).join(' · '), contact, { facets, rank: facets.length })] : [];
   });
   return appPage({ assets, key: 'contractors', body: listing({
+      key: 'contractors',
     heading: 'Find a local contractor', description: 'Search by trade, then call or visit the contractor’s own website.',
     placeholder: 'Roofing, plumbing or business name', filters, cards,
   }) });
@@ -297,10 +337,15 @@ function churchesPage(assets) {
   const cards = groups.flatMap(({ id, name, rows }) => rows.map((church) => {
     const address = church.address || church.town;
     const map = church.ll ? `https://www.google.com/maps/search/?api=1&query=${church.ll.join(',')}` : '';
+    const website = external(church.website, 'Service times', true);
     return directoryCard({ name: cleanName(church.name), address }, id, name,
-      external(church.website, 'Service times', true) + call(church.phone) + external(map, 'Directions'));
+      website + call(church.phone) + external(map, 'Directions'), {
+        facets: [website && 'services', map && 'directions'].filter(Boolean),
+        rank: Number(Boolean(website)) * 2 + Number(Boolean(map)),
+      });
   }));
   return appPage({ assets, key: 'churches', body: listing({
+      key: 'churches',
     heading: 'Find a place of worship', description: 'Browse local congregations by tradition or town. Check with the congregation for current service times.',
     placeholder: 'Congregation, tradition or town',
     filters: groups.map(({ id, name }) => ({ slug: id, label: name })), cards,
@@ -312,8 +357,9 @@ function nonprofitsPage(assets) {
   const groups = nonprofitGroups();
   const cards = groups.flatMap(({ id, name, rows }) => rows.map((org) =>
     directoryCard({ name: cleanName(org.name), address: org.town }, id, name,
-      external(`https://projects.propublica.org/nonprofits/organizations/${encodeURIComponent(org.ein)}`, 'View public filings'))));
+      external(`https://projects.propublica.org/nonprofits/organizations/${encodeURIComponent(org.ein)}`, 'View public filings'), { facets: /^columbus$/i.test(org.town?.trim() || '') ? ['columbus'] : [] })));
   return appPage({ assets, key: 'nonprofits', body: listing({
+      key: 'nonprofits',
     heading: 'Find a local nonprofit', description: 'Search local charities, clubs and civic groups by the work they do.',
     placeholder: 'Organization, cause or town',
     filters: groups.map(({ id, name }) => ({ slug: id, label: name })), cards,
@@ -344,7 +390,11 @@ function weddingVendorDirectory() {
   }
   const cards = [...vendors.values()].sort((x, y) => x.business.name.localeCompare(y.business.name))
     .map(({ business, roles, tracks }) => directoryCard(business,
-      roles.map((role) => role.slug).join(' '), roles.map((role) => role.label).join(' · '), vendorActions(business), { tracks: [...tracks] }));
+      roles.map((role) => role.slug).join(' '), roles.map((role) => role.label).join(' · '), vendorActions(business), {
+        tracks: [...tracks],
+        facets: [external(business.book[0]?.url, 'Book online') && 'booking', call(business.phone) && 'phone'].filter(Boolean),
+        rank: external(business.book[0]?.url, 'Book online') ? 1 : 0,
+      }));
   return { filters, cards };
 }
 
@@ -354,12 +404,12 @@ function weddingsPages(assets) {
   const body = `<div class="pl-page" data-plan="vendors" data-plan-focused data-plan-import="${TRACKS.map((track) => track.slug).join(' ')}">
   <div class="focus-wrap focus-content">
     <h1>Find local wedding and event vendors</h1>
-    ${searchForm('Vendor, service or address', filters, TRACKS)}
+    ${searchForm('weddings', 'Vendor, service or address', filters, TRACKS)}
     <div class="focus-results-row">
       <p class="focus-count" role="status" data-app-count>${cards.length} results</p>
       <button type="button" class="focus-action focus-bulk" data-plan-select-all hidden>Select all results</button>
     </div>
-    <section class="pl-role focus-grid" data-role="vendors" data-role-label="Vendors" aria-label="Vendors">${cards.join('')}</section>
+    <section class="pl-role focus-grid" data-app-results data-role="vendors" data-role-label="Vendors" aria-label="Vendors">${cards.join('')}</section>
     <p class="focus-empty" data-app-empty hidden>No matches. Try a different search or filter.</p>
   </div>
   ${plannerControls({ label: 'Events' }, { focused: true })}
@@ -392,8 +442,9 @@ function eventsPage(assets) {
   const start = today();
   const cards = inWindow(handEntered(), start, addDays(start, 30)).filter((event) => event.access === 'public').map((event) =>
     directoryCard({ name: event.title, type: `${webDate(event.date)} · ${event.when}`, address: event.venue },
-      event.src, names.get(event.src) || 'Events', external(event.url, 'Event details', true)));
+      event.src, names.get(event.src) || 'Events', external(event.url, 'Event details', true), { date: event.date, until: event.until, facets: event.live ? ['music'] : [] }));
   return appPage({ assets, key: 'events', body: listing({
+      key: 'events',
     heading: 'What’s on in Columbus', description: 'Browse the next 31 days and open event details from the organizer.',
     placeholder: 'Event, venue or organizer', filters, cards, events: true,
   }) });
@@ -423,7 +474,7 @@ function paperPages(assets) {
   const date = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', timeZone: 'America/Indiana/Indianapolis' });
   const cards = stories.map((story) => {
     const section = sectionBySlug[story.section].name;
-    return `<article class="focus-card" data-app-item data-category="${esc(story.section)}" data-search="${esc([story.headline, story.dek, section].join(' '))}">
+    return `<article class="focus-card" data-app-item data-title="${esc(story.headline)}" data-tags="${esc(section)}" data-date="${esc(story.published)}" data-category="${esc(story.section)}" data-search="${esc([story.headline, story.dek, section, ...(story.tags || [])].join(' '))}">
   ${story.images?.[0] ? `<img class="focus-news-image" src="${esc(story.images[0].file)}" alt="${esc(story.images[0].alt)}" loading="lazy">` : ''}
   <p class="focus-category">${esc(section)} · <time datetime="${esc(story.published)}">${date.format(new Date(story.published))}</time></p>
   <h2><a href="${esc(articlePath(story))}">${t(story.headline)}</a></h2>
@@ -432,6 +483,7 @@ function paperPages(assets) {
   });
   return [
     { path: 'apps/news/index.html', html: appPage({ assets, key: 'news', body: listing({
+      key: 'news',
       heading: 'Latest news', description: 'Local reporting for Columbus, Indiana.',
       placeholder: 'Story, topic or section', filters, cards,
     }) }) },
