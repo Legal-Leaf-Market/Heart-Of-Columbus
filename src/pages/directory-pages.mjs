@@ -615,7 +615,11 @@ ${stores.length ? `<section class="wrap list" id="stores"><div class="sec-head">
 <section class="wrap list" id="book"><div class="sec-head"><p class="kicker">Appointments</p><h2>Book online</h2></div>${listGrid(book)}</section>
 </main>
 ${footer()}`;
-  return page({ title: 'Order, book and shop direct | Heart of Columbus', description: 'Columbus, Indiana businesses you can order from, book or shop online directly, with no app in the middle.', body, ld: [itemListLd('Order, book and shop direct in Columbus', [...new Map([...order, ...book, ...shops, ...stores].map((b) => [b.slug, b])).values()].map((b) => [b.name, `/b/${b.slug}/`]))], scripts: ['site.js', 'cart.js'], styles, assets });
+  return page({ title: 'Order, book and shop direct | Heart of Columbus', description: 'Columbus, Indiana businesses you can order from, book or shop online directly, with no app in the middle.', body, ld: [itemListLd('Order, book and shop direct in Columbus', [...new Map([...order, ...book, ...shops, ...stores].map((b) => [b.slug, b])).values()].map((b) => [b.name, `/b/${b.slug}/`]))], scripts: ['site.js', 'cart.js', 'app-install.js'], styles, assets, head: `<link rel="manifest" href="/order/manifest.webmanifest">
+<meta name="theme-color" content="#6b3b28">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Columbus Local">
+<link rel="apple-touch-icon" href="/art/order-app-icon-180.png">` });
 }
 
 // The sticker set: the whole illustration family in one place, with what

@@ -31,6 +31,7 @@ export const NEVER_INDEX = [
   ['/newsletter/editions/', 'newsletter drafts for the morning job, read before they are sent'],
   ['/newsletter/next/', 'the editor’s preview of the next drafts'],
   ['/saved/', "a visitor's own list"],
+  ['/order/offline.html', 'offline fallback; ordering requires current data'],
   ['/explore/', 'search and map tool; categories and neighborhoods carry the same listings'],
   ['/events/print/', 'printable copy of /events/'],
   ['/es/', 'translation under review'],
