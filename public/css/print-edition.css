@@ -812,3 +812,15 @@ body:has(.pe-status) { background: var(--paper, #fbf7f0); }
   .pe-color-sheet > p:not(.pe-card-label) { font-size: 11pt; }
   .pe-color-sheet .pe-color-sources { font-size: 8pt !important; }
 }
+
+/* Set the Schools layout at tabloid size for both fitting and printing. */
+:is(.pe-fitting, .pe-paper:not(.pe-reading)) #page-3 .pe-wide { min-height: 7.95in; }
+:is(.pe-fitting, .pe-paper:not(.pe-reading)) #page-3 .pe-wide > .pe-text {
+  column-count: 2; font-size: 10pt; line-height: 1.28;
+}
+:is(.pe-fitting, .pe-paper:not(.pe-reading)) #page-3 #lincoln-school .pe-text { font-size: 9.25pt; line-height: 1.2; }
+@media print {
+  #page-3 .pe-wide { min-height: 7.95in; }
+  #page-3 .pe-wide > .pe-text { column-count: 2; font-size: 10pt; line-height: 1.28; }
+  #page-3 #lincoln-school .pe-text { font-size: 9.25pt; line-height: 1.2; }
+}
