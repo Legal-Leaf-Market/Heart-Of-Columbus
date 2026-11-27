@@ -49,7 +49,13 @@
       $('[data-plan=subject]').value = j.day.plan.subject || '';
       $('[data-plan=intro]').value = j.day.plan.intro || '';
       $('[data-plan=skip]').checked = !!j.day.plan.skip;
-      $('[data-drafted]').textContent = j.drafted ? 'Draft made ' + new Date(j.drafted.at).toLocaleString() + (j.drafted.from ? ' (' + (j.drafted.from === 'desk' ? 'from the desk' : 'automatic') + ')' : '') + '. Open your newsletter service to read it and press send.' : 'No draft yet for this morning.';
+      state.drafted = j.drafted; state.service = j.service;
+      $('[data-drafted]').textContent = !j.service ? 'No newsletter service is set up yet (RESEND_* or BUTTONDOWN_API_KEY in Netlify).'
+        : j.drafted && j.drafted.sentAt ? 'Sent to subscribers ' + new Date(j.drafted.sentAt).toLocaleString() + ': ' + j.drafted.subject
+        : j.drafted ? 'Draft made ' + new Date(j.drafted.at).toLocaleString() + (j.drafted.from ? ' (' + (j.drafted.from === 'desk' ? 'from the desk' : 'automatic') + ')' : '') + ': ' + j.drafted.subject + '. Read it, then send it here or in the newsletter service.'
+        : 'No draft yet for this morning.';
+      $('[data-send]').hidden = !(j.drafted && j.drafted.id && !j.drafted.sentAt && j.service === 'resend' && j.drafted.service !== 'buttondown');
+      $('[data-test-send]').hidden = !(j.service === 'resend' && j.testTo);
       renderPieces(); renderIdeas(); renderVoice();
       openPiece(null);
       say((j.date === j.today ? 'This morning, ' : '') + j.date + (j.ai ? '. Writing help is on (' + j.model + ').' : '. Writing help is off until ANTHROPIC_API_KEY is set in Netlify.'));
@@ -187,7 +193,19 @@
     var again = /Draft made/.test($('[data-drafted]').textContent);
     if (again && !confirm('A draft was already made for this morning. Make a new one?')) return;
     savePlan().then(function () { return api('POST', { action: 'draft', date: state.date, force: again }); })
-      .then(function (j) { say(j.reason === 'drafted' ? 'Draft made. Open your newsletter service, read it and press send.' : 'Done: ' + j.reason); return load(state.date); })
+      .then(function (j) { say(j.reason === 'drafted' || j.reason === 'replaced' ? 'Draft made' + (j.reason === 'replaced' ? ', and the earlier one removed' : '') + '. Read it, then send.' : 'Done: ' + j.reason); return load(state.date); })
+      .catch(function (e) { say(e.message); });
+  });
+  $('[data-test-send]').addEventListener('click', function () {
+    savePlan().then(function () { return api('POST', { action: 'test', date: state.date }); })
+      .then(function (j) { say('Test sent to ' + j.to.join(', ') + '.'); })
+      .catch(function (e) { say(e.message); });
+  });
+  $('[data-send]').addEventListener('click', function () {
+    var d = state.drafted; if (!d) return;
+    if (!confirm('Send "' + d.subject + '" to every subscriber now? This cannot be undone.')) return;
+    api('POST', { action: 'send', date: state.date, subject: d.subject })
+      .then(function () { say('Sent. It is on its way to subscribers.'); return load(state.date); })
       .catch(function (e) { say(e.message); });
   });
 
@@ -195,7 +213,7 @@
   function saveIdeas() { return api('POST', { action: 'ideas', ideas: state.ideas }).then(function (j) { state.ideas = j.ideas; renderIdeas(); }).catch(function (e) { say(e.message); }); }
   function renderIdeas() {
     $('[data-ideas]').innerHTML = state.ideas.length ? state.ideas.map(function (i, n) {
-      return '<li><span style="flex:1">' + esc(i.text) + (i.url ? ' <a href="' + esc(i.url) + '" target="_blank" rel="noopener noreferrer">link</a>' : '') + '</span><button type="button" class="pill" data-idea-use="' + n + '">Start a piece</button><button type="button" class="pill" data-idea-del="' + n + '" aria-label="Remove">✕</button></li>';
+      return '<li><span style="flex:1">' + (i.lead ? '<small class="muted">Lead, ' + esc(i.source) + ': </small>' : '') + esc(i.text) + (i.url ? ' <a href="' + esc(i.url) + '" target="_blank" rel="noopener noreferrer">link</a>' : '') + '</span><button type="button" class="pill" data-idea-use="' + n + '">Start a piece</button><button type="button" class="pill" data-idea-del="' + n + '" aria-label="Remove">✕</button></li>';
     }).join('') : '<li class="muted">Empty. Add the first one above.</li>';
   }
   $('[data-idea-add]').addEventListener('click', function () {

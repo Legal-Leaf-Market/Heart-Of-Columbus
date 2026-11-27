@@ -68,7 +68,8 @@ congregation in town, of every faith, by area and by faith, plus nonprofits.
       with prose numbers (sentence length, adverbs, passive, reading grade),
       **select a passage to Tighten / Smooth / Fix grammar**, and
       **paste notes to split them into ideas**
-- [ ] Later: overnight lead gathering into the idea bank (council agendas,
+- [x] Morning pipeline pass (2026-11-27): job moved to 6:45 AM so it never races the desk; one Resend draft per morning; Send me a test and Send to subscribers at the desk; Resend segments; 5 AM lead job (`netlify/functions/leads.mjs`)
+- [ ] Later: more overnight lead gathering into the idea bank (council agendas,
       directory changes, events), and "publish to the site" for a piece
 
 ### Apartments and landlords (`/housing/`, live)

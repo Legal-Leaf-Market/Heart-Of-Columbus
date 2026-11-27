@@ -9,11 +9,11 @@ it original. The tool is the writing desk at `/newsroom/desk/#k=<HOC_ADMIN_KEY>`
 | When | What happens | Who |
 | --- | --- | --- |
 | All day before | Ideas go in the desk's **Idea bank** as they come: a link, something overheard, a reader tip from `/newsroom/inbox/`, a question | Publisher |
-| Overnight, by 5 AM | The machines gather leads (below). Nothing is written from them automatically | Automation |
+| 5:00 AM | The lead job puts the night's leads in the **Idea bank**, marked "Lead": county weather alerts, today's events, new reader mail. Nothing is written from them | Automation |
 | 5:00 to 6:30 AM | Pick 3 to 5 items. For each one write **your take and direction**, add the sources, press **Draft it**, then edit until it sounds like you. **Check facts** before you approve | Publisher |
 | By 6:30 AM | Write the subject line (or press **Suggest subjects**), write your open, check the **Preview**, press **Make the newsletter draft** | Publisher |
-| 6:30 to 7 AM | Open the newsletter service, read the draft once more, press send | Publisher |
-| 10:30 UTC (5:30 or 6:30 AM) | The scheduled job makes a draft by itself. If you approved pieces at the desk, it uses yours; if you marked the morning "No edition", it makes none; otherwise it drafts the automatic edition. It never sends | Automation |
+| 6:30 to 7 AM | **Send me a test**, read it in your inbox, then **Send to subscribers** at the desk (or press send in the newsletter service) | Publisher |
+| 6:45 AM | If no draft exists yet, the scheduled job makes one: your approved desk pieces when there are any, none on a "No edition" morning, otherwise the automatic edition. It never sends, and it never touches a draft you already made | Automation |
 
 Write the night before when you can. A piece approved at 10 PM is in the
 next morning's edition the same as one approved at 6 AM.
@@ -67,9 +67,17 @@ the typing.
 6. **Approve**. The desk refuses while there is a `[CHECK]`, no source (unless
    it is The take), or a dash.
 7. Order the pieces with the arrows, write the subject and your open,
-   **Preview**, **Make the newsletter draft**, then send it from the service.
+   **Preview**, **Make the newsletter draft**. Making it again after an edit
+   replaces the earlier draft, and it replaces the automatic one too, so the
+   service only ever holds one draft per morning.
+8. **Send me a test** mails it to `HOC_NEWSLETTER_TEST_TO`, marked [Test].
+   **Send to subscribers** sends that draft once, after you confirm. It
+   refuses if the subject changed since the draft was made, and it never
+   sends twice.
 
 Each suggestion shows its cost (usually a few cents). Settings live in
 Netlify: `ANTHROPIC_API_KEY` turns writing help on, `HOC_DESK_MODEL` changes
-the model (default `claude-opus-5-5`), and `RESEND_*` or `BUTTONDOWN_API_KEY`
-pick the newsletter service.
+the model (default `claude-opus-5-5`), and `RESEND_API_KEY`, `RESEND_SEGMENT_ID` (an older `RESEND_AUDIENCE_ID` works, since Resend renamed
+audiences to segments) and `HOC_NEWSLETTER_FROM` turn on Resend, `HOC_NEWSLETTER_REPLY_TO` sets where
+replies go, `HOC_NEWSLETTER_TEST_TO` turns on the test button, and `BUTTONDOWN_API_KEY` is the
+alternative service (drafts only; send those in Buttondown).
