@@ -405,8 +405,8 @@ test('signup is double opt in on Resend, and fails closed', async () => {
   const kv = new Map();
   const store = { getJSON: async (k) => kv.get(k) ?? null, setJSON: async (k, v) => { kv.set(k, v); } };
   const calls = [];
-  const fetchFn = async (url, init) => { calls.push({ url, body: JSON.parse(init.body) }); return new Response('{}', { status: 200 }); };
-  const cfg = { key: 'k', audience: 'aud', from: 'Heart of Columbus <news@example.org>', origin: 'https://hoc.example' };
+  const fetchFn = async (url, init) => { calls.push({ url, method: init.method, body: init.body ? JSON.parse(init.body) : null }); return new Response('{}', { status: 200 }); };
+  const cfg = { key: 'k', audience: 'seg', from: 'Heart of Columbus <news@example.org>', origin: 'https://hoc.example' };
   const post = (body, json = true) => new Request('https://hoc.example/api/subscribe', { method: 'POST', headers: { 'content-type': json ? 'application/json' : 'application/x-www-form-urlencoded' }, body: json ? JSON.stringify(body) : new URLSearchParams(body).toString() });
   assert.equal((await subscribe(post({ email: 'a@b.co' }), { store, fetchFn, cfg: { ...cfg, key: '' } })).status, 503, 'no key, no signup');
   assert.equal((await subscribe(post({ email: 'nope' }), { store, fetchFn, cfg })).status, 400);
@@ -416,12 +416,24 @@ test('signup is double opt in on Resend, and fails closed', async () => {
   assert.ok(calls[0].url.endsWith('/emails') && calls[0].body.to[0] === 'reader@example.org');
   const link = calls[0].body.text.match(/https:\/\/hoc\.example\/api\/subscribe\?confirm=([0-9a-f]{48})/);
   assert.ok(link, 'the email carries a confirm link');
-  const done = await subscribe(new Request(link[0]), { store, fetchFn, cfg });
+  // Opening the link (a mail scanner does this first) only shows a button.
+  const opened = await subscribe(new Request(link[0]), { store, fetchFn, cfg });
+  assert.equal(opened.status, 200);
+  assert.equal(calls.length, 1, 'opening the link adds nobody');
+  assert.match(await opened.text(), new RegExp(`name="confirm" value="${link[1]}"`));
+  assert.equal((await subscribe(new Request(link[0]), { store, fetchFn, cfg })).status, 200, 'a scanner opening it first does not use it up');
+  const done = await subscribe(post({ confirm: link[1] }, false), { store, fetchFn, cfg });
   assert.equal(done.status, 200);
-  assert.ok(calls[1].url.endsWith('/audiences/aud/contacts') && calls[1].body.email === 'reader@example.org', 'added only after confirming');
-  assert.equal((await subscribe(new Request(link[0]), { store, fetchFn, cfg })).status, 410, 'a link works once');
+  assert.match(await done.text(), /You're in/);
+  assert.ok(calls[1].url.endsWith('/contacts') && calls[1].body.email === 'reader@example.org' && calls[1].body.segments[0].id === 'seg', 'added to the segment only after pressing the button');
+  assert.match(await (await subscribe(new Request(link[0]), { store, fetchFn, cfg })).text(), /You're in/, 'a confirmed link keeps saying so');
+  assert.equal((await subscribe(post({ confirm: link[1] }, false), { store, fetchFn, cfg })).status, 200);
+  assert.equal(calls.length, 2, 'pressing twice adds once');
+  assert.equal((await subscribe(new Request('https://hoc.example/api/subscribe?confirm=' + 'a'.repeat(48)), { store, fetchFn, cfg })).status, 410);
   assert.equal((await subscribe(post({ email: 'x@y.co', website: 'spam' }), { store, fetchFn, cfg })).status, 200);
   assert.equal(calls.length, 2, 'the honeypot sends nothing');
+  assert.equal((await subscribe(post({ email: 'reader@example.org' }), { store, fetchFn, cfg })).status, 200);
+  assert.equal(calls.length, 2, 'one confirmation email per address every ten minutes');
   const form = await subscribe(post({ email: 'f@g.co' }, false), { store, fetchFn, cfg });
   assert.match(form.headers.get('content-type'), /text\/html/, 'a plain form post gets a page back');
   assert.ok(validEmail('a.b+c@d.io') && !validEmail('a@b') && !validEmail('<a>@b.co'));

@@ -1,5 +1,5 @@
 // The newsletter's editions, written by the build to dist/newsletter/editions/
-// for the next seven days: <date>.json holds the subject, the email HTML from
+// for the next fourteen days: <date>.json holds the subject, the email HTML from
 // morningEdition() and how many stories are new. netlify/functions/newsletter.mjs
 // reads today's file each weekday morning and creates a DRAFT in the newsletter
 // service. A person reads the draft and presses send; nothing here sends email.
@@ -20,8 +20,16 @@ export function edition(date, opts = {}) {
   return { date, subject: `${PAPER.name}, ${pretty(date)}`, html: ed.html, fresh, stories: ed.stories.map((s) => s.href) };
 }
 
-export function upcomingEditions(from = new Date(), days = 7) {
+// Fourteen days, so a quiet stretch with no publish (batched deploys,
+// CLAUDE.md "Publishing") never leaves the morning job without a file.
+export function upcomingEditions(from = new Date(), days = 14) {
   return Array.from({ length: days }, (_, i) => ymd(new Date(from.getTime() + i * 86400e3))).map((d) => edition(d));
 }
 
-export { ymd as columbusDate };
+export { ymd as columbusDate, pretty as prettyDate };
+
+// Minutes past midnight in Columbus, for the morning job's clock.
+export const columbusMinutes = (d) => {
+  const p = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: TZ, hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }).formatToParts(d).map((x) => [x.type, x.value]));
+  return Number(p.hour) * 60 + Number(p.minute);
+};

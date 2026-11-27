@@ -68,8 +68,14 @@ congregation in town, of every faith, by area and by faith, plus nonprofits.
       with prose numbers (sentence length, adverbs, passive, reading grade),
       **select a passage to Tighten / Smooth / Fix grammar**, and
       **paste notes to split them into ideas**
-- [ ] Later: overnight lead gathering into the idea bank (council agendas,
-      directory changes, events), and "publish to the site" for a piece
+- [x] Overnight lead gathering into the idea bank: city news, city agendas
+      and minutes, county news, county calendar, NWS alerts, today's events
+      (`src/news/gather.mjs`, `netlify/functions/leads.mjs`, 2026-11-27)
+- [x] Morning job at 6:45 AM all year (was 5:30 AM in winter, before the desk
+      deadline), one run a day, remade drafts update in place, a morning note
+      to `HOC_NEWSLETTER_NOTIFY`, Resend segments, scanner safe signup
+- [ ] Later: directory changes and school board (BoardDocs) in the leads,
+      and "publish to the site" for a piece
 
 ### Apartments and landlords (`/housing/`, live)
 - [x] `/housing/` page: finding a place (county housing list, Indiana Housing

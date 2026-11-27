@@ -84,6 +84,16 @@ export function blockers(piece = {}) {
   return out;
 }
 
+// The subject line and the publisher's open go out too, so they meet the
+// same bar as a piece: no [CHECK] left in, no dash used as punctuation.
+export function planBlockers(plan = {}) {
+  const out = [];
+  const text = `${plan.subject || ''} ${plan.intro || ''}`;
+  if (/\[CHECK/i.test(text)) out.push('The subject or your open still has a [CHECK] to resolve.');
+  if (/[–—]| - /.test(text)) out.push('The subject or your open has a dash used as punctuation; the paper does not use them.');
+  return out;
+}
+
 const h = (v) => String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 // The email: the publisher's open, then the approved pieces in the order

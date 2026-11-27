@@ -2,8 +2,8 @@
 //   node scripts/morning-edition.mjs [YYYY-MM-DD]
 // Writes content/drafts/morning-<date>.html. The editor reads it, fixes
 // anything, and sends it through the newsletter service.
-// TODO(owner): once a service is chosen, add its API call here behind a
-// --send flag that refuses to run without the editor's go-ahead.
+// The newsletter service (Resend) gets its draft from the morning job
+// (netlify/functions/newsletter.mjs); this script never sends anything.
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { morningEdition } from '../src/news/morning.mjs';
 

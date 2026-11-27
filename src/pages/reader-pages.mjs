@@ -99,7 +99,7 @@ function deskPage(ctx) {
 .dk-tools{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.dk-tools button{font-size:14px}
 .dk-out{white-space:pre-wrap;border:1px dashed var(--line,#bbb);border-radius:6px;padding:10px;margin:8px 0;font-family:Georgia,serif}
 .dk-out li{cursor:pointer}.dk-src{display:grid;gap:4px;margin-bottom:8px}.dk-block{color:#b3261e}
-.dk-count{font-size:13px}.dk-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.dk-count{font-size:13px}.dk-new{font-size:11px;font-weight:700;color:#b92e2b;margin-right:4px}.dk-src-k{font-size:12px;color:var(--muted,#666)}.dk-leads li{flex-wrap:wrap}.dk-leads li>span{min-width:min(100%,260px)}.dk-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
 .dk iframe{width:100%;min-height:600px;border:1px solid var(--line,#ccc);border-radius:6px;background:#fff}
 </style>
 <section class="wrap np-section dk-wrap" data-desk>
@@ -128,6 +128,7 @@ function deskPage(ctx) {
       <p class="muted dk-count" data-ready></p>
       <div class="dk-tools"><button type="button" class="btn" data-draft>Make the newsletter draft</button></div>
       <p class="muted dk-count" data-drafted></p>
+      <p class="muted dk-count" data-run></p>
     </aside>
     <div class="dk-main" data-editor hidden>
       <div class="dk-tools">
@@ -159,6 +160,12 @@ function deskPage(ctx) {
   </div>
 
   <div data-pane="ideas" hidden>
+    <h2>Overnight leads</h2>
+    <p class="muted">Gathered before dawn from public notices: city and county news, agendas and minutes, the county calendar, weather alerts and today's events. Leads, not stories: read each one at its source before you use it.</p>
+    <p class="muted dk-count" data-leads-meta></p>
+    <ul class="dk-list dk-leads" data-leads></ul>
+    <div class="dk-tools"><button type="button" class="btn" data-gather>Gather now</button></div>
+    <h2>Your ideas</h2>
     <p class="muted">Anything worth a piece: a link, a thing you overheard, a question. Start a piece from any of them.</p>
     <label for="dk-idea">New idea</label><textarea id="dk-idea" data-idea-text rows="3"></textarea>
     <label for="dk-idea-url">Link <span class="muted">(optional)</span></label><input id="dk-idea-url" data-idea-url type="url">
