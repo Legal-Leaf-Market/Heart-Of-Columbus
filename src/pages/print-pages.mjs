@@ -219,6 +219,8 @@ function storyMod(m, s = storyBy[m.slug]) {
   if (!s) throw new Error(`print: no published story ${m.slug}`);
   const cols = m.cols || m.span;
   const imgs = (s.images || []).slice(0, m.photos ?? 2);
+  const art = m.artwork;
+  const artwork = art ? `<figure class="pe-fig pe-story-art"><img src="${esc(art.file)}" width="${art.width}" height="${art.height}" alt="${esc(art.alt)}"><figcaption>${t(art.caption)}</figcaption></figure>` : '';
   const wanted = !imgs.length && m.photo ? photoFig(m.photo, 'pe-fig-lead') : '';
   const figs = imgs.map((im, i) => `<figure class="pe-fig pe-story-fig${i === 0 ? ' pe-fig-lead' : ''}"><img src="${esc(im.file)}" srcset="${esc(im.file)} 2000w" alt="${esc(im.alt)}"><figcaption>${t(im.caption || '')} <span class="pe-credit">Photo: ${t(im.credit)}</span></figcaption></figure>`).join('');
   const flowAttr = m.flow ? ` data-flow-to="${esc(m.flow)}"` : '';
@@ -227,7 +229,7 @@ function storyMod(m, s = storyBy[m.slug]) {
     <h2 class="pe-hed pe-hed-${m.span}">${t(s.headline)}</h2>
     ${s.dek ? `<p class="pe-dek">${t(s.dek)}</p>` : ''}
     ${byline(s.bylines, s.editor, ` · First published online ${esc(longDate(s.published))}`)}
-    ${figs ? `<div class="pe-figs pe-figs-${imgs.length}">${figs}</div>` : wanted}
+    ${artwork || (figs ? `<div class="pe-figs pe-figs-${imgs.length}">${figs}</div>` : wanted)}
     <div class="pe-text pe-prose" style="--cols:${cols}" data-fit="${m.flow ? 'flow' : 'report'}"${flowAttr}>${printHtml(s.html)}</div>
     <div class="pe-endnote">${s.methods ? `<p class="pe-methods">${t(s.methods)}</p>` : ''}${qr(s.href)}</div>
   </article>`;
@@ -629,8 +631,10 @@ function coloringCard(id) {
   const art = COLORING[id];
   if (!art) throw new Error(`print: unknown coloring panel ${id}`);
   const portrait = `/print-media/coloring-${id}-portrait.webp`;
+  const wide = art.widePrint;
+  const printImage = wide ? `<img class="pe-color-print" src="/print-media/coloring-${id}-wide.webp" width="${wide.width}" height="${wide.height}" style="--pe-color-aspect:${wide.width} / ${wide.height}" alt="${esc(art.alt)}">` : '';
   return `<aside class="pe-color-card pe-color-portrait" data-coloring="${id}">
-    <img src="${portrait}" srcset="${portrait} 1x" width="880" height="1760" alt="${esc(art.alt)}">
+    <img${wide ? ' class="pe-color-read"' : ''} src="${portrait}" srcset="${portrait} 1x" width="880" height="1760" alt="${esc(art.alt)}">${printImage}
     <div><p class="pe-card-label">Color Indiana · ${t(art.place)}</p><h3>${t(art.title)}</h3><p>${t(art.note)}</p></div>
   </aside>`;
 }
@@ -684,7 +688,7 @@ export function readiness() {
 
 // Things only a person can do before the run goes to the printer.
 export const TODO = [
-  ['Back YOUR Blue', 'The story quotes Jake saying “you never gave me shit for it, Dad.” Decide whether the friends and family edition prints it as written. Page 8 also has room for a photo of Kevin Lee Kennedy, from the family.'],
+  ['Back YOUR Blue', 'The story quotes Jake saying “you never gave me shit for it, Dad.” Decide whether the friends and family edition prints it as written.'],
   ['Photos', 'The front page lead uses a Wikimedia aerial as a stand in. Eli Wire shoots the riverfront this month; the river story’s file takes it as photo.'],
   ['Photo permissions', 'Ask the Bartholomew County Public Library archives for an old dam photo (page 7) and a 2008 flood photo (page 7).'],
   ['Domain', `Every QR code points to ${ORIGIN}. Scan a few from the proof with a phone before ordering the run.`],
