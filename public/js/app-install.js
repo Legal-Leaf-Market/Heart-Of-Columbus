@@ -57,7 +57,6 @@
     var kind = panel.dataset.appFilters;
     var names = new Intl.Collator('en-US', { sensitivity: 'base', numeric: true });
     var items;
-    var frame = 0;
 
     function indexItems() {
       items = Array.from(results.children, function (node, index) {
@@ -85,8 +84,6 @@
     }
 
     function render() {
-      if (frame) cancelAnimationFrame(frame);
-      frame = 0;
       if (kind === 'weddings') {
         Array.from(category.options).forEach(function (option) {
           option.disabled = Boolean(track && option.value && !option.dataset.tracks.split(' ').includes(track));
@@ -131,9 +128,7 @@
       if (kind === 'weddings') document.dispatchEvent(new Event('planner:results'));
     }
 
-    search.addEventListener('input', function () {
-      if (!frame) frame = requestAnimationFrame(render);
-    });
+    search.addEventListener('input', render);
     category.addEventListener('change', render);
     sort.addEventListener('change', render);
     chips.forEach(function (chip) {
