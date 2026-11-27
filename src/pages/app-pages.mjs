@@ -8,6 +8,8 @@ import { worshipGroups } from './worship-pages.mjs';
 import { nonprofitGroups } from './nonprofits-pages.mjs';
 import { NONPROFITS_SOURCE } from '../data/nonprofits.mjs';
 import { SOURCES } from '../data/events.mjs';
+import { TRACKS } from '../data/plan.mjs';
+import { roleSection, plannerControls } from './plan-pages.mjs';
 import { addDays, handEntered, inWindow, today, webDate } from '../event-feeds.mjs';
 
 const apps = {
@@ -36,6 +38,11 @@ const apps = {
     name: 'Columbus Nonprofits', description: 'Find charities and civic groups serving the Columbus area.',
     theme: '#793b4b', background: '#fdf4f3',
   },
+  weddings: {
+    id: '/apps/weddings/', manifest: '/apps/weddings/manifest.webmanifest', icon: 'weddings',
+    name: 'Weddings & Events', description: 'Build a local vendor team for a wedding, corporate event or private party.',
+    theme: '#67374d', background: '#fcf4f7',
+  },
   events: {
     id: '/apps/events/', manifest: '/apps/events/manifest.webmanifest', icon: 'events',
     name: 'Columbus Events', description: 'Find upcoming library, parks, arts and community events around Columbus.',
@@ -49,6 +56,7 @@ const APP_LINKS = [
   ['contractors', 'Contractors', 'Find a trade and call'],
   ['churches', 'Churches', 'Find a place of worship'],
   ['nonprofits', 'Nonprofits', 'Find charities and civic groups'],
+  ['weddings', 'Weddings & Events', 'Build your vendor team'],
   ['events', 'Events', 'See what’s coming up'],
 ];
 const root = (key) => `/apps/${key}/`;
@@ -59,7 +67,7 @@ export function appLauncher() {
   <h2 id="columbus-apps-title">Columbus apps</h2>
   <ul>${APP_LINKS.map(([key, label, description]) => `<li><a href="${root(key)}">
     <img src="${iconPath(apps[key], 180)}" width="32" height="32" alt="" loading="lazy">
-    <span><strong>${label}</strong><small>${description}</small></span>
+    <span><strong>${esc(label)}</strong><small>${esc(description)}</small></span>
   </a></li>`).join('')}</ul>
 </nav>`;
 }
@@ -131,23 +139,24 @@ self.addEventListener('activate', (event) => {
 `;
 }
 
-function appPage({ assets, key, path = root(key), title, body, article = false }) {
+function appPage({ assets, key, path = root(key), title, body, article = false, planner = false }) {
   const app = apps[key];
-  const back = !article ? '' : `<a class="focus-back" href="${root(key)}">← All stories</a>`;
+  const backLabel = article ? 'All stories' : planner ? 'Event types' : '';
+  const back = backLabel ? `<a class="focus-back" href="${root(key)}">← ${backLabel}</a>` : '';
   return page({
     title: title ? `${title} | ${app.name}` : app.name,
     description: app.description,
     assets, path, theme: `focus-app focus-${key}`, showAlert: false,
-    styles: [...(article ? ['hoc.css', 'newsprint.css'] : []), 'focus-app.css'],
-    scripts: ['app-install.js'],
+    styles: [...(article ? ['hoc.css', 'newsprint.css'] : planner ? ['hoc.css'] : []), 'focus-app.css'],
+    scripts: ['app-install.js', ...(planner ? ['plan.js'] : [])],
     head: `<link rel="manifest" href="${app.manifest}">
 <meta name="theme-color" content="${app.theme}">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="${app.name}">
+<meta name="apple-mobile-web-app-title" content="${esc(app.name)}">
 <link rel="apple-touch-icon" href="${iconPath(app, 180)}">`,
     body: `<header class="focus-top">
   <div class="focus-wrap focus-top-row">
-    <p>${app.name}</p>
+    <p>${esc(app.name)}</p>
     <button type="button" class="focus-install" data-app-install aria-controls="install-hint" aria-expanded="false" hidden>Install app</button>
     ${back}
   </div>
@@ -264,6 +273,45 @@ function nonprofitsPage(assets) {
   }) });
 }
 
+function weddingsPages(assets) {
+  const base = root('weddings');
+  const body = `<div class="focus-wrap focus-content">
+  <h1>Plan your day in Columbus</h1>
+  <p class="focus-intro">Find local vendors for each job, save your favorites, and share the team you’re putting together.</p>
+  <div class="focus-grid">${TRACKS.map((track) => `<article class="focus-card">
+    <h2><a href="${base}${track.slug}/">${esc(track.label)}</a></h2>
+    <p>${esc(track.lede)}</p>
+  </article>`).join('')}</div>
+</div>`;
+  return [
+    { path: base.slice(1) + 'index.html', html: appPage({ assets, key: 'weddings', body }) },
+    ...TRACKS.map((track) => {
+      const path = base + track.slug + '/';
+      const vendor = (b, role, info) => {
+        const book = b.book[0];
+        const order = b.order[0];
+        const actions = external(book?.url, 'Book online', true) + external(order?.url, 'Order direct', true)
+          + call(b.phone) + external(b.website, 'Website')
+          + (b.store !== b.website ? external(b.store, 'Shop online') : '');
+        return (b.member ? '<p class="focus-category">Founding Member</p>' : '')
+          + directoryCard(b, role, info.label, actions);
+      };
+      const body = `<div class="pl-page" data-plan="${track.slug}" data-plan-focused>
+  <div class="focus-wrap focus-content">
+    <h1>${esc(track.kicker)}</h1>
+    <p class="focus-intro">${esc(track.lede)} Founding Members are paid listings.</p>
+    <label class="pl-filter"><input type="checkbox" data-plan-direct> Only vendors with online ordering, booking or shopping</label>
+    <div class="focus-plan-roles">${track.roles.map((role, index) => roleSection(role, track, { renderVendor: vendor, open: index === 0 })).join('')}</div>
+  </div>
+  ${plannerControls(track, { focused: true })}
+</div>`;
+      return { path: path.slice(1) + 'index.html', html: appPage({
+        assets, key: 'weddings', path, title: track.label, body, planner: true,
+      }) };
+    }),
+  ];
+}
+
 function eventsPage(assets) {
   const filters = SOURCES.map(({ id, name }) => ({ slug: id, label: name }));
   const names = new Map(filters.map(({ slug, label }) => [slug, label]));
@@ -333,6 +381,7 @@ export function appPages({ assets }) {
     { path: 'apps/contractors/index.html', html: contractorsPage(assets) },
     { path: 'apps/churches/index.html', html: churchesPage(assets) },
     { path: 'apps/nonprofits/index.html', html: nonprofitsPage(assets) },
+    ...weddingsPages(assets),
     { path: 'apps/events/index.html', html: eventsPage(assets) },
     { path: 'apps/food/offline.html', html: appPage({
       assets, key: 'food', title: 'Offline', path: '/apps/food/offline.html',
