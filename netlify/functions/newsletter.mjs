@@ -56,8 +56,8 @@ const hex = (bytes) => [...bytes].map((b) => b.toString(16).padStart(2, '0')).jo
 export const holdToken = () => hex(crypto.getRandomValues(new Uint8Array(24)));
 export const sha = async (s) => hex(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(String(s)))));
 
-async function getJSON(url, fetchFn) {
-  try { const r = await fetchFn(url); return r.ok ? await r.json() : null; } catch { return null; }
+async function getJSON(url, fetchFn, init) {
+  try { const r = await fetchFn(url, init); return r.ok ? await r.json() : null; } catch { return null; }
 }
 
 // Gathers everything an edition needs and builds it. Shared by the job and
@@ -126,7 +126,7 @@ export async function makeBroadcast({ kind = 'morning', date, store, resend, key
   const topic = resend.topics && resend.topics[k];
   const auth = { authorization: `Bearer ${resend.key}`, 'content-type': 'application/json' };
   const content = {
-    from: resend.from, subject, html, name: `${EDITIONS[k].label} edition ${date}`,
+    segment_id: resend.segment, from: resend.from, subject, html, name: `${EDITIONS[k].label} edition ${date}`,
     ...(resend.replyTo ? { reply_to: resend.replyTo } : {}), ...(topic ? { topic_id: topic } : {}),
   };
   let id = '';
@@ -136,7 +136,7 @@ export async function makeBroadcast({ kind = 'morning', date, store, resend, key
     if (up.ok) { id = before.id; updated = true; } else log(`[newsletter] could not update the earlier draft (${up.status}); making a new one`);
   }
   if (!id) {
-    const made = await fetchFn(`${RESEND}/broadcasts`, { method: 'POST', headers: auth, body: JSON.stringify({ segment_id: resend.segment, ...content }) });
+    const made = await fetchFn(`${RESEND}/broadcasts`, { method: 'POST', headers: auth, body: JSON.stringify(content) });
     if (!made.ok) { log(`[newsletter] Resend refused the broadcast: ${made.status} ${(await made.text()).slice(0, 300)}`); return { ok: false, reason: 'refused', status: made.status }; }
     id = ((await made.json().catch(() => ({}))).id) || '';
   }
@@ -163,6 +163,7 @@ const WHY = {
   thin: () => 'No edition: nothing to put in it besides the weather.',
   'no-topic': () => 'No edition: RESEND_TOPIC_EVENING is not set, and without it the evening would go to readers who chose the morning only.',
   'not-scheduled': () => 'The broadcast was made but Resend would not schedule it, so it was NOT sent. Check the function log (Netlify > Logs > Functions).',
+  'audience-unverified': () => 'The draft was saved but was NOT sent. Resend did not confirm the expected segment and topic. Check the draft audience before sending.',
   refused: () => 'No edition: Resend refused it. Check the function log (Netlify > Logs > Functions).',
   'already-scheduled': () => 'This edition is already scheduled in Resend. Hold it first to remake it.',
   'no-key': () => 'No edition: no newsletter service is set in Netlify.',
@@ -215,6 +216,14 @@ export async function editionRun({ kind = 'morning', now = new Date(), deskStore
   if (made.via === 'resend') {
     if (p.step === 'late' && !force) result = { ...result, reason: 'late' };
     else {
+      const saved = made.id ? await getJSON(`${RESEND}/broadcasts/${encodeURIComponent(made.id)}`, fetchFn, {
+        headers: { authorization: `Bearer ${resend.key}` },
+      }) : null;
+      const topic = resend.topics?.[k] || '';
+      if (!saved || (saved.segment_id || saved.audience_id) !== resend.segment || (saved.topic_id || '') !== topic) {
+        log(`[newsletter] ${k} ${date}: Resend did not confirm the expected segment and topic`);
+        return finish({ ...result, ok: false, reason: 'audience-unverified' }, { notes: ed.notes, html: ed.html, from: ed.from });
+      }
       const at = p.step === 'send' ? p.at : new Date(now.getTime() + 2 * 60e3).toISOString();
       const ok = await scheduleBroadcast({ id: made.id, at, resend, fetchFn, log });
       if (ok) {

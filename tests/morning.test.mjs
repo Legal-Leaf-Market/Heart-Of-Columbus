@@ -33,14 +33,22 @@ const DAILY = {
   snapshot: { 'plain-shop': { name: 'Plain Shop', address: '1 Main St', phone: '', hours: null, tempClosed: false, closed: false, order: [], book: [], store: '' } },
 };
 
-function fakeNet({ daily = DAILY, parts = null, events = [], scheduleOk = true } = {}) {
+function fakeNet({ daily = DAILY, parts = null, events = [], scheduleOk = true, savedAudience } = {}) {
   const calls = [];
+  let audience;
   const fn = async (url, init = {}) => {
     calls.push({ url, method: init.method || 'GET', body: init.body ? JSON.parse(init.body) : null });
     if (url.includes('/newsletter/daily.json')) return daily ? new Response(JSON.stringify(daily)) : new Response('', { status: 404 });
     if (url.includes('/newsletter/editions/')) return parts ? new Response(JSON.stringify(parts)) : new Response('', { status: 404 });
     if (url.includes('/api/events')) return new Response(JSON.stringify({ events }));
     if (url.endsWith('/send')) return new Response(scheduleOk ? '{}' : 'no', { status: scheduleOk ? 200 : 422 });
+    if (url.includes('api.resend.com/broadcasts')) {
+      if (!init.method) return (savedAudience === null)
+        ? new Response('', { status: 503 })
+        : Response.json(savedAudience ?? audience);
+      const { segment_id, topic_id } = JSON.parse(init.body);
+      audience = { segment_id, topic_id };
+    }
     return new Response(JSON.stringify({ id: `b${calls.length}` }), { status: 200 });
   };
   return { calls, fn };
@@ -94,6 +102,8 @@ test('the morning job schedules one broadcast for its topic, at 6:45, once a day
   assert.match(made.body.html, /Choose morning, evening or both/, 'the footer links to the preferences page');
   const send = net.calls.find((c) => c.url.endsWith('/send'));
   assert.equal(send.body.scheduled_at, '2026-12-02T11:45:00.000Z');
+  const read = net.calls.find((c) => c.method === 'GET' && c.url.includes('api.resend.com/broadcasts/'));
+  assert.ok(read && net.calls.indexOf(read) < net.calls.indexOf(send));
   assert.equal((await run('morning', '2026-12-02T11:16:00Z', { store, net })).reason, 'ran', 'a retry does nothing');
   const rec = await store.getJSON('draft-2026-12-02');
   assert.ok(rec.scheduled && rec.holdHash && rec.holdHash.length === 64, 'the hold code is kept only as a hash');
@@ -158,6 +168,31 @@ test('an edition needs the weather plus one more section, or it is skipped', asy
   const r = await run('evening', '2026-12-02T22:30:00Z', { net });
   assert.equal(r.reason, 'thin');
   assert.equal(net.calls.filter((c) => c.url.includes('/broadcasts')).length, 0);
+});
+
+test('an unreadable or mismatched audience leaves the edition in draft and tells the publisher', async () => {
+  for (const savedAudience of [
+    null,
+    { segment_id: 'other-segment', topic_id: 'top-e' },
+    { segment_id: 'seg', topic_id: 'top-m' },
+    { segment_id: 'seg', topic_id: null },
+  ]) {
+    const store = memStore();
+    const net = fakeNet({ savedAudience });
+    const result = await run('evening', '2026-12-02T22:30:00Z', { store, net, notifyTo: 'publisher@example.org' });
+    assert.equal(result.reason, 'audience-unverified');
+    assert.equal(result.ok, false);
+    assert.ok((await store.getJSON('draft-2026-12-02-evening')).id);
+    assert.equal(net.calls.some((call) => call.url.endsWith('/send')), false);
+    const note = net.calls.find((call) => call.url.endsWith('/emails'));
+    assert.match(note.body.text, /did not confirm the expected segment and topic/);
+    assert.doesNotMatch(note.body.text, /Hold it:/);
+  }
+  const legacy = fakeNet({ savedAudience: { audience_id: 'seg', topic_id: null } });
+  const result = await run('morning', '2026-12-02T11:15:00Z', {
+    net: legacy, r: { ...resend, topics: {} },
+  });
+  assert.equal(result.reason, 'scheduled', 'the current morning fallback still verifies its segment');
 });
 
 test('Hold cancels the scheduled send and keeps the draft, with the desk key or that edition\'s code only', async () => {

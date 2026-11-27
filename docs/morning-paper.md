@@ -158,6 +158,11 @@ topics. Every edition's footer links to Resend's preferences page
 Make both topics **Public** in Resend, or readers who are not opted in to one
 will not see it there.
 
+Before scheduling, the job reads the saved broadcast back from Resend and
+confirms its segment and topic. If the lookup fails or either value differs,
+the edition stays in draft and the publisher note says why. Check the
+draft's audience in Resend before sending it manually.
+
 **Hold** (`/api/hold`, page `/newsroom/hold/`): the note's link carries a one
 time code after `#` that can hold only that edition, so the note never
 carries the desk key; the desk's own button uses the desk key. Only the
