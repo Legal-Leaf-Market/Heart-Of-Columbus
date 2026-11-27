@@ -35,7 +35,7 @@ ${newsBar(path)}
 ${banner}
 <main id="main" class="np">
 ${crumbs.length ? breadcrumbs([['/', 'Home'], ...crumbs]) : ''}
-${path === '/news/' ? '<div class="wrap"><a class="btn btn-sm btn-ghost" href="/apps/news/">Open the Columbus Paper app</a></div>' : ''}
+${path === '/news/' ? '<div class="wrap"><a class="btn btn-sm btn-ghost" href="/apps/news/">Open the Heart of Columbus newspaper app</a></div>' : ''}
 ${body}
 </main>
 ${footer()}`;

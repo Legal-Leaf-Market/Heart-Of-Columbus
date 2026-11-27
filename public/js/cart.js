@@ -20,7 +20,8 @@
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
   var money = function (n) { return '$' + Number(n || 0).toFixed(2); };
-  var KEY = 'hoc.cart', PICK = 'hoc.pickup';
+  var food = document.body.classList.contains('focus-food');
+  var KEY = food ? 'hoc.food.cart' : 'hoc.cart', PICK = food ? 'hoc.food.pickup' : 'hoc.pickup';
   var load = function (k, d) { try { return JSON.parse(localStorage.getItem(k)) || d; } catch (e) { return d; } };
   var save = function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* private mode */ } };
   var read = function () { return load(KEY, []); };
@@ -126,7 +127,7 @@
     var stops = [];
     var html = '<div class="cd-head"><h2>Your local cart</h2><button type="button" class="cd-x" data-cd-close aria-label="Close">✕</button></div>';
     html += '<p class="cd-note cd-alert" data-cd-note hidden></p>';
-    if (!cart.length) html += '<p class="cd-empty">Your cart is empty. Look for “Shop online” on a business page.</p>';
+    if (!cart.length) html += '<p class="cd-empty">Your cart is empty. ' + (food ? 'Browse products in Columbus Food to add something.' : 'Look for “Shop online” on a business page.') + '</p>';
     else {
       var items = cart.reduce(function (a, l) { return a + l.qty; }, 0);
       html += '<p class="cd-summary"><b>' + items + '</b> item' + (items === 1 ? '' : 's') + ' from <b>' + G.order.length + '</b> local shop' + (G.order.length === 1 ? '' : 's') + '. Each shop checks you out on its own site.</p>';
@@ -287,6 +288,7 @@
   $$('[data-shop]').forEach(function (box) { whenNear(box, function () { loadShop(box); }); });
   function loadShop(box) {
     var slug = box.dataset.shop, name = box.dataset.name, limit = Number(box.dataset.limit || 48);
+    var full = 'fullCatalog' in box.dataset;
     var hours = null;
     try { hours = JSON.parse(box.dataset.hours || 'null'); } catch (e) { hours = null; }
     // A live store answers through /api/shop (?top asks for only the grid's
@@ -294,7 +296,7 @@
     // from its static file, and a live store that doesn't answer falls back
     // to that file.
     var snap = function () { return fetch('/catalogs/' + encodeURIComponent(slug) + '.json').then(function (r) { return r.ok ? r.json() : { ok: false }; }).then(function (d) { if (d.ok) d.saved = d.checked; return d; }); };
-    var live = function () { return fetch('/api/shop?slug=' + encodeURIComponent(slug) + '&top=' + limit).then(function (r) { return r.json(); }); };
+    var live = function () { return fetch('/api/shop?slug=' + encodeURIComponent(slug) + (full ? '' : '&top=' + limit)).then(function (r) { return r.json(); }); };
     var src = 'live' in box.dataset ? live().catch(function () { return { ok: false }; }).then(function (d) { return d.ok || !box.dataset.snap ? d : snap(); }) : snap();
     src.then(function (d) {
       if (!d.ok) { box.innerHTML = '<p class="muted">' + esc(d.error || 'Their store did not answer.') + '</p>'; return; }
@@ -308,7 +310,8 @@
       var stockN = d.stock != null ? d.stock : d.items.filter(function (i) { return i.available; }).length;
       var picturedN = d.pictured != null ? d.pictured : items.length;
       var unseen = stockN - picturedN;
-      box.innerHTML = '<p class="shop-count">' + stockN + ' items in stock at ' + esc(name) + '’s own store</p>' + (d.saved ? '<p class="snap-note">Saved from their website on ' + esc(new Date(d.saved + 'T12:00:00Z').toLocaleDateString('en-US', { timeZone: 'UTC', month: 'long', day: 'numeric' })) + '. Their site has the final word on price and stock.</p>' : '') + '<div class="prod-grid">' + items.slice(0, limit).map(function (it, idx) {
+      var shown = full ? items.length : limit;
+      box.innerHTML = '<p class="shop-count">' + stockN + ' items in stock at ' + esc(name) + '’s own store</p>' + (d.saved ? '<p class="snap-note">Saved from their website on ' + esc(new Date(d.saved + 'T12:00:00Z').toLocaleDateString('en-US', { timeZone: 'UTC', month: 'long', day: 'numeric' })) + '. Their site has the final word on price and stock.</p>' : '') + (full && items.length ? '<label class="focus-field focus-product-filter"><span>Search products</span><input type="search" data-product-filter placeholder="Search this product list"></label><p class="focus-count" role="status" data-product-count></p>' : '') + '<div class="prod-grid">' + items.slice(0, shown).map(function (it, idx) {
         var fl = firstLive(it);
         return '<article class="prod"><img src="' + esc(it.image) + '" alt="" loading="lazy">' +
           '<div class="prod-b"><a href="' + esc(it.url) + '" target="_blank" rel="noopener" class="prod-t">' + esc(it.title) + '</a><p class="prod-p">' + money(it.price) + '</p>' +
@@ -317,7 +320,24 @@
           // their site: an add link without the options adds nothing there.
           (it.pick ? '<a class="btn btn-sm btn-ghost" href="' + esc(it.url) + '" target="_blank" rel="noopener">Choose options ↗</a>'
             : '<button type="button" class="btn btn-sm" data-add="' + idx + '">' + (it.buyOnSite ? 'Add to my list' : 'Add to cart') + '</button>') + '</div></article>';
-      }).join('') + '</div>' + (picturedN > limit || unseen ? '<a class="btn btn-ghost" href="' + esc(d.origin) + '" target="_blank" rel="noopener">See all ' + stockN + ' on their site ↗</a>' : '');
+      }).join('') + '</div>' + (picturedN > shown || unseen ? '<a class="btn btn-ghost" href="' + esc(d.origin) + '" target="_blank" rel="noopener">See all ' + stockN + ' on their site ↗</a>' : '');
+      var filter = $('[data-product-filter]', box);
+      if (filter) {
+        var cards = Array.from(box.querySelectorAll('.prod'));
+        var count = $('[data-product-count]', box);
+        function searchProducts() {
+          var tokens = filter.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
+          var matches = 0;
+          cards.forEach(function (card) {
+            var name = $('.prod-t', card).textContent.toLowerCase();
+            card.hidden = !tokens.every(function (token) { return name.includes(token); });
+            if (!card.hidden) matches++;
+          });
+          count.textContent = matches + (matches === 1 ? ' product' : ' products');
+        }
+        filter.addEventListener('input', searchProducts);
+        searchProducts();
+      }
       box.addEventListener('click', function (e) {
         var b = e.target.closest('[data-add]');
         if (!b) return;

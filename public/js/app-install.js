@@ -12,25 +12,29 @@
   var inApp = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
   var installPrompt;
   if (button && !inApp) {
-    if (/iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) {
-      button.hidden = false;
-    }
+    var ios = /iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    if (ios) hint.textContent = 'In Safari, tap Share, then Add to Home Screen.';
+    button.hidden = false;
     window.addEventListener('beforeinstallprompt', function (event) {
       event.preventDefault();
       installPrompt = event;
-      button.hidden = false;
       hint.hidden = true;
+      button.setAttribute('aria-expanded', 'false');
     });
     button.addEventListener('click', async function () {
-      if (!installPrompt) {
-        hint.hidden = !hint.hidden;
-        button.setAttribute('aria-expanded', String(!hint.hidden));
-        return;
+      if (installPrompt) {
+        var prompt = installPrompt;
+        installPrompt = null;
+        try {
+          await prompt.prompt();
+          if ((await prompt.userChoice).outcome === 'accepted') button.hidden = true;
+          return;
+        } catch {
+          // Show the browser’s menu instructions when the prompt is unavailable.
+        }
       }
-      var prompt = installPrompt;
-      installPrompt = null;
-      button.hidden = true;
-      await prompt.prompt();
+      hint.hidden = !hint.hidden;
+      button.setAttribute('aria-expanded', String(!hint.hidden));
     });
     window.addEventListener('appinstalled', function () {
       button.hidden = true;
@@ -41,6 +45,7 @@
   var search = document.querySelector('[data-app-search]');
   if (search) {
     var category = document.querySelector('[data-app-category]');
+    var track = document.querySelector('[data-app-track]');
     var count = document.querySelector('[data-app-count]');
     var empty = document.querySelector('[data-app-empty]');
     var items;
@@ -50,24 +55,34 @@
           node: node,
           text: normalize(node.dataset.search),
           categories: node.dataset.category.split(' '),
+          tracks: (node.dataset.tracks || '').split(' '),
         };
       });
       filter();
     }
     function filter() {
+      if (track) {
+        Array.from(category.options).forEach(function (option) {
+          option.disabled = Boolean(track.value && option.value && !option.dataset.tracks.split(' ').includes(track.value));
+        });
+        if (category.selectedOptions[0]?.disabled) category.value = '';
+      }
       var tokens = normalize(search.value).split(/\s+/).filter(Boolean);
       var visible = 0;
       items.forEach(function (item) {
-        var matches = (!category.value || item.categories.includes(category.value))
+        var matches = (!track?.value || item.tracks.includes(track.value))
+          && (!category.value || item.categories.includes(category.value))
           && tokens.every(function (token) { return item.text.includes(token); });
         item.node.hidden = !matches;
         if (matches) visible++;
       });
       count.textContent = visible + (visible === 1 ? ' result' : ' results');
       empty.hidden = visible !== 0;
+      if (track) document.dispatchEvent(new Event('planner:results'));
     }
     search.addEventListener('input', filter);
     category.addEventListener('change', filter);
+    if (track) track.addEventListener('change', filter);
     indexItems();
     var events = document.querySelector('[data-app-events]');
     if (events) refreshEvents(events, category, indexItems);
@@ -143,7 +158,7 @@
   document.querySelectorAll('[data-app-menu]').forEach(function (details) {
     var panel = details.querySelector('[data-menu-content]');
     var state = '';
-    details.addEventListener('toggle', async function () {
+    async function loadMenu() {
       if (!details.open || state) return;
       state = 'loading';
       panel.textContent = 'Loading menu…';
@@ -187,6 +202,8 @@
         panel.textContent = 'Menu unavailable. Close and reopen to retry.';
         state = '';
       }
-    });
+    }
+    details.addEventListener('toggle', loadMenu);
+    if (details.open) loadMenu();
   });
 })();
