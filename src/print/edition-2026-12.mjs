@@ -127,7 +127,11 @@ export const EDITION = {
       { mods: [{ span: 5, type: 'box', box: 'byb-head' }] },
       { fill: true, mods: [
         { span: 3, type: 'story', slug: 'my-father-my-hero', cols: 2, big: true,
-          photo: { key: null, note: 'Photo wanted: Kevin Lee Kennedy, from the family, with permission. In uniform, or today.' } },
+          artwork: {
+            file: '/print-media/kevin-kennedy-tribute.webp', width: 1254, height: 1254,
+            alt: 'Back YOUR Blue birthday tribute to Kevin Lee Kennedy, honoring 21 years of Air Force service',
+            caption: 'From Jake Kennedy’s 60th birthday tribute to his dad.',
+          } },
         { span: 2, type: 'stack', coloring: 'cardinal', mods: [
           { type: 'box', box: 'byb-quote', quote: 'My father has broken generational curses. Several. On his own back.' },
           { type: 'box', box: 'byb-coupon' },
