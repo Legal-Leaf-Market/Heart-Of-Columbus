@@ -768,7 +768,7 @@ body:has(.pe-status) { background: var(--paper, #fbf7f0); }
 /* Coloring panels live in the page. The fitter measures their tabloid size. */
 .pe-color-card { flex: none; min-width: 0; margin: 10pt 0 0; padding-inline: 4pt; }
 .pe-color-card > img {
-  display: block; width: auto; height: clamp(0px, var(--pe-color-height, 5in), 7.25in);
+  display: block; width: auto; height: clamp(0px, var(--pe-color-height, 5in), var(--pe-color-limit, 7.25in));
   max-width: 100%; object-fit: contain; margin: 0 auto 5pt;
 }
 .pe-color-card h3 { margin: 2pt 0 3pt; font: 780 14pt/1.1 var(--pe-head); }
@@ -823,4 +823,32 @@ body:has(.pe-status) { background: var(--paper, #fbf7f0); }
   #page-3 .pe-wide { min-height: 7.95in; }
   #page-3 .pe-wide > .pe-text { column-count: 2; font-size: 10pt; line-height: 1.28; }
   #page-3 #lincoln-school .pe-text { font-size: 9.25pt; line-height: 1.2; }
+}
+
+/* Reclaim space above the coloring panels in the tabloid layout. */
+@media screen {
+  :is(.pe-fitting, .pe-paper:not(.pe-reading)) {
+    #page-2 .pe-how-cols { grid-template-columns: 1fr 1.3fr 2.7fr; }
+    #page-8 .pe-pull { padding-block: 6pt; font-size: 18pt; }
+    #page-8 .pe-coupon { padding-block: 7pt; }
+    #page-8 .pe-lines { margin-block: 6pt; }
+    #page-8 .pe-color-card { --pe-color-limit: 7.6in; }
+    #page-10 .pe-free-item { padding-bottom: 3pt; margin-bottom: 3pt; }
+    #page-10 .pe-visitors { padding-block: 5pt; }
+    #page-10 .pe-stack > .pe-tours { margin-top: .07in; padding-top: .07in; }
+    #page-10 :is(.pe-visitors, .pe-tours) { line-height: 1.27; }
+    #page-15 .pe-crossword .pe-cw td { width: .34in; height: .34in; }
+  }
+}
+@media print {
+  #page-2 .pe-how-cols { grid-template-columns: 1fr 1.3fr 2.7fr; }
+  #page-8 .pe-pull { padding-block: 6pt; font-size: 18pt; }
+  #page-8 .pe-coupon { padding-block: 7pt; }
+  #page-8 .pe-lines { margin-block: 6pt; }
+  #page-8 .pe-color-card { --pe-color-limit: 7.6in; }
+  #page-10 .pe-free-item { padding-bottom: 3pt; margin-bottom: 3pt; }
+  #page-10 .pe-visitors { padding-block: 5pt; }
+  #page-10 .pe-stack > .pe-tours { margin-top: .07in; padding-top: .07in; }
+  #page-10 :is(.pe-visitors, .pe-tours) { line-height: 1.27; }
+  #page-15 .pe-crossword .pe-cw td { width: .34in; height: .34in; }
 }
