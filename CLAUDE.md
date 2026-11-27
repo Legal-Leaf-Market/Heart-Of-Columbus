@@ -84,6 +84,14 @@ site Jake runs. Deploy Previews and branch deploys cost nothing, so (Jake,
   it. It stops on `until` (rows also come down in the browser). Search ranking
   never reads it, nor does anything we write. Rates are Jake's to set; the
   owners page says "Ask about rates" until then. tests/promotions.test.mjs.
+- **The publisher's own businesses: `src/data/family.mjs`.** Crossroads, Ship
+  It With AI, Kawaii Katz and Legal Leaf show in every footer ("Also from the
+  publisher"), on /about/ and beside each other's listings, always with the tie
+  said in the same place, links tagged `utm_campaign=family`, Legal Leaf
+  labeled 21+. Kawaii Katz and Legal Leaf never point at each other
+  (`familyBeside`). A story tagging one discloses it (kind `own`). Never let
+  family status touch ranking or sort. docs/cross-promotion.md is the audit;
+  tests/family.test.mjs.
 - **Owner picks come only from owners.** With none sent, no picks box shows at
   all (no placeholder rows); the business's own page gets a one-line invitation.
 - **Public events only.** `access()` in `src/event-feeds.mjs` reads a listing's

@@ -6,6 +6,7 @@ import { newsPage } from '../news/frame.mjs';
 import { PAPER, FUNDERS } from '../data/paper.mjs';
 import { staffList, person } from '../data/staff.mjs';
 import { LABELS, labelClass } from '../news/labels.mjs';
+import { FAMILY, familyHref } from '../data/family.mjs';
 
 const ext = (href, text) => `<a href="${esc(href)}" target="_blank" rel="noopener">${esc(text)}</a>`;
 const tbd = (what) => `<span class="np-tbd">${esc(what)} is still being decided by the publisher.</span>`;
@@ -36,6 +37,9 @@ function aboutPage(ctx) {
       ${PAPER.funding ? `<p>${t(PAPER.funding)}</p>` : `<p>${tbd('How the paper pays for itself')} Whatever we choose, this page will list every funder and sponsor, and no funder or sponsor gets a say in what we cover.</p>`}
       ${FUNDERS.length ? `<ul class="np-list">${FUNDERS.map((f) => `<li>${f.url ? ext(f.url, f.name) : esc(f.name)}: ${esc(f.what)}, since ${esc(f.since)}</li>`).join('')}</ul>` : '<p>We have no funders or sponsors yet.</p>'}
       <p>This site also runs a business directory and offers local businesses free tools such as pickup tickets. When a story mentions a business we have that kind of relationship with, the story says so automatically.</p>`],
+    ['family', 'The publisher\u2019s other businesses', `
+      <p>Our publisher and his family also run these businesses. Each one is listed in our directory under the same rules as every other business, its own page says who runs it, and a story that mentions one says so at the top.</p>
+      <ul class="np-list">${FAMILY.map((f) => `<li>${ext(familyHref(f), f.name)}${f.adult ? ' (for adults 21 and over)' : ''}: ${esc(f.what)}. ${esc(f.tie)}${f.slug ? ` <a href="/b/${esc(f.slug)}/">Its listing</a>` : ''}</li>`).join('')}</ul>`],
     ['neighbors', 'Our neighbors in the news business', `
       <p><a href="https://www.therepublic.com/" target="_blank" rel="noopener"><em>The Republic</em></a> has been covering Columbus since 1872. We have been at it for slightly less time than that. We read them, we think you should too, and when they break a story we will link to it and give them full credit. We will never copy or rewrite their work.</p>
       <p>If we ever beat them to one, we promise to be gracious about it. Columbus is better with two newsrooms than with one, and we would be glad to work together any time.</p>`],
