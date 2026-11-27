@@ -629,8 +629,10 @@ function coloringCard(id) {
   const art = COLORING[id];
   if (!art) throw new Error(`print: unknown coloring panel ${id}`);
   const portrait = `/print-media/coloring-${id}-portrait.webp`;
+  const wide = art.widePrint;
+  const printImage = wide ? `<img class="pe-color-print" src="/print-media/coloring-${id}-wide.webp" width="${wide.width}" height="${wide.height}" style="--pe-color-aspect:${wide.width} / ${wide.height}" alt="${esc(art.alt)}">` : '';
   return `<aside class="pe-color-card pe-color-portrait" data-coloring="${id}">
-    <img src="${portrait}" srcset="${portrait} 1x" width="880" height="1760" alt="${esc(art.alt)}">
+    <img${wide ? ' class="pe-color-read"' : ''} src="${portrait}" srcset="${portrait} 1x" width="880" height="1760" alt="${esc(art.alt)}">${printImage}
     <div><p class="pe-card-label">Color Indiana · ${t(art.place)}</p><h3>${t(art.title)}</h3><p>${t(art.note)}</p></div>
   </aside>`;
 }

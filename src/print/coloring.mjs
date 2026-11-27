@@ -2,6 +2,7 @@
 export const COLORING = {
   cardinal: {
     title: 'Northern cardinal', place: 'Indiana wildlife',
+    widePrint: { width: 1024, height: 1536 },
     alt: 'A crested cardinal perched on a snowy branch with berries',
     note: 'Indiana adopted the cardinal as its state bird in 1933. Cardinals stay here year round. Try red for the male, or warm brown with red accents for the female.',
     source: 'Indiana Historical Bureau',
@@ -24,6 +25,7 @@ export const COLORING = {
   },
   cataract: {
     title: 'Upper Cataract Falls', place: 'Owen County',
+    widePrint: { width: 1122, height: 1402 },
     alt: 'A broad waterfall pouring over layered rock into Mill Creek',
     note: 'Mill Creek flows over ancient bedrock ridges at Cataract Falls. Downstream, Cagles Mill Lake was built in 1952 as Indiana’s first flood control reservoir.',
     source: 'Indiana DNR',

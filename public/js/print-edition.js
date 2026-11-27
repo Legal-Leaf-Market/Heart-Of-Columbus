@@ -172,7 +172,8 @@
     const room = gapIn(container);
     if (room >= 250) {
       card.classList.add('pe-color-fit');
-      const caption = card.offsetHeight - card.querySelector('img').offsetHeight;
+      const image = card.querySelector('.pe-color-print') || card.querySelector('img');
+      const caption = card.offsetHeight - image.offsetHeight;
       card.style.setProperty('--pe-color-height', `${Math.floor(room - caption - 15)}px`);
       if (gapIn(container) >= -1 && fits()) return true;
       card.classList.remove('pe-color-fit');

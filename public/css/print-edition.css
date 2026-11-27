@@ -766,10 +766,16 @@ body:has(.pe-status) { background: var(--paper, #fbf7f0); }
 }
 
 /* Coloring panels live in the page. The fitter measures their tabloid size. */
-.pe-color-card { flex: none; min-width: 0; margin: 10pt 0 0; padding-inline: 4pt; }
+.pe-color-card {
+  flex: none; min-width: 0; margin: 10pt 0 0; padding-inline: 4pt;
+  --pe-color-fit-height: clamp(0px, var(--pe-color-height, 5in), var(--pe-color-limit, 7.25in));
+}
 .pe-color-card > img {
-  display: block; width: auto; height: clamp(0px, var(--pe-color-height, 5in), var(--pe-color-limit, 7.25in));
+  display: block; width: auto; height: var(--pe-color-fit-height);
   max-width: 100%; object-fit: contain; margin: 0 auto 5pt;
+}
+.pe-color-card > .pe-color-print {
+  display: none; width: min(100%, calc(var(--pe-color-fit-height) * var(--pe-color-aspect))); height: auto;
 }
 .pe-color-card h3 { margin: 2pt 0 3pt; font: 780 14pt/1.1 var(--pe-head); }
 .pe-color-card p { font: 9pt/1.25 var(--pe-serif); }
@@ -851,4 +857,20 @@ body:has(.pe-status) { background: var(--paper, #fbf7f0); }
   #page-10 .pe-stack > .pe-tours { margin-top: .07in; padding-top: .07in; }
   #page-10 :is(.pe-visitors, .pe-tours) { line-height: 1.27; }
   #page-15 .pe-crossword .pe-cw td { width: .34in; height: .34in; }
+}
+
+/* The wider compositions reach the column edges in the tabloid edition. */
+@media screen {
+  :is(.pe-fitting, .pe-paper:not(.pe-reading)) {
+    .pe-color-card:has(> .pe-color-print) { padding-inline: 0; }
+    .pe-color-card > .pe-color-read { display: none; }
+    .pe-color-card > .pe-color-print { display: block; }
+    #page-8 .pe-fill { grid-template-columns: repeat(3, minmax(0, 1fr)) repeat(2, minmax(0, 1.28fr)); }
+  }
+}
+@media print {
+  .pe-color-card:has(> .pe-color-print) { padding-inline: 0; }
+  .pe-color-card > .pe-color-read { display: none; }
+  .pe-color-card > .pe-color-print { display: block; }
+  #page-8 .pe-fill { grid-template-columns: repeat(3, minmax(0, 1fr)) repeat(2, minmax(0, 1.28fr)); }
 }
