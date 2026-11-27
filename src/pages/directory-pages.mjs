@@ -309,7 +309,6 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
       </div>
       <div class="bz-tags">${b.member ? '<a class="tag tag-member" href="#member-note">★ Founding Member</a>' : ''}${tier === 'claimed' ? '<span class="tag tag-claimed">✓ Claimed by the owner</span>' : ''}${tier === 'listed' ? '<a class="tag tag-outline" href="#claim-card">Outline listing</a>' : ''}${SPOTLIGHT_SLUGS.has(b.slug) ? (spotFor(b.slug)?.picks.length ? '<a class="tag tag-spot" href="#owners-picks">★ Spotlight</a>' : '<span class="tag tag-spot">★ Spotlight</span>') : ''}${b.demo ? '<span class="tag tag-hot">Order direct (demo)</span>' : ''}${b.heritage ? '<span class="tag">Columbus original</span>' : ''}${b.dora ? '<span class="tag tag-dora">Social District: drinks to go</span>' : ''}${b.building ? `<a class="tag tag-history" href="#building">🏛 ${esc(b.building.name)}, ${esc(b.building.built)}</a>` : ''}${b.before ? `<a class="tag tag-history" href="#building">Before: ${esc(b.before.was)}</a>` : ''}${b.also.map((a) => `<a class="tag tag-go" href="#also-${a.cat}">${catBySlug[a.cat].emoji} ${esc(a.title)}</a>`).join('')}<span class="tag tag-plain">Independent</span></div>
       ${b.hours ? `<p class="open-badge biz-open" data-open-now='${JSON.stringify(b.hours)}' hidden></p>` : ''}
-      ${reviews ? `<div class="biz-reviews">${reviews}<a href="/reviews/#${b.slug}">Review links</a></div>` : ''}
       <div class="biz-actions" role="group" aria-label="Business actions">
         ${b.order.map((o, i) => `<a class="btn${i ? ' btn-ghost' : ''}" href="${esc(tagFor(b, o.url, 'order'))}"${hocAttr(b.slug, 'order')} target="_blank" rel="noopener">${svg('store')} Order online${b.order.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
         ${b.book.map((o, i) => `<a class="btn${b.order.length || i ? ' btn-ghost' : ''}" href="${esc(tagFor(b, o.url, 'book'))}"${hocAttr(b.slug, 'book')} target="_blank" rel="noopener">${svg('store')} Book online${b.book.length > 1 ? ` (${esc(o.label)})` : ''}</a>`).join('')}
@@ -328,6 +327,7 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
         <button type="button" class="btn btn-ghost" data-save="${b.slug}" aria-pressed="false">${svg('heart')} <span data-save-label>Save</span></button>
         <button type="button" class="btn btn-ghost" data-share="${esc(b.name)}">${svg('share')} Share</button>
       </div>
+      ${reviews ? `<div class="biz-reviews">${reviews}<a href="/reviews/#${b.slug}">Review links</a></div>` : ''}
       ${b.dora ? `<p class="direct-note dora-note">🥤 <span>On the city’s list of Downtown Columbus Social District businesses (checked October 2026). If you are 21 or older you can leave with a drink in a Social District cup, 10 AM to midnight. <a href="/visit/#social-district">The rules</a></span></p>` : ''}
       ${buildingNote(b)}
       ${b.added?.soon ? `<p class="direct-note">🚧 <span>Coming soon. Not open yet; we will add hours and an address when it opens.</span></p>` : ''}
@@ -346,14 +346,19 @@ ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.lengt
   </div>
   <aside class="biz-side">
     <div class="side-card${cisco ? ' cisco-visit' : ''}">
-      <iframe title="Map of ${esc(b.name)}" loading="lazy" src="https://www.google.com/maps?q=${q}&output=embed" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      <div class="side-body">
+      <div class="side-body biz-visit-details">
+        <h2>${b.address ? 'Visit and contact' : 'Location and contact'}</h2>
         ${b.address ? `<p class="side-addr">${svg('pin', 'ic-sm')} ${t(b.address)}${b.own?.where ? `<br><span>${esc(b.own.where)}</span>` : ''}<br><span>Columbus, Indiana</span></p>` : '<p class="side-addr">Columbus, Indiana. Address not listed publicly.</p>'}
         <p class="fine pin-note" data-pin="${placeFromBusiness(b).location.geo}">${esc(PIN_NOTE[placeFromBusiness(b).location.geo])}</p>
         ${b.phone ? `<p>${svg('phone', 'ic-sm')} <a href="${tel(b.phone)}">${esc(b.phone)}</a></p>` : '<p class="muted">No public phone number in the listings we used. Try the map link for current contact details.</p>'}
         ${b.tempClosed ? '<p class="open-badge is-closed">Temporarily closed, per their Google listing</p>' : ''}
         ${b.hours ? `${hoursTable(b.hours)}<p class="fine"><span>${b.hoursFrom === 'own' ? `Hours and address from <a href="${esc(b.own.source)}" target="_blank" rel="noopener">their own website</a>, ${monthYear(b.own.checked)}` : 'Hours from their Google listing, October 2026'}. Holidays can differ; call ahead.</span></p>` : ''}
         ${attrBlock(b)}
+        ${b.address ? `<details class="biz-map" data-biz-map>
+          <summary>${svg('pin', 'ic-sm')} Show map</summary>
+          <template><iframe title="Map of ${esc(b.name)}" src="https://www.google.com/maps?q=${q}&amp;output=embed" referrerpolicy="no-referrer-when-downgrade"></iframe></template>
+          <a href="${mapsLink(b)}" target="_blank" rel="noopener">Open in Google Maps</a>
+        </details>` : ''}
       </div>
     </div>
     ${tier === 'listed' ? `<div class="side-card claim" id="claim-card">
