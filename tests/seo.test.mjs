@@ -19,7 +19,7 @@ test('every generated content page has its own absolute canonical and social URL
     assert.ok(html.includes('name="twitter:card" content="summary_large_image"'), f);
     assert.match(html, /property="og:title" content="[^"]+"/, f);
     // noindex exactly where the one policy says (src/indexing.mjs).
-    assert.equal(/name="robots" content="noindex, nofollow"/.test(html), !indexable(f), f);
+    assert.equal(/name="robots" content="noindex, nofollow"/.test(html), !indexable(f, html), f);
   }
 });
 

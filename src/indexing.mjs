@@ -45,13 +45,14 @@ export const NEVER_INDEX = [
 // path is a URL path ("/b/jills-diner/") or a dist file path ("b/jills-diner/index.html").
 export const urlPath = (p) => ('/' + p.replace(/^\/+/, '')).replace(/index\.html$/, '');
 export const neverIndexed = (p) => { const u = urlPath(p); return NEVER_INDEX.some(([pre]) => u === pre || u.startsWith(pre)); };
-export const indexable = (p) => LAUNCH && neverIndexed(p) === false;
+export const emptyNewsSection = (p) => /^\/news\/[^/]+\/$/.test(urlPath(p.path)) && p.html?.includes('No stories in this section yet.');
+export const indexable = (p, html = '') => LAUNCH && neverIndexed(p) === false && !emptyNewsSection({ path: p, html });
 
 export const ROBOTS_META = '<meta name="robots" content="noindex, nofollow">';
 
-export function headersFile() {
+export function headersFile(emptySections = []) {
   if (!LAUNCH) return '# Not launched: HOC_INDEX is not set on the production context.\n/*\n  X-Robots-Tag: noindex, nofollow\n';
-  return NEVER_INDEX.map(([pre]) => `${pre.endsWith('/') ? pre + '*' : pre}\n  X-Robots-Tag: noindex, nofollow`).join('\n') + '\n';
+  return [...NEVER_INDEX.map(([pre]) => pre.endsWith('/') ? pre + '*' : pre), ...emptySections.map((p) => urlPath(p))].map((path) => `${path}\n  X-Robots-Tag: noindex, nofollow`).join('\n') + '\n';
 }
 
 // Before launch robots.txt still allows crawling on purpose: a crawler has to

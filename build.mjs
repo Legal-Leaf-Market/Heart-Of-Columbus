@@ -46,7 +46,7 @@ import { searchIndex } from './src/site.mjs';
 import { newsPages } from './src/pages/news-pages.mjs';
 import { cmsConfig } from './src/news/cms.mjs';
 import { dashes } from './src/visible.mjs';
-import { LAUNCH, indexable, ROBOTS_META, headersFile, robotsTxt, urlPath } from './src/indexing.mjs';
+import { LAUNCH, indexable, ROBOTS_META, headersFile, robotsTxt, urlPath, emptyNewsSection } from './src/indexing.mjs';
 
 const root = new URL('./', import.meta.url);
 // Owner draft sites served at /preview/<slug>/ (see the end of this file).
@@ -135,9 +135,9 @@ for (const s of publishedStories) {
 for (const p of pages) {
   if (!p.path.endsWith('.html')) continue;
   if (!p.html.includes('<!--robots-->')) { console.error('No robots marker in ' + p.path); process.exit(1); }
-  p.html = p.html.replace('<!--robots-->', indexable(p.path) ? '' : ROBOTS_META);
+  p.html = p.html.replace('<!--robots-->', indexable(p.path, p.html) ? '' : ROBOTS_META);
 }
-await writeFile(new URL('_headers', out), headersFile());
+await writeFile(new URL('_headers', out), headersFile(pages.filter(emptyNewsSection).map((p) => p.path)));
 await writeFile(new URL('robots.txt', out), robotsTxt(ORIGIN));
 for (const p of pages) {
   p.html = finalizeSeo(responsiveImages(p.html, images), p.path);
@@ -149,7 +149,7 @@ for (const p of pages) {
 // The sitemap lists exactly the pages the policy indexes, so it exists only
 // after launch and can never name a noindex page.
 if (LAUNCH) {
-  const live = pages.filter((p) => p.path.endsWith('index.html') && indexable(p.path));
+  const live = pages.filter((p) => p.path.endsWith('index.html') && indexable(p.path, p.html));
   const loc = (p) => ORIGIN + '/' + p.path.replace(/index\.html$/, '');
   await writeFile(new URL('sitemap.xml', out), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${live.map((p) => `  <url><loc>${loc(p)}</loc></url>`).join('\n')}\n</urlset>\n`);
   console.log(`Sitemap: ${live.length} indexable pages`);
