@@ -150,3 +150,35 @@ body.focus-weddings { --focus-accent: #67374d; --focus-bg: #fcf4f7; }
   .focus-catalog-head { grid-template-columns: 1fr; }
   .focus-catalog-head .focus-food-art { height: 6rem; }
 }
+
+.focus-search-panel {
+  max-width: 52rem;
+  margin-top: 1rem;
+  padding: clamp(.85rem, 2.5vw, 1.25rem);
+  border-radius: 1rem;
+  border: 1px solid var(--focus-border);
+  background: #fffaf4;
+  box-shadow: 0 3px 0 var(--focus-border);
+}
+.focus-search-box input { border: 2px solid var(--focus-accent); min-height: 3.15rem; }
+.focus-filter-heading { display: flex; align-items: center; justify-content: space-between; gap: .75rem; margin: .8rem 0 .35rem; }
+.focus-filter-heading h2 { margin: 0; font-size: 1rem; font-weight: 750; color: var(--focus-accent); }
+.focus-clear { color: var(--focus-accent); text-decoration: underline; cursor: pointer; min-height: 2.75rem; }
+.focus-chips { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: .55rem; }
+.focus-chip {
+  min-height: 2.75rem;
+  padding: .4rem .7rem;
+  border: 1px solid var(--focus-accent);
+  border-radius: 999px;
+  color: var(--focus-accent);
+  font-size: .85rem;
+  font-weight: 700;
+  background: #fff;
+  cursor: pointer;
+}
+.focus-chip[aria-pressed="true"] { color: #fff; background: var(--focus-accent); }
+.focus-search-panel .focus-filter { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: none; }
+.focus-card[data-app-item] { content-visibility: auto; contain-intrinsic-block-size: auto 14rem; }
+@media (max-width: 24rem) {
+  .focus-search-panel .focus-filter { grid-template-columns: 1fr; }
+}

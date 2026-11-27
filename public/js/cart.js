@@ -311,7 +311,7 @@
       var picturedN = d.pictured != null ? d.pictured : items.length;
       var unseen = stockN - picturedN;
       var shown = full ? items.length : limit;
-      box.innerHTML = '<p class="shop-count">' + stockN + ' items in stock at ' + esc(name) + '’s own store</p>' + (d.saved ? '<p class="snap-note">Saved from their website on ' + esc(new Date(d.saved + 'T12:00:00Z').toLocaleDateString('en-US', { timeZone: 'UTC', month: 'long', day: 'numeric' })) + '. Their site has the final word on price and stock.</p>' : '') + (full && items.length ? '<label class="focus-field focus-product-filter"><span>Search products</span><input type="search" data-product-filter placeholder="Search this product list"></label><p class="focus-count" role="status" data-product-count></p>' : '') + '<div class="prod-grid">' + items.slice(0, shown).map(function (it, idx) {
+      box.innerHTML = '<p class="shop-count">' + stockN + ' items in stock at ' + esc(name) + '’s own store</p>' + (d.saved ? '<p class="snap-note">Saved from their website on ' + esc(new Date(d.saved + 'T12:00:00Z').toLocaleDateString('en-US', { timeZone: 'UTC', month: 'long', day: 'numeric' })) + '. Their site has the final word on price and stock.</p>' : '') + (full && items.length ? '<div class="focus-filter focus-product-filter"><label class="focus-field"><span>Search products</span><input type="search" data-product-filter placeholder="Search this product list"></label><label class="focus-field"><span>Sort products</span><select data-product-sort><option value="">Best match</option><option value="low">Price low to high</option><option value="high">Price high to low</option><option value="az">A to Z</option></select></label></div><p class="focus-count" role="status" data-product-count></p>' : '') + '<div class="prod-grid">' + items.slice(0, shown).map(function (it, idx) {
         var fl = firstLive(it);
         return '<article class="prod"><img src="' + esc(it.image) + '" alt="" loading="lazy">' +
           '<div class="prod-b"><a href="' + esc(it.url) + '" target="_blank" rel="noopener" class="prod-t">' + esc(it.title) + '</a><p class="prod-p">' + money(it.price) + '</p>' +
@@ -323,19 +323,38 @@
       }).join('') + '</div>' + (picturedN > shown || unseen ? '<a class="btn btn-ghost" href="' + esc(d.origin) + '" target="_blank" rel="noopener">See all ' + stockN + ' on their site ↗</a>' : '');
       var filter = $('[data-product-filter]', box);
       if (filter) {
-        var cards = Array.from(box.querySelectorAll('.prod'));
+        var grid = $('.prod-grid', box);
+        var cards = Array.from(grid.children, function (node, index) {
+          return { node: node, index: index, title: $('.prod-t', node).textContent.toLowerCase(), price: Number(items[index].price) };
+        });
         var count = $('[data-product-count]', box);
+        var sort = $('[data-product-sort]', box);
         function searchProducts() {
-          var tokens = filter.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
-          var matches = 0;
-          cards.forEach(function (card) {
-            var name = $('.prod-t', card).textContent.toLowerCase();
-            card.hidden = !tokens.every(function (token) { return name.includes(token); });
-            if (!card.hidden) matches++;
+          var query = filter.value.toLowerCase().trim();
+          var tokens = query.split(/\s+/).filter(Boolean);
+          var matches = cards.filter(function (card) {
+            card.node.hidden = !tokens.every(function (token) { return card.title.includes(token); });
+            return !card.node.hidden;
           });
-          count.textContent = matches + (matches === 1 ? ' product' : ' products');
+          matches.sort(function (a, b) {
+            if (sort.value === 'low') return a.price - b.price || a.index - b.index;
+            if (sort.value === 'high') return b.price - a.price || a.index - b.index;
+            if (sort.value === 'az') return a.title.localeCompare(b.title);
+            function score(card) {
+              return card.title === query ? 2 : card.title.startsWith(query) ? 1 : 0;
+            }
+            return score(b) - score(a) || a.index - b.index;
+          });
+          var cursor = grid.firstElementChild;
+          matches.forEach(function (card) {
+            while (cursor?.hidden) cursor = cursor.nextElementSibling;
+            if (card.node === cursor) cursor = cursor.nextElementSibling;
+            else grid.insertBefore(card.node, cursor);
+          });
+          count.textContent = matches.length + (matches.length === 1 ? ' product' : ' products');
         }
         filter.addEventListener('input', searchProducts);
+        sort.addEventListener('change', searchProducts);
         searchProducts();
       }
       box.addEventListener('click', function (e) {

@@ -42,54 +42,160 @@
     });
   }
 
-  var search = document.querySelector('[data-app-search]');
-  if (search) {
-    var category = document.querySelector('[data-app-category]');
-    var track = document.querySelector('[data-app-track]');
+  var panel = document.querySelector('[data-app-filters]');
+  if (panel) {
+    var results = document.querySelector('[data-app-results]');
+    var search = panel.querySelector('[data-app-search]');
+    var category = panel.querySelector('[data-app-category]');
+    var sort = panel.querySelector('[data-app-sort]');
+    var clear = panel.querySelector('[data-app-clear]');
     var count = document.querySelector('[data-app-count]');
     var empty = document.querySelector('[data-app-empty]');
+    var chips = Array.from(panel.querySelectorAll('[data-app-chip]'));
+    var selectedFacets = new Set();
+    var track = '';
+    var kind = panel.dataset.appFilters;
+    var names = new Intl.Collator('en-US', { sensitivity: 'base', numeric: true });
     var items;
+    var frame = 0;
+
     function indexItems() {
-      items = Array.from(document.querySelectorAll('[data-app-item]'), function (node) {
+      items = Array.from(results.children, function (node, index) {
         return {
-          node: node,
-          text: normalize(node.dataset.search),
-          categories: node.dataset.category.split(' '),
+          node: node, index: index,
+          title: normalize(node.dataset.title || node.querySelector('h2').textContent),
+          tags: normalize(node.dataset.tags || ''),
+          text: normalize(node.dataset.search || ''),
+          categories: (node.dataset.category || '').split(' '),
           tracks: (node.dataset.tracks || '').split(' '),
+          facets: new Set((node.dataset.facets || '').split(' ')),
+          rank: Number(node.dataset.rank || 0),
+          day: node.dataset.date || '',
+          until: node.dataset.until || node.dataset.date || '',
         };
       });
-      filter();
+      render();
     }
-    function filter() {
-      if (track) {
+
+    function browseOrder(a, b, mode) {
+      if (mode === 'az' || mode === 'za') return (mode === 'za' ? -1 : 1) * names.compare(a.title, b.title);
+      if (kind === 'events') return a.day.localeCompare(b.day) || a.index - b.index;
+      if (kind === 'news') return b.day.localeCompare(a.day) || a.index - b.index;
+      return b.rank - a.rank || names.compare(a.title, b.title) || a.index - b.index;
+    }
+
+    function render() {
+      if (frame) cancelAnimationFrame(frame);
+      frame = 0;
+      if (kind === 'weddings') {
         Array.from(category.options).forEach(function (option) {
-          option.disabled = Boolean(track.value && option.value && !option.dataset.tracks.split(' ').includes(track.value));
+          option.disabled = Boolean(track && option.value && !option.dataset.tracks.split(' ').includes(track));
         });
         if (category.selectedOptions[0]?.disabled) category.value = '';
       }
-      var tokens = normalize(search.value).split(/\s+/).filter(Boolean);
-      var visible = 0;
+
+      var query = normalize(search.value);
+      var tokens = query ? query.split(' ') : [];
+      var active = Array.from(selectedFacets);
+      var calendar = kind === 'events' && (selectedFacets.has('today') || selectedFacets.has('weekend')) ? calendarDates() : null;
+      var matching = [];
       items.forEach(function (item) {
-        var matches = (!track?.value || item.tracks.includes(track.value))
+        var score = relevance(item, query, tokens);
+        var show = score >= 0 && (!track || item.tracks.includes(track))
           && (!category.value || item.categories.includes(category.value))
-          && tokens.every(function (token) { return item.text.includes(token); });
-        item.node.hidden = !matches;
-        if (matches) visible++;
+          && active.every(function (facet) { return matchesFacet(item, facet, calendar); });
+        if (item.node.hidden === show) item.node.hidden = !show;
+        if (show) matching.push({ item: item, score: score });
       });
-      count.textContent = visible + (visible === 1 ? ' result' : ' results');
-      empty.hidden = visible !== 0;
-      if (track) document.dispatchEvent(new Event('planner:results'));
+
+      matching.sort(function (a, b) {
+        return (sort.value ? 0 : b.score - a.score) || browseOrder(a.item, b.item, sort.value);
+      });
+      var cursor = results.firstElementChild;
+      matching.forEach(function (match) {
+        var node = match.item.node;
+        while (cursor?.hidden) cursor = cursor.nextElementSibling;
+        if (node === cursor) cursor = cursor.nextElementSibling;
+        else results.insertBefore(node, cursor);
+      });
+
+      chips.forEach(function (chip) {
+        var value = chip.dataset.value;
+        var type = chip.dataset.appChip;
+        var pressed = type === 'facet' ? selectedFacets.has(value) : value === (type === 'track' ? track : category.value);
+        chip.setAttribute('aria-pressed', String(pressed));
+      });
+      clear.hidden = !(search.value || category.value || track || active.length || sort.value);
+      count.textContent = matching.length + (matching.length === 1 ? ' result' : ' results');
+      empty.hidden = matching.length !== 0;
+      if (kind === 'weddings') document.dispatchEvent(new Event('planner:results'));
     }
-    search.addEventListener('input', filter);
-    category.addEventListener('change', filter);
-    if (track) track.addEventListener('change', filter);
+
+    search.addEventListener('input', function () {
+      if (!frame) frame = requestAnimationFrame(render);
+    });
+    category.addEventListener('change', render);
+    sort.addEventListener('change', render);
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        var type = chip.dataset.appChip;
+        var value = chip.dataset.value;
+        if (type === 'track') track = value;
+        else if (type === 'category') category.value = value;
+        else if (!selectedFacets.delete(value)) {
+          if (value === 'today') selectedFacets.delete('weekend');
+          if (value === 'weekend') selectedFacets.delete('today');
+          selectedFacets.add(value);
+        }
+        render();
+      });
+    });
+    clear.addEventListener('click', function () {
+      search.value = category.value = sort.value = track = '';
+      selectedFacets.clear();
+      render();
+      search.focus();
+    });
     indexItems();
-    var events = document.querySelector('[data-app-events]');
-    if (events) refreshEvents(events, category, indexItems);
+    if (kind === 'events') refreshEvents(results, category, indexItems);
   }
 
   function normalize(value) {
-    return value.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase().trim();
+    return value.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase()
+      .replace(/[’']/g, '').replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+  }
+
+  function relevance(item, query, tokens) {
+    if (!query) return 0;
+    if (!tokens.every(function (token) { return item.text.includes(token); })) return -1;
+    if (item.title === query) return 100;
+    if (item.title.startsWith(query)) return 80;
+    if (item.title.includes(query)) return 65;
+    if (tokens.every(function (token) { return item.title.includes(token); })) return 55;
+    if (item.tags.includes(query)) return 35;
+    return tokens.reduce(function (score, token) {
+      return score + (item.title.includes(token) ? 5 : item.tags.includes(token) ? 2 : 0);
+    }, 0);
+  }
+
+  function calendarDates() {
+    var local = new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'America/Indiana/Indianapolis', year: 'numeric', month: '2-digit', day: '2-digit',
+    }).formatToParts(new Date());
+    var parts = Object.fromEntries(local.map(function (part) { return [part.type, part.value]; }));
+    var today = parts.year + '-' + parts.month + '-' + parts.day;
+    var day = new Date(today + 'T12:00:00Z');
+    var weekday = day.getUTCDay();
+    day.setUTCDate(day.getUTCDate() + (weekday === 0 ? -1 : 6 - weekday));
+    var saturday = day.toISOString().slice(0, 10);
+    day.setUTCDate(day.getUTCDate() + 1);
+    return { today: today, saturday: saturday, sunday: day.toISOString().slice(0, 10) };
+  }
+
+  function matchesFacet(item, facet, calendar) {
+    if (facet === 'today') return item.day <= calendar.today && item.until >= calendar.today;
+    if (facet === 'weekend') return item.day <= calendar.sunday && item.until >= calendar.saturday;
+    return item.facets.has(facet);
   }
 
   async function refreshEvents(list, category, onRender) {
@@ -111,6 +217,11 @@
         card.className = 'focus-card';
         card.dataset.appItem = '';
         card.dataset.category = event.src;
+        card.dataset.title = event.title;
+        card.dataset.tags = source;
+        card.dataset.date = event.date;
+        card.dataset.until = event.until || event.date;
+        if (event.live) card.dataset.facets = 'music';
         card.dataset.search = [event.title, event.venue, source].filter(Boolean).join(' ');
 
         var label = document.createElement('p');
