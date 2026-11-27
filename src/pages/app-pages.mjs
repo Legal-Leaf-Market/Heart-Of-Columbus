@@ -143,7 +143,7 @@ self.addEventListener('activate', (event) => {
 function appPage({ assets, key, path = root(key), title, body, article = false, planner = false, commerce = false }) {
   const app = apps[key];
   const backLabel = article ? 'All stories' : planner && path !== root(key) ? 'All vendors' : commerce && path !== root(key) ? 'All food listings' : '';
-  const back = backLabel ? `<a class="focus-back" href="${root(key)}">← ${backLabel}</a>` : '';
+  const back = backLabel ? `<a class="focus-back" data-app-back href="${root(key)}">← ${backLabel}</a>` : '';
   return page({
     title: title ? `${title} | ${app.name}` : app.name,
     description: app.description,
@@ -189,13 +189,15 @@ function searchForm(key, label, options, tracks = []) {
     `<button type="button" class="focus-chip" data-app-chip="${type}" data-value="${esc(value)}" aria-pressed="${pressed}">${esc(title)}</button>`;
   return `<section class="focus-search-panel" aria-label="Search and filters" data-app-filters="${key}">
   <label class="focus-field focus-search-box"><span>Search</span><input type="search" data-app-search placeholder="${esc(label)}"></label>
-  <div class="focus-filter-heading"><h2>Filters</h2><button type="button" class="focus-clear" data-app-clear hidden>Clear filters</button></div>
+  
   ${tracks.length || chips.length ? `<div class="focus-chips" role="group" aria-label="${tracks.length ? 'Event type' : config.category}">
     ${tracks.length ? chip('track', '', 'All event types', true) + tracks.map(({ slug, label }) => chip('track', slug, label)).join('')
       : chip('category', '', 'All', true) + chips.map(({ slug, label }) => chip('category', slug, label)).join('')}
   </div>` : ''}
   ${config.facets?.length ? `<div class="focus-chips" role="group" aria-label="Quick filters">${config.facets.map(([value, label]) => chip('facet', value, label)).join('')}</div>` : ''}
-  <div class="focus-filter">
+  <details class="focus-filter-details" data-app-filter-details open>
+    <summary>Filters <span class="focus-filter-count" data-app-filter-count hidden></span></summary>
+    <div class="focus-filter">
     <label class="focus-field"><span>${config.category}</span><select data-app-category>
       <option value="">Any ${config.category.toLowerCase()}</option>
       ${options.map(({ slug, label, tracks }) => `<option value="${esc(slug)}"${tracks ? ` data-tracks="${esc(tracks.join(' '))}"` : ''}>${esc(label)}</option>`).join('')}
@@ -206,7 +208,9 @@ function searchForm(key, label, options, tracks = []) {
       <option value="az">A to Z</option>
       <option value="za">Z to A</option>
     </select></label>
-  </div>
+    </div>
+  </details>
+  <button type="button" class="focus-clear" data-app-clear hidden>Clear filters</button>
 </section>`;
 }
 

@@ -42,8 +42,27 @@
     });
   }
 
+  var back = document.querySelector('[data-app-back]');
+  if (back && document.referrer && history.length > 1) {
+    var entry = new URL(document.referrer);
+    if (entry.origin === location.origin && entry.pathname === back.pathname) {
+      back.addEventListener('click', function (event) {
+        if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        history.back();
+      });
+    }
+  }
+
   var panel = document.querySelector('[data-app-filters]');
   if (panel) {
+    var compact = matchMedia('(max-width: 42rem)');
+    var details = panel.querySelector('[data-app-filter-details]');
+    var filterCount = panel.querySelector('[data-app-filter-count]');
+    function updateLayout() { details.open = !compact.matches; }
+    compact.addEventListener('change', updateLayout);
+    updateLayout();
+
     var results = document.querySelector('[data-app-results]');
     var search = panel.querySelector('[data-app-search]');
     var category = panel.querySelector('[data-app-category]');
@@ -122,7 +141,10 @@
         var pressed = type === 'facet' ? selectedFacets.has(value) : value === (type === 'track' ? track : category.value);
         chip.setAttribute('aria-pressed', String(pressed));
       });
-      clear.hidden = !(search.value || category.value || track || active.length || sort.value);
+      var filters = Number(Boolean(category.value)) + Number(Boolean(track)) + active.length + Number(Boolean(sort.value));
+      filterCount.hidden = !filters;
+      filterCount.textContent = filters;
+      clear.hidden = !(search.value || filters);
       count.textContent = matching.length + (matching.length === 1 ? ' result' : ' results');
       empty.hidden = matching.length !== 0;
       if (kind === 'weddings') document.dispatchEvent(new Event('planner:results'));
