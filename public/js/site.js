@@ -4,6 +4,36 @@
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
 
+  // Keep the latest result visit in this tab for the listing's return link.
+  var resultKey = 'hoc-result-visit';
+  window.HoCResultVisit = {
+    read: function () {
+      try { return JSON.parse(sessionStorage.getItem(resultKey)); } catch (_) { return null; }
+    },
+    write: function (visit) {
+      try {
+        if (visit) sessionStorage.setItem(resultKey, JSON.stringify(visit));
+        else sessionStorage.removeItem(resultKey);
+      } catch (_) { /* Storage may be disabled. The link still restores URL filters. */ }
+    },
+  };
+  var backToResults = $('[data-back-to-results]');
+  if (backToResults && document.referrer) {
+    var fromResults = new URL(document.referrer);
+    if (fromResults.origin === location.origin && /^\/(explore|saved)\/$/.test(fromResults.pathname)) {
+      var resultsPath = fromResults.pathname + fromResults.search;
+      backToResults.href = resultsPath;
+      backToResults.parentNode.hidden = false;
+      backToResults.addEventListener('click', function (e) {
+        if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        var visit = window.HoCResultVisit.read();
+        if (!visit || visit.path !== resultsPath || '/b/' + visit.slug + '/' !== location.pathname) return;
+        visit.returning = true;
+        window.HoCResultVisit.write(visit);
+      });
+    }
+  }
+
   // ---------- Data (lazy) ----------
   var dataPromise = null;
   window.HoCDir = function () {

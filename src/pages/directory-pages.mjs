@@ -293,6 +293,7 @@ function bizPage(b, { assets }) {
 ${header(cat.slug)}
 <main id="main" class="tier-${tier}${cisco ? ' cisco-listing' : ''}"${pal ? ` style="--b:${pal.brand};--b-on:${pal.on};--b-deep:${pal.deep};--b-paper:${pal.paper};--b-acc:${pal.accent}${pal.font ? `;--b-font:'${pal.font}'` : ''}"` : ''}>
 ${breadcrumbs([['/', 'Home'], [`/c/${cat.slug}/`, cat.label], ...(cat.subs.length > 1 ? [[`/c/${cat.slug}/${sub.slug}/`, sub.label]] : []), ['', b.name]])}
+<div class="wrap biz-return" hidden><a href="/explore/" data-back-to-results>Back to results</a></div>
 <section class="wrap biz">
   <div class="biz-main">
     <div class="biz-head${cisco ? ' cisco-room' : ''}"${cisco ? ' data-cisco-room' : ''}>
@@ -486,7 +487,7 @@ ${header(saved ? 'saved' : 'explore')}
       <select data-ex-sort aria-label="Sort"><option value="match">Best match</option><option value="az">A to Z</option><option value="za">Z to A</option><option value="area">By neighborhood</option><option value="near">Nearest to me</option>${saved ? '<option value="walk">Walking order</option>' : ''}</select><p class="fine" data-ex-near-msg hidden></p>
     </aside>
     <section class="ex-main">
-      <div class="ex-bar"><p data-ex-count aria-live="polite"></p><button type="button" class="pill ex-filters-btn" data-ex-toggle aria-controls="ex-side" aria-expanded="false">Filters</button></div>
+      <div class="ex-bar"><p data-ex-count tabindex="-1" aria-live="polite"></p><button type="button" class="pill ex-filters-btn" data-ex-toggle aria-controls="ex-side" aria-expanded="false">Filters</button></div>
       <div class="ex-map" data-ex-map hidden>
         ${saved ? '' : `<div class="now-bar" data-now-bar hidden><p data-now-msg aria-live="polite">Open now, nearest first.</p><div class="chips">${NOW_CATS.map((k) => { const c = CATEGORIES.find((x) => x.slug === k); return `<button type="button" class="pill" data-now-cat="${k}" aria-pressed="false">${c.emoji} ${esc(c.label)}</button>`; }).join('')}</div><a class="fine" href="/explore/?view=map" data-now-exit>Leave near me now</a></div>`}
         <div class="map-layers" role="group" aria-label="Show on the map">${LAYERS.map(([k, l]) => `<label class="check map-layer map-layer-${k}"><input type="checkbox" data-layer="${k}"${k === 'z' ? '' : ' checked'}> ${esc(l)}</label>`).join('')}</div>
