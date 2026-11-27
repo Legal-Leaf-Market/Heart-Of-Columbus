@@ -5,12 +5,15 @@
 // pieces and edition plan). The model call is plain fetch to the Claude
 // Messages API (no npm dependency, like the rest of netlify/functions):
 // ANTHROPIC_API_KEY turns it on, HOC_DESK_MODEL overrides the model.
-// Nothing here sends email: "make draft" hands the approved edition to the
-// newsletter service as a DRAFT, the same way the morning job does.
+// "Make draft" hands the approved edition to the newsletter service as a
+// DRAFT, the same way the morning job does. Only two actions send anything,
+// and both are the publisher pressing a button: "test" mails the edition to
+// HOC_NEWSLETTER_TEST_TO, and "send" sends that morning's Resend draft to the
+// subscribers, once, after the page confirms the subject.
 import { blobStore } from '../../src/blobs.mjs';
 import { sameKey } from '../../src/pixel-key.mjs';
 import { voicePrompt, piecePrompt, MODES, cleanPiece, blockers, editionHtml, approved } from '../../src/news/desk.mjs';
-import { makeDraft } from './newsletter.mjs';
+import { makeDraft, testSend, sendDraft, resendConfig } from './newsletter.mjs';
 import { columbusDate } from '../../src/news/editions.mjs';
 import { PAPER } from '../../src/data/paper.mjs';
 
@@ -53,6 +56,7 @@ export async function assist({ key, model, voice, piece, mode, extra = '', fetch
   return { ok: true, text, truncated: body.stop_reason === 'max_tokens', model: body.model, cost };
 }
 
+const service = () => { const r = resendConfig(env); return r.key && r.segment && r.from ? 'resend' : env('BUTTONDOWN_API_KEY') ? 'buttondown' : ''; };
 const emptyDay = (date) => ({ date, plan: { subject: '', intro: '', order: [], skip: false }, pieces: [] });
 
 export default async (req) => {
@@ -66,7 +70,7 @@ export default async (req) => {
     const [day, voice, ideas, drafted] = await Promise.all([
       store.getJSON(`day-${date}`), store.getJSON('voice'), store.getJSON('ideas'), blobStore('newsletter')?.getJSON(`draft-${date}`),
     ]);
-    return json({ ok: true, date, today: columbusDate(new Date()), day: day || emptyDay(date), voice: voice || { about: '', rules: [], samples: [] }, ideas: ideas || [], drafted: drafted || null, ai: !!env('ANTHROPIC_API_KEY'), model: MODEL() });
+    return json({ ok: true, date, today: columbusDate(new Date()), day: day || emptyDay(date), voice: voice || { about: '', rules: [], samples: [] }, ideas: ideas || [], drafted: drafted || null, ai: !!env('ANTHROPIC_API_KEY'), model: MODEL(), service: service(), testTo: !!env('HOC_NEWSLETTER_TEST_TO') });
   }
   if (req.method !== 'POST') return json({ ok: false, error: 'Use GET or POST.' }, 405);
   let b;
@@ -79,7 +83,7 @@ export default async (req) => {
     return json({ ok: true, voice });
   }
   if (b.action === 'ideas') {
-    const ideas = (Array.isArray(b.ideas) ? b.ideas : []).slice(0, 200).map((i) => ({ text: String(i.text || '').slice(0, 1000), url: /^https?:\/\//.test(i.url || '') ? String(i.url).slice(0, 500) : '', added: String(i.added || new Date().toISOString()).slice(0, 30) })).filter((i) => i.text.trim());
+    const ideas = (Array.isArray(b.ideas) ? b.ideas : []).slice(0, 200).map((i) => ({ text: String(i.text || '').slice(0, 1000), url: /^https?:\/\//.test(i.url || '') ? String(i.url).slice(0, 500) : '', added: String(i.added || new Date().toISOString()).slice(0, 30), ...(i.lead ? { lead: true, key: String(i.key || '').slice(0, 300), source: String(i.source || '').slice(0, 80) } : {}) })).filter((i) => i.text.trim());
     await store.setJSON('ideas', ideas);
     return json({ ok: true, ideas });
   }
@@ -121,15 +125,24 @@ export default async (req) => {
     const r = await assist({ key: env('ANTHROPIC_API_KEY'), model: MODEL(), voice, piece, mode: b.mode, extra });
     return json(r, r.ok ? 200 : 502);
   }
-  if (b.action === 'preview' || b.action === 'draft') {
+  if (b.action === 'send') {
+    const r = await sendDraft({ resend: resendConfig(env), date, store: blobStore('newsletter'), subject: b.subject });
+    return json(r, r.ok ? 200 : 422);
+  }
+  if (['preview', 'draft', 'test'].includes(b.action)) {
     const pieces = approved(day);
     const html = editionHtml({ name: PAPER.name, date, intro: day.plan.intro, pieces, origin: env('URL') || 'https://heartofcolumbus.shop' });
     if (b.action === 'preview') return json({ ok: true, html, count: pieces.length });
     if (!pieces.length) return json({ ok: false, error: 'Approve at least one piece first.' }, 422);
     if (!day.plan.subject.trim()) return json({ ok: false, error: 'Write a subject line first.' }, 422);
+    const edition = { subject: day.plan.subject, html, fresh: pieces.length };
+    if (b.action === 'test') {
+      const r = await testSend({ resend: resendConfig(env), to: env('HOC_NEWSLETTER_TEST_TO'), edition });
+      return json(r, r.ok ? 200 : 422);
+    }
     const r = await makeDraft({
-      key: env('BUTTONDOWN_API_KEY'), resend: { key: env('RESEND_API_KEY'), audience: env('RESEND_AUDIENCE_ID'), from: env('HOC_NEWSLETTER_FROM') },
-      date, store: blobStore('newsletter'), edition: { subject: day.plan.subject, html, fresh: pieces.length }, force: !!b.force,
+      key: env('BUTTONDOWN_API_KEY'), resend: resendConfig(env),
+      date, store: blobStore('newsletter'), edition, force: !!b.force,
     });
     return json(r, r.ok ? 200 : 502);
   }

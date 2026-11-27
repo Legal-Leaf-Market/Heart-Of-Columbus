@@ -92,7 +92,7 @@ test('the morning job drafts the approved desk edition, and skips a skipped morn
   assert.equal(posted.status, 'draft', 'never sends');
   assert.equal((await store.getJSON(`draft-${date}`)).from, 'desk');
   assert.equal((await makeDraft({ key: 'k', origin: 'https://x.test', date, store, fetchFn, log: () => {}, edition: ed })).reason, 'already');
-  assert.equal((await makeDraft({ key: 'k', origin: 'https://x.test', date, store, fetchFn, log: () => {}, edition: ed, force: true })).reason, 'drafted', 'the desk can make it again after an edit');
+  assert.equal((await makeDraft({ key: 'k', origin: 'https://x.test', date, store, fetchFn, log: () => {}, edition: ed, force: true })).reason, 'replaced', 'the desk can make it again after an edit');
   await desk.setJSON(`day-${date}`, { date, plan: { subject: 'x', order: [], skip: true }, pieces: [] });
   assert.deepEqual(await deskEdition(desk, date, 'https://x.test'), { skip: true });
 });

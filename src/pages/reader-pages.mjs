@@ -126,7 +126,7 @@ function deskPage(ctx) {
       <div class="dk-tools"><button type="button" class="btn" data-new>New piece</button></div>
       <h2>Send</h2>
       <p class="muted dk-count" data-ready></p>
-      <div class="dk-tools"><button type="button" class="btn" data-draft>Make the newsletter draft</button></div>
+      <div class="dk-tools"><button type="button" class="btn" data-draft>Make the newsletter draft</button> <button type="button" class="pill" data-test-send>Send me a test</button> <button type="button" class="pill" data-send hidden>Send to subscribers</button></div>
       <p class="muted dk-count" data-drafted></p>
     </aside>
     <div class="dk-main" data-editor hidden>

@@ -406,7 +406,7 @@ test('signup is double opt in on Resend, and fails closed', async () => {
   const store = { getJSON: async (k) => kv.get(k) ?? null, setJSON: async (k, v) => { kv.set(k, v); } };
   const calls = [];
   const fetchFn = async (url, init) => { calls.push({ url, body: JSON.parse(init.body) }); return new Response('{}', { status: 200 }); };
-  const cfg = { key: 'k', audience: 'aud', from: 'Heart of Columbus <news@example.org>', origin: 'https://hoc.example' };
+  const cfg = { key: 'k', segment: 'aud', from: 'Heart of Columbus <news@example.org>', origin: 'https://hoc.example' };
   const post = (body, json = true) => new Request('https://hoc.example/api/subscribe', { method: 'POST', headers: { 'content-type': json ? 'application/json' : 'application/x-www-form-urlencoded' }, body: json ? JSON.stringify(body) : new URLSearchParams(body).toString() });
   assert.equal((await subscribe(post({ email: 'a@b.co' }), { store, fetchFn, cfg: { ...cfg, key: '' } })).status, 503, 'no key, no signup');
   assert.equal((await subscribe(post({ email: 'nope' }), { store, fetchFn, cfg })).status, 400);
@@ -418,7 +418,7 @@ test('signup is double opt in on Resend, and fails closed', async () => {
   assert.ok(link, 'the email carries a confirm link');
   const done = await subscribe(new Request(link[0]), { store, fetchFn, cfg });
   assert.equal(done.status, 200);
-  assert.ok(calls[1].url.endsWith('/audiences/aud/contacts') && calls[1].body.email === 'reader@example.org', 'added only after confirming');
+  assert.ok(calls[1].url === 'https://api.resend.com/contacts' && calls[1].body.email === 'reader@example.org' && calls[1].body.segments[0].id === 'aud', 'added to the segment only after confirming');
   assert.equal((await subscribe(new Request(link[0]), { store, fetchFn, cfg })).status, 410, 'a link works once');
   assert.equal((await subscribe(post({ email: 'x@y.co', website: 'spam' }), { store, fetchFn, cfg })).status, 200);
   assert.equal(calls.length, 2, 'the honeypot sends nothing');
