@@ -19,6 +19,7 @@ export const COLORING = {
   },
   dunes: {
     title: 'Indiana Dunes', place: 'Lake Michigan shore',
+    widePrint: { width: 1086, height: 1448 },
     alt: 'Beach grass, rolling dunes and waves along the shore of Lake Michigan',
     note: 'At Indiana Dunes National Park, waves bring sand to shore and wind carries it inland. The park’s moving dune known as Mount Baldy began forming about 4,000 years ago.',
     source: 'National Park Service',
