@@ -97,3 +97,24 @@ test('the edition carries the approved desk pieces, and a skipped edition makes 
   await desk.setJSON(`day-${date}`, { date, plan: { subject: 'x', order: [], skip: true }, pieces: [] });
   assert.equal((await assemble({ kind: 'morning', date, deskStore: desk, origin: 'https://x.test', fetchFn: none })).skip, true);
 });
+
+test('the beat book: wrong spellings and banned phrases hold a piece back, and the writing help reads it', async () => {
+  const { cleanBeat, parseBeatLines, beatProblems } = await import('../src/news/desk.mjs');
+  const beat = cleanBeat({ entries: parseBeatLines("Zaharakos | soda fountain on Washington Street | Zaharako's, Zaharakas\nMill Race Park | | Millrace Park\nZaharakos | dupe line | zaharakos"), banned: 'game changer\nnestled' });
+  assert.equal(beat.entries[2].wrong.length, 0, 'the right spelling is never listed as wrong');
+  const piece = { ...good, headline: 'Lights at Millrace Park', body: 'A game changer at Zaharakas tonight.' };
+  const why = blockers(piece, beat);
+  assert.ok(why.some((w) => /"Millrace Park"; your beat book says "Mill Race Park"/.test(w)));
+  assert.ok(why.some((w) => /"Zaharakas"/.test(w)));
+  assert.ok(why.some((w) => /"game changer", which is on your banned list/.test(w)));
+  assert.deepEqual(beatProblems({ body: 'Zaharakos and Mill Race Park, unnestled.' }, beat), [], 'whole words only, and the right spelling passes');
+  assert.deepEqual(blockers(good, beat), [], 'a clean piece still passes');
+  assert.deepEqual(blockers(piece), blockers(piece, null), 'no beat book, no beat checks');
+  const p = voicePrompt({}, beat);
+  assert.match(p, /Spell these exactly/);
+  assert.match(p, /- Mill Race Park\. Not: Millrace Park/);
+  assert.match(p, /they are not sources, so never state a fact from them/);
+  assert.match(p, /- game changer/);
+  assert.ok(p.indexOf('beat book') < p.indexOf('Hard rules'), 'the hard rules still come last');
+  assert.equal(cleanBeat({ entries: Array.from({ length: 400 }, (_, i) => ({ term: `T${i}` })) }).entries.length, 300, 'capped');
+});

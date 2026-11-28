@@ -15,7 +15,7 @@
 import { blobStore } from '../../src/blobs.mjs';
 import { sameKey } from '../../src/pixel-key.mjs';
 import { deskDeals } from '../../src/deals.mjs';
-import { voicePrompt, piecePrompt, MODES, cleanPiece, blockers, planBlockers, approved } from '../../src/news/desk.mjs';
+import { voicePrompt, piecePrompt, MODES, cleanPiece, blockers, planBlockers, approved, cleanBeat } from '../../src/news/desk.mjs';
 import { assemble, makeBroadcast, resendEnv, usesResend } from './newsletter.mjs';
 import { gatherInto } from './leads.mjs';
 import { columbusDate, keysFor, kindOf, cleanRoad, EDITIONS } from '../../src/news/paper-mail.mjs';
@@ -29,7 +29,7 @@ const MODEL = () => env('HOC_DESK_MODEL') || 'claude-opus-5-5';
 // Prices per million tokens, for the spend line under each suggestion.
 const RATES = { 'claude-opus-5-5': [4, 20], 'claude-sonnet-5-5': [2, 10], 'claude-haiku-5-5': [0.1, 0.5] };
 
-export async function assist({ key, model, voice, piece, mode, extra = '', fetchFn = fetch }) {
+export async function assist({ key, model, voice, piece, mode, extra = '', beat = null, fetchFn = fetch }) {
   if (!key) return { ok: false, error: 'Add ANTHROPIC_API_KEY in Netlify to turn on writing help.' };
   if (!MODES[mode]) return { ok: false, error: 'Unknown kind of help.' };
   const res = await fetchFn('https://api.anthropic.com/v1/messages', {
@@ -44,7 +44,7 @@ export async function assist({ key, model, voice, piece, mode, extra = '', fetch
       fallbacks: 'default',
       // The voice profile is the long, stable part, so it is cached; the piece
       // changes on every press and comes after it.
-      system: [{ type: 'text', text: voicePrompt(voice), cache_control: { type: 'ephemeral' } }],
+      system: [{ type: 'text', text: voicePrompt(voice, beat), cache_control: { type: 'ephemeral' } }],
       messages: [{ role: 'user', content: piecePrompt(piece, mode, extra) }],
     }),
   });
@@ -81,8 +81,8 @@ export default async (req) => {
     const edition = kindOf(u.searchParams.get('edition'));
     const keys = keysFor(edition, date);
     const news = blobStore('newsletter');
-    const [day, voice, ideas, drafted, run, leads] = await Promise.all([
-      store.getJSON(keys.day), store.getJSON('voice'), store.getJSON('ideas'), news?.getJSON(keys.draft), news?.getJSON(keys.run), store.getJSON(`leads-${date}`),
+    const [day, voice, ideas, drafted, run, leads, beat] = await Promise.all([
+      store.getJSON(keys.day), store.getJSON('voice'), store.getJSON('ideas'), news?.getJSON(keys.draft), news?.getJSON(keys.run), store.getJSON(`leads-${date}`), store.getJSON('beat'),
     ]);
     const r = resendEnv();
     const service = usesResend(r) ? 'resend' : env('BUTTONDOWN_API_KEY') ? 'buttondown' : '';
@@ -90,7 +90,7 @@ export default async (req) => {
     if (!d.plan.road) d.plan.road = { url: '', headline: '', comment: '' };
     const clock = EDITIONS[edition];
     const { holdHash, ...draftView } = drafted || {};
-    return json({ ok: true, date, edition, today: columbusDate(new Date()), clock: { deadline: clock.deadline, draft: clock.draft, send: clock.send }, topic: !!r.topics[edition], day: d, voice: voice || { about: '', rules: [], samples: [] }, ideas: ideas || [], drafted: drafted ? draftView : null, run: run || null, leads: leads || null, service, ai: !!env('ANTHROPIC_API_KEY'), model: MODEL() });
+    return json({ ok: true, date, edition, today: columbusDate(new Date()), clock: { deadline: clock.deadline, draft: clock.draft, send: clock.send }, topic: !!r.topics[edition], day: d, voice: voice || { about: '', rules: [], samples: [] }, ideas: ideas || [], beat: cleanBeat(beat || {}), drafted: drafted ? draftView : null, run: run || null, leads: leads || null, service, ai: !!env('ANTHROPIC_API_KEY'), model: MODEL() });
   }
   return json({ ok: false, error: 'Use GET or POST.' }, 405);
 };
@@ -104,6 +104,11 @@ async function updateDesk(b) {
     const voice = { about: String(v.about || '').slice(0, 2000), rules: (v.rules || []).map((r) => String(r).slice(0, 300)).filter(Boolean).slice(0, 20), samples: (v.samples || []).map((s) => String(s).slice(0, 3000)).filter((s) => s.trim()).slice(0, 6) };
     await store.setJSON('voice', voice);
     return json({ ok: true, voice });
+  }
+  if (b.action === 'beat') {
+    const beat = cleanBeat(b.beat || {});
+    await store.setJSON('beat', beat);
+    return json({ ok: true, beat });
   }
   if (b.action === 'ideas') {
     const ideas = (Array.isArray(b.ideas) ? b.ideas : []).slice(0, 200).map((i) => ({ text: String(i.text || '').slice(0, 1000), url: /^https?:\/\//.test(i.url || '') ? String(i.url).slice(0, 500) : '', added: String(i.added || new Date().toISOString()).slice(0, 30) })).filter((i) => i.text.trim());
@@ -125,7 +130,7 @@ async function updateDesk(b) {
   if (b.action === 'save') {
     const piece = cleanPiece(b.piece);
     if (piece.status === 'approved') {
-      const why = blockers(piece);
+      const why = blockers(piece, cleanBeat((await store.getJSON('beat')) || {}));
       if (why.length) return json({ ok: false, error: why.join(' '), blockers: why }, 422);
     }
     const i = day.pieces.findIndex((p) => p.id === piece.id);
@@ -155,7 +160,8 @@ async function updateDesk(b) {
     const voice = (await store.getJSON('voice')) || {};
     const piece = cleanPiece(b.piece || {});
     const extra = b.mode === 'subject' ? approved(day).map((p) => `- ${p.headline}`).join('\n') : '';
-    const r = await assist({ key: env('ANTHROPIC_API_KEY'), model: MODEL(), voice, piece, mode: b.mode, extra });
+    const beat = cleanBeat((await store.getJSON('beat')) || {});
+    const r = await assist({ key: env('ANTHROPIC_API_KEY'), model: MODEL(), voice, piece, mode: b.mode, extra, beat });
     return json(r, r.ok ? 200 : 502);
   }
   if (b.action === 'preview' || b.action === 'draft') {

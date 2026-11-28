@@ -39,13 +39,69 @@ const clip = (s, n) => String(s ?? '').slice(0, n);
 
 // The voice profile is the publisher's own: a description, house rules and
 // samples of their writing. The samples teach rhythm and word choice only.
-export function voicePrompt(voice = {}) {
+// The beat book: the people, places and businesses the publisher writes
+// about, with the spellings that are right and the ones that are wrong, plus
+// phrases the publisher never wants to see. The writing help reads it before
+// every draft, and approval refuses a piece that spells a name the wrong way
+// or uses a banned phrase. It is the publisher's own reference, typed by them;
+// nothing here adds a fact to it.
+export const BEAT_KINDS = ['person', 'place', 'business', 'group', 'thing'];
+export function cleanBeat(b = {}) {
+  const entries = (Array.isArray(b.entries) ? b.entries : []).map((e) => ({
+    term: clip(String(e && e.term || '').trim(), 120),
+    kind: BEAT_KINDS.includes(e && e.kind) ? e.kind : 'thing',
+    note: clip(String(e && e.note || '').trim(), 400),
+    wrong: (Array.isArray(e && e.wrong) ? e.wrong : String(e && e.wrong || '').split(','))
+      .map((w) => clip(String(w).trim(), 120)).filter((w) => w && w.toLowerCase() !== String(e.term || '').trim().toLowerCase()).slice(0, 8),
+  })).filter((e) => e.term).slice(0, 300);
+  const banned = (Array.isArray(b.banned) ? b.banned : String(b.banned || '').split('\n'))
+    .map((x) => clip(String(x).trim(), 120)).filter(Boolean).slice(0, 100);
+  return { entries, banned };
+}
+
+// "Main Street | the downtown stretch | Main St., Mainstreet" per line.
+export function parseBeatLines(text = '') {
+  return String(text).split('\n').map((l) => l.trim()).filter(Boolean).map((l) => {
+    const [term = '', note = '', wrong = ''] = l.split('|').map((x) => x.trim());
+    return { term, note, wrong: wrong.split(',').map((w) => w.trim()).filter(Boolean) };
+  });
+}
+
+const escRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const findPhrase = (text, phrase) => new RegExp(`(^|[^\\p{L}\\p{N}])${escRe(phrase)}(?=$|[^\\p{L}\\p{N}])`, 'iu').test(text);
+
+// What the beat book catches in a piece: a wrong spelling it lists, or a
+// banned phrase. Case is ignored; a phrase must stand as whole words.
+export function beatProblems(piece = {}, beat = null) {
+  if (!beat) return [];
+  const text = `${piece.headline || ''}\n${piece.dek || ''}\n${piece.body || ''}`;
+  const out = [];
+  for (const e of beat.entries || []) for (const w of e.wrong || []) {
+    if (findPhrase(text, w)) out.push(`It spells "${w}"; your beat book says "${e.term}".`);
+  }
+  for (const p of beat.banned || []) if (findPhrase(text, p)) out.push(`It uses "${p}", which is on your banned list.`);
+  return out;
+}
+
+export function beatPrompt(beat = null) {
+  if (!beat) return '';
+  const entries = (beat.entries || []).slice(0, 300);
+  const banned = (beat.banned || []).slice(0, 100);
+  const parts = [];
+  if (entries.length) parts.push(`The publisher's beat book. Spell these exactly as written here, and never as the wrong spellings listed. The notes are background for spelling and naming only; they are not sources, so never state a fact from them:\n${entries.map((e) => `- ${e.term}${e.note ? `: ${e.note}` : ''}${e.wrong.length ? `. Not: ${e.wrong.join(', ')}` : ''}`).join('\n')}`);
+  if (banned.length) parts.push(`Phrases the publisher never uses. Do not write any of these:\n${banned.map((b) => `- ${b}`).join('\n')}`);
+  return parts.join('\n\n');
+}
+
+export function voicePrompt(voice = {}, beat = null) {
   const parts = ['You help the publisher of a local Columbus, Indiana newsletter write in their own voice.'];
   if (voice.about) parts.push(`How the publisher describes their voice:\n${clip(voice.about, 2000)}`);
   const rules = (voice.rules || []).filter(Boolean);
   if (rules.length) parts.push(`House rules from the publisher:\n${rules.map((r) => `- ${clip(r, 300)}`).join('\n')}`);
   const samples = (voice.samples || []).filter((s) => s && s.trim()).slice(0, 6);
   if (samples.length) parts.push(`Samples of the publisher's own writing. Match their rhythm and word choice; never reuse their facts:\n${samples.map((s, i) => `<sample ${i + 1}>\n${clip(s, 3000)}\n</sample>`).join('\n')}`);
+  const book = beatPrompt(beat);
+  if (book) parts.push(book);
   parts.push([
     'Hard rules, which override everything above:',
     '- Use only facts found in the SOURCES and NOTES given with the piece. Never invent a quote, a person, a number, a date or a source.',
@@ -74,14 +130,16 @@ export function piecePrompt(piece = {}, mode = 'draft', extra = '') {
 
 // What stands between a piece and approval. An approved piece never carries
 // an unresolved [CHECK], and every piece names at least one source unless it
-// is labeled as the publisher's own opinion.
-export function blockers(piece = {}) {
+// is labeled as the publisher's own opinion. With the beat book, a wrong
+// spelling it lists or a banned phrase also holds a piece back.
+export function blockers(piece = {}, beat = null) {
   const out = [];
   if (!String(piece.headline || '').trim()) out.push('It needs a headline.');
   if (!String(piece.body || '').trim()) out.push('It needs a body.');
   if (/\[CHECK/i.test(`${piece.headline} ${piece.body}`)) out.push('It still has a [CHECK] to resolve.');
   if (!(piece.sources || []).some((s) => s && s.url) && piece.shape !== 'take') out.push('Add at least one source link, or mark it as The take.');
   if (/[–—]| - /.test(`${piece.headline} ${piece.dek || ''} ${piece.body}`)) out.push('It has a dash used as punctuation; the paper does not use them.');
+  out.push(...beatProblems(piece, beat));
   return out;
 }
 

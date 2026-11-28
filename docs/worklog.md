@@ -108,9 +108,13 @@ congregation in town, of every faith, by area and by faith, plus nonprofits.
 - [ ] Owner: set `ANTHROPIC_API_KEY` (and `RESEND_*` or `BUTTONDOWN_API_KEY`)
       in Netlify, then fill in **Your voice** at the desk
 - [x] Studied writewithpaige.com (fiction tool, 100,000+ users claimed)
-- [ ] Paige ideas to build next: a **beat book** the desk reads before every
-      draft (people, places, businesses, running stories, spellings; lockable;
-      "desk noticed" suggestions), **banned phrases**, several **voices** to
+- [x] **Beat book** and **banned phrases** (2026-11-28): a Beat book tab at
+      the desk, one name per line with its note and wrong spellings, plus
+      phrases never to use. The writing help reads it; Approve refuses a wrong
+      spelling or a banned phrase. Notes are for spelling only, never a source.
+      Call made without asking: names are not locked or auto suggested yet
+- [ ] Paige ideas still to build: "desk noticed" beat book suggestions,
+      running stories in the beat book, several **voices** to
       switch between, an **edit pass** as tracked changes you accept one by one
       with prose numbers (sentence length, adverbs, passive, reading grade),
       **select a passage to Tighten / Smooth / Fix grammar**, and
