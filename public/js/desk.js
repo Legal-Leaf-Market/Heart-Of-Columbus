@@ -44,14 +44,14 @@
   // ---------- Loading a day's edition ----------
   var clock = function (m) { var h = Math.floor(m / 60), mm = m % 60; return (h % 12 || 12) + ':' + (mm < 10 ? '0' : '') + mm + (h < 12 ? ' AM' : ' PM'); };
   var NAME = { morning: 'morning edition', evening: 'evening edition' };
-  var RUN = { scheduled: 'scheduled it', late: 'made a draft but did not send it (it ran too late)', drafted: 'made the draft', updated: 'updated the draft', already: 'found the draft already made', skip: 'made none (No edition)', thin: 'made none (nothing but the weather)', 'no-topic': 'made none (no evening topic set)', 'not-scheduled': 'could not schedule it', 'already-scheduled': 'found it already scheduled', refused: 'was refused by the newsletter service', 'no-key': 'is off (no newsletter service set)' };
+  var RUN = { scheduled: 'scheduled it', late: 'made a draft but did not send it (it ran too late)', drafted: 'made the draft', updated: 'updated the draft', already: 'found the draft already made', skip: 'made none (No edition)', thin: 'made none (nothing but the weather)', 'no-topic': 'made none (this edition’s topic is missing)', 'history-unverified': 'could not check Resend for an existing edition', 'audience-unverified': 'left a draft because Resend could not verify its status or audience', 'already-in-resend': 'found this edition already scheduled or sent in Resend', 'not-scheduled': 'could not schedule it', 'already-scheduled': 'found it already scheduled', refused: 'was refused by the newsletter service', 'no-key': 'is off (no newsletter service set)' };
   function load(date) {
     say('Loading…');
     return api('GET', null, '?edition=' + state.edition + (date ? '&date=' + date : '')).then(function (j) {
       state.date = j.date; state.day = j.day; state.voice = j.voice; state.ideas = j.ideas; state.ai = j.ai; state.leads = j.leads; state.drafted = j.drafted;
       $('[data-date]').value = j.date;
       $$('[data-edition]').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-edition') === state.edition ? 'true' : 'false'); });
-      $('[data-clock]').textContent = 'Approve by ' + clock(j.clock.deadline) + '. The draft is made at ' + clock(j.clock.draft) + ' and goes out at ' + clock(j.clock.send) + ' unless you press Hold.' + (state.edition === 'evening' ? ' The evening takes up to two pieces and a one line open.' : '') + (j.topic ? '' : (state.edition === 'evening' ? ' No evening topic is set in Netlify, so the evening is skipped.' : ' No morning topic is set in Netlify, so it goes to the whole list.'));
+      $('[data-clock]').textContent = 'Approve by ' + clock(j.clock.deadline) + '. The draft is made at ' + clock(j.clock.draft) + ' and goes out at ' + clock(j.clock.send) + ' unless you press Hold.' + (state.edition === 'evening' ? ' The evening takes up to two pieces and a one line open.' : '') + (j.service === 'resend' && !j.topic ? ' Set this edition’s Resend topic in Netlify before it can be sent.' : '');
       $('[data-plan=subject]').value = j.day.plan.subject || '';
       $('[data-plan=intro]').value = j.day.plan.intro || '';
       $('[data-plan=skip]').checked = !!j.day.plan.skip;
