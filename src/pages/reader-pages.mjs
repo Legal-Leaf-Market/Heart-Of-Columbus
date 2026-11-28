@@ -147,6 +147,7 @@ function deskPage(ctx) {
       <div class="dk-tools">
         <label style="margin:0">Status <select data-f="status"><option value="idea">Idea</option><option value="drafting">Drafting</option><option value="approved">Approved</option><option value="spiked">Spiked</option></select></label>
         <label style="margin:0">Shape <select data-f="shape">${shapes}</select></label>
+        <label style="margin:0">Voice <select data-f="voice"><option value="">Your main voice</option></select></label>
       </div>
       <label for="dk-headline">Headline</label><input id="dk-headline" data-f="headline" maxlength="200">
       <label for="dk-dek">Dek <span class="muted">(optional one line under the headline)</span></label><input id="dk-dek" data-f="dek" maxlength="300">
@@ -201,6 +202,13 @@ function deskPage(ctx) {
 
   <div data-pane="voice" hidden>
     <p class="muted">The desk writes like you only if it has read you. Describe your voice, set your house rules, and paste a few pieces you wrote and like. It learns rhythm and word choice from them, never facts.</p>
+    <p class="muted">Write in more than one register? Add up to five more voices (a dry briefing, a warmer column) and pick one for each piece next to its shape.</p>
+    <div class="dk-tools">
+      <label style="margin:0">Editing <select data-voice-pick><option value="main">Your main voice</option></select></label>
+      <button type="button" class="btn" data-voice-new>New voice</button>
+      <button type="button" class="btn" data-voice-del hidden>Delete this voice</button>
+    </div>
+    <div data-voice-name-wrap hidden><label for="dk-vname">Name of this voice</label><input id="dk-vname" data-voice="name" maxlength="60" placeholder="The briefing"></div>
     <label for="dk-about">How you sound</label><textarea id="dk-about" data-voice="about" rows="4" placeholder="Plain spoken, a little dry, Columbus born, short sentences, never cute."></textarea>
     <label for="dk-rules">House rules <span class="muted">(one per line)</span></label><textarea id="dk-rules" data-voice="rules" rows="5" placeholder="Name the street, not just the neighborhood.&#10;No exclamation points."></textarea>
     <label>Your writing samples <span class="muted">(up to six)</span></label>

@@ -102,6 +102,9 @@ the typing.
 
 1. **Your voice** tab, once: describe how you sound, set house rules, paste
    three to six things you wrote and like. Every suggestion reads from it.
+   **New voice** adds up to five more (a dry briefing, a warmer column), each
+   with its own name, description and samples; pick one for a piece in the
+   **Voice** menu next to its shape.
    Then the **Beat book** tab: the names you write about, one per line as
    `Name | note | wrong spellings`, and phrases you never use. The writing
    help spells names your way and avoids the banned phrases, and **Approve**

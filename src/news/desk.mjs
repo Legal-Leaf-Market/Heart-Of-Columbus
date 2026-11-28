@@ -193,6 +193,46 @@ export function hostOf(url) {
 }
 
 // Cleans what the page sends before it is stored.
+// Voices: the main voice (blob `voice`) plus up to five named extra voices
+// (blob `voices`) for different kinds of writing, a dry briefing and a warmer
+// column, say. Each is the publisher's own description, rules and samples.
+export const MAX_VOICES = 5;
+export function cleanVoice(v = {}) {
+  return {
+    about: clip(String(v.about || ''), 2000),
+    rules: (Array.isArray(v.rules) ? v.rules : []).map((r) => clip(String(r), 300)).filter(Boolean).slice(0, 20),
+    samples: (Array.isArray(v.samples) ? v.samples : []).map((s) => clip(String(s), 3000)).filter((s) => s.trim()).slice(0, 6),
+  };
+}
+const VOICE_ID = /^v-[a-z0-9-]{2,30}$/;
+export function cleanVoices(list = []) {
+  const seen = new Set();
+  return (Array.isArray(list) ? list : []).map((v) => ({
+    id: VOICE_ID.test(String(v && v.id)) ? v.id : '',
+    name: clip(String((v && v.name) || '').trim(), 60),
+    ...cleanVoice(v || {}),
+  })).filter((v) => v.id && v.name && !seen.has(v.id) && seen.add(v.id)).slice(0, MAX_VOICES);
+}
+// Save one voice into the list: a new one gets an id, an existing id is
+// replaced in place. Refused when the list is full or the name is blank.
+export function upsertVoice(list, v, now = new Date()) {
+  const voices = cleanVoices(list);
+  const name = clip(String(v.name || '').trim(), 60);
+  if (!name) return { ok: false, error: 'Give the voice a name.' };
+  const i = voices.findIndex((x) => x.id === v.id);
+  if (i === -1 && voices.length >= MAX_VOICES) return { ok: false, error: `You can keep ${MAX_VOICES} extra voices. Delete one first.` };
+  const id = i === -1 ? `v-${now.getTime().toString(36)}` : v.id;
+  const saved = { id, name, ...cleanVoice(v) };
+  if (i === -1) voices.push(saved); else voices[i] = saved;
+  return { ok: true, voices, id };
+}
+// The voice a piece is written in: its chosen voice if it still exists,
+// otherwise the main voice.
+export function voiceFor(piece = {}, main = {}, voices = []) {
+  const v = piece.voice && cleanVoices(voices).find((x) => x.id === piece.voice);
+  return v ? { about: v.about, rules: v.rules, samples: v.samples } : (main || {});
+}
+
 export function cleanPiece(p = {}, now = new Date()) {
   const sources = (Array.isArray(p.sources) ? p.sources : []).slice(0, 12).map((s) => ({
     url: /^https?:\/\//i.test(String(s && s.url)) ? clip(s.url, 500) : '',
@@ -203,7 +243,7 @@ export function cleanPiece(p = {}, now = new Date()) {
     status: STATUSES.includes(p.status) ? p.status : 'idea',
     shape: SHAPES[p.shape] ? p.shape : 'brief',
     headline: clip(p.headline, 200), dek: clip(p.dek, 300), angle: clip(p.angle, 6000), body: clip(p.body, 20000),
-    sources, ai: !!p.ai, updated: now.toISOString(),
+    sources, ai: !!p.ai, voice: VOICE_ID.test(String(p.voice || '')) ? p.voice : '', updated: now.toISOString(),
     approvedAt: p.status === 'approved' ? (p.approvedAt || now.toISOString()) : '',
   };
 }
