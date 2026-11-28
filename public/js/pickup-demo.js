@@ -109,6 +109,9 @@
   const priceSuffix = cents => cents ? ' (+' + formatPrice(cents) + ')' : '';
 
   const partsOfPizza = ['', 'Whole', 'Half 1', 'Half 2'];
+  const toppingPositions = ['None', ...partsOfPizza.slice(1)];
+  const pizzaId = menu.items.findIndex(item => item[0] === 'Build Your Own Pizza' &&
+    item[3]?.some(group => group[3] === 'placement'));
 
   function chosenOptions(mode, selection) {
     const list = Array.isArray(selection) ? selection : [];
@@ -233,18 +236,28 @@
 
   function menuRow({ item: [name, , , groups], id }) {
     const splitPizza = groups?.some(group => group[3] === 'placement');
-    const details = groups?.length ? '<details class="pd-choices"><summary>Customize ' + escape(name) + '</summary>' +
-      (splitPizza ? '<p class="pd-choice-policy">Choose Whole, Half 1 or Half 2 for each topping. Demo pricing uses half the posted topping rate for one side and rounds the pizza total once.</p>' : '') +
+    const details = groups?.length ? '<details class="pd-choices"><summary>' + (splitPizza ? 'Size, crust &amp; half toppings<span class="sr-only"> for ' + escape(name) + '</span>' : 'Customize ' + escape(name)) + '</summary>' +
+      (splitPizza ? '<p class="pd-choice-policy">' + (id === pizzaId ? '' : 'Extra toppings go over the original recipe. ') +
+        'Choose Whole, Half 1 or Half 2 for each topping. Demo pricing uses half the posted topping rate for one side.</p>' : '') +
       groups.map(([label, options, , mode, rule], group) => {
-        if (mode === 'placement' || mode === 'count') {
-          const placement = mode === 'placement';
-          return '<fieldset class="pd-choice pd-choice-parts" data-complex="' + group + '" data-mode="' + mode + '"><legend>' + escape(label) + '</legend>' +
+        if (mode === 'placement') {
+          return '<div class="pd-choice pd-placement" role="group" aria-label="' + escape(label) + '" data-complex="' + group + '" data-mode="placement">' +
+            '<strong>' + escape(label) + '</strong>' + options.map(([option, amount], index) => {
+              const control = 'pd-place-' + id + '-' + group + '-' + index;
+              return '<fieldset class="pd-topping" data-placement-row><legend>' + escape(option) +
+                '<small data-option-price>' + priceSuffix(optionPrice(amount, [])) + ' whole</small></legend><div class="pd-placements">' +
+                toppingPositions.map((part, value) => '<label><input type="radio" name="' + control + '" value="' + value + '"' +
+                  (value === 0 ? ' checked' : '') + ' aria-label="' + escape(option + ' · ' + part) + '"><span>' + part + '</span></label>').join('') +
+                '</div></fieldset>';
+            }).join('') + '</div>';
+        }
+        if (mode === 'count') {
+          return '<fieldset class="pd-choice pd-choice-parts" data-complex="' + group + '" data-mode="count"><legend>' + escape(label) + '</legend>' +
             options.map(([option, adjustment], index) => {
               const control = 'pd-part-' + id + '-' + group + '-' + index;
-              const values = placement ? ['None', ...partsOfPizza.slice(1)] : Array.from({ length: 13 }, (_, qty) => String(qty));
               return '<label for="' + control + '"><span>' + escape(option) + '<small data-option-price>' +
-                priceSuffix(optionPrice(adjustment, [])) + (placement ? ' whole' : adjustment ? ' each' : '') + '</small></span><select id="' + control + '">' +
-                values.map((value, i) => '<option value="' + i + '">' + value + '</option>').join('') + '</select></label>';
+                priceSuffix(optionPrice(adjustment, [])) + (adjustment ? ' each' : '') + '</small></span><select id="' + control + '">' +
+                Array.from({ length: 13 }, (_, qty) => '<option value="' + qty + '">' + qty + '</option>').join('') + '</select></label>';
             }).join('') + '</fieldset>';
         }
         if (mode) return '<fieldset class="pd-choice pd-choice-checks" data-checks="' + group + '"><legend>' + escape(label) + '</legend>' +
@@ -269,9 +282,11 @@
     return [...row.querySelectorAll('[data-choice], [data-checks], [data-complex]')].map(control => {
       if (control.matches('select')) return Number(control.value);
       if (control.hasAttribute('data-checks')) return [...control.querySelectorAll('input:checked')].map(input => Number(input.value));
-      const base = control.dataset.mode === 'placement' ? 4 : 16;
-      return [...control.querySelectorAll('select')].flatMap((select, i) => {
-        const choice = Number(select.value);
+      const placement = control.dataset.mode === 'placement';
+      const base = placement ? 4 : 16;
+      const selected = control.querySelectorAll(placement ? 'input:checked' : 'select');
+      return [...selected].flatMap((field, i) => {
+        const choice = Number(field.value);
         return choice ? [i * base + choice] : [];
       });
     });
@@ -326,6 +341,7 @@
     });
     content.innerHTML = '<button type="button" class="pd-cart-link" data-cart-link data-action="view-cart" hidden><span>View cart</span><strong></strong></button><div class="pd-shop"><section id="pd-menu" tabindex="-1"><h2>Menu</h2><p class="pd-source">' + escape(menu.kind) +
       (menu.source ? ' · <a href="' + escape(menu.source) + '" rel="noreferrer">View source</a>' : '') + '</p>' +
+      (pizzaId >= 0 ? '<button type="button" class="pd-pizza-jump" data-action="pizza">Build a half-and-half pizza</button>' : '') +
       '<div class="pd-filters"><label class="sr-only" for="pd-filter">Find an item or option</label><input id="pd-filter" type="search" placeholder="Search dishes and toppings">' +
       '<select data-section hidden aria-label="Menu section"><option value="">All sections</option>' +
       [...sections.keys()].map(name => '<option>' + escape(name) + '</option>').join('') + '</select>' +
@@ -523,6 +539,16 @@
     } finally { polling = false; }
   }
 
+  function openPizza() {
+    if (isTablet || pizzaId < 0) return;
+    content.querySelector('#pd-filter').value = '';
+    content.querySelector('[data-section]').value = menu.items[pizzaId][2];
+    filterMenu();
+    const details = content.querySelector('[data-menu-item][data-id="' + pizzaId + '"] details');
+    details.open = true;
+    details.querySelector('summary').focus();
+  }
+
   function openSession() {
     sessionStorage.setItem(storageKey, room);
     history.replaceState(null, '', roomLink(isTablet));
@@ -567,12 +593,18 @@
     const button = event.target.closest('button[data-action]');
     if (!button) return;
     const action = button.dataset.action;
-    if (action === 'start') {
-      button.disabled = true;
+    if (action === 'pizza' && !session.hidden) { openPizza(); return; }
+    if (action === 'start' || action === 'pizza') {
+      if (startButton.disabled) return;
+      startButton.disabled = button.disabled = true;
       room ||= randomKey();
-      try { await api({ action: 'start' }); say(''); openSession(); }
-      catch (error) { say(error.message); }
-      finally { button.disabled = false; }
+      try {
+        await api({ action: 'start' });
+        say('');
+        openSession();
+        if (action === 'pizza') openPizza();
+      } catch (error) { say(error.message); }
+      finally { startButton.disabled = button.disabled = false; }
       return;
     }
     if (action === 'copy') {

@@ -22,14 +22,22 @@ const tonkotsu = [
     'Bean sprouts', 'Tofu', 'Fish powder', 'Garlic oil', 'Naruto'].map(name => [name, 0])),
 ];
 const toppingPrices = [139, 219, 259, 309];
-const pizza = [
-  ...sizes(1169, 1169, 1589, 1789, 2019),
-  ['Sauce', [['Pizza sauce', 0], ['BBQ sauce', 0], ['Ranch', 0], ['Olive oil', 0]], true],
-  ['Crust', [['Hand tossed', 0], ['Thin crust', 0]], true],
+const pizzaCrust = ['Crust', [['Hand tossed', 0], ['Thin crust', 0]], true];
+const pizzaToppings = [
   placement('Meat toppings', ...['Bacon', 'Beef', 'Grilled chicken', 'Ham', 'Pepperoni', 'Salami', 'Sausage'].map(name => [name, toppingPrices])),
   placement('Vegetable toppings', ...['Banana peppers', 'Black olives', 'Fresh garlic', 'Green olives', 'Green onions',
     'Green peppers', 'Mushrooms', 'Pineapple', 'Jalapeños', 'Roma tomatoes', 'Spinach', 'White onions'].map(name => [name, toppingPrices])),
   placement('Anchovies', ['Anchovies', [300, 300, 550, 550]]),
+];
+
+const pizza = [
+  ...sizes(1169, 1169, 1589, 1789, 2019),
+  ['Sauce', [['Pizza sauce', 0], ['BBQ sauce', 0], ['Ranch', 0], ['Olive oil', 0]], true],
+  pizzaCrust, ...pizzaToppings,
+];
+const specialtyPizza = (...prices) => [
+  ...sizes(prices[0], ...prices), pizzaCrust,
+  ...pizzaToppings.map(([label, ...group]) => ['Extra ' + label.toLowerCase(), ...group]),
 ];
 
 const weekdays = [1, 2, 3, 4, 5];
@@ -201,10 +209,10 @@ export const pickupMenus = {
     kind: 'Selection from the public pizzeria menu',
     items: [
       ['Breadsticks', 639, 'Appetizers'], ['Cheese Sticks', 689, 'Appetizers'], ['Garlic Bread', 579, 'Appetizers'],
-      ['Say Cheese', 1439, 'Pizza', sizes(1439, 1439, 1959, 2339, 2609)],
-      ['Veggie', 1499, 'Pizza', sizes(1499, 1499, 2069, 2429, 2819)],
-      ['Five Meat', 1609, 'Pizza', sizes(1609, 1609, 2189, 2589, 3019)],
-      ['Lasagna Pizza', 1499, 'Pizza', sizes(1499, 1499, 2069, 2479, 3019)],
+      ['Say Cheese', 1439, 'Pizza', specialtyPizza(1439, 1959, 2339, 2609)],
+      ['Veggie', 1499, 'Pizza', specialtyPizza(1499, 2069, 2429, 2819)],
+      ['Five Meat', 1609, 'Pizza', specialtyPizza(1609, 2189, 2589, 3019)],
+      ['Lasagna Pizza', 1499, 'Pizza', specialtyPizza(1499, 2069, 2479, 3019)],
       ['Build Your Own Pizza', 1169, 'Pizza', pizza],
       special('Legendary Lunch Combo', 649, window(weekdays, 660, 810, 'Monday to Friday, 11 AM to 1:30 PM')),
       ['Italian Hoagie', 839, 'Hoagies'], ['Spinach Ricotta Calzone', 1039, 'Calzones'],

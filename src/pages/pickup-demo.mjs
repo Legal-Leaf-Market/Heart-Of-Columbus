@@ -108,6 +108,7 @@ export function pickupDemoPages({ assets }) {
               <p class="pd-demo-note"><strong>Demo only</strong> Not affiliated with ${t(b.name)}. Test orders stay here.</p>
               <section data-pd-start>
                 <button type="button" class="pd-primary" data-action="start">Start demo</button>
+                ${theme === 'pizza' ? '<button type="button" class="pd-pizza-jump" data-action="pizza">Try half-and-half pizza</button>' : ''}
                 <p>Build an order, then open the counter view on a second device.</p>
                 ${samples.size ? `<div class="pd-menu-teaser">
                   <h2>On the demo menu</h2>

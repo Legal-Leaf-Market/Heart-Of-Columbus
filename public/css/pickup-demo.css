@@ -342,3 +342,16 @@
 .pd-choice-parts select { width: 100%; }
 .pd-choice-policy, .pd-item-problem { grid-column: 1 / -1; font-size: .82rem; }
 .pd-item-problem { color: #734017; }
+
+.pd .pd-pizza-jump { color: var(--pd-green); background: var(--pd-green-soft); border-color: var(--pd-border); margin-block: .35rem; }
+.pd .pd-hero .pd-pizza-jump { margin-inline-start: .3rem; }
+.pd-placement > strong { margin: .25rem 0; }
+.pd-topping { margin: 0 0 .5rem; min-width: 0; padding: .4rem 0 .55rem; border-bottom: 1px solid var(--pd-border); }
+.pd-topping legend { width: 100%; font-weight: 720; }
+.pd-topping legend small { margin-inline-start: .55rem; font-weight: 450; }
+.pd-placements { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .25rem; }
+.pd-placements label { position: relative; min-width: 0; }
+.pd-placements input { position: absolute; inset: 0; opacity: 0; width: 100%; cursor: pointer; margin: 0; }
+.pd .pd-placements span { display: grid; place-items: center; min-height: 2.75rem; padding: .25rem .08rem; text-align: center; border: 1px solid var(--pd-border); border-radius: .4rem; }
+.pd-placements input:checked + span { font-weight: 740; color: #fff; background: var(--pd-green); border-color: var(--pd-green); }
+.pd-placements input:focus-visible + span { outline: 2px solid var(--pd-green); outline-offset: 2px; }
