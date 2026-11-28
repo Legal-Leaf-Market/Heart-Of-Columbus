@@ -12,6 +12,7 @@
 // the format named here and robots.txt does not disallow it. A source that
 // fails is reported by name at the desk instead of hiding the rest.
 import { clean } from '../event-feeds.mjs';
+import { diffDirectory } from './leads.mjs';
 
 const TZ = 'America/Indiana/Indianapolis';
 export const UA = 'HeartOfColumbus-leads/1.0 (+https://heartofcolumbus.shop/about/)';
@@ -127,6 +128,24 @@ async function getText(url, fetchFn, accept) {
     if (!res.ok) throw new Error(`answered ${res.status}`);
     return await res.text();
   } finally { if (timer) clearTimeout(timer); }
+}
+
+// Changes in our own directory since the last gathering, as leads to check
+// by phone or in person: new listings, closings, reopenings, big hours
+// changes and new online ordering or booking. Listings are wrong about
+// closings often enough that each one is a call to make, never a story.
+const DIR_WHAT = { added: 'New listing', closed: 'Listed as closed', tempClosed: 'Listed as closed for now', reopened: 'Reopened', hours: 'New hours', online: 'New online ordering or booking' };
+export function directoryLeads(before, after, origin = 'https://heartofcolumbus.shop') {
+  if (!before || !after) return [];
+  const d = diffDirectory(before, after);
+  const out = [];
+  for (const k of Object.keys(DIR_WHAT)) {
+    for (const x of d[k] || []) {
+      const b = x.b || {};
+      out.push({ id: `${k}:${x.slug}`, title: `${DIR_WHAT[k]}: ${b.name}${b.address ? `, ${b.address}` : ''}`, url: `${origin}/b/${x.slug}/`, kind: 'directory' });
+    }
+  }
+  return out.slice(0, 25);
 }
 
 // One night's gathering. `seen` is the set of lead ids already shown on an

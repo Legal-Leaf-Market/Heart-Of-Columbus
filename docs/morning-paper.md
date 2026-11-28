@@ -72,7 +72,7 @@ from places that publish facts and nobody turns into news:
 | City news, and city council, public works and redevelopment agendas and minutes | columbus.in.gov | Overnight leads (`src/news/gather.mjs`) |
 | County news, commissioners and board meetings, office closings | bartholomew.in.gov | Overnight leads |
 | School board agendas | bcsc.k12.in.us (BoardDocs) | Not yet: BoardDocs refuses automated reads, so check it by hand |
-| Business openings, closings, new hours, new online ordering | Our own directory, compared night to night | `src/news/leads.mjs`, the store crawl |
+| Business openings, closings, new hours, new online ordering | Our own directory, compared night to night | Overnight leads, as "Our directory" (`directoryLeads` in `src/news/gather.mjs`); each one is a call to make, since listings are wrong about closings often enough |
 | Today's events | Library, parks and hand-entered listings | `/api/events`, `src/data/events.mjs` |
 | Weather alerts | National Weather Service | By hand on the forecast page: api.weather.gov's robots.txt disallows every path. Every edition links the forecast |
 | Road work, closures | INDOT, city notices | City notices are in the overnight leads; INDOT by hand |

@@ -164,8 +164,15 @@ congregation in town, of every faith, by area and by faith, plus nonprofits.
 - [x] Morning job at 6:45 AM all year (was 5:30 AM in winter, before the desk
       deadline), one run a day, remade drafts update in place, a morning note
       to `HOC_NEWSLETTER_NOTIFY`, Resend segments, scanner safe signup
-- [ ] Later: directory changes and school board (BoardDocs) in the leads,
-      and "publish to the site" for a piece
+- [x] Directory changes in the overnight leads (2026-11-28): each gathering
+      compares the snapshot at /newsletter/daily.json with the last one
+      (`leads-dirsnap` in the desk store) and lists new listings, closings,
+      reopenings, big hours changes and new online ordering or booking as
+      leads from "Our directory". Calls made without asking: the first
+      night only records a snapshot; Gather now the same morning compares
+      with the same earlier snapshot so the changes stay; at most 25
+- [ ] Later: school board (BoardDocs) in the leads, and "publish to the
+      site" for a piece
 
 ### Apartments and landlords (`/housing/`, live)
 - [x] `/housing/` page: finding a place (county housing list, Indiana Housing

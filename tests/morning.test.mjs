@@ -471,7 +471,8 @@ test('a night of gathering reports each source, keeps going past a failure, and 
   const store = memStore();
   const a = await gatherInto(store, { fetchFn, now, origin: 'https://x.test' });
   assert.equal(a.date, '2026-11-27');
-  assert.deepEqual(a.sources.map((s) => s.ok), [false, true, true, true, true]);
+  assert.deepEqual(a.sources.slice(0, 5).map((s) => s.ok), [false, true, true, true, true]);
+  assert.equal(a.sources[5].id, 'directory', 'the directory comparison reports itself too');
   assert.match(a.sources[0].error, /500/);
   assert.ok(a.items.length >= 5 && a.items.every((x) => x.new));
   assert.ok(a.items.every((x) => x.url && x.title && x.source));
@@ -496,4 +497,33 @@ test('every lead source names a first-hand public source and when it was checked
   }
   const pm = readFileSync(new URL('../src/news/paper-mail.mjs', import.meta.url), 'utf8');
   assert.match(pm, /ROAD_HOSTS = \/\^\(www\\\.\)\?indystar\\\.com\$\/i/, 'Up the road takes indystar.com and nothing else');
+});
+
+test('the overnight leads list changes in our own directory, and a second gathering the same morning keeps them', async () => {
+  const snap = (over = {}) => ({
+    'zaharakos': { name: 'Zaharakos', address: '329 Washington St', phone: '', hours: [[1, 660, 1260]], tempClosed: false, closed: false, order: [], book: [], store: '' },
+    'old-shop': { name: 'Old Shop', address: '1 Main St', phone: '', hours: null, tempClosed: false, closed: false, order: [], book: [], store: '' },
+    ...over,
+  });
+  let current = snap();
+  const fetchFn = async (url) => {
+    if (url === 'https://x.test/newsletter/daily.json') return new Response(JSON.stringify({ snapshot: current }));
+    return new Response('nope', { status: 404 });
+  };
+  const store = memStore();
+  const first = await gatherInto(store, { fetchFn, now: new Date('2026-11-27T09:15:00Z'), origin: 'https://x.test' });
+  assert.equal(first.items.filter((x) => x.kind === 'directory').length, 0, 'nothing to compare with the first night');
+  current = snap({
+    'old-shop': { ...snap()['old-shop'], closed: true },
+    'new-bakery': { name: 'New Bakery', address: '5 Fifth St', phone: '', hours: null, tempClosed: false, closed: false, order: ['https://order.example/nb'], book: [], store: '' },
+    'zaharakos': { ...snap().zaharakos, order: ['https://order.example/z'] },
+  });
+  const next = await gatherInto(store, { fetchFn, now: new Date('2026-11-28T09:15:00Z'), origin: 'https://x.test' });
+  const dir = next.items.filter((x) => x.kind === 'directory');
+  assert.deepEqual(dir.map((x) => x.title).sort(), ['Listed as closed: Old Shop, 1 Main St', 'New listing: New Bakery, 5 Fifth St', 'New online ordering or booking: Zaharakos, 329 Washington St'].sort());
+  assert.ok(dir.every((x) => x.new && x.source === 'Our directory' && x.url.startsWith('https://x.test/b/')));
+  const again = await gatherInto(store, { fetchFn, now: new Date('2026-11-28T10:00:00Z'), origin: 'https://x.test' });
+  assert.equal(again.items.filter((x) => x.kind === 'directory').length, 3, 'Gather now the same morning keeps the changes');
+  const bad = await gatherInto(memStore(), { fetchFn: async () => new Response('x', { status: 500 }), now: new Date('2026-11-28T09:15:00Z'), origin: 'https://x.test' });
+  assert.equal(bad.sources.find((s) => s.id === 'directory').ok, false, 'a failed directory read is reported, not hidden');
 });
