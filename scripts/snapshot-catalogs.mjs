@@ -58,7 +58,7 @@ function links(html, base) {
     u.hash = '';
     const path = u.pathname.toLowerCase(), text = m[2].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().toLowerCase();
     if (/\/(?:product-page|products?|item|p|shop|store)\/[^/]+\/?$/.test(path) && !/\/(?:cart|checkout|account|category|collections?\/?$)/.test(path)) products.push(u.toString());
-    else if (/^\/(?:shop|store|products|collections(?:\/all)?|menu|menus|our-menu|food-menu|order-online|online-store|shop-all)\/?$/.test(path) || /^(?:shop|store|menu|our menu|shop all|online store)$/.test(text)) shopish.push(u.toString());
+    else if (/^\/(?:shop|store|products|collections(?:\/all)?|menu|menus|our-menu|view-our-menu|food-menu|(?:breakfast|lunch|dinner)-menu|order-online|online-store|shop-all)\/?$/.test(path) || /^(?:shop|store|menu|our menu|view our menu|(?:breakfast|lunch|dinner) menu|shop all|online store)$/.test(text)) shopish.push(u.toString());
   }
   return { shopish: [...new Set(shopish)], products: [...new Set(products)] };
 }

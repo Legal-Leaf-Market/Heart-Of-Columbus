@@ -56,6 +56,19 @@ export const PROVIDERS = [
   { id: 'brygid', label: 'Brygid', kind: 'order', re: /https?:\/\/[a-z0-9-]+\.brygid\.online[^\s"'<>)]*/i },
   { id: 'popmenu-order', label: 'Popmenu', kind: 'order', re: /https?:\/\/[a-z0-9-]+\.popmenu\.com\/[^\s"'<>)]*order[^\s"'<>)]*/i },
   { id: 'imenu360', label: 'iMenu360', kind: 'order', re: /https?:\/\/(?!restadmin\.)[a-z0-9-]+\.imenu360\.com[^\s"'<>)]*/i },
+  // Found in the 2026-11-25 crawl on Columbus restaurants' own sites, each
+  // the restaurant's own order-ahead page (pickup, no marketplace cut).
+  { id: 'heartland', label: 'Heartland', kind: 'order', re: /https?:\/\/[a-z0-9-]+\.hrpos\.heartland\.us\/menu[^\s"'<>)]*/i },
+  { id: 'mealkeyway', label: 'MealKeyway', kind: 'order', re: /https?:\/\/order\.mealkeyway\.com\/customer\/[^\s"'<>)]+/i },
+  { id: 'scvr', label: 'Online ordering', kind: 'order', re: /https?:\/\/[a-z0-9-]+\.scvr\.co\/menu\/online-ordering[^\s"'<>)]*/i },
+  { id: 'gloriafood-direct', label: 'GloriaFood', kind: 'order', re: /https?:\/\/(?:www\.)?restaurantlogin\.com\/ordering\/[^\s"'<>)]+/i },
+  // Booking systems found the same way.
+  { id: 'simplepractice', label: 'SimplePractice', kind: 'book', re: /https?:\/\/[a-z0-9-]+\.clientsecure\.me\/?(?:request[^\s"'<>)]*)?(?=[\s"'<>)]|$)/i },
+  { id: 'optimantra', label: 'OptiMantra', kind: 'book', re: /https?:\/\/(?:www\.)?optimantra\.com\/optimus\/(?:om|patient)\/patientaccess\/[^\s"'<>)]+/i },
+  { id: 'porter', label: 'Porter', kind: 'book', re: /https?:\/\/web\.getporter\.io\/shop\/[^\s"'<>)]+/i },
+  { id: 'noterro', label: 'Noterro', kind: 'book', re: /https?:\/\/(?!www\.)[a-z0-9-]+\.noterro\.com[^\s"'<>)]*/i },
+  { id: 'galaxy', label: 'Online booking', kind: 'book', re: /https?:\/\/booking\.galaxyaccess\.us\/[^\s"'<>)]+/i },
+  { id: 'tintwiz', label: 'TintWiz', kind: 'book', re: /https?:\/\/app\.tintwiz\.com\/web\/ce\/[^\s"'<>)]+/i },
   { id: 'housecallpro', label: 'Housecall Pro', kind: 'book', re: /https?:\/\/book\.housecallpro\.com\/book\/[^\s"'<>)]+/i },
   { id: 'jobber', label: 'Jobber', kind: 'book', re: /https?:\/\/clienthub\.getjobber\.com\/(?:booking|client_hubs)\/[^\s"'<>)]+/i },
   { id: 'workiz', label: 'Workiz', kind: 'book', re: /https?:\/\/online-booking\.workiz\.com\/[^\s"'<>)]+/i },

@@ -286,3 +286,18 @@ test('JSON-LD reader: products, item lists and menus from any site builder', asy
   assert.deepEqual(menu.map((i) => [i.title, i.price, i.type, i.kind]), [['Two Eggs', 6.5, 'Breakfast', 'menu']]);
   assert.equal(mapJsonLd('<script type="application/ld+json">{broken</script>', 'https://x.example/').length, 0);
 });
+
+test('order-ahead and booking systems found on Columbus sites are recognized', async () => {
+  const { findProviderLinks } = await import('../src/commerce-core.mjs');
+  const ids = (h) => findProviderLinks(h).map((l) => l.id);
+  assert.ok(ids('<a href="https://freshtakekitchen.hrpos.heartland.us/menu">').includes('heartland'));
+  assert.ok(!ids('<a href="https://4thstreetbar.hrpos.heartland.us/gift">').includes('heartland'), 'a gift card page is not ordering');
+  assert.ok(ids('https://order.mealkeyway.com/customer/release/index?mid=abc').includes('mealkeyway'));
+  assert.ok(ids('https://donutcentral.scvr.co/menu/online-ordering').includes('scvr'));
+  assert.ok(ids('https://www.restaurantlogin.com/ordering/restaurant/menu?company_uid=x').includes('gloriafood-direct'));
+  assert.ok(!ids('https://www.restaurantlogin.com/api/fb/_ey4v1').includes('gloriafood-direct'));
+  assert.ok(ids('"https://columbuscounselingpartners.clientsecure.me/"').includes('simplepractice'));
+  assert.ok(!ids('"https://x.clientsecure.me/contact-widget"').includes('simplepractice'), 'the contact widget is not booking');
+  assert.ok(!ids('https://www.optimantra.com/optimus/om/patient/login').includes('optimantra'), 'a login page is not booking');
+  assert.ok(!ids('https://www.noterro.com/terms').includes('noterro'));
+});

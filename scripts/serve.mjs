@@ -5,6 +5,19 @@ import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { Readable } from 'node:stream';
+import { demoPickup } from '../netlify/functions/pickup-demo.mjs';
+
+const rooms = new Map();
+const pickup = demoPickup(() => ({
+  getWithMetadata: async (key) => structuredClone(rooms.get(key)),
+  async setJSON(key, data, { onlyIfNew, onlyIfMatch }) {
+    const current = rooms.get(key);
+    if (onlyIfNew ? current : current?.etag !== onlyIfMatch) return { modified: false };
+    rooms.set(key, { data: structuredClone(data), etag: crypto.randomUUID() });
+    return { modified: true };
+  },
+}));
 
 const dist = fileURLToPath(new URL('../dist/', import.meta.url));
 const port = Number(process.env.PORT) || 4321;
@@ -25,6 +38,13 @@ const types = {
 
 createServer(async (req, res) => {
   const path = normalize(decodeURIComponent(new URL(req.url, 'http://x').pathname)).replace(/^(\.\.[/\\])+/, '');
+  if (path === '/api/pickup-demo') {
+    const body = req.method === 'POST' ? { body: Readable.toWeb(req), duplex: 'half' } : {};
+    const result = await pickup(new Request(new URL(req.url, 'http://localhost'), { method: req.method, headers: req.headers, ...body }));
+    res.writeHead(result.status, Object.fromEntries(result.headers));
+    res.end(await result.text());
+    return;
+  }
   let file = join(dist, path);
   try {
     if ((await stat(file)).isDirectory()) file = join(file, 'index.html');
