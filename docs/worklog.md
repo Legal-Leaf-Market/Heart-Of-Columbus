@@ -6,6 +6,13 @@ each list.
 
 ## In progress
 
+### Send and review editions from the desk
+- [ ] Add **Send test to me** for repeatable inbox reviews after revisions,
+  and **Send edition** for today's edition with an explicit confirmation,
+  audience and duplicate checks, and a two-minute Hold window.
+- [ ] Keep manual and scheduled broadcast writes under the same edition lock.
+  Update the desk tutorial with the steps and how each button behaves.
+
 ### Owner deals at the newsroom desk (merged in #222)
 - [x] Add owner-confirmed offer wording and terms, the date received and the last
   day of the offer through the desk's Deals tab. Offers are available as soon

@@ -18,6 +18,9 @@
     return k;
   }
   var KEY = adminKey();
+  window.addEventListener('hashchange', function () {
+    if (new URLSearchParams(location.hash.slice(1)).has('k')) location.reload();
+  });
   var state = { date: '', edition: 'morning', day: null, voice: null, ideas: [], leads: null, current: null, ai: false, out: '', drafted: null };
   var status = $('[data-desk-status]');
   var say = function (t) { status.textContent = t; };
@@ -48,6 +51,8 @@
   var RUN = { scheduled: 'scheduled it', late: 'made a draft but did not send it (it ran too late)', drafted: 'made the draft', updated: 'updated the draft', already: 'found the draft already made', skip: 'made none (No edition)', thin: 'made none (nothing but the weather)', 'no-topic': 'made none (this edition’s topic is missing)', 'history-unverified': 'could not check Resend for an existing edition', 'audience-unverified': 'left a draft because Resend could not verify its status or audience', 'already-in-resend': 'found this edition already scheduled or sent in Resend', 'not-scheduled': 'could not schedule it', 'already-scheduled': 'found it already scheduled', refused: 'was refused by the newsletter service', 'no-key': 'is off (no newsletter service set)' };
   function load(date) {
     say('Loading…');
+    $('[data-test-edition]').disabled = true;
+    $('[data-send-edition]').disabled = true;
     return api('GET', null, '?edition=' + state.edition + (date ? '&date=' + date : '')).then(function (j) {
       state.date = j.date; state.day = j.day; state.voice = j.voice; state.ideas = j.ideas; state.ai = j.ai; state.leads = j.leads; state.drafted = j.drafted; state.beat = j.beat || { entries: [], banned: [] }; state.voices = j.voices || [];
       $('[data-date]').value = j.date;
@@ -62,8 +67,18 @@
       $('[data-road=comment]').value = road.comment || '';
       var d = j.drafted;
       $('[data-drafted]').textContent = d ? (d.held ? 'Held ' + new Date(d.held).toLocaleString() + '. It is a draft in Resend and will not go out.' : d.scheduled ? 'Scheduled to go out ' + new Date(d.scheduled).toLocaleString([], { timeZone: 'America/Indiana/Indianapolis', weekday: 'short', hour: 'numeric', minute: '2-digit' }) + ' Columbus time' + '. Press Hold to stop it.' : 'Draft made ' + new Date(d.at).toLocaleString() + '. The ' + clock(j.clock.draft) + ' job updates it from the desk and schedules it.') : 'No draft yet for this ' + NAME[state.edition] + '.';
-      $('[data-hold]').hidden = !(d && d.scheduled && !d.held);
-      $('[data-run]').textContent = (j.service ? '' : 'No newsletter service is set in Netlify, so nothing can be made or sent. ') + (j.run ? 'The ' + clock(j.clock.draft) + ' job ' + (RUN[j.run.reason] || j.run.reason) + ' at ' + new Date(j.run.at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) + '.' + (j.run.held ? ' You held it.' : '') + ((j.run.notes || []).length ? ' ' + j.run.notes.join(' ') : '') : (j.date === j.today ? 'The job runs at ' + clock(j.clock.draft) + ' and uses what you approved by then.' : ''));
+      $('[data-hold]').hidden = !(d && d.scheduled && !d.held && Date.parse(d.scheduled) > Date.now());
+      var duplicate = j.run && !j.run.held && ['already-in-resend', 'already-scheduled', 'scheduled'].includes(j.run.reason);
+      state.delivery = {
+        test: !!j.testTo,
+        send: !!(j.live && j.service === 'resend' && j.topic && j.date === j.today && !duplicate && !(d && d.scheduled && !d.held)),
+      };
+      deliveryButtons();
+      $('[data-delivery-help]').textContent = j.testTo
+        ? 'Send test to me emails ' + j.testTo + ' only. You can repeat a test after editing.'
+        : 'Set the publisher notification address in Netlify to receive test emails.';
+      $('[data-delivery-help]').textContent += duplicate ? ' Resend already has this edition.' : ' Send edition goes to subscribers after a two-minute Hold window.';
+      $('[data-run]').textContent = (j.service ? '' : 'No newsletter service is set in Netlify, so nothing can be made or sent. ') + (j.run ? (j.run.manual ? 'Your manual send ' : 'The ' + clock(j.clock.draft) + ' job ') + (RUN[j.run.reason] || j.run.reason) + ' at ' + new Date(j.run.at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) + '.' + (j.run.held ? ' You held it.' : '') + ((j.run.notes || []).length ? ' ' + j.run.notes.join(' ') : '') : (j.date === j.today ? 'The job runs at ' + clock(j.clock.draft) + ' and uses what you approved by then.' : ''));
       renderPieces(); renderIdeas(); renderVoice(); renderLeads(); renderBeat();
       openPiece(null);
       say((j.date === j.today ? 'Today, ' : '') + j.date + ', the ' + NAME[state.edition] + (j.ai ? '. Writing help is on (' + j.model + ').' : '. Writing help is off until ANTHROPIC_API_KEY is set in Netlify.'));
@@ -269,11 +284,40 @@
       $('[data-preview-note]').textContent = (j.subject ? 'Subject: ' + j.subject + '. ' : '') + j.count + ' approved piece' + (j.count === 1 ? '' : 's') + (j.count ? '' : ', so the automatic edition goes out') + '. ' + (j.notes || []).join(' ') + (j.html && !j.substance ? ' Nothing but the weather yet, so this edition would be skipped.' : '') + ' Save the plan to see a new subject, open or Up the road here.';
     }).catch(function (e) { say(e.message); });
   }
-  $('[data-draft]').addEventListener('click', function () {
-    savePlan().then(function () { return api('POST', { action: 'draft', date: state.date }); })
-      .then(function (j) { say(j.reason === 'drafted' ? 'Draft made in Resend. The scheduled job updates it from the desk and sends it at its time.' : j.reason === 'updated' ? 'The draft in Resend was updated with this one.' : 'Done: ' + j.reason); return load(state.date); })
-      .catch(function (e) { say(e.message); });
-  });
+  var deliveryBusy = false;
+  function deliveryButtons() {
+    var choices = state.delivery || {};
+    $('[data-draft]').disabled = deliveryBusy;
+    $('[data-test-edition]').disabled = deliveryBusy || !choices.test;
+    $('[data-send-edition]').disabled = deliveryBusy || !choices.send;
+  }
+  function deliver(action) {
+    if (deliveryBusy || !state.day) return;
+    var date = state.date, edition = state.edition;
+    if (action === 'send-edition' && !confirm('Send the ' + NAME[edition] + ' for ' + date + ' to its subscribers? It goes out in two minutes unless you press Hold.')) return;
+    var feedback = $('[data-delivery-status]');
+    deliveryBusy = true;
+    deliveryButtons();
+    feedback.textContent = 'Working…';
+    api('POST', { action: 'plan', date: date, edition: edition, plan: plan() })
+      .then(function () { return api('POST', { action: action, date: date, edition: edition, confirmed: action === 'send-edition' }); })
+      .then(function (result) {
+        if (action === 'test-edition') {
+          feedback.textContent = 'Test sent to ' + result.recipient + '.';
+          return;
+        }
+        feedback.textContent = action === 'draft' ? 'Draft saved in the newsletter service.' :
+          'Edition scheduled for ' + new Date(result.at).toLocaleTimeString([], {
+            hour: 'numeric', minute: '2-digit', timeZone: 'America/Indiana/Indianapolis',
+          }) + ' Columbus time. Press Hold to stop it.';
+        if (date === state.date && edition === state.edition) return load(date);
+      })
+      .catch(function (error) { feedback.textContent = error.message; })
+      .finally(function () { deliveryBusy = false; deliveryButtons(); });
+  }
+  $('[data-draft]').addEventListener('click', function () { deliver('draft'); });
+  $('[data-test-edition]').addEventListener('click', function () { deliver('test-edition'); });
+  $('[data-send-edition]').addEventListener('click', function () { deliver('send-edition'); });
   $('[data-hold]').addEventListener('click', function () {
     if (!confirm('Hold the ' + NAME[state.edition] + ' for ' + state.date + '? It turns back into a draft in Resend and is not sent.')) return;
     api('POST', { date: state.date, edition: state.edition }, '', '/api/hold').then(function () { say('Held. Nothing will be sent.'); return load(state.date); }).catch(function (e) { say(e.message); });

@@ -30,6 +30,7 @@
 //
 // HOC_NEWSLETTER_NOTIFY (comma separated) gets the note for each edition.
 // To run it by hand: Netlify > Functions > newsletter > Run now.
+import { getStore } from '@netlify/blobs';
 import { blobStore } from '../../src/blobs.mjs';
 import { approved, planBlockers } from '../../src/news/desk.mjs';
 import {
@@ -50,6 +51,43 @@ export const resendEnv = () => ({
   topics: { morning: env('RESEND_TOPIC_MORNING'), evening: env('RESEND_TOPIC_EVENING') },
 });
 export const usesResend = (r) => !!(r && r.key && r.segment && r.from);
+
+const emailRecipients = (value) => String(value || '').split(',').map((email) => email.trim())
+  .filter((email) => /^[^\s@<>"]+@[^\s@<>"]+\.[a-z]{2,}$/i.test(email));
+export const testRecipient = (value) => emailRecipients(value)[0] || '';
+
+export async function sendTestEdition({ resend, recipient, subject, html, origin, fetchFn = fetch }) {
+  if (!resend?.key || !resend.from || !recipient) return { ok: false, reason: 'test-unconfigured' };
+  const sent = await fetchFn(`${RESEND}/emails`, {
+    method: 'POST',
+    headers: { authorization: `Bearer ${resend.key}`, 'content-type': 'application/json' },
+    body: JSON.stringify({
+      from: resend.from, to: [recipient], subject: `[Test] ${subject}`,
+      html: html.replaceAll('{{{RESEND_UNSUBSCRIBE_URL}}}', `${origin}/newsletter/`),
+      ...(resend.replyTo ? { reply_to: resend.replyTo } : {}),
+    }),
+  });
+  return sent.ok ? { ok: true, reason: 'test-sent' } : { ok: false, reason: 'test-refused' };
+}
+
+// A manual send, a saved draft and the scheduled job all use the same
+// broadcast record. Keep them from changing it concurrently.
+export async function withEditionDelivery(kind, date, run, blobs = getStore({ name: 'newsletter', consistency: 'strong' }), now = Date.now) {
+  const key = `delivery-${kind}-${date}`;
+  const current = await blobs.getWithMetadata(key, { type: 'json' });
+  if (current && (!current.etag || current.data?.until > now())) return { ok: false, reason: 'edition-busy' };
+  const condition = current ? { onlyIfMatch: current.etag } : { onlyIfNew: true };
+  const lease = await blobs.setJSON(key, { until: now() + 300_000 }, condition);
+  if (!lease.modified) return { ok: false, reason: 'edition-busy' };
+  try {
+    return await run();
+  } finally {
+    if (lease.etag) {
+      await blobs.setJSON(key, { until: 0 }, { onlyIfMatch: lease.etag })
+        .catch(() => console.error('[newsletter] Could not release edition lock; it expires after five minutes.'));
+    }
+  }
+}
 
 const hex = (bytes) => [...bytes].map((b) => b.toString(16).padStart(2, '0')).join('');
 export const holdToken = () => hex(crypto.getRandomValues(new Uint8Array(24)));
@@ -154,8 +192,12 @@ export async function scheduleBroadcast({ id, at, resend, fetchFn = fetch, log =
   return r.ok;
 }
 
+const sendTime = (kind, at) => at ? new Date(at).toLocaleTimeString('en-US', {
+  hour: 'numeric', minute: '2-digit', timeZone: 'America/Indiana/Indianapolis',
+}) : fmtClock(EDITIONS[kind].send);
+
 const WHY = {
-  scheduled: (k, at) => `It goes out at ${fmtClock(EDITIONS[k].send)} unless you press Hold.`,
+  scheduled: (kind, at) => `It goes out at ${sendTime(kind, at)} Columbus time unless you press Hold.`,
   late: () => 'It was NOT sent: the job ran more than an hour after the send time. The draft is waiting in Resend; send it from there if you still want it.',
   drafted: () => 'The Buttondown draft is waiting. Read it there and press send.',
   already: () => 'The draft was already made. It is waiting in the newsletter service.',
@@ -169,18 +211,24 @@ const WHY = {
   refused: () => 'No edition: Resend refused it. Check the function log (Netlify > Logs > Functions).',
   'already-scheduled': () => 'This edition is already scheduled in Resend. Hold it first to remake it.',
   'no-key': () => 'No edition: no newsletter service is set in Netlify.',
+  'edition-busy': () => 'This edition is already being processed. Try again shortly.',
+  'test-unconfigured': () => 'Set the Resend sender and HOC_NEWSLETTER_NOTIFY before sending a test.',
+  'test-refused': () => 'Resend did not accept the test email.',
 };
+
+export const editionResultMessage = (result, kind) =>
+  WHY[result.reason]?.(kind, result.at) || 'Resend could not complete this request.';
 
 // One note per edition: what happened, the subject, a preview link and, when
 // it is scheduled, the Hold link. The edition itself follows, as a preview.
 export async function notify({ resend, to, kind = 'morning', date, result, notes = [], hold = '', html = '', fetchFn = fetch, log = console.log }) {
   const k = kindOf(kind);
-  const list = String(to || '').split(',').map((s) => s.trim()).filter((s) => /^[^\s@<>"]+@[^\s@<>"]+\.[a-z]{2,}$/i.test(s)).slice(0, 5);
+  const list = emailRecipients(to).slice(0, 5);
   if (!list.length || !resend || !resend.key || !resend.from) return false;
   const why = (WHY[result.reason] || (() => `The ${k} job ended with "${result.reason}".`))(k, result.at);
   const preview = result.id && result.via === 'resend' ? `https://resend.com/broadcasts/${result.id}` : '';
   const lines = [why, ...notes, result.subject ? `Subject: ${result.subject}` : '', preview ? `Preview: ${preview}` : '', hold ? `Hold it: ${hold}` : ''].filter(Boolean);
-  const status = result.reason === 'scheduled' ? `goes out at ${fmtClock(EDITIONS[k].send)}` : result.reason === 'late' ? 'not sent' : /drafted|already|updated/.test(result.reason) ? 'draft ready' : 'no edition';
+  const status = result.reason === 'scheduled' ? `goes out at ${sendTime(k, result.at)}` : result.reason === 'late' ? 'not sent' : /drafted|already|updated/.test(result.reason) ? 'draft ready' : 'no edition';
   const e = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   const top = `<div style="font-family:Georgia,serif;max-width:600px;margin:auto;padding:16px;color:#1b1a17">${lines.map((l) => `<p>${e(l).replace(/(https:\/\/\S+)/g, '<a href="$1">$1</a>')}</p>`).join('')}${hold ? `<p><a href="${e(hold)}" style="display:inline-block;background:#b92e2b;color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none">Hold this edition</a></p>` : ''}</div>`;
   const body = html ? (html.match(/<body[^>]*>([\s\S]*)<\/body>/) || [, ''])[1].replace(/\{\{\{RESEND_UNSUBSCRIBE_URL\}\}\}/g, '#') : '';
@@ -218,15 +266,17 @@ async function findExistingBroadcast({ title, resend, fetchFn }) {
 
 // One edition's run. `now` decides the Columbus clock; `force` ignores it and
 // the once a day record (tests, and a deliberate second run).
-export async function editionRun({ kind = 'morning', now = new Date(), deskStore, store, origin, key = '', resend, notifyTo = '', fetchFn = fetch, log = console.log, force = false }) {
+export async function editionRun({ kind = 'morning', now = new Date(), deskStore, store, origin, key = '', resend, notifyTo = '', fetchFn = fetch, log = console.log, force = false, manual = false }) {
   const k = kindOf(kind);
   const p = plan(k, now);
   const { date } = p;
+  const overrideClock = manual || force;
   const keys = keysFor(k, date);
-  if (!force && p.step === 'early') { log(`[newsletter] ${k} ${date}: before ${fmtClock(EDITIONS[k].draft)}; the next wake runs it`); return { ok: true, reason: 'early' }; }
-  if (!force && store && (await store.getJSON(keys.run))) { log(`[newsletter] ${k} ${date}: already ran`); return { ok: true, reason: 'ran' }; }
+  if (!overrideClock && p.step === 'early') { log(`[newsletter] ${k} ${date}: before ${fmtClock(EDITIONS[k].draft)}; the next wake runs it`); return { ok: true, reason: 'early' }; }
+  if (!overrideClock && store && (await store.getJSON(keys.run))) { log(`[newsletter] ${k} ${date}: already ran`); return { ok: true, reason: 'ran' }; }
   const finish = async (result, extra = {}) => {
-    if (store) await store.setJSON(keys.run, { at: now.toISOString(), reason: result.reason, ok: result.ok, from: extra.from || '', notes: extra.notes || [], subject: result.subject || '', sendAt: result.at || '' });
+    if (manual && result.reason !== 'scheduled') return result;
+    if (store) await store.setJSON(keys.run, { at: now.toISOString(), reason: result.reason, ok: result.ok, from: extra.from || '', ...(manual ? { manual: true } : {}), notes: extra.notes || [], subject: result.subject || '', sendAt: result.at || '' });
     await notify({ resend, to: notifyTo, kind: k, date, result, notes: extra.notes || [], hold: extra.hold || '', html: extra.html || '', fetchFn, log }).catch((e) => log(`[newsletter] the ${k} note failed: ${e.message}`));
     log(`[newsletter] ${k} ${date}: ${result.reason}`);
     return result;
@@ -235,7 +285,7 @@ export async function editionRun({ kind = 'morning', now = new Date(), deskStore
   const ed = await assemble({ kind: k, date, deskStore, store, origin, fetchFn });
   if (ed.skip) return finish({ ok: true, reason: 'skip' });
   if (!ed.substance) return finish({ ok: true, reason: 'thin' }, { notes: ed.notes });
-  if (usesResend(resend) && (p.step !== 'late' || force)) {
+  if (usesResend(resend) && (p.step !== 'late' || overrideClock)) {
     const title = `${EDITIONS[k].label} edition ${date}`;
     const history = await findExistingBroadcast({ title, resend, fetchFn });
     if (!history.ok) {
@@ -250,7 +300,7 @@ export async function editionRun({ kind = 'morning', now = new Date(), deskStore
   let result = { ...made, subject: ed.subject };
   let hold = '';
   if (made.via === 'resend') {
-    if (p.step === 'late' && !force) result = { ...result, reason: 'late' };
+    if (p.step === 'late' && !overrideClock) result = { ...result, reason: 'late' };
     else {
       const saved = made.id ? await getJSON(`${RESEND}/broadcasts/${encodeURIComponent(made.id)}`, fetchFn, {
         headers: { authorization: `Bearer ${resend.key}` },
@@ -259,7 +309,7 @@ export async function editionRun({ kind = 'morning', now = new Date(), deskStore
         log(`[newsletter] ${k} ${date}: Resend did not confirm draft status and the expected segment and topic`);
         return finish({ ...result, ok: false, reason: 'audience-unverified' }, { notes: ed.notes, html: ed.html, from: ed.from });
       }
-      const at = p.step === 'send' ? p.at : new Date(now.getTime() + 2 * 60e3).toISOString();
+      const at = !manual && p.step === 'send' ? p.at : new Date(now.getTime() + 2 * 60e3).toISOString();
       const ok = await scheduleBroadcast({ id: made.id, at, resend, fetchFn, log });
       if (ok) {
         const t = holdToken();
@@ -282,11 +332,18 @@ export async function editionRun({ kind = 'morning', now = new Date(), deskStore
 }
 
 export const runFor = (kind) => async () => {
-  await editionRun({
-    kind, deskStore: blobStore('desk'), store: blobStore('newsletter'),
+  const now = new Date();
+  const resend = resendEnv();
+  const run = () => editionRun({
+    kind, now, deskStore: blobStore('desk'), store: blobStore('newsletter'),
     origin: env('URL') || 'https://heartofcolumbus.shop',
-    key: env('BUTTONDOWN_API_KEY'), resend: resendEnv(), notifyTo: env('HOC_NEWSLETTER_NOTIFY'),
+    key: env('BUTTONDOWN_API_KEY'), resend, notifyTo: env('HOC_NEWSLETTER_NOTIFY'),
   });
+  const clock = plan(kind, now);
+  if (!usesResend(resend) || clock.step === 'early') return run();
+  const result = await withEditionDelivery(kind, clock.date, run);
+  if (result.reason === 'edition-busy') console.log(`[newsletter] ${kind} ${clock.date}: edition already being processed`);
+  return result;
 };
 
 export default runFor('morning');
