@@ -1,8 +1,8 @@
 import { readFileSync } from 'node:fs';
 import { directory } from '../data/directory.mjs';
 import { CATALOGS } from '../data/catalogs.mjs';
-import { detailedPickupSlugs, pickupMenus } from '../data/pickup-menus.mjs';
-import { deliveryDemo, deliveryPilotSlugs } from '../data/delivery-demo.mjs';
+import { pickupMenus } from '../data/pickup-menus.mjs';
+import { deliveryDemo, deliveryPilotSlugs, detailedPickupSlugs } from '../data/delivery-demo.mjs';
 import { page, t } from '../layout.mjs';
 import { noDash } from '../event-feeds.mjs';
 
@@ -117,6 +117,7 @@ export function pickupDemoPages({ assets }) {
               <section data-pd-start>
                 <button type="button" class="pd-primary" data-action="start">Start demo</button>
                 ${theme === 'pizza' ? '<button type="button" class="pd-pizza-jump" data-action="pizza">Try half-and-half pizza</button>' : ''}
+                <p data-pd-start-message role="status" hidden></p>
                 <p>Build an order, then open the counter view on a second device.</p>
                 ${samples.size ? `<div class="pd-menu-teaser">
                   <h2>On the demo menu</h2>

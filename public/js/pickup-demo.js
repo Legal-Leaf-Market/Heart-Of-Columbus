@@ -45,6 +45,7 @@
   const session = root.querySelector('[data-pd-session]');
   const content = root.querySelector('[data-pd-content]');
   const message = root.querySelector('[data-pd-message]');
+  const startMessage = root.querySelector('[data-pd-start-message]');
   const startButton = root.querySelector('[data-action="start"]');
   const copyButton = root.querySelector('[data-action="copy"]');
   const view = new URLSearchParams(location.search).get('view');
@@ -118,7 +119,7 @@
   }
 
   async function api(action, qr = '') {
-    const request = { headers: { 'x-hoc-demo': room }, cache: 'no-store' };
+    const request = { headers: { 'x-hoc-demo': room }, cache: 'no-store', signal: AbortSignal.timeout(10000) };
     if (staffKey && (isTablet || action?.action === 'start' || qr === 'tablet')) request.headers['x-hoc-demo-staff'] = staffKey;
     if (action) {
       request.method = 'POST';
@@ -126,8 +127,10 @@
       request.body = JSON.stringify(action);
     }
     const response = await fetch('/api/pickup-demo?business=' + encodeURIComponent(menu.slug) + (qr ? '&qr=' + qr : ''), request);
-    const data = await response.json();
-    if (!response.ok) throw Object.assign(new Error(data.error), { status: response.status });
+    const data = response.headers.get('content-type')?.includes('application/json') ? await response.json() : null;
+    if (!response.ok || !data) {
+      throw Object.assign(new Error(data?.error || 'The demo service is unavailable. Try again in a moment.'), { status: response.status });
+    }
     return data;
   }
 
@@ -702,17 +705,22 @@
     if (action === 'pizza' && !session.hidden) { openPizza(); return; }
     if (action === 'start' || action === 'pizza') {
       if (startButton.disabled) return;
-      startButton.disabled = button.disabled = true;
-      room ||= randomKey();
-      if (menu.deliveryDemo && !isDriver) staffKey ||= randomKey();
+      start.querySelectorAll('button').forEach(control => { control.disabled = true; });
+      startMessage.hidden = false;
+      startMessage.textContent = 'Opening the demo…';
       try {
+        room ||= randomKey();
+        if (menu.deliveryDemo && !isDriver) staffKey ||= randomKey();
         await api({ action: 'start' });
         if (staffKey && !isDriver) sessionStorage.setItem(secretStorage(room), staffKey);
         say('');
         openSession();
         if (action === 'pizza') openPizza();
-      } catch (error) { say(error.message); }
-      finally { startButton.disabled = button.disabled = false; }
+      } catch {
+        startMessage.textContent = 'The demo could not open. Try again in a moment.';
+      } finally {
+        start.querySelectorAll('button').forEach(control => { control.disabled = false; });
+      }
       return;
     }
     if (action === 'copy') {

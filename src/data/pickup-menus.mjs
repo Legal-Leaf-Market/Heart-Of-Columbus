@@ -84,11 +84,6 @@ const sundaeFlight = scoops => [
   ...Array.from({ length: 3 }, (_, i) => ['Sauce ' + (i + 1), sauce[1], true]),
 ];
 
-export const detailedPickupSlugs = [
-  'ramen-alley', 'zwanzigz-pizza-and-brewing', 'donut-central', 'zaharakos-ice-cream-parlor',
-  'misora', 'the-garage-pub-and-grill', 'upland-columbus-pump-house',
-];
-
 export const pickupMenus = {
   'jills-diner': { items: jillsMenu, source: 'https://jills-diner.netlify.app/menu/', kind: 'Menu from Jill’s site project' },
   'rohdes-family-diner': {

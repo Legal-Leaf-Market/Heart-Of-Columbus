@@ -1,4 +1,8 @@
-import { detailedPickupSlugs } from './pickup-menus.mjs';
+// Shared with the Netlify function, which does not load storefront menu files.
+export const detailedPickupSlugs = [
+  'ramen-alley', 'zwanzigz-pizza-and-brewing', 'donut-central', 'zaharakos-ice-cream-parlor',
+  'misora', 'the-garage-pub-and-grill', 'upland-columbus-pump-house',
+];
 
 export const deliveryPilotSlugs = new Set(['jills-diner', ...detailedPickupSlugs]);
 
