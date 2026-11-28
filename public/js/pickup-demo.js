@@ -47,22 +47,40 @@
   const message = root.querySelector('[data-pd-message]');
   const startButton = root.querySelector('[data-action="start"]');
   const copyButton = root.querySelector('[data-action="copy"]');
-  const isTablet = new URLSearchParams(location.search).get('view') === 'tablet';
+  const view = new URLSearchParams(location.search).get('view');
+  const isDriver = view === 'driver' && Boolean(menu.deliveryDemo);
+  const isTablet = view === 'tablet' || isDriver;
   if (isTablet) root.dataset.counter = '';
   const base = location.pathname;
   const storageKey = 'hoc-pickup-demo:' + menu.slug;
   const validKey = /^[a-f0-9]{32}$/;
   const labels = { new: 'Waiting for acceptance', accepted: 'Preparing', ready: 'Ready for pickup', collected: 'Picked up', declined: 'Declined' };
+  const parcelLabels = {
+    assigned: 'Driver assigned', picked_up: 'Out for delivery', handed_off: 'Delivered',
+    failed: 'Delivery attempt failed', cancelled: 'Delivery cancelled', rescheduled: 'Delivery rescheduled',
+  };
+  const ticketStatus = ticket => ticket.delivery?.job?.status || ticket.delivery?.status || ticket.status;
+  const ticketLabel = ticket => parcelLabels[ticketStatus(ticket)] ||
+    (ticket.delivery && ticket.status === 'ready' ? 'Ready for dispatch' : labels[ticket.status]);
   const cart = new Map();
   const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const deliveryClock = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/Indiana/Indianapolis', hour: 'numeric', minute: '2-digit',
+  });
   const clock = new Intl.DateTimeFormat('en-US', {
     timeZone: 'America/Indiana/Indianapolis', weekday: 'long', hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
   });
   const parts = Object.fromEntries(clock.formatToParts(new Date()).map(({ type, value }) => [type, value]));
   let pickup = [days.indexOf(parts.weekday), Number(parts.hour) * 60 + Number(parts.minute)];
   let coupon = '';
-  let room = new URLSearchParams(location.hash.slice(1)).get('session');
+  let dropoff = '';
+  const fragment = new URLSearchParams(location.hash.slice(1));
+  let room = fragment.get('session');
   if (!validKey.test(room || '')) room = sessionStorage.getItem(storageKey);
+  const secretStorage = (session, driver = false) => storageKey + ':' + session + (driver ? ':driver' : ':dispatch');
+  let staffKey = fragment.get('staff') || sessionStorage.getItem(secretStorage(room, isDriver));
+  if (!validKey.test(staffKey || '')) staffKey = '';
+  let driverLinks = {};
   let submitting = false;
   let pendingId = '';
   let ticketId = '';
@@ -81,7 +99,15 @@
   const formatPrice = cents => money.format(cents / 100);
   const randomKey = () => Array.from(crypto.getRandomValues(new Uint8Array(16)), byte => byte.toString(16).padStart(2, '0')).join('');
   const ticketCode = ticket => ticket.id.slice(0, 6).toUpperCase();
-  const roomLink = tablet => base + (tablet ? '?view=tablet' : '') + '#session=' + room;
+  const roomLink = (tablet, driver) => base + (driver !== undefined ? '?view=driver' : tablet ? '?view=tablet' : '') +
+    '#session=' + room + (driver ? '&staff=' + driver : tablet && !isDriver && staffKey ? '&staff=' + staffKey : '');
+  const orderOptions = (options, selected) => Object.entries(options).map(([key, label]) =>
+    '<option value="' + escape(key) + '"' + (key === selected ? ' selected' : '') + '>' + escape(label) + '</option>').join('');
+  const draftKey = () => storageKey + ':draft:' + room;
+
+  function saveCart() {
+    sessionStorage.setItem(draftKey(), JSON.stringify({ lines: [...cart], coupon, pickup, pendingId, dropoff }));
+  }
 
   function say(text) {
     clearTimeout(feedbackTimer);
@@ -93,6 +119,7 @@
 
   async function api(action, qr = '') {
     const request = { headers: { 'x-hoc-demo': room }, cache: 'no-store' };
+    if (staffKey && (isTablet || action?.action === 'start' || qr === 'tablet')) request.headers['x-hoc-demo-staff'] = staffKey;
     if (action) {
       request.method = 'POST';
       request.headers['content-type'] = 'application/json';
@@ -191,14 +218,16 @@
 
   function ticketSummary(ticket) {
     const { discount, total } = priceSummary(ticket.lines, ticket.coupon);
-    const time = ticket.pickup ? 'Demo pickup · ' + days[ticket.pickup[0]] + ' ' + timeValue(ticket.pickup[1]) + ' Columbus time' : '';
-    return (time ? '<p>' + escape(time) + '</p>' : '') +
+    const time = ticket.pickup ? (ticket.delivery ? 'Demo order time · ' : 'Demo pickup · ') + days[ticket.pickup[0]] + ' ' + timeValue(ticket.pickup[1]) + ' Columbus time' : '';
+    return (ticket.delivery ? '<p><strong>Staff delivery</strong> · ' + escape(menu.deliveryDemo.dropoffs[ticket.delivery.dropoff]) + '</p>' : '') +
+      (time ? '<p>' + escape(time) + '</p>' : '') +
       (discount ? '<p>Sample coupon ' + escape(ticket.coupon) + ' saved ' + formatPrice(discount) + '</p>' : '') +
       '<p class="pd-total">' + (discount ? 'Demo subtotal after discount' : 'Demo subtotal') +
       ' <strong>' + formatPrice(total) + '</strong></p>';
   }
 
   function drawCart() {
+    saveCart();
     const lines = [...cart];
     const { before, discount, total } = priceSummary([...cart.values()], coupon);
     const unavailable = lines.some(([, [id, , choices = []]]) => itemProblem(id, choices));
@@ -214,6 +243,13 @@
         (discount ? 'Sample coupon applied.' : 'This sample coupon needs a ' + formatPrice(coupons[coupon].minimum) + ' subtotal.') : '';
       content.querySelector('[data-coupon]').disabled = blocked;
       content.querySelector('[data-action="coupon"]').disabled = blocked;
+    }
+    if (menu.deliveryDemo) {
+      content.querySelector('[data-fulfillment]').disabled = blocked;
+      content.querySelector('[data-delivery-address]').hidden = !dropoff;
+      content.querySelector('[data-dropoff]').disabled = blocked;
+      content.querySelector('[data-checkout-note]').textContent = dropoff ? 'Sample address and staff delivery. No payment is collected.' : 'Simulated pay at pickup';
+      content.querySelector('[data-action="order"]').textContent = dropoff ? 'Send test delivery order' : 'Send test order';
     }
     if (hasSchedule) content.querySelectorAll('[data-pickup-slot]').forEach(control => { control.disabled = blocked; });
     content.querySelector('[data-cart-total]').textContent = formatPrice(before);
@@ -362,8 +398,22 @@
         '<p class="pd-total" data-discount hidden>Sample discount <strong></strong></p>' +
         '<p class="pd-total" data-total-after hidden>Demo subtotal after discount <strong></strong></p>' : '') +
       '<p data-cart-availability hidden>Change the pickup time or remove the items with a time restriction.</p>' +
-      '<button type="button" data-action="order" class="pd-primary">Send test order</button><p>Simulated pay at pickup</p>' +
+      (menu.deliveryDemo ? '<label class="pd-delivery-field">How are you getting your order?<select data-fulfillment>' +
+        orderOptions({ pickup: 'Pick up at the counter', delivery: 'Delivery by restaurant staff' }, dropoff ? 'delivery' : 'pickup') +
+        '</select></label><label class="pd-delivery-field" data-delivery-address hidden>Sample delivery address<select data-dropoff>' +
+        orderOptions(menu.deliveryDemo.dropoffs, dropoff) + '</select></label>' : '') +
+      '<button type="button" data-action="order" class="pd-primary">Send test order</button><p data-checkout-note>Simulated pay at pickup</p>' +
       '<div data-ticket tabindex="-1" aria-live="polite"></div></aside></div>';
+    const couponField = content.querySelector('[data-coupon]');
+    if (couponField) couponField.value = coupon;
+    content.querySelector('[data-fulfillment]')?.addEventListener('change', event => {
+      dropoff = event.target.value === 'delivery' ? content.querySelector('[data-dropoff]').value : '';
+      drawCart();
+    });
+    content.querySelector('[data-dropoff]')?.addEventListener('change', event => {
+      dropoff = event.target.value;
+      drawCart();
+    });
     content.querySelector('#pd-filter').addEventListener('input', filterMenu);
     content.querySelector('.pd-filters').addEventListener('change', filterMenu);
     content.querySelector('.pd-slot')?.addEventListener('change', () => {
@@ -423,7 +473,7 @@
   function showTicket(ticket) {
     const box = content.querySelector('[data-ticket]');
     if (!box || !ticket) return;
-    const text = 'Test order ' + ticketCode(ticket) + ' · ' + labels[ticket.status] +
+    const text = 'Test order ' + ticketCode(ticket) + ' · ' + ticketLabel(ticket) +
       (ticket.status === 'accepted' && !ticket.pickup ? ' · Around ' + new Date(ticket.readyAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : '');
     if (box.dataset.ticketState === text) return;
     box.dataset.ticketState = text;
@@ -463,26 +513,64 @@
         '</select></label>' + button('accepted', 'Accept') + button('declined', 'Decline');
     }
     if (ticket.status === 'accepted') return button('ready', 'Mark ready') + button('declined', 'Decline');
-    if (ticket.status === 'ready') return button('collected', 'Picked up');
+    if (ticket.status === 'ready') return ticket.delivery ? parcelActions(ticket) : button('collected', 'Picked up');
     return '';
+  }
+
+  function parcelActions(ticket) {
+    const { job } = ticket.delivery;
+    const { drivers, windows, reasons } = menu.deliveryDemo;
+    const action = (event, text) => '<button type="button" data-action="parcel" data-event="' + event + '">' + text + '</button>';
+    const select = (name, label, options, selected) => '<label class="pd-delivery-field">' + label +
+      '<select data-' + name + '>' + orderOptions(options, selected) + '</select></label>';
+
+    let controls = '';
+    if (!isDriver && (!job || ['assigned', 'failed'].includes(job.status))) {
+      controls = select('driver', 'Staff driver', drivers, job?.driver) +
+        select('window', 'Delivery window', windows, job?.window) +
+        (job ? action('rescheduled', 'Reschedule or reassign') + action('cancelled', 'Cancel delivery') : action('assigned', 'Assign delivery'));
+    }
+    if (isDriver && job?.status === 'assigned') controls = action('picked_up', 'Record pickup');
+    if (isDriver && job?.status === 'picked_up') {
+      controls = action('handed_off', 'Confirm handoff') + select('reason', 'Failed attempt reason', reasons) +
+        action('failed', 'Record failed attempt');
+    }
+
+    if (!job) return '<div class="pd-parcel"><h4>NDA Parcel dispatch demo</h4>' + controls + '</div>';
+    const timeline = job.events.map(({ attempt, outcome, reason, at }) =>
+      '<li><strong>' + escape(parcelLabels[outcome]) + '</strong>' +
+      (reason ? ' · ' + escape(reasons[reason]) : '') +
+      ' <small>Attempt ' + attempt + ' · ' + escape(deliveryClock.format(new Date(at))) +
+      ' Columbus time</small></li>').join('');
+    const driverLink = !isDriver && driverLinks[job.driver] ?
+      '<a href="' + escape(roomLink(false, driverLinks[job.driver])) + '" target="_blank" rel="noopener">Open ' + escape(drivers[job.driver]) + '’s driver view</a>' : '';
+    return '<div class="pd-parcel" data-job="' + escape(job.id) + '" data-attempt="' + job.attempt + '"><h4>NDA Parcel job ' +
+      escape(job.id.slice(0, 8).toUpperCase()) + '</h4><p>' + escape(drivers[job.driver]) + ' · ' + escape(windows[job.window]) +
+      '</p>' + driverLink + '<details><summary>Custody history</summary><ol>' + timeline + '</ol></details>' + controls + '</div>';
   }
 
   function drawQueue(tickets) {
     const queue = content.querySelector('[data-queue]');
     const old = new Map([...queue.querySelectorAll('[data-ticket-id]')].map(card => [card.dataset.ticketId, card]));
-    const newTicket = visibleTickets !== '' && tickets.some(ticket => ticket.status === 'new' && !old.has(ticket.id));
-    const signature = JSON.stringify(tickets);
+    const ids = new Set(tickets.map(ticket => ticket.id));
+    for (const [id, card] of old) if (!ids.has(id)) card.remove();
+    const newTicket = !isDriver && visibleTickets !== '' && tickets.some(ticket => ticket.status === 'new' && !old.has(ticket.id));
+    const signature = JSON.stringify([tickets, driverLinks]);
     if (visibleTickets === signature) return;
     visibleTickets = signature;
     for (const ticket of tickets) {
       const previous = old.get(ticket.id);
-      if (previous?.dataset.state === ticket.status) continue;
+      const version = JSON.stringify(ticket);
+      if (previous?.dataset.version === version) continue;
       const card = document.createElement('article');
       card.className = 'pd-card';
       card.dataset.ticketId = ticket.id;
-      card.dataset.state = ticket.status;
-      card.innerHTML = '<p class="pd-state">' + labels[ticket.status] + '</p><h3>Order ' + ticketCode(ticket) + '</h3>' +
-        '<ul class="pd-items">' + orderLines(ticket.lines) + '</ul>' + ticketSummary(ticket) + '<div class="pd-ticket-actions">' + ticketActions(ticket) + '</div>';
+      card.dataset.state = ticketStatus(ticket);
+      card.dataset.version = version;
+      card.innerHTML = '<p class="pd-state">' + ticketLabel(ticket) + '</p><h3>Order ' + ticketCode(ticket) + '</h3>' +
+        (isDriver ? '<p>Pickup · Restaurant counter</p><p>Drop-off · ' + escape(menu.deliveryDemo.dropoffs[ticket.delivery.dropoff]) + '</p>' :
+          '<ul class="pd-items">' + orderLines(ticket.lines) + '</ul>' + ticketSummary(ticket)) +
+        '<div class="pd-ticket-actions">' + ticketActions(ticket) + '</div>';
       if (previous) previous.replaceWith(card);
       else queue.prepend(card);
     }
@@ -494,7 +582,7 @@
     let active = 0;
     let history = 0;
     for (const card of content.querySelectorAll('[data-ticket-id]')) {
-      const done = ['collected', 'declined'].includes(card.dataset.state);
+      const done = ['collected', 'declined', 'handed_off', 'cancelled'].includes(card.dataset.state);
       if (done) history++;
       else active++;
       card.hidden = done !== (queueView === 'history');
@@ -502,6 +590,7 @@
     const empty = content.querySelector('[data-queue-empty]');
     empty.hidden = Boolean(queueView === 'history' ? history : active);
     empty.textContent = queueView === 'history' ? 'No completed or declined orders.' : 'Waiting for a test order. Use the shopper menu to send one.';
+    if (isDriver) empty.textContent = queueView === 'history' ? 'No completed runs.' : 'No assigned runs. Dispatch assigns jobs from the counter tablet.';
     for (const button of content.querySelectorAll('[data-queue-view]')) {
       const isHistory = button.dataset.queueView === 'history';
       button.textContent = (isHistory ? 'History' : 'Active') + ' · ' + (isHistory ? history : active);
@@ -513,8 +602,10 @@
     if (polling || !room || session.hidden || submitting) return;
     polling = true;
     try {
-      const { tickets } = await api();
-      if (isTablet) drawQueue(tickets);
+      const { tickets, drivers } = await api();
+      driverLinks = drivers || {};
+      if (isDriver) drawQueue(staffKey && !drivers ? tickets.filter(ticket => ticket.delivery?.job) : []);
+      else if (isTablet) drawQueue(tickets);
       else showTicket(tickets.find(ticket => ticket.id === ticketId));
       if (connectionLost) say('Demo connection restored.');
       connectionLost = false;
@@ -522,8 +613,12 @@
       if (error.status === 410) {
         clearInterval(timer);
         sessionStorage.removeItem(storageKey);
+        sessionStorage.removeItem(draftKey());
+        sessionStorage.removeItem(secretStorage(room, isDriver));
         history.replaceState(null, '', base + location.search);
         room = '';
+        staffKey = '';
+        dropoff = '';
         cart.clear();
         coupon = '';
         pendingId = '';
@@ -551,7 +646,8 @@
 
   function openSession() {
     sessionStorage.setItem(storageKey, room);
-    history.replaceState(null, '', roomLink(isTablet));
+    if (isTablet && staffKey) sessionStorage.setItem(secretStorage(room, isDriver), staffKey);
+    history.replaceState(null, '', roomLink(isTablet, isDriver ? staffKey : undefined));
     start.hidden = true;
     session.hidden = false;
     root.querySelector('#pd-qr').hidden = true;
@@ -562,19 +658,29 @@
     const tablet = root.querySelector('[data-pd-tablet]');
     shopper.href = roomLink(false);
     tablet.href = roomLink(true);
-    (isTablet ? tablet : shopper).setAttribute('aria-current', 'page');
+    if (!isDriver) (isTablet ? tablet : shopper).setAttribute('aria-current', 'page');
+    tablet.hidden = isDriver;
+    root.querySelector('.pd-share').hidden = isDriver;
     copyButton.textContent = isTablet ? 'Copy shopper link' : 'Copy tablet link';
     if (isTablet) {
       visibleTickets = '';
       queueView = 'active';
-      content.innerHTML = '<div class="pd-section-head"><h2>Counter queue</h2><button type="button" data-action="sound">Enable order chime</button></div>' +
+      content.innerHTML = '<div class="pd-section-head"><h2>' + (isDriver ? 'Driver runs' : 'Counter queue') + '</h2>' +
+        (isDriver ? '<span>Demo staff only</span>' : '<button type="button" data-action="sound">Enable order chime</button>') + '</div>' +
         '<div class="pd-sections" role="group" aria-label="Order queue"><button type="button" data-action="queue-view" data-queue-view="active">Active · 0</button>' +
         '<button type="button" data-action="queue-view" data-queue-view="history">History · 0</button></div>' +
-        '<p data-queue-empty>Waiting for a test order. Open the shopper link on your phone and send a cart.</p><div class="pd-queue" data-queue></div>';
+        '<p data-queue-empty></p><div class="pd-queue" data-queue></div>';
       updateQueueView();
       keepAwake();
     } else {
       ticketId = sessionStorage.getItem('hoc-pickup-ticket:' + room) || '';
+      let draft;
+      try { draft = JSON.parse(sessionStorage.getItem(draftKey()) || 'null'); }
+      catch { sessionStorage.removeItem(draftKey()); }
+      if (draft) {
+        for (const [key, line] of draft.lines) cart.set(key, line);
+        ({ coupon, pickup, pendingId, dropoff } = draft);
+      }
       drawMenu();
     }
     refresh();
@@ -598,8 +704,10 @@
       if (startButton.disabled) return;
       startButton.disabled = button.disabled = true;
       room ||= randomKey();
+      if (menu.deliveryDemo && !isDriver) staffKey ||= randomKey();
       try {
         await api({ action: 'start' });
+        if (staffKey && !isDriver) sessionStorage.setItem(secretStorage(room), staffKey);
         say('');
         openSession();
         if (action === 'pizza') openPizza();
@@ -699,7 +807,7 @@
       say(qty > 0 ? qty + ' in cart: ' + [item.name, ...item.details].join(', ') : 'Removed from cart.');
       return;
     }
-    if (action !== 'order' && action !== 'advance') return;
+    if (!['order', 'advance', 'parcel'].includes(action)) return;
     submitting = true;
     button.disabled = true;
     try {
@@ -709,6 +817,7 @@
         drawCart();
         const { ticket } = await api({
           action, id: pendingId, lines,
+          ...(dropoff ? { dropoff } : {}),
           ...(hasSchedule ? { pickup } : {}),
           ...(priceSummary(lines, coupon).discount ? { coupon } : {}),
         });
@@ -721,6 +830,17 @@
         if (couponField) couponField.value = '';
         showTicket(ticket);
         content.querySelector('[data-ticket]').focus();
+      } else if (action === 'parcel') {
+        const card = button.closest('[data-ticket-id]');
+        const parcel = button.closest('.pd-parcel');
+        await api({
+          action, id: card.dataset.ticketId, event: button.dataset.event,
+          handoffConfirmed: button.dataset.event === 'handed_off',
+          job: parcel.dataset.job, attempt: Number(parcel.dataset.attempt),
+          driver: parcel.querySelector('[data-driver]')?.value,
+          window: parcel.querySelector('[data-window]')?.value,
+          reason: parcel.querySelector('[data-reason]')?.value,
+        });
       } else {
         const card = button.closest('[data-ticket-id]');
         await api({ action: 'update', id: card.dataset.ticketId, status: button.dataset.status, minutes: Number(card.querySelector('[data-prep]')?.value) });

@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { directory } from '../data/directory.mjs';
 import { CATALOGS } from '../data/catalogs.mjs';
 import { detailedPickupSlugs, pickupMenus } from '../data/pickup-menus.mjs';
+import { deliveryDemo, deliveryPilotSlugs } from '../data/delivery-demo.mjs';
 import { page, t } from '../layout.mjs';
 import { noDash } from '../event-feeds.mjs';
 
@@ -62,20 +63,27 @@ export function pickupDemoPages({ assets }) {
   const styles = ['hoc.css', 'pickup-demo.css'];
   const scripts = ['pickup-demo.js'];
   const render = (title, body, data) => page({
-    title: title + ' | Heart of Columbus', description: 'A Heart of Columbus pickup concept demo.',
+    title: title + ' | Heart of Columbus', description: 'A Heart of Columbus pickup and staff delivery concept demo.',
     body, data, styles, scripts, assets, showAlert: false, head: '<meta name="referrer" content="no-referrer">',
   });
   const featured = ['jills-diner', ...detailedPickupSlugs].map(slug => [slug, directory.find(business => business.slug === slug).name]);
   return [
-    { path: 'pickup/demo/index.html', html: render('Pickup demo', `
+    { path: 'pickup/demo/legal-leaf-staff/index.html', html: readFileSync(new URL('./templates/legal-leaf-staff.html', import.meta.url), 'utf8') },
+    { path: 'pickup/demo/index.html', html: render('Pickup and delivery pilot', `
       <main id="main" class="pd pd-launch">
         <a href="/order/">Heart of Columbus</a>
-        <h1>Try order-ahead pickup</h1>
-        <p>Build a test cart on your phone and run the counter on a tablet.</p>
-        <nav class="pd-showcase" aria-label="Featured demos">${featured.map(([slug, name]) => {
+        <h1>Pickup &amp; delivery pilot</h1>
+        <p>Try a test order from the shopper’s phone to the counter tablet. For delivery, assign a restaurant employee and follow the handoff from their phone.</p>
+        <h2>Restaurant demos</h2>
+        <nav class="pd-showcase" aria-label="Pilot restaurants">${featured.map(([slug, name]) => {
           const [theme, cuisine] = storefronts[slug];
           return `<a href="${path}${slug}/" data-pd-theme="${theme}"><small>${t(cuisine)}</small><strong>${t(name)}</strong><span class="pd-showcase-arrow" aria-hidden="true"></span></a>`;
         }).join('')}</nav>
+        <section class="pd-card pd-pilot-origin">
+          <h2>Legal Leaf Market and Cafe</h2>
+          <p>Try the NDA Parcel staff workflow with a sample order, from assignment and handoff through cash reconciliation.</p>
+          <a href="${path}legal-leaf-staff/">Open the Legal Leaf staff demo</a>
+        </section>
         <form data-pd-picker>
           <label for="pd-business-search" data-pd-filter hidden>Search businesses</label>
           <input id="pd-business-search" data-pd-filter type="search" placeholder="Business name" hidden>
@@ -97,7 +105,7 @@ export function pickupDemoPages({ assets }) {
         }
       }
       const items = menu.items.map(([name, cents, section, choices, availability]) => [noDash(name), cents, noDash(section), choices, availability]);
-      return { path: `pickup/demo/${b.slug}/index.html`, html: render(b.name + ' pickup demo', `
+      return { path: `pickup/demo/${b.slug}/index.html`, html: render(b.name + (theme ? ' pickup and delivery demo' : ' pickup demo'), `
         <main id="main" class="pd pd-experience" data-pd${theme ? ` data-pd-theme="${theme}"` : ''}>
           <header class="pd-header"><a href="${path}" class="pd-brand">Heart of Columbus</a>
             <a href="/b/${b.slug}/">Business listing</a></header>
@@ -130,7 +138,7 @@ export function pickupDemoPages({ assets }) {
           </section>
           <p data-pd-message role="status"></p>
           <noscript>Enable JavaScript to run a pickup demo.</noscript>
-        </main>`, { slug: b.slug, ...menu, items, demoCoupon: detailedPickupSlugs.includes(b.slug) }) };
+        </main>`, { slug: b.slug, ...menu, items, demoCoupon: detailedPickupSlugs.includes(b.slug), ...(deliveryPilotSlugs.has(b.slug) ? { deliveryDemo } : {}) }) };
     }),
   ];
 }
