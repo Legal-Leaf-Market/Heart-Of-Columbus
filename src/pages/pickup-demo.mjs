@@ -87,8 +87,10 @@ export function pickupDemoPages({ assets }) {
           <section data-pd-session hidden>
             <nav class="pd-views" aria-label="Demo views">
               <a data-pd-shopper>Shopper menu</a><a data-pd-tablet>Counter tablet</a>
-              <button type="button" data-action="copy"></button>
-              <button type="button" data-action="qr" aria-expanded="false" aria-controls="pd-qr">Show QR code</button>
+              <details class="pd-share"><summary>Share demo</summary><div>
+                <button type="button" data-action="copy"></button>
+                <button type="button" data-action="qr" aria-expanded="false" aria-controls="pd-qr">Show QR code</button>
+              </div></details>
             </nav>
             <div id="pd-qr" hidden></div>
             <div data-pd-content></div>

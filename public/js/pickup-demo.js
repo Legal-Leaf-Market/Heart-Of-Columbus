@@ -48,6 +48,7 @@
   const startButton = root.querySelector('[data-action="start"]');
   const copyButton = root.querySelector('[data-action="copy"]');
   const isTablet = new URLSearchParams(location.search).get('view') === 'tablet';
+  if (isTablet) root.dataset.counter = '';
   const base = location.pathname;
   const storageKey = 'hoc-pickup-demo:' + menu.slug;
   const validKey = /^[a-f0-9]{32}$/;
@@ -301,7 +302,7 @@
         '<p class="pd-total" data-total-after hidden>Demo subtotal after discount <strong></strong></p>' : '') +
       '<p data-cart-availability hidden>Change the pickup time or remove items that are unavailable.</p>' +
       '<button type="button" data-action="order" class="pd-primary">Send test order</button><p>Simulated pay at pickup</p>' +
-      '<div data-ticket aria-live="polite"></div></aside></div>';
+      '<div data-ticket tabindex="-1" aria-live="polite"></div></aside></div>';
     content.querySelector('#pd-filter').addEventListener('input', filterMenu);
     content.querySelector('.pd-filters').addEventListener('change', filterMenu);
     content.querySelector('.pd-slot')?.addEventListener('change', () => {
@@ -635,6 +636,7 @@
         const couponField = content.querySelector('[data-coupon]');
         if (couponField) couponField.value = '';
         showTicket(ticket);
+        content.querySelector('[data-ticket]').focus();
       } else {
         const card = button.closest('[data-ticket-id]');
         await api({ action: 'update', id: card.dataset.ticketId, status: button.dataset.status, minutes: Number(card.querySelector('[data-prep]')?.value) });
