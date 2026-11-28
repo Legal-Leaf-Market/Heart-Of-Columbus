@@ -49,7 +49,7 @@
   function load(date) {
     say('Loading…');
     return api('GET', null, '?edition=' + state.edition + (date ? '&date=' + date : '')).then(function (j) {
-      state.date = j.date; state.day = j.day; state.voice = j.voice; state.ideas = j.ideas; state.ai = j.ai; state.leads = j.leads; state.drafted = j.drafted; state.beat = j.beat || { entries: [], banned: [] };
+      state.date = j.date; state.day = j.day; state.voice = j.voice; state.ideas = j.ideas; state.ai = j.ai; state.leads = j.leads; state.drafted = j.drafted; state.beat = j.beat || { entries: [], banned: [] }; state.voices = j.voices || [];
       $('[data-date]').value = j.date;
       $$('[data-edition]').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-edition') === state.edition ? 'true' : 'false'); });
       $('[data-clock]').textContent = 'Approve by ' + clock(j.clock.deadline) + '. The draft is made at ' + clock(j.clock.draft) + ' and goes out at ' + clock(j.clock.send) + ' unless you press Hold.' + (state.edition === 'evening' ? ' The evening takes up to two pieces and a one line open.' : '') + (j.service === 'resend' && !j.topic ? ' Set this edition’s Resend topic in Netlify before it can be sent.' : '');
@@ -325,8 +325,28 @@
   });
 
   // ---------- Voice ----------
+  // state.voiceId is the voice open on the Your voice tab: "main", "new" or
+  // the id of a named voice. Pieces pick theirs in the editor's Voice menu.
+  function voiceOptions() {
+    var opts = (state.voices || []).map(function (v) { return '<option value="' + esc(v.id) + '">' + esc(v.name) + '</option>'; }).join('');
+    var pf = $('[data-f=voice]'), keep = pf.value;
+    pf.innerHTML = '<option value="">Your main voice</option>' + opts;
+    pf.value = keep && (state.voices || []).some(function (v) { return v.id === keep; }) ? keep : '';
+    var pick = $('[data-voice-pick]');
+    pick.innerHTML = '<option value="main">Your main voice</option>' + opts + (state.voiceId === 'new' ? '<option value="new">New voice</option>' : '');
+    pick.value = state.voiceId || 'main';
+  }
+  function openVoice() {
+    var id = state.voiceId || 'main';
+    var v = id === 'main' ? state.voice : id === 'new' ? { name: '', about: '', rules: [], samples: [] } : (state.voices || []).filter(function (x) { return x.id === id; })[0] || state.voice;
+    $('[data-voice-name-wrap]').hidden = id === 'main';
+    $('[data-voice-del]').hidden = id === 'main' || id === 'new';
+    $('[data-voice=name]').value = v.name || '';
+    return v;
+  }
   function renderVoice() {
-    var v = state.voice;
+    voiceOptions();
+    var v = openVoice();
     $('[data-voice=about]').value = v.about || '';
     $('[data-voice=rules]').value = (v.rules || []).join('\n');
     var s = v.samples && v.samples.length ? v.samples : [''];
@@ -337,9 +357,24 @@
     var l = document.createElement('label'); l.innerHTML = 'Sample ' + ($$('[data-sample]').length + 1) + '<textarea data-sample rows="6"></textarea>';
     $('[data-samples]').appendChild(l);
   });
+  $('[data-voice-pick]').addEventListener('change', function (e) { state.voiceId = e.target.value; renderVoice(); });
+  $('[data-voice-new]').addEventListener('click', function () {
+    if ((state.voices || []).length >= 5) { say('You can keep five extra voices. Delete one first.'); return; }
+    state.voiceId = 'new'; renderVoice(); $('[data-voice=name]').focus();
+  });
+  $('[data-voice-del]').addEventListener('click', function () {
+    var id = state.voiceId, v = (state.voices || []).filter(function (x) { return x.id === id; })[0];
+    if (!v || !confirm('Delete the voice ' + v.name + '? Pieces written in it go back to your main voice.')) return;
+    api('POST', { action: 'voice-delete', id: id }).then(function (j) { state.voices = j.voices; state.voiceId = 'main'; renderVoice(); say('Deleted ' + v.name + '.'); }).catch(function (e) { say(e.message); });
+  });
   $('[data-voice-save]').addEventListener('click', function () {
-    var v = { about: $('[data-voice=about]').value, rules: $('[data-voice=rules]').value.split('\n').map(function (r) { return r.trim(); }).filter(Boolean), samples: $$('[data-sample]').map(function (t) { return t.value; }) };
-    api('POST', { action: 'voice', voice: v }).then(function (j) { state.voice = j.voice; renderVoice(); say('Your voice is saved. Every suggestion now reads from it.'); }).catch(function (e) { say(e.message); });
+    var id = state.voiceId || 'main';
+    var v = { id: id, name: $('[data-voice=name]').value, about: $('[data-voice=about]').value, rules: $('[data-voice=rules]').value.split('\n').map(function (r) { return r.trim(); }).filter(Boolean), samples: $$('[data-sample]').map(function (t) { return t.value; }) };
+    api('POST', { action: 'voice', voice: v }).then(function (j) {
+      if (j.voices) { state.voices = j.voices; state.voiceId = j.id; } else state.voice = j.voice;
+      renderVoice();
+      say(id === 'main' ? 'Your voice is saved. Every suggestion now reads from it.' : 'Saved ' + v.name.trim() + '. Pick it for a piece next to its shape.');
+    }).catch(function (e) { say(e.message); });
   });
 
 

@@ -207,3 +207,34 @@ test('the desk notices names the beat book does not list yet', async () => {
   const page = readFileSync(new URL('../dist/newsroom/desk/index.html', import.meta.url), 'utf8');
   assert.match(page, /data-noticed/);
 });
+
+test('several voices: named voices are kept apart, capped, and a piece falls back to the main voice', async () => {
+  const { cleanVoices, upsertVoice, voiceFor, MAX_VOICES } = await import('../src/news/desk.mjs');
+  const main = { about: 'Plain.', rules: [], samples: [] };
+  let r = upsertVoice([], { name: '  The briefing ', about: 'Dry and short.', rules: ['No adjectives', ''], samples: ['One.', '  '] }, new Date(1000));
+  assert.equal(r.ok, true);
+  assert.equal(r.voices[0].name, 'The briefing');
+  assert.deepEqual(r.voices[0].rules, ['No adjectives']);
+  assert.deepEqual(r.voices[0].samples, ['One.']);
+  const id = r.id;
+  assert.match(id, /^v-[a-z0-9-]+$/);
+  r = upsertVoice(r.voices, { id, name: 'The briefing', about: 'Drier.' });
+  assert.equal(r.voices.length, 1, 'saving the same id replaces it');
+  assert.equal(r.voices[0].about, 'Drier.');
+  assert.equal(upsertVoice(r.voices, { name: ' ' }).ok, false, 'a voice needs a name');
+  let many = [];
+  for (let i = 0; i < MAX_VOICES; i++) many = upsertVoice(many, { name: `V${i}` }, new Date(2000 + i)).voices;
+  assert.equal(many.length, MAX_VOICES);
+  assert.match(upsertVoice(many, { name: 'One more' }, new Date(9999)).error, /Delete one first/);
+  assert.equal(voiceFor({ voice: id }, main, r.voices).about, 'Drier.');
+  assert.equal(voiceFor({ voice: 'v-gone' }, main, r.voices), main, 'a deleted voice falls back to the main one');
+  assert.equal(voiceFor({}, main, r.voices), main);
+  assert.deepEqual(cleanVoices([{ id: 'bad id', name: 'x' }, { id: 'v-ok', name: '' }]), [], 'bad ids and blank names are dropped');
+  assert.equal(cleanPiece({ ...good, voice: id }).voice, id);
+  assert.equal(cleanPiece({ ...good, voice: '<script>' }).voice, '');
+  const { readFileSync } = await import('node:fs');
+  const page = readFileSync(new URL('../dist/newsroom/desk/index.html', import.meta.url), 'utf8');
+  assert.match(page, /data-f="voice"/);
+  assert.match(page, /data-voice-pick/);
+  assert.match(page, /data-voice-new/);
+});

@@ -139,9 +139,14 @@ congregation in town, of every faith, by area and by faith, plus nonprofits.
       days, months, Columbus, Indiana and a short list of sentence opening
       verbs ("Visit", "Ask") are skipped; an added name gets kind "thing" and
       no note, to fill in on the Beat book tab
-- [ ] Paige ideas still to build: running stories in the beat book, several **voices** to
-      switch between, and an **edit pass** as tracked changes you accept one
-      by one
+- [x] **Several voices** (2026-11-28): the Your voice tab keeps the main
+      voice plus up to five named voices (blob `voices`), each with its own
+      description, rules and samples; every piece picks one next to its
+      shape. Calls made without asking: five is the cap; a piece whose voice
+      is deleted goes back to the main voice; the beat book and the hard
+      rules apply to every voice
+- [ ] Paige ideas still to build: running stories in the beat book, and an
+      **edit pass** as tracked changes you accept one by one
 - [x] Overnight lead gathering into the idea bank: city news, city agendas
       and minutes, county news, county calendar, NWS alerts, today's events
       (`src/news/gather.mjs`, `netlify/functions/leads.mjs`, 2026-11-27)
