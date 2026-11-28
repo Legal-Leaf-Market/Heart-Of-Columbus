@@ -72,6 +72,10 @@ export function pickupDemoPages({ assets }) {
         <a href="/order/">Heart of Columbus</a>
         <h1>Try order-ahead pickup</h1>
         <p>Build a test cart on your phone and run the counter on a tablet.</p>
+        <nav class="pd-showcase" aria-label="Featured demos">${featured.map(([slug, name]) => {
+          const [theme, cuisine] = storefronts[slug];
+          return `<a href="${path}${slug}/" data-pd-theme="${theme}"><small>${t(cuisine)}</small><strong>${t(name)}</strong><span class="pd-showcase-arrow" aria-hidden="true"></span></a>`;
+        }).join('')}</nav>
         <form data-pd-picker>
           <label for="pd-business-search" data-pd-filter hidden>Search businesses</label>
           <input id="pd-business-search" data-pd-filter type="search" placeholder="Business name" hidden>
@@ -81,13 +85,17 @@ export function pickupDemoPages({ assets }) {
           <button class="pd-primary">Open demo</button>
           <p data-pd-results role="status">${sourcedCount} demos with sourced menus or catalogs.</p>
         </form>
-        <nav class="pd-showcase" aria-label="Featured demos">${featured.map(([slug, name]) => {
-          const [theme, cuisine] = storefronts[slug];
-          return `<a href="${path}${slug}/" data-pd-theme="${theme}"><small>${t(cuisine)}</small><strong>${t(name)}</strong><span aria-hidden="true">↗</span></a>`;
-        }).join('')}</nav>
+
       </main>`) },
     ...businesses.map(({ business: b, menu }) => {
       const [theme, cuisine] = Object.hasOwn(storefronts, b.slug) ? storefronts[b.slug] : [];
+      const samples = new Map();
+      if (theme) {
+        for (const item of menu.items) {
+          if (!item[4] && !samples.has(item[2])) samples.set(item[2], item);
+          if (samples.size === 3) break;
+        }
+      }
       const items = menu.items.map(([name, cents, section, choices, availability]) => [noDash(name), cents, noDash(section), choices, availability]);
       return { path: `pickup/demo/${b.slug}/index.html`, html: render(b.name + ' pickup demo', `
         <main id="main" class="pd pd-experience" data-pd${theme ? ` data-pd-theme="${theme}"` : ''}>
@@ -101,6 +109,10 @@ export function pickupDemoPages({ assets }) {
               <section data-pd-start>
                 <button type="button" class="pd-primary" data-action="start">Start demo</button>
                 <p>Build an order, then open the counter view on a second device.</p>
+                ${samples.size ? `<div class="pd-menu-teaser">
+                  <h2>On the demo menu</h2>
+                  <ul>${[...samples.values()].map(([name, cents]) => `<li><span>${t(noDash(name))}</span><b>$${(cents / 100).toFixed(2)}</b></li>`).join('')}</ul>
+                </div>` : ''}
               </section>
             </div>
           </div>

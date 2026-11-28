@@ -316,7 +316,13 @@
 }
 .pd-launch .pd-showcase a { display: grid; gap: .3rem; align-content: start; min-height: 8rem; padding: .85rem 2rem .85rem .95rem; text-decoration: none; }
 .pd-launch .pd-showcase strong { font-size: clamp(1.1rem, 3.2vw, 1.55rem); line-height: 1.1; }
-.pd-launch .pd-showcase a span { position: absolute; top: .55rem; right: .75rem; }
+.pd-showcase-arrow { position: absolute; top: .85rem; right: .9rem; width: .5rem; height: .5rem; border: solid currentColor; border-width: .12rem .12rem 0 0; transform: rotate(45deg); }
+.pd-menu-teaser { margin-top: 1rem; width: min(100%, 26rem); border-top: 1px solid currentColor; }
+.pd-experience .pd-menu-teaser h2 { font-family: "Inter", sans-serif; font-size: .85rem; font-weight: 750; margin: .65rem 0 .35rem; }
+.pd-menu-teaser ul { list-style: none; padding: 0; margin: 0; }
+.pd-menu-teaser li { display: flex; justify-content: space-between; gap: .7rem; font-size: .875rem; }
+.pd-menu-teaser li b { flex: none; font-variant-numeric: tabular-nums; }
+.pd-experience[data-pd-theme] .pd-hero :focus-visible { outline-color: var(--store-fg); }
 .pd-launch .pd-showcase a:hover strong { text-decoration: underline; }
 .pd-experience[data-pd-theme="diner"] .pd-hero { border: 2px solid var(--store-ink); box-shadow: .3rem .3rem 0 var(--store-ink); }
 .pd-experience[data-pd-theme="parlor"] .pd-hero { outline: 1px solid var(--store-decor); outline-offset: -.45rem; }
