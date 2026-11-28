@@ -33,14 +33,27 @@ const DAILY = {
   snapshot: { 'plain-shop': { name: 'Plain Shop', address: '1 Main St', phone: '', hours: null, tempClosed: false, closed: false, order: [], book: [], store: '' } },
 };
 
-function fakeNet({ daily = DAILY, parts = null, events = [], scheduleOk = true } = {}) {
+function fakeNet({ daily = DAILY, parts = null, events = [], scheduleOk = true, savedAudience, history = [], historyPages = {} } = {}) {
   const calls = [];
+  let audience;
   const fn = async (url, init = {}) => {
     calls.push({ url, method: init.method || 'GET', body: init.body ? JSON.parse(init.body) : null });
     if (url.includes('/newsletter/daily.json')) return daily ? new Response(JSON.stringify(daily)) : new Response('', { status: 404 });
     if (url.includes('/newsletter/editions/')) return parts ? new Response(JSON.stringify(parts)) : new Response('', { status: 404 });
     if (url.includes('/api/events')) return new Response(JSON.stringify({ events }));
+    if (url.includes('/broadcasts?limit=100')) {
+      const cursor = new URL(url).searchParams.get('after') || '';
+      const page = Object.hasOwn(historyPages, cursor) ? historyPages[cursor] : { data: history, has_more: false };
+      return history === null || page === null ? new Response('', { status: 503 }) : Response.json(page);
+    }
     if (url.endsWith('/send')) return new Response(scheduleOk ? '{}' : 'no', { status: scheduleOk ? 200 : 422 });
+    if (url.includes('api.resend.com/broadcasts')) {
+      if (!init.method) return (savedAudience === null)
+        ? new Response('', { status: 503 })
+        : Response.json(savedAudience ?? audience);
+      const { segment_id, topic_id } = JSON.parse(init.body);
+      audience = { status: 'draft', segment_id, topic_id };
+    }
     return new Response(JSON.stringify({ id: `b${calls.length}` }), { status: 200 });
   };
   return { calls, fn };
@@ -94,6 +107,8 @@ test('the morning job schedules one broadcast for its topic, at 6:45, once a day
   assert.match(made.body.html, /Choose morning, evening or both/, 'the footer links to the preferences page');
   const send = net.calls.find((c) => c.url.endsWith('/send'));
   assert.equal(send.body.scheduled_at, '2026-12-02T11:45:00.000Z');
+  const read = net.calls.find((c) => c.method === 'GET' && c.url.includes('api.resend.com/broadcasts/'));
+  assert.ok(read && net.calls.indexOf(read) < net.calls.indexOf(send));
   assert.equal((await run('morning', '2026-12-02T11:16:00Z', { store, net })).reason, 'ran', 'a retry does nothing');
   const rec = await store.getJSON('draft-2026-12-02');
   assert.ok(rec.scheduled && rec.holdHash && rec.holdHash.length === 64, 'the hold code is kept only as a hash');
@@ -110,10 +125,6 @@ test('the evening edition goes to its own topic and its own records', async () =
   assert.equal(net.calls.find((c) => c.url.endsWith('/send')).body.scheduled_at, '2026-12-02T23:00:00.000Z');
   assert.ok(await store.getJSON('run-2026-12-02-evening'));
   assert.equal(await store.getJSON('run-2026-12-02'), null, 'the morning record is untouched');
-  // No evening topic: the evening is skipped, so it never reaches morning only readers.
-  const n2 = fakeNet();
-  assert.equal((await run('evening', '2026-12-02T22:30:00Z', { net: n2, r: { ...resend, topics: { morning: 'top-m', evening: '' } } })).reason, 'no-topic');
-  assert.equal(n2.calls.filter((c) => c.url.includes('/broadcasts')).length, 0);
 });
 
 test('the desk edition wins in its own edition, a desk draft is updated in place, and No edition sends nothing', async () => {
@@ -158,6 +169,77 @@ test('an edition needs the weather plus one more section, or it is skipped', asy
   const r = await run('evening', '2026-12-02T22:30:00Z', { net });
   assert.equal(r.reason, 'thin');
   assert.equal(net.calls.filter((c) => c.url.includes('/broadcasts')).length, 0);
+});
+
+test('an unreadable or mismatched audience leaves the edition in draft and tells the publisher', async () => {
+  for (const savedAudience of [
+    null,
+    { status: 'draft', segment_id: 'other-segment', topic_id: 'top-e' },
+    { status: 'draft', segment_id: 'seg', topic_id: 'top-m' },
+    { status: 'draft', segment_id: 'seg', topic_id: null },
+    { status: 'sent', segment_id: 'seg', topic_id: 'top-e' },
+  ]) {
+    const store = memStore();
+    const net = fakeNet({ savedAudience });
+    const result = await run('evening', '2026-12-02T22:30:00Z', { store, net, notifyTo: 'publisher@example.org' });
+    assert.equal(result.reason, 'audience-unverified');
+    assert.equal(result.ok, false);
+    assert.ok((await store.getJSON('draft-2026-12-02-evening')).id);
+    assert.equal(net.calls.some((call) => call.url.endsWith('/send')), false);
+    const note = net.calls.find((call) => call.url.endsWith('/emails'));
+    assert.match(note.body.text, /did not confirm draft status and the expected segment and topic/);
+    assert.doesNotMatch(note.body.text, /Hold it:/);
+  }
+  const legacy = fakeNet({ savedAudience: { status: 'draft', audience_id: 'seg', topic_id: 'top-m' } });
+  assert.equal((await run('morning', '2026-12-02T11:15:00Z', { net: legacy })).reason, 'scheduled');
+});
+
+test('each Resend edition must have its own topic before making a broadcast', async () => {
+  for (const [kind, time] of [['morning', '11:15'], ['evening', '22:30']]) {
+    const net = fakeNet();
+    const r = { ...resend, topics: { ...resend.topics, [kind]: '' } };
+    const result = await run(kind, `2026-12-02T${time}:00Z`, { net, r, notifyTo: 'publisher@example.org' });
+    assert.equal(result.reason, 'no-topic');
+    assert.equal(net.calls.some(({ url }) => url.includes('/broadcasts')), false);
+    assert.match(net.calls.find(({ url }) => url.endsWith('/emails')).body.text, new RegExp(`RESEND_TOPIC_${kind.toUpperCase()}`));
+  }
+});
+
+test('the site does not reschedule an edition already sent or queued by a temporary task', async () => {
+  const date = '2026-12-02';
+  const iso = date + 'T11:15:00Z';
+  const outside = { id: 'outside', name: `Morning edition ${date} (from heartofcolumbus.shop)`, segment_id: 'seg', status: 'sent' };
+  for (const status of ['sent', 'scheduled', 'queued']) {
+    const store = memStore();
+    const net = fakeNet({ history: [{ ...outside, status }] });
+    const r = await run('morning', iso, { store, net });
+    assert.equal(r.reason, 'already-in-resend');
+    assert.equal(r.id, 'outside');
+    assert.equal(net.calls.some(call => call.url.includes('/broadcasts') && call.method === 'POST'), false);
+    assert.equal((await store.getJSON(`run-${date}`)).reason, 'already-in-resend');
+  }
+  const other = fakeNet({ history: [{ ...outside, segment_id: 'another' }, { ...outside, status: 'draft' }] });
+  assert.equal((await run('morning', iso, { net: other })).reason, 'scheduled');
+  const unavailable = fakeNet({ history: null });
+  assert.equal((await run('morning', iso, { net: unavailable })).reason, 'history-unverified');
+  assert.equal(unavailable.calls.some(call => call.url.includes('/broadcasts') && call.method === 'POST'), false);
+});
+
+test('history follows the cursor and treats a partially sent canceled edition as an existing copy', async () => {
+  const iso = '2026-12-02T11:15:00Z';
+  const first = { data: [{ id: 'cursor', name: 'Other broadcast' }], has_more: true };
+  const sent = {
+    id: 'outside', name: 'Morning edition 2026-12-02', status: 'canceled',
+    audience_id: 'seg', sent_at: '2026-12-02T10:00:00Z',
+  };
+  const net = fakeNet({ historyPages: { '': first, cursor: { data: [sent], has_more: false } } });
+  assert.equal((await run('morning', iso, { net })).reason, 'already-in-resend');
+  assert.equal(net.calls.some(({ url }) => url.endsWith('after=cursor')), true);
+  for (const next of [null, first, { data: [{ ...sent, audience_id: null }], has_more: false }]) {
+    const failed = fakeNet({ historyPages: { '': first, cursor: next } });
+    assert.equal((await run('morning', iso, { net: failed })).reason, 'history-unverified');
+    assert.equal(failed.calls.some(({ url, method }) => url.includes('/broadcasts') && method === 'POST'), false);
+  }
 });
 
 test('Hold cancels the scheduled send and keeps the draft, with the desk key or that edition\'s code only', async () => {

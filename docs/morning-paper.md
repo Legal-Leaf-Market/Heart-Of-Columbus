@@ -143,8 +143,8 @@ Netlify (Site configuration > Environment variables, scoped to Functions):
 | `RESEND_SEGMENT_ID` | The Resend segment the newsletter goes to. `RESEND_AUDIENCE_ID` still works: Resend renamed Audiences to Segments in November 2025 and kept the ids |
 | `HOC_NEWSLETTER_FROM` | The sender, on a domain verified in Resend, like `Heart of Columbus <news@...>` |
 | `HOC_NEWSLETTER_REPLY_TO` | Optional: where replies to the newsletter go |
-| `RESEND_TOPIC_MORNING` | The Resend topic id for the morning edition. Unset, the morning goes to the whole segment |
-| `RESEND_TOPIC_EVENING` | The Resend topic id for the evening edition. Unset, the evening is skipped (so it never reaches morning only readers) |
+| `RESEND_TOPIC_MORNING` | The Resend topic id for the morning edition. Required to send the morning edition |
+| `RESEND_TOPIC_EVENING` | The Resend topic id for the evening edition. Required to send the evening edition |
 | `HOC_NEWSLETTER_NOTIFY` | Who gets each edition's note with the Hold link (comma separated) |
 | `HOC_NEWSLETTER=resend` | Build setting: turns the signup form on, posting to `/api/subscribe` |
 | `BUTTONDOWN_API_KEY` | Buttondown instead of Resend |
@@ -157,6 +157,19 @@ topics. Every edition's footer links to Resend's preferences page
 (`{{{RESEND_UNSUBSCRIBE_URL}}}`), where readers switch editions or leave.
 Make both topics **Public** in Resend, or readers who are not opted in to one
 will not see it there.
+
+Before scheduling, the job reads the saved broadcast back from Resend and
+confirms it is a draft with the expected segment and topic. If it cannot,
+the edition stays in draft and the publisher note says why. Check the
+draft's audience in Resend before sending it manually.
+
+Before creating a broadcast for an automatic send, the job also checks
+Resend's broadcast history, up to five pages of 100, for the dated name, including
+the temporary task's `(from heartofcolumbus.shop)` suffix. A matching
+scheduled, queued or previously sent broadcast for the same segment is enough to
+skip a second send. If history cannot be checked, the job sends no
+edition and tells the publisher why. Keep the temporary tasks paused
+after the site's schedule takes over.
 
 **Hold** (`/api/hold`, page `/newsroom/hold/`): the note's link carries a one
 time code after `#` that can hold only that edition, so the note never

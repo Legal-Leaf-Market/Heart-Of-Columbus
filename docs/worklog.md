@@ -30,8 +30,15 @@ shout out per edition. Plus the Founders Club raised to 20 spots.
       the NWS alerts source left the overnight leads too
 - [x] Studio C wheel throwing moved to Dec 5 and Dec 12
 - [x] Founders Club: 20 spots, the "grandfathered in, promised and guaranteed" offer
+- [ ] PR #221: Require an edition topic for every Resend send, verify the
+      saved draft status and audience, and check Resend for a scheduled,
+      queued or previously sent copy before creating another one. If the
+      history is incomplete or the audience cannot be verified, skip the send.
+      The Resend dashboard already showed two Nov. 28 morning broadcasts
+      marked sent. No manual broadcast was sent during this check.
 - [ ] Jake: turn off the two temporary Claude scheduled tasks once this is live
-- [ ] Jake: make both Resend topics Public so readers see them on the preferences page
+- [ ] Jake: make both Resend topics Public. Both were still private when
+      checked on Nov. 27, so readers could not discover either unselected topic.
 - [ ] First real edition in Resend is the end to end proof (topic_id and scheduled_at untested live)
 - [x] Merged as #219 (2026-11-27); waiting on the batched publish to go live
 - [x] The three tests already red on main since #218, fixed in PR #220:
