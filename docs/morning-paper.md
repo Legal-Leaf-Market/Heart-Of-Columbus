@@ -121,7 +121,10 @@ the typing.
    them the desk lists names in the piece that are not in your beat book yet;
    one click adds a name, and you fill in its note and wrong spellings on the
    Beat book tab. **Headlines** and **Openings** give options to
-   click. **Tighten** cuts. **Sound more like me** compares it with your
+   click. **Tighten** cuts. **Edit pass** suggests a line edit as tracked
+   changes: each changed sentence shows struck and replaced, you press
+   Accept or Reject on each, and **Apply my choices** writes only what you
+   accepted (anything undecided keeps your words). **Sound more like me** compares it with your
    samples. **Check facts** lists anything the sources do not support.
    Select a passage in the body for **Tighten selection**, **Smooth
    selection** or **Fix grammar**: only those words come back, and **Replace

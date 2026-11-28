@@ -102,7 +102,7 @@ function deskPage(ctx) {
 .dk-tools{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.dk-tools button{font-size:14px}
 .dk-out{white-space:pre-wrap;border:1px dashed var(--line,#bbb);border-radius:6px;padding:10px;margin:8px 0;font-family:Georgia,serif}
 .dk-out li{cursor:pointer}.dk-src{display:grid;gap:4px;margin-bottom:8px}.dk-block{color:#b3261e}
-.dk-count{font-size:13px}.dk-new{font-size:11px;font-weight:700;color:#b92e2b;margin-right:4px}.dk-src-k{font-size:12px;color:var(--muted,#666)}.dk-leads li{flex-wrap:wrap}.dk-leads li>span{min-width:min(100%,260px)}.dk-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}.dk-notes{margin:14px 0}.dk-notes summary{cursor:pointer;font-weight:600}
+.dk-count{font-size:13px}.dk-new{font-size:11px;font-weight:700;color:#b92e2b;margin-right:4px}.dk-src-k{font-size:12px;color:var(--muted,#666)}.dk-leads li{flex-wrap:wrap}.dk-leads li>span{min-width:min(100%,260px)}.dk-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}.dk-notes{margin:14px 0}.dk-ch{margin:6px 0;padding:6px 8px;border-left:3px solid var(--line,#ccc)}.dk-ch del{color:#b3261e}.dk-ch ins{color:#1f7a3a;text-decoration:none;border-bottom:1px solid currentColor}.dk-ch[data-took=yes]{border-color:#1f7a3a}.dk-ch[data-took=no]{border-color:#999;opacity:.7}.dk-ch .dk-tools{margin:4px 0 0}.dk-notes summary{cursor:pointer;font-weight:600}
 .ow-form [data-deal-fields]{border:0;padding:0;margin:0;min-width:0}[data-deal-fields] select{width:100%;font:inherit;padding:8px;border:1px solid var(--edge);border-radius:12px}[data-deal-form]{max-width:44rem}[data-deal-fields] .deal-confirm{display:flex;align-items:baseline;gap:8px}.dk-deal-copy{overflow-wrap:anywhere;white-space:pre-line}
 .dk iframe{width:100%;min-height:600px;border:1px solid var(--line,#ccc);border-radius:6px;background:#fff}
 </style>
@@ -161,6 +161,7 @@ function deskPage(ctx) {
         <button type="button" class="btn" data-assist="headlines">Headlines</button>
         <button type="button" class="btn" data-assist="hooks">Openings</button>
         <button type="button" class="btn" data-assist="tighten">Tighten</button>
+        <button type="button" class="btn" data-assist="editpass">Edit pass</button>
         <button type="button" class="btn" data-assist="voice">Sound more like me</button>
         <button type="button" class="btn" data-assist="check">Check facts</button>
       </div>
@@ -170,7 +171,7 @@ function deskPage(ctx) {
         <button type="button" class="btn" data-assist="smooth">Smooth selection</button>
         <button type="button" class="btn" data-assist="grammar">Fix grammar</button>
       </div>
-      <div data-out hidden><div class="dk-out" data-out-text></div><div class="dk-tools"><button type="button" class="btn" data-use="selection" hidden>Replace the selection</button><button type="button" class="btn" data-use="replace">Use as the body</button><button type="button" class="btn" data-use="append">Add below the body</button><button type="button" class="btn" data-use="dismiss">Dismiss</button></div><p class="muted dk-count" data-out-meta></p></div>
+      <div data-out hidden><div class="dk-out" data-out-text></div><div class="dk-tools"><button type="button" class="btn" data-use="selection" hidden>Replace the selection</button><button type="button" class="btn" data-use="accept-all" hidden>Accept all</button><button type="button" class="btn" data-use="apply-pass" hidden>Apply my choices</button><button type="button" class="btn" data-use="replace">Use as the body</button><button type="button" class="btn" data-use="append">Add below the body</button><button type="button" class="btn" data-use="dismiss">Dismiss</button></div><p class="muted dk-count" data-out-meta></p></div>
       <label for="dk-body">The piece <span class="muted">(Markdown)</span></label>
       <textarea id="dk-body" class="dk-body" data-f="body"></textarea>
       <p class="muted dk-count" data-wc></p>
@@ -256,7 +257,7 @@ function deskPage(ctx) {
     <iframe title="Edition preview" data-preview sandbox=""></iframe>
   </div>
 </section>`;
-  return newsPage({ ...ctx, path: '/newsroom/desk/', title: 'The desk', description: 'Private.', body, scripts: ['prose.js', 'notes.js', 'desk.js'] });
+  return newsPage({ ...ctx, path: '/newsroom/desk/', title: 'The desk', description: 'Private.', body, scripts: ['prose.js', 'notes.js', 'diff.js', 'desk.js'] });
 }
 
 // Hold a scheduled edition (/api/hold). The link in each edition's note

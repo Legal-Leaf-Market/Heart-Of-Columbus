@@ -145,8 +145,14 @@ congregation in town, of every faith, by area and by faith, plus nonprofits.
       shape. Calls made without asking: five is the cap; a piece whose voice
       is deleted goes back to the main voice; the beat book and the hard
       rules apply to every voice
-- [ ] Paige ideas still to build: running stories in the beat book, and an
-      **edit pass** as tracked changes you accept one by one
+- [x] **Edit pass** as tracked changes (2026-11-28, `public/js/diff.js`):
+      the model returns a line edited draft, the browser compares it with
+      the body sentence by sentence, and each change shows struck and
+      replaced with Accept and Reject; Apply writes only what was accepted.
+      Calls made without asking: changes are grouped by sentence, not by
+      word; an undecided change keeps the publisher's words; Apply refuses
+      if the body changed since the pass
+- [ ] Paige idea still to build: running stories in the beat book
 - [x] Overnight lead gathering into the idea bank: city news, city agendas
       and minutes, county news, county calendar, NWS alerts, today's events
       (`src/news/gather.mjs`, `netlify/functions/leads.mjs`, 2026-11-27)
