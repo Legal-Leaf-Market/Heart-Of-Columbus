@@ -238,3 +238,27 @@ test('several voices: named voices are kept apart, capped, and a piece falls bac
   assert.match(page, /data-voice-pick/);
   assert.match(page, /data-voice-new/);
 });
+
+test('the edit pass comes back as tracked changes, applied only where accepted', async () => {
+  const { readFileSync } = await import('node:fs');
+  const m = { exports: {} };
+  new Function('module', 'window', readFileSync(new URL('../public/js/diff.js', import.meta.url), 'utf8'))(m, undefined);
+  const { changes, apply, pieces } = m.exports;
+  const a = 'The council met Monday. It was a very long meeting that went on and on. They voted 5 to 2.\n\nThe park opens Friday.';
+  const b = 'The council met Monday. It ran long. They voted 5 to 2.\n\nThe park opens Friday at noon. Bring a coat.';
+  const list = changes(a, b);
+  const edits = list.filter((c) => c.same === undefined);
+  assert.equal(edits.length, 2, 'two changed spots, the rest untouched');
+  assert.equal(edits[0].del, 'It was a very long meeting that went on and on. ');
+  assert.equal(edits[0].ins, 'It ran long. ');
+  assert.equal(apply(list, {}), a, 'nothing accepted keeps every word');
+  assert.equal(apply(list, Object.fromEntries(list.map((_, i) => [i, true]))), b, 'everything accepted gives the suggestion');
+  const second = list.findIndex((c) => c.same === undefined && c.ins.includes('Bring a coat'));
+  assert.equal(apply(list, { [second]: true }), 'The council met Monday. It was a very long meeting that went on and on. They voted 5 to 2.\n\nThe park opens Friday at noon. Bring a coat.');
+  assert.equal(pieces(a).join(''), a, 'splitting is lossless');
+  assert.deepEqual(changes('Same words.  Here.', 'Same words. Here.').filter((c) => c.same === undefined), [], 'spacing alone is not a change');
+  assert.ok(MODES.editpass && /exactly as it is/.test(MODES.editpass));
+  const page = readFileSync(new URL('../dist/newsroom/desk/index.html', import.meta.url), 'utf8');
+  assert.match(page, /data-assist="editpass"/);
+  assert.ok(page.indexOf('/js/diff.js') > 0 && page.indexOf('/js/diff.js') < page.indexOf('/js/desk.js'), 'diff.js loads before desk.js');
+});

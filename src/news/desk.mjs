@@ -28,6 +28,9 @@ export const SHAPES = {
 export const MODES = {
   draft: 'Write a first draft of the piece in the publisher\'s voice, using only the facts in the sources and notes. Follow the chosen shape. Return Markdown only.',
   tighten: 'Edit the current draft: cut filler, shorten sentences, keep the publisher\'s voice and every fact. Do not add facts. Return the full revised draft in Markdown only.',
+  // The edit pass comes back as tracked changes the publisher takes one by
+  // one, so it changes sentences in place and leaves the rest word for word.
+  editpass: 'Do a line edit of the current draft: fix grammar, cut filler, break up long sentences, trade weak verbs and -ly words for plain strong ones, and turn passive voice active where it reads better. Keep the publisher\'s voice, every fact and the order of the piece. Leave any sentence that is already good exactly as it is, character for character. Do not add facts. Return the full revised draft in Markdown only.',
   headlines: 'Suggest eight headlines for this piece: specific, local, no clickbait, under 70 characters. One per line, no numbering.',
   hooks: 'Suggest five different opening lines for this piece in the publisher\'s voice. One per line, no numbering.',
   subject: 'Suggest six email subject lines for this morning\'s edition, under 55 characters, plain and specific. One per line, no numbering.',

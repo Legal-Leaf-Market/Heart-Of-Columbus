@@ -180,9 +180,11 @@
     var list = /^(headlines|hooks|subject)$/.test(state.lastMode || '');
     $('[data-out-text]').innerHTML = list ? '<ul>' + text.split('\n').filter(function (l) { return l.trim(); }).map(function (l) { return '<li data-pick>' + esc(l.replace(/^[-*\d.\s]+/, '')) + '</li>'; }).join('') + '</ul><p class="muted">Click one to use it.</p>' : esc(text);
     $('[data-out-meta]').textContent = meta || '';
-    var part = PASSAGE.indexOf(state.lastMode) !== -1;
-    $$('[data-use=replace], [data-use=append]').forEach(function (b) { b.hidden = list || part || state.lastMode === 'check' || state.lastMode === 'voice'; });
+    var part = PASSAGE.indexOf(state.lastMode) !== -1, pass = state.lastMode === 'editpass' && !!text;
+    $$('[data-use=replace], [data-use=append]').forEach(function (b) { b.hidden = list || part || pass || state.lastMode === 'check' || state.lastMode === 'voice'; });
     $('[data-use=selection]').hidden = !part;
+    $('[data-use=accept-all]').hidden = !pass; $('[data-use=apply-pass]').hidden = !pass;
+    if (pass) renderPass(text);
   }
   $$('[data-assist]').forEach(function (b) {
     b.addEventListener('click', function () {
@@ -202,6 +204,29 @@
       }).catch(function (e) { say(e.message); }).then(function () { b.disabled = false; });
     });
   });
+  // The edit pass as tracked changes: each changed sentence or run of
+  // sentences is shown struck and replaced, to accept or reject one by one.
+  function renderPass(text) {
+    var before = $('[data-f=body]').value;
+    state.pass = { before: before, list: window.HoCDiff ? window.HoCDiff.changes(before, text) : [{ del: before, ins: text }], took: {} };
+    paintPass();
+  }
+  function paintPass() {
+    var p = state.pass, n = 0;
+    var html = p.list.map(function (c, k) {
+      if (c.same !== undefined) return '';
+      n++;
+      var t = p.took[k];
+      return '<div class="dk-ch" data-ch="' + k + '" data-took="' + (t === true ? 'yes' : t === false ? 'no' : '') + '">' +
+        (c.del.trim() ? '<del>' + esc(c.del) + '</del> ' : '') + (c.ins.trim() ? '<ins>' + esc(c.ins) + '</ins>' : '<em class="muted">(cut)</em>') +
+        '<div class="dk-tools"><button type="button" class="pill" data-take="yes" aria-pressed="' + (t === true) + '">Accept</button><button type="button" class="pill" data-take="no" aria-pressed="' + (t === false) + '">Reject</button></div></div>';
+    }).join('');
+    $('[data-out-text]').innerHTML = n ? '<p class="muted">' + n + ' change' + (n === 1 ? '' : 's') + '. Anything you leave undecided keeps your words.</p>' + html : '<p class="muted">No changes suggested.</p>';
+  }
+  $('[data-out-text]').addEventListener('click', function (e) {
+    var tk = e.target.closest('[data-take]');
+    if (tk && state.pass) { var k = +tk.closest('[data-ch]').getAttribute('data-ch'); state.pass.took[k] = tk.getAttribute('data-take') === 'yes'; paintPass(); return; }
+  });
   $('[data-out-text]').addEventListener('click', function (e) {
     var li = e.target.closest('[data-pick]'); if (!li) return;
     var t = li.textContent;
@@ -213,6 +238,16 @@
   $$('[data-use]').forEach(function (b) {
     b.addEventListener('click', function () {
       var u = b.getAttribute('data-use'), body = $('[data-f=body]');
+      if (u === 'accept-all' && state.pass) { state.pass.list.forEach(function (c, k) { if (c.same === undefined) state.pass.took[k] = true; }); paintPass(); return; }
+      if (u === 'apply-pass' && state.pass) {
+        if (body.value !== state.pass.before) { say('The body changed since the edit pass. Run it again.'); return; }
+        var took = 0; Object.keys(state.pass.took).forEach(function (k) { if (state.pass.took[k]) took++; });
+        body.value = window.HoCDiff.apply(state.pass.list, state.pass.took);
+        if (took && state.current) state.current.ai = true;
+        state.pass = null; words(); showOut('');
+        say('Applied ' + took + ' change' + (took === 1 ? '' : 's') + '. Nothing is saved until you press Save.');
+        return;
+      }
       if (u === 'selection') {
         var sel = state.sel || {}, at = body.value.slice(sel.start, sel.end) === sel.text ? sel.start : body.value.indexOf(sel.text);
         if (!sel.text || at < 0) { say('That passage has changed since you asked. Select it again.'); return; }
