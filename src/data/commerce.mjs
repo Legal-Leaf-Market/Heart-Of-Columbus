@@ -24,8 +24,29 @@ export const COMMERCE = {
   "origin": "https://4thstreetbar.com",
   "feed": false,
   "store": "",
-  "order": [],
+  "order": [
+   {
+    "label": "Heartland",
+    "url": "https://4thstreetbar.hrpos.heartland.us/menu"
+   }
+  ],
   "book": []
+ },
+ "812signz": {
+  "platform": "",
+  "stack": [
+   "webflow"
+  ],
+  "origin": "https://www.812signz.com",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "TintWiz",
+    "url": "https://app.tintwiz.com/web/ce/kzxgpr9iguvxvsxgds1v0c6qmoykovkr"
+   }
+  ]
  },
  "a-step-ahead-pediatric-therapy": {
   "platform": "wix-stores",
@@ -1146,6 +1167,19 @@ export const COMMERCE = {
   "feed": false,
   "store": "",
   "order": [],
+  "book": [
+   {
+    "label": "SimplePractice",
+    "url": "https://columbuscounselingpartners.clientsecure.me/"
+   }
+  ]
+ },
+ "columbus-cycling-and-fitness": {
+  "platform": "",
+  "origin": "https://www.columbus-cycling.com",
+  "feed": false,
+  "store": "https://www.columbus-cycling.com",
+  "order": [],
   "book": []
  },
  "columbus-dental-group": {
@@ -1684,7 +1718,12 @@ export const COMMERCE = {
   "origin": "https://www.donutcentralcolumbus.com",
   "feed": false,
   "store": "",
-  "order": [],
+  "order": [
+   {
+    "label": "Online ordering",
+    "url": "https://donutcentral.scvr.co/menu/online-ordering"
+   }
+  ],
   "book": []
  },
  "dorothys-playhouse": {
@@ -2001,6 +2040,14 @@ export const COMMERCE = {
   "order": [],
   "book": []
  },
+ "florist-mk-llc": {
+  "platform": "",
+  "origin": "https://www.floristmk.com",
+  "feed": false,
+  "store": "https://www.floristmk.com",
+  "order": [],
+  "book": []
+ },
  "flourish-columbus": {
   "platform": "squarespace-commerce",
   "stack": [
@@ -2099,7 +2146,12 @@ export const COMMERCE = {
   "origin": "https://freshtakekitchen.com",
   "feed": false,
   "store": "",
-  "order": [],
+  "order": [
+   {
+    "label": "Heartland",
+    "url": "https://freshtakekitchen.hrpos.heartland.us/menu"
+   }
+  ],
   "book": []
  },
  "gamso-law": {
@@ -2224,7 +2276,7 @@ export const COMMERCE = {
   "order": [],
   "book": [
    {
-    "label": "booking.galaxyaccess.us",
+    "label": "Online booking",
     "url": "https://booking.galaxyaccess.us/gossip2105"
    }
   ]
@@ -2602,6 +2654,19 @@ export const COMMERCE = {
   "store": "",
   "order": [],
   "book": []
+ },
+ "inclusive-options-llc": {
+  "platform": "",
+  "origin": "https://www.inclusiveoptions.com",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "SimplePractice",
+    "url": "https://inclusiveoptions.clientsecure.me/"
+   }
+  ]
  },
  "indiana-conservatory-of-music": {
   "platform": "squarespace-commerce",
@@ -3162,6 +3227,19 @@ export const COMMERCE = {
   ],
   "book": []
  },
+ "massage-works-studio": {
+  "platform": "",
+  "origin": "https://massageworksstudio.noterro.com",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "Noterro",
+    "url": "https://massageworksstudio.noterro.com/"
+   }
+  ]
+ },
  "master-power-transmission": {
   "platform": "woocommerce",
   "stack": [
@@ -3280,7 +3358,12 @@ export const COMMERCE = {
   "origin": "https://www.eatmisora.com",
   "feed": false,
   "store": "",
-  "order": [],
+  "order": [
+   {
+    "label": "MealKeyway",
+    "url": "https://order.mealkeyway.com/customer/release/index?mid=756a517a6c477348324369784f6e574b4c70613336513d3d#/main"
+   }
+  ],
   "book": []
  },
  "miss-rachels-neat-treats": {
@@ -3391,7 +3474,12 @@ export const COMMERCE = {
   "feed": false,
   "store": "",
   "order": [],
-  "book": []
+  "book": [
+   {
+    "label": "Online booking",
+    "url": "https://booking.galaxyaccess.us/station3780"
+   }
+  ]
  },
  "nanos-car-detailing-and-cleaning": {
   "platform": "godaddy",
@@ -3612,6 +3700,19 @@ export const COMMERCE = {
   "store": "",
   "order": [],
   "book": []
+ },
+ "optimize-u-columbus": {
+  "platform": "",
+  "origin": "https://optimizeucenters.com",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "OptiMantra",
+    "url": "https://www.optimantra.com/optimus/om/patientaccess/servicesallV2?pid=bmx0ZVdwakRJc1MzVEx4clFtRUwzZz09&lid=ekZtWklGUmJpTy80MGV6LzduaWJHdz09"
+   }
+  ]
  },
  "ozols-construction-corp": {
   "platform": "wordpress",
@@ -4038,6 +4139,19 @@ export const COMMERCE = {
   "order": [],
   "book": []
  },
+ "rooted-health-and-wellness": {
+  "platform": "",
+  "origin": "https://rootedhealthandwell.com",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "OptiMantra",
+    "url": "https://www.optimantra.com/optimus/patient/patientaccess/prospects?pid=angwUHRwZnNZTmRRU05hRVRzQ3lhdz09"
+   }
+  ]
+ },
  "rs-warren-construction": {
   "platform": "woocommerce",
   "stack": [
@@ -4187,6 +4301,19 @@ export const COMMERCE = {
   "store": "https://my-site-102122-109801.square.site/",
   "order": [],
   "book": []
+ },
+ "shaggy-inks": {
+  "platform": "",
+  "origin": "https://web.getporter.io",
+  "feed": false,
+  "store": "",
+  "order": [],
+  "book": [
+   {
+    "label": "Porter",
+    "url": "https://web.getporter.io/shop/shaggy-inks"
+   }
+  ]
  },
  "sharpnack-bigley": {
   "platform": "wix-stores",
@@ -4766,6 +4893,14 @@ export const COMMERCE = {
   "order": [],
   "book": []
  },
+ "the-vibe-smoke-shop": {
+  "platform": "",
+  "origin": "https://thevibesmokevape.com",
+  "feed": false,
+  "store": "https://thevibesmokevape.com/shop",
+  "order": [],
+  "book": []
+ },
  "the-zen-wellness-company": {
   "platform": "squarespace-commerce",
   "stack": [
@@ -5327,7 +5462,12 @@ export const COMMERCE = {
   "origin": "https://www.winniemochi-columbus.com",
   "feed": false,
   "store": "",
-  "order": [],
+  "order": [
+   {
+    "label": "MealKeyway",
+    "url": "https://order.mealkeyway.com/customer/release/index?mid=2f52707144647a4f714d5571766f664b4a46655651773d3d"
+   }
+  ],
   "book": []
  },
  "wolf-creek-nursery-and-landscaping": {
@@ -5407,7 +5547,12 @@ export const COMMERCE = {
   "origin": "https://yatscajuncreole.online",
   "feed": false,
   "store": "",
-  "order": [],
+  "order": [
+   {
+    "label": "GloriaFood",
+    "url": "https://www.restaurantlogin.com/ordering/restaurant/menu?company_uid=a9c432b6-ec37-48df-a53e-64d9aca70ee3&restaurant_uid=d924a088-ca14-4655-87f1-bc05f6dc7b66&facebook=true"
+   }
+  ],
   "book": []
  },
  "yummy-bowl": {
@@ -5527,15 +5672,6 @@ export const COMMERCE = {
   "order": [],
   "book": []
  },
- "kawaii-katz": {
-  "platform": "kawaiikatz",
-  "origin": "https://kawaiikatz.heartofcolumbus.shop",
-  "feed": true,
-  "limit": 12,
-  "store": "https://kawaiikatz.heartofcolumbus.shop/",
-  "order": [],
-  "book": []
- },
  "legal-leaf-market-cafe": {
   "platform": "shopify",
   "stack": [
@@ -5568,7 +5704,7 @@ export const COMMERCE = {
   ],
   "origin": "https://www.paqdmeats.com",
   "feed": false,
-  "store": "",
+  "store": "https://www.paqdmeats.com/order-online",
   "order": [],
   "book": [],
   "gift": {
@@ -5598,5 +5734,14 @@ export const COMMERCE = {
    "label": "their website",
    "url": "https://www.wildbramblecatering.com/gift-cards"
   }
+ },
+ "kawaii-katz": {
+  "platform": "kawaiikatz",
+  "origin": "https://kawaiikatz.heartofcolumbus.shop",
+  "feed": true,
+  "limit": 12,
+  "store": "https://kawaiikatz.heartofcolumbus.shop/",
+  "order": [],
+  "book": []
  }
 };

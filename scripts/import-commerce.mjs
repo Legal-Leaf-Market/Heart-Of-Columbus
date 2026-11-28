@@ -108,6 +108,10 @@ for (const slug of new Set([...Object.keys(WEB), ...Object.keys(bySlug)])) {
   // One ordering and one booking link per provider is enough: two buttons
   // that both say "Square Online" are one store listed twice.
   for (const list of [order, book]) for (let i = list.length - 1; i > 0; i--) if (list.slice(0, i).some((b) => b.label === list[i].label)) list.splice(i, 1);
+  // `cart` is the engine under a site that reports another platform (a
+  // WordPress site with WooCommerce); /api/shop reads by `platform`, so a
+  // readable catalog on it takes that engine as its platform.
+  if (p.cart && p.products > 0) p.platform = p.cart;
   const feed = !!(p.ok && (p.platform === 'shopify' || p.platform === 'woocommerce') && p.products > 0 && !NO_FEED.has(cat));
   // Squarespace: browse here from ?format=json on its own store page, buy on
   // its site (no cart link exists). `catalog` is that store page.
@@ -125,6 +129,20 @@ for (const slug of new Set([...Object.keys(WEB), ...Object.keys(bySlug)])) {
   }
   // A shop whose own site has a working cart page sells on it.
   if (!feed && !store && p.ok && ['shopping', 'smoke', 'pets', 'kids'].includes(cat) && (p.pages || []).some((x) => /^\/(?:checkout\/)?cart\/?$/.test(x))) store = p.origin;
+  // A shop whose own site sells without a cart engine we fingerprint: a Shop
+  // page beside real product pages (the-vibe-smoke-shop), its own "order
+  // online" page (paqd-meats, a meat market), or a hosted retail engine
+  // that is the shop's own store: SmartEtailing (bike shops) and Flower Shop
+  // Network (florists). All link to the shop's own site.
+  const RETAIL_SHOP = ['shopping', 'smoke', 'pets', 'kids'];
+  if (!feed && !store && p.ok && RETAIL_SHOP.includes(cat)) {
+    const pages = p.pages || [];
+    const urls = p.urls || [];
+    if (/^\/(?:shop|store)\/?$/.test(shopPath) && pages.some((x) => /^\/products?(?:\/|$)/.test(x))) store = p.own.shop;
+    else if (/^\/(?:order|order-?online|online-?order(?:ing)?)\/?$/.test(op)) store = p.own.orderPage;
+    else if (urls.some((u) => /smartetailing\.|sefiles\.net\/merchant\//.test(u)) && pages.some((x) => /^\/product-list\//.test(x))) store = p.origin;
+    else if (urls.some((u) => /\/\/(?:www\.)?flowershopnetwork\.com\/?$/.test(u))) store = p.origin;
+  }
   // A shop that runs its cart on a separate own-engine store (Big Cartel,
   // Ecwid, a Shopify store on another address) gets that store as its link.
   // A store address carrying a preview key is a password page, not a shop.

@@ -139,7 +139,17 @@ export async function probeDeep(slug) {
   out.urls = [...urls].map(tidyUrl).map(scrub).filter((u) => u && host(u) !== me && !/(?:googleapis|gstatic|googletagmanager|google-analytics|doubleclick|facebook\.net|fonts\.|jquery|cloudflare|jsdelivr|unpkg|bootstrapcdn|fontawesome|typekit|w\.org|schema\.org|gravatar|youtube\.com\/embed|vimeo|recaptcha)/i.test(u)).slice(0, 200);
   out.links = findProviderLinks(out.urls.join(' '), actions);
   out.stack = [...stack].sort();
-  if (['shopify', 'woocommerce', 'squarespace-commerce'].includes(out.platform)) out.products = await feedCount(out.platform, origin, own.shop);
+  // A WordPress site running WooCommerce often reports itself as plain
+  // WordPress (days-of-old-antique-shoppe did), and a Shopify cart can sit
+  // behind another builder. When the stack shows the cart engine, count its
+  // catalog anyway and record the engine as `cart`, so the import can still
+  // hand a filled cart to it.
+  if (!['shopify', 'woocommerce', 'squarespace-commerce'].includes(out.platform)) {
+    const cart = ['woocommerce', 'shopify'].find((s) => stack.has(s));
+    if (cart) out.cart = cart;
+  }
+  const engine = out.cart || out.platform;
+  if (['shopify', 'woocommerce', 'squarespace-commerce'].includes(engine)) out.products = await feedCount(engine, origin, own.shop);
   return out;
 }
 
