@@ -167,3 +167,27 @@ test('paste notes splits into ideas: blank lines, bullets, links, and no repeats
   assert.ok(page.indexOf('/js/notes.js') > 0 && page.indexOf('/js/notes.js') < page.indexOf('/js/desk.js'), 'notes.js loads before desk.js');
   assert.match(page, /data-notes-split/);
 });
+
+test('passage help sends only a selection that is in the draft, and never for whole-piece modes', async () => {
+  const { PASSAGE_MODES, cleanPassage } = await import('../src/news/desk.mjs');
+  assert.deepEqual(PASSAGE_MODES, ['tighten-part', 'smooth', 'grammar']);
+  for (const m of PASSAGE_MODES) assert.ok(MODES[m] && /only/.test(MODES[m]), `${m} edits only the passage`);
+  const piece = { ...good, body: 'The council met Monday. It was a very long and really rather tedious meeting that went on.' };
+  const passage = 'It was a very long and really rather tedious meeting that went on.';
+  let sent = 0, prompt = '';
+  const fetchFn = async (url, init) => { sent++; prompt = JSON.parse(init.body).messages[0].content; return { ok: true, json: async () => ({ model: 'claude-opus-5-5', stop_reason: 'end_turn', content: [{ type: 'text', text: 'It ran long.' }], usage: {} }) }; };
+  const r = await assist({ key: 'k', voice: {}, piece, mode: 'tighten-part', passage, fetchFn });
+  assert.equal(r.text, 'It ran long.');
+  assert.match(prompt, /PASSAGE TO EDIT \(only this part of the current draft\):\nIt was a very long/);
+  assert.match(prompt, /CURRENT DRAFT:/, 'the whole draft rides along for context');
+  assert.match((await assist({ key: 'k', voice: {}, piece, mode: 'smooth', passage: 'Not in the draft.', fetchFn })).error, /not in the draft/);
+  assert.match((await assist({ key: 'k', voice: {}, piece, mode: 'grammar', passage: '  ', fetchFn })).error, /Select a passage/);
+  assert.equal(sent, 1, 'a bad passage never reaches the model');
+  await assist({ key: 'k', voice: {}, piece, mode: 'tighten', passage, fetchFn });
+  assert.doesNotMatch(prompt, /PASSAGE TO EDIT/, 'whole-piece modes ignore a passage');
+  assert.equal(cleanPassage('x', 'abc').ok, false);
+  const { readFileSync } = await import('node:fs');
+  const page = readFileSync(new URL('../dist/newsroom/desk/index.html', import.meta.url), 'utf8');
+  for (const m of PASSAGE_MODES) assert.match(page, new RegExp(`data-assist="${m}"`));
+  assert.match(page, /data-use="selection"/);
+});

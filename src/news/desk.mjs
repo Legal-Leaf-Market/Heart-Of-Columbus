@@ -33,7 +33,22 @@ export const MODES = {
   subject: 'Suggest six email subject lines for this morning\'s edition, under 55 characters, plain and specific. One per line, no numbering.',
   check: 'Review the draft against the sources and notes. List every claim, number, name or date the sources do not support, every line that reads as fact but is opinion, and anything that could be unfair to a real person or business. Be brief. If it is clean, say so.',
   voice: 'Compare the draft with the publisher\'s samples. List up to five specific edits that would make it sound more like the publisher (word choice, rhythm, openings), quoting the line to change.',
+  // Passage modes: the publisher selects part of the draft and only that
+  // part comes back, to replace the selection.
+  'tighten-part': 'Edit only the PASSAGE TO EDIT: cut filler and shorten it, keeping the publisher\'s voice and every fact. Do not add facts. Return only the revised passage, with no comment before or after it.',
+  smooth: 'Edit only the PASSAGE TO EDIT so it reads smoothly: clearer transitions and better rhythm, the same facts and the publisher\'s voice. Do not add facts. Return only the revised passage, with no comment before or after it.',
+  grammar: 'Fix only spelling, grammar and punctuation in the PASSAGE TO EDIT. Change nothing else, not even word choice. Return only the corrected passage, with no comment before or after it.',
 };
+export const PASSAGE_MODES = ['tighten-part', 'smooth', 'grammar'];
+
+// A passage must be part of the current draft, so a suggestion can only ever
+// replace the publisher's own words.
+export function cleanPassage(passage, body) {
+  const p = String(passage || '').slice(0, 6000);
+  if (!p.trim()) return { ok: false, error: 'Select a passage in the body first.' };
+  if (!String(body || '').includes(p)) return { ok: false, error: 'That passage is not in the draft any more. Select it again.' };
+  return { ok: true, passage: p };
+}
 
 const clip = (s, n) => String(s ?? '').slice(0, n);
 
@@ -113,7 +128,7 @@ export function voicePrompt(voice = {}, beat = null) {
   return parts.join('\n\n');
 }
 
-export function piecePrompt(piece = {}, mode = 'draft', extra = '') {
+export function piecePrompt(piece = {}, mode = 'draft', extra = '', passage = '') {
   const shape = SHAPES[piece.shape] || SHAPES.brief;
   const sources = (piece.sources || []).filter((s) => s && (s.url || s.note));
   const lines = [
@@ -124,6 +139,7 @@ export function piecePrompt(piece = {}, mode = 'draft', extra = '') {
     sources.length ? `SOURCES:\n${sources.map((s, i) => `[${i + 1}] ${clip(s.url, 500)}${s.note ? `\n${clip(s.note, 3000)}` : ''}`).join('\n')}` : 'SOURCES: none given. Draft only from the notes and mark every fact [CHECK].',
     piece.body ? `CURRENT DRAFT:\n${clip(piece.body, 12000)}` : '',
     extra ? `EDITION CONTEXT:\n${clip(extra, 4000)}` : '',
+    passage ? `PASSAGE TO EDIT (only this part of the current draft):\n${clip(passage, 6000)}` : '',
   ];
   return lines.filter(Boolean).join('\n\n');
 }

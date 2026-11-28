@@ -15,7 +15,7 @@
 import { blobStore } from '../../src/blobs.mjs';
 import { sameKey } from '../../src/pixel-key.mjs';
 import { deskDeals } from '../../src/deals.mjs';
-import { voicePrompt, piecePrompt, MODES, cleanPiece, blockers, planBlockers, approved, cleanBeat } from '../../src/news/desk.mjs';
+import { voicePrompt, piecePrompt, MODES, PASSAGE_MODES, cleanPassage, cleanPiece, blockers, planBlockers, approved, cleanBeat } from '../../src/news/desk.mjs';
 import { assemble, makeBroadcast, resendEnv, usesResend } from './newsletter.mjs';
 import { gatherInto } from './leads.mjs';
 import { columbusDate, keysFor, kindOf, cleanRoad, EDITIONS } from '../../src/news/paper-mail.mjs';
@@ -29,9 +29,14 @@ const MODEL = () => env('HOC_DESK_MODEL') || 'claude-opus-5-5';
 // Prices per million tokens, for the spend line under each suggestion.
 const RATES = { 'claude-opus-5-5': [4, 20], 'claude-sonnet-5-5': [2, 10], 'claude-haiku-5-5': [0.1, 0.5] };
 
-export async function assist({ key, model, voice, piece, mode, extra = '', beat = null, fetchFn = fetch }) {
+export async function assist({ key, model, voice, piece, mode, extra = '', beat = null, passage = '', fetchFn = fetch }) {
   if (!key) return { ok: false, error: 'Add ANTHROPIC_API_KEY in Netlify to turn on writing help.' };
   if (!MODES[mode]) return { ok: false, error: 'Unknown kind of help.' };
+  if (PASSAGE_MODES.includes(mode)) {
+    const c = cleanPassage(passage, piece.body);
+    if (!c.ok) return c;
+    passage = c.passage;
+  } else passage = '';
   const res = await fetchFn('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
@@ -45,7 +50,7 @@ export async function assist({ key, model, voice, piece, mode, extra = '', beat 
       // The voice profile is the long, stable part, so it is cached; the piece
       // changes on every press and comes after it.
       system: [{ type: 'text', text: voicePrompt(voice, beat), cache_control: { type: 'ephemeral' } }],
-      messages: [{ role: 'user', content: piecePrompt(piece, mode, extra) }],
+      messages: [{ role: 'user', content: piecePrompt(piece, mode, extra, passage) }],
     }),
   });
   const body = await res.json().catch(() => ({}));
@@ -161,7 +166,7 @@ async function updateDesk(b) {
     const piece = cleanPiece(b.piece || {});
     const extra = b.mode === 'subject' ? approved(day).map((p) => `- ${p.headline}`).join('\n') : '';
     const beat = cleanBeat((await store.getJSON('beat')) || {});
-    const r = await assist({ key: env('ANTHROPIC_API_KEY'), model: MODEL(), voice, piece, mode: b.mode, extra, beat });
+    const r = await assist({ key: env('ANTHROPIC_API_KEY'), model: MODEL(), voice, piece, mode: b.mode, extra, beat, passage: b.passage });
     return json(r, r.ok ? 200 : 502);
   }
   if (b.action === 'preview' || b.action === 'draft') {
