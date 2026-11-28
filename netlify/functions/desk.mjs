@@ -16,7 +16,10 @@ import { blobStore } from '../../src/blobs.mjs';
 import { sameKey } from '../../src/pixel-key.mjs';
 import { deskDeals } from '../../src/deals.mjs';
 import { voicePrompt, piecePrompt, MODES, PASSAGE_MODES, cleanPassage, cleanPiece, blockers, planBlockers, approved, cleanBeat, cleanVoice, cleanVoices, upsertVoice, voiceFor } from '../../src/news/desk.mjs';
-import { assemble, makeBroadcast, resendEnv, usesResend } from './newsletter.mjs';
+import {
+  assemble, editionRun, editionResultMessage, makeBroadcast, resendEnv,
+  sendTestEdition, testRecipient, usesResend, withEditionDelivery,
+} from './newsletter.mjs';
 import { gatherInto } from './leads.mjs';
 import { columbusDate, keysFor, kindOf, cleanRoad, EDITIONS } from '../../src/news/paper-mail.mjs';
 
@@ -65,21 +68,27 @@ export async function assist({ key, model, voice, piece, mode, extra = '', beat 
 }
 
 const emptyDay = (date) => ({ date, plan: { subject: '', intro: '', order: [], skip: false, road: { url: '', headline: '', comment: '' } }, pieces: [] });
-const ORIGIN = () => env('URL') || 'https://heartofcolumbus.shop';
+const LIVE_ORIGIN = 'https://heartofcolumbus.shop';
+const ORIGIN = () => env('URL') || LIVE_ORIGIN;
+const DELIVERY_ACTIONS = ['test-edition', 'send-edition'];
 
 export default async (req) => {
   if (!sameKey(env('HOC_ADMIN_KEY'), req.headers.get('x-hoc-key') || '')) return json({ ok: false, error: 'Wrong desk link.' }, 403);
+  const u = new URL(req.url);
+  const live = u.origin === LIVE_ORIGIN;
   if (req.method === 'POST') {
     let body;
     try { body = await req.json(); } catch { return json({ ok: false, error: 'Bad request.' }, 400); }
     if (!body || typeof body !== 'object') return json({ ok: false, error: 'Bad request.' }, 400);
     if (['deals', 'deal-save', 'deal-remove'].includes(body.action)) return deskDeals(body);
+    if (DELIVERY_ACTIONS.includes(body.action) && !live) {
+      return json({ ok: false, error: 'Open the production newsroom desk to send an email.' }, 403);
+    }
     return updateDesk(body);
   }
 
   const store = blobStore('desk');
   if (!store) return json({ ok: false, error: 'Storage is not set up on this deploy.' }, 503);
-  const u = new URL(req.url);
 
   if (req.method === 'GET') {
     const date = DATE.test(u.searchParams.get('date') || '') ? u.searchParams.get('date') : columbusDate(new Date());
@@ -91,11 +100,12 @@ export default async (req) => {
     ]);
     const r = resendEnv();
     const service = usesResend(r) ? 'resend' : env('BUTTONDOWN_API_KEY') ? 'buttondown' : '';
+    const testTo = live && r.key && r.from ? testRecipient(env('HOC_NEWSLETTER_NOTIFY')) : '';
     const d = day || emptyDay(date);
     if (!d.plan.road) d.plan.road = { url: '', headline: '', comment: '' };
     const clock = EDITIONS[edition];
     const { holdHash, ...draftView } = drafted || {};
-    return json({ ok: true, date, edition, today: columbusDate(new Date()), clock: { deadline: clock.deadline, draft: clock.draft, send: clock.send }, topic: !!r.topics[edition], day: d, voice: voice || { about: '', rules: [], samples: [] }, voices: cleanVoices(voices || []), ideas: ideas || [], beat: cleanBeat(beat || {}), drafted: drafted ? draftView : null, run: run || null, leads: leads || null, service, ai: !!env('ANTHROPIC_API_KEY'), model: MODEL() });
+    return json({ ok: true, date, edition, today: columbusDate(new Date()), clock: { deadline: clock.deadline, draft: clock.draft, send: clock.send }, topic: !!r.topics[edition], day: d, voice: voice || { about: '', rules: [], samples: [] }, voices: cleanVoices(voices || []), ideas: ideas || [], beat: cleanBeat(beat || {}), drafted: drafted ? draftView : null, run: run || null, leads: leads || null, service, live, testTo, ai: !!env('ANTHROPIC_API_KEY'), model: MODEL() });
   }
   return json({ ok: false, error: 'Use GET or POST.' }, 405);
 };
@@ -181,15 +191,44 @@ async function updateDesk(b) {
     const r = await assist({ key: env('ANTHROPIC_API_KEY'), model: MODEL(), voice, piece, mode: b.mode, extra, beat, passage: b.passage });
     return json(r, r.ok ? 200 : 502);
   }
-  if (b.action === 'preview' || b.action === 'draft') {
+  if (b.action === 'preview') {
     const news = blobStore('newsletter');
     const ed = await assemble({ kind: edition, date, deskStore: store, store: news, origin: ORIGIN() });
-    if (b.action === 'preview') return json({ ok: true, skip: !!ed.skip, html: ed.html || '', subject: ed.subject || '', count: approved(day).length, notes: ed.notes, substance: ed.substance || 0 });
-    if (ed.skip) return json({ ok: false, error: 'This edition is marked "No edition".' }, 422);
+    return json({ ok: true, skip: !!ed.skip, html: ed.html || '', subject: ed.subject || '', count: approved(day).length, notes: ed.notes, substance: ed.substance || 0 });
+  }
+  if (b.action === 'draft' || DELIVERY_ACTIONS.includes(b.action)) {
+    if (day.plan.skip) return json({ ok: false, error: 'This edition is marked "No edition".' }, 422);
     const why = planBlockers(day.plan);
     if (why.length) return json({ ok: false, error: why.join(' '), blockers: why }, 422);
-    const r = await makeBroadcast({ kind: edition, date, store: news, resend: resendEnv(), key: env('BUTTONDOWN_API_KEY'), subject: ed.subject, html: ed.html });
-    return json(r, r.ok ? 200 : (r.reason === 'already-scheduled' ? 409 : 502));
+    const news = blobStore('newsletter');
+    const resend = resendEnv();
+    if (b.action === 'send-edition') {
+      const now = new Date();
+      if (b.confirmed !== true || b.edition !== edition || date !== columbusDate(now)) {
+        return json({ ok: false, error: 'Confirm the send for today’s morning or evening edition.' }, 422);
+      }
+      if (!news || !usesResend(resend)) return json({ ok: false, error: 'Resend and newsletter storage must be configured to send an edition.' }, 503);
+      const result = await withEditionDelivery(edition, date, () => editionRun({
+        kind: edition, now, deskStore: store, store: news, origin: LIVE_ORIGIN, resend,
+        notifyTo: env('HOC_NEWSLETTER_NOTIFY'), manual: true,
+      }));
+      if (result.reason !== 'scheduled') return json({ ok: false, error: editionResultMessage(result, edition) }, 409);
+      return json({ ok: true, at: result.at });
+    }
+    if (b.action === 'test-edition') {
+      const ed = await assemble({ kind: edition, date, deskStore: store, store: news, origin: LIVE_ORIGIN });
+      if (ed.skip || !ed.html) return json({ ok: false, error: editionResultMessage({ reason: 'skip' }, edition) }, 422);
+      const recipient = testRecipient(env('HOC_NEWSLETTER_NOTIFY'));
+      const result = await sendTestEdition({ resend, recipient, subject: ed.subject, html: ed.html, origin: LIVE_ORIGIN });
+      return result.ok ? json({ ok: true, recipient }) : json({ ok: false, error: editionResultMessage(result, edition) }, 502);
+    }
+    const saveDraft = async () => {
+      const ed = await assemble({ kind: edition, date, deskStore: store, store: news, origin: ORIGIN() });
+      if (ed.skip) return { ok: false, reason: 'skip' };
+      return makeBroadcast({ kind: edition, date, store: news, resend, key: env('BUTTONDOWN_API_KEY'), subject: ed.subject, html: ed.html });
+    };
+    const r = usesResend(resend) ? await withEditionDelivery(edition, date, saveDraft) : await saveDraft();
+    return r.ok ? json(r) : json({ ok: false, error: editionResultMessage(r, edition) }, 409);
   }
   return json({ ok: false, error: 'Unknown action.' }, 400);
 }

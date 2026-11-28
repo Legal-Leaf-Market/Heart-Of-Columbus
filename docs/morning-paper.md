@@ -137,11 +137,22 @@ the typing.
    it is The take), or a dash.
 7. Pick **Morning** or **Evening** next to the date: each has its own plan,
    pieces and Up the road. Order the pieces with the arrows, write the
-   subject and your open, check the **Preview** (it shows the whole edition as
-   it will go out). **Make the draft now** puts it in Resend early; the job
-   updates that same draft at its time and schedules it, so there is never a
-   second copy. The subject, the open and Up the road get the same `[CHECK]`
-   and dash check. **Hold this edition** shows once it is scheduled.
+   subject and your open, and check the **Preview**. The subject, the open
+   and Up the road get the same `[CHECK]` and dash check.
+
+### Send, test and hold
+
+| Desk control | What it does |
+| --- | --- |
+| **Make the draft now** | Saves the edition in Resend as a draft. The scheduled job can update that draft at its normal time. |
+| **Send test to me** | Emails the current saved pieces and edition plan to the first valid address in `HOC_NEWSLETTER_NOTIFY`. The subject starts with `[Test]`. Press it again after a revision to review another copy. The test's footer links to signup. |
+| **Send edition** | Queues today's selected edition for its newsletter topic two minutes after you confirm. The desk checks Resend for an existing scheduled, queued or sent edition and verifies its audience before scheduling. |
+| **Hold this edition** | Cancels a scheduled send within its Hold window and keeps the draft. |
+
+**After a revision:** Save and approve the changes in each piece, open
+**Preview**, then use **This edition → Send test to me**. You can do that
+even after the edition has gone out. Review the inbox copy before clicking
+**Send edition** for an edition that is still waiting to go out.
 
 ## Overnight leads
 
@@ -168,7 +179,7 @@ Netlify (Site configuration > Environment variables, scoped to Functions):
 | `HOC_NEWSLETTER_REPLY_TO` | Optional: where replies to the newsletter go |
 | `RESEND_TOPIC_MORNING` | The Resend topic id for the morning edition. Required to send the morning edition |
 | `RESEND_TOPIC_EVENING` | The Resend topic id for the evening edition. Required to send the evening edition |
-| `HOC_NEWSLETTER_NOTIFY` | Who gets each edition's note with the Hold link (comma separated) |
+| `HOC_NEWSLETTER_NOTIFY` | Who gets each edition’s note with the Hold link (comma separated). The first valid address also gets desk test emails. |
 | `HOC_NEWSLETTER=resend` | Build setting: turns the signup form on, posting to `/api/subscribe` |
 | `BUTTONDOWN_API_KEY` | Buttondown instead of Resend |
 

@@ -5,7 +5,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { readFileSync } from 'node:fs';
-import { editionRun, makeBroadcast, assemble, notify, config } from '../netlify/functions/newsletter.mjs';
+import { editionRun, makeBroadcast, assemble, notify, sendTestEdition, testRecipient, withEditionDelivery, config } from '../netlify/functions/newsletter.mjs';
 import { config as eveningConfig } from '../netlify/functions/newsletter-evening.mjs';
 import { handle as hold } from '../netlify/functions/hold.mjs';
 import { addContact, topicsFor, cleanChoice } from '../netlify/functions/subscribe.mjs';
@@ -240,6 +240,69 @@ test('history follows the cursor and treats a partially sent canceled edition as
     assert.equal((await run('morning', iso, { net: failed })).reason, 'history-unverified');
     assert.equal(failed.calls.some(({ url, method }) => url.includes('/broadcasts') && method === 'POST'), false);
   }
+});
+
+test('a repeatable inbox test sends only to the first configured publisher address', async () => {
+  const net = fakeNet();
+  const html = '<a href="{{{RESEND_UNSUBSCRIBE_URL}}}">Preferences</a><p>Revised ending</p>';
+  const recipient = testRecipient('broken, reader@example.org, other@example.org');
+  for (let copy = 0; copy < 2; copy++) {
+    const result = await sendTestEdition({ resend, recipient, subject: 'Morning paper', html, origin: 'https://x.test', fetchFn: net.fn });
+    assert.equal(result.reason, 'test-sent');
+  }
+  assert.equal(net.calls.length, 2);
+  for (const call of net.calls) {
+    assert.match(call.url, /\/emails$/);
+    assert.deepEqual(call.body.to, ['reader@example.org']);
+    assert.equal(call.body.subject, '[Test] Morning paper');
+    assert.equal(call.body.html, '<a href="https://x.test/newsletter/">Preferences</a><p>Revised ending</p>');
+  }
+  assert.equal((await sendTestEdition({ resend, recipient: '', fetchFn: net.fn })).reason, 'test-unconfigured');
+  assert.equal(net.calls.length, 2);
+});
+
+test('manual delivery recovers an unsent edition with a two-minute Hold window but never duplicates it', async () => {
+  const now = new Date('2026-12-02T14:00:00Z');
+  const store = memStore();
+  const keys = keysFor('morning', '2026-12-02');
+  const old = { reason: 'late' };
+  await store.setJSON(keys.run, old);
+  const existing = { id: 'b-old', name: 'Morning edition 2026-12-02', status: 'sent', segment_id: 'seg' };
+  const blocked = fakeNet({ history: [existing] });
+  const base = { now, store, resend, origin: 'https://x.test', manual: true, log: quiet };
+  assert.equal((await editionRun({ ...base, fetchFn: blocked.fn })).reason, 'already-in-resend');
+  assert.deepEqual(await store.getJSON(keys.run), old);
+  assert.equal(blocked.calls.some((c) => c.method === 'POST'), false);
+
+  const net = fakeNet();
+  const result = await editionRun({ ...base, fetchFn: net.fn });
+  assert.equal(result.reason, 'scheduled');
+  assert.equal(result.at, '2026-12-02T14:02:00.000Z');
+  assert.equal((await store.getJSON(keys.run)).manual, true);
+  assert.ok((await store.getJSON(keys.draft)).holdHash);
+  assert.equal((await editionRun({ ...base, manual: false, fetchFn: net.fn })).reason, 'ran');
+});
+
+test('an edition has one delivery writer at a time and can be retried if a writer fails', async () => {
+  let row = null, version = 0;
+  const blobs = {
+    getWithMetadata: async () => row,
+    async setJSON(key, data, condition) {
+      assert.equal(key, 'delivery-morning-2026-12-02');
+      const matches = row ? condition.onlyIfMatch === row.etag : condition.onlyIfNew;
+      if (!matches) return { modified: false };
+      row = { data, etag: String(++version) };
+      return { modified: true, etag: row.etag };
+    },
+  };
+  let writes = 0;
+  const writer = () => { writes++; return 'finished'; };
+  const locked = (run) => withEditionDelivery('morning', '2026-12-02', run, blobs, () => 1234);
+  const results = await Promise.all([locked(writer), locked(writer)]);
+  assert.equal(writes, 1);
+  assert.ok(results.some((r) => r.reason === 'edition-busy'));
+  await assert.rejects(locked(() => { throw new Error('fixture'); }), /fixture/);
+  assert.equal(await locked(writer), 'finished');
 });
 
 test('Hold cancels the scheduled send and keeps the draft, with the desk key or that edition\'s code only', async () => {

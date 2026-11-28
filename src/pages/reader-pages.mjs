@@ -87,6 +87,13 @@ function inboxPage(ctx) {
 // The publisher's writing desk: craft and approve the morning and evening
 // editions (src/news/desk.mjs, /api/desk). Each edition's job builds it from
 // the desk and schedules it; Hold (/api/hold) stops a scheduled send.
+const deliveryButtons = `<div class="dk-tools">
+  <button type="button" class="btn" data-draft>Make the draft now</button>
+  <button type="button" class="btn" data-test-edition disabled>Send test to me</button>
+  <button type="button" class="btn btn-primary" data-send-edition disabled>Send edition</button>
+  <button type="button" class="btn" data-hold hidden>Hold this edition</button>
+</div>`;
+
 function deskPage(ctx) {
   const shapes = Object.entries(SHAPES).map(([k, v]) => `<option value="${k}">${esc(v.label)}</option>`).join('');
   const body = `
@@ -139,7 +146,9 @@ function deskPage(ctx) {
       <div class="dk-tools"><button type="button" class="btn" data-new>New piece</button></div>
       <h2>Send</h2>
       <p class="muted dk-count" data-ready></p>
-      <div class="dk-tools"><button type="button" class="btn" data-draft>Make the draft now</button><button type="button" class="btn" data-hold hidden>Hold this edition</button></div>
+      <p class="muted dk-count" data-delivery-help>A test goes only to your inbox. Send edition schedules today’s edition for subscribers.</p>
+      ${deliveryButtons}
+      <p class="dk-count" role="status" data-delivery-status></p>
       <p class="muted dk-count" data-drafted></p>
       <p class="muted dk-count" data-run></p>
     </aside>
