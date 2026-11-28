@@ -3197,7 +3197,7 @@ export const COMMERCE = {
   "book": []
  },
  "mccabe-orthodontics": {
-  "platform": "woocommerce",
+  "platform": "wordpress",
   "stack": [
    "woocommerce",
    "wordpress"
@@ -3265,11 +3265,7 @@ export const COMMERCE = {
   "feed": true,
   "store": "",
   "order": [],
-  "book": [],
-  "gift": {
-   "label": "their website",
-   "url": "https://www.minashboutique.com/products/minash-boutique-gift-card"
-  }
+  "book": []
  },
  "misora": {
   "platform": "woocommerce",
@@ -4448,8 +4444,9 @@ export const COMMERCE = {
   ]
  },
  "southern-roofing-inc": {
-  "platform": "wordpress",
+  "platform": "woocommerce",
   "stack": [
+   "woocommerce",
    "wordpress"
   ],
   "origin": "https://www.southernroofinginc.com",
@@ -4940,7 +4937,7 @@ export const COMMERCE = {
   "book": [
    {
     "label": "online booking",
-    "url": "https://columbuscat.cafe/reserve-your-spot/"
+    "url": "https://columbuscat.cafe/reservations/"
    }
   ]
  },
@@ -5499,7 +5496,7 @@ export const COMMERCE = {
   "book": []
  },
  "clarity-of-central-indiana": {
-  "platform": "wordpress",
+  "platform": "woocommerce",
   "stack": [
    "woocommerce",
    "wordpress"
@@ -5528,11 +5525,14 @@ export const COMMERCE = {
   "book": []
  },
  "kawaii-katz": {
-  "platform": "kawaiikatz",
+  "platform": "shopify",
+  "stack": [
+   "shopify",
+   "wordpress"
+  ],
   "origin": "https://kawaiikatz.heartofcolumbus.shop",
-  "feed": true,
-  "limit": 12,
-  "store": "https://kawaiikatz.heartofcolumbus.shop/",
+  "feed": false,
+  "store": "https://kawaiikatz.heartofcolumbus.shop",
   "order": [],
   "book": []
  },

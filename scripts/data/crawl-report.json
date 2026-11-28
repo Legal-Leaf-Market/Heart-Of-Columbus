@@ -1,19 +1,19 @@
 {
- "checked": "2026-11-25",
- "crawled": 297,
- "withCatalog": 24,
+ "checked": "2026-11-28",
+ "crawled": 298,
+ "withCatalog": 20,
  "byMethod": {
-  "store feed": 17,
+  "store feed": 13,
   "page data": 7
  },
  "byKind": {
-  "shop": 24
+  "shop": 20
  },
  "byPlatform": {
-  "shopify": 11,
-  "woocommerce": 5,
+  "shopify": 10,
   "unknown": 2,
   "wix-stores": 5,
+  "woocommerce": 2,
   "squarespace-commerce": 1
  },
  "found": [
@@ -25,17 +25,7 @@
    "method": "store feed",
    "platform": "shopify",
    "items": 1000,
-   "inStockWithPhoto": 119
-  },
-  {
-   "slug": "bips-bites",
-   "name": "Bip's Bites",
-   "cat": "restaurants",
-   "kind": "shop",
-   "method": "store feed",
-   "platform": "woocommerce",
-   "items": 6,
-   "inStockWithPhoto": 6
+   "inStockWithPhoto": 117
   },
   {
    "slug": "boutique-elise",
@@ -45,7 +35,7 @@
    "method": "store feed",
    "platform": "shopify",
    "items": 571,
-   "inStockWithPhoto": 217
+   "inStockWithPhoto": 212
   },
   {
    "slug": "columbus-cycling-and-fitness",
@@ -64,18 +54,8 @@
    "kind": "shop",
    "method": "store feed",
    "platform": "shopify",
-   "items": 19,
-   "inStockWithPhoto": 12
-  },
-  {
-   "slug": "divine-family-bbq",
-   "name": "Divine Family BBQ",
-   "cat": "restaurants",
-   "kind": "shop",
-   "method": "store feed",
-   "platform": "woocommerce",
-   "items": 8,
-   "inStockWithPhoto": 8
+   "items": 18,
+   "inStockWithPhoto": 11
   },
   {
    "slug": "empire-tea-services",
@@ -104,8 +84,8 @@
    "kind": "shop",
    "method": "page data",
    "platform": "wix-stores",
-   "items": 23,
-   "inStockWithPhoto": 23
+   "items": 17,
+   "inStockWithPhoto": 17
   },
   {
    "slug": "footworks",
@@ -114,8 +94,8 @@
    "kind": "shop",
    "method": "store feed",
    "platform": "shopify",
-   "items": 647,
-   "inStockWithPhoto": 470
+   "items": 650,
+   "inStockWithPhoto": 474
   },
   {
    "slug": "garb2art-cosmetics",
@@ -134,8 +114,8 @@
    "kind": "shop",
    "method": "page data",
    "platform": "wix-stores",
-   "items": 30,
-   "inStockWithPhoto": 30
+   "items": 21,
+   "inStockWithPhoto": 21
   },
   {
    "slug": "hiker-trailers",
@@ -158,16 +138,6 @@
    "inStockWithPhoto": 377
   },
   {
-   "slug": "minash-boutique",
-   "name": "Minash Boutique",
-   "cat": "shopping",
-   "kind": "shop",
-   "method": "store feed",
-   "platform": "shopify",
-   "items": 63,
-   "inStockWithPhoto": 43
-  },
-  {
    "slug": "paqd-meats",
    "name": "PAQ'D Meats",
    "cat": "shopping",
@@ -175,7 +145,7 @@
    "method": "page data",
    "platform": "wix-stores",
    "items": 13,
-   "inStockWithPhoto": 10
+   "inStockWithPhoto": 9
   },
   {
    "slug": "sew-vivid-designs",
@@ -186,16 +156,6 @@
    "platform": "shopify",
    "items": 1000,
    "inStockWithPhoto": 992
-  },
-  {
-   "slug": "sojourn-coffee-company",
-   "name": "Sojourn Coffee Company",
-   "cat": "coffee-sweets",
-   "kind": "shop",
-   "method": "store feed",
-   "platform": "woocommerce",
-   "items": 59,
-   "inStockWithPhoto": 58
   },
   {
    "slug": "sugar-bayers-cookie-co",
@@ -214,8 +174,8 @@
    "kind": "shop",
    "method": "store feed",
    "platform": "shopify",
-   "items": 854,
-   "inStockWithPhoto": 854
+   "items": 834,
+   "inStockWithPhoto": 834
   },
   {
    "slug": "the-castle-games",
@@ -225,7 +185,7 @@
    "method": "store feed",
    "platform": "shopify",
    "items": 1000,
-   "inStockWithPhoto": 52
+   "inStockWithPhoto": 53
   },
   {
    "slug": "tribal-blend-cat-cafe",
@@ -255,7 +215,7 @@
    "method": "store feed",
    "platform": "shopify",
    "items": 883,
-   "inStockWithPhoto": 763
+   "inStockWithPhoto": 761
   }
  ],
  "nothing": [
@@ -270,6 +230,12 @@
    "cat": "shopping",
    "platform": "",
    "reason": "unreachable"
+  },
+  {
+   "slug": "aesthetic-centre-of-indiana",
+   "cat": "beauty",
+   "platform": "wordpress",
+   "reason": "no product or menu data"
   },
   {
    "slug": "all-pro-driving-academy-llc",
@@ -290,9 +256,9 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "angottis-italian-restaurant",
-   "cat": "restaurants",
-   "platform": "",
+   "slug": "the-artisan-salon",
+   "cat": "beauty",
+   "platform": "wix-stores",
    "reason": "no product or menu data"
   },
   {
@@ -302,8 +268,8 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "antojitos-yeyes",
-   "cat": "restaurants",
+   "slug": "the-alley-mobile-salon",
+   "cat": "beauty",
    "platform": "",
    "reason": "no product or menu data"
   },
@@ -314,45 +280,33 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "the-artisan-salon",
-   "cat": "beauty",
-   "platform": "wix-stores",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "bakers-fine-gifts-and-accessories",
-   "cat": "shopping",
-   "platform": "",
-   "reason": "no product or menu data"
-  },
-  {
    "slug": "bad-boys-barbershop",
    "cat": "beauty",
    "platform": "",
    "reason": "no product or menu data"
   },
   {
-   "slug": "anok-hair-braiding",
-   "cat": "beauty",
+   "slug": "antojitos-yeyes",
+   "cat": "restaurants",
    "platform": "",
    "reason": "no product or menu data"
   },
   {
-   "slug": "the-alley-mobile-salon",
-   "cat": "beauty",
+   "slug": "angottis-italian-restaurant",
+   "cat": "restaurants",
    "platform": "",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "bei-bambini",
-   "cat": "kids",
-   "platform": "wix-stores",
    "reason": "no product or menu data"
   },
   {
    "slug": "bark-avenue",
    "cat": "pets",
    "platform": "wordpress",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "bei-bambini",
+   "cat": "kids",
+   "platform": "wix-stores",
    "reason": "no product or menu data"
   },
   {
@@ -364,12 +318,6 @@
   {
    "slug": "analytical-engineering-inc",
    "cat": "makers",
-   "platform": "woocommerce",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "best-friends-animal-healthcare",
-   "cat": "pets",
    "platform": "woocommerce",
    "reason": "no product or menu data"
   },
@@ -386,21 +334,27 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "black-jewell-popcorn",
-   "cat": "coffee-sweets",
-   "platform": "woocommerce",
-   "reason": "unreachable"
-  },
-  {
-   "slug": "aesthetic-centre-of-indiana",
+   "slug": "anok-hair-braiding",
    "cat": "beauty",
-   "platform": "wordpress",
+   "platform": "",
    "reason": "no product or menu data"
   },
   {
-   "slug": "blackerbys-hangar-5-restaurant",
+   "slug": "balance-massage-and-wellness-studio",
+   "cat": "beauty",
+   "platform": "woocommerce",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "bips-bites",
    "cat": "restaurants",
-   "platform": "squarespace-commerce",
+   "platform": "woocommerce",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "blondies-salon-and-spa",
+   "cat": "beauty",
+   "platform": "wordpress",
    "reason": "no product or menu data"
   },
   {
@@ -410,10 +364,16 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "black-sheep-craft-pizza-and-cocktails",
+   "slug": "blackerbys-hangar-5-restaurant",
    "cat": "restaurants",
    "platform": "squarespace-commerce",
    "reason": "no product or menu data"
+  },
+  {
+   "slug": "black-jewell-popcorn",
+   "cat": "coffee-sweets",
+   "platform": "woocommerce",
+   "reason": "unreachable"
   },
   {
    "slug": "breathe-halotherapy-wellness-center",
@@ -422,21 +382,33 @@
    "reason": "no product or menu data"
   },
   {
+   "slug": "bakers-fine-gifts-and-accessories",
+   "cat": "shopping",
+   "platform": "",
+   "reason": "unreachable"
+  },
+  {
    "slug": "bright-start-child-care",
    "cat": "kids",
    "platform": "",
    "reason": "no product or menu data"
   },
   {
-   "slug": "boyer-machine-and-tool-co-inc",
-   "cat": "makers",
-   "platform": "wordpress",
+   "slug": "black-sheep-craft-pizza-and-cocktails",
+   "cat": "restaurants",
+   "platform": "squarespace-commerce",
    "reason": "no product or menu data"
   },
   {
    "slug": "brittnys-bobbins",
    "cat": "shopping",
    "platform": "squarespace-commerce",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "boyer-machine-and-tool-co-inc",
+   "cat": "makers",
+   "platform": "wordpress",
    "reason": "no product or menu data"
   },
   {
@@ -452,20 +424,14 @@
    "reason": "unreachable"
   },
   {
-   "slug": "balance-massage-and-wellness-studio",
-   "cat": "beauty",
-   "platform": "woocommerce",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "cameo-room-salon",
-   "cat": "beauty",
+   "slug": "camilas-mexican-restaurant",
+   "cat": "restaurants",
    "platform": "",
    "reason": "unreachable"
   },
   {
-   "slug": "camilas-mexican-restaurant",
-   "cat": "restaurants",
+   "slug": "cameo-room-salon",
+   "cat": "beauty",
    "platform": "",
    "reason": "unreachable"
   },
@@ -476,14 +442,14 @@
    "reason": "unreachable"
   },
   {
-   "slug": "ce-systems",
-   "cat": "makers",
+   "slug": "carlos-pizza",
+   "cat": "restaurants",
    "platform": "",
    "reason": "no product or menu data"
   },
   {
-   "slug": "carlos-pizza",
-   "cat": "restaurants",
+   "slug": "ce-systems",
+   "cat": "makers",
    "platform": "",
    "reason": "no product or menu data"
   },
@@ -494,15 +460,9 @@
    "reason": "unreachable"
   },
   {
-   "slug": "china-buffet",
-   "cat": "restaurants",
+   "slug": "bushs-market",
+   "cat": "shopping",
    "platform": "",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "blondies-salon-and-spa",
-   "cat": "beauty",
-   "platform": "wordpress",
    "reason": "no product or menu data"
   },
   {
@@ -512,10 +472,22 @@
    "reason": "no product or menu data"
   },
   {
+   "slug": "china-buffet",
+   "cat": "restaurants",
+   "platform": "",
+   "reason": "no product or menu data"
+  },
+  {
    "slug": "columbus-bar",
    "cat": "bars",
    "platform": "woocommerce",
    "reason": "unreachable"
+  },
+  {
+   "slug": "best-friends-animal-healthcare",
+   "cat": "pets",
+   "platform": "woocommerce",
+   "reason": "no product or menu data"
   },
   {
    "slug": "columbus-bowling-center",
@@ -530,21 +502,15 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "columbus-gold-and-diamond",
-   "cat": "shopping",
-   "platform": "",
-   "reason": "no product or menu data"
-  },
-  {
    "slug": "columbus-industrial-electric",
    "cat": "makers",
    "platform": "",
    "reason": "no product or menu data"
   },
   {
-   "slug": "cinlee-services-llc",
-   "cat": "makers",
-   "platform": "woocommerce",
+   "slug": "columbus-gold-and-diamond",
+   "cat": "shopping",
+   "platform": "",
    "reason": "no product or menu data"
   },
   {
@@ -554,22 +520,28 @@
    "reason": "unreachable"
   },
   {
+   "slug": "columbus-massage-center-and-salon",
+   "cat": "beauty",
+   "platform": "wordpress",
+   "reason": "no product or menu data"
+  },
+  {
    "slug": "columbus-oriental-market",
    "cat": "shopping",
    "platform": "",
    "reason": "unreachable"
   },
   {
-   "slug": "bettner-wire-coating-dies-inc",
-   "cat": "makers",
-   "platform": "wordpress",
-   "reason": "no product or menu data"
-  },
-  {
    "slug": "columbus-uppercuts",
    "cat": "beauty",
    "platform": "squarespace-commerce",
    "reason": "no product or menu data"
+  },
+  {
+   "slug": "columbus-outdoor-power",
+   "cat": "shopping",
+   "platform": "woocommerce",
+   "reason": "unreachable"
   },
   {
    "slug": "columbus-veterinary-services",
@@ -584,28 +556,16 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "columbus-nutrition",
-   "cat": "coffee-sweets",
-   "platform": "",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "columbus-outdoor-power",
-   "cat": "shopping",
+   "slug": "cinlee-services-llc",
+   "cat": "makers",
    "platform": "woocommerce",
-   "reason": "unreachable"
+   "reason": "no product or menu data"
   },
   {
    "slug": "copper-creek-coatings-and-farm-toys",
    "cat": "shopping",
    "platform": "",
    "reason": "unreachable"
-  },
-  {
-   "slug": "columbus-massage-center-and-salon",
-   "cat": "beauty",
-   "platform": "wordpress",
-   "reason": "no product or menu data"
   },
   {
    "slug": "columbus-warehouse-and-cartage",
@@ -620,14 +580,38 @@
    "reason": "no product or menu data"
   },
   {
+   "slug": "columbus-nutrition",
+   "cat": "coffee-sweets",
+   "platform": "",
+   "reason": "no product or menu data"
+  },
+  {
    "slug": "craft-and-bounce-with-us",
    "cat": "kids",
    "platform": "squarespace-commerce",
    "reason": "no product or menu data"
   },
   {
-   "slug": "columbus-greeks-pizzeria",
-   "cat": "restaurants",
+   "slug": "cork-liquors",
+   "cat": "shopping",
+   "platform": "wordpress",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "bettner-wire-coating-dies-inc",
+   "cat": "makers",
+   "platform": "wordpress",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "creative-tool-and-machining-inc",
+   "cat": "makers",
+   "platform": "",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "cunningham-pattern-and-engineering-inc",
+   "cat": "makers",
    "platform": "",
    "reason": "no product or menu data"
   },
@@ -644,33 +628,9 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "cork-liquors",
-   "cat": "shopping",
-   "platform": "wordpress",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "cunningham-pattern-and-engineering-inc",
-   "cat": "makers",
-   "platform": "",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "bushs-market",
-   "cat": "shopping",
-   "platform": "",
-   "reason": "1 items"
-  },
-  {
    "slug": "dance-street",
    "cat": "kids",
    "platform": "godaddy",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "dancers-studio-inc",
-   "cat": "kids",
-   "platform": "wix-stores",
    "reason": "no product or menu data"
   },
   {
@@ -680,20 +640,20 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "creative-tool-and-machining-inc",
-   "cat": "makers",
-   "platform": "",
-   "reason": "no product or menu data"
-  },
-  {
    "slug": "daileys-cnc-machining-llc",
    "cat": "makers",
    "platform": "woocommerce",
    "reason": "no product or menu data"
   },
   {
-   "slug": "creative-hair-design",
-   "cat": "beauty",
+   "slug": "dancers-studio-inc",
+   "cat": "kids",
+   "platform": "wix-stores",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "columbus-greeks-pizzeria",
+   "cat": "restaurants",
    "platform": "",
    "reason": "no product or menu data"
   },
@@ -710,25 +670,25 @@
    "reason": "no product or menu data"
   },
   {
+   "slug": "divine-family-bbq",
+   "cat": "restaurants",
+   "platform": "woocommerce",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "daniel-shanti-barber",
+   "cat": "beauty",
+   "platform": "",
+   "reason": "no product or menu data"
+  },
+  {
    "slug": "dog-world-daycare-and-behavior-center",
    "cat": "pets",
    "platform": "godaddy",
    "reason": "no product or menu data"
   },
   {
-   "slug": "davids-inc",
-   "cat": "makers",
-   "platform": "",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "dirty-dogs",
-   "cat": "pets",
-   "platform": "",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "daniel-shanti-barber",
+   "slug": "creative-hair-design",
    "cat": "beauty",
    "platform": "",
    "reason": "no product or menu data"
@@ -740,15 +700,27 @@
    "reason": "no product or menu data"
   },
   {
+   "slug": "davids-inc",
+   "cat": "makers",
+   "platform": "",
+   "reason": "no product or menu data"
+  },
+  {
    "slug": "driftwood-builders-inc",
    "cat": "makers",
    "platform": "wordpress",
    "reason": "no product or menu data"
   },
   {
-   "slug": "dorothys-playhouse",
-   "cat": "kids",
-   "platform": "square-online",
+   "slug": "dunlap-and-co-inc",
+   "cat": "makers",
+   "platform": "wordpress",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "dirty-dogs",
+   "cat": "pets",
+   "platform": "",
    "reason": "no product or menu data"
   },
   {
@@ -764,26 +736,8 @@
    "reason": "unreachable"
   },
   {
-   "slug": "dunlap-and-co-inc",
-   "cat": "makers",
-   "platform": "wordpress",
-   "reason": "no product or menu data"
-  },
-  {
    "slug": "donuts-n-coffee",
    "cat": "coffee-sweets",
-   "platform": "",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "donut-central",
-   "cat": "coffee-sweets",
-   "platform": "wix-stores",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "faithprep-academy-of-indiana",
-   "cat": "kids",
    "platform": "",
    "reason": "no product or menu data"
   },
@@ -794,14 +748,50 @@
    "reason": "unreachable"
   },
   {
+   "slug": "dorothys-playhouse",
+   "cat": "kids",
+   "platform": "square-online",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "faithprep-academy-of-indiana",
+   "cat": "kids",
+   "platform": "",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "energy-balancing-holistic-wellness-center",
+   "cat": "beauty",
+   "platform": "wix-stores",
+   "reason": "no product or menu data"
+  },
+  {
    "slug": "farmhouse-favorites",
    "cat": "shopping",
    "platform": "godaddy",
    "reason": "no product or menu data"
   },
   {
+   "slug": "donut-central",
+   "cat": "coffee-sweets",
+   "platform": "wix-stores",
+   "reason": "no product or menu data"
+  },
+  {
    "slug": "firefly-shirt-co",
    "cat": "shopping",
+   "platform": "squarespace-commerce",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "fishers-flower-basket",
+   "cat": "shopping",
+   "platform": "",
+   "reason": "unreachable"
+  },
+  {
+   "slug": "first-class-catering",
+   "cat": "restaurants",
    "platform": "squarespace-commerce",
    "reason": "no product or menu data"
   },
@@ -812,10 +802,10 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "fishers-flower-basket",
-   "cat": "shopping",
-   "platform": "",
-   "reason": "unreachable"
+   "slug": "for-the-love-of-brunch",
+   "cat": "restaurants",
+   "platform": "wix-stores",
+   "reason": "no product or menu data"
   },
   {
    "slug": "el-nopal-mexican-cuisine",
@@ -824,39 +814,9 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "first-class-catering",
-   "cat": "restaurants",
-   "platform": "squarespace-commerce",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "bankin-baby-bbq",
-   "cat": "restaurants",
-   "platform": "",
-   "reason": "unreachable"
-  },
-  {
-   "slug": "energy-balancing-holistic-wellness-center",
-   "cat": "beauty",
-   "platform": "wix-stores",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "for-the-love-of-brunch",
-   "cat": "restaurants",
-   "platform": "wix-stores",
-   "reason": "no product or menu data"
-  },
-  {
    "slug": "force-construction-co-inc",
    "cat": "makers",
    "platform": "",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "elite-wellness-and-beauty",
-   "cat": "beauty",
-   "platform": "wordpress",
    "reason": "no product or menu data"
   },
   {
@@ -878,9 +838,15 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "the-garage-pub-and-grill",
-   "cat": "bars",
-   "platform": "",
+   "slug": "elite-wellness-and-beauty",
+   "cat": "beauty",
+   "platform": "wordpress",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "gaylor-inc",
+   "cat": "makers",
+   "platform": "woocommerce",
    "reason": "no product or menu data"
   },
   {
@@ -890,7 +856,19 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "gaylor-inc",
+   "slug": "bankin-baby-bbq",
+   "cat": "restaurants",
+   "platform": "",
+   "reason": "unreachable"
+  },
+  {
+   "slug": "the-garage-pub-and-grill",
+   "cat": "bars",
+   "platform": "",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "grammer-logistics",
    "cat": "makers",
    "platform": "woocommerce",
    "reason": "no product or menu data"
@@ -902,13 +880,13 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "grammer-logistics",
-   "cat": "makers",
-   "platform": "woocommerce",
+   "slug": "good-used-furniture",
+   "cat": "shopping",
+   "platform": "",
    "reason": "no product or menu data"
   },
   {
-   "slug": "good-used-furniture",
+   "slug": "growbys-rto-home-furnishings",
    "cat": "shopping",
    "platform": "",
    "reason": "no product or menu data"
@@ -926,14 +904,8 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "growbys-rto-home-furnishings",
-   "cat": "shopping",
-   "platform": "",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "guatemex-restaurant",
-   "cat": "restaurants",
+   "slug": "hair-by-alkat",
+   "cat": "beauty",
    "platform": "",
    "reason": "no product or menu data"
   },
@@ -944,8 +916,8 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "hair-by-alkat",
-   "cat": "beauty",
+   "slug": "guatemex-restaurant",
+   "cat": "restaurants",
    "platform": "",
    "reason": "no product or menu data"
   },
@@ -986,8 +958,8 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "hog-molly-brewing-company",
-   "cat": "bars",
+   "slug": "hoosier-sporting-goods",
+   "cat": "shopping",
    "platform": "wordpress",
    "reason": "no product or menu data"
   },
@@ -1010,15 +982,15 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "hoosier-sporting-goods",
-   "cat": "shopping",
-   "platform": "wordpress",
-   "reason": "no product or menu data"
-  },
-  {
    "slug": "indiana-conservatory-of-music",
    "cat": "kids",
    "platform": "squarespace-commerce",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "indiana-road-ready-llc",
+   "cat": "kids",
+   "platform": "wix-stores",
    "reason": "no product or menu data"
   },
   {
@@ -1034,26 +1006,20 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "indiana-road-ready-llc",
-   "cat": "kids",
-   "platform": "wix-stores",
-   "reason": "no product or menu data"
-  },
-  {
    "slug": "j-and-s-outfitters",
    "cat": "shopping",
    "platform": "wordpress",
    "reason": "no product or menu data"
   },
   {
-   "slug": "jills-diner",
-   "cat": "restaurants",
+   "slug": "jennifer-nails",
+   "cat": "beauty",
    "platform": "",
    "reason": "no product or menu data"
   },
   {
-   "slug": "kinney-paper-and-chemical-co",
-   "cat": "makers",
+   "slug": "jills-diner",
+   "cat": "restaurants",
    "platform": "",
    "reason": "no product or menu data"
   },
@@ -1064,16 +1030,10 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "jennifer-nails",
-   "cat": "beauty",
+   "slug": "kinney-paper-and-chemical-co",
+   "cat": "makers",
    "platform": "",
    "reason": "no product or menu data"
-  },
-  {
-   "slug": "la-patrona-cantina-and-grill",
-   "cat": "restaurants",
-   "platform": "",
-   "reason": "unreachable"
   },
   {
    "slug": "the-kroot-corporation",
@@ -1085,6 +1045,18 @@
    "slug": "la-guanajuato-grocery-and-restaurant",
    "cat": "restaurants",
    "platform": "",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "la-patrona-cantina-and-grill",
+   "cat": "restaurants",
+   "platform": "",
+   "reason": "unreachable"
+  },
+  {
+   "slug": "hog-molly-brewing-company",
+   "cat": "bars",
+   "platform": "wordpress",
    "reason": "no product or menu data"
   },
   {
@@ -1100,8 +1072,20 @@
    "reason": "no product or menu data"
   },
   {
+   "slug": "laurels-hair-studio",
+   "cat": "beauty",
+   "platform": "square-online",
+   "reason": "no product or menu data"
+  },
+  {
    "slug": "lhp-engineering-solutions",
    "cat": "makers",
+   "platform": "",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "koveners-korner-ice-cream",
+   "cat": "coffee-sweets",
    "platform": "",
    "reason": "no product or menu data"
   },
@@ -1112,32 +1096,26 @@
    "reason": "unreachable"
   },
   {
-   "slug": "hair-by-savanna",
-   "cat": "beauty",
-   "platform": "",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "laurels-hair-studio",
-   "cat": "beauty",
-   "platform": "square-online",
-   "reason": "no product or menu data"
-  },
-  {
    "slug": "little-seeds-preschool",
    "cat": "kids",
    "platform": "",
    "reason": "unreachable"
   },
   {
-   "slug": "lucas-brothers-sandwich-shop",
-   "cat": "restaurants",
-   "platform": "square-online",
+   "slug": "hair-by-savanna",
+   "cat": "beauty",
+   "platform": "",
    "reason": "no product or menu data"
   },
   {
    "slug": "lucabe-coffee-co-4th-street",
    "cat": "coffee-sweets",
+   "platform": "square-online",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "lucas-brothers-sandwich-shop",
+   "cat": "restaurants",
    "platform": "square-online",
    "reason": "no product or menu data"
   },
@@ -1166,6 +1144,12 @@
    "reason": "no product or menu data"
   },
   {
+   "slug": "m-and-y-massage-and-foot-massage",
+   "cat": "beauty",
+   "platform": "woocommerce",
+   "reason": "no product or menu data"
+  },
+  {
    "slug": "mancinos-pizza-and-grinders",
    "cat": "restaurants",
    "platform": "",
@@ -1175,18 +1159,6 @@
    "slug": "massage-by-morgan",
    "cat": "beauty",
    "platform": "",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "mariah-retail-store",
-   "cat": "shopping",
-   "platform": "",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "m-and-y-massage-and-foot-massage",
-   "cat": "beauty",
-   "platform": "woocommerce",
    "reason": "no product or menu data"
   },
   {
@@ -1202,8 +1174,14 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "koveners-korner-ice-cream",
-   "cat": "coffee-sweets",
+   "slug": "mariah-retail-store",
+   "cat": "shopping",
+   "platform": "",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "masala-magic",
+   "cat": "restaurants",
    "platform": "",
    "reason": "no product or menu data"
   },
@@ -1214,12 +1192,6 @@
    "reason": "unreachable"
   },
   {
-   "slug": "masala-magic",
-   "cat": "restaurants",
-   "platform": "",
-   "reason": "no product or menu data"
-  },
-  {
    "slug": "meli-market",
    "cat": "shopping",
    "platform": "square-online",
@@ -1228,6 +1200,18 @@
   {
    "slug": "milestone-design-group-inc",
    "cat": "makers",
+   "platform": "",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "minash-boutique",
+   "cat": "shopping",
+   "platform": "shopify",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "michaels-signature-massage-llc",
+   "cat": "beauty",
    "platform": "",
    "reason": "no product or menu data"
   },
@@ -1250,9 +1234,9 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "michaels-signature-massage-llc",
-   "cat": "beauty",
-   "platform": "",
+   "slug": "master-power-transmission",
+   "cat": "makers",
+   "platform": "woocommerce",
    "reason": "no product or menu data"
   },
   {
@@ -1274,21 +1258,15 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "misora",
-   "cat": "restaurants",
-   "platform": "woocommerce",
-   "reason": "no product or menu data"
-  },
-  {
    "slug": "nancys-creative-cakes-n-bakes",
    "cat": "coffee-sweets",
    "platform": "",
    "reason": "unreachable"
   },
   {
-   "slug": "nail-world-llc",
-   "cat": "beauty",
-   "platform": "",
+   "slug": "misora",
+   "cat": "restaurants",
+   "platform": "woocommerce",
    "reason": "no product or menu data"
   },
   {
@@ -1298,9 +1276,15 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "master-power-transmission",
+   "slug": "noblitt-fabricating",
    "cat": "makers",
-   "platform": "woocommerce",
+   "platform": "wordpress",
+   "reason": "unreachable"
+  },
+  {
+   "slug": "nails-station-and-spa-columbus",
+   "cat": "beauty",
+   "platform": "wordpress",
    "reason": "no product or menu data"
   },
   {
@@ -1310,20 +1294,20 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "noblitt-fabricating",
-   "cat": "makers",
-   "platform": "wordpress",
-   "reason": "unreachable"
-  },
-  {
-   "slug": "nordic-ink-tattoo",
+   "slug": "next-step-massage",
    "cat": "beauty",
    "platform": "",
    "reason": "no product or menu data"
   },
   {
-   "slug": "the-nifty-beet",
-   "cat": "coffee-sweets",
+   "slug": "nail-world-llc",
+   "cat": "beauty",
+   "platform": "",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "nordic-ink-tattoo",
+   "cat": "beauty",
    "platform": "",
    "reason": "no product or menu data"
   },
@@ -1334,8 +1318,8 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "next-step-massage",
-   "cat": "beauty",
+   "slug": "the-nifty-beet",
+   "cat": "coffee-sweets",
    "platform": "",
    "reason": "no product or menu data"
   },
@@ -1358,24 +1342,6 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "nails-station-and-spa-columbus",
-   "cat": "beauty",
-   "platform": "wordpress",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "papas-grill",
-   "cat": "restaurants",
-   "platform": "godaddy",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "ozols-construction-corp",
-   "cat": "makers",
-   "platform": "wordpress",
-   "reason": "no product or menu data"
-  },
-  {
    "slug": "percifield-inc",
    "cat": "makers",
    "platform": "",
@@ -1388,15 +1354,27 @@
    "reason": "no product or menu data"
   },
   {
+   "slug": "papas-grill",
+   "cat": "restaurants",
+   "platform": "godaddy",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "pig-and-tasty-bbq-food-truck",
+   "cat": "restaurants",
+   "platform": "",
+   "reason": "no product or menu data"
+  },
+  {
    "slug": "polished-brows",
    "cat": "beauty",
    "platform": "",
    "reason": "unreachable"
   },
   {
-   "slug": "pig-and-tasty-bbq-food-truck",
-   "cat": "restaurants",
-   "platform": "",
+   "slug": "ozols-construction-corp",
+   "cat": "makers",
+   "platform": "wordpress",
    "reason": "no product or menu data"
   },
   {
@@ -1412,19 +1390,13 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "pollert-design-associates-inc",
-   "cat": "makers",
-   "platform": "wordpress",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "posh-sloth-massage",
+   "slug": "pro-nails",
    "cat": "beauty",
    "platform": "",
    "reason": "no product or menu data"
   },
   {
-   "slug": "pro-nails",
+   "slug": "posh-sloth-massage",
    "cat": "beauty",
    "platform": "",
    "reason": "no product or menu data"
@@ -1454,15 +1426,15 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "ramen-alley",
-   "cat": "restaurants",
-   "platform": "square-online",
+   "slug": "pollert-design-associates-inc",
+   "cat": "makers",
+   "platform": "wordpress",
    "reason": "no product or menu data"
   },
   {
-   "slug": "radiance-by-rhianna-spa",
-   "cat": "beauty",
-   "platform": "",
+   "slug": "ramen-alley",
+   "cat": "restaurants",
+   "platform": "square-online",
    "reason": "no product or menu data"
   },
   {
@@ -1478,14 +1450,14 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "ritual-adornment-tattoo-and-piercing",
-   "cat": "beauty",
+   "slug": "riviera-maya-west",
+   "cat": "restaurants",
    "platform": "",
    "reason": "no product or menu data"
   },
   {
-   "slug": "riviera-maya-west",
-   "cat": "restaurants",
+   "slug": "radiance-by-rhianna-spa",
+   "cat": "beauty",
    "platform": "",
    "reason": "no product or menu data"
   },
@@ -1496,15 +1468,21 @@
    "reason": "no product or menu data"
   },
   {
+   "slug": "rohdes-family-diner",
+   "cat": "restaurants",
+   "platform": "wix-stores",
+   "reason": "no product or menu data"
+  },
+  {
    "slug": "little-lambs-child-care",
    "cat": "kids",
    "platform": "",
    "reason": "unreachable"
   },
   {
-   "slug": "rohdes-family-diner",
-   "cat": "restaurants",
-   "platform": "wix-stores",
+   "slug": "ritual-adornment-tattoo-and-piercing",
+   "cat": "beauty",
+   "platform": "",
    "reason": "no product or menu data"
   },
   {
@@ -1512,12 +1490,6 @@
    "cat": "beauty",
    "platform": "",
    "reason": "unreachable"
-  },
-  {
-   "slug": "sabor-de-la-vida",
-   "cat": "restaurants",
-   "platform": "",
-   "reason": "no product or menu data"
   },
   {
    "slug": "sans-souci",
@@ -1544,19 +1516,13 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "salon-aura-hair-color-studio",
-   "cat": "beauty",
-   "platform": "",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "sew-crazy",
+   "slug": "kawaii-katz",
    "cat": "shopping",
-   "platform": "",
+   "platform": "shopify",
    "reason": "no product or menu data"
   },
   {
-   "slug": "shaggy-inks",
+   "slug": "salon-aura-hair-color-studio",
    "cat": "beauty",
    "platform": "",
    "reason": "no product or menu data"
@@ -1568,20 +1534,32 @@
    "reason": "no product or menu data"
   },
   {
+   "slug": "shaggy-inks",
+   "cat": "beauty",
+   "platform": "",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "sew-crazy",
+   "cat": "shopping",
+   "platform": "",
+   "reason": "no product or menu data"
+  },
+  {
    "slug": "shabby-sheep-and-ewe",
    "cat": "shopping",
    "platform": "square-online",
    "reason": "no product or menu data"
   },
   {
-   "slug": "skeleton-crew-tattoo",
+   "slug": "skin-solutions-dermatology-and-aesthetics",
    "cat": "beauty",
-   "platform": "",
+   "platform": "wordpress",
    "reason": "no product or menu data"
   },
   {
-   "slug": "smallz-ice-cream",
-   "cat": "coffee-sweets",
+   "slug": "skeleton-crew-tattoo",
+   "cat": "beauty",
    "platform": "",
    "reason": "no product or menu data"
   },
@@ -1592,20 +1570,20 @@
    "reason": "no product or menu data"
   },
   {
+   "slug": "sojourn-coffee-company",
+   "cat": "coffee-sweets",
+   "platform": "woocommerce",
+   "reason": "no product or menu data"
+  },
+  {
    "slug": "sonyas-dance-zone",
    "cat": "kids",
    "platform": "",
    "reason": "unreachable"
   },
   {
-   "slug": "simmons-winery-450-north-brewery",
-   "cat": "bars",
-   "platform": "wordpress",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "sophea-nails",
-   "cat": "beauty",
+   "slug": "smallz-ice-cream",
+   "cat": "coffee-sweets",
    "platform": "",
    "reason": "no product or menu data"
   },
@@ -1616,15 +1594,15 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "st-paul-lutheran-preschool",
-   "cat": "kids",
-   "platform": "wix-stores",
+   "slug": "sophea-nails",
+   "cat": "beauty",
+   "platform": "",
    "reason": "no product or menu data"
   },
   {
-   "slug": "sophea-asian-restaurant",
-   "cat": "restaurants",
-   "platform": "",
+   "slug": "st-paul-lutheran-preschool",
+   "cat": "kids",
+   "platform": "wix-stores",
    "reason": "no product or menu data"
   },
   {
@@ -1634,14 +1612,32 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "studio-55",
-   "cat": "beauty",
+   "slug": "stillframes-art-and-design",
+   "cat": "shopping",
    "platform": "",
    "reason": "no product or menu data"
   },
   {
-   "slug": "stillframes-art-and-design",
-   "cat": "shopping",
+   "slug": "simmons-winery-450-north-brewery",
+   "cat": "bars",
+   "platform": "wordpress",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "sabor-de-la-vida",
+   "cat": "restaurants",
+   "platform": "",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "sophea-asian-restaurant",
+   "cat": "restaurants",
+   "platform": "",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "studio-55",
+   "cat": "beauty",
    "platform": "",
    "reason": "no product or menu data"
   },
@@ -1664,8 +1660,26 @@
    "reason": "unreachable"
   },
   {
-   "slug": "out-of-the-blue-finds",
+   "slug": "stylish-bundles-and-more",
    "cat": "shopping",
+   "platform": "",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "tailwaggers-grooming-salon",
+   "cat": "pets",
+   "platform": "",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "thai-connection",
+   "cat": "restaurants",
+   "platform": "",
+   "reason": "unreachable"
+  },
+  {
+   "slug": "tasty-express",
+   "cat": "restaurants",
    "platform": "",
    "reason": "no product or menu data"
   },
@@ -1676,44 +1690,8 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "studio-shag-salon-and-boutique",
-   "cat": "beauty",
-   "platform": "woocommerce",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "tailwaggers-grooming-salon",
-   "cat": "pets",
-   "platform": "",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "tasty-express",
-   "cat": "restaurants",
-   "platform": "",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "skin-solutions-dermatology-and-aesthetics",
-   "cat": "beauty",
-   "platform": "wordpress",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "thai-connection",
-   "cat": "restaurants",
-   "platform": "",
-   "reason": "unreachable"
-  },
-  {
-   "slug": "taylor-bros-construction-co-inc",
-   "cat": "makers",
-   "platform": "",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "tinas-nails",
-   "cat": "beauty",
+   "slug": "thompson-furniture-and-mattress",
+   "cat": "shopping",
    "platform": "",
    "reason": "no product or menu data"
   },
@@ -1724,14 +1702,8 @@
    "reason": "unreachable"
   },
   {
-   "slug": "thompson-furniture-and-mattress",
-   "cat": "shopping",
-   "platform": "",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "tacolumbus",
-   "cat": "restaurants",
+   "slug": "tinas-nails",
+   "cat": "beauty",
    "platform": "",
    "reason": "no product or menu data"
   },
@@ -1742,19 +1714,19 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "twisted-scizzors",
-   "cat": "beauty",
+   "slug": "taylor-bros-construction-co-inc",
+   "cat": "makers",
    "platform": "",
    "reason": "no product or menu data"
   },
   {
-   "slug": "turtles-flowers",
-   "cat": "shopping",
-   "platform": "square-online",
+   "slug": "tacolumbus",
+   "cat": "restaurants",
+   "platform": "",
    "reason": "no product or menu data"
   },
   {
-   "slug": "tyler-thompson-barber",
+   "slug": "twisted-scizzors",
    "cat": "beauty",
    "platform": "",
    "reason": "no product or menu data"
@@ -1763,6 +1735,12 @@
    "slug": "venus-nails",
    "cat": "beauty",
    "platform": "",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "turtles-flowers",
+   "cat": "shopping",
+   "platform": "square-online",
    "reason": "no product or menu data"
   },
   {
@@ -1790,9 +1768,9 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "tobar-inc",
-   "cat": "makers",
-   "platform": "woocommerce",
+   "slug": "tyler-thompson-barber",
+   "cat": "beauty",
+   "platform": "",
    "reason": "no product or menu data"
   },
   {
@@ -1802,8 +1780,20 @@
    "reason": "no product or menu data"
   },
   {
+   "slug": "studio-shag-salon-and-boutique",
+   "cat": "beauty",
+   "platform": "woocommerce",
+   "reason": "no product or menu data"
+  },
+  {
    "slug": "the-vibe-smoke-shop",
    "cat": "smoke",
+   "platform": "",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "out-of-the-blue-finds",
+   "cat": "shopping",
    "platform": "",
    "reason": "no product or menu data"
   },
@@ -1820,20 +1810,8 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "white-river-running-company",
-   "cat": "shopping",
-   "platform": "woocommerce",
-   "reason": "no product or menu data"
-  },
-  {
    "slug": "winnie-mochi-donut",
    "cat": "coffee-sweets",
-   "platform": "woocommerce",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "y-and-s-massage",
-   "cat": "beauty",
    "platform": "woocommerce",
    "reason": "no product or menu data"
   },
@@ -1844,9 +1822,9 @@
    "reason": "no product or menu data"
   },
   {
-   "slug": "white-star-meat-market-and-deli",
-   "cat": "shopping",
-   "platform": "wordpress",
+   "slug": "ye-olde-fish-house",
+   "cat": "restaurants",
+   "platform": "",
    "reason": "no product or menu data"
   },
   {
@@ -1856,27 +1834,9 @@
    "reason": "unreachable"
   },
   {
-   "slug": "ye-olde-fish-house",
-   "cat": "restaurants",
-   "platform": "",
-   "reason": "no product or menu data"
-  },
-  {
-   "slug": "stylish-bundles-and-more",
+   "slug": "white-star-meat-market-and-deli",
    "cat": "shopping",
-   "platform": "",
-   "reason": "unreachable"
-  },
-  {
-   "slug": "zaharakos-ice-cream-parlor",
-   "cat": "coffee-sweets",
-   "platform": "",
-   "reason": "unreachable"
-  },
-  {
-   "slug": "yummy-bowl",
-   "cat": "restaurants",
-   "platform": "",
+   "platform": "wordpress",
    "reason": "no product or menu data"
   },
   {
@@ -1886,9 +1846,39 @@
    "reason": "no product or menu data"
   },
   {
+   "slug": "yummy-bowl",
+   "cat": "restaurants",
+   "platform": "",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "zaharakos-ice-cream-parlor",
+   "cat": "coffee-sweets",
+   "platform": "",
+   "reason": "unreachable"
+  },
+  {
+   "slug": "y-and-s-massage",
+   "cat": "beauty",
+   "platform": "woocommerce",
+   "reason": "no product or menu data"
+  },
+  {
    "slug": "wild-bramble-catering",
    "cat": "restaurants",
    "platform": "",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "white-river-running-company",
+   "cat": "shopping",
+   "platform": "woocommerce",
+   "reason": "no product or menu data"
+  },
+  {
+   "slug": "tobar-inc",
+   "cat": "makers",
+   "platform": "woocommerce",
    "reason": "no product or menu data"
   },
   {
