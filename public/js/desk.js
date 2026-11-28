@@ -149,7 +149,7 @@
     var b = e.target.closest('[data-notice-add]'); if (!b) return;
     var term = b.getAttribute('data-notice-add'), beat = state.beat || { entries: [], banned: [] };
     var entries = beat.entries.concat([{ term: term, kind: 'thing', note: '', wrong: [] }]);
-    api('POST', { action: 'beat', beat: { entries: entries, banned: beat.banned } }).then(function (j) { state.beat = j.beat; renderBeat(); noticed(); say('Added ' + term + ' to your beat book. Add a note or wrong spellings on the Beat book tab.'); }).catch(function (e) { say(e.message); });
+    api('POST', { action: 'beat', beat: { entries: entries, banned: beat.banned, stories: beat.stories || [] } }).then(function (j) { state.beat = j.beat; renderBeat(); noticed(); say('Added ' + term + ' to your beat book. Add a note or wrong spellings on the Beat book tab.'); }).catch(function (e) { say(e.message); });
   });
 
   $('[data-new]').addEventListener('click', function () { openPiece(null, blank()); $('[data-f=headline]').focus(); });
@@ -349,14 +349,20 @@
     var b = state.beat || { entries: [], banned: [] };
     $('[data-beat=entries]').value = b.entries.map(function (e) { return [e.term, e.note, (e.wrong || []).join(', ')].join(' | ').replace(/( \| )+$/, ''); }).join('\n');
     $('[data-beat=banned]').value = (b.banned || []).join('\n');
-    $('[data-beat-count]').textContent = b.entries.length + ' name' + (b.entries.length === 1 ? '' : 's') + ', ' + b.banned.length + ' banned phrase' + (b.banned.length === 1 ? '' : 's') + '.';
+    var st = b.stories || [];
+    $('[data-beat=stories]').value = st.map(function (s) { return [s.title, s.status, (s.links || []).join(' ')].join(' | ').replace(/( \| )+$/, ''); }).join('\n');
+    $('[data-beat-count]').textContent = b.entries.length + ' name' + (b.entries.length === 1 ? '' : 's') + ', ' + b.banned.length + ' banned phrase' + (b.banned.length === 1 ? '' : 's') + ', ' + st.length + ' running stor' + (st.length === 1 ? 'y' : 'ies') + '.';
   }
   $('[data-beat-save]').addEventListener('click', function () {
     var entries = $('[data-beat=entries]').value.split('\n').map(function (l) { return l.trim(); }).filter(Boolean).map(function (l) {
       var p = l.split('|').map(function (x) { return x.trim(); });
       return { term: p[0] || '', note: p[1] || '', wrong: (p[2] || '').split(',').map(function (w) { return w.trim(); }).filter(Boolean) };
     });
-    api('POST', { action: 'beat', beat: { entries: entries, banned: $('[data-beat=banned]').value } }).then(function (j) { state.beat = j.beat; renderBeat(); say('Beat book saved. The writing help and Approve now read it.'); }).catch(function (e) { say(e.message); });
+    var stories = $('[data-beat=stories]').value.split('\n').map(function (l) { return l.trim(); }).filter(Boolean).map(function (l) {
+      var p = l.split('|').map(function (x) { return x.trim(); });
+      return { title: p[0] || '', status: p[1] || '', links: p.slice(2).join(' ') };
+    });
+    api('POST', { action: 'beat', beat: { entries: entries, banned: $('[data-beat=banned]').value, stories: stories } }).then(function (j) { state.beat = j.beat; renderBeat(); say('Beat book saved. The writing help and Approve now read it.'); }).catch(function (e) { say(e.message); });
   });
 
   // ---------- Voice ----------

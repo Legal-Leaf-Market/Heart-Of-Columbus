@@ -248,6 +248,8 @@ function deskPage(ctx) {
     <textarea id="dk-beat" data-beat="entries" rows="10" placeholder="Zaharakos | soda fountain on Washington Street | Zaharako's, Zaharakas&#10;Mill Race Park | riverfront park, round tower | Millrace Park"></textarea>
     <label for="dk-banned">Phrases you never use <span class="muted">(one per line)</span></label>
     <textarea id="dk-banned" data-beat="banned" rows="5" placeholder="game changer&#10;nestled"></textarea>
+    <label for="dk-stories">Running stories <span class="muted">(Title | where it stands | links to our earlier pieces)</span></label>
+    <textarea id="dk-stories" data-beat="stories" rows="5" placeholder="Downtown parking study | council vote expected in January | https://heartofcolumbus.shop/news/parking-study/"></textarea>
     <div class="dk-tools"><button type="button" class="btn" data-beat-save>Save the beat book</button></div>
     <p class="muted dk-count" data-beat-count></p>
   </div>

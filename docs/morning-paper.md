@@ -108,7 +108,11 @@ the typing.
    Then the **Beat book** tab: the names you write about, one per line as
    `Name | note | wrong spellings`, and phrases you never use. The writing
    help spells names your way and avoids the banned phrases, and **Approve**
-   refuses a piece with a wrong spelling or a banned phrase. Notes help with
+   refuses a piece with a wrong spelling or a banned phrase. **Running
+   stories** are the threads you keep coming back to, one per line as
+   `Title | where it stands | links to our earlier pieces`: the writing help
+   may link the earlier coverage when a piece continues one, and never takes
+   a fact from where it stands. Notes help with
    spelling only; the desk never takes a fact from them.
 2. **New piece** (or **Start a piece** from the idea bank). Pick a shape:
    Brief, The take, Explainer, List, Heads up.
