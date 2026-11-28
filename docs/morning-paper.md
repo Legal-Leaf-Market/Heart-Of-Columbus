@@ -117,6 +117,9 @@ the typing.
    likely passive voice. They are hints for your edit, never a rule. **Headlines** and **Openings** give options to
    click. **Tighten** cuts. **Sound more like me** compares it with your
    samples. **Check facts** lists anything the sources do not support.
+   Select a passage in the body for **Tighten selection**, **Smooth
+   selection** or **Fix grammar**: only those words come back, and **Replace
+   the selection** swaps them in.
 6. **Approve**. The desk refuses while there is a `[CHECK]`, no source (unless
    it is The take), or a dash.
 7. Pick **Morning** or **Evening** next to the date: each has its own plan,

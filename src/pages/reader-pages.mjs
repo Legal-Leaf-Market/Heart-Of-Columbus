@@ -163,7 +163,13 @@ function deskPage(ctx) {
         <button type="button" class="btn" data-assist="voice">Sound more like me</button>
         <button type="button" class="btn" data-assist="check">Check facts</button>
       </div>
-      <div data-out hidden><div class="dk-out" data-out-text></div><div class="dk-tools"><button type="button" class="btn" data-use="replace">Use as the body</button><button type="button" class="btn" data-use="append">Add below the body</button><button type="button" class="btn" data-use="dismiss">Dismiss</button></div><p class="muted dk-count" data-out-meta></p></div>
+      <p class="muted dk-count">Select a passage in the body, then:</p>
+      <div class="dk-tools">
+        <button type="button" class="btn" data-assist="tighten-part">Tighten selection</button>
+        <button type="button" class="btn" data-assist="smooth">Smooth selection</button>
+        <button type="button" class="btn" data-assist="grammar">Fix grammar</button>
+      </div>
+      <div data-out hidden><div class="dk-out" data-out-text></div><div class="dk-tools"><button type="button" class="btn" data-use="selection" hidden>Replace the selection</button><button type="button" class="btn" data-use="replace">Use as the body</button><button type="button" class="btn" data-use="append">Add below the body</button><button type="button" class="btn" data-use="dismiss">Dismiss</button></div><p class="muted dk-count" data-out-meta></p></div>
       <label for="dk-body">The piece <span class="muted">(Markdown)</span></label>
       <textarea id="dk-body" class="dk-body" data-f="body"></textarea>
       <p class="muted dk-count" data-wc></p>

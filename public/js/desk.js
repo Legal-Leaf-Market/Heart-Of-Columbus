@@ -160,21 +160,30 @@
   });
 
   // ---------- Writing help ----------
+  var PASSAGE = ['tighten-part', 'smooth', 'grammar'];
   function showOut(text, meta) {
     state.out = text;
     $('[data-out]').hidden = !text;
     var list = /^(headlines|hooks|subject)$/.test(state.lastMode || '');
     $('[data-out-text]').innerHTML = list ? '<ul>' + text.split('\n').filter(function (l) { return l.trim(); }).map(function (l) { return '<li data-pick>' + esc(l.replace(/^[-*\d.\s]+/, '')) + '</li>'; }).join('') + '</ul><p class="muted">Click one to use it.</p>' : esc(text);
     $('[data-out-meta]').textContent = meta || '';
-    $$('[data-use=replace], [data-use=append]').forEach(function (b) { b.hidden = list || state.lastMode === 'check' || state.lastMode === 'voice'; });
+    var part = PASSAGE.indexOf(state.lastMode) !== -1;
+    $$('[data-use=replace], [data-use=append]').forEach(function (b) { b.hidden = list || part || state.lastMode === 'check' || state.lastMode === 'voice'; });
+    $('[data-use=selection]').hidden = !part;
   }
   $$('[data-assist]').forEach(function (b) {
     b.addEventListener('click', function () {
       var mode = b.getAttribute('data-assist');
       if (!state.ai) { say('Writing help is off until ANTHROPIC_API_KEY is set in Netlify.'); return; }
-      var piece = mode === 'subject' ? blank() : collect();
+      var piece = mode === 'subject' ? blank() : collect(), passage = '';
+      if (PASSAGE.indexOf(mode) !== -1) {
+        var ta = $('[data-f=body]');
+        passage = ta.value.slice(ta.selectionStart, ta.selectionEnd);
+        if (!passage.trim()) { say('Select a passage in the body first, then press ' + b.textContent + '.'); return; }
+        state.sel = { start: ta.selectionStart, end: ta.selectionEnd, text: passage };
+      }
       state.lastMode = mode; b.disabled = true; say('Writing…');
-      api('POST', { action: 'assist', date: state.date, mode: mode, piece: piece }).then(function (j) {
+      api('POST', { action: 'assist', date: state.date, mode: mode, piece: piece, passage: passage }).then(function (j) {
         showOut(j.text, (j.truncated ? 'Cut off at the length limit. ' : '') + j.model + ', about $' + j.cost.toFixed(3) + '. Nothing is saved until you press Save.');
         say('Here is a suggestion.');
       }).catch(function (e) { say(e.message); }).then(function () { b.disabled = false; });
@@ -191,6 +200,13 @@
   $$('[data-use]').forEach(function (b) {
     b.addEventListener('click', function () {
       var u = b.getAttribute('data-use'), body = $('[data-f=body]');
+      if (u === 'selection') {
+        var sel = state.sel || {}, at = body.value.slice(sel.start, sel.end) === sel.text ? sel.start : body.value.indexOf(sel.text);
+        if (!sel.text || at < 0) { say('That passage has changed since you asked. Select it again.'); return; }
+        body.value = body.value.slice(0, at) + state.out + body.value.slice(at + sel.text.length);
+        body.focus(); body.setSelectionRange(at, at + state.out.length);
+        say('Replaced the selection. Nothing is saved until you press Save.');
+      }
       if (u === 'replace') body.value = state.out;
       if (u === 'append') body.value = body.value ? body.value + '\n\n' + state.out : state.out;
       if (u !== 'dismiss' && state.current) state.current.ai = true;

@@ -125,11 +125,16 @@ congregation in town, of every faith, by area and by faith, plus nonprofits.
       paragraph of several lines stays one idea. Same PR fixed the desk's
       field styles, which only reached the This edition tab, so the Idea
       bank, Your voice, Beat book and Deals boxes rendered squashed
+- [x] **Select a passage** (2026-11-28): Tighten selection, Smooth
+      selection and Fix grammar edit only the selected words and offer
+      Replace the selection. The server refuses a passage that is not in the
+      draft, so a suggestion only ever replaces the publisher's own words.
+      Call made without asking: the whole draft rides along as context, and
+      the result is never saved until the publisher presses Save
 - [ ] Paige ideas still to build: "desk noticed" beat book suggestions,
       running stories in the beat book, several **voices** to
-      switch between, an **edit pass** as tracked changes you accept one by one
-      with prose numbers (sentence length, adverbs, passive, reading grade),
-      and **select a passage to Tighten / Smooth / Fix grammar**
+      switch between, and an **edit pass** as tracked changes you accept one
+      by one
 - [x] Overnight lead gathering into the idea bank: city news, city agendas
       and minutes, county news, county calendar, NWS alerts, today's events
       (`src/news/gather.mjs`, `netlify/functions/leads.mjs`, 2026-11-27)
