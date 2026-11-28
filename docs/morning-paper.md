@@ -112,7 +112,9 @@ the typing.
 3. **Your take and direction**: what the story is, why Columbus should care,
    what you think, what to lead with, what to leave out.
 4. **Sources**: the link, who published it, and the facts you are using.
-5. **Draft it**, then edit. **Headlines** and **Openings** give options to
+5. **Draft it**, then edit. The line under the editor gives prose numbers:
+   sentences, the average and longest sentence, a reading grade, -ly words and
+   likely passive voice. They are hints for your edit, never a rule. **Headlines** and **Openings** give options to
    click. **Tighten** cuts. **Sound more like me** compares it with your
    samples. **Check facts** lists anything the sources do not support.
 6. **Approve**. The desk refuses while there is a `[CHECK]`, no source (unless

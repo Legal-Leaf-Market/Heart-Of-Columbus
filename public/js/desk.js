@@ -131,7 +131,12 @@
     }).join('');
   }
   $('[data-add-source]').addEventListener('click', function () { collect(); state.current.sources.push({ url: '', label: '', note: '' }); renderSources(); });
-  function words() { var n = ($('[data-f=body]').value.match(/\S+/g) || []).length; $('[data-wc]').textContent = n + ' words, about ' + Math.max(1, Math.round(n / 230)) + ' min to read'; }
+  // Prose numbers (public/js/prose.js): hints for your edit, never a rule.
+  function words() {
+    var body = $('[data-f=body]').value;
+    if (window.HoCProse) { $('[data-wc]').textContent = window.HoCProse.summary(window.HoCProse.prose(body)); return; }
+    var n = (body.match(/\S+/g) || []).length; $('[data-wc]').textContent = n + ' words, about ' + Math.max(1, Math.round(n / 230)) + ' min to read';
+  }
   $('[data-f=body]').addEventListener('input', words);
 
   $('[data-new]').addEventListener('click', function () { openPiece(null, blank()); $('[data-f=headline]').focus(); });
