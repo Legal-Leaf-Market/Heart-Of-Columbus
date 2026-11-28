@@ -171,6 +171,27 @@ skip a second send. If history cannot be checked, the job sends no
 edition and tells the publisher why. Keep the temporary tasks paused
 after the site's schedule takes over.
 
+### Production cutover
+
+1. In [Netlify Deploys](https://app.netlify.com/projects/heartofcolumbus/deploys),
+   check the published production deploy from `live`. Its commit should
+   include both newsletter PRs, [#219](https://github.com/Legal-Leaf-Market/Heart-Of-Columbus/pull/219)
+   and [#221](https://github.com/Legal-Leaf-Market/Heart-Of-Columbus/pull/221).
+   The [public signup](https://heartofcolumbus.shop/newsletter/) should offer
+   Morning, Evening and Both.
+2. Once both PRs are live, pause the temporary Claude newsletter schedules
+   for 6:10 AM and 5:25 PM Columbus time. The site's jobs run at 6:15 AM and
+   5:30 PM, with sends at 6:45 AM and 6:00 PM.
+3. Before a manual send, search [Resend Broadcasts](https://resend.com/broadcasts)
+   for the exact edition and date in the Heart of Columbus segment. An edition
+   that is scheduled, queued or already sent needs no manual send. On
+   Nov. 27, Resend already showed two Nov. 28 morning broadcasts marked sent.
+4. For the first edition with no existing broadcast, check the publisher note
+   for the subject and Resend preview. If it is scheduled, the note should
+   include the edition's Hold link. Check that the broadcast uses the expected
+   segment and edition topic. Resolve any audience or history error before
+   considering a manual send.
+
 **Hold** (`/api/hold`, page `/newsroom/hold/`): the note's link carries a one
 time code after `#` that can hold only that edition, so the note never
 carries the desk key; the desk's own button uses the desk key. Only the
