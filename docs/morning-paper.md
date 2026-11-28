@@ -10,7 +10,7 @@ on its own at its time unless the publisher presses Hold (Jake's decision,
 
 | When | What happens | Who |
 | --- | --- | --- |
-| All day before | Ideas go in the desk's **Idea bank** as they come: a link, something overheard, a reader tip from `/newsroom/inbox/`, a question | Publisher |
+| All day before | Ideas go in the desk's **Idea bank** as they come: a link, something overheard, a reader tip from `/newsroom/inbox/`, a question. **Paste notes** turns a page of notes into separate ideas (a blank line or a bullet between each) | Publisher |
 | About 4:15 AM | The overnight gathering reads the public sources below and puts what is new in the desk's **Idea bank** under **Overnight leads**. Nothing is written from them automatically | Automation |
 | By 6:10 AM | **Morning** at the desk: approve the pieces you want, write the subject and open, paste an IndyStar story into **Up the road** if you have one, check the **Preview** | Publisher |
 | 6:15 AM | The morning job builds the edition (yours, or the automatic one), makes the Resend broadcast for the Morning topic, schedules it for 6:45 and emails you a note: the subject, a preview link, a **Hold** link and the edition itself | Automation |

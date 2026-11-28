@@ -143,3 +143,27 @@ test('prose numbers count sentences, the reading grade, -ly words and likely pas
   const page = readFileSync(new URL('../dist/newsroom/desk/index.html', import.meta.url), 'utf8');
   assert.ok(page.indexOf('/js/prose.js') > 0 && page.indexOf('/js/prose.js') < page.indexOf('/js/desk.js'), 'prose.js loads before desk.js');
 });
+
+test('paste notes splits into ideas: blank lines, bullets, links, and no repeats', async () => {
+  const { readFileSync } = await import('node:fs');
+  const m = { exports: {} };
+  new Function('module', 'window', readFileSync(new URL('../public/js/notes.js', import.meta.url), 'utf8'))(m, undefined);
+  const { split, MAX } = m.exports;
+  const notes = 'Ask the parks office about the\nnew splash pad\n\n- Zaharakos has a new owner? https://example.com/z.\n- Washington St parking meters\n* 3rd St bridge closing\n\n1. School board Tuesday\n2) Library hours over the holidays\r\n\r\nWashington St PARKING meters';
+  const ideas = split(notes, [{ text: 'Library hours over the holidays' }]);
+  assert.deepEqual(ideas.map((i) => i.text), [
+    'Ask the parks office about the new splash pad',
+    'Zaharakos has a new owner?',
+    'Washington St parking meters',
+    '3rd St bridge closing',
+    'School board Tuesday',
+  ], 'a plain paragraph stays one idea, bullet lines split, repeats and existing ideas are skipped');
+  assert.equal(ideas[1].url, 'https://example.com/z', 'the link moves to the link field without its trailing period');
+  assert.equal(ideas[0].url, '');
+  assert.deepEqual(split('https://example.com/only'), [{ text: 'https://example.com/only', url: 'https://example.com/only' }]);
+  assert.deepEqual(split('   \n\n  '), []);
+  assert.equal(split(Array.from({ length: 80 }, (_, i) => `idea ${i}`).join('\n\n')).length, MAX, 'capped per paste');
+  const page = readFileSync(new URL('../dist/newsroom/desk/index.html', import.meta.url), 'utf8');
+  assert.ok(page.indexOf('/js/notes.js') > 0 && page.indexOf('/js/notes.js') < page.indexOf('/js/desk.js'), 'notes.js loads before desk.js');
+  assert.match(page, /data-notes-split/);
+});

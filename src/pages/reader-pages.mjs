@@ -92,9 +92,9 @@ function deskPage(ctx) {
   const body = `
 <style>
 .dk{display:grid;gap:20px}@media(min-width:960px){.dk{grid-template-columns:320px 1fr}}
-.dk-side,.dk-main{min-width:0}.dk label{display:block;margin:10px 0 4px;font-weight:600}
-.dk input,.dk textarea,.dk select{width:100%;box-sizing:border-box;font:inherit;padding:8px;border:1px solid var(--line,#ccc);border-radius:6px;background:var(--bg,#fff);color:inherit}
-.dk textarea{min-height:90px}.dk-body{min-height:320px!important;font-family:Georgia,serif;font-size:17px;line-height:1.55}
+.dk-side,.dk-main{min-width:0}.dk-wrap label{display:block;margin:10px 0 4px;font-weight:600}
+.dk-wrap input:not([type=checkbox]):not([type=radio]),.dk-wrap textarea,.dk-wrap select{width:100%;box-sizing:border-box;font:inherit;padding:8px;border:1px solid var(--line,#ccc);border-radius:6px;background:var(--bg,#fff);color:inherit}
+.dk-wrap textarea{min-height:90px}.dk-body{min-height:320px!important;font-family:Georgia,serif;font-size:17px;line-height:1.55}
 .dk-list{list-style:none;padding:0;margin:8px 0}.dk-list li{display:flex;gap:6px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line,#ddd)}
 .dk-list li button.dk-open{flex:1;text-align:left;background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer}
 .dk-chip{font-size:12px;padding:2px 6px;border-radius:9px;border:1px solid currentColor;white-space:nowrap}
@@ -102,7 +102,7 @@ function deskPage(ctx) {
 .dk-tools{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.dk-tools button{font-size:14px}
 .dk-out{white-space:pre-wrap;border:1px dashed var(--line,#bbb);border-radius:6px;padding:10px;margin:8px 0;font-family:Georgia,serif}
 .dk-out li{cursor:pointer}.dk-src{display:grid;gap:4px;margin-bottom:8px}.dk-block{color:#b3261e}
-.dk-count{font-size:13px}.dk-new{font-size:11px;font-weight:700;color:#b92e2b;margin-right:4px}.dk-src-k{font-size:12px;color:var(--muted,#666)}.dk-leads li{flex-wrap:wrap}.dk-leads li>span{min-width:min(100%,260px)}.dk-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.dk-count{font-size:13px}.dk-new{font-size:11px;font-weight:700;color:#b92e2b;margin-right:4px}.dk-src-k{font-size:12px;color:var(--muted,#666)}.dk-leads li{flex-wrap:wrap}.dk-leads li>span{min-width:min(100%,260px)}.dk-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}.dk-notes{margin:14px 0}.dk-notes summary{cursor:pointer;font-weight:600}
 .ow-form [data-deal-fields]{border:0;padding:0;margin:0;min-width:0}[data-deal-fields] select{width:100%;font:inherit;padding:8px;border:1px solid var(--edge);border-radius:12px}[data-deal-form]{max-width:44rem}[data-deal-fields] .deal-confirm{display:flex;align-items:baseline;gap:8px}.dk-deal-copy{overflow-wrap:anywhere;white-space:pre-line}
 .dk iframe{width:100%;min-height:600px;border:1px solid var(--line,#ccc);border-radius:6px;background:#fff}
 </style>
@@ -183,6 +183,12 @@ function deskPage(ctx) {
     <label for="dk-idea">New idea</label><textarea id="dk-idea" data-idea-text rows="3"></textarea>
     <label for="dk-idea-url">Link <span class="muted">(optional)</span></label><input id="dk-idea-url" data-idea-url type="url">
     <div class="dk-tools"><button type="button" class="btn" data-idea-add>Add to the bank</button></div>
+    <details class="dk-notes">
+      <summary>Paste notes</summary>
+      <p class="muted">Paste a page of notes and each one becomes its own idea: a blank line between ideas, or one bullet per line. Your words are kept as written, the first link in each goes in its link field, and ideas already in the bank are skipped.</p>
+      <label for="dk-notes">Your notes</label><textarea id="dk-notes" data-notes-text rows="6"></textarea>
+      <div class="dk-tools"><button type="button" class="btn" data-notes-split>Split into ideas</button></div>
+    </details>
     <ul class="dk-list" data-ideas></ul>
   </div>
 
@@ -235,7 +241,7 @@ function deskPage(ctx) {
     <iframe title="Edition preview" data-preview sandbox=""></iframe>
   </div>
 </section>`;
-  return newsPage({ ...ctx, path: '/newsroom/desk/', title: 'The desk', description: 'Private.', body, scripts: ['prose.js', 'desk.js'] });
+  return newsPage({ ...ctx, path: '/newsroom/desk/', title: 'The desk', description: 'Private.', body, scripts: ['prose.js', 'notes.js', 'desk.js'] });
 }
 
 // Hold a scheduled edition (/api/hold). The link in each edition's note
