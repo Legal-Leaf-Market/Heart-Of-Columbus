@@ -1,7 +1,8 @@
 import { readFileSync } from 'node:fs';
 import { directory } from '../data/directory.mjs';
 import { CATALOGS } from '../data/catalogs.mjs';
-import { page, esc, t } from '../layout.mjs';
+import { page, t } from '../layout.mjs';
+import { noDash } from '../event-feeds.mjs';
 
 const path = '/pickup/demo/';
 const saved = (file) => JSON.parse(readFileSync(new URL(file, import.meta.url), 'utf8'));
@@ -96,6 +97,7 @@ export function pickupDemoPages({ assets }) {
       </main>`) },
     ...directory.map(b => {
       const menu = menuFor(b);
+      const items = menu.items.map(([name, cents, section]) => [noDash(name), cents, noDash(section)]);
       return { path: `pickup/demo/${b.slug}/index.html`, html: render(b.name + ' pickup demo', `
         <main id="main" class="pd" data-pd>
           <header class="pd-header"><a href="${path}">Heart of Columbus · Pickup demo</a>
@@ -117,7 +119,7 @@ export function pickupDemoPages({ assets }) {
           </section>
           <p data-pd-message role="status"></p>
           <noscript>Enable JavaScript to run a pickup demo.</noscript>
-        </main>`, { slug: b.slug, ...menu }) };
+        </main>`, { slug: b.slug, ...menu, items }) };
     }),
   ];
 }
