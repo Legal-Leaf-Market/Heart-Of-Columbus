@@ -178,3 +178,154 @@
   .pd .pd-cart-link[data-at-cart] { display: none; }
   #pd-cart, #pd-menu { scroll-margin-top: .8rem; }
 }
+
+/* Storefront art direction. Keep the shared checkout controls predictable. */
+[data-pd-theme="diner"] {
+  --store-ink: #251d17; --store-accent: #a92728; --store-soft: #f6ded5;
+  --store-bg: #fff1cf; --store-fg: #291d17; --store-card: #fffaf0; --store-line: #e2cbb9;
+  --store-decor: #26776a; --store-font: "Alfa Slab One", Georgia, serif; --store-weight: 400;
+  --store-radius: .5rem; --store-position: bottom right;
+  --store-motif: conic-gradient(from 90deg, #26776a 25%, #f7e4b9 0 50%, #26776a 0 75%, #f7e4b9 0);
+  --store-motif-size: 3.3rem 3.3rem;
+}
+[data-pd-theme="noodle"] {
+  --store-ink: #211a35; --store-accent: #60397f; --store-soft: #f0e5f7;
+  --store-bg: #241a3b; --store-fg: #fff2e1; --store-card: #fffbf8; --store-line: #dfd2e7;
+  --store-decor: #f087a7; --store-font: "Archivo", sans-serif; --store-weight: 900;
+  --store-radius: 1.1rem; --store-position: 54% 70%;
+  --store-motif: repeating-radial-gradient(ellipse at 50% 84%, transparent 0 15px, #f087a7 16px 18px, transparent 19px 27px);
+}
+[data-pd-theme="pizza"] {
+  --store-ink: #2b201b; --store-accent: #a83522; --store-soft: #f8e4d9;
+  --store-bg: #8b2b20; --store-fg: #fff4d7; --store-card: #fff9ed; --store-line: #e6cec0;
+  --store-decor: #f5bf75; --store-font: "Fraunces", Georgia, serif; --store-weight: 880;
+  --store-radius: .7rem; --store-position: center;
+  --store-motif: repeating-radial-gradient(circle at 55% 54%, transparent 0 14px, #f5bf75 15px 17px, transparent 18px 24px);
+}
+[data-pd-theme="donut"] {
+  --store-ink: #36203c; --store-accent: #823153; --store-soft: #f9e1ec;
+  --store-bg: #ffe2ed; --store-fg: #41203e; --store-card: #fffbfd; --store-line: #ebcedc;
+  --store-decor: #a4517d; --store-font: "Lilita One", Georgia, serif; --store-weight: 400;
+  --store-radius: 1.6rem; --store-position: center;
+  --store-motif: radial-gradient(circle at center, transparent 0 13px, #a4517d 14px 19px, transparent 20px),
+    radial-gradient(circle at 10px 10px, #8d69a0 0 2px, transparent 3px);
+  --store-motif-size: 3.5rem 3.5rem, 1.75rem 1.75rem;
+}
+[data-pd-theme="parlor"] {
+  --store-ink: #39212b; --store-accent: #742b47; --store-soft: #f2e1e9;
+  --store-bg: #412334; --store-fg: #fff3dc; --store-card: #fffaf6; --store-line: #e4cfd9;
+  --store-decor: #dbba83; --store-font: "Fraunces", Georgia, serif; --store-weight: 730;
+  --store-radius: .35rem; --store-position: center;
+  --store-motif: repeating-conic-gradient(from 45deg, transparent 0 87deg, #dbba83 88deg 90deg);
+  --store-motif-size: 3.2rem 3.2rem;
+}
+[data-pd-theme="misora"] {
+  --store-ink: #202b39; --store-accent: #283e64; --store-soft: #e4edf7;
+  --store-bg: #1c2b42; --store-fg: #f5eee0; --store-card: #fbfcff; --store-line: #d1ddec;
+  --store-decor: #d6b781; --store-font: "Fraunces", Georgia, serif; --store-weight: 550;
+  --store-radius: .15rem; --store-position: center;
+  --store-motif: repeating-linear-gradient(129deg, transparent 0 23px, #d6b781 24px 25px, transparent 26px 37px);
+}
+[data-pd-theme="garage"] {
+  --store-ink: #261e18; --store-accent: #7d3614; --store-soft: #f7e4cf;
+  --store-bg: #2c2621; --store-fg: #fff1d0; --store-card: #fffaf1; --store-line: #e0cdb7;
+  --store-decor: #e8ae5c; --store-font: "Bungee", "Archivo", sans-serif; --store-weight: 400;
+  --store-radius: .25rem; --store-position: center;
+  --store-motif: repeating-linear-gradient(138deg, transparent 0 17px, #e8ae5c 18px 29px, transparent 30px 37px);
+}
+[data-pd-theme="upland"] {
+  --store-ink: #20332a; --store-accent: #29604c; --store-soft: #e5efe6;
+  --store-bg: #234638; --store-fg: #fcf1d4; --store-card: #fafbf4; --store-line: #ccddd0;
+  --store-decor: #aec793; --store-font: "Archivo", sans-serif; --store-weight: 840;
+  --store-radius: .9rem; --store-position: center;
+  --store-motif: repeating-radial-gradient(ellipse at 30% 70%, transparent 0 14px, #aec793 15px 16px, transparent 17px 25px);
+}
+.pd-experience[data-pd-theme] {
+  --pd-ink: var(--store-ink);
+  --pd-green: var(--store-accent);
+  --pd-green-soft: var(--store-soft);
+  --pd-card: var(--store-card);
+  --pd-border: var(--store-line);
+}
+.pd-experience[data-pd-theme] .pd-hero,
+.pd-launch .pd-showcase a {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--store-bg);
+  color: var(--store-fg);
+  border-radius: var(--store-radius);
+}
+.pd-experience[data-pd-theme] .pd-hero {
+  margin: 1rem 0;
+  padding: clamp(1.15rem, 4vw, 2.65rem);
+}
+.pd-experience[data-pd-theme] .pd-hero::after,
+.pd-launch .pd-showcase a::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 0 52%;
+  z-index: -1;
+  pointer-events: none;
+  background-image: var(--store-motif);
+  background-position: var(--store-position);
+  background-size: var(--store-motif-size, auto);
+  mask-image: linear-gradient(90deg, transparent, black);
+  opacity: .54;
+}
+.pd-experience[data-pd-theme] .pd-hero-content { position: relative; max-width: 74%; }
+.pd-experience[data-pd-theme] .pd-hero h1,
+.pd-launch .pd-showcase strong {
+  color: inherit;
+  font-family: var(--store-font);
+  font-weight: var(--store-weight);
+  overflow-wrap: anywhere;
+}
+.pd-experience[data-pd-theme] .pd-hero h1 { font-size: clamp(2rem, 6vw, 5rem); line-height: 1.04; }
+.pd-experience[data-pd-theme] .pd-eyebrow { color: inherit; margin-top: 0; }
+.pd-experience[data-pd-theme] .pd-demo-note { color: var(--store-ink); border-color: transparent; background: var(--store-card); }
+.pd-experience[data-pd-theme] [data-pd-start] { margin: 1rem 0 0; }
+.pd-experience[data-pd-theme] [data-pd-start] p { margin-bottom: 0; font-size: .95rem; }
+.pd-experience[data-pd-theme] .pd-primary,
+.pd-experience[data-pd-theme] button[data-status="accepted"],
+.pd-experience[data-pd-theme] button[data-status="ready"],
+.pd-experience[data-pd-theme] button[data-status="collected"] { background: var(--store-accent); border-color: var(--store-accent); }
+.pd-experience[data-pd-theme] [data-action="start"] { color: var(--store-bg); background: var(--store-fg); border-color: var(--store-fg); }
+.pd-experience[data-pd-theme] .pd-item-name > span { color: var(--store-ink); }
+.pd-experience[data-pd-theme] [data-menu-item],
+.pd-experience[data-pd-theme] .pd-card { border-radius: var(--store-radius); }
+.pd-experience[data-pd-theme] [data-menu-section] > h3 {
+  display: flex;
+  gap: .6rem;
+  align-items: center;
+  color: var(--store-accent);
+}
+.pd-experience[data-pd-theme] [data-menu-section] > h3::after { content: ""; height: 1px; flex: 1; background: var(--store-line); }
+.pd-experience[data-pd-theme] .pd-choices summary,
+.pd-experience[data-pd-theme] .pd-brand { color: var(--store-accent); }
+.pd-experience[data-pd-theme]:focus-visible,
+.pd-experience[data-pd-theme] :focus-visible { outline-color: var(--store-accent); }
+.pd-experience[data-pd-theme][data-counter] .pd-hero { padding-block: .85rem 1rem; }
+.pd-experience[data-pd-theme][data-counter] h1 { font-size: clamp(1.65rem, 4.5vw, 3.4rem); }
+.pd-experience[data-pd-theme] [data-ticket] { background: var(--store-soft); color: var(--store-ink); }
+.pd-launch .pd-showcase {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  align-items: stretch;
+  gap: .7rem;
+}
+.pd-launch .pd-showcase a { display: grid; gap: .3rem; align-content: start; min-height: 8rem; padding: .85rem 2rem .85rem .95rem; text-decoration: none; }
+.pd-launch .pd-showcase strong { font-size: clamp(1.1rem, 3.2vw, 1.55rem); line-height: 1.1; }
+.pd-launch .pd-showcase a span { position: absolute; top: .55rem; right: .75rem; }
+.pd-launch .pd-showcase a:hover strong { text-decoration: underline; }
+.pd-experience[data-pd-theme="diner"] .pd-hero { border: 2px solid var(--store-ink); box-shadow: .3rem .3rem 0 var(--store-ink); }
+.pd-experience[data-pd-theme="parlor"] .pd-hero { outline: 1px solid var(--store-decor); outline-offset: -.45rem; }
+.pd-experience[data-pd-theme="misora"] .pd-hero { border-inline-start: .35rem solid var(--store-decor); }
+.pd-experience[data-pd-theme="garage"] .pd-hero { border-block-end: .35rem solid var(--store-decor); }
+.pd-experience[data-pd-theme="donut"] .pd-hero::after { mask-image: linear-gradient(90deg, transparent, black 85%); }
+@media (max-width: 50rem) {
+  .pd-experience[data-pd-theme] .pd-hero { padding: 1rem; }
+  .pd-experience[data-pd-theme] .pd-hero-content { max-width: 100%; }
+  .pd-experience[data-pd-theme] .pd-hero::after { inset-inline-start: 67%; opacity: .25; }
+  .pd-experience[data-pd-theme] .pd-hero h1 { max-width: 25ch; }
+}

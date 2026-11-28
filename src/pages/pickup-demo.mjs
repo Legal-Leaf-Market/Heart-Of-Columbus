@@ -11,6 +11,20 @@ const probes = new Map(saved('../../scripts/data/probe-deep.json').filter(row =>
 const food = new Set(['restaurants', 'coffee-sweets', 'bars']);
 const generic = [['Sample pickup item', 850, 'Example menu'], ['Sample add-on', 250, 'Example menu']];
 
+// Original storefront directions. The decoration is geometric and does not
+// depict the business, its logo, or its food.
+const storefronts = {
+  'jills-diner': ['diner', 'Diner classics'],
+  'ramen-alley': ['noodle', 'Ramen and rice bowls'],
+  'zwanzigz-pizza-and-brewing': ['pizza', 'Pizza and calzones'],
+  'donut-central': ['donut', 'Donuts and coffee'],
+  'zaharakos-ice-cream-parlor': ['parlor', 'Ice cream and fountain treats'],
+  misora: ['misora', 'Ramen, rolls and hibachi'],
+  'the-garage-pub-and-grill': ['garage', 'Pub food'],
+  'upland-columbus-pump-house': ['upland', 'Shareables and sandwiches'],
+};
+
+
 function menuLink(business) {
   if (!food.has(business.cat)) return '';
   const probe = probes.get(business.slug);
@@ -51,7 +65,7 @@ export function pickupDemoPages({ assets }) {
     title: title + ' | Heart of Columbus', description: 'A Heart of Columbus pickup concept demo.',
     body, data, styles, scripts, assets, showAlert: false, head: '<meta name="referrer" content="no-referrer">',
   });
-  const featured = detailedPickupSlugs.map(slug => [slug, directory.find(business => business.slug === slug).name]);
+  const featured = ['jills-diner', ...detailedPickupSlugs].map(slug => [slug, directory.find(business => business.slug === slug).name]);
   return [
     { path: 'pickup/demo/index.html', html: render('Pickup demo', `
       <main id="main" class="pd pd-launch">
@@ -67,23 +81,29 @@ export function pickupDemoPages({ assets }) {
           <button class="pd-primary">Open demo</button>
           <p data-pd-results role="status">${sourcedCount} demos with sourced menus or catalogs.</p>
         </form>
-        <nav aria-label="Example demos">${featured.map(([slug, name]) => `<a href="${path}${slug}/">${t(name)}</a>`).join('')}</nav>
+        <nav class="pd-showcase" aria-label="Featured demos">${featured.map(([slug, name]) => {
+          const [theme, cuisine] = storefronts[slug];
+          return `<a href="${path}${slug}/" data-pd-theme="${theme}"><small>${t(cuisine)}</small><strong>${t(name)}</strong><span aria-hidden="true">↗</span></a>`;
+        }).join('')}</nav>
       </main>`) },
     ...businesses.map(({ business: b, menu }) => {
+      const [theme, cuisine] = Object.hasOwn(storefronts, b.slug) ? storefronts[b.slug] : [];
       const items = menu.items.map(([name, cents, section, choices, availability]) => [noDash(name), cents, noDash(section), choices, availability]);
       return { path: `pickup/demo/${b.slug}/index.html`, html: render(b.name + ' pickup demo', `
-        <main id="main" class="pd pd-experience" data-pd>
+        <main id="main" class="pd pd-experience" data-pd${theme ? ` data-pd-theme="${theme}"` : ''}>
           <header class="pd-header"><a href="${path}" class="pd-brand">Heart of Columbus</a>
             <a href="/b/${b.slug}/">Business listing</a></header>
           <div class="pd-hero">
-            <p class="pd-eyebrow">Order ahead for pickup</p>
-            <h1>${t(b.name)}</h1>
-            <p class="pd-demo-note"><strong>Demo only</strong> Not affiliated with ${t(b.name)}. Test orders stay here.</p>
+            <div class="pd-hero-content">
+              <p class="pd-eyebrow">${theme ? t(cuisine) : 'Order ahead for pickup'}</p>
+              <h1>${t(b.name)}</h1>
+              <p class="pd-demo-note"><strong>Demo only</strong> Not affiliated with ${t(b.name)}. Test orders stay here.</p>
+              <section data-pd-start>
+                <button type="button" class="pd-primary" data-action="start">Start demo</button>
+                <p>Build an order, then open the counter view on a second device.</p>
+              </section>
+            </div>
           </div>
-          <section data-pd-start>
-            <button type="button" class="pd-primary" data-action="start">Start demo</button>
-            <p>Build an order, then open the counter view on a second device.</p>
-          </section>
           <section data-pd-session hidden>
             <nav class="pd-views" aria-label="Demo views">
               <a data-pd-shopper>Shopper menu</a><a data-pd-tablet>Counter tablet</a>
