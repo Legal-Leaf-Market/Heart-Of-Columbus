@@ -163,6 +163,14 @@ confirms its segment and topic. If the lookup fails or either value differs,
 the edition stays in draft and the publisher note says why. Check the
 draft's audience in Resend before sending it manually.
 
+Before creating a broadcast for an automatic send, the job also checks
+Resend's 100 recent broadcasts for the edition's dated name, including
+the temporary task's `(from heartofcolumbus.shop)` suffix. A matching
+scheduled, queued or sent broadcast for the same segment is enough to
+skip a second send. If history cannot be checked, the job sends no
+edition and tells the publisher why. Keep the temporary tasks paused
+after the site's schedule takes over.
+
 **Hold** (`/api/hold`, page `/newsroom/hold/`): the note's link carries a one
 time code after `#` that can hold only that edition, so the note never
 carries the desk key; the desk's own button uses the desk key. Only the

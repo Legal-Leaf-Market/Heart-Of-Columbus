@@ -164,6 +164,8 @@ const WHY = {
   'no-topic': () => 'No edition: RESEND_TOPIC_EVENING is not set, and without it the evening would go to readers who chose the morning only.',
   'not-scheduled': () => 'The broadcast was made but Resend would not schedule it, so it was NOT sent. Check the function log (Netlify > Logs > Functions).',
   'audience-unverified': () => 'The draft was saved but was NOT sent. Resend did not confirm the expected segment and topic. Check the draft audience before sending.',
+  'history-unverified': () => 'No edition was sent. Resend did not return the recent broadcast history, so the job could not check for an existing edition.',
+  'already-in-resend': () => 'Resend already has a scheduled, queued or sent broadcast for this edition and segment. No second broadcast was created.',
   refused: () => 'No edition: Resend refused it. Check the function log (Netlify > Logs > Functions).',
   'already-scheduled': () => 'This edition is already scheduled in Resend. Hold it first to remake it.',
   'no-key': () => 'No edition: no newsletter service is set in Netlify.',
@@ -209,6 +211,24 @@ export async function editionRun({ kind = 'morning', now = new Date(), deskStore
   const ed = await assemble({ kind: k, date, deskStore, store, origin, fetchFn });
   if (ed.skip) return finish({ ok: true, reason: 'skip' });
   if (!ed.substance) return finish({ ok: true, reason: 'thin' }, { notes: ed.notes });
+  if (usesResend(resend) && (p.step !== 'late' || force)) {
+    // The temporary schedules can send without writing the site's Blobs record.
+    const history = await getJSON(`${RESEND}/broadcasts?limit=100`, fetchFn, {
+      headers: { authorization: `Bearer ${resend.key}` },
+    });
+    if (!Array.isArray(history?.data)) {
+      return finish({ ok: false, reason: 'history-unverified', subject: ed.subject }, { notes: ed.notes });
+    }
+    const title = `${EDITIONS[k].label} edition ${date}`;
+    const existing = history.data.find((broadcast) =>
+      [title, `${title} (from heartofcolumbus.shop)`].includes(broadcast.name) &&
+      (broadcast.segment_id || broadcast.audience_id) === resend.segment &&
+      ['scheduled', 'queued', 'sent'].includes(broadcast.status)
+    );
+    if (existing) {
+      return finish({ ok: true, reason: 'already-in-resend', via: 'resend', id: existing.id, subject: ed.subject }, { notes: ed.notes });
+    }
+  }
   const made = await makeBroadcast({ kind: k, date, store, resend, key, subject: ed.subject, html: ed.html, fetchFn, log });
   if (!made.ok) return finish({ ...made, subject: ed.subject }, { notes: ed.notes, from: ed.from });
   let result = { ...made, subject: ed.subject };

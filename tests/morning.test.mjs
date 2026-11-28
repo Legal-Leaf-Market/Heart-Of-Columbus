@@ -33,7 +33,7 @@ const DAILY = {
   snapshot: { 'plain-shop': { name: 'Plain Shop', address: '1 Main St', phone: '', hours: null, tempClosed: false, closed: false, order: [], book: [], store: '' } },
 };
 
-function fakeNet({ daily = DAILY, parts = null, events = [], scheduleOk = true, savedAudience } = {}) {
+function fakeNet({ daily = DAILY, parts = null, events = [], scheduleOk = true, savedAudience, history = [] } = {}) {
   const calls = [];
   let audience;
   const fn = async (url, init = {}) => {
@@ -41,6 +41,9 @@ function fakeNet({ daily = DAILY, parts = null, events = [], scheduleOk = true, 
     if (url.includes('/newsletter/daily.json')) return daily ? new Response(JSON.stringify(daily)) : new Response('', { status: 404 });
     if (url.includes('/newsletter/editions/')) return parts ? new Response(JSON.stringify(parts)) : new Response('', { status: 404 });
     if (url.includes('/api/events')) return new Response(JSON.stringify({ events }));
+    if (url.endsWith('/broadcasts?limit=100')) return history === null
+      ? new Response('', { status: 503 })
+      : Response.json({ data: history });
     if (url.endsWith('/send')) return new Response(scheduleOk ? '{}' : 'no', { status: scheduleOk ? 200 : 422 });
     if (url.includes('api.resend.com/broadcasts')) {
       if (!init.method) return (savedAudience === null)
@@ -193,6 +196,26 @@ test('an unreadable or mismatched audience leaves the edition in draft and tells
     net: legacy, r: { ...resend, topics: {} },
   });
   assert.equal(result.reason, 'scheduled', 'the current morning fallback still verifies its segment');
+});
+
+test('the site does not reschedule an edition already sent or queued by a temporary task', async () => {
+  const date = '2026-12-02';
+  const iso = date + 'T11:15:00Z';
+  const outside = { id: 'outside', name: `Morning edition ${date} (from heartofcolumbus.shop)`, segment_id: 'seg', status: 'sent' };
+  for (const status of ['sent', 'scheduled', 'queued']) {
+    const store = memStore();
+    const net = fakeNet({ history: [{ ...outside, status }] });
+    const r = await run('morning', iso, { store, net });
+    assert.equal(r.reason, 'already-in-resend');
+    assert.equal(r.id, 'outside');
+    assert.equal(net.calls.some(call => call.url.includes('/broadcasts') && call.method === 'POST'), false);
+    assert.equal((await store.getJSON(`run-${date}`)).reason, 'already-in-resend');
+  }
+  const other = fakeNet({ history: [{ ...outside, segment_id: 'another' }, { ...outside, status: 'draft' }] });
+  assert.equal((await run('morning', iso, { net: other })).reason, 'scheduled');
+  const unavailable = fakeNet({ history: null });
+  assert.equal((await run('morning', iso, { net: unavailable })).reason, 'history-unverified');
+  assert.equal(unavailable.calls.some(call => call.url.includes('/broadcasts') && call.method === 'POST'), false);
 });
 
 test('Hold cancels the scheduled send and keeps the draft, with the desk key or that edition\'s code only', async () => {
