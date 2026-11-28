@@ -15,8 +15,16 @@ function menuLink(business) {
   if (!food.has(business.cat)) return '';
   const probe = probes.get(business.slug);
   if (!probe?.final) return '';
-  const menu = probe.pages?.find(p => /^\/(?:[a-z-]+\/)*(?:menu|menus|view-our-menu|our-menu|(?:breakfast|lunch|dinner)-menu)\/?$/i.test(p));
-  return menu ? new URL(menu, probe.final).href : '';
+  const home = new URL(probe.final);
+  const host = u => u.hostname.replace(/^www\./, '');
+  const menuPath = /\/(?:menu|menus|(?:view-our|our|current|full|food|breakfast|lunch|dinner|columbus)-menu)(?:\/food|-[0-9]+|\.(?:html?|php))?\/?$/i;
+  for (const candidate of [...(probe.pages || []), ...(probe.urls || [])]) {
+    const url = URL.parse(candidate, home);
+    if (url && ['http:', 'https:'].includes(url.protocol) && host(url) === host(home) && menuPath.test(url.pathname)) {
+      return url.href;
+    }
+  }
+  return '';
 }
 
 function menuFor(business) {
@@ -42,9 +50,20 @@ function menuFor(business) {
       ],
     };
   }
-  if (business.cat !== 'smoke' && business.slug !== 'legal-leaf-market-cafe' && Object.hasOwn(CATALOGS, business.slug)) {
+  if (business.slug === 'zaharakos-ice-cream-parlor') {
+    return {
+      source: 'https://zaharakos.com/menu.html',
+      kind: 'Selection from the public ice cream parlor menu',
+      items: [
+        ['Single Scoop', 575, 'Ice cream'], ['Double Scoop', 775, 'Ice cream'], ['Pint to Go', 700, 'Ice cream'],
+        ['Brownie Sundae', 1000, 'Sundaes'], ['Tin Roof Sundae', 1000, 'Sundaes'],
+        ['Ice Cream Float', 700, 'Fountain'], ['Fountain Soda', 350, 'Fountain'],
+      ],
+    };
+  }
+  if (business.cat !== 'smoke' && Object.hasOwn(CATALOGS, business.slug)) {
     const snapshot = saved('../../public/catalogs/' + business.slug + '.json');
-    const items = snapshot.items.filter(item => item.available && item.buyOnSite && item.price > 0)
+    const items = snapshot.items.filter(item => item.available && item.price > 0)
       .flatMap(item => item.variants?.length ? item.variants.filter(v => v.available && v.price > 0)
         .map(v => [v.title && v.title !== 'Default Title' ? item.title + ' (' + v.title + ')' : item.title, Math.round(v.price * 100), item.type || 'Catalog'])
         : [[item.title, Math.round(item.price * 100), item.type || 'Catalog']]);
