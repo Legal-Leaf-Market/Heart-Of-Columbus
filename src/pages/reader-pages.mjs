@@ -235,7 +235,7 @@ function deskPage(ctx) {
     <iframe title="Edition preview" data-preview sandbox=""></iframe>
   </div>
 </section>`;
-  return newsPage({ ...ctx, path: '/newsroom/desk/', title: 'The desk', description: 'Private.', body, scripts: ['desk.js'] });
+  return newsPage({ ...ctx, path: '/newsroom/desk/', title: 'The desk', description: 'Private.', body, scripts: ['prose.js', 'desk.js'] });
 }
 
 // Hold a scheduled edition (/api/hold). The link in each edition's note

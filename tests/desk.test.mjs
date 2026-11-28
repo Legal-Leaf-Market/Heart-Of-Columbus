@@ -118,3 +118,28 @@ test('the beat book: wrong spellings and banned phrases hold a piece back, and t
   assert.ok(p.indexOf('beat book') < p.indexOf('Hard rules'), 'the hard rules still come last');
   assert.equal(cleanBeat({ entries: Array.from({ length: 400 }, (_, i) => ({ term: `T${i}` })) }).entries.length, 300, 'capped');
 });
+
+test('prose numbers count sentences, the reading grade, -ly words and likely passive, skipping links', async () => {
+  const { readFileSync } = await import('node:fs');
+  const m = { exports: {} };
+  new Function('module', 'window', readFileSync(new URL('../public/js/prose.js', import.meta.url), 'utf8'))(m, undefined);
+  const { prose, summary, syllables } = m.exports;
+  assert.equal(syllables('Columbus'), 3);
+  assert.equal(syllables('the'), 1);
+  const long = Array.from({ length: 35 }, () => 'word').join(' ');
+  const p = prose(`The council met Monday. The park was approved by the council. It is truly a [big deal](https://example.com/a-very-long-link).\n\n${long}.\n\nOnly early birds get coffee.`);
+  assert.equal(p.sentences, 5);
+  assert.equal(p.long, 1, 'one sentence over 30 words');
+  assert.equal(p.longest, 35);
+  assert.deepEqual(p.adverbs, ['truly'], 'only and early are not counted');
+  assert.deepEqual(p.passive, ['was approved']);
+  assert.ok(!p.words || !/https|example/.test(JSON.stringify(p.adverbs)), 'links are not counted as words');
+  const line = summary(p);
+  assert.match(line, /5 sentences/);
+  assert.match(line, /reading grade \d/);
+  assert.match(line, /1 over 30 words \(longest 35\)/);
+  assert.ok(!/[–—]| - /.test(line), 'no dashes in what the publisher reads');
+  assert.equal(summary(prose('')), '0 words');
+  const page = readFileSync(new URL('../dist/newsroom/desk/index.html', import.meta.url), 'utf8');
+  assert.ok(page.indexOf('/js/prose.js') > 0 && page.indexOf('/js/prose.js') < page.indexOf('/js/desk.js'), 'prose.js loads before desk.js');
+});

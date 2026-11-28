@@ -113,6 +113,10 @@ congregation in town, of every faith, by area and by faith, plus nonprofits.
       phrases never to use. The writing help reads it; Approve refuses a wrong
       spelling or a banned phrase. Notes are for spelling only, never a source.
       Call made without asking: names are not locked or auto suggested yet
+- [x] **Prose numbers** under the editor (2026-11-28, `public/js/prose.js`):
+      sentences, average and longest sentence, reading grade, -ly words and
+      likely passive voice, counted in the browser. Hints only, never a block.
+      Call made without asking: shown as one line, not tracked changes
 - [ ] Paige ideas still to build: "desk noticed" beat book suggestions,
       running stories in the beat book, several **voices** to
       switch between, an **edit pass** as tracked changes you accept one by one
