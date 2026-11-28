@@ -117,12 +117,19 @@ congregation in town, of every faith, by area and by faith, plus nonprofits.
       sentences, average and longest sentence, reading grade, -ly words and
       likely passive voice, counted in the browser. Hints only, never a block.
       Call made without asking: shown as one line, not tracked changes
+- [x] **Paste notes** in the Idea bank (2026-11-28, `public/js/notes.js`):
+      a page of notes becomes separate ideas, split on blank lines or one
+      bullet per line, the first link moved to the link field, repeats
+      skipped, 50 per paste, no writing help. Calls made without asking: the
+      publisher's words are kept exactly (no AI rewording), and a plain
+      paragraph of several lines stays one idea. Same PR fixed the desk's
+      field styles, which only reached the This edition tab, so the Idea
+      bank, Your voice, Beat book and Deals boxes rendered squashed
 - [ ] Paige ideas still to build: "desk noticed" beat book suggestions,
       running stories in the beat book, several **voices** to
       switch between, an **edit pass** as tracked changes you accept one by one
       with prose numbers (sentence length, adverbs, passive, reading grade),
-      **select a passage to Tighten / Smooth / Fix grammar**, and
-      **paste notes to split them into ideas**
+      and **select a passage to Tighten / Smooth / Fix grammar**
 - [x] Overnight lead gathering into the idea bank: city news, city agendas
       and minutes, county news, county calendar, NWS alerts, today's events
       (`src/news/gather.mjs`, `netlify/functions/leads.mjs`, 2026-11-27)

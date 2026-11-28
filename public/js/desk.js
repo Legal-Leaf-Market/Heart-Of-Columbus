@@ -228,6 +228,14 @@
     $('[data-idea-text]').value = ''; $('[data-idea-url]').value = '';
     saveIdeas();
   });
+  $('[data-notes-split]').addEventListener('click', function () {
+    var box = $('[data-notes-text]'), now = new Date().toISOString();
+    var found = window.HoCNotes ? window.HoCNotes.split(box.value, state.ideas) : [];
+    if (!found.length) { say(box.value.trim() ? 'Nothing new in those notes: every idea is already in the bank.' : 'Paste some notes first.'); return; }
+    state.ideas = found.map(function (i) { return { text: i.text, url: i.url, added: now }; }).concat(state.ideas);
+    box.value = '';
+    api('POST', { action: 'ideas', ideas: state.ideas }).then(function (j) { state.ideas = j.ideas; renderIdeas(); say('Added ' + found.length + ' idea' + (found.length === 1 ? '' : 's') + ' to the bank.'); }).catch(function (e) { say(e.message); });
+  });
   $('[data-ideas]').addEventListener('click', function (e) {
     var u = e.target.closest('[data-idea-use]'), d = e.target.closest('[data-idea-del]');
     if (d) { state.ideas.splice(+d.getAttribute('data-idea-del'), 1); saveIdeas(); }
