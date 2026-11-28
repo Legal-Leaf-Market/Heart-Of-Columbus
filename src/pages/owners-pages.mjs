@@ -48,7 +48,7 @@ ${creatorPromo()}
     <li><b>Tap ready</b> and the customer’s ticket updates.</li>
     <li><b>They pay you at the counter</b>, cash or card, your way. Type what they actually spent and the ticket closes.</li>
   </ol>
-  <p class="muted">Try it from the customer side on any <a href="/tacolumbus/">storefront demo</a>; the ticket links to the counter view.</p>
+  <p class="muted">Try both sides with the <a href="/pickup/demo/">pickup demo</a>. Choose your business, send a test order from your phone, and run it through the counter tablet.</p>
 </section>
 <section class="wrap ow-how ow-promote" id="boost">
   <p class="kicker">Boost your listing</p>

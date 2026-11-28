@@ -1,0 +1,144 @@
+import { readFileSync } from 'node:fs';
+import { directory } from '../data/directory.mjs';
+import { CATALOGS } from '../data/catalogs.mjs';
+import { detailedPickupSlugs, pickupMenus } from '../data/pickup-menus.mjs';
+import { deliveryDemo, deliveryPilotSlugs } from '../data/delivery-demo.mjs';
+import { page, t } from '../layout.mjs';
+import { noDash } from '../event-feeds.mjs';
+
+const path = '/pickup/demo/';
+const saved = (file) => JSON.parse(readFileSync(new URL(file, import.meta.url), 'utf8'));
+const probes = new Map(saved('../../scripts/data/probe-deep.json').filter(row => row.ok).map(row => [row.slug, row]));
+const food = new Set(['restaurants', 'coffee-sweets', 'bars']);
+const generic = [['Sample pickup item', 850, 'Example menu'], ['Sample add-on', 250, 'Example menu']];
+
+// Original storefront directions. The decoration is geometric and does not
+// depict the business, its logo, or its food.
+const storefronts = {
+  'jills-diner': ['diner', 'Diner classics'],
+  'ramen-alley': ['noodle', 'Ramen and rice bowls'],
+  'zwanzigz-pizza-and-brewing': ['pizza', 'Pizza and calzones'],
+  'donut-central': ['donut', 'Donuts and coffee'],
+  'zaharakos-ice-cream-parlor': ['parlor', 'Ice cream and fountain treats'],
+  misora: ['misora', 'Ramen, rolls and hibachi'],
+  'the-garage-pub-and-grill': ['garage', 'Pub food'],
+  'upland-columbus-pump-house': ['upland', 'Shareables and sandwiches'],
+};
+
+
+function menuLink(business) {
+  if (!food.has(business.cat)) return '';
+  const probe = probes.get(business.slug);
+  if (!probe?.final) return '';
+  const home = new URL(probe.final);
+  const host = u => u.hostname.replace(/^www\./, '');
+  const menuPath = /\/(?:menu|menus|(?:view-our|our|current|full|food|breakfast|lunch|dinner|columbus)-menu)(?:\/food|-[0-9]+|\.(?:html?|php))?\/?$/i;
+  for (const candidate of [...(probe.pages || []), ...(probe.urls || [])]) {
+    const url = URL.parse(candidate, home);
+    if (url && ['http:', 'https:'].includes(url.protocol) && host(url) === host(home) && menuPath.test(url.pathname)) {
+      return url.href;
+    }
+  }
+  return '';
+}
+
+function menuFor(business) {
+  if (Object.hasOwn(pickupMenus, business.slug)) return pickupMenus[business.slug];
+  if (business.cat !== 'smoke' && Object.hasOwn(CATALOGS, business.slug)) {
+    const snapshot = saved('../../public/catalogs/' + business.slug + '.json');
+    const items = snapshot.items.filter(item => item.available && item.price > 0)
+      .flatMap(item => item.variants?.length ? item.variants.filter(v => v.available && v.price > 0)
+        .map(v => [v.title && v.title !== 'Default Title' ? item.title + ' (' + v.title + ')' : item.title, Math.round(v.price * 100), item.type || 'Catalog'])
+        : [[item.title, Math.round(item.price * 100), item.type || 'Catalog']]);
+    if (items.length) return { items: items.slice(0, 48), source: snapshot.origin, kind: 'Saved catalog, ' + snapshot.checked };
+  }
+  return { sample: true, items: generic, source: menuLink(business), kind: 'Sample items and prices' };
+}
+
+export function pickupDemoPages({ assets }) {
+  const businesses = directory.map(business => ({ business, menu: menuFor(business) }));
+  const options = businesses.slice().sort((a, b) => a.business.name.localeCompare(b.business.name))
+    .map(({ business, menu }) => `<option value="${business.slug}"${menu.sample ? '' : ' data-sourced'}>${t(business.name)}</option>`).join('');
+  const sourcedCount = businesses.filter(({ menu }) => !menu.sample).length;
+  const styles = ['hoc.css', 'pickup-demo.css'];
+  const scripts = ['pickup-demo.js'];
+  const render = (title, body, data) => page({
+    title: title + ' | Heart of Columbus', description: 'A Heart of Columbus pickup and staff delivery concept demo.',
+    body, data, styles, scripts, assets, showAlert: false, head: '<meta name="referrer" content="no-referrer">',
+  });
+  const featured = ['jills-diner', ...detailedPickupSlugs].map(slug => [slug, directory.find(business => business.slug === slug).name]);
+  return [
+    { path: 'pickup/demo/legal-leaf-staff/index.html', html: readFileSync(new URL('./templates/legal-leaf-staff.html', import.meta.url), 'utf8') },
+    { path: 'pickup/demo/index.html', html: render('Pickup and delivery pilot', `
+      <main id="main" class="pd pd-launch">
+        <a href="/order/">Heart of Columbus</a>
+        <h1>Pickup &amp; delivery pilot</h1>
+        <p>Try a test order from the shopper’s phone to the counter tablet. For delivery, assign a restaurant employee and follow the handoff from their phone.</p>
+        <h2>Restaurant demos</h2>
+        <nav class="pd-showcase" aria-label="Pilot restaurants">${featured.map(([slug, name]) => {
+          const [theme, cuisine] = storefronts[slug];
+          return `<a href="${path}${slug}/" data-pd-theme="${theme}"><small>${t(cuisine)}</small><strong>${t(name)}</strong><span class="pd-showcase-arrow" aria-hidden="true"></span></a>`;
+        }).join('')}</nav>
+        <section class="pd-card pd-pilot-origin">
+          <h2>Legal Leaf Market and Cafe</h2>
+          <p>Try the NDA Parcel staff workflow with a sample order, from assignment and handoff through cash reconciliation.</p>
+          <a href="${path}legal-leaf-staff/">Open the Legal Leaf staff demo</a>
+        </section>
+        <form data-pd-picker>
+          <label for="pd-business-search" data-pd-filter hidden>Search businesses</label>
+          <input id="pd-business-search" data-pd-filter type="search" placeholder="Business name" hidden>
+          <label class="pd-checkbox" data-pd-filter hidden><input type="checkbox" data-pd-sourced> With a sourced menu or catalog</label>
+          <label for="pd-business">Choose a Columbus business</label>
+          <select id="pd-business" required><option value="">Select a business</option>${options}</select>
+          <button class="pd-primary">Open demo</button>
+          <p data-pd-results role="status">${sourcedCount} demos with sourced menus or catalogs.</p>
+        </form>
+
+      </main>`) },
+    ...businesses.map(({ business: b, menu }) => {
+      const [theme, cuisine] = Object.hasOwn(storefronts, b.slug) ? storefronts[b.slug] : [];
+      const samples = new Map();
+      if (theme) {
+        for (const item of menu.items) {
+          if (!item[4] && !samples.has(item[2])) samples.set(item[2], item);
+          if (samples.size === 3) break;
+        }
+      }
+      const items = menu.items.map(([name, cents, section, choices, availability]) => [noDash(name), cents, noDash(section), choices, availability]);
+      return { path: `pickup/demo/${b.slug}/index.html`, html: render(b.name + (theme ? ' pickup and delivery demo' : ' pickup demo'), `
+        <main id="main" class="pd pd-experience" data-pd${theme ? ` data-pd-theme="${theme}"` : ''}>
+          <header class="pd-header"><a href="${path}" class="pd-brand">Heart of Columbus</a>
+            <a href="/b/${b.slug}/">Business listing</a></header>
+          <div class="pd-hero">
+            <div class="pd-hero-content">
+              <p class="pd-eyebrow">${theme ? t(cuisine) : 'Order ahead for pickup'}</p>
+              <h1>${t(b.name)}</h1>
+              <p class="pd-demo-note"><strong>Demo only</strong> Not affiliated with ${t(b.name)}. Test orders stay here.</p>
+              <section data-pd-start>
+                <button type="button" class="pd-primary" data-action="start">Start demo</button>
+                ${theme === 'pizza' ? '<button type="button" class="pd-pizza-jump" data-action="pizza">Try half-and-half pizza</button>' : ''}
+                <p>Build an order, then open the counter view on a second device.</p>
+                ${samples.size ? `<div class="pd-menu-teaser">
+                  <h2>On the demo menu</h2>
+                  <ul>${[...samples.values()].map(([name, cents]) => `<li><span>${t(noDash(name))}</span><b>$${(cents / 100).toFixed(2)}</b></li>`).join('')}</ul>
+                </div>` : ''}
+              </section>
+            </div>
+          </div>
+          <section data-pd-session hidden>
+            <nav class="pd-views" aria-label="Demo views">
+              <a data-pd-shopper>Shopper menu</a><a data-pd-tablet>Counter tablet</a>
+              <details class="pd-share"><summary>Share demo</summary><div>
+                <button type="button" data-action="copy"></button>
+                <button type="button" data-action="qr" aria-expanded="false" aria-controls="pd-qr">Show QR code</button>
+              </div></details>
+            </nav>
+            <div id="pd-qr" hidden></div>
+            <div data-pd-content></div>
+          </section>
+          <p data-pd-message role="status"></p>
+          <noscript>Enable JavaScript to run a pickup demo.</noscript>
+        </main>`, { slug: b.slug, ...menu, items, demoCoupon: detailedPickupSlugs.includes(b.slug), ...(deliveryPilotSlugs.has(b.slug) ? { deliveryDemo } : {}) }) };
+    }),
+  ];
+}
