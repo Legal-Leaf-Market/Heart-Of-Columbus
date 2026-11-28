@@ -5,6 +5,18 @@ import { readFileSync } from 'node:fs';
 // Jill’s site project transcribes its printed summer 2026 menu.
 const jillsMenu = JSON.parse(readFileSync(new URL('./jills-pickup-menu.json', import.meta.url), 'utf8'));
 
+// A menu choice group lists the label, followed by options and price changes.
+const extra = (label, ...options) => [label, [['None', 0], ...options]];
+const sizes = (basePrice, ...prices) => [['Size', prices.map((cents, i) => [[10, 14, 16, 18][i] + ' inch', cents - basePrice]), true]];
+const tonkotsu = [
+  ['Noodles', [['Regular', 0], ['Extra half portion', 100], ['Extra full portion', 200], ['Gluten-free noodles', 100]]],
+  extra('Extra meat', ['Extra pork belly', 200], ['Extra chicken', 200], ['Double chicken', 400], ['Extra soboro', 100]),
+  ['Egg', [['Regular', 0], ['Extra egg', 150], ['No egg', 0]]],
+  extra('Seasoning', ['Spice bomb', 100], ['Garlic oil', 100], ['Spicy sauce', 50], ['Japanese mayo', 50], ['Fish powder', 50], ['Seaweed flakes', 50]),
+  extra('Extra vegetables', ['Onion', 100], ['Bean sprouts', 100], ['Spinach', 100], ['Corn', 100], ['Mushroom', 100], ['Raw garlic', 100], ['All vegetables', 300], ['Bamboo', 100]),
+  extra('Other extras', ['Tofu', 100], ['Naruto', 50], ['Extra rice', 200], ['Extra broth', 100]),
+];
+
 export const pickupMenus = {
   'jills-diner': { items: jillsMenu, source: 'https://jills-diner.netlify.app/menu/', kind: 'Menu from Jill’s site project' },
   'rohdes-family-diner': {
@@ -57,7 +69,7 @@ export const pickupMenus = {
     source: 'https://www.ramen-alley.com/s/order',
     kind: 'Selection from the public pickup menu',
     items: [
-      ['Shoyu', 1200, 'Ramen'], ['Tonkotsu', 1450, 'Ramen'], ['Miso', 1300, 'Ramen'],
+      ['Shoyu', 1200, 'Ramen'], ['Tonkotsu', 1450, 'Ramen', tonkotsu], ['Miso', 1300, 'Ramen'],
       ['Spicy Miso', 1400, 'Ramen'], ['Veggie Ramen', 1250, 'Ramen'],
       ['Chashu Don', 825, 'Rice bowls'], ['Tori Don', 825, 'Rice bowls'], ['Tsukune Don', 900, 'Rice bowls'],
       ['Gyoza (5)', 500, 'Sides'], ['Edamame', 350, 'Sides'], ['Mochi Ice Cream', 150, 'Dessert'],
@@ -88,8 +100,10 @@ export const pickupMenus = {
     kind: 'Selection from the public pizzeria menu',
     items: [
       ['Breadsticks', 639, 'Appetizers'], ['Cheese Sticks', 689, 'Appetizers'], ['Garlic Bread', 579, 'Appetizers'],
-      ['Say Cheese (10 inch)', 1439, 'Pizza'], ['Say Cheese (14 inch)', 1959, 'Pizza'],
-      ['Veggie (14 inch)', 2069, 'Pizza'], ['Five Meat (14 inch)', 2189, 'Pizza'],
+      ['Say Cheese', 1439, 'Pizza', sizes(1439, 1439, 1959, 2339, 2609)],
+      ['Veggie', 1499, 'Pizza', sizes(1499, 1499, 2069, 2429, 2819)],
+      ['Five Meat', 1609, 'Pizza', sizes(1609, 1609, 2189, 2589, 3019)],
+      ['Lasagna Pizza', 1499, 'Pizza', sizes(1499, 1499, 2069, 2479, 3019)],
       ['Italian Hoagie', 839, 'Hoagies'], ['Spinach Ricotta Calzone', 1039, 'Calzones'],
     ],
   },

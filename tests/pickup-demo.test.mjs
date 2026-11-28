@@ -19,9 +19,11 @@ test('demo checkout is isolated by business and retries do not duplicate or lose
   }));
   assert.equal((await send({ action: 'start' })).status, 200);
   const id = 'b'.repeat(32);
-  const order = { action: 'order', id, lines: [[0, 2]], phone: 'ignored' };
+  const order = { action: 'order', id, lines: [[0, 2], [1, 1, [0, 0]], [1, 2, [1, 0]]], phone: 'ignored' };
   const results = await Promise.all([send(order), send(order), send({ ...order, id: 'c'.repeat(32) })]);
   assert.deepEqual(results.map(r => r.status), [200, 200, 200]);
+  assert.equal((await send({ ...order, lines: [[1, 1, ['text']]] })).status, 400);
+  assert.equal((await send({ ...order, lines: [[1, 1, [0]], [1, 2, [0]]] })).status, 400);
   assert.equal((await send(null, 'rohdes-family-diner')).status, 410);
   assert.equal((await send({ action: 'update', id, status: 'ready' })).status, 409);
   assert.equal((await send({ action: 'update', id, status: 'accepted', minutes: 15 })).status, 200);
@@ -29,6 +31,8 @@ test('demo checkout is isolated by business and retries do not duplicate or lose
   assert.equal((await send({ action: 'update', id, status: 'collected' })).status, 200);
   const { tickets } = await (await send()).json();
   assert.equal(tickets.length, 2);
-  assert.equal(tickets.find(t => t.id === id).status, 'collected');
+  const collected = tickets.find(t => t.id === id);
+  assert.equal(collected.status, 'collected');
+  assert.deepEqual(collected.lines, order.lines);
   assert.ok(tickets.every(t => !Object.hasOwn(t, 'phone')));
 });

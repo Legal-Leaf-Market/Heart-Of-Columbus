@@ -87,25 +87,58 @@
     return data;
   }
 
+  function describe(id, choices = []) {
+    const [name, cents, , groups] = menu.items[id] || ['Unavailable demo item', 0];
+    const details = [];
+    let price = cents;
+    (groups || []).forEach(([label, options, showDefault], i) => {
+      const index = choices[i] ?? 0;
+      const [option, adjustment] = options[index] || options[0];
+      price += adjustment;
+      if (index || showDefault) details.push(label + ': ' + option);
+    });
+    return { name, price, details };
+  }
+
+  function lineLabel({ name, details }, qty) {
+    return '<span>' + qty + ' × ' + escape(name) +
+      (details.length ? '<small class="pd-line-detail">' + escape(details.join(' · ')) + '</small>' : '') + '</span>';
+  }
+
   function orderLines(lines) {
-    return lines.map(([id, qty]) => {
-      const [name, cents] = menu.items[id] || ['Unavailable demo item', 0];
-      return '<li><span>' + qty + ' × ' + escape(name) + '</span><b>' + formatPrice(qty * cents) + '</b></li>';
+    return lines.map(([id, qty, choices]) => {
+      const item = describe(id, choices);
+      return '<li>' + lineLabel(item, qty) + '<b>' + formatPrice(qty * item.price) + '</b></li>';
     }).join('');
   }
 
+  const subtotal = lines => lines.reduce((sum, [id, qty, choices]) => sum + describe(id, choices).price * qty, 0);
+
   function drawCart() {
     const lines = [...cart];
-    const total = lines.reduce((sum, [id, qty]) => sum + menu.items[id][1] * qty, 0);
+    const total = subtotal([...cart.values()]);
     content.querySelector('[data-cart-total]').textContent = formatPrice(total);
     content.querySelector('[data-cart-link]').textContent = 'View cart · ' + formatPrice(total);
-    content.querySelector('[data-cart-lines]').innerHTML = lines.length ? lines.map(([id, qty]) => {
-      const name = escape(menu.items[id][0]);
-      return '<li><span>' + qty + ' × ' + name + '</span><button type="button" aria-label="Remove one ' + name +
-        '" data-action="remove" data-id="' + id + '">Remove one</button></li>';
+    content.querySelector('[data-cart-lines]').innerHTML = lines.length ? lines.map(([key, [id, qty, choices]]) => {
+      const item = describe(id, choices);
+      return '<li>' + lineLabel(item, qty) + '<button type="button" aria-label="Remove one ' + escape([item.name, ...item.details].join(', ')) +
+        '" data-action="remove" data-line="' + key + '">Remove one</button></li>';
     }).join('') : '<li>Your cart is empty.</li>';
     content.querySelector('[data-action="order"]').disabled = !lines.length || submitting;
   }
+
+  function menuRow({ item: [name, , , groups], id }) {
+    const details = groups?.length ? '<details class="pd-choices"><summary>Customize ' + escape(name) + '</summary>' +
+      groups.map(([label, options]) => '<label>' + escape(label) + '<select data-choice>' +
+        options.map(([option, adjustment], index) => '<option value="' + index + '">' + escape(option) +
+          (adjustment ? ' (+' + formatPrice(adjustment) + ')' : '') + '</option>').join('') + '</select></label>').join('') + '</details>' : '';
+    return '<li data-menu-item data-id="' + id + '"><div class="pd-item-name"><span>' + escape(name) + '</span>' + details +
+      '<small class="pd-line-detail" data-selection>' + escape(describe(id).details.join(' · ')) + '</small></div><b data-item-price>' +
+      formatPrice(describe(id).price) + '</b><button type="button" data-action="add" aria-label="Add ' + escape(name) +
+      '">Add</button></li>';
+  }
+
+  const selections = row => [...row.querySelectorAll('[data-choice]')].map(select => Number(select.value));
 
   function drawMenu() {
     const sections = new Map();
@@ -118,9 +151,7 @@
       (menu.source ? ' · <a href="' + escape(menu.source) + '" rel="noreferrer">View source</a>' : '') + '</p>' +
       '<label for="pd-filter">Find an item</label><input id="pd-filter" type="search" placeholder="Search this menu">' +
       [...sections].map(([name, rows]) => '<section data-menu-section><h3>' + escape(name) + '</h3><ul class="pd-items">' +
-        rows.map(({ item: [name, cents], id }) => '<li data-menu-item><span>' + escape(name) + '</span><b>' +
-          formatPrice(cents) + '</b><button type="button" data-action="add" aria-label="Add ' + escape(name) +
-          '" data-id="' + id + '">Add</button></li>').join('') + '</ul></section>').join('') +
+        rows.map(menuRow).join('') + '</ul></section>').join('') +
       '<p data-menu-empty hidden>No items match that search.</p></section>' +
       '<aside class="pd-card" id="pd-cart" tabindex="-1"><h2>Your pickup cart</h2><ul data-cart-lines class="pd-items"></ul>' +
       '<p class="pd-total">Demo subtotal <strong data-cart-total></strong></p>' +
@@ -140,6 +171,12 @@
       }
       content.querySelector('[data-menu-empty]').hidden = found;
     });
+    content.querySelectorAll('[data-choice]').forEach(select => select.addEventListener('change', () => {
+      const row = select.closest('[data-menu-item]');
+      const item = describe(Number(row.dataset.id), selections(row));
+      row.querySelector('[data-item-price]').textContent = formatPrice(item.price);
+      row.querySelector('[data-selection]').textContent = item.details.join(' · ');
+    }));
     drawCart();
   }
 
@@ -148,7 +185,10 @@
     if (!box || !ticket) return;
     const text = 'Test order ' + ticketCode(ticket) + ' · ' + labels[ticket.status] +
       (ticket.status === 'accepted' ? ' · Around ' + new Date(ticket.readyAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : '');
-    if (box.textContent !== text) box.textContent = text;
+    if (box.dataset.ticketState === text) return;
+    box.dataset.ticketState = text;
+    box.innerHTML = '<p>' + escape(text) + '</p><ul class="pd-items">' + orderLines(ticket.lines) +
+      '</ul><p class="pd-total">Demo subtotal <strong>' + formatPrice(subtotal(ticket.lines)) + '</strong></p>';
   }
 
   function ring() {
@@ -333,15 +373,21 @@
       return;
     }
     if (submitting) return;
-    const id = Number(button.dataset.id);
     if (action === 'add' || action === 'remove') {
       if (pendingId) { say('Retry the pending test order before changing this cart.'); return; }
-      const qty = (cart.get(id) || 0) + (action === 'add' ? 1 : -1);
-      if (qty > 12 || (!cart.has(id) && cart.size >= 24)) { say('This demo cart has reached its item limit.'); return; }
-      if (qty > 0) cart.set(id, qty);
-      else cart.delete(id);
+      const row = button.closest('[data-menu-item]');
+      const choices = row ? selections(row) : [];
+      const key = row ? [row.dataset.id, ...choices].join('.') : button.dataset.line;
+      const previousLine = cart.get(key);
+      if (!row && !previousLine) return;
+      const [id, previous, picked = []] = previousLine || [Number(row.dataset.id), 0, choices];
+      const qty = previous + (action === 'add' ? 1 : -1);
+      if (qty > 12 || (!cart.has(key) && cart.size >= 24)) { say('This demo cart has reached its item limit.'); return; }
+      if (qty > 0) cart.set(key, picked.length ? [id, qty, picked] : [id, qty]);
+      else cart.delete(key);
       drawCart();
-      say(qty > 0 ? qty + ' in cart: ' + menu.items[id][0] : 'Removed from cart.');
+      const item = describe(id, picked);
+      say(qty > 0 ? qty + ' in cart: ' + [item.name, ...item.details].join(', ') : 'Removed from cart.');
       return;
     }
     if (action !== 'order' && action !== 'advance') return;
@@ -350,7 +396,7 @@
     try {
       if (action === 'order') {
         pendingId ||= randomKey();
-        const { ticket } = await api({ action, id: pendingId, lines: [...cart] });
+        const { ticket } = await api({ action, id: pendingId, lines: [...cart.values()] });
         ticketId = ticket.id;
         sessionStorage.setItem('hoc-pickup-ticket:' + room, ticketId);
         pendingId = '';

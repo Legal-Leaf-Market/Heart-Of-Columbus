@@ -49,6 +49,13 @@
 .pd-items li { display: flex; align-items: center; gap: .65rem; padding: .55rem 0; border-bottom: 1px solid #e5d8c9; }
 .pd-items li span { flex: 1; min-width: 0; overflow-wrap: anywhere; }
 .pd-items button { flex: none; }
+.pd-items .pd-item-name { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.pd-choices { margin-top: .35rem; }
+.pd-choices summary { cursor: pointer; color: #315642; font-size: .9rem; font-weight: 730; }
+.pd-choices label { display: grid; gap: .2rem; margin-block: .45rem; font-size: .9rem; }
+.pd-choices select { width: 100%; min-width: 0; }
+.pd-line-detail { display: block; margin-top: .25rem; font-size: .85rem; color: #4a3b31; }
+.pd-line-detail:empty { display: none; }
 .pd-total { display: flex; justify-content: space-between; padding: .65rem 0; }
 .pd-cart-link { display: none; }
 #pd-qr { margin: 0 0 1rem; }

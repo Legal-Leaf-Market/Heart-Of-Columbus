@@ -70,7 +70,7 @@ export function pickupDemoPages({ assets }) {
         <nav aria-label="Example demos">${featured.map(([slug, name]) => `<a href="${path}${slug}/">${name}</a>`).join('')}</nav>
       </main>`) },
     ...businesses.map(({ business: b, menu }) => {
-      const items = menu.items.map(([name, cents, section]) => [noDash(name), cents, noDash(section)]);
+      const items = menu.items.map(([name, cents, section, choices]) => [noDash(name), cents, noDash(section), choices]);
       return { path: `pickup/demo/${b.slug}/index.html`, html: render(b.name + ' pickup demo', `
         <main id="main" class="pd" data-pd>
           <header class="pd-header"><a href="${path}">Heart of Columbus · Pickup demo</a>

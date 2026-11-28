@@ -11,10 +11,12 @@ const error = (message, status) => response({ error: message }, status);
 
 function validLines(lines) {
   return Array.isArray(lines) && lines.length > 0 && lines.length <= 24 &&
-    lines.every(line => Array.isArray(line) && line.length === 2 &&
+    lines.every(line => Array.isArray(line) && (line.length === 2 || line.length === 3) &&
       Number.isInteger(line[0]) && line[0] >= 0 && line[0] < 1000 &&
-      Number.isInteger(line[1]) && line[1] >= 1 && line[1] <= 12) &&
-    new Set(lines.map(line => line[0])).size === lines.length;
+      Number.isInteger(line[1]) && line[1] >= 1 && line[1] <= 12 &&
+      (line.length === 2 || (Array.isArray(line[2]) && line[2].length > 0 && line[2].length <= 12 &&
+        line[2].every(choice => Number.isInteger(choice) && choice >= 0 && choice < 25)))) &&
+    new Set(lines.map(([id, , choices]) => JSON.stringify([id, choices || []]))).size === lines.length;
 }
 
 // The room contains only menu indices, quantities, and demo status. It is
