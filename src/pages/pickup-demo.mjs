@@ -72,14 +72,17 @@ export function pickupDemoPages({ assets }) {
     ...businesses.map(({ business: b, menu }) => {
       const items = menu.items.map(([name, cents, section, choices, availability]) => [noDash(name), cents, noDash(section), choices, availability]);
       return { path: `pickup/demo/${b.slug}/index.html`, html: render(b.name + ' pickup demo', `
-        <main id="main" class="pd" data-pd>
-          <header class="pd-header"><a href="${path}">Heart of Columbus · Pickup demo</a>
+        <main id="main" class="pd pd-experience" data-pd>
+          <header class="pd-header"><a href="${path}" class="pd-brand">Heart of Columbus</a>
             <a href="/b/${b.slug}/">Business listing</a></header>
-          <h1>${t(b.name)}</h1>
-          <p class="pd-demo-note"><strong>Concept demo.</strong> Not affiliated with or endorsed by ${t(b.name)}. Test orders stay in this demo. No payments or messages are sent.</p>
+          <div class="pd-hero">
+            <p class="pd-eyebrow">Order ahead for pickup</p>
+            <h1>${t(b.name)}</h1>
+            <p class="pd-demo-note"><strong>Demo only</strong> Not affiliated with ${t(b.name)}. Test orders stay here.</p>
+          </div>
           <section data-pd-start>
             <button type="button" class="pd-primary" data-action="start">Start demo</button>
-            <p>Open the same session on a phone and tablet to show how a pickup moves from cart to counter.</p>
+            <p>Build an order, then open the counter view on a second device.</p>
           </section>
           <section data-pd-session hidden>
             <nav class="pd-views" aria-label="Demo views">

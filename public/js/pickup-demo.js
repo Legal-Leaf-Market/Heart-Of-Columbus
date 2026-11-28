@@ -66,6 +66,9 @@
   let pendingId = '';
   let ticketId = '';
   let visibleTickets = '';
+  let queueView = 'active';
+  let cartObserver;
+  let feedbackTimer;
   let polling = false;
   let connectionLost = false;
   let timer;
@@ -79,7 +82,13 @@
   const ticketCode = ticket => ticket.id.slice(0, 6).toUpperCase();
   const roomLink = tablet => base + (tablet ? '?view=tablet' : '') + '#session=' + room;
 
-  function say(text) { message.textContent = text; }
+  function say(text) {
+    clearTimeout(feedbackTimer);
+    message.textContent = text;
+    if (text.startsWith('Removed') || / in cart:|Link copied|New test order received/.test(text)) {
+      feedbackTimer = setTimeout(() => { message.textContent = ''; }, 2800);
+    }
+  }
 
   async function api(action, qr = '') {
     const request = { headers: { 'x-hoc-demo': room }, cache: 'no-store' };
@@ -179,11 +188,19 @@
     }
     if (hasSchedule) content.querySelectorAll('[data-pickup-slot]').forEach(control => { control.disabled = blocked; });
     content.querySelector('[data-cart-total]').textContent = formatPrice(before);
-    content.querySelector('[data-cart-link]').textContent = 'View cart · ' + formatPrice(total);
+    const units = lines.reduce((sum, [, [, qty]]) => sum + qty, 0);
+    const cartLink = content.querySelector('[data-cart-link]');
+    cartLink.hidden = units === 0;
+    cartLink.querySelector('span').textContent = 'View cart · ' + units + (units === 1 ? ' item' : ' items');
+    cartLink.querySelector('strong').textContent = formatPrice(total);
     content.querySelector('[data-cart-lines]').innerHTML = lines.length ? lines.map(([key, [id, qty, choices]]) => {
       const item = describe(id, choices);
-      return '<li>' + lineLabel(item, qty) + '<button type="button" aria-label="Remove one ' + escape([item.name, ...item.details].join(', ')) +
-        '" data-action="remove" data-line="' + escape(key) + '">Remove one</button></li>';
+      const label = escape([item.name, ...item.details].join(', '));
+      const lineKey = escape(key);
+      return '<li>' + lineLabel(item, qty) + '<div class="pd-quantity">' +
+        '<button type="button" aria-label="Remove one ' + label + '" data-action="remove" data-line="' + lineKey + '">−</button>' +
+        '<button type="button" aria-label="Add one ' + label + '" data-action="increase" data-line="' + lineKey + '"' +
+        (qty >= 12 ? ' disabled' : '') + '>+</button></div></li>';
     }).join('') : '<li>Your cart is empty.</li>';
     content.querySelector('[data-action="order"]').disabled = !lines.length || submitting || unavailable;
   }
@@ -203,10 +220,10 @@
     const availability = menu.items[id][4];
     const timing = availability ? '<small class="pd-line-detail">' + escape(availability.label) +
       '</small><small class="pd-line-detail" data-item-availability></small>' : '';
-    return '<li data-menu-item data-id="' + id + '"><div class="pd-item-name"><span>' + escape(name) + '</span>' + timing + details +
+    return '<li data-menu-item data-id="' + id + '"><div class="pd-item-name"><span>' + escape(name) + '</span>' + timing +
       '<small class="pd-line-detail" data-selection>' + escape(describe(id).details.join(' · ')) + '</small></div><b data-item-price>' +
       formatPrice(describe(id).price) + '</b><button type="button" data-action="add" aria-label="Add ' + escape(name) +
-      '">Add</button></li>';
+      '">Add</button>' + details + '</li>';
   }
 
   const selections = row => [...row.querySelectorAll('[data-choice], [data-checks]')].map(control =>
@@ -239,7 +256,7 @@
         if (!row.hidden) matches++;
         if (schedule) {
           row.querySelector('[data-action="add"]').disabled = !eligible;
-          row.querySelector('[data-item-availability]').textContent = eligible ? 'Available at demo time' : 'Outside selected pickup time';
+          row.querySelector('[data-item-availability]').textContent = eligible ? '' : 'Outside selected pickup time';
         }
       }
       group.hidden = !matches;
@@ -247,6 +264,11 @@
     }
     content.querySelector('[data-menu-empty]').hidden = Boolean(count);
     content.querySelector('[data-menu-count]').textContent = count + (count === 1 ? ' item' : ' items');
+    const active = Number(customizable) + Number(Boolean(available));
+    const summary = content.querySelector('[data-filter-summary]');
+    summary.textContent = active ? 'Filters · ' + active : 'Filters';
+    content.querySelector('[data-action="clear-filters"]').hidden = !search.length && !section && !active;
+    for (const chip of content.querySelectorAll('[data-section-chip]')) chip.setAttribute('aria-pressed', String(chip.dataset.sectionChip === section));
   }
 
   function drawMenu() {
@@ -256,22 +278,25 @@
       if (!sections.has(section)) sections.set(section, []);
       sections.get(section).push({ item, id });
     });
-    content.innerHTML = '<button type="button" class="pd-cart-link" data-cart-link data-action="view-cart">View cart</button><div class="pd-shop"><section><h2>Shopper menu</h2><p>' + escape(menu.kind) +
+    content.innerHTML = '<button type="button" class="pd-cart-link" data-cart-link data-action="view-cart" hidden><span>View cart</span><strong></strong></button><div class="pd-shop"><section id="pd-menu" tabindex="-1"><h2>Menu</h2><p class="pd-source">' + escape(menu.kind) +
       (menu.source ? ' · <a href="' + escape(menu.source) + '" rel="noreferrer">View source</a>' : '') + '</p>' +
-      pickupControls() +
-      '<div class="pd-filters"><label for="pd-filter">Find an item or option</label><input id="pd-filter" type="search" placeholder="Try a dish or topping">' +
-      '<label>Menu section <select data-section><option value="">All sections</option>' +
-      [...sections.keys()].map(name => '<option>' + escape(name) + '</option>').join('') + '</select></label>' +
+      '<div class="pd-filters"><label class="sr-only" for="pd-filter">Find an item or option</label><input id="pd-filter" type="search" placeholder="Search dishes and toppings">' +
+      '<select data-section hidden aria-label="Menu section"><option value="">All sections</option>' +
+      [...sections.keys()].map(name => '<option>' + escape(name) + '</option>').join('') + '</select>' +
+      '<div class="pd-sections" role="group" aria-label="Menu sections"><button type="button" data-action="section" data-section-chip="">All</button>' +
+      [...sections.keys()].map(name => '<button type="button" data-action="section" data-section-chip="' + escape(name) + '">' + escape(name) + '</button>').join('') + '</div>' +
+      '<details class="pd-refine"><summary data-filter-summary>Filters</summary>' +
       '<label class="pd-filter-check"><input type="checkbox" data-customizable> Customizable items</label>' +
       (hasSchedule ? '<label class="pd-filter-check"><input type="checkbox" data-available> Available at demo time</label>' : '') +
-      '<p data-menu-count role="status"></p></div>' +
+      '</details><div class="pd-results"><p data-menu-count role="status"></p><button type="button" data-action="clear-filters" hidden>Clear filters</button></div></div>' +
+      (hasSchedule ? '<details class="pd-pickup-time"><summary>Pickup time · <span data-slot-summary></span></summary>' + pickupControls() + '</details>' : '') +
       [...sections].map(([name, rows]) => '<section data-menu-section><h3>' + escape(name) + '</h3><ul class="pd-items">' +
         rows.map(menuRow).join('') + '</ul></section>').join('') +
       '<p data-menu-empty hidden>No items match that search.</p></section>' +
-      '<aside class="pd-card" id="pd-cart" tabindex="-1"><h2>Your pickup cart</h2><ul data-cart-lines class="pd-items"></ul>' +
+      '<aside class="pd-card" id="pd-cart" tabindex="-1"><div class="pd-section-head"><h2>Your cart</h2><button type="button" data-action="back-menu">Back to menu</button></div><ul data-cart-lines class="pd-items"></ul>' +
       '<p class="pd-total">Demo subtotal <strong data-cart-total></strong></p>' +
-      (menu.demoCoupon ? '<div class="pd-coupon"><label for="pd-coupon">Sample coupon</label><div><input data-coupon id="pd-coupon" autocomplete="off" maxlength="20" placeholder="Try HOCDEMO10">' +
-        '<button type="button" data-action="coupon">Apply</button></div><p>HOCDEMO10 takes 10% off $20. HOCDEMO5 takes $5 off $35. One sample code per order.</p><p data-coupon-status role="status"></p></div>' +
+      (menu.demoCoupon ? '<details class="pd-coupon"><summary>Sample coupon</summary><label class="sr-only"  for="pd-coupon">Sample coupon</label><div><input data-coupon id="pd-coupon" autocomplete="off" maxlength="20" placeholder="Try HOCDEMO10">' +
+        '<button type="button" data-action="coupon">Apply</button></div><p>HOCDEMO10 takes 10% off $20. HOCDEMO5 takes $5 off $35. One sample code per order.</p><p data-coupon-status role="status"></p></details>' +
         '<p class="pd-total" data-discount hidden>Sample discount <strong></strong></p>' +
         '<p class="pd-total" data-total-after hidden>Demo subtotal after discount <strong></strong></p>' : '') +
       '<p data-cart-availability hidden>Change the pickup time or remove items that are unavailable.</p>' +
@@ -287,12 +312,27 @@
       }
       const [hour, minute] = value.split(':').map(Number);
       pickup = [Number(content.querySelector('[data-day]').value), hour * 60 + minute];
+      updateSlotSummary();
       filterMenu();
       drawCart();
     });
+    if (hasSchedule) updateSlotSummary();
     filterMenu();
+    if ('IntersectionObserver' in window) {
+      cartObserver?.disconnect();
+      const link = content.querySelector('[data-cart-link]');
+      cartObserver = new IntersectionObserver(([entry]) => link.toggleAttribute('data-at-cart', entry.isIntersecting));
+      cartObserver.observe(content.querySelector('#pd-cart h2'));
+    }
     content.addEventListener('change', updateChoice);
     drawCart();
+  }
+
+  function updateSlotSummary() {
+    const [day, minutes] = pickup;
+    const hour = Math.floor(minutes / 60);
+    content.querySelector('[data-slot-summary]').textContent =
+      days[day] + ' ' + (hour % 12 || 12) + ':' + twoDigit(minutes % 60) + (hour >= 12 ? ' PM' : ' AM');
   }
 
   function updateChoice(event) {
@@ -377,8 +417,27 @@
       if (previous) previous.replaceWith(card);
       else queue.prepend(card);
     }
-    content.querySelector('[data-queue-empty]').hidden = Boolean(tickets.length);
+    updateQueueView();
     if (newTicket) { say('New test order received.'); ring(); }
+  }
+
+  function updateQueueView() {
+    let active = 0;
+    let history = 0;
+    for (const card of content.querySelectorAll('[data-ticket-id]')) {
+      const done = ['collected', 'declined'].includes(card.dataset.state);
+      if (done) history++;
+      else active++;
+      card.hidden = done !== (queueView === 'history');
+    }
+    const empty = content.querySelector('[data-queue-empty]');
+    empty.hidden = Boolean(queueView === 'history' ? history : active);
+    empty.textContent = queueView === 'history' ? 'No completed or declined orders.' : 'Waiting for a test order. Use the shopper menu to send one.';
+    for (const button of content.querySelectorAll('[data-queue-view]')) {
+      const isHistory = button.dataset.queueView === 'history';
+      button.textContent = (isHistory ? 'History' : 'Active') + ' · ' + (isHistory ? history : active);
+      button.setAttribute('aria-pressed', String(button.dataset.queueView === queueView));
+    }
   }
 
   async function refresh() {
@@ -428,8 +487,12 @@
     copyButton.textContent = isTablet ? 'Copy shopper link' : 'Copy tablet link';
     if (isTablet) {
       visibleTickets = '';
+      queueView = 'active';
       content.innerHTML = '<div class="pd-section-head"><h2>Counter queue</h2><button type="button" data-action="sound">Enable order chime</button></div>' +
+        '<div class="pd-sections" role="group" aria-label="Order queue"><button type="button" data-action="queue-view" data-queue-view="active">Active · 0</button>' +
+        '<button type="button" data-action="queue-view" data-queue-view="history">History · 0</button></div>' +
         '<p data-queue-empty>Waiting for a test order. Open the shopper link on your phone and send a cart.</p><div class="pd-queue" data-queue></div>';
+      updateQueueView();
       keepAwake();
     } else {
       ticketId = sessionStorage.getItem('hoc-pickup-ticket:' + room) || '';
@@ -465,8 +528,23 @@
       catch { window.prompt('Copy the demo link', link); }
       return;
     }
-    if (action === 'view-cart') {
-      root.querySelector('#pd-cart').focus();
+    if (action === 'section' || action === 'clear-filters') {
+      content.querySelector('[data-section]').value = button.dataset.sectionChip || '';
+      if (action === 'clear-filters') {
+        content.querySelector('#pd-filter').value = '';
+        for (const check of content.querySelectorAll('.pd-filters input[type="checkbox"]')) check.checked = false;
+        content.querySelector('#pd-filter').focus();
+      }
+      filterMenu();
+      return;
+    }
+    if (action === 'queue-view') {
+      queueView = button.dataset.queueView;
+      updateQueueView();
+      return;
+    }
+    if (action === 'view-cart' || action === 'back-menu') {
+      root.querySelector(action === 'view-cart' ? '#pd-cart' : '#pd-menu').focus();
       return;
     }
     if (action === 'qr') {
@@ -513,7 +591,7 @@
       if (code && !coupon) content.querySelector('[data-coupon-status]').textContent = 'Sample code not recognized.';
       return;
     }
-    if (action === 'add' || action === 'remove') {
+    if (['add', 'remove', 'increase'].includes(action)) {
       if (pendingId) { say('Retry the pending test order before changing this cart.'); return; }
       const row = button.closest('[data-menu-item]');
       if (row && !isAvailable(Number(row.dataset.id))) return;
@@ -522,11 +600,16 @@
       const previousLine = cart.get(key);
       if (!row && !previousLine) return;
       const [id, previous, picked = []] = previousLine || [Number(row.dataset.id), 0, choices];
-      const qty = previous + (action === 'add' ? 1 : -1);
+      const qty = previous + (action === 'remove' ? -1 : 1);
       if (qty > 12 || (!cart.has(key) && cart.size >= 24)) { say('This demo cart has reached its item limit.'); return; }
       if (qty > 0) cart.set(key, picked.length ? [id, qty, picked] : [id, qty]);
       else cart.delete(key);
       drawCart();
+      if (action !== 'add') {
+        const next = [...content.querySelectorAll('[data-line]')].find(control =>
+          control.dataset.line === key && control.dataset.action === action && !control.disabled);
+        (next || content.querySelector('[data-line]:enabled') || content.querySelector('#pd-cart')).focus();
+      }
       const item = describe(id, picked);
       say(qty > 0 ? qty + ' in cart: ' + [item.name, ...item.details].join(', ') : 'Removed from cart.');
       return;
