@@ -102,6 +102,11 @@ the typing.
 
 1. **Your voice** tab, once: describe how you sound, set house rules, paste
    three to six things you wrote and like. Every suggestion reads from it.
+   Then the **Beat book** tab: the names you write about, one per line as
+   `Name | note | wrong spellings`, and phrases you never use. The writing
+   help spells names your way and avoids the banned phrases, and **Approve**
+   refuses a piece with a wrong spelling or a banned phrase. Notes help with
+   spelling only; the desk never takes a fact from them.
 2. **New piece** (or **Start a piece** from the idea bank). Pick a shape:
    Brief, The take, Explainer, List, Heads up.
 3. **Your take and direction**: what the story is, why Columbus should care,

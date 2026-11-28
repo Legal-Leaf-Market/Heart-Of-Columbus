@@ -114,6 +114,7 @@ function deskPage(ctx) {
     <button type="button" class="pill" data-tab="today" aria-pressed="true">This edition</button>
     <button type="button" class="pill" data-tab="ideas" aria-pressed="false">Idea bank</button>
     <button type="button" class="pill" data-tab="voice" aria-pressed="false">Your voice</button>
+    <button type="button" class="pill" data-tab="beat" aria-pressed="false">Beat book</button>
     <button type="button" class="pill" data-tab="deals" aria-pressed="false">Deals</button>
     <button type="button" class="pill" data-tab="preview" aria-pressed="false">Preview</button>
   </nav>
@@ -216,6 +217,17 @@ function deskPage(ctx) {
     <h2>Deals added from the desk</h2>
     <p role="status" class="muted" data-deal-status></p>
     <ul class="dk-list dk-leads" data-desk-deals></ul>
+  </div>
+
+  <div data-pane="beat" hidden>
+    <h2>Beat book</h2>
+    <p class="muted">The names you write about and how to spell them. The writing help follows it, and Approve stops a piece that spells a name the wrong way or uses a phrase you have banned. Notes are for you and for spelling only: the desk never takes a fact from them.</p>
+    <label for="dk-beat">Names, one per line <span class="muted">(Name | note | wrong spellings, comma separated)</span></label>
+    <textarea id="dk-beat" data-beat="entries" rows="10" placeholder="Zaharakos | soda fountain on Washington Street | Zaharako's, Zaharakas&#10;Mill Race Park | riverfront park, round tower | Millrace Park"></textarea>
+    <label for="dk-banned">Phrases you never use <span class="muted">(one per line)</span></label>
+    <textarea id="dk-banned" data-beat="banned" rows="5" placeholder="game changer&#10;nestled"></textarea>
+    <div class="dk-tools"><button type="button" class="btn" data-beat-save>Save the beat book</button></div>
+    <p class="muted dk-count" data-beat-count></p>
   </div>
 
   <div data-pane="preview" hidden>

@@ -49,7 +49,7 @@
   function load(date) {
     say('Loading…');
     return api('GET', null, '?edition=' + state.edition + (date ? '&date=' + date : '')).then(function (j) {
-      state.date = j.date; state.day = j.day; state.voice = j.voice; state.ideas = j.ideas; state.ai = j.ai; state.leads = j.leads; state.drafted = j.drafted;
+      state.date = j.date; state.day = j.day; state.voice = j.voice; state.ideas = j.ideas; state.ai = j.ai; state.leads = j.leads; state.drafted = j.drafted; state.beat = j.beat || { entries: [], banned: [] };
       $('[data-date]').value = j.date;
       $$('[data-edition]').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-edition') === state.edition ? 'true' : 'false'); });
       $('[data-clock]').textContent = 'Approve by ' + clock(j.clock.deadline) + '. The draft is made at ' + clock(j.clock.draft) + ' and goes out at ' + clock(j.clock.send) + ' unless you press Hold.' + (state.edition === 'evening' ? ' The evening takes up to two pieces and a one line open.' : '') + (j.service === 'resend' && !j.topic ? ' Set this edition’s Resend topic in Netlify before it can be sent.' : '');
@@ -64,7 +64,7 @@
       $('[data-drafted]').textContent = d ? (d.held ? 'Held ' + new Date(d.held).toLocaleString() + '. It is a draft in Resend and will not go out.' : d.scheduled ? 'Scheduled to go out ' + new Date(d.scheduled).toLocaleString([], { timeZone: 'America/Indiana/Indianapolis', weekday: 'short', hour: 'numeric', minute: '2-digit' }) + ' Columbus time' + '. Press Hold to stop it.' : 'Draft made ' + new Date(d.at).toLocaleString() + '. The ' + clock(j.clock.draft) + ' job updates it from the desk and schedules it.') : 'No draft yet for this ' + NAME[state.edition] + '.';
       $('[data-hold]').hidden = !(d && d.scheduled && !d.held);
       $('[data-run]').textContent = (j.service ? '' : 'No newsletter service is set in Netlify, so nothing can be made or sent. ') + (j.run ? 'The ' + clock(j.clock.draft) + ' job ' + (RUN[j.run.reason] || j.run.reason) + ' at ' + new Date(j.run.at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) + '.' + (j.run.held ? ' You held it.' : '') + ((j.run.notes || []).length ? ' ' + j.run.notes.join(' ') : '') : (j.date === j.today ? 'The job runs at ' + clock(j.clock.draft) + ' and uses what you approved by then.' : ''));
-      renderPieces(); renderIdeas(); renderVoice(); renderLeads();
+      renderPieces(); renderIdeas(); renderVoice(); renderLeads(); renderBeat();
       openPiece(null);
       say((j.date === j.today ? 'Today, ' : '') + j.date + ', the ' + NAME[state.edition] + (j.ai ? '. Writing help is on (' + j.model + ').' : '. Writing help is off until ANTHROPIC_API_KEY is set in Netlify.'));
     }).catch(function (e) { say(e.message); });
@@ -264,6 +264,22 @@
       if (j.leads.date === state.date) { state.leads = j.leads; renderLeads(); }
       say('Gathered ' + j.leads.items.length + ' leads for ' + j.leads.date + '.');
     }).catch(function (er) { say(er.message); }).then(function () { b.disabled = false; });
+  });
+
+  // ---------- Beat book ----------
+  // One name per line: "Name | note | wrong spellings, comma separated".
+  function renderBeat() {
+    var b = state.beat || { entries: [], banned: [] };
+    $('[data-beat=entries]').value = b.entries.map(function (e) { return [e.term, e.note, (e.wrong || []).join(', ')].join(' | ').replace(/( \| )+$/, ''); }).join('\n');
+    $('[data-beat=banned]').value = (b.banned || []).join('\n');
+    $('[data-beat-count]').textContent = b.entries.length + ' name' + (b.entries.length === 1 ? '' : 's') + ', ' + b.banned.length + ' banned phrase' + (b.banned.length === 1 ? '' : 's') + '.';
+  }
+  $('[data-beat-save]').addEventListener('click', function () {
+    var entries = $('[data-beat=entries]').value.split('\n').map(function (l) { return l.trim(); }).filter(Boolean).map(function (l) {
+      var p = l.split('|').map(function (x) { return x.trim(); });
+      return { term: p[0] || '', note: p[1] || '', wrong: (p[2] || '').split(',').map(function (w) { return w.trim(); }).filter(Boolean) };
+    });
+    api('POST', { action: 'beat', beat: { entries: entries, banned: $('[data-beat=banned]').value } }).then(function (j) { state.beat = j.beat; renderBeat(); say('Beat book saved. The writing help and Approve now read it.'); }).catch(function (e) { say(e.message); });
   });
 
   // ---------- Voice ----------
