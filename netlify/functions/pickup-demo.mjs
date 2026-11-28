@@ -15,6 +15,10 @@ function validChoice(choice) {
     choice.every((index, i) => validIndex(index) && (i === 0 || index > choice[i - 1])));
 }
 
+const validPickup = slot => Array.isArray(slot) && slot.length === 2 &&
+  Number.isInteger(slot[0]) && slot[0] >= 0 && slot[0] <= 6 &&
+  Number.isInteger(slot[1]) && slot[1] >= 0 && slot[1] < 1440;
+
 function validLines(lines) {
   return Array.isArray(lines) && lines.length > 0 && lines.length <= 24 &&
     lines.every(line => Array.isArray(line) && (line.length === 2 || line.length === 3) &&
@@ -70,7 +74,11 @@ export function demoPickup(getStore) {
         return response({ ok: true });
       }
       if (!['order', 'update'].includes(body.action) || typeof body.id !== 'string' || !keyPattern.test(body.id)) return error('Invalid demo action.', 400);
-      if (body.action === 'order' && !validLines(body.lines)) return error('Choose up to 24 menu items.', 400);
+      if (body.action === 'order') {
+        if (!validLines(body.lines)) return error('Choose up to 24 menu items.', 400);
+        if (body.pickup !== undefined && !validPickup(body.pickup)) return error('Choose a valid demo pickup day and time.', 400);
+        if (body.coupon !== undefined && !['HOCDEMO10', 'HOCDEMO5'].includes(body.coupon)) return error('Sample code not recognized.', 400);
+      }
 
       // Retry conditional writes so two phones placing tickets or two tablet
       // taps cannot overwrite a different ticket or reverse a status change.
@@ -82,7 +90,11 @@ export function demoPickup(getStore) {
         if (body.action === 'order') {
           if (ticket) return response({ ticket });
           if (tickets.length >= 50) return error('Start a new session to place more test orders.', 409);
-          tickets.unshift({ id: body.id, lines: body.lines, status: 'new' });
+          tickets.unshift({
+            id: body.id, lines: body.lines, status: 'new',
+            ...(body.pickup ? { pickup: body.pickup } : {}),
+            ...(body.coupon ? { coupon: body.coupon } : {}),
+          });
         } else {
           if (!ticket) return error('That demo ticket is missing.', 404);
           if (ticket.status === body.status) return response({ ticket });

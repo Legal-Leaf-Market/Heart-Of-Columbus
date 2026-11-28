@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { directory } from '../data/directory.mjs';
 import { CATALOGS } from '../data/catalogs.mjs';
-import { pickupMenus } from '../data/pickup-menus.mjs';
+import { detailedPickupSlugs, pickupMenus } from '../data/pickup-menus.mjs';
 import { page, t } from '../layout.mjs';
 import { noDash } from '../event-feeds.mjs';
 
@@ -51,7 +51,7 @@ export function pickupDemoPages({ assets }) {
     title: title + ' | Heart of Columbus', description: 'A Heart of Columbus pickup concept demo.',
     body, data, styles, scripts, assets, showAlert: false, head: '<meta name="referrer" content="no-referrer">',
   });
-  const featured = [['jills-diner', 'Jill’s Diner'], ['rohdes-family-diner', 'Rohde’s Family Diner'], ['ramen-alley', 'Ramen Alley'], ['zwanzigz-pizza-and-brewing', 'ZwanzigZ Pizza'], ['paqd-meats', 'PAQD Meats'], ['donut-central', 'Donut Central']];
+  const featured = detailedPickupSlugs.map(slug => [slug, directory.find(business => business.slug === slug).name]);
   return [
     { path: 'pickup/demo/index.html', html: render('Pickup demo', `
       <main id="main" class="pd pd-launch">
@@ -67,10 +67,10 @@ export function pickupDemoPages({ assets }) {
           <button class="pd-primary">Open demo</button>
           <p data-pd-results role="status">${sourcedCount} demos with sourced menus or catalogs.</p>
         </form>
-        <nav aria-label="Example demos">${featured.map(([slug, name]) => `<a href="${path}${slug}/">${name}</a>`).join('')}</nav>
+        <nav aria-label="Example demos">${featured.map(([slug, name]) => `<a href="${path}${slug}/">${t(name)}</a>`).join('')}</nav>
       </main>`) },
     ...businesses.map(({ business: b, menu }) => {
-      const items = menu.items.map(([name, cents, section, choices]) => [noDash(name), cents, noDash(section), choices]);
+      const items = menu.items.map(([name, cents, section, choices, availability]) => [noDash(name), cents, noDash(section), choices, availability]);
       return { path: `pickup/demo/${b.slug}/index.html`, html: render(b.name + ' pickup demo', `
         <main id="main" class="pd" data-pd>
           <header class="pd-header"><a href="${path}">Heart of Columbus · Pickup demo</a>
@@ -92,7 +92,7 @@ export function pickupDemoPages({ assets }) {
           </section>
           <p data-pd-message role="status"></p>
           <noscript>Enable JavaScript to run a pickup demo.</noscript>
-        </main>`, { slug: b.slug, ...menu, items }) };
+        </main>`, { slug: b.slug, ...menu, items, demoCoupon: detailedPickupSlugs.includes(b.slug) }) };
     }),
   ];
 }

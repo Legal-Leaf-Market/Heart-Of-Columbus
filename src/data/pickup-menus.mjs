@@ -29,6 +29,29 @@ const pizza = [
   multiple('Anchovies', ['Anchovies', [300, 300, 550, 550]]),
 ];
 
+const weekdays = [1, 2, 3, 4, 5];
+const window = (days, start, end, label) => ({ days, start, end, label });
+const lunch = window(weekdays, 660, 900, 'Monday to Friday, 11 AM to 3 PM');
+const happyHour = window(weekdays, 900, 1020, 'Monday to Friday, 3 to 5 PM');
+const onDay = (day, label) => window([day], 0, 1440, label);
+const special = (name, price, availability, choices) => [name, price, 'Specials', choices, availability];
+const pick = (label, ...options) => [label, options.map(name => [name, 0]), true];
+const flavors = ['Vanilla', 'Chocolate', 'Strawberry', 'Butter pecan', 'Cookies and cream', 'Mint chocolate chip'];
+const cone = ['Serving', [['Dish', 0], ['Cake cone', 50], ['Waffle cone', 175], ['Waffle bowl', 175]], true];
+const sauce = pick('Sauce', 'Hot fudge', 'Caramel', 'Marshmallow', 'Peanut butter', 'Pineapple', 'Strawberry');
+const sundaeToppings = multiple('Extra toppings', ...['Sprinkles', 'Peanuts', 'Oreo bits', 'Mini chocolate chips'].map(name => [name, 75]));
+const noodleProtein = [pick('Protein', 'Chashu pork', 'Chicken', 'Shrimp tempura')];
+const hibachiSides = [pick('Starter', 'Salad', 'Miso soup'), ['Rice', [['Steamed rice', 0], ['Fried rice', 100]], true]];
+const donutBox = (difference) => [['Box size', [['Half dozen', 0], ['Dozen', difference]], true]];
+const standardSide = ['Side', [['Crinkle cut fries', 0], ['Superfood slaw', 0], ['Cottage cheese', 0], ['Chips and salsa', 0],
+  ['Onion rings', 200], ['Sweet potato waffle fries', 200]], true];
+const garageBread = pick('Bread or wrap', 'White bread', 'Wheat bread', 'Wrap');
+
+export const detailedPickupSlugs = [
+  'ramen-alley', 'zwanzigz-pizza-and-brewing', 'donut-central', 'zaharakos-ice-cream-parlor',
+  'misora', 'the-garage-pub-and-grill', 'upland-columbus-pump-house',
+];
+
 export const pickupMenus = {
   'jills-diner': { items: jillsMenu, source: 'https://jills-diner.netlify.app/menu/', kind: 'Menu from Jill’s site project' },
   'rohdes-family-diner': {
@@ -44,7 +67,11 @@ export const pickupMenus = {
     kind: 'Selection from the public donut and coffee menu',
     items: [
       ['Ring donut', 199, 'Donuts'], ['Bismark', 249, 'Donuts'], ['Glazed Cinnamon Roll', 379, 'Donuts'],
-      ['Standard Half Dozen', 1175, 'Boxes'], ['Glazed Dozen', 1850, 'Boxes'],
+      ['Standard Box', 1175, 'Boxes', donutBox(975)], ['Glazed Box', 1175, 'Boxes', donutBox(675)],
+      ['Mixed Box', 1275, 'Boxes', donutBox(1175)],
+      ['Donut Holes', 249, 'Boxes', [...donutBox(210), pick('Coating', 'Glazed', 'Cinnamon sugar')]],
+      ['Apple Fritter', 449, 'Specialties', null, window([5, 6], 0, 1440, 'Friday and Saturday')],
+      ['Do’Sant', 449, 'Specialties', null, window([5, 6], 0, 1440, 'Friday and Saturday')],
       ['Small Drip Brew', 249, 'Drinks'], ['Large Drip Brew', 325, 'Drinks'], ['Latte', 549, 'Drinks'],
     ],
   },
@@ -52,9 +79,20 @@ export const pickupMenus = {
     source: 'https://zaharakos.com/menu.html',
     kind: 'Selection from the public ice cream parlor menu',
     items: [
-      ['Single Scoop', 575, 'Ice cream'], ['Double Scoop', 775, 'Ice cream'], ['Pint to Go', 700, 'Ice cream'],
-      ['Brownie Sundae', 1000, 'Sundaes'], ['Tin Roof Sundae', 1000, 'Sundaes'],
+      ['Single Scoop', 575, 'Ice cream', [pick('Flavor', ...flavors), cone]],
+      ['Double Scoop', 775, 'Ice cream', [pick('First scoop', ...flavors), pick('Second scoop', ...flavors), cone]],
+      ['Pint to Go', 700, 'Ice cream'],
+      ['Single Scoop Sundae', 625, 'Sundaes', [pick('Flavor', ...flavors), sauce, sundaeToppings]],
+      ['Brownie Sundae', 1000, 'Sundaes', [pick('First scoop', ...flavors), pick('Second scoop', ...flavors)]],
+      ['Tin Roof Sundae', 1000, 'Sundaes'],
       ['Ice Cream Float', 700, 'Fountain'], ['Fountain Soda', 350, 'Fountain'],
+      special('Wednesday Waffle Cone', 550, onDay(3, 'Wednesday'), [
+        ['Scoops', [['One scoop', 0], ['Two scoops', 150]], true]]),
+      special('Thursday Tin Roof Sundae', 800, onDay(4, 'Thursday')),
+      special('Friday Float', 550, onDay(5, 'Friday')),
+      special('Saturday Strawberry Shortcake Sundae', 800, onDay(6, 'Saturday')),
+      special('Sunday Sundae', 450, onDay(0, 'Sunday'), [
+        ['Scoops', [['One scoop', 0], ['Two scoops', 150]], true], sauce]),
     ],
   },
   'columbus-greeks-pizzeria': {
@@ -71,8 +109,8 @@ export const pickupMenus = {
     source: 'https://www.eatmisora.com/menu/',
     kind: 'Selection from the public à la carte menu',
     items: [
-      ['Tonkotsu Ramen', 1595, 'Ramen'], ['Miso Ramen', 1595, 'Ramen'], ['Sapporo Ramen', 1595, 'Ramen'],
-      ['Chicken Hibachi', 1595, 'Hibachi'], ['Steak Hibachi', 1795, 'Hibachi'], ['Tofu Hibachi', 1295, 'Hibachi'],
+      ['Tonkotsu Ramen', 1595, 'Ramen', noodleProtein], ['Miso Ramen', 1595, 'Ramen', noodleProtein], ['Sapporo Ramen', 1595, 'Ramen', noodleProtein],
+      ['Chicken Hibachi', 1595, 'Hibachi', hibachiSides], ['Steak Hibachi', 1795, 'Hibachi', hibachiSides], ['Tofu Hibachi', 1295, 'Hibachi', hibachiSides],
       ['California Roll', 595, 'Rolls'], ['Shrimp Tempura Roll', 795, 'Rolls'], ['Avocado Roll', 495, 'Rolls'],
       ['Misora Roll (10 pieces)', 1495, 'Signature rolls'], ['Blossom Roll (8 pieces)', 1495, 'Signature rolls'],
     ],
@@ -91,8 +129,10 @@ export const pickupMenus = {
     source: 'https://thegaragepubandgrill.com/food-menu',
     kind: 'Selection from the public food menu',
     items: [
-      ['BLT', 1200, 'Lunch'], ['Chicken Salad Sandwich', 1200, 'Lunch'], ['The Loli', 1200, 'Lunch'],
-      ['Hummus Wrap', 1200, 'Lunch'], ['Hellcat', 1400, 'Lunch'], ['The Firecracker Rig', 1400, 'Lunch'],
+      ['BLT', 1200, 'Lunch', [garageBread, standardSide], lunch],
+      ['Chicken Salad Sandwich', 1200, 'Lunch', [garageBread, standardSide], lunch],
+      ['The Loli', 1200, 'Lunch', [standardSide], lunch], ['Hummus Wrap', 1200, 'Lunch', [standardSide], lunch],
+      ['Hellcat', 1400, 'Lunch', [standardSide], lunch], ['The Firecracker Rig', 1400, 'Lunch', [standardSide], lunch],
       ['Crinkle Cut Fries', 300, 'Sides'], ['Sweet Potato Waffle Fries', 500, 'Sides'],
       ['Burnout Brownie', 800, 'Dessert'], ['Banana Belt Drive', 600, 'Dessert'],
     ],
@@ -101,10 +141,14 @@ export const pickupMenus = {
     source: 'https://uplandbeer.com/columbus-menu/',
     kind: 'Selection from the public Columbus food menu',
     items: [
-      ['Upland Nachos', 1300, 'Shareables'], ['Spinach Artichoke Dip', 1400, 'Shareables'], ['Soft Pretzel', 1350, 'Shareables'],
+      ['Upland Nachos', 1300, 'Shareables', [
+        extra('Add a topping', ['Guacamole', 200], ['Sour cream', 200]),
+        extra('Add a protein', ['Spicy beef', 400], ['Spicy chicken', 400], ['BBQ pulled pork', 400], ['Southwest tofu', 400])]], ['Spinach Artichoke Dip', 1400, 'Shareables'], ['Soft Pretzel', 1350, 'Shareables'],
       ['Truffle Fries', 1400, 'Shareables'], ['House Smoked Wings', 1650, 'Shareables'],
       ['Hoosier Tenderloin', 1550, 'Upland favorites'], ['Nashville Hot Chicken', 1600, 'Upland favorites'],
       ['Americana Burger', 1650, 'Burgers'], ['Warm Chocolate Brownie', 600, 'Dessert'],
+      special('Happy Hour Chicharrones', 500, happyHour),
+      special('Happy Hour Mini Brownie', 400, happyHour),
     ],
   },
   'zwanzigz-pizza-and-brewing': {
@@ -117,6 +161,7 @@ export const pickupMenus = {
       ['Five Meat', 1609, 'Pizza', sizes(1609, 1609, 2189, 2589, 3019)],
       ['Lasagna Pizza', 1499, 'Pizza', sizes(1499, 1499, 2069, 2479, 3019)],
       ['Build Your Own Pizza', 1169, 'Pizza', pizza],
+      special('Legendary Lunch Combo', 649, window(weekdays, 660, 810, 'Monday to Friday, 11 AM to 1:30 PM')),
       ['Italian Hoagie', 839, 'Hoagies'], ['Spinach Ricotta Calzone', 1039, 'Calzones'],
     ],
   },

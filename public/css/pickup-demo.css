@@ -89,3 +89,16 @@
   }
   #pd-cart { scroll-margin-top: 4rem; }
 }
+
+.pd-filters, .pd-slot, .pd-coupon { display: grid; gap: .55rem; margin-block: .85rem; }
+.pd-filters p, .pd-coupon p { margin: 0; }
+.pd-filters select { max-width: 100%; }
+.pd-slot { grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr)); border: 1px solid #cab9a8; border-radius: .5rem; padding: .6rem; }
+.pd-slot legend { padding-inline: .25rem; font-weight: 700; }
+.pd-slot label { display: grid; gap: .2rem; min-width: 0; }
+.pd-filter-check { display: flex; width: fit-content; align-items: center; gap: .45rem; min-height: 2rem; }
+.pd-filter-check input { min-height: 0; accent-color: #315642; }
+.pd-coupon > div { display: flex; flex-wrap: wrap; gap: .45rem; }
+.pd-coupon input { flex: 1 1 8rem; min-width: 0; }
+.pd-coupon p { font-size: .875rem; }
+.pd [data-cart-availability], .pd [data-item-availability] { color: #734017; }
