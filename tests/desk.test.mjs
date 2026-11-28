@@ -262,3 +262,24 @@ test('the edit pass comes back as tracked changes, applied only where accepted',
   assert.match(page, /data-assist="editpass"/);
   assert.ok(page.indexOf('/js/diff.js') > 0 && page.indexOf('/js/diff.js') < page.indexOf('/js/desk.js'), 'diff.js loads before desk.js');
 });
+
+test('running stories in the beat book give continuity without becoming a source', async () => {
+  const { cleanBeat, beatPrompt } = await import('../src/news/desk.mjs');
+  const beat = cleanBeat({ stories: [
+    { title: 'Downtown parking study', status: 'council vote expected in January', links: 'https://heartofcolumbus.shop/news/parking/ javascript:alert(1), https://heartofcolumbus.shop/news/parking-2/' },
+    { title: '', status: 'no title is dropped' },
+  ] });
+  assert.equal(beat.stories.length, 1);
+  assert.deepEqual(beat.stories[0].links, ['https://heartofcolumbus.shop/news/parking/', 'https://heartofcolumbus.shop/news/parking-2/'], 'only web links are kept');
+  const p = beatPrompt(beat);
+  assert.match(p, /Running stories/);
+  assert.match(p, /never state a fact from it/);
+  assert.match(p, /Downtown parking study: council vote expected in January\. Earlier coverage: https:\/\/heartofcolumbus\.shop\/news\/parking\//);
+  assert.deepEqual(cleanBeat({}).stories, [], 'an old beat book with no stories still loads');
+  assert.equal(cleanBeat({ stories: Array.from({ length: 60 }, (_, i) => ({ title: `S${i}` })) }).stories.length, 40, 'capped');
+  const { readFileSync } = await import('node:fs');
+  const page = readFileSync(new URL('../dist/newsroom/desk/index.html', import.meta.url), 'utf8');
+  assert.match(page, /data-beat="stories"/);
+  const js = readFileSync(new URL('../public/js/desk.js', import.meta.url), 'utf8');
+  assert.match(js, /stories: beat\.stories \|\| \[\]/, 'adding a noticed name keeps the running stories');
+});

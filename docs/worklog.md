@@ -152,7 +152,12 @@ congregation in town, of every faith, by area and by faith, plus nonprofits.
       Calls made without asking: changes are grouped by sentence, not by
       word; an undecided change keeps the publisher's words; Apply refuses
       if the body changed since the pass
-- [ ] Paige idea still to build: running stories in the beat book
+- [x] **Running stories** in the beat book (2026-11-28): one per line as
+      `Title | where it stands | links to our earlier pieces`. The writing
+      help may say a piece continues one and link the earlier coverage, but
+      the status line is the publisher's shorthand and never a source.
+      Calls made without asking: 40 stories, 5 links each, web links only.
+      This closes the list of desk ideas from the Paige study
 - [x] Overnight lead gathering into the idea bank: city news, city agendas
       and minutes, county news, county calendar, NWS alerts, today's events
       (`src/news/gather.mjs`, `netlify/functions/leads.mjs`, 2026-11-27)

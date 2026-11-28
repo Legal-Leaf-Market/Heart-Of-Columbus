@@ -74,7 +74,15 @@ export function cleanBeat(b = {}) {
   })).filter((e) => e.term).slice(0, 300);
   const banned = (Array.isArray(b.banned) ? b.banned : String(b.banned || '').split('\n'))
     .map((x) => clip(String(x).trim(), 120)).filter(Boolean).slice(0, 100);
-  return { entries, banned };
+  // Running stories: a thread the paper keeps coming back to, where it
+  // stands in the publisher's words, and links to our earlier pieces.
+  const stories = (Array.isArray(b.stories) ? b.stories : []).map((s) => ({
+    title: clip(String(s && s.title || '').trim(), 120),
+    status: clip(String(s && s.status || '').trim(), 400),
+    links: (Array.isArray(s && s.links) ? s.links : String(s && s.links || '').split(/[\s,]+/))
+      .map((l) => String(l).trim()).filter((l) => /^https?:\/\/\S+$/i.test(l)).map((l) => clip(l, 500)).slice(0, 5),
+  })).filter((s) => s.title).slice(0, 40);
+  return { entries, banned, stories };
 }
 
 // "Main Street | the downtown stretch | Main St., Mainstreet" per line.
@@ -108,6 +116,8 @@ export function beatPrompt(beat = null) {
   const parts = [];
   if (entries.length) parts.push(`The publisher's beat book. Spell these exactly as written here, and never as the wrong spellings listed. The notes are background for spelling and naming only; they are not sources, so never state a fact from them:\n${entries.map((e) => `- ${e.term}${e.note ? `: ${e.note}` : ''}${e.wrong.length ? `. Not: ${e.wrong.join(', ')}` : ''}`).join('\n')}`);
   if (banned.length) parts.push(`Phrases the publisher never uses. Do not write any of these:\n${banned.map((b) => `- ${b}`).join('\n')}`);
+  const stories = (beat.stories || []).slice(0, 40);
+  if (stories.length) parts.push(`Running stories the paper has covered before. Use them for continuity only: if this piece continues one, you may say so in one sentence and link our earlier coverage from the links listed. Where it stands is the publisher's own shorthand, not a source, so never state a fact from it:\n${stories.map((s) => `- ${s.title}${s.status ? `: ${s.status}` : ''}${s.links.length ? `. Earlier coverage: ${s.links.join(' ')}` : ''}`).join('\n')}`);
   return parts.join('\n\n');
 }
 
