@@ -6,15 +6,16 @@ each list.
 
 ## In progress
 
-### Owner deals at the newsroom desk
-- Add owner-confirmed offer wording and terms, the date received and the last
+### Owner deals at the newsroom desk (merged in #222)
+- [x] Add owner-confirmed offer wording and terms, the date received and the last
   day of the offer through the desk's Deals tab. Offers are available as soon
   as they are published or removed, and expire at midnight Columbus time.
-- Use the existing directory listings and publication disclosures. Link the
+- [x] Use the existing directory listings and publication disclosures. Link the
   public /deals/ page from /holidays/. Include active offers from the original
   owner-deals data on the public page and keep those entries on business profiles.
-- Keep desk-added offers on the public deals page for this change. Publishing
+- [x] Keep desk-added offers on the public deals page for this change. Publishing
   an offer there does not change a business profile or send a newsletter.
+- [ ] Confirm the public page and Deals tab after the production batch.
 
 ### Morning and evening editions that send (`claude/bold-franklin-leyln4`)
 Jake's decisions (2026-11-27): two editions every day, each sent on schedule
@@ -30,12 +31,15 @@ shout out per edition. Plus the Founders Club raised to 20 spots.
       the NWS alerts source left the overnight leads too
 - [x] Studio C wheel throwing moved to Dec 5 and Dec 12
 - [x] Founders Club: 20 spots, the "grandfathered in, promised and guaranteed" offer
-- [ ] PR #221: Require an edition topic for every Resend send, verify the
+- [x] Merged in #221: Require an edition topic for every Resend send, verify the
       saved draft status and audience, and check Resend for a scheduled,
       queued or previously sent copy before creating another one. If the
       history is incomplete or the audience cannot be verified, skip the send.
       The Resend dashboard already showed two Nov. 28 morning broadcasts
       marked sent. No manual broadcast was sent during this check.
+- [x] Netlify lists `HOC_NEWSLETTER_NOTIFY`, `RESEND_TOPIC_MORNING` and
+      `RESEND_TOPIC_EVENING` in all deploy contexts. Use the [cutover steps](morning-paper.md#production-cutover)
+      to verify the production release and check Resend before any manual send.
 - [ ] Jake: turn off the two temporary Claude scheduled tasks once this is live
 - [ ] Jake: make both Resend topics Public. Both were still private when
       checked on Nov. 27, so readers could not discover either unselected topic.
