@@ -129,9 +129,13 @@
 
   function menuRow({ item: [name, , , groups], id }) {
     const details = groups?.length ? '<details class="pd-choices"><summary>Customize ' + escape(name) + '</summary>' +
-      groups.map(([label, options]) => '<label>' + escape(label) + '<select data-choice>' +
-        options.map(([option, adjustment], index) => '<option value="' + index + '">' + escape(option) +
-          (adjustment ? ' (+' + formatPrice(adjustment) + ')' : '') + '</option>').join('') + '</select></label>').join('') + '</details>' : '';
+      groups.map(([label, options], group) => {
+        const control = 'pd-choice-' + id + '-' + group;
+        return '<div class="pd-choice"><label for="' + control + '">' + escape(label) +
+          '</label><select id="' + control + '" data-choice>' +
+          options.map(([option, adjustment], index) => '<option value="' + index + '">' + escape(option) +
+            (adjustment ? ' (+' + formatPrice(adjustment) + ')' : '') + '</option>').join('') + '</select></div>';
+      }).join('') + '</details>' : '';
     return '<li data-menu-item data-id="' + id + '"><div class="pd-item-name"><span>' + escape(name) + '</span>' + details +
       '<small class="pd-line-detail" data-selection>' + escape(describe(id).details.join(' · ')) + '</small></div><b data-item-price>' +
       formatPrice(describe(id).price) + '</b><button type="button" data-action="add" aria-label="Add ' + escape(name) +

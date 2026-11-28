@@ -52,7 +52,7 @@
 .pd-items .pd-item-name { flex: 1; min-width: 0; overflow-wrap: anywhere; }
 .pd-choices { margin-top: .35rem; }
 .pd-choices summary { cursor: pointer; color: #315642; font-size: .9rem; font-weight: 730; }
-.pd-choices label { display: grid; gap: .2rem; margin-block: .45rem; font-size: .9rem; }
+.pd-choice { display: grid; gap: .2rem; margin-block: .45rem; font-size: .9rem; }
 .pd-choices select { width: 100%; min-width: 0; }
 .pd-line-detail { display: block; margin-top: .25rem; font-size: .85rem; color: #4a3b31; }
 .pd-line-detail:empty { display: none; }
