@@ -134,10 +134,23 @@
   // Prose numbers (public/js/prose.js): hints for your edit, never a rule.
   function words() {
     var body = $('[data-f=body]').value;
-    if (window.HoCProse) { $('[data-wc]').textContent = window.HoCProse.summary(window.HoCProse.prose(body)); return; }
+    if (window.HoCProse) { $('[data-wc]').textContent = window.HoCProse.summary(window.HoCProse.prose(body)); noticed(); return; }
     var n = (body.match(/\S+/g) || []).length; $('[data-wc]').textContent = n + ' words, about ' + Math.max(1, Math.round(n / 230)) + ' min to read';
   }
   $('[data-f=body]').addEventListener('input', words);
+  // Names in the draft the beat book does not list yet, each one click away.
+  function noticed() {
+    var box = $('[data-noticed]'), f = $('[data-f=headline]');
+    var list = window.HoCProse && window.HoCProse.names ? window.HoCProse.names((f ? f.value + '. ' : '') + $('[data-f=body]').value, state.beat) : [];
+    box.hidden = !list.length;
+    box.innerHTML = list.length ? 'Not in your beat book: ' + list.map(function (n) { return '<button type="button" class="pill" data-notice-add="' + esc(n) + '">+ ' + esc(n) + '</button>'; }).join(' ') : '';
+  }
+  $('[data-noticed]').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-notice-add]'); if (!b) return;
+    var term = b.getAttribute('data-notice-add'), beat = state.beat || { entries: [], banned: [] };
+    var entries = beat.entries.concat([{ term: term, kind: 'thing', note: '', wrong: [] }]);
+    api('POST', { action: 'beat', beat: { entries: entries, banned: beat.banned } }).then(function (j) { state.beat = j.beat; renderBeat(); noticed(); say('Added ' + term + ' to your beat book. Add a note or wrong spellings on the Beat book tab.'); }).catch(function (e) { say(e.message); });
+  });
 
   $('[data-new]').addEventListener('click', function () { openPiece(null, blank()); $('[data-f=headline]').focus(); });
   function save(status) {

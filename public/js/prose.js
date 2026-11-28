@@ -52,6 +52,51 @@
     };
   }
 
+  // Names the draft uses that the beat book does not list yet: runs of
+  // capitalized words ("Mill Race Park"), and single capitalized words that
+  // also appear mid-sentence (so a word capitalized only because it starts a
+  // sentence is skipped). Days, months and a few common words are left out.
+  // Only a suggestion: the publisher decides what goes in the beat book.
+  var COMMON = /^(i|i'm|i’m|i've|i’ve|i'll|i’ll|a|an|the|this|that|these|those|it|its|we|our|you|your|he|she|they|but|and|or|so|if|then|when|while|after|before|on|in|at|for|to|of|by|with|from|as|my|his|her|their|there|here|what|who|why|how|monday|tuesday|wednesday|thursday|friday|saturday|sunday|january|february|march|april|may|june|july|august|september|october|november|december|today|tomorrow|tonight|yesterday|am|pm|mr|mrs|ms|dr|st|ave|columbus|indiana|check)$/i;
+  var JOIN = /^(of|the|and|&|de)$/i;
+  var STARTERS = /^(visit|ask|see|call|meet|try|read|join|head|stop|go|come|find|watch|look|get|take|grab|catch|bring|thank|welcome|tell|follow|order|shop|park|walk|drive|skip|expect|remember|congratulations|happy|merry)$/i;
+  function names(md, beat) {
+    var text = clean(md).replace(/\[CHECK:[^\]]*\]/g, ' ');
+    var known = {};
+    ((beat && beat.entries) || []).forEach(function (e) {
+      [e.term].concat(e.wrong || []).forEach(function (t) { if (t) known[String(t).toLowerCase()] = 1; });
+    });
+    var tokens = text.match(/[A-Za-z][A-Za-z’'&-]*|[.!?\n]/g) || [];
+    var found = {}, order = [], start = true;
+    function add(name, mid) {
+      var k = name.toLowerCase();
+      if (!found[k]) { found[k] = { name: name, count: 0, mid: false }; order.push(k); }
+      found[k].count++; if (mid) found[k].mid = true;
+    }
+    for (var i = 0; i < tokens.length; i++) {
+      var t = tokens[i];
+      if (/^[.!?\n]$/.test(t)) { start = true; continue; }
+      var w = t.replace(/[’'](s)?$/, '').replace(/[.]+$/, '');
+      if (!/^[A-Z]/.test(w) || COMMON.test(w)) { start = false; continue; }
+      var run = [w], j = i + 1;
+      while (j < tokens.length) {
+        var n = tokens[j].replace(/[’'](s)?$/, '').replace(/[.]+$/, '');
+        if (/^[A-Z]/.test(n) && !COMMON.test(n)) { run.push(n); j++; continue; }
+        if (JOIN.test(n) && j + 1 < tokens.length && /^[A-Z]/.test(tokens[j + 1]) && !COMMON.test(tokens[j + 1])) { run.push(n); j++; continue; }
+        break;
+      }
+      // A verb that opens a sentence is not part of the name that follows it
+      // ("Visit Mill Race Park").
+      if (start && run.length > 1 && STARTERS.test(run[0])) { run.shift(); while (run.length && JOIN.test(run[0])) run.shift(); add(run.join(' '), true); start = false; i = j - 1; continue; }
+      add(run.join(' '), !start);
+      start = false; i = j - 1;
+    }
+    return order.map(function (k) { return found[k]; })
+      .filter(function (f) { return (f.name.indexOf(' ') > 0 || f.mid) && f.name.length > 2 && !known[f.name.toLowerCase()]; })
+      .sort(function (a, b) { return b.count - a.count; })
+      .slice(0, 8).map(function (f) { return f.name; });
+  }
+
   // One line for the desk, plain words.
   function summary(p) {
     if (!p.words) return '0 words';
@@ -62,7 +107,7 @@
     return bits.join('. ') + '.';
   }
 
-  var api = { prose: prose, summary: summary, syllables: syllables };
+  var api = { prose: prose, summary: summary, syllables: syllables, names: names };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.HoCProse = api;
 })(typeof window !== 'undefined' ? window : this);

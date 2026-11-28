@@ -191,3 +191,19 @@ test('passage help sends only a selection that is in the draft, and never for wh
   for (const m of PASSAGE_MODES) assert.match(page, new RegExp(`data-assist="${m}"`));
   assert.match(page, /data-use="selection"/);
 });
+
+test('the desk notices names the beat book does not list yet', async () => {
+  const { readFileSync } = await import('node:fs');
+  const m = { exports: {} };
+  new Function('module', 'window', readFileSync(new URL('../public/js/prose.js', import.meta.url), 'utf8'))(m, undefined);
+  const { names } = m.exports;
+  const text = 'The lights at Mill Race Park go up Friday. Zaharakos is open late. The council voted, and Mayor Mary Ferdon said yes. Zaharakos sells sodas. Bartholomew County of Commerce met. [CHECK: Who] said it at City Hall. Ask at Zaharakos. Visit Mill Race Park. People on Washington Street stayed. Then I went home in December.';
+  const found = names(text, { entries: [{ term: 'Mill Race Park', wrong: ['Millrace Park'] }] });
+  assert.deepEqual(found.slice().sort(), ['Bartholomew County of Commerce', 'City Hall', 'Mayor Mary Ferdon', 'Washington Street', 'Zaharakos'].sort());
+  assert.ok(!found.includes('Then') && !found.includes('December') && !found.includes('Who'), 'sentence starts, months and CHECK notes are skipped');
+  assert.deepEqual(names('Zaharakos is open. Zaharakos sells sodas.'), [], 'a word capitalized only at sentence starts is not offered');
+  assert.deepEqual(names('Lunch at [Zaharakos](https://example.com/Big-Name) today.'), ['Zaharakos'], 'link text counts, the address does not');
+  assert.ok(names(Array.from({ length: 20 }, (_, i) => `We met Person${String.fromCharCode(65 + i)} Smith today.`).join(' ')).length <= 8, 'at most eight at a time');
+  const page = readFileSync(new URL('../dist/newsroom/desk/index.html', import.meta.url), 'utf8');
+  assert.match(page, /data-noticed/);
+});
