@@ -55,6 +55,11 @@
 .pd-choice { display: grid; gap: .2rem; margin-block: .45rem; font-size: .9rem; }
 .pd-choices select { width: 100%; min-width: 0; }
 .pd-line-detail { display: block; margin-top: .25rem; font-size: .85rem; color: #4a3b31; }
+.pd-line-detail > span { display: block; }
+.pd-choice-checks { border: 1px solid #cab9a8; border-radius: .5rem; min-width: 0; padding: .35rem .5rem; }
+.pd-choice-checks legend { font-weight: 680; padding-inline: .2rem; }
+.pd-choice-checks label { display: flex; align-items: center; flex-wrap: wrap; gap: .4rem; min-height: 2rem; }
+.pd-choice-checks input { min-height: 0; accent-color: #315642; }
 .pd-line-detail:empty { display: none; }
 .pd-total { display: flex; justify-content: space-between; padding: .65rem 0; }
 .pd-cart-link { display: none; }

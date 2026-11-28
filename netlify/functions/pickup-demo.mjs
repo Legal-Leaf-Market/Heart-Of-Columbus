@@ -9,13 +9,19 @@ const next = { new: ['accepted', 'declined'], accepted: ['ready', 'declined'], r
 const response = (body, status = 200) => Response.json(body, { status, headers: { 'cache-control': 'no-store' } });
 const error = (message, status) => response({ error: message }, status);
 
+const validIndex = index => Number.isInteger(index) && index >= 0 && index < 25;
+function validChoice(choice) {
+  return validIndex(choice) || (Array.isArray(choice) && choice.length <= 24 &&
+    choice.every((index, i) => validIndex(index) && (i === 0 || index > choice[i - 1])));
+}
+
 function validLines(lines) {
   return Array.isArray(lines) && lines.length > 0 && lines.length <= 24 &&
     lines.every(line => Array.isArray(line) && (line.length === 2 || line.length === 3) &&
       Number.isInteger(line[0]) && line[0] >= 0 && line[0] < 1000 &&
       Number.isInteger(line[1]) && line[1] >= 1 && line[1] <= 12 &&
       (line.length === 2 || (Array.isArray(line[2]) && line[2].length > 0 && line[2].length <= 12 &&
-        line[2].every(choice => Number.isInteger(choice) && choice >= 0 && choice < 25)))) &&
+        line[2].every(validChoice)))) &&
     new Set(lines.map(([id, , choices]) => JSON.stringify([id, choices || []]))).size === lines.length;
 }
 

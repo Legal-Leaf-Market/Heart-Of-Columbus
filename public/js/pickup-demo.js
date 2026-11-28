@@ -87,22 +87,32 @@
     return data;
   }
 
+  // Size-indexed prices use the first choice group.
+  const optionPrice = (adjustment, choices) => Array.isArray(adjustment) ? (adjustment[choices[0]] ?? adjustment[0]) : adjustment;
+  const priceSuffix = cents => cents ? ' (+' + formatPrice(cents) + ')' : '';
+
   function describe(id, choices = []) {
     const [name, cents, , groups] = menu.items[id] || ['Unavailable demo item', 0];
     const details = [];
     let price = cents;
-    (groups || []).forEach(([label, options, showDefault], i) => {
-      const index = choices[i] ?? 0;
-      const [option, adjustment] = options[index] || options[0];
-      price += adjustment;
-      if (index || showDefault) details.push(label + ': ' + option);
+    (groups || []).forEach(([label, options, showDefault, multiple], i) => {
+      const selection = choices[i];
+      const indices = multiple ? (Array.isArray(selection) ? selection : []) : [selection ?? 0];
+      const names = [];
+      for (const index of indices) {
+        const option = options[index];
+        if (!option) continue;
+        price += optionPrice(option[1], choices);
+        if (multiple || index || showDefault) names.push(option[0]);
+      }
+      if (names.length) details.push((label === 'Leave out' ? 'No ' : label + ': ') + names.join(', '));
     });
     return { name, price, details };
   }
 
   function lineLabel({ name, details }, qty) {
     return '<span>' + qty + ' × ' + escape(name) +
-      (details.length ? '<small class="pd-line-detail">' + escape(details.join(' · ')) + '</small>' : '') + '</span>';
+      (details.length ? '<small class="pd-line-detail">' + details.map(detail => '<span>' + escape(detail) + '</span>').join('') + '</small>' : '') + '</span>';
   }
 
   function orderLines(lines) {
@@ -122,19 +132,22 @@
     content.querySelector('[data-cart-lines]').innerHTML = lines.length ? lines.map(([key, [id, qty, choices]]) => {
       const item = describe(id, choices);
       return '<li>' + lineLabel(item, qty) + '<button type="button" aria-label="Remove one ' + escape([item.name, ...item.details].join(', ')) +
-        '" data-action="remove" data-line="' + key + '">Remove one</button></li>';
+        '" data-action="remove" data-line="' + escape(key) + '">Remove one</button></li>';
     }).join('') : '<li>Your cart is empty.</li>';
     content.querySelector('[data-action="order"]').disabled = !lines.length || submitting;
   }
 
   function menuRow({ item: [name, , , groups], id }) {
     const details = groups?.length ? '<details class="pd-choices"><summary>Customize ' + escape(name) + '</summary>' +
-      groups.map(([label, options], group) => {
+      groups.map(([label, options, , multiple], group) => {
+        if (multiple) return '<fieldset class="pd-choice pd-choice-checks" data-checks="' + group + '"><legend>' + escape(label) + '</legend>' +
+          options.map(([option, adjustment], index) => '<label><input type="checkbox" value="' + index + '">' +
+            escape(option) + '<span data-option-price>' + priceSuffix(optionPrice(adjustment, [])) + '</span></label>').join('') + '</fieldset>';
         const control = 'pd-choice-' + id + '-' + group;
         return '<div class="pd-choice"><label for="' + control + '">' + escape(label) +
           '</label><select id="' + control + '" data-choice>' +
           options.map(([option, adjustment], index) => '<option value="' + index + '">' + escape(option) +
-            (adjustment ? ' (+' + formatPrice(adjustment) + ')' : '') + '</option>').join('') + '</select></div>';
+            priceSuffix(adjustment) + '</option>').join('') + '</select></div>';
       }).join('') + '</details>' : '';
     return '<li data-menu-item data-id="' + id + '"><div class="pd-item-name"><span>' + escape(name) + '</span>' + details +
       '<small class="pd-line-detail" data-selection>' + escape(describe(id).details.join(' · ')) + '</small></div><b data-item-price>' +
@@ -142,7 +155,8 @@
       '">Add</button></li>';
   }
 
-  const selections = row => [...row.querySelectorAll('[data-choice]')].map(select => Number(select.value));
+  const selections = row => [...row.querySelectorAll('[data-choice], [data-checks]')].map(control =>
+    control.matches('select') ? Number(control.value) : [...control.querySelectorAll('input:checked')].map(input => Number(input.value)));
 
   function drawMenu() {
     const sections = new Map();
@@ -175,13 +189,24 @@
       }
       content.querySelector('[data-menu-empty]').hidden = found;
     });
-    content.querySelectorAll('[data-choice]').forEach(select => select.addEventListener('change', () => {
-      const row = select.closest('[data-menu-item]');
-      const item = describe(Number(row.dataset.id), selections(row));
-      row.querySelector('[data-item-price]').textContent = formatPrice(item.price);
-      row.querySelector('[data-selection]').textContent = item.details.join(' · ');
-    }));
+    content.addEventListener('change', updateChoice);
     drawCart();
+  }
+
+  function updateChoice(event) {
+    const row = event.target.closest('[data-menu-item]');
+    if (!row) return;
+    const id = Number(row.dataset.id);
+    const choices = selections(row);
+    const item = describe(id, choices);
+    row.querySelector('[data-item-price]').textContent = formatPrice(item.price);
+    row.querySelector('[data-selection]').textContent = item.details.join(' · ');
+    for (const group of row.querySelectorAll('[data-checks]')) {
+      const [, options] = menu.items[id][3][Number(group.dataset.checks)];
+      group.querySelectorAll('[data-option-price]').forEach((price, index) => {
+        price.textContent = priceSuffix(optionPrice(options[index][1], choices));
+      });
+    }
   }
 
   function showTicket(ticket) {
@@ -381,7 +406,7 @@
       if (pendingId) { say('Retry the pending test order before changing this cart.'); return; }
       const row = button.closest('[data-menu-item]');
       const choices = row ? selections(row) : [];
-      const key = row ? [row.dataset.id, ...choices].join('.') : button.dataset.line;
+      const key = row ? JSON.stringify([row.dataset.id, choices]) : button.dataset.line;
       const previousLine = cart.get(key);
       if (!row && !previousLine) return;
       const [id, previous, picked = []] = previousLine || [Number(row.dataset.id), 0, choices];

@@ -7,14 +7,26 @@ const jillsMenu = JSON.parse(readFileSync(new URL('./jills-pickup-menu.json', im
 
 // A menu choice group lists the label, followed by options and price changes.
 const extra = (label, ...options) => [label, [['None', 0], ...options]];
+const multiple = (label, ...options) => [label, options, false, true];
 const sizes = (basePrice, ...prices) => [['Size', prices.map((cents, i) => [[10, 14, 16, 18][i] + ' inch', cents - basePrice]), true]];
 const tonkotsu = [
   ['Noodles', [['Regular', 0], ['Extra half portion', 100], ['Extra full portion', 200], ['Gluten-free noodles', 100]]],
   extra('Extra meat', ['Extra pork belly', 200], ['Extra chicken', 200], ['Double chicken', 400], ['Extra soboro', 100]),
   ['Egg', [['Regular', 0], ['Extra egg', 150], ['No egg', 0]]],
-  extra('Seasoning', ['Spice bomb', 100], ['Garlic oil', 100], ['Spicy sauce', 50], ['Japanese mayo', 50], ['Fish powder', 50], ['Seaweed flakes', 50]),
-  extra('Extra vegetables', ['Onion', 100], ['Bean sprouts', 100], ['Spinach', 100], ['Corn', 100], ['Mushroom', 100], ['Raw garlic', 100], ['All vegetables', 300], ['Bamboo', 100]),
-  extra('Other extras', ['Tofu', 100], ['Naruto', 50], ['Extra rice', 200], ['Extra broth', 100]),
+  multiple('Seasoning', ['Spice bomb', 100], ['Garlic oil', 100], ['Spicy sauce', 50], ['Japanese mayo', 50], ['Fish powder', 50], ['Seaweed flakes', 50]),
+  multiple('Extra vegetables', ['Onion', 100], ['Bean sprouts', 100], ['Spinach', 100], ['Corn', 100], ['Mushroom', 100], ['Raw garlic', 100], ['All vegetables', 300], ['Bamboo', 100]),
+  multiple('Other extras', ['Tofu', 100], ['Naruto', 50], ['Extra rice', 200], ['Extra broth', 100]),
+  multiple('Leave out', ...['Meat', 'Seaweed', 'Onion', 'Spinach', 'Mushroom', 'Corn', 'Red ginger', 'Bamboo',
+    'Bean sprouts', 'Tofu', 'Fish powder', 'Garlic oil', 'Naruto'].map(name => [name, 0])),
+];
+const toppingPrices = [139, 219, 259, 309];
+const pizza = [
+  ...sizes(1169, 1169, 1589, 1789, 2019),
+  ['Sauce', [['Pizza sauce', 0], ['BBQ sauce', 0], ['Ranch', 0], ['Olive oil', 0]], true],
+  multiple('Meat toppings', ...['Bacon', 'Beef', 'Grilled chicken', 'Ham', 'Pepperoni', 'Salami', 'Sausage'].map(name => [name, toppingPrices])),
+  multiple('Vegetable toppings', ...['Banana peppers', 'Black olives', 'Fresh garlic', 'Green olives', 'Green onions',
+    'Green peppers', 'Mushrooms', 'Pineapple', 'Jalapeños', 'Roma tomatoes', 'Spinach', 'White onions'].map(name => [name, toppingPrices])),
+  multiple('Anchovies', ['Anchovies', [300, 300, 550, 550]]),
 ];
 
 export const pickupMenus = {
@@ -104,6 +116,7 @@ export const pickupMenus = {
       ['Veggie', 1499, 'Pizza', sizes(1499, 1499, 2069, 2429, 2819)],
       ['Five Meat', 1609, 'Pizza', sizes(1609, 1609, 2189, 2589, 3019)],
       ['Lasagna Pizza', 1499, 'Pizza', sizes(1499, 1499, 2069, 2479, 3019)],
+      ['Build Your Own Pizza', 1169, 'Pizza', pizza],
       ['Italian Hoagie', 839, 'Hoagies'], ['Spinach Ricotta Calzone', 1039, 'Calzones'],
     ],
   },
