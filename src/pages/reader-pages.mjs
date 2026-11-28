@@ -173,6 +173,7 @@ function deskPage(ctx) {
       <label for="dk-body">The piece <span class="muted">(Markdown)</span></label>
       <textarea id="dk-body" class="dk-body" data-f="body"></textarea>
       <p class="muted dk-count" data-wc></p>
+      <p class="muted dk-count" data-noticed hidden></p>
       <p class="dk-block" data-blockers></p>
       <div class="dk-tools"><button type="button" class="btn" data-save>Save</button><button type="button" class="btn" data-approve>Approve</button><button type="button" class="btn" data-remove>Delete</button></div>
     </div>

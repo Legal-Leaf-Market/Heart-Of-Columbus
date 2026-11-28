@@ -114,7 +114,10 @@ the typing.
 4. **Sources**: the link, who published it, and the facts you are using.
 5. **Draft it**, then edit. The line under the editor gives prose numbers:
    sentences, the average and longest sentence, a reading grade, -ly words and
-   likely passive voice. They are hints for your edit, never a rule. **Headlines** and **Openings** give options to
+   likely passive voice. They are hints for your edit, never a rule. Below
+   them the desk lists names in the piece that are not in your beat book yet;
+   one click adds a name, and you fill in its note and wrong spellings on the
+   Beat book tab. **Headlines** and **Openings** give options to
    click. **Tighten** cuts. **Sound more like me** compares it with your
    samples. **Check facts** lists anything the sources do not support.
    Select a passage in the body for **Tighten selection**, **Smooth

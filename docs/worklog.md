@@ -131,8 +131,15 @@ congregation in town, of every faith, by area and by faith, plus nonprofits.
       draft, so a suggestion only ever replaces the publisher's own words.
       Call made without asking: the whole draft rides along as context, and
       the result is never saved until the publisher presses Save
-- [ ] Paige ideas still to build: "desk noticed" beat book suggestions,
-      running stories in the beat book, several **voices** to
+- [x] **Desk noticed** (2026-11-28, `names()` in `public/js/prose.js`):
+      under the prose numbers, names in the headline and body that the beat
+      book does not list yet, up to eight, each a one click Add. Counted in
+      the browser, no writing help. Calls made without asking: runs of
+      capitalized words, or a single word also capitalized mid sentence;
+      days, months, Columbus, Indiana and a short list of sentence opening
+      verbs ("Visit", "Ask") are skipped; an added name gets kind "thing" and
+      no note, to fill in on the Beat book tab
+- [ ] Paige ideas still to build: running stories in the beat book, several **voices** to
       switch between, and an **edit pass** as tracked changes you accept one
       by one
 - [x] Overnight lead gathering into the idea bank: city news, city agendas
