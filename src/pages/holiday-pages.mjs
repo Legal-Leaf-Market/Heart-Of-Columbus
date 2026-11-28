@@ -36,7 +36,7 @@ ${breadcrumbs([['/', 'Home'], ['/visit/', 'Plan your visit'], ['', 'Shop small f
     <h1>Give local<br><span class="hl">this year.</span></h1>
     <p class="lede">Small Business Saturday is <strong>${esc(longDate(SBS.date))}</strong>. Here are Columbus independents to shop that day and all season, including the ones you can buy from online without leaving their own website.</p>
     <p class="vs-note">${svg('globe', 'ic-sm')}<span>${esc(SBS.text)} <a href="${SBS.source}" target="_blank" rel="noopener">${esc(host(SBS.source))}</a>. We link to each business’s own pages and take nothing.</span></p>
-    <nav class="chips vs-jump" aria-label="On this page">${gifts.length ? '<a class="pill" href="#gift-cards">Gift cards</a>' : ''}${online.length ? '<a class="pill" href="#shop-online">Shop online</a>' : ''}<a class="pill" href="#downtown">Gifts downtown</a><a class="pill" href="#saturday">A Saturday plan</a></nav>
+    <nav class="chips vs-jump" aria-label="On this page">${gifts.length ? '<a class="pill" href="#gift-cards">Gift cards</a>' : ''}${online.length ? '<a class="pill" href="#shop-online">Shop online</a>' : ''}<a class="pill" href="/deals/">Local deals</a><a class="pill" href="#downtown">Gifts downtown</a><a class="pill" href="#saturday">A Saturday plan</a></nav>
   </div>
 </section>
 ${gifts.length ? `<section class="wrap hol-gifts" id="gift-cards">

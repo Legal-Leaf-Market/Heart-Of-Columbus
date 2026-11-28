@@ -23,6 +23,7 @@ import { stories as publishedStories } from './src/news/content.mjs';
 import { shareCard } from './src/pages/news-pages.mjs';
 import sharp from 'sharp';
 import { prepareImages, responsiveImages } from './scripts/images.mjs';
+import { dealPages } from './src/pages/deal-pages.mjs';
 import { holidayPages } from './src/pages/holiday-pages.mjs';
 import { filmPages } from './src/pages/film-pages.mjs';
 import { skatePages } from './src/pages/skate-pages.mjs';
@@ -114,6 +115,7 @@ const pages = [
   ...filmPages({ assets }),
   ...guidePages({ assets }),
   ...holidayPages({ assets }),
+  ...dealPages({ assets }),
   ...newsPages({ assets }),
   ...calendarPages({ assets }),
   ...paperPages({ assets }),

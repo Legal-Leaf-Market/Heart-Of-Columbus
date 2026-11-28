@@ -14,6 +14,7 @@
 // (6:45 AM or 6:00 PM) unless the publisher presses Hold (/api/hold).
 import { blobStore } from '../../src/blobs.mjs';
 import { sameKey } from '../../src/pixel-key.mjs';
+import { deskDeals } from '../../src/deals.mjs';
 import { voicePrompt, piecePrompt, MODES, cleanPiece, blockers, planBlockers, approved } from '../../src/news/desk.mjs';
 import { assemble, makeBroadcast, resendEnv, usesResend } from './newsletter.mjs';
 import { gatherInto } from './leads.mjs';
@@ -63,6 +64,14 @@ const ORIGIN = () => env('URL') || 'https://heartofcolumbus.shop';
 
 export default async (req) => {
   if (!sameKey(env('HOC_ADMIN_KEY'), req.headers.get('x-hoc-key') || '')) return json({ ok: false, error: 'Wrong desk link.' }, 403);
+  if (req.method === 'POST') {
+    let body;
+    try { body = await req.json(); } catch { return json({ ok: false, error: 'Bad request.' }, 400); }
+    if (!body || typeof body !== 'object') return json({ ok: false, error: 'Bad request.' }, 400);
+    if (['deals', 'deal-save', 'deal-remove'].includes(body.action)) return deskDeals(body);
+    return updateDesk(body);
+  }
+
   const store = blobStore('desk');
   if (!store) return json({ ok: false, error: 'Storage is not set up on this deploy.' }, 503);
   const u = new URL(req.url);
@@ -83,9 +92,12 @@ export default async (req) => {
     const { holdHash, ...draftView } = drafted || {};
     return json({ ok: true, date, edition, today: columbusDate(new Date()), clock: { deadline: clock.deadline, draft: clock.draft, send: clock.send }, topic: !!r.topics[edition], day: d, voice: voice || { about: '', rules: [], samples: [] }, ideas: ideas || [], drafted: drafted ? draftView : null, run: run || null, leads: leads || null, service, ai: !!env('ANTHROPIC_API_KEY'), model: MODEL() });
   }
-  if (req.method !== 'POST') return json({ ok: false, error: 'Use GET or POST.' }, 405);
-  let b;
-  try { b = await req.json(); } catch { return json({ ok: false, error: 'Bad request.' }, 400); }
+  return json({ ok: false, error: 'Use GET or POST.' }, 405);
+};
+
+async function updateDesk(b) {
+  const store = blobStore('desk');
+  if (!store) return json({ ok: false, error: 'Storage is not set up on this deploy.' }, 503);
 
   if (b.action === 'voice') {
     const v = b.voice || {};
@@ -157,4 +169,4 @@ export default async (req) => {
     return json(r, r.ok ? 200 : (r.reason === 'already-scheduled' ? 409 : 502));
   }
   return json({ ok: false, error: 'Unknown action.' }, 400);
-};
+}
