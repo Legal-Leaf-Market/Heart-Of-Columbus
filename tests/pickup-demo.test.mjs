@@ -19,7 +19,7 @@ test('demo checkout is isolated by business and retries do not duplicate or lose
   }));
   assert.equal((await send({ action: 'start' })).status, 200);
   const id = 'b'.repeat(32);
-  const order = { action: 'order', id, lines: [[0, 2], [1, 1, [0, 0]], [1, 2, [1, 0, [0, 3], []]]], phone: 'ignored', pickup: [3, 780], coupon: 'HOCDEMO10' };
+  const order = { action: 'order', id, lines: [[0, 2], [1, 1, [0, 0]], [1, 2, [1, 0, [2, 47], [12, 21, 33]]]], phone: 'ignored', pickup: [3, 780], coupon: 'HOCDEMO10' };
   const results = await Promise.all([send(order), send(order), send({ ...order, id: 'c'.repeat(32) })]);
   assert.deepEqual(results.map(r => r.status), [200, 200, 200]);
   assert.equal((await send({ ...order, lines: [[1, 1, ['text']]] })).status, 400);

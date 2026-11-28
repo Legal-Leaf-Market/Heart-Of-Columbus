@@ -108,23 +108,37 @@
   const optionPrice = (adjustment, choices) => Array.isArray(adjustment) ? (adjustment[choices[0]] ?? adjustment[0]) : adjustment;
   const priceSuffix = cents => cents ? ' (+' + formatPrice(cents) + ')' : '';
 
+  const partsOfPizza = ['', 'Whole', 'Half 1', 'Half 2'];
+
+  function chosenOptions(mode, selection) {
+    const list = Array.isArray(selection) ? selection : [];
+    if (mode === 'placement') return list.map(code => [Math.floor(code / 4), 1, partsOfPizza[code % 4]]);
+    if (mode === 'count') return list.map(code => [Math.floor(code / 16), code % 16, '']);
+    return mode ? list.map(index => [index, 1, '']) : [[selection ?? 0, 1, '']];
+  }
+
   function describe(id, choices = []) {
     const [name, cents, , groups] = menu.items[id] || ['Unavailable demo item', 0];
     const details = [];
-    let price = cents;
-    (groups || []).forEach(([label, options, showDefault, multiple], i) => {
-      const selection = choices[i];
-      const indices = multiple ? (Array.isArray(selection) ? selection : []) : [selection ?? 0];
-      const names = [];
-      for (const index of indices) {
+    let twicePrice = cents * 2;
+    (groups || []).forEach(([label, options, showDefault, mode], i) => {
+      const names = new Map();
+      for (const [index, qty, part] of chosenOptions(mode, choices[i])) {
         const option = options[index];
         if (!option) continue;
-        price += optionPrice(option[1], choices);
-        if (multiple || index || showDefault) names.push(option[0]);
+        const half = part === 'Half 1' || part === 'Half 2';
+        twicePrice += optionPrice(option[1], choices) * qty * (half ? 1 : 2);
+        if (mode || index || showDefault) {
+          if (!names.has(part)) names.set(part, []);
+          names.get(part).push(qty > 1 ? qty + ' × ' + option[0] : option[0]);
+        }
       }
-      if (names.length) details.push((label === 'Leave out' ? 'No ' : label + ': ') + names.join(', '));
+      for (const [part, values] of names) {
+        const heading = part ? part + ' · ' + label.toLowerCase() + ': ' : label === 'Leave out' ? 'No ' : label + ': ';
+        details.push(heading + values.join(', '));
+      }
     });
-    return { name, price, details };
+    return { name, price: Math.round(twicePrice / 2), details };
   }
 
   function lineLabel({ name, details }, qty) {
@@ -145,13 +159,24 @@
     HOCDEMO10: { minimum: 2000, discount: cents => Math.round(cents / 10) },
     HOCDEMO5: { minimum: 3500, discount: () => 500 },
   };
-  const hasSchedule = menu.items.some(item => item[4]);
+  const hasSchedule = menu.items.some(item => item[4] || item[3]?.some(group => group[4]?.schedule));
   const twoDigit = n => String(n).padStart(2, '0');
   const timeValue = minutes => twoDigit(Math.floor(minutes / 60)) + ':' + twoDigit(minutes % 60);
+  const within = schedule => !schedule || (schedule.days.includes(pickup[0]) && pickup[1] >= schedule.start && pickup[1] < schedule.end);
+  const isAvailable = id => within(menu.items[id]?.[4]);
 
-  function isAvailable(id) {
-    const schedule = menu.items[id]?.[4];
-    return !schedule || (schedule.days.includes(pickup[0]) && pickup[1] >= schedule.start && pickup[1] < schedule.end);
+  function itemProblem(id, choices) {
+    if (!isAvailable(id)) return 'Outside selected pickup time.';
+    for (const [i, [label, , , mode, rule]] of (menu.items[id]?.[3] || []).entries()) {
+      if (rule?.schedule && choices[i] && !within(rule.schedule)) return label + ' is available ' + rule.schedule.label + '.';
+      if (mode === 'count') {
+        const target = rule.counts[choices[0]] ?? rule.counts[0];
+        const count = chosenOptions(mode, choices[i]).reduce((sum, [, qty]) => sum + qty, 0);
+        if (count !== target) return count + ' of ' + target + ' selected. ' +
+          (count > target ? 'Remove ' + (count - target) + ' to fit the box.' : 'Fill the box to add it.');
+      }
+    }
+    return '';
   }
 
   function priceSummary(lines, code) {
@@ -173,7 +198,7 @@
   function drawCart() {
     const lines = [...cart];
     const { before, discount, total } = priceSummary([...cart.values()], coupon);
-    const unavailable = lines.some(([, [id]]) => !isAvailable(id));
+    const unavailable = lines.some(([, [id, , choices = []]]) => itemProblem(id, choices));
     const blocked = Boolean(pendingId) || submitting;
     const message = content.querySelector('[data-cart-availability]');
     message.hidden = !unavailable;
@@ -207,14 +232,27 @@
   }
 
   function menuRow({ item: [name, , , groups], id }) {
+    const splitPizza = groups?.some(group => group[3] === 'placement');
     const details = groups?.length ? '<details class="pd-choices"><summary>Customize ' + escape(name) + '</summary>' +
-      groups.map(([label, options, , multiple], group) => {
-        if (multiple) return '<fieldset class="pd-choice pd-choice-checks" data-checks="' + group + '"><legend>' + escape(label) + '</legend>' +
+      (splitPizza ? '<p class="pd-choice-policy">Choose Whole, Half 1 or Half 2 for each topping. Demo pricing uses half the posted topping rate for one side and rounds the pizza total once.</p>' : '') +
+      groups.map(([label, options, , mode, rule], group) => {
+        if (mode === 'placement' || mode === 'count') {
+          const placement = mode === 'placement';
+          return '<fieldset class="pd-choice pd-choice-parts" data-complex="' + group + '" data-mode="' + mode + '"><legend>' + escape(label) + '</legend>' +
+            options.map(([option, adjustment], index) => {
+              const control = 'pd-part-' + id + '-' + group + '-' + index;
+              const values = placement ? ['None', ...partsOfPizza.slice(1)] : Array.from({ length: 13 }, (_, qty) => String(qty));
+              return '<label for="' + control + '"><span>' + escape(option) + '<small data-option-price>' +
+                priceSuffix(optionPrice(adjustment, [])) + (placement ? ' whole' : adjustment ? ' each' : '') + '</small></span><select id="' + control + '">' +
+                values.map((value, i) => '<option value="' + i + '">' + value + '</option>').join('') + '</select></label>';
+            }).join('') + '</fieldset>';
+        }
+        if (mode) return '<fieldset class="pd-choice pd-choice-checks" data-checks="' + group + '"><legend>' + escape(label) + '</legend>' +
           options.map(([option, adjustment], index) => '<label><input type="checkbox" value="' + index + '">' +
             escape(option) + '<span data-option-price>' + priceSuffix(optionPrice(adjustment, [])) + '</span></label>').join('') + '</fieldset>';
         const control = 'pd-choice-' + id + '-' + group;
         return '<div class="pd-choice"><label for="' + control + '">' + escape(label) +
-          '</label><select id="' + control + '" data-choice>' +
+          '</label>' + (rule?.schedule ? '<small>' + escape(rule.schedule.label) + '</small>' : '') + '<select id="' + control + '" data-choice>' +
           options.map(([option, adjustment], index) => '<option value="' + index + '">' + escape(option) +
             priceSuffix(adjustment) + '</option>').join('') + '</select></div>';
       }).join('') + '</details>' : '';
@@ -224,11 +262,20 @@
     return '<li data-menu-item data-id="' + id + '"><div class="pd-item-name"><span>' + escape(name) + '</span>' + timing +
       '<small class="pd-line-detail" data-selection>' + escape(describe(id).details.join(' · ')) + '</small></div><b data-item-price>' +
       formatPrice(describe(id).price) + '</b><button type="button" data-action="add" aria-label="Add ' + escape(name) +
-      '">Add</button>' + details + '</li>';
+      '">Add</button>' + details + '<small class="pd-line-detail pd-item-problem" data-item-problem></small></li>';
   }
 
-  const selections = row => [...row.querySelectorAll('[data-choice], [data-checks]')].map(control =>
-    control.matches('select') ? Number(control.value) : [...control.querySelectorAll('input:checked')].map(input => Number(input.value)));
+  function selections(row) {
+    return [...row.querySelectorAll('[data-choice], [data-checks], [data-complex]')].map(control => {
+      if (control.matches('select')) return Number(control.value);
+      if (control.hasAttribute('data-checks')) return [...control.querySelectorAll('input:checked')].map(input => Number(input.value));
+      const base = control.dataset.mode === 'placement' ? 4 : 16;
+      return [...control.querySelectorAll('select')].flatMap((select, i) => {
+        const choice = Number(select.value);
+        return choice ? [i * base + choice] : [];
+      });
+    });
+  }
 
   function pickupControls() {
     if (!hasSchedule) return '';
@@ -255,10 +302,8 @@
         row.hidden = Boolean((section && category !== section) || (customizable && !options?.length) ||
           (available && !eligible) || !search.every(word => text.includes(word)));
         if (!row.hidden) matches++;
-        if (schedule) {
-          row.querySelector('[data-action="add"]').disabled = !eligible;
-          row.querySelector('[data-item-availability]').textContent = eligible ? '' : 'Outside selected pickup time';
-        }
+        if (schedule) row.querySelector('[data-item-availability]').textContent = eligible ? '' : 'Outside selected pickup time';
+        updateItem(row);
       }
       group.hidden = !matches;
       count += matches;
@@ -300,7 +345,7 @@
         '<button type="button" data-action="coupon">Apply</button></div><p>HOCDEMO10 takes 10% off $20. HOCDEMO5 takes $5 off $35. One sample code per order.</p><p data-coupon-status role="status"></p></details>' +
         '<p class="pd-total" data-discount hidden>Sample discount <strong></strong></p>' +
         '<p class="pd-total" data-total-after hidden>Demo subtotal after discount <strong></strong></p>' : '') +
-      '<p data-cart-availability hidden>Change the pickup time or remove items that are unavailable.</p>' +
+      '<p data-cart-availability hidden>Change the pickup time or remove the items with a time restriction.</p>' +
       '<button type="button" data-action="order" class="pd-primary">Send test order</button><p>Simulated pay at pickup</p>' +
       '<div data-ticket tabindex="-1" aria-live="polite"></div></aside></div>';
     content.querySelector('#pd-filter').addEventListener('input', filterMenu);
@@ -338,16 +383,23 @@
 
   function updateChoice(event) {
     const row = event.target.closest('[data-menu-item]');
-    if (!row) return;
+    if (row) updateItem(row);
+  }
+
+  function updateItem(row) {
     const id = Number(row.dataset.id);
     const choices = selections(row);
     const item = describe(id, choices);
     row.querySelector('[data-item-price]').textContent = formatPrice(item.price);
     row.querySelector('[data-selection]').textContent = item.details.join(' · ');
-    for (const group of row.querySelectorAll('[data-checks]')) {
-      const [, options] = menu.items[id][3][Number(group.dataset.checks)];
+    const problem = itemProblem(id, choices);
+    row.querySelector('[data-action="add"]').disabled = Boolean(problem);
+    row.querySelector('[data-item-problem]').textContent = isAvailable(id) ? problem : '';
+    for (const group of row.querySelectorAll('[data-checks], [data-complex]')) {
+      const [, options] = menu.items[id][3][Number(group.dataset.checks ?? group.dataset.complex)];
       group.querySelectorAll('[data-option-price]').forEach((price, index) => {
-        price.textContent = priceSuffix(optionPrice(options[index][1], choices));
+        const amount = optionPrice(options[index][1], choices);
+        price.textContent = priceSuffix(amount) + (group.dataset.mode === 'placement' ? ' whole' : group.dataset.mode === 'count' && amount ? ' each' : '');
       });
     }
   }
@@ -595,7 +647,7 @@
     if (['add', 'remove', 'increase'].includes(action)) {
       if (pendingId) { say('Retry the pending test order before changing this cart.'); return; }
       const row = button.closest('[data-menu-item]');
-      if (row && !isAvailable(Number(row.dataset.id))) return;
+      if (row && itemProblem(Number(row.dataset.id), selections(row))) return;
       const choices = row ? selections(row) : [];
       const key = row ? JSON.stringify([row.dataset.id, choices]) : button.dataset.line;
       const previousLine = cart.get(key);

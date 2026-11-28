@@ -335,3 +335,10 @@
   .pd-experience[data-pd-theme] .pd-hero::after { inset-inline-start: 67%; opacity: .25; }
   .pd-experience[data-pd-theme] .pd-hero h1 { max-width: 25ch; }
 }
+
+.pd-choice-parts { border: 1px solid var(--pd-border); border-radius: .5rem; padding: .45rem .65rem; min-width: 0; }
+.pd-choice-parts label { display: grid; grid-template-columns: minmax(0, 1fr) minmax(4.5rem, auto); gap: .55rem; align-items: center; padding-block: .25rem; }
+.pd-choice-parts label small { display: block; font-size: .78rem; }
+.pd-choice-parts select { width: 100%; }
+.pd-choice-policy, .pd-item-problem { grid-column: 1 / -1; font-size: .82rem; }
+.pd-item-problem { color: #734017; }

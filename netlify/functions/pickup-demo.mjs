@@ -12,7 +12,7 @@ const error = (message, status) => response({ error: message }, status);
 const validIndex = index => Number.isInteger(index) && index >= 0 && index < 25;
 function validChoice(choice) {
   return validIndex(choice) || (Array.isArray(choice) && choice.length <= 24 &&
-    choice.every((index, i) => validIndex(index) && (i === 0 || index > choice[i - 1])));
+    choice.every((index, i) => Number.isInteger(index) && index >= 0 && index < 400 && (i === 0 || index > choice[i - 1])));
 }
 
 const validPickup = slot => Array.isArray(slot) && slot.length === 2 &&
