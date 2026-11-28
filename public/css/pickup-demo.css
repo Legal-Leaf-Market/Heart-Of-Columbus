@@ -34,6 +34,10 @@
 }
 .pd :focus-visible { outline: 3px solid #116845; outline-offset: 3px; }
 .pd-launch form { display: grid; gap: .5rem; max-width: 28rem; margin-top: 1.4rem; }
+.pd-launch .pd-checkbox { display: flex; align-items: center; gap: .6rem; }
+.pd-launch .pd-checkbox input { min-height: 0; accent-color: #315642; }
+.pd-launch select { width: 100%; min-width: 0; }
+.pd-launch [data-pd-results] { margin-top: 0; }
 .pd input[type="search"] { display: block; width: 100%; margin: .4rem 0 .8rem; }
 .pd-shop, .pd-queue { display: grid; gap: 1rem; align-items: start; }
 .pd-shop { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }

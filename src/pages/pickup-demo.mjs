@@ -1,13 +1,12 @@
 import { readFileSync } from 'node:fs';
 import { directory } from '../data/directory.mjs';
 import { CATALOGS } from '../data/catalogs.mjs';
+import { pickupMenus } from '../data/pickup-menus.mjs';
 import { page, t } from '../layout.mjs';
 import { noDash } from '../event-feeds.mjs';
 
 const path = '/pickup/demo/';
 const saved = (file) => JSON.parse(readFileSync(new URL(file, import.meta.url), 'utf8'));
-// Jill's site project transcribes the diner's printed summer 2026 menu.
-const jillsMenu = saved('../data/jills-pickup-menu.json');
 const probes = new Map(saved('../../scripts/data/probe-deep.json').filter(row => row.ok).map(row => [row.slug, row]));
 const food = new Set(['restaurants', 'coffee-sweets', 'bars']);
 const generic = [['Sample pickup item', 850, 'Example menu'], ['Sample add-on', 250, 'Example menu']];
@@ -29,39 +28,7 @@ function menuLink(business) {
 }
 
 function menuFor(business) {
-  if (business.slug === 'jills-diner') return { items: jillsMenu, source: 'https://jills-diner.netlify.app/menu/', kind: 'Menu from Jill’s site project' };
-  if (business.slug === 'rohdes-family-diner') {
-    return {
-      source: 'https://www.rohdesfamilydiner.com/view-our-menu',
-      kind: 'Selection from the published 2025 breakfast menu',
-      items: [
-        ['Rise and Shine', 1199, 'Breakfast'], ['Biscuits and Gravy', 749, 'Breakfast'],
-        ['Biscuit-less Biscuit & Gravy', 1299, 'Breakfast'], ['French Toast', 899, 'Breakfast'],
-      ],
-    };
-  }
-  if (business.slug === 'donut-central') {
-    return {
-      source: 'https://www.donutcentralcolumbus.com/menus?menu=dinner-menu',
-      kind: 'Selection from the public donut and coffee menu',
-      items: [
-        ['Ring donut', 199, 'Donuts'], ['Bismark', 249, 'Donuts'], ['Glazed Cinnamon Roll', 379, 'Donuts'],
-        ['Standard Half Dozen', 1175, 'Boxes'], ['Glazed Dozen', 1850, 'Boxes'],
-        ['Small Drip Brew', 249, 'Drinks'], ['Large Drip Brew', 325, 'Drinks'], ['Latte', 549, 'Drinks'],
-      ],
-    };
-  }
-  if (business.slug === 'zaharakos-ice-cream-parlor') {
-    return {
-      source: 'https://zaharakos.com/menu.html',
-      kind: 'Selection from the public ice cream parlor menu',
-      items: [
-        ['Single Scoop', 575, 'Ice cream'], ['Double Scoop', 775, 'Ice cream'], ['Pint to Go', 700, 'Ice cream'],
-        ['Brownie Sundae', 1000, 'Sundaes'], ['Tin Roof Sundae', 1000, 'Sundaes'],
-        ['Ice Cream Float', 700, 'Fountain'], ['Fountain Soda', 350, 'Fountain'],
-      ],
-    };
-  }
+  if (Object.hasOwn(pickupMenus, business.slug)) return pickupMenus[business.slug];
   if (business.cat !== 'smoke' && Object.hasOwn(CATALOGS, business.slug)) {
     const snapshot = saved('../../public/catalogs/' + business.slug + '.json');
     const items = snapshot.items.filter(item => item.available && item.price > 0)
@@ -70,33 +37,39 @@ function menuFor(business) {
         : [[item.title, Math.round(item.price * 100), item.type || 'Catalog']]);
     if (items.length) return { items: items.slice(0, 48), source: snapshot.origin, kind: 'Saved catalog, ' + snapshot.checked };
   }
-  return { items: generic, source: menuLink(business), kind: 'Sample items and prices' };
+  return { sample: true, items: generic, source: menuLink(business), kind: 'Sample items and prices' };
 }
 
 export function pickupDemoPages({ assets }) {
-  const options = [...directory].sort((a, b) => a.name.localeCompare(b.name))
-    .map(b => `<option value="${b.slug}">${t(b.name)}</option>`).join('');
+  const businesses = directory.map(business => ({ business, menu: menuFor(business) }));
+  const options = businesses.slice().sort((a, b) => a.business.name.localeCompare(b.business.name))
+    .map(({ business, menu }) => `<option value="${business.slug}"${menu.sample ? '' : ' data-sourced'}>${t(business.name)}</option>`).join('');
+  const sourcedCount = businesses.filter(({ menu }) => !menu.sample).length;
   const styles = ['hoc.css', 'pickup-demo.css'];
   const scripts = ['pickup-demo.js'];
   const render = (title, body, data) => page({
     title: title + ' | Heart of Columbus', description: 'A Heart of Columbus pickup concept demo.',
     body, data, styles, scripts, assets, showAlert: false, head: '<meta name="referrer" content="no-referrer">',
   });
-  const featured = [['jills-diner', 'Jill’s Diner'], ['rohdes-family-diner', 'Rohde’s Family Diner'], ['paqd-meats', 'PAQD Meats'], ['donut-central', 'Donut Central']];
+  const featured = [['jills-diner', 'Jill’s Diner'], ['rohdes-family-diner', 'Rohde’s Family Diner'], ['ramen-alley', 'Ramen Alley'], ['zwanzigz-pizza-and-brewing', 'ZwanzigZ Pizza'], ['paqd-meats', 'PAQD Meats'], ['donut-central', 'Donut Central']];
   return [
     { path: 'pickup/demo/index.html', html: render('Pickup demo', `
       <main id="main" class="pd pd-launch">
         <a href="/order/">Heart of Columbus</a>
         <h1>Try order-ahead pickup</h1>
         <p>Build a test cart on your phone and run the counter on a tablet.</p>
-        <form data-pd-picker><label for="pd-business">Choose a Columbus business</label>
+        <form data-pd-picker>
+          <label for="pd-business-search" data-pd-filter hidden>Search businesses</label>
+          <input id="pd-business-search" data-pd-filter type="search" placeholder="Business name" hidden>
+          <label class="pd-checkbox" data-pd-filter hidden><input type="checkbox" data-pd-sourced> With a sourced menu or catalog</label>
+          <label for="pd-business">Choose a Columbus business</label>
           <select id="pd-business" required><option value="">Select a business</option>${options}</select>
           <button class="pd-primary">Open demo</button>
+          <p data-pd-results role="status">${sourcedCount} demos with sourced menus or catalogs.</p>
         </form>
         <nav aria-label="Example demos">${featured.map(([slug, name]) => `<a href="${path}${slug}/">${name}</a>`).join('')}</nav>
       </main>`) },
-    ...directory.map(b => {
-      const menu = menuFor(b);
+    ...businesses.map(({ business: b, menu }) => {
       const items = menu.items.map(([name, cents, section]) => [noDash(name), cents, noDash(section)]);
       return { path: `pickup/demo/${b.slug}/index.html`, html: render(b.name + ' pickup demo', `
         <main id="main" class="pd" data-pd>

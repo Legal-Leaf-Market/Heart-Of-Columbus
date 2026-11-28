@@ -3,10 +3,38 @@
 
   const picker = document.querySelector('[data-pd-picker]');
   if (picker) {
+    const search = picker.querySelector('#pd-business-search');
+    const sourced = picker.querySelector('[data-pd-sourced]');
+    const select = picker.querySelector('select');
+    const submit = picker.querySelector('button');
+    const status = picker.querySelector('[data-pd-results]');
+    const [placeholder, ...choices] = select.options;
+    const key = text => text.normalize('NFD').replace(/\p{M}|[’']/gu, '').toLowerCase();
+    const indexed = choices.map(option => ({
+      option, name: key(option.textContent + ' ' + option.value.replace(/-/g, ' ')),
+    }));
+    const sourcedCount = choices.filter(option => option.hasAttribute('data-sourced')).length;
+    for (const control of picker.querySelectorAll('[data-pd-filter]')) control.hidden = false;
+
+    function filter() {
+      const previous = select.value;
+      const words = key(search.value).trim().split(/\s+/).filter(Boolean);
+      const matches = indexed.filter(({ option, name }) =>
+        (!sourced.checked || option.hasAttribute('data-sourced')) && words.every(word => name.includes(word)));
+      select.replaceChildren(placeholder, ...matches.map(({ option }) => option));
+      select.value = matches.some(({ option }) => option.value === previous) ? previous
+        : matches.length === 1 ? matches[0].option.value : '';
+      select.disabled = submit.disabled = matches.length === 0;
+      status.textContent = !sourced.checked && !words.length ? sourcedCount + ' demos with sourced menus or catalogs.'
+        : matches.length === 1 ? '1 business matches.' : matches.length ? matches.length + ' businesses match.' : 'No businesses match.';
+    }
+    search.addEventListener('input', filter);
+    sourced.addEventListener('change', filter);
     picker.addEventListener('submit', event => {
       event.preventDefault();
-      location.href = '/pickup/demo/' + encodeURIComponent(picker.querySelector('select').value) + '/';
+      if (select.value) location.href = '/pickup/demo/' + encodeURIComponent(select.value) + '/';
     });
+    filter();
     return;
   }
 
